@@ -1,6 +1,8 @@
 package investickations.com.sfsu.controllers;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,19 @@ import investickations.com.sfsu.entities.*;
 public class JSONUtil {
     static public class UserJSONParser {
         static ArrayList<User> parseUser(String in) throws JSONException {
+
+            JSONObject root = new JSONObject(in);
+            JSONArray personArray = root.getJSONArray("persons");
+
+            for (int i = 0; i < personArray.length(); i++) {
+                JSONObject personsJSONObject = personArray.getJSONObject(i);
+
+                //Person person = Person.createPersonFactory(personsJSONObject);
+                //personsList.add(person);
+            }
+
+            //return personsList;
+
             return null;
         }
     }
