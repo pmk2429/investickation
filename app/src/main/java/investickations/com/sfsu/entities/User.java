@@ -1,5 +1,8 @@
 package investickations.com.sfsu.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,7 +20,7 @@ import org.json.JSONObject;
  * The User class also provides the Factory pattern to create the user on demand.
  * <p/>
  */
-public class User {
+public class User implements Parcelable {
 
     // define all the attributes of the User entity.
     private int user_id, zipcode;
@@ -142,5 +145,15 @@ public class User {
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

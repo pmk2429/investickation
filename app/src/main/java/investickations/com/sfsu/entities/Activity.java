@@ -1,5 +1,8 @@
 package investickations.com.sfsu.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +19,7 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Activity {
+public class Activity implements Parcelable {
 
     private int activity_id;
     private String name, imageUrl, location_area;
@@ -141,4 +144,13 @@ public class Activity {
                 '}';
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+    }
 }

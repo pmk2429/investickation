@@ -1,5 +1,8 @@
 package investickations.com.sfsu.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +19,7 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Observation {
+public class Observation implements Parcelable {
 
     private int observation_id;
     private int num_ticks;
@@ -120,5 +123,15 @@ public class Observation {
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

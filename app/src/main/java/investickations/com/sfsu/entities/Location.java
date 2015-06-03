@@ -1,5 +1,8 @@
 package investickations.com.sfsu.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,7 +18,7 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Location {
+public class Location implements Parcelable {
 
     private int location_id;
     private int fk_userid;
@@ -88,5 +91,15 @@ public class Location {
                 ", longitude=" + longitude +
                 ", timestamp=" + timestamp +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

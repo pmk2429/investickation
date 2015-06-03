@@ -1,5 +1,8 @@
 package investickations.com.sfsu.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,7 +19,7 @@ import org.json.JSONObject;
  */
 
 
-public class Tick {
+public class Tick implements Parcelable {
 
     private int tick_id;
     private String name, species, color, known_for, descripition, imageUrl;
@@ -126,5 +129,15 @@ public class Tick {
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }
