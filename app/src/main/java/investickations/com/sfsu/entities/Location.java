@@ -18,7 +18,7 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Location implements Parcelable {
+public class Location implements Parcelable, Entity {
 
     private int location_id;
     private int fk_userid;
@@ -101,5 +101,10 @@ public class Location implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
+    }
+
+    @Override
+    public Entity getEntity() {
+        return this;
     }
 }

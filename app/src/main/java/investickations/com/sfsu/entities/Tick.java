@@ -19,7 +19,7 @@ import org.json.JSONObject;
  */
 
 
-public class Tick implements Parcelable {
+public class Tick implements Parcelable, Entity {
 
     private int tick_id;
     private String name, species, color, known_for, descripition, imageUrl;
@@ -139,5 +139,10 @@ public class Tick implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
+    }
+
+    @Override
+    public Entity getEntity() {
+        return this;
     }
 }

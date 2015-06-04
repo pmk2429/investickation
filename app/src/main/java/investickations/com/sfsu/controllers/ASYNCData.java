@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 
+import investickations.com.sfsu.entities.Entity;
 import investickations.com.sfsu.entities.RequestParams;
 
 /**
@@ -17,10 +18,10 @@ public class ASYNCData {
      * from the remote Url using the REST API callbacks.
      * </p>
      */
-    private static class GetDataAsync extends AsyncTask<RequestParams, Void, ArrayList<Object>> {
+    private static class GetDataAsync extends AsyncTask<RequestParams, Void, ArrayList<Entity>> {
 
         @Override
-        protected ArrayList<Object> doInBackground(RequestParams... requestParamses) {
+        protected ArrayList<Entity> doInBackground(RequestParams... requestParamses) {
             return null;
         }
 
@@ -30,8 +31,8 @@ public class ASYNCData {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Object> objects) {
-            super.onPostExecute(objects);
+        protected void onPostExecute(ArrayList<Entity> entities) {
+            super.onPostExecute(entities);
         }
 
         @Override

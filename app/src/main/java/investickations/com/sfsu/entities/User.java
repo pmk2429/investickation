@@ -20,7 +20,7 @@ import org.json.JSONObject;
  * The User class also provides the Factory pattern to create the user on demand.
  * <p/>
  */
-public class User implements Parcelable {
+public class User implements Parcelable, Entity {
 
     // define all the attributes of the User entity.
     private int user_id, zipcode;
@@ -155,5 +155,10 @@ public class User implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
+    }
+
+    @Override
+    public Entity getEntity() {
+        return this;
     }
 }

@@ -19,7 +19,7 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Activity implements Parcelable {
+public class Activity implements Parcelable, Entity {
 
     private int activity_id;
     private String name, imageUrl, location_area;
@@ -152,5 +152,10 @@ public class Activity implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
+    }
+
+    @Override
+    public Entity getEntity() {
+        return this;
     }
 }

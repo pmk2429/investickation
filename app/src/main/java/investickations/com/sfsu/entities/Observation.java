@@ -19,7 +19,7 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Observation implements Parcelable {
+public class Observation implements Parcelable, Entity {
 
     private int observation_id;
     private int num_ticks;
@@ -133,5 +133,10 @@ public class Observation implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
 
+    }
+
+    @Override
+    public Entity getEntity() {
+        return this;
     }
 }
