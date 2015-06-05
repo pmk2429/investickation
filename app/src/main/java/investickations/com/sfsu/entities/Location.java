@@ -46,41 +46,26 @@ public class Location implements Parcelable, Entity {
         return location_id;
     }
 
-    public void setLocation_id(int location_id) {
-        this.location_id = location_id;
-    }
 
     public int getFk_userid() {
         return fk_userid;
     }
 
-    public void setFk_userid(int fk_userid) {
-        this.fk_userid = fk_userid;
-    }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
 
     public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
     @Override
     public String toString() {

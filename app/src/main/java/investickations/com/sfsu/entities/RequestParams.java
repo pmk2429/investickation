@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class RequestParams {
     // base url to make HTTP connection
     private static String BASE_URL = "http://pavitrakansara.com/larv/admin/dashboard/";
-    
+
     String httpMethodVerb, resourceIdentifierName, id;
     boolean editParam;
 

@@ -4,16 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
+ * DatabaseDataManager class provides the Data Access Objects for
  * Created by Pavitra on 5/27/2015.
- */
-
-/**
- * DatabaseDataManager class provides the
  */
 public class DatabaseDataManager {
     private Context myContext;
     private DatabaseOpenHelper dbOpenHelper;
     private SQLiteDatabase sqLiteDatabase;
+    private UsersDao usersDao;
+    private ObservationsDao observationsDao;
 
     public DatabaseDataManager(Context myContext) {
 
@@ -23,6 +22,8 @@ public class DatabaseDataManager {
         sqLiteDatabase = dbOpenHelper.getWritableDatabase();
 
         // initialize the Database Tables.
+        usersDao = new UsersDao(sqLiteDatabase);
+        observationsDao = new ObservationsDao(sqLiteDatabase);
 
     }
 

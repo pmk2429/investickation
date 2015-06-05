@@ -14,6 +14,9 @@ import investickations.com.sfsu.entities.User;
 public class UsersDao {
     private SQLiteDatabase db;
 
+    public UsersDao(SQLiteDatabase db) {
+        this.db = db;
+    }
 
     public Long save(User user) {
         return null;
@@ -31,7 +34,7 @@ public class UsersDao {
         return null;
     }
 
-    public User ger(String username) {
+    public User get(String username) {
         return null;
     }
 

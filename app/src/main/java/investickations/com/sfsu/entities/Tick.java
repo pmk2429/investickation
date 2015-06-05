@@ -48,73 +48,46 @@ public class Tick implements Parcelable, Entity {
         return tick_id;
     }
 
-    public void setTick_id(int tick_id) {
-        this.tick_id = tick_id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getSpecies() {
         return species;
     }
 
-    public void setSpecies(String species) {
-        this.species = species;
-    }
 
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public String getKnown_for() {
         return known_for;
     }
 
-    public void setKnown_for(String known_for) {
-        this.known_for = known_for;
-    }
 
     public String getDescripition() {
         return descripition;
     }
 
-    public void setDescripition(String descripition) {
-        this.descripition = descripition;
-    }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public long getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(long created_at) {
-        this.created_at = created_at;
-    }
 
     public long getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(long updated_at) {
-        this.updated_at = updated_at;
-    }
 
     @Override
     public String toString() {

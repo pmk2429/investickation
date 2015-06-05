@@ -60,73 +60,46 @@ public class Activity implements Parcelable, Entity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public String getLocation_area() {
         return location_area;
     }
 
-    public void setLocation_area(String location_area) {
-        this.location_area = location_area;
-    }
 
     public int getNum_people() {
         return num_people;
     }
 
-    public void setNum_people(int num_people) {
-        this.num_people = num_people;
-    }
 
     public int getNum_pets() {
         return num_pets;
     }
 
-    public void setNum_pets(int num_pets) {
-        this.num_pets = num_pets;
-    }
 
     public int getNum_ticks() {
         return num_ticks;
     }
 
-    public void setNum_ticks(int num_ticks) {
-        this.num_ticks = num_ticks;
-    }
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
 
     public long getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(long created_at) {
-        this.created_at = created_at;
-    }
 
     public long getUpdate_at() {
         return update_at;
     }
 
-    public void setUpdate_at(long update_at) {
-        this.update_at = update_at;
-    }
 
     @Override
     public String toString() {
