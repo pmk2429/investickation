@@ -5,11 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by Pavitra on 5/27/2015.
- */
-
-/**
  * DatabaseHelper class to create and update the database table.
+ * <p/>
+ * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 

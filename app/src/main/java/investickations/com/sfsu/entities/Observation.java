@@ -21,7 +21,7 @@ import org.json.JSONObject;
  */
 public class Observation implements Parcelable, Entity {
 
-    private int observation_id;
+    private long observation_id;
     private int num_ticks;
     private String tickImageUrl;
     private double latitude, longitude;
@@ -47,45 +47,69 @@ public class Observation implements Parcelable, Entity {
         return observation;
     }
 
-    public int getObservation_id() {
+    public long getObservation_id() {
         return observation_id;
     }
 
+    public void setObservation_id(long observation_id) {
+        this.observation_id = observation_id;
+    }
 
     public int getNum_ticks() {
         return num_ticks;
     }
 
+    public void setNum_ticks(int num_ticks) {
+        this.num_ticks = num_ticks;
+    }
 
     public String getTickImageUrl() {
         return tickImageUrl;
     }
 
+    public void setTickImageUrl(String tickImageUrl) {
+        this.tickImageUrl = tickImageUrl;
+    }
 
     public double getLatitude() {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     public double getLongitude() {
         return longitude;
     }
 
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public long getTimestamp() {
         return timestamp;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public long getCreated_at() {
         return created_at;
     }
 
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
 
     public long getUpdated_at() {
         return updated_at;
     }
 
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
+    }
 
     @Override
     public String toString() {

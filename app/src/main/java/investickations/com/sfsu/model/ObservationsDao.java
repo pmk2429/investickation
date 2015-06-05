@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.entities.Observation;
 
 /**
@@ -15,7 +16,6 @@ import investickations.com.sfsu.entities.Observation;
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao {
-    private String LOGSTRING = "ObservationsDAO =====> ";
     private SQLiteDatabase db;
     private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TICK_IMAGE, ObservationsTable.COLUMN_LAT, ObservationsTable.COLUMN_LONG, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT};
 
@@ -40,7 +40,7 @@ public class ObservationsDao {
         contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
-        Log.d(LOGSTRING, "INSERT reached");
+        Log.d(AppConfig.LOGSTRING, "Observation : INSERT reached");
         return db.insert(ObservationsTable.TABLENAME, null, contentValues);
     }
 
@@ -60,7 +60,7 @@ public class ObservationsDao {
         contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
-        Log.d(LOGSTRING, "UPDATE reached");
+        Log.d(AppConfig.LOGSTRING, "Observation : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(ObservationsTable.TABLENAME, contentValues, ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getObservation_id() + ""}) > 0;
@@ -90,23 +90,45 @@ public class ObservationsDao {
 
         if (c != null && c.moveToFirst()) {
             observationItem = buildFromCursor(c);
-
+            if (!c.isClosed()) {
+                c.close();
+            }
         }
-
-        return null;
-    }
-
-    public Observation get(String observationName) {
-        return null;
+        return observationItem;
     }
 
     public List<Observation> getAll() {
         List<Observation> observationsList = new ArrayList<Observation>();
+
+        // Query the Database to get all the records.
+        Cursor c = db.query(ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
+
+        if (c != null && c.moveToFirst()) {
+            // loop until the end of Cursor and add each entry to Observations ArrayList.
+            do {
+                Observation observationItem = buildFromCursor(c);
+                if (observationItem != null) {
+                    observationsList.add(observationItem);
+                }
+            } while (c.moveToNext());
+        }
         return observationsList;
     }
 
+    // build the Observation Object using Cursor.
     public Observation buildFromCursor(Cursor c) {
-        Observation observation = null;
-        return observation;
+        Observation observationItem = null;
+        if (c != null) {
+            observationItem = new Observation();
+            observationItem.setObservation_id(c.getLong(0));
+            observationItem.setNum_ticks(c.getInt(1));
+            observationItem.setTickImageUrl(c.getString(2));
+            observationItem.setLatitude(c.getDouble(3));
+            observationItem.setLongitude(c.getDouble(4));
+            observationItem.setTimestamp(c.getLong(5));
+            observationItem.setCreated_at(c.getLong(6));
+            observationItem.setUpdated_at(c.getLong(7));
+        }
+        return observationItem;
     }
 }
