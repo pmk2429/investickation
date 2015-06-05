@@ -8,7 +8,6 @@ import investickations.com.sfsu.entities.Entity;
 import investickations.com.sfsu.entities.RequestParams;
 
 /**
- * A
  * Created by Pavitra on 5/19/2015.
  */
 public class ASYNCData {

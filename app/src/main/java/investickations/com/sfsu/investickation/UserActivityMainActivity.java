@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 public class UserActivityMainActivity extends ActionBarActivity {
 
+    private static String ACTIVITY_RESOURCE = "activities";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

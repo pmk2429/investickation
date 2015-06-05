@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 public class ObservationMainActivity extends ActionBarActivity {
 
+    private static String OBSERVATION_RESOURCE = "observations";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

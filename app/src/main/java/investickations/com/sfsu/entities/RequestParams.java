@@ -20,9 +20,12 @@ import java.util.HashMap;
  * Created by Pavitra on 5/19/2015.
  */
 public class RequestParams {
+    // base url to make HTTP connection
     private static String BASE_URL = "http://pavitrakansara.com/larv/admin/dashboard/";
+    
     String httpMethodVerb, resourceIdentifierName, id;
     boolean editParam;
+
     HashMap<String, String> params = new HashMap<String, String>();
 
     public RequestParams(String httpMethodVerb, String resourceIdentifierName, String id) {

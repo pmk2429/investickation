@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 public class GuideMasterActivity extends ActionBarActivity {
 
+    private static String TICK_RESOURCE = "ticks";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
