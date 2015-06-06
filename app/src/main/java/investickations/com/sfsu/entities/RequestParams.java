@@ -88,6 +88,103 @@ public class RequestParams {
     private String getBaseURL() {
         return BASE_URL + getEncodedParams();
     }
+
+
+    ////////////////////////////////////////////////////////////////////////
+    // Inner class for performance measures and code maintenance.
+    ////////////////////////////////////////////////////////////////////////
+
+    /**
+     * <p>
+     * <tt>ResourceEndpoint</tt> defines the methods for Resource Class.
+     * {@link investickations.com.sfsu.entities.RequestParams.Resource} provides a concrete implementation
+     * of the <tt>ResourceEndpoint</tt> interface. All the methods defined reflects the action that
+     * is performed on each resource using the endpoint URL.
+     * </p>
+     */
+    interface ResourceEndpoint {
+        public String index();
+
+        public String create();
+
+        public String show();
+
+        public String edit();
+
+        public String destroy();
+    }
+
+    /**
+     * <p>
+     * <tt>Resource</tt> class is the interface to the REST endpoint URL.
+     * Depending on each of the methods, a dynamic URL is constructed in {@link investickations.com.sfsu.entities.RequestParams.Resource} to which the connection is to be made and operations are to be performed.
+     * <tt>Resource</tt> helps to perform operations on the resources of the applications by providing concrete
+     * implementation of each methods and generating dynamic URL for each resource.
+     * </p>
+     */
+    static class Resource implements ResourceEndpoint {
+
+        private String resource_id;
+        // resource identifier is the name of resource eg users, ticks etc
+        private String resourceIdentifier;
+
+        public Resource(String resourceIdentifier, String id) {
+            this.resourceIdentifier = resourceIdentifier;
+            this.resource_id = id;
+        }
+
+        /**
+         * index action returns the list of all the entries in resource.
+         *
+         * @return
+         */
+        @Override
+        public String index() {
+            return "";
+        }
+
+        /**
+         * create() method is used to create the specified resource.
+         *
+         * @return
+         */
+        @Override
+        public String create() {
+            return null;
+        }
+
+        /**
+         * show() method displays a specific resource by using ID of that resource.
+         *
+         * @return
+         */
+        @Override
+        public String show() {
+            return null;
+        }
+
+        /**
+         * edit() method is called when we need to edit a resource.
+         *
+         * @return
+         */
+        @Override
+        public String edit() {
+            return null;
+        }
+
+        /**
+         * destroy() when called, destroys the record from database.
+         *
+         * @return
+         */
+        @Override
+        public String destroy() {
+            return null;
+        }
+    }
+
+
 }
 
 
