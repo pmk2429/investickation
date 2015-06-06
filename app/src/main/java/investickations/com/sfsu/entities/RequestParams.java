@@ -20,8 +20,6 @@ import java.util.HashMap;
  * Created by Pavitra on 5/19/2015.
  */
 public class RequestParams {
-    // base url to make HTTP connection
-    private static String BASE_URL = "http://pavitrakansara.com/larv/admin/dashboard/";
 
     String httpMethodVerb, resourceIdentifierName, id;
     boolean editParam;
@@ -85,8 +83,9 @@ public class RequestParams {
         return sb.toString();
     }
 
+    // still need to make dynamic
     private String getBaseURL() {
-        return BASE_URL + getEncodedParams();
+        return "" + getEncodedParams();
     }
 
 
@@ -140,17 +139,17 @@ public class RequestParams {
          */
         @Override
         public String index() {
-            return "";
+            return AppConfig.BASE_URL + "/" + resourceIdentifier;
         }
 
         /**
-         * create() method is used to create the specified resource.
+         * create() method is used to create the specified resource and store in database.
          *
          * @return
          */
         @Override
         public String create() {
-            return null;
+            return AppConfig.BASE_URL + "/" + resourceIdentifier;
         }
 
         /**
@@ -160,7 +159,7 @@ public class RequestParams {
          */
         @Override
         public String show() {
-            return null;
+            return AppConfig.BASE_URL + "/" + resourceIdentifier + "/" + resource_id;
         }
 
         /**
@@ -170,7 +169,7 @@ public class RequestParams {
          */
         @Override
         public String edit() {
-            return null;
+            return AppConfig.BASE_URL + "/" + resourceIdentifier + "/" + resource_id + "/edit";
         }
 
         /**
@@ -180,7 +179,7 @@ public class RequestParams {
          */
         @Override
         public String destroy() {
-            return null;
+            return AppConfig.BASE_URL + "/" + resourceIdentifier + "/" + resource_id;
         }
     }
 
