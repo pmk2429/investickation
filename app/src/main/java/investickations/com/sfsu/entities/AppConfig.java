@@ -5,4 +5,9 @@ package investickations.com.sfsu.entities;
  */
 public class AppConfig {
     public static final String LOGSTRING = "#LOG_INVEST=====> ";
+
+    public static final String USER_RESOURCE = "user";
+    public static final String ACTIVITY_RESOURCE = "activities";
+    public static final String OBSERVATION_RESOURCE = "observations";
+    public static final String TICK_RESOURCE = "ticks";
 }

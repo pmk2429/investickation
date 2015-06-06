@@ -16,6 +16,7 @@ import org.json.JSONObject;
  * <p>
  * Location can also be built using the Factory design pattern.
  * </p>
+ * <p/>
  * Created by Pavitra on 5/19/2015.
  */
 public class Location implements Parcelable, Entity {
@@ -91,5 +92,10 @@ public class Location implements Parcelable, Entity {
     @Override
     public Entity getEntity() {
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return "Locations";
     }
 }

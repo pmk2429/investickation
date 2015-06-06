@@ -139,4 +139,9 @@ public class Observation implements Parcelable, Entity {
     public Entity getEntity() {
         return this;
     }
+
+    @Override
+    public String getName() {
+        return "Observations";
+    }
 }

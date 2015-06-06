@@ -22,7 +22,7 @@ import org.json.JSONObject;
 public class Tick implements Parcelable, Entity {
 
     private int tick_id;
-    private String name, species, color, known_for, descripition, imageUrl;
+    private String tickName, species, color, known_for, descripition, imageUrl;
     private long created_at, updated_at;
 
     public Tick() {
@@ -30,7 +30,7 @@ public class Tick implements Parcelable, Entity {
 
     public Tick(int tick_id, String name, String species, String color, String known_for, String descripition, String imageUrl) {
         this.tick_id = tick_id;
-        this.name = name;
+        this.tickName = name;
         this.species = species;
         this.color = color;
         this.known_for = known_for;
@@ -49,8 +49,8 @@ public class Tick implements Parcelable, Entity {
     }
 
 
-    public String getName() {
-        return name;
+    public String getTickName() {
+        return tickName;
     }
 
 
@@ -93,7 +93,7 @@ public class Tick implements Parcelable, Entity {
     public String toString() {
         return "Tick{" +
                 "tick_id=" + tick_id +
-                ", name='" + name + '\'' +
+                ", name='" + tickName + '\'' +
                 ", species='" + species + '\'' +
                 ", color='" + color + '\'' +
                 ", known_for='" + known_for + '\'' +
@@ -117,5 +117,10 @@ public class Tick implements Parcelable, Entity {
     @Override
     public Entity getEntity() {
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return "Tick";
     }
 }

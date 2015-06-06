@@ -22,7 +22,7 @@ import org.json.JSONObject;
 public class Activity implements Parcelable, Entity {
 
     private int activity_id;
-    private String name, imageUrl, location_area;
+    private String activityName, imageUrl, location_area;
     private int num_people, num_pets, num_ticks;
     private long timestamp, created_at, update_at;
 
@@ -31,7 +31,7 @@ public class Activity implements Parcelable, Entity {
 
     public Activity(int activity_id, String name, String imageUrl, String location_area, int num_people, int num_pets, int num_ticks, long timestamp, long created_at, long update_at) {
         this.activity_id = activity_id;
-        this.name = name;
+        this.activityName = name;
         this.imageUrl = imageUrl;
         this.location_area = location_area;
         this.num_people = num_people;
@@ -56,8 +56,8 @@ public class Activity implements Parcelable, Entity {
         this.activity_id = activity_id;
     }
 
-    public String getName() {
-        return name;
+    public String getActivityName() {
+        return activityName;
     }
 
 
@@ -105,7 +105,7 @@ public class Activity implements Parcelable, Entity {
     public String toString() {
         return "Activity{" +
                 "activity_id=" + activity_id +
-                ", name='" + name + '\'' +
+                ", name='" + activityName + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", location_area='" + location_area + '\'' +
                 ", num_people=" + num_people +
@@ -130,5 +130,10 @@ public class Activity implements Parcelable, Entity {
     @Override
     public Entity getEntity() {
         return this;
+    }
+
+    @Override
+    public String getName() {
+        return "Activity";
     }
 }

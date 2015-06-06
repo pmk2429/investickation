@@ -162,4 +162,9 @@ public class User implements Parcelable, Entity {
     public Entity getEntity() {
         return this;
     }
+
+    @Override
+    public String getName() {
+        return "User";
+    }
 }
