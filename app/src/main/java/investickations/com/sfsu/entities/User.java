@@ -49,6 +49,7 @@ public class User implements Parcelable, Entity {
     static public User createUserFactory(JSONObject jsonObject) throws JSONException {
         User user = new User();
 
+
         return user;
     }
 
