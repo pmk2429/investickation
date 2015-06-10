@@ -1,13 +1,12 @@
 package investickations.com.sfsu.investickation;
 
-import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class ObservationDetailActivity extends Activity {
+public class ObservationDetailActivity extends AppCompatActivity {
 
     private static String OBSERVATION_RESOURCE = "observations";
 

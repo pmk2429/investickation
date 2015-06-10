@@ -36,7 +36,7 @@ interface ResourceEndpoint {
  * <p/>
  * <p>
  * <tt>RequestParams</tt> uses HashMap to store the params key and value while retrieving the params from remote url or by posting the data to remote url
- * </p>
+ * <p/>
  * <p>
  * <tt>RequestParams</tt> class is the interface to the REST endpoint URL.
  * Depending on each of the methods, a dynamic URL is constructed in {@link investickations.com.sfsu.entities.RequestParams} to which the connection is to be made and operations are to be performed.
@@ -76,6 +76,7 @@ public class RequestParams implements ResourceEndpoint {
      * @throws IOException
      */
     public HttpURLConnection setConnection() throws IOException {
+        // convert the Url String to URL in order to establish the connection.
         URL url = new URL(getConnectionURL());
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         if (httpMethodVerb.equals("GET")) {
@@ -115,6 +116,11 @@ public class RequestParams implements ResourceEndpoint {
     }
 
 
+    /**
+     * <tt>getConnectionURL()</tt> finally builds the connection url to which HTTP connection is to be made.
+     *
+     * @return
+     */
     private String getConnectionURL() {
         return resourceUrl.toString() + getEncodedParams();
     }
