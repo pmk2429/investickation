@@ -24,11 +24,10 @@ public class JSONUtil {
         static ArrayList<Entity> parseUsers(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray personArray = root.getJSONArray("persons");
+            JSONArray usersArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < personArray.length(); i++) {
-                JSONObject personsJSONObject = personArray.getJSONObject(i);
-
+            for (int i = 0; i < usersArray.length(); i++) {
+                JSONObject personsJSONObject = usersArray.getJSONObject(i);
 
             }
 
@@ -39,27 +38,12 @@ public class JSONUtil {
         static ArrayList<Entity> parseTicks(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray personArray = root.getJSONArray("persons");
+            JSONArray ticksArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < personArray.length(); i++) {
-                JSONObject personsJSONObject = personArray.getJSONObject(i);
-
-            }
-            return null;
-        }
-
-        // parse Observations
-        static ArrayList<Entity> parseObservations(String in) throws JSONException {
-
-            JSONObject root = new JSONObject(in);
-            JSONArray personArray = root.getJSONArray("persons");
-
-            for (int i = 0; i < personArray.length(); i++) {
-                JSONObject personsJSONObject = personArray.getJSONObject(i);
-
+            for (int i = 0; i < ticksArray.length(); i++) {
+                JSONObject personsJSONObject = ticksArray.getJSONObject(i);
 
             }
-
             return null;
         }
 
@@ -67,16 +51,31 @@ public class JSONUtil {
         static ArrayList<Entity> parseActivities(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray personArray = root.getJSONArray("persons");
+            JSONArray activitiesArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < personArray.length(); i++) {
-                JSONObject personsJSONObject = personArray.getJSONObject(i);
+            for (int i = 0; i < activitiesArray.length(); i++) {
+                JSONObject personsJSONObject = activitiesArray.getJSONObject(i);
 
             }
 
+            return null;
+        }
+
+        // parse Observations
+        static ArrayList<Entity> parseObservations(String in) throws JSONException {
+
+            JSONObject root = new JSONObject(in);
+            JSONArray observationsArray = root.getJSONArray("persons");
+
+            for (int i = 0; i < observationsArray.length(); i++) {
+                JSONObject personsJSONObject = observationsArray.getJSONObject(i);
+
+
+            }
 
             return null;
         }
+
     }
 }
 /*
