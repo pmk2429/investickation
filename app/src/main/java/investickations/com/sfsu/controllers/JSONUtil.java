@@ -24,10 +24,10 @@ public class JSONUtil {
         static ArrayList<Entity> parseUsers(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray usersArray = root.getJSONArray("persons");
+            JSONArray userArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < usersArray.length(); i++) {
-                JSONObject personsJSONObject = usersArray.getJSONObject(i);
+            for (int i = 0; i < userArray.length(); i++) {
+                JSONObject usersJSONObject = userArray.getJSONObject(i);
 
             }
 
@@ -38,10 +38,10 @@ public class JSONUtil {
         static ArrayList<Entity> parseTicks(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray ticksArray = root.getJSONArray("persons");
+            JSONArray tickArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < ticksArray.length(); i++) {
-                JSONObject personsJSONObject = ticksArray.getJSONObject(i);
+            for (int i = 0; i < tickArray.length(); i++) {
+                JSONObject ticksJSONObject = tickArray.getJSONObject(i);
 
             }
             return null;
@@ -51,10 +51,10 @@ public class JSONUtil {
         static ArrayList<Entity> parseActivities(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray activitiesArray = root.getJSONArray("persons");
+            JSONArray activityArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < activitiesArray.length(); i++) {
-                JSONObject personsJSONObject = activitiesArray.getJSONObject(i);
+            for (int i = 0; i < activityArray.length(); i++) {
+                JSONObject activitiesJSONObject = activityArray.getJSONObject(i);
 
             }
 
@@ -65,10 +65,10 @@ public class JSONUtil {
         static ArrayList<Entity> parseObservations(String in) throws JSONException {
 
             JSONObject root = new JSONObject(in);
-            JSONArray observationsArray = root.getJSONArray("persons");
+            JSONArray observationArray = root.getJSONArray("persons");
 
-            for (int i = 0; i < observationsArray.length(); i++) {
-                JSONObject personsJSONObject = observationsArray.getJSONObject(i);
+            for (int i = 0; i < observationArray.length(); i++) {
+                JSONObject observationsJSONObject = observationArray.getJSONObject(i);
 
 
             }

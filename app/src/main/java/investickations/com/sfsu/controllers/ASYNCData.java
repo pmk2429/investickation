@@ -1,5 +1,6 @@
 package investickations.com.sfsu.controllers;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.json.JSONException;
@@ -14,6 +15,15 @@ import investickations.com.sfsu.entities.RequestParams;
  * Created by Pavitra on 5/19/2015.
  */
 public class ASYNCData {
+    public static interface IEntityData {
+        public void setProgressDialog();
+
+        public void setEntitiesData(ArrayList<Entity> entityList);
+
+        public Context myContext();
+
+    }
+
     /**
      * <p>
      * <tt>GetDataAsync</tt> class provides an AsyncTask implementation of Getting User's data
@@ -22,6 +32,12 @@ public class ASYNCData {
      */
     private static class GetDataAsync extends AsyncTask<RequestParams, Void, ArrayList<Entity>> {
 
+
+        IEntityData activity;
+
+        public GetDataAsync(IEntityData activity) {
+            this.activity = activity;
+        }
 
         @Override
         protected void onPreExecute() {
