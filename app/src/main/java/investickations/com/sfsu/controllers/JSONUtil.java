@@ -12,85 +12,32 @@ import investickations.com.sfsu.entities.Entity;
  * JSONUtil class is the Utility class which provides helps to create the JSON Parser
  * for each of the entity in the application. This JSON Parser are used to retrieve the
  * data from remote connection.
- * The data representation of data retrieved are in JSOn format.
+ * The data representation of data retrieved are in JSON format.
  * <p/>
+ * <p>
+ * Each method in the EntityJSONParser class represents a construct for parsing corresponding entity.
+ * The methods provides a basic mechanism to parse each entity depending on the type of Data (in JSON Format)
+ * retrieved.
+ * </p>
  * Created by Pavitra on 5/19/2015.
  */
 public class JSONUtil {
     static public class EntityJSONParser {
-        ArrayList<Entity> list;
+        static ArrayList<Entity> entitiesList;
 
-        // parse users
-        static ArrayList<Entity> parseUsers(String in) throws JSONException {
-
+        // parse entities
+        static ArrayList<Entity> parseEntities(String in, Entity entity) throws JSONException {
+            entitiesList = new ArrayList<>();
             JSONObject root = new JSONObject(in);
-            JSONArray userArray = root.getJSONArray("persons");
+            // pass the name of JSON array to the getJSONArray() method.
+            JSONArray entityArray = root.getJSONArray(entity.getJSONResourceIdentifier());
 
-            for (int i = 0; i < userArray.length(); i++) {
-                JSONObject usersJSONObject = userArray.getJSONObject(i);
-
+            for (int i = 0; i < entityArray.length(); i++) {
+                JSONObject entityJSONObject = entityArray.getJSONObject(i);
+                Entity parsedEntityObj = entity.createEntityFactory(entityJSONObject);
+                entitiesList.add(parsedEntityObj);
             }
-
-            return null;
+            return entitiesList;
         }
-
-        // parse tick
-        static ArrayList<Entity> parseTicks(String in) throws JSONException {
-
-            JSONObject root = new JSONObject(in);
-            JSONArray tickArray = root.getJSONArray("persons");
-
-            for (int i = 0; i < tickArray.length(); i++) {
-                JSONObject ticksJSONObject = tickArray.getJSONObject(i);
-
-            }
-            return null;
-        }
-
-        // parse Activities
-        static ArrayList<Entity> parseActivities(String in) throws JSONException {
-
-            JSONObject root = new JSONObject(in);
-            JSONArray activityArray = root.getJSONArray("persons");
-
-            for (int i = 0; i < activityArray.length(); i++) {
-                JSONObject activitiesJSONObject = activityArray.getJSONObject(i);
-
-            }
-
-            return null;
-        }
-
-        // parse Observations
-        static ArrayList<Entity> parseObservations(String in) throws JSONException {
-
-            JSONObject root = new JSONObject(in);
-            JSONArray observationArray = root.getJSONArray("persons");
-
-            for (int i = 0; i < observationArray.length(); i++) {
-                JSONObject observationsJSONObject = observationArray.getJSONObject(i);
-
-
-            }
-
-            return null;
-        }
-
     }
 }
-/*
-    static ArrayList<Person> parsePerson(String in) throws JSONException {
-        ArrayList<Person> personsList = new ArrayList<>();
-
-        JSONObject root = new JSONObject(in);
-        JSONArray personArray = root.getJSONArray("persons");
-
-        for (int i = 0; i < personArray.length(); i++) {
-            JSONObject personsJSONObject = personArray.getJSONObject(i);
-
-            Person person = Person.createPersonFactory(personsJSONObject);
-            personsList.add(person);
-        }
-
-        return personsList;
-    }*/

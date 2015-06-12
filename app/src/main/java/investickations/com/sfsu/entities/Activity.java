@@ -3,7 +3,6 @@ package investickations.com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -42,7 +41,9 @@ public class Activity implements Parcelable, Entity {
         this.update_at = update_at;
     }
 
-    static public Activity createActivityFactory(JSONObject jsonObject) throws JSONException {
+
+    @Override
+    public Entity createEntityFactory(JSONObject jsonObject) {
         Activity activity = new Activity();
 
         return activity;
@@ -135,5 +136,10 @@ public class Activity implements Parcelable, Entity {
     @Override
     public String getName() {
         return "Activity";
+    }
+
+    @Override
+    public String getJSONResourceIdentifier() {
+        return "activities";
     }
 }

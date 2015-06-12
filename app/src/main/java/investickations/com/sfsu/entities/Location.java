@@ -3,7 +3,6 @@ package investickations.com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -37,9 +36,11 @@ public class Location implements Parcelable, Entity {
         this.timestamp = timestamp;
     }
 
-    static public Location createLocationFactory(JSONObject jsonObject) throws JSONException {
-        Location location = new Location();
 
+    @Override
+    public Entity createEntityFactory(JSONObject jsonObject) {
+
+        Location location = new Location();
         return location;
     }
 
@@ -98,4 +99,11 @@ public class Location implements Parcelable, Entity {
     public String getName() {
         return "Locations";
     }
+
+    @Override
+    public String getJSONResourceIdentifier() {
+        return "locations";
+    }
+
+
 }

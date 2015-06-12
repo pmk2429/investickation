@@ -27,5 +27,4 @@ public class AppConfig {
     public static final String PUT_VERB = "PUT";
     public static final String DELETE_VERB = "DELETE";
 
-
 }

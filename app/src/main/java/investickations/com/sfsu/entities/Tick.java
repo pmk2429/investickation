@@ -3,7 +3,6 @@ package investickations.com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -38,7 +37,8 @@ public class Tick implements Parcelable, Entity {
         this.imageUrl = imageUrl;
     }
 
-    static public Tick createTickFactory(JSONObject jsonObject) throws JSONException {
+    @Override
+    public Entity createEntityFactory(JSONObject jsonObject) {
         Tick tick = new Tick();
 
         return tick;
@@ -122,5 +122,10 @@ public class Tick implements Parcelable, Entity {
     @Override
     public String getName() {
         return "Tick";
+    }
+
+    @Override
+    public String getJSONResourceIdentifier() {
+        return "ticks";
     }
 }

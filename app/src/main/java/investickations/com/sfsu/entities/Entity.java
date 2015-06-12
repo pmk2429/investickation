@@ -1,5 +1,7 @@
 package investickations.com.sfsu.entities;
 
+import org.json.JSONObject;
+
 /**
  * <p>
  * <tt>Entity </tt> interface defines the behavior of all the entities.
@@ -12,5 +14,9 @@ public interface Entity {
     public Entity getEntity();
 
     public String getName();
-    
+
+    public String getJSONResourceIdentifier();
+
+    public Entity createEntityFactory(JSONObject jsonObject);
+
 }

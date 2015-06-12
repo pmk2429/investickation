@@ -49,15 +49,19 @@ public class RequestParams implements ResourceEndpoint {
 
     HashMap<String, String> params = new HashMap<String, String>();
     StringBuilder resourceUrl;
-    private String httpMethodVerb;
-    private String resource_id;
-    private String resourceIdentifier;
+    Entity entityType;
+    private String resourceIdentifier, resource_id, httpMethodVerb;
 
     // the constructor provides mechanism to pass resource name and id(if present).
-    public RequestParams(String httpMethodVerb, String resourceIdentifier, String id) {
+    public RequestParams(String httpMethodVerb, String resourceIdentifier, String id, Entity entityType) {
         this.httpMethodVerb = httpMethodVerb;
         this.resourceIdentifier = resourceIdentifier;
         this.resource_id = id;
+        this.entityType = entityType;
+    }
+
+    public Entity getEntityType() {
+        return entityType.getEntity();
     }
 
     /**

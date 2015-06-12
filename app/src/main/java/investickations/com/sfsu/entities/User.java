@@ -3,7 +3,6 @@ package investickations.com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -46,9 +45,8 @@ public class User implements Parcelable, Entity {
      * createUserFactory() is the factory design pattern to create Users without revealing
      * the implementation logic to the users.
      */
-    static public User createUserFactory(JSONObject jsonObject) throws JSONException {
+    public Entity createEntityFactory(JSONObject jsonObject) {
         User user = new User();
-
 
         return user;
     }
@@ -167,5 +165,10 @@ public class User implements Parcelable, Entity {
     @Override
     public String getName() {
         return "User";
+    }
+
+    @Override
+    public String getJSONResourceIdentifier() {
+        return "users";
     }
 }
