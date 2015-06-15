@@ -12,7 +12,7 @@ public class ObservationMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_observation_main);
+        //setContentView(R.layout.activity_observation_main);
     }
 
     @Override

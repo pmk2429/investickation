@@ -11,7 +11,7 @@ public class PersonalInfoActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_info);
+        //setContentView(R.layout.activity_personal_info);
     }
 
     @Override

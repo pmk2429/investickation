@@ -50,18 +50,7 @@ public class ASYNCData {
 
             try {
                 if (requestParams[0].getResourceIdentifier().equals(AppConfig.USER_RESOURCE)) {
-
-
                     return JSONUtil.EntityJSONParser.parseEntities("users", requestParams[0].getEntityType());
-
-
-
-                } else if (requestParams[0].getResourceIdentifier().equals(AppConfig.TICK_RESOURCE)) {
-                    return JSONUtil.EntityJSONParser.parseTicks("ticks");
-                } else if (requestParams[0].getResourceIdentifier().equals(AppConfig.ACTIVITY_RESOURCE)) {
-                    return JSONUtil.EntityJSONParser.parseActivities("activities");
-                } else if (requestParams[0].getResourceIdentifier().equals(AppConfig.OBSERVATION_RESOURCE)) {
-                    return JSONUtil.EntityJSONParser.parseObservations("observations");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
