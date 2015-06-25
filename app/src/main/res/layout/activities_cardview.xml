@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:padding="16dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="246dp"
+        android:layout_weight="1"
+        android:padding="0dp">
+
+        <RelativeLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/activityname"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/colorPrimary"
+                android:gravity="top|start"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:text="Hiking @ Golden Gate Public Park"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/person_photo"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_below="@id/activityname"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/activitytext" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/person_photo"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/person_name"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="0.4"
+                    android:background="#cccccc"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="6 Miles"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/person_age"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_toRightOf="@+id/person_name"
+                    android:layout_weight="0.6"
+                    android:background="#cccccc"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="5 Observations"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16dp"
+                    android:typeface="sans" />
+
+                <TextView
+                    android:id="@+id/person_distance"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/person_photo"
+                    android:layout_toRightOf="@+id/person_age"
+                    android:layout_weight="0.4"
+                    android:background="#cccccc"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="16dp"
+                    android:text="8 people"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
