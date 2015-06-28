@@ -24,8 +24,11 @@ import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity {
 
+
     // resource identifier for each unique resource.
     private static String USER_RESOURCE = "users";
+
+    // InjectView is used to inject the UI controls using ButterKnife library.
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @InjectView(R.id.toolbar)
