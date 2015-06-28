@@ -1,63 +1,45 @@
 package investickations.com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import butterknife.InjectView;
+import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.investickation.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Register.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Register#newInstance} factory method to
- * create an instance of this fragment.
+ *
  */
-public class Register extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class Register extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    @InjectView(R.id.button_Register)
+    Button btnRegister;
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Register.
-     */
-    // TODO: Rename and change types and number of parameters
+    public Register() {
+        // IMP - Don't delete
+    }
+
+    // Factory method to create Fragment instance.
     public static Register newInstance(String param1, String param2) {
         Register fragment = new Register();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public Register() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -65,16 +47,24 @@ public class Register extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        View v = inflater.inflate(R.layout.fragment_register, container, false);
+        if (btnRegister != null) {
+            btnRegister.setOnClickListener(this);
+        } else {
+            Log.d(AppConfig.LOGSTRING, "Register button not found");
+        }
+
+        return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction();
         }
     }
 
+    // This makes sure that the container activity has implemented
+    // the callback interface. If not, it throws an exception.
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -82,7 +72,7 @@ public class Register extends Fragment {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentInteractionListener to communicate with Register");
         }
     }
 
@@ -92,19 +82,16 @@ public class Register extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        mListener.onFragmentInteraction();
+    }
+
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Interface to communicate to other Fragment and/or Activity
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onFragmentInteraction();
     }
 
 }

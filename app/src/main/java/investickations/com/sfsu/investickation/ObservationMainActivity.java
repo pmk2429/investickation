@@ -1,11 +1,11 @@
 package investickations.com.sfsu.investickation;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ObservationMainActivity extends AppCompatActivity {
+public class ObservationMainActivity extends ActionBarActivity {
 
     private static String OBSERVATION_RESOURCE = "observations";
 

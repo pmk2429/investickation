@@ -1,13 +1,174 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="investickations.com.sfsu.investickation.fragments.Register">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <!--  user image -->
+    <ImageView
+        android:id="@+id/image_usermain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="120dp"
+        android:layout_below="@id/toolbar"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
 
-</FrameLayout>
+    <!-- Circle button -->
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignBottom="@id/image_usermain"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-32dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/circle"
+        android:src="@mipmap/ic_launcher" />
+
+
+    <!--  User row -->
+    <ImageView
+        android:id="@+id/icon_user"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/image_usermain"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_user"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/image_usermain"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_user"
+        android:hint="Username"
+        android:paddingBottom="16sp"
+        android:paddingTop="16dp"
+        android:textSize="16dp" />
+
+    <!--  Email row -->
+    <ImageView
+        android:id="@+id/icon_email"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_user"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_email"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_user"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_email"
+        android:hint="Email"
+        android:paddingBottom="16sp"
+        android:paddingTop="16dp"
+        android:textSize="16dp" />
+
+    <!--  Password row -->
+    <ImageView
+        android:id="@+id/icon_password"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_email"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_password"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_email"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_password"
+        android:hint="Password"
+        android:paddingBottom="16dp"
+        android:paddingTop="16sp"
+        android:password="true"
+        android:textSize="16dp" />
+
+    <!--  Phone row -->
+    <ImageView
+        android:id="@+id/icon_phone"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_password"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_phone"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_password"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_phone"
+        android:hint="Phone"
+        android:textSize="16sp" />
+
+    <!--  User row -->
+    <ImageView
+        android:id="@+id/icon_address"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_phone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_address"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_phone"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_address"
+        android:hint="Address"
+        android:textSize="16sp" />
+
+
+    <!-- Register Button -->
+    <Button
+        android:id="@+id/button_Register"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/darker_gray"
+        android:text="Register" />
+
+
+</RelativeLayout>

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/investickations/com/sfsu/investickation/DrawerAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/investickations/com/sfsu/investickation/SlidingTabLayout.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/investickations/com/sfsu/investickation/SlidingTabStrip.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/color/selector.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-v21/circle.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/circle.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/drawer_header.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/drawer_row.xml" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/activitytext.png" charset="windows-1252" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

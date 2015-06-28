@@ -1,12 +1,12 @@
 package investickations.com.sfsu.investickation;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class GuideMasterActivity extends AppCompatActivity {
+public class GuideMasterActivity extends ActionBarActivity {
 
     private static String TICK_RESOURCE = "ticks";
 
