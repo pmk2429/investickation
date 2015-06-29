@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Investickation</string>
+    <string name="app_name">Investickations</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_personal_info">PersonalInfoActivity</string>
-    <string name="title_activity_guide_master">GuideMasterActivity</string>
-    <string name="title_activity_user_activity_main">UserActivityMainActivity</string>
+    <string name="title_activity_personal_info">Personal Info</string>
+    <string name="title_activity_guide_master">Guide</string>
+    <string name="title_activity_user_activity_main">User Activities</string>
     <string name="title_activity_activity_detail">Activity Details</string>
     <string name="title_activity_observations">Observations</string>
     <string name="title_activity_observation_main">Observation Main</string>
