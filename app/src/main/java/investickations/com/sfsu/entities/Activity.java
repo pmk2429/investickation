@@ -49,6 +49,8 @@ public class Activity implements Parcelable, Entity {
         return activity;
     }
 
+
+
     public int getActivity_id() {
         return activity_id;
     }

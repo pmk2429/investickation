@@ -1,21 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cv_observation"
         android:layout_width="match_parent"
-        android:layout_height="246dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="0dp">
 
         <RelativeLayout
-            android:id="@+id/relative_main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/image_tick_small"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="16dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/textView_observationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/image_tick_small"
+                android:text="American Dog Tick"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/textView_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_observationName"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@+id/image_tick_small"
+                android:text="Presidio of San Francisco"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView_timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="center_horizontal"
+                android:paddingTop="4dp"
+                android:text="1 Hr"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/image_status"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/textView_timestamp"
+                android:layout_marginTop="8dp"
+                android:src="@mipmap/ic_launcher" />
+
 
         </RelativeLayout>
 

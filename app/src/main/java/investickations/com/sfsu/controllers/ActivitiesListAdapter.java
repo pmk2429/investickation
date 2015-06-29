@@ -1,6 +1,7 @@
 package investickations.com.sfsu.controllers;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,34 +13,32 @@ import investickations.com.sfsu.entities.Activity;
 
 /**
  * <p>
- * <tt>ActivitiesListAdapter</tt> is a Custom Adapter for displaying activities in the ListView.
- * This provides a row Item for each of the entry in the ListView inflated using custom layout
- * ActivitiesListAdapter expects a custom layout as one of the parameter in the constructor
+ * <tt>ActivitiesListAdapter</tt> is a Custom Adapter for displaying activities in the RecyclerView.
+ * This provides a row item for each of the entry in the RecyclerView inflated using custom card view layout
+ * ActivitiesListAdapter expects a custom layout as one of the parameter in the constructor.
+ * Since the RecyclerView needs LayoutManagaer, this class implements own layout manager for define the data
+ * in the layout.
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class ActivitiesListAdapter extends BaseAdapter {
+public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAdapter.ActivityViewHolder> {
 
-    private static LayoutInflater inflater;
-    List<Activity> activityList;
-    Context myContext;
-    int mResource;
+    public static class ActivityViewHolder extends RecyclerView.ViewHolder {
 
-    public ActivitiesListAdapter(Context myContext, int mResource, List<Activity> activityList) {
-        this.activityList = activityList;
-        this.myContext = myContext;
-        this.mResource = mResource;
-        inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        public ActivityViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+
+    @Override
+    public ActivitiesListAdapter.ActivityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
     }
 
     @Override
-    public int getCount() {
-        return activityList.size();
-    }
+    public void onBindViewHolder(ActivitiesListAdapter.ActivityViewHolder holder, int position) {
 
-    @Override
-    public Object getItem(int i) {
-        return i;
     }
 
     @Override
@@ -48,19 +47,8 @@ public class ActivitiesListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(mResource, viewGroup, false);
-        }
-
-        // if the View is present, inflate the View with Observation Row Item
-        Activity observationItem = activityList.get(position);
-        if (observationItem != null) {
-
-            // perform all the operations for inflating the View with Observation Details.
-        }
-
-        return convertView;
+    public int getItemCount() {
+        return 0;
     }
+
 }

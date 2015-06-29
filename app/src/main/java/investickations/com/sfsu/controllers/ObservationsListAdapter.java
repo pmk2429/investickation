@@ -1,6 +1,7 @@
 package investickations.com.sfsu.controllers;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,56 +15,36 @@ import investickations.com.sfsu.investickation.ObservationMainActivity;
 /**
  * <p>
  * <tt>ObservationsListAdapter</tt> is a Custom Adapter which is used to display a Custom RowView
- * in the ObservationsList in Observations Fragment. This Class extends BaseAdapter in order to
- * create the custom view. The parameters passed to the ObservationsListAdapter expects Custom
- * Layout View (XML identifier) which is inflated to the RowView.
+ * in the ObservationsList in Observations Fragment in the RecyclerView.
+ * This Class extends RecyclerView.Adapter in order to create the custom view.
+ * Since the RecyclerView needs LayoutManagaer, this class implements own layout manager for define the data
+ * in the layout.
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class ObservationsListAdapter extends BaseAdapter {
-
-    private static LayoutInflater inflater = null;
-    Context myContext;
-    int mResource;
-    private List<Observation> observationList;
-
-    public ObservationsListAdapter(Context context, int resource, List<Observation> observations) {
-        this.myContext = context;
-        this.observationList = observations;
-        this.mResource = resource;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        return observationList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsListAdapter.ObservationViewHolder> {
 
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup viewGroup) {
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(mResource, viewGroup, false);
+    public static class ObservationViewHolder extends RecyclerView.ViewHolder {
+
+
+        public ObservationViewHolder(View itemView) {
+            super(itemView);
         }
+    }
 
-        // if the View is present, inflate the View with Observation Row Item
-        Observation observationItem = observationList.get(position);
-        if (observationItem != null) {
+    @Override
+    public ObservationsListAdapter.ObservationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
 
-            // perform all the operations for inflating the View with Observation Details.
-        }
+    @Override
+    public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
 
-        return convertView;
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
     }
 }
