@@ -10,9 +10,11 @@
     <ImageView
         android:id="@+id/image_usermain"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="160dp"
         android:layout_below="@id/toolbar"
-        android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@mipmap/placeholder_user" />
 
     <!-- Circle button -->
@@ -175,8 +177,11 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/darker_gray"
-        android:text="Register" />
+        android:background="@color/colorActionDark"
+        android:text="Register"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

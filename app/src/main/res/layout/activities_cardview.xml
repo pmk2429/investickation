@@ -8,7 +8,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cv_activities"
         android:layout_width="match_parent"
-        android:layout_height="246dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="0dp">
 
@@ -17,28 +17,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/person_photo"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/placeholder_tick" />
+
+
             <TextView
                 android:id="@+id/activityname"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:background="@color/colorPrimary"
+                android:layout_alignParentTop="true"
                 android:gravity="top|start"
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
                 android:text="Hiking @ Golden Gate Public Park"
-                android:textColor="#FFFFFF"
-                android:textSize="16dp" />
+                android:textColor="@color/colorWhite"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/person_photo"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_below="@id/activityname"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_tick" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,12 +54,12 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="0.4"
-                    android:background="#cccccc"
+                    android:background="@color/colorActionDark"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="6 Miles"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp" />
 
                 <TextView
@@ -65,12 +68,12 @@
                     android:layout_height="48dp"
                     android:layout_toRightOf="@+id/person_name"
                     android:layout_weight="0.6"
-                    android:background="#cccccc"
+                    android:background="@color/colorActionDark"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="5 Observations"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:typeface="sans" />
 
@@ -82,12 +85,12 @@
                     android:layout_below="@id/person_photo"
                     android:layout_toRightOf="@+id/person_age"
                     android:layout_weight="0.4"
-                    android:background="#cccccc"
+                    android:background="@color/colorActionDark"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="8 people"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/colorWhite"
                     android:textSize="16dp" />
             </LinearLayout>
 

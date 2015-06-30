@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/colorWhite"
+    android:focusable="false"
     tools:context="investickations.com.sfsu.investickation.fragments.GuideDetail">
 
 
@@ -26,7 +27,7 @@
         android:paddingTop="16dp"
         android:text="American Dog Tick"
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/colorPrimary"
         android:textSize="24dp" />
 
 
@@ -40,7 +41,7 @@
         android:paddingTop="8dp"
         android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/primaryText"
         android:textSize="14dp" />
 
 
@@ -55,7 +56,7 @@
         android:paddingTop="16dp"
         android:text="Basic Information"
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/colorPrimary"
         android:textSize="18dp" />
 
     <View
@@ -64,12 +65,13 @@
         android:layout_below="@id/textViewStatic_tickInfo"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="#666" />
+        android:background="@color/divider" />
 
     <!-- Nick Name -->
 
     <TextView
         android:id="@+id/textViewStatic_tickNickName"
+        style="bold"
         android:layout_width="140dp"
         android:layout_height="40dp"
         android:layout_below="@id/textViewStatic_tickInfo"
@@ -79,7 +81,7 @@
         android:paddingTop="8dp"
         android:text="Nick Name: "
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/primaryText"
         android:textSize="18dp" />
 
     <TextView
@@ -93,8 +95,8 @@
         android:paddingTop="8dp"
         android:text="Lone Star Tick"
         android:textAlignment="center"
-        android:textColor="#666"
-        android:textSize="18dp" />
+        android:textColor="@color/secondaryText"
+        android:textSize="16dp" />
 
 
     <!-- Formal Name -->
@@ -109,7 +111,7 @@
         android:paddingTop="8dp"
         android:text="Formal Name: "
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/primaryText"
         android:textSize="18dp" />
 
     <TextView
@@ -123,8 +125,8 @@
         android:paddingTop="8dp"
         android:text="Amblyomma americanum"
         android:textAlignment="center"
-        android:textColor="#666"
-        android:textSize="18dp" />
+        android:textColor="@color/secondaryText"
+        android:textSize="16dp" />
 
     <!-- Diseases Name -->
     <TextView
@@ -138,7 +140,7 @@
         android:paddingTop="8dp"
         android:text="Diseases: "
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/primaryText"
         android:textSize="18dp" />
 
     <TextView
@@ -152,8 +154,8 @@
         android:paddingTop="8dp"
         android:text="Tularemia"
         android:textAlignment="center"
-        android:textColor="#666"
-        android:textSize="18dp" />
+        android:textColor="@color/secondaryText"
+        android:textSize="16dp" />
 
 
     <!-- Diseases Name -->
@@ -168,7 +170,7 @@
         android:paddingTop="8dp"
         android:text="Found Near: "
         android:textAlignment="center"
-        android:textColor="#666"
+        android:textColor="@color/primaryText"
         android:textSize="18dp" />
 
     <TextView
@@ -182,8 +184,8 @@
         android:paddingTop="8dp"
         android:text="Dry Areas"
         android:textAlignment="center"
-        android:textColor="#666"
-        android:textSize="18dp" />
+        android:textColor="@color/secondaryText"
+        android:textSize="16dp" />
 
 
 </RelativeLayout>

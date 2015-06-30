@@ -6,6 +6,19 @@
     <color name="colorSecondary">@color/material_deep_teal_200</color>
     <color name="colorSecondaryDark">@color/material_deep_teal_500</color>
 
+    <color name="colorActionDark">#536DFE</color>
+
     <color name="windowBackgroundColor">#333333</color>
     <color name="black_translucent">#80000000</color>
+
+    <color name="primaryText">#212121</color>
+    <color name="secondaryText">#727272</color>
+    <color name="lightText">#ccc</color>
+
+    <color name="divider">#B6B6B6</color>
+
+
+    <color name="colorWhite">#fff</color>
+
+
 </resources>
