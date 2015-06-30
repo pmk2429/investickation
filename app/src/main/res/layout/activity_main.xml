@@ -19,14 +19,14 @@
 
         <!-- container for all the fragments -->
         <FrameLayout
-            android:id="@+id/registercontainer"
+            android:id="@+id/mainActivityContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:layout_weight="1" />
     </RelativeLayout>
 
-    <!-- Drawer section -->
+    <!-- Drawer section use to inflate the List in the Navigationn Drawer -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_recyclerView"
         android:layout_width="304dp"
