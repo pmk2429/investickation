@@ -169,7 +169,7 @@
 
     <!-- Register Button -->
     <Button
-        android:id="@+id/button_Register"
+        android:id="@+id/button_register"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"

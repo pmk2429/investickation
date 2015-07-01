@@ -15,5 +15,134 @@
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_tick" />
 
+    <!--  Activity Name row -->
+    <ImageView
+        android:id="@+id/icon_activity"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/image_ActivityImage"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_ActivityName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/image_ActivityImage"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_activity"
+        android:hint="Activty Name. Eg: Hiking, Walking"
+        android:textSize="16sp" />
+
+
+    <!--  Activity Name row -->
+    <ImageView
+        android:id="@+id/icon_people"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_activity"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_numOfPeople"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_ActivityName"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_people"
+        android:hint="Number of people"
+        android:textSize="16sp" />
+
+
+    <!--  Pets row -->
+    <ImageView
+        android:id="@+id/icon_pets"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_people"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/editText_pets"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_numOfPeople"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_pets"
+        android:hint="Number of pets"
+        android:textSize="16sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/editText_pets"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/divider" />
+
+
+    <!--  Reminder row -->
+    <ImageView
+        android:id="@+id/icon_reminder"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/icon_pets"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher" />
+
+    <Spinner
+        android:id="@+id/editText_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/editText_pets"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@id/icon_reminder"
+        android:hint="30 mins"
+        android:textSize="16sp" />
+
+
+    <!-- Start Activity Button -->
+    <Button
+        android:id="@+id/button_startActivity"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorActionDark"
+        android:text="Start Activity"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
