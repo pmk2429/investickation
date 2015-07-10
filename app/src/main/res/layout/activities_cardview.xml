@@ -18,7 +18,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/person_photo"
+                android:id="@+id/mapview_activity"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_gravity="center_horizontal"
@@ -29,7 +29,7 @@
 
 
             <TextView
-                android:id="@+id/activityname"
+                android:id="@+id/textView_activityName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"
@@ -37,7 +37,7 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
                 android:paddingTop="16dp"
-                android:text="Hiking @ Golden Gate Public Park"
+                android:text="@string/text_activityName"
                 android:textColor="@color/colorWhite"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -46,11 +46,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/person_photo"
+                android:layout_below="@id/mapview_activity"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/person_name"
+                    android:id="@+id/textView_totalDistance"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="0.4"
@@ -58,38 +58,38 @@
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="6 Miles"
+                    android:text="@string/text_totalDistance"
                     android:textColor="@color/colorWhite"
                     android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/person_age"
+                    android:id="@+id/textView_numOfObservations"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:layout_toRightOf="@+id/person_name"
+                    android:layout_toRightOf="@+id/textView_totalDistance"
                     android:layout_weight="0.6"
                     android:background="@color/colorActionDark"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="5 Observations"
+                    android:text="@string/text_totalObservations"
                     android:textColor="@color/colorWhite"
                     android:textSize="16dp"
                     android:typeface="sans" />
 
                 <TextView
-                    android:id="@+id/person_distance"
+                    android:id="@+id/textView_totalPeople"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/person_photo"
-                    android:layout_toRightOf="@+id/person_age"
+                    android:layout_below="@id/mapview_activity"
+                    android:layout_toRightOf="@+id/textView_numOfObservations"
                     android:layout_weight="0.4"
                     android:background="@color/colorActionDark"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
-                    android:text="8 people"
+                    android:text="@string/text_totalPeople"
                     android:textColor="@color/colorWhite"
                     android:textSize="16dp" />
             </LinearLayout>

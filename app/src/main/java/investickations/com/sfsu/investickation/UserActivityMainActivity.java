@@ -6,14 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class UserActivityMainActivity extends ActionBarActivity {
+public class UserActivityMainActivity extends BaseActivity {
 
     private static String ACTIVITY_RESOURCE = "activities";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_user_activity_main);
+        setContentView(R.layout.activity_user_main);
     }
 
     @Override

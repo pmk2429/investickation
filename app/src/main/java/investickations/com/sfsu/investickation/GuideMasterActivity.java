@@ -6,14 +6,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class GuideMasterActivity extends ActionBarActivity {
+public class GuideMasterActivity extends BaseActivity {
 
     private static String TICK_RESOURCE = "ticks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setContentView(R.layout.activity_guidmaster);
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_guide_master);
     }
 
     @Override

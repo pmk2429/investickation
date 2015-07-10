@@ -25,10 +25,11 @@
             android:layout_below="@id/toolbar"
             android:layout_weight="1">
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Welcome to Main Activity" />
+                android:text="Hello to Guide Activity" />
 
         </FrameLayout>
     </RelativeLayout>

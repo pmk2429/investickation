@@ -5,14 +5,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class ObservationMainActivity extends ActionBarActivity {
+public class ObservationMainActivity extends BaseActivity {
 
     private static String OBSERVATION_RESOURCE = "observations";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_observation_main);
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_observation_main);
     }
 
     @Override

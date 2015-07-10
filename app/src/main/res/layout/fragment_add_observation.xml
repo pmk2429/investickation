@@ -51,7 +51,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_tick"
-        android:hint="Tick Name"
+        android:hint="@string/text_tickName"
         android:paddingBottom="16sp"
         android:paddingTop="16dp"
         android:textSize="16dp" />
@@ -77,7 +77,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_species"
-        android:hint="Species"
+        android:hint="@string/text_speciesName"
         android:paddingBottom="16sp"
         android:paddingTop="16dp"
         android:textSize="16dp" />
