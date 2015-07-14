@@ -17,9 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- container for all the fragments -->
+        <!-- container for all the fragments that belong to GuideMaster Activity-->
         <FrameLayout
-            android:id="@+id/mainActivityContainer"
+            android:id="@+id/guide_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"

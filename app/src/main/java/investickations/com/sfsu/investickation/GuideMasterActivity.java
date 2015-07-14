@@ -2,11 +2,15 @@ package investickations.com.sfsu.investickation;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import investickations.com.sfsu.investickation.fragments.GuideDetail;
+import investickations.com.sfsu.investickation.fragments.GuideIndex;
 
-public class GuideMasterActivity extends BaseActivity {
+
+public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGuideIndexListener {
 
     private static String TICK_RESOURCE = "ticks";
 
@@ -15,6 +19,27 @@ public class GuideMasterActivity extends BaseActivity {
 
         setContentView(R.layout.activity_guidmaster);
         super.onCreate(savedInstanceState);
+
+        // if Fragment container is present,
+        if (findViewById(R.id.guide_fragment_container) != null) {
+
+
+            // if we are being restored from previous state, then just RETURN or else we could have
+            // over lapping fragments
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            GuideIndex guideIndexFragment = new GuideIndex();
+
+            // if activity was started with special instructions from an Intent, then pass Intent's extras
+            // to fragments as arguments
+            guideIndexFragment.setArguments(getIntent().getExtras());
+
+            // add the Fragment to 'guide_fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction().add(R.id.guide_fragment_container, guideIndexFragment).commit();
+
+        }
     }
 
     @Override
@@ -35,7 +60,16 @@ public class GuideMasterActivity extends BaseActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    // callback interface to listen to onClick event in GuideIndex Fragment
+    @Override
+    public void onItemClick() {
+        GuideDetail guideDetailFragment = new GuideDetail();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

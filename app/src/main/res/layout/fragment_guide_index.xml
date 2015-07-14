@@ -2,15 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
-    <!-- Recycler View to display the list of Ticks section -->
+    <!-- Recycler View to display the list of Ticks section
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_tickGuide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorWhite"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical" />-->
+
+
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Me" />
 
 </LinearLayout>

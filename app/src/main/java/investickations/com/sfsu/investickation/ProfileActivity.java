@@ -6,20 +6,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class UserActivityMainActivity extends BaseActivity {
-
-    private static String ACTIVITY_RESOURCE = "activities";
+public class ProfileActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_main);
+        //setContentView(R.layout.activity_personal_info);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_activity_main, menu);
+        getMenuInflater().inflate(R.menu.menu_personal_info, menu);
         return true;
     }
 

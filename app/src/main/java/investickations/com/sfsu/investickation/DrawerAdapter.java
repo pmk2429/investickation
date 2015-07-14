@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import investickations.com.sfsu.entities.AppConfig;
 
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
@@ -122,7 +120,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 break;
 
             case NAVDRAWER_ITEM_ACTIVITIES:
-                intent = new Intent(context, UserActivityMainActivity.class);
+                intent = new Intent(context, UserActMainActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;
@@ -140,7 +138,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 break;
 
             case NAVDRAWER_ITEM_SETTINGS:
-                intent = new Intent(context, PersonalInfoActivity.class);
+                intent = new Intent(context, ProfileActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;
