@@ -19,17 +19,18 @@
 
         <!-- container for all the fragments -->
         <FrameLayout
-            android:id="@+id/mainActivityContainer"
+            android:id="@+id/observation_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:layout_weight="1">
 
 
-            <TextView
+            <Button
+                android:id="@+id/btn_observation_add"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Welcome to Observations" />
+                android:text="Add new Observations" />
 
         </FrameLayout>
     </RelativeLayout>

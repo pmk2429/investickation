@@ -1,0 +1,61 @@
+features to include in InvestICKations
+
+UI 
+=============================
+Material Design
+Action Bar - with Tabs
+ViewPager
+Recycler View - View Pager
+
+
+
+Maps
+=============================
+Navigation Drawer - (http://www.google.com/design/spec/patterns/navigation-drawer.html#)
+Google Maps
+ItemizedOverlay
+Custom Pins
+Location API
+Counter - for GPS coordinates
+Binary_base64 image conversion for REST calls
+
+
+Images
+=============================
+Picasso library
+LRU Cache mechanism for faster loading of photos/bitmaps
+
+
+REST/Async
+=============================
+Secure endpoints
+JSON Parser
+
+
+RecyclerView
+=============================
+ViewHolder Design pattern
+
+
+Design patters
+=============================
+Factory
+Builder
+Singleton
+Flyweight
+Observer Pattern
+Prototype pattern
+Facade - if needed
+Iterator pattern
+MVC pattern
+Data Access Object Pattern
+Transfer Object Pattern
+
+
+Searching
+=============================
+using Child Thread
+
+Testing
+=============================
+http://www.vogella.com/tutorials/AndroidTesting/article.html#androidtesting

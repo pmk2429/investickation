@@ -1,20 +1,49 @@
 package investickations.com.sfsu.investickation;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import investickations.com.sfsu.investickation.fragments.ActivityList;
+import investickations.com.sfsu.investickation.fragments.ActivityNew;
+import investickations.com.sfsu.investickation.fragments.AddObservation;
 
 
-public class UserActMainActivity extends BaseActivity {
+public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityInteractionListener, View.OnClickListener {
 
     private static String ACTIVITY_RESOURCE = "activities";
 
+    private Button btnAddActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
-        
+        super.onCreate(savedInstanceState);
+
+        btnAddActivity = (Button) findViewById(R.id.btn_activity_add);
+        btnAddActivity.setOnClickListener(this);
+
+        // if Fragment container is present
+        if (findViewById(R.id.activity_fragment_container) != null) {
+
+            // if we are restored from the previous state, just return
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // else show the ActivityList Fragment in the 'activity_fragment_container'
+            ActivityList activityListFragment = new ActivityList();
+
+            // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
+            activityListFragment.setArguments(getIntent().getExtras());
+
+            // add Fragment to 'activity_fragment_container'
+            getSupportFragmentManager().beginTransaction().add(R.id.activity_fragment_container, activityListFragment).commit();
+        }
     }
 
     @Override
@@ -35,7 +64,26 @@ public class UserActMainActivity extends BaseActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * method to listen to the onClick of the Item in Activity List Interface
+     */
+    @Override
+    public void onFragmentInteraction() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == btnAddActivity) {
+            // if user clicked the Add Button, replace with AddObservation Fragment
+            ActivityNew addActivityFragment = new ActivityNew();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.activity_fragment_container, addActivityFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 }

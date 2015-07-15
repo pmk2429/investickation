@@ -38,6 +38,7 @@
     <string name="button_startActivity">Start Activity</string>
     <string name="button_register">Register</string>
     <string name="button_postObservation">Post Observation</string>
+    <string name="title_activity_home">HomeActivity</string>
 
 
 </resources>

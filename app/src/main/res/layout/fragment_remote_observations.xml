@@ -4,13 +4,19 @@
     android:layout_height="match_parent"
     tools:context="investickations.com.sfsu.investickation.fragments.RemoteObservations">
 
-    <android.support.v7.widget.RecyclerView
+    <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_observations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#FFFFFF"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical" /> -->
+
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click Me" />
 
 
 </LinearLayout>

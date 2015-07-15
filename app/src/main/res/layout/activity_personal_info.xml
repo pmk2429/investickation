@@ -17,19 +17,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- container for all the fragments -->
+        <!-- container for all the fragments that belong to GuideMaster Activity-->
         <FrameLayout
-            android:id="@+id/activity_fragment_container"
+            android:id="@+id/profile_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:layout_weight="1">
 
-            <Button
-                android:id="@+id/btn_activity_add"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add new Activity" />
+                android:text="Hello to Guide Activity" />
 
         </FrameLayout>
     </RelativeLayout>

@@ -19,6 +19,11 @@ import investickations.com.sfsu.investickation.R;
 /**
  * A simple {@link Fragment} subclass.
  */
+
+
+// TODO: Change the name of Interface to something more relevant and appropriate.
+// TODO: Change the name of method to make it appropriate to Item click listener
+
 public class GuideIndex extends Fragment implements View.OnClickListener {
 
     IGuideIndexListener mInterface;

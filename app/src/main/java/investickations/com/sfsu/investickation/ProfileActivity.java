@@ -5,13 +5,36 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import investickations.com.sfsu.investickation.fragments.GuideIndex;
+import investickations.com.sfsu.investickation.fragments.Profile;
 
-public class ProfileActivity extends ActionBarActivity {
+
+public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_personal_info);
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_personal_info);
+
+        // if Fragment container is present,
+        if (findViewById(R.id.profile_fragment_container) != null) {
+
+
+            // if we are being restored from previous state, then just RETURN or else we could have
+            // over lapping fragments
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            Profile profileFragment = new Profile();
+
+            // if activity was started with special instructions from an Intent, then pass Intent's extras
+            // to fragments as arguments
+            profileFragment.setArguments(getIntent().getExtras());
+
+            // add the Fragment to 'guide_fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, profileFragment).commit();
+        }
     }
 
     @Override
