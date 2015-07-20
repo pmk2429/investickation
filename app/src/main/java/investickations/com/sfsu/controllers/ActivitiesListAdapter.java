@@ -1,15 +1,16 @@
 package investickations.com.sfsu.controllers;
 
-import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
-import investickations.com.sfsu.entities.Activity;
+import investickations.com.sfsu.entities.Activities;
+import investickations.com.sfsu.investickation.R;
 
 /**
  * <p>
@@ -23,22 +24,33 @@ import investickations.com.sfsu.entities.Activity;
  */
 public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAdapter.ActivityViewHolder> {
 
-    public static class ActivityViewHolder extends RecyclerView.ViewHolder {
+    List<Activities> activityList;
 
-        public ActivityViewHolder(View itemView) {
-            super(itemView);
-        }
+    public ActivitiesListAdapter(List<Activities> activityList) {
+        this.activityList = activityList;
     }
 
-
     @Override
-    public ActivitiesListAdapter.ActivityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    // creates a ViewHolder
+    @Override
+    public ActivitiesListAdapter.ActivityViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_activities, null);
+        ActivityViewHolder activityViewHolder = new ActivityViewHolder(v);
+        return activityViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ActivitiesListAdapter.ActivityViewHolder holder, int position) {
-
+        if (holder != null) {
+            holder.txtViewActivityName.setText("Hiking @ Golden Gate Presidio");
+            holder.txtViewDistance.setText("5.5 miles");
+            holder.txtViewObservations.setText("6 Observations");
+            holder.txtViewPeople.setText("2 people");
+        }
     }
 
     @Override
@@ -46,9 +58,29 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
         return i;
     }
 
+    // returns the size of item data MUST return the size of the Data
     @Override
     public int getItemCount() {
-        return 0;
+        return activityList.size();
+    }
+
+    public static class ActivityViewHolder extends RecyclerView.ViewHolder {
+
+        CardView cv;
+        private TextView txtViewActivityName;
+        private TextView txtViewDistance;
+        private TextView txtViewObservations;
+        private TextView txtViewPeople;
+
+        public ActivityViewHolder(View itemView) {
+
+            super(itemView);
+            cv = (CardView) itemView.findViewById(R.id.cardview_activity);
+            txtViewActivityName = (TextView) itemView.findViewById(R.id.textView_activityName);
+            txtViewDistance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
+            txtViewObservations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);
+            txtViewPeople = (TextView) itemView.findViewById(R.id.textView_totalPeople);
+        }
     }
 
 }

@@ -1,15 +1,17 @@
 package investickations.com.sfsu.investickation.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
+
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.investickation.R;
@@ -41,13 +43,17 @@ public class Register extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
 
         }
+        ButterKnife.inject(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
+        ButterKnife.inject(getActivity());
         if (btnRegister != null) {
             btnRegister.setOnClickListener(this);
         } else {

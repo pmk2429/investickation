@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * <tt>Activity</tt> refers to the state of the user where the User is performing
@@ -18,17 +21,24 @@ import org.json.JSONObject;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Activity implements Parcelable, Entity {
+public class Activities implements Parcelable, Entity {
 
     private int activity_id;
     private String activityName, imageUrl, location_area;
     private int num_people, num_pets, num_ticks;
     private long timestamp, created_at, update_at;
 
-    public Activity() {
+    public Activities() {
     }
 
-    public Activity(int activity_id, String name, String imageUrl, String location_area, int num_people, int num_pets, int num_ticks, long timestamp, long created_at, long update_at) {
+    public Activities(String name, int num_people, int num_pets, int num_ticks) {
+        this.activityName = name;
+        this.num_people = num_people;
+        this.num_pets = num_pets;
+        this.num_ticks = num_ticks;
+    }
+
+    public Activities(int activity_id, String name, String imageUrl, String location_area, int num_people, int num_pets, int num_ticks, long timestamp, long created_at, long update_at) {
         this.activity_id = activity_id;
         this.activityName = name;
         this.imageUrl = imageUrl;
@@ -44,11 +54,10 @@ public class Activity implements Parcelable, Entity {
 
     @Override
     public Entity createEntityFactory(JSONObject jsonObject) {
-        Activity activity = new Activity();
+        Activities activity = new Activities();
 
         return activity;
     }
-
 
 
     public int getActivity_id() {
@@ -143,5 +152,13 @@ public class Activity implements Parcelable, Entity {
     @Override
     public String getJSONResourceIdentifier() {
         return "activities";
+    }
+
+    public static List<Activities> initializeData() {
+        List<Activities> activities = new ArrayList<>();
+        activities.add(new Activities("Golden Gate Park", 5, 1, 8));
+        activities.add(new Activities("SF Presidio", 0, 0, 4));
+        activities.add(new Activities("Yosemite", 8, 0, 11));
+        return activities;
     }
 }

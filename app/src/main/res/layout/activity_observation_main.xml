@@ -24,15 +24,15 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:layout_weight="1">
-
-
-            <Button
-                android:id="@+id/btn_observation_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Add new Observations" />
-
+            
         </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_observation_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add new Observations" />
+
     </RelativeLayout>
 
     <!-- Navigation Drawer: Drawer section use to inflate the List in the  -->

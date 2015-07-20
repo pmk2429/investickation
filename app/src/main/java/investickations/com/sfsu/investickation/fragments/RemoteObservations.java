@@ -4,6 +4,7 @@ package investickations.com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,13 @@ import investickations.com.sfsu.investickation.R;
  */
 
 // TODO: channge the name of interface and method
-    public class RemoteObservations extends Fragment implements View.OnClickListener {
+public class RemoteObservations extends Fragment implements View.OnClickListener {
 
-        private IObservationsInteractionListener mInterface;
+    private IObservationsInteractionListener mInterface;
 
-        public RemoteObservations() {
-            // Required empty public constructor
-        }
+    public RemoteObservations() {
+        // Required empty public constructor
+    }
 
 
     @Override
@@ -32,13 +33,8 @@ import investickations.com.sfsu.investickation.R;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
-        Button btnTest = (Button) v.findViewById(R.id.btnTest);
 
-        if (btnTest != null) {
-            btnTest.setOnClickListener(this);
-        } else {
-            Log.d(AppConfig.LOGSTRING, "Button not found");
-        }
+
         return v;
     }
 

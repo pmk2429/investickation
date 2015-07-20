@@ -26,9 +26,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     protected static final int NAVDRAWER_ITEM_MAIN = 1;
     protected static final int NAVDRAWER_ITEM_ACTIVITIES = 2;
     protected static final int NAVDRAWER_ITEM_OBSERVATIONS = 3;
-    protected static final int NAVDRAWER_ITEM_SETTINGS = 4;
-    protected static final int NAVDRAWER_ITEM_GUIDE = 5;
-    protected static final int NAVDRAWER_ITEM_SIGN_IN = 6;
+    protected static final int NAVDRAWER_ITEM_GUIDE = 4;
+    protected static final int NAVDRAWER_ITEM_SETTINGS = 5;
+    //protected static final int NAVDRAWER_ITEM_SIGN_IN = 6;
+    protected static final int NAVDRAWER_ITEM_REGISTER = 6;
 
     public DrawerAdapter(List<String> rows, Context passedContext) {
         this.rows = rows;
@@ -139,6 +140,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
             case NAVDRAWER_ITEM_SETTINGS:
                 intent = new Intent(context, ProfileActivity.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+                break;
+
+            case NAVDRAWER_ITEM_REGISTER:
+                intent = new Intent(context, HomeActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;

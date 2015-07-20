@@ -1,16 +1,17 @@
 package investickations.com.sfsu.controllers;
 
-import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
 import investickations.com.sfsu.entities.Observation;
-import investickations.com.sfsu.investickation.ObservationMainActivity;
+import investickations.com.sfsu.investickation.R;
 
 /**
  * <p>
@@ -24,27 +25,57 @@ import investickations.com.sfsu.investickation.ObservationMainActivity;
  */
 public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsListAdapter.ObservationViewHolder> {
 
+    List<Observation> observationList;
 
-    public static class ObservationViewHolder extends RecyclerView.ViewHolder {
-
-
-        public ObservationViewHolder(View itemView) {
-            super(itemView);
-        }
+    public ObservationsListAdapter(List<Observation> observationList) {
+        this.observationList = observationList;
     }
 
+
     @Override
-    public ObservationsListAdapter.ObservationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public ObservationsListAdapter.ObservationViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_observation, null);
+        ObservationViewHolder activityViewHolder = new ObservationViewHolder(v);
+        return activityViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
+        if (holder != null) {
+//            holder.imageView_tickImage.setImageResource();
+//            holder.imageView_imageStatus.setImageResource();
+            holder.txtView_observationName.setText("American Dog Tick");
+            holder.txtView_location.setText("Presidio of San Francisco");
+            holder.txtView_timestamp.setText("1 Hr");
+        }
+    }
 
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return observationList.size();
     }
+
+    public static class ObservationViewHolder extends RecyclerView.ViewHolder {
+
+        CardView cv;
+        ImageView imageView_tickImage, imageView_imageStatus;
+        TextView txtView_observationName, txtView_location, txtView_timestamp;
+
+        public ObservationViewHolder(View itemView) {
+            super(itemView);
+
+            cv = (CardView) itemView.findViewById(R.id.cardview_observation);
+            imageView_tickImage = (ImageView) itemView.findViewById(R.id.image_tick_small);
+            imageView_imageStatus = (ImageView) itemView.findViewById(R.id.image_status);
+            txtView_observationName = (TextView) itemView.findViewById(R.id.textView_observationName);
+            txtView_location = (TextView) itemView.findViewById(R.id.textView_location);
+            txtView_timestamp = (TextView) itemView.findViewById(R.id.textView_timestamp);
+        }
+    }
+
 }

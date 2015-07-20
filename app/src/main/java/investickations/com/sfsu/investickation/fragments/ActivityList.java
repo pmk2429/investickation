@@ -1,17 +1,26 @@
 package investickations.com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.List;
+
+import investickations.com.sfsu.controllers.ActivitiesListAdapter;
+import investickations.com.sfsu.entities.Activities;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.investickation.R;
+import investickations.com.sfsu.investickation.UserActMainActivity;
+
 
 // TODO: Change the name of Interface to something more relevant and appropriate.
 // TODO: Change the name of method to make it appropriate to Item click listener
@@ -19,6 +28,9 @@ import investickations.com.sfsu.investickation.R;
 public class ActivityList extends Fragment implements View.OnClickListener {
 
     private IActivityInteractionListener mInterface;
+    private Context context;
+
+    private List<Activities> activities;
 
     public ActivityList() {
         // Required empty public constructor
@@ -34,27 +46,30 @@ public class ActivityList extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_activity_list, container, false);
-        Button btnTest = (Button) v.findViewById(R.id.btnTest);
 
-        if (btnTest != null) {
-            btnTest.setOnClickListener(this);
+        RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerview_activity_list);
+        rv.setHasFixedSize(true);
+
+        if (context != null) {
+            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+            rv.setLayoutManager(llm);
         } else {
-            Log.d(AppConfig.LOGSTRING, "Button not found");
+            Log.d(AppConfig.LOGSTRING, " adapter not workin");
         }
+        activities = Activities.initializeData();
+
+        ActivitiesListAdapter adapter = new ActivitiesListAdapter(activities);
+        rv.setAdapter(adapter);
         return v;
     }
 
-    public void onButtonPressed() {
-        if (mInterface != null) {
-            mInterface.onFragmentInteraction();
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             mInterface = (IActivityInteractionListener) activity;
+            context = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IActivityInteractionListener interface");

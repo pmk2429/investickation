@@ -8,7 +8,7 @@ import org.json.JSONObject;
 /**
  * <p>
  * <tt>Location </tt> contains the latitude and longitude of the user whenever the user
- * is on the ongoing {@link Activity}. By making use of Location, we can develop a trajectory
+ * is on the ongoing {@link Activities}. By making use of Location, we can develop a trajectory
  * of each activity and the possible existence of the ticks in the proximity of activity.
  * This way {@link Location} helps to detect the presence of ticks and {@link User}'s path.
  * </p>

@@ -6,13 +6,33 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import investickations.com.sfsu.investickation.R;
+import investickations.com.sfsu.investickation.fragments.Register;
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        super.onCreate(savedInstanceState);
+
+
+        // if Fragment container is present
+        if (findViewById(R.id.activity_fragment_container) != null) {
+
+            // if we are restored from the previous state, just return
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // else show the ActivityList Fragment in the 'activity_fragment_container'
+            Register registerFragment = new Register();
+
+            // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
+            registerFragment.setArguments(getIntent().getExtras());
+
+            // add Fragment to 'activity_fragment_container'
+            getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, registerFragment).commit();
+        }
     }
 
     @Override

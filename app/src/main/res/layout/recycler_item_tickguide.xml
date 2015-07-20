@@ -5,7 +5,7 @@
     android:baselineAligned="false">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv_activities"
+        android:id="@+id/cardview_ticks"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="16dp"
@@ -27,7 +27,7 @@
 
 
             <TextView
-                android:id="@+id/textView_activityName"
+                android:id="@+id/textView_tickName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"
@@ -42,7 +42,7 @@
 
 
             <TextView
-                android:id="@+id/textView_clickDetails"
+                android:id="@+id/textView_tickDetail"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_alignParentBottom="true"

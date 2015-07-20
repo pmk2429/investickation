@@ -16,11 +16,12 @@
     <!-- Navigation Drawer String array -->
     <string-array name="navdrawer">
         <item>Home</item>
-        <item>Start Activity</item>
-        <item>Observations</item>
         <item>Activities</item>
+        <item>Observations</item>
         <item>Guide</item>
         <item>Settings</item>
+        <item>Register</item>
+
     </string-array>
 
     <!--TODO: List of all the String resources -->

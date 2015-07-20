@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     tools:context="investickations.com.sfsu.investickation.fragments.ActivityList">
 
-    <Button
-        android:id="@+id/btnTest"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_activity_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Click me" />
-
+        android:layout_gravity="start"
+        android:background="@color/colorWhite"
+        android:scrollbars="vertical" />
 </FrameLayout>

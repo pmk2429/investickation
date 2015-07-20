@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import investickations.com.sfsu.investickation.fragments.ActivityList;
 import investickations.com.sfsu.investickation.fragments.ActivityNew;
@@ -17,15 +18,15 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
 
     private static String ACTIVITY_RESOURCE = "activities";
 
-    private Button btnAddActivity;
+    private ImageButton btnAddActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_user_main);
         super.onCreate(savedInstanceState);
 
-        btnAddActivity = (Button) findViewById(R.id.btn_activity_add);
-        btnAddActivity.setOnClickListener(this);
+        //btnAddActivity = (ImageButton) findViewById(R.id.btn_activity_add);
+//        btnAddActivity.setOnClickListener(this);
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {
@@ -39,7 +40,7 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
             ActivityList activityListFragment = new ActivityList();
 
             // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-            activityListFragment.setArguments(getIntent().getExtras());
+            //activityListFragment.setArguments(getIntent().getExtras());
 
             // add Fragment to 'activity_fragment_container'
             getSupportFragmentManager().beginTransaction().add(R.id.activity_fragment_container, activityListFragment).commit();

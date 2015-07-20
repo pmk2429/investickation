@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * <tt>Tick </tt> provides a default behavior of the Tick entity. The Tick class contains
@@ -25,6 +28,11 @@ public class Tick implements Parcelable, Entity {
     private long created_at, updated_at;
 
     public Tick() {
+    }
+
+    public Tick(String tickName, String descripition) {
+        this.tickName = tickName;
+        this.descripition = descripition;
     }
 
     public Tick(int tick_id, String name, String species, String color, String known_for, String descripition, String imageUrl) {
@@ -128,4 +136,13 @@ public class Tick implements Parcelable, Entity {
     public String getJSONResourceIdentifier() {
         return "ticks";
     }
+
+    public static List<Tick> initializeData() {
+        List<Tick> ticks = new ArrayList<>();
+        ticks.add(new Tick("American Dog tick", "Found on Dogs"));
+        ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
+        ticks.add(new Tick("Jungle tick", "Dangerous species"));
+        return ticks;
+    }
+
 }

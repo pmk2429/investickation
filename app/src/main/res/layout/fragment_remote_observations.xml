@@ -1,22 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="investickations.com.sfsu.investickation.fragments.RemoteObservations">
+    android:baselineAligned="false"
+    android:orientation="vertical">
 
-    <!--<android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_observations"
+    <!-- Recycler View to display the list of Ticks section -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_remote_observations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
-        android:scrollbars="vertical" /> -->
-
-    <Button
-        android:id="@+id/btnTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click Me" />
-
+        android:background="@color/colorWhite"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
