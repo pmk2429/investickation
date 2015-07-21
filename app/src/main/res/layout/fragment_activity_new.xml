@@ -116,7 +116,7 @@
         android:src="@mipmap/ic_launcher" />
 
     <Spinner
-        android:id="@+id/editText_reminder"
+        android:id="@+id/spinner_reminder"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_pets"

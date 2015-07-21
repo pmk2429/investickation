@@ -9,6 +9,7 @@
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_X_large">24dp</dimen>
+    <dimen name="padding_X2_large">30dp</dimen>
     <dimen name="padding_XX_large">48dp</dimen>
     <dimen name="padding_XXX_large">96dp</dimen>
     <dimen name="widget_height">48dp</dimen>

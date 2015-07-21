@@ -74,7 +74,7 @@
 
     <!-- Register Button -->
     <Button
-        android:id="@+id/button_signup"
+        android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_height"
         android:layout_alignBottom="@id/imageView_login_background"

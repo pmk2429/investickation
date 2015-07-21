@@ -1,10 +1,12 @@
 package investickations.com.sfsu.investickation;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import investickations.com.sfsu.investickation.fragments.Login;
+import investickations.com.sfsu.investickation.fragments.Register;
 
 public class HomeActivity extends BaseActivity implements Login.ILoginCallBack {
 
@@ -57,6 +59,13 @@ public class HomeActivity extends BaseActivity implements Login.ILoginCallBack {
 
     @Override
     public void onFragmentInteraction() {
-        
+
+        // if user clicked the Add Button, replace with AddObservation Fragment
+        Register registerFragment = new Register();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.home_fragment_container, registerFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 }
