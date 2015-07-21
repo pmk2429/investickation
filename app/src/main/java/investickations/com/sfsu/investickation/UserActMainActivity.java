@@ -14,7 +14,7 @@ import investickations.com.sfsu.investickation.fragments.ActivityNew;
 import investickations.com.sfsu.investickation.fragments.AddObservation;
 
 
-public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityInteractionListener, View.OnClickListener {
+public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, View.OnClickListener {
 
     private static String ACTIVITY_RESOURCE = "activities";
 

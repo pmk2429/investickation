@@ -1,7 +1,6 @@
 package investickations.com.sfsu.investickation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -17,12 +16,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.MapView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -42,7 +38,6 @@ public class BaseActivity extends ActionBarActivity {
     RecyclerView drawer_recyclerView;
 
     //Context context;
-
 
 
     @Override
@@ -144,6 +139,11 @@ class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
 
     @Override
     public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean b) {
+
     }
 
     public interface OnItemClickListener {

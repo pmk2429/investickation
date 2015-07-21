@@ -2,18 +2,15 @@ package investickations.com.sfsu.investickation;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import investickations.com.sfsu.investickation.fragments.AddObservation;
-import investickations.com.sfsu.investickation.fragments.GuideIndex;
 import investickations.com.sfsu.investickation.fragments.ObservationDetail;
 import investickations.com.sfsu.investickation.fragments.RemoteObservations;
 
-public class ObservationMainActivity extends BaseActivity implements RemoteObservations.IObservationsInteractionListener, View.OnClickListener {
+public class ObservationMainActivity extends BaseActivity implements RemoteObservations.IObservationCallBacks, View.OnClickListener {
 
     private static String OBSERVATION_RESOURCE = "observations";
 
@@ -24,7 +21,6 @@ public class ObservationMainActivity extends BaseActivity implements RemoteObser
 
         // if Fragment container is present,
         if (findViewById(R.id.observation_fragment_container) != null) {
-
 
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments

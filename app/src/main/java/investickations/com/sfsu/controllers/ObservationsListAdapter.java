@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 import investickations.com.sfsu.entities.Observation;
@@ -35,18 +36,22 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     @Override
     public ObservationsListAdapter.ObservationViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_observation, null);
-        ObservationViewHolder activityViewHolder = new ObservationViewHolder(v);
-        return activityViewHolder;
+        ObservationViewHolder mObservationViewHolder = new ObservationViewHolder(v);
+        return mObservationViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
         if (holder != null) {
-//            holder.imageView_tickImage.setImageResource();
-//            holder.imageView_imageStatus.setImageResource();
-            holder.txtView_observationName.setText("American Dog Tick");
-            holder.txtView_location.setText("Presidio of San Francisco");
-            holder.txtView_timestamp.setText("1 Hr");
+            if (observationList != null && observationList.size() > 0) {
+                for (Observation observation : observationList) {
+//                  holder.imageView_tickImage.setImageResource();
+//                  holder.imageView_imageStatus.setImageResource();
+                    holder.txtView_observationName.setText(observation.getTickName());
+                    holder.txtView_location.setText(observation.getLocation());
+                    holder.txtView_timestamp.setText(Long.toString((new Date(observation.getTimestamp()).getTime())));
+                }
+            }
         }
     }
 
@@ -59,6 +64,12 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     public int getItemCount() {
         return observationList.size();
     }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
 
     public static class ObservationViewHolder extends RecyclerView.ViewHolder {
 

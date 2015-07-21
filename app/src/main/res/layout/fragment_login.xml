@@ -1,0 +1,92 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="investickations.com.sfsu.investickation.fragments.Login">
+
+    <ImageView
+        android:id="@+id/imageView_login_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dimen_default" />
+
+
+    <TextView
+        android:id="@+id/txtView_login_header"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/widget_height"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="@dimen/padding_X_large"
+        android:text="Welcome to InvesTICKations"
+        android:textSize="@dimen/font_XXX_large" />
+
+    <TextView
+        android:id="@+id/txtView_login_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_height"
+        android:layout_gravity="top|center"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_XXX_large"
+        android:gravity="center"
+        android:text="Record and make observations for Ticks"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_X_large" />
+
+
+    <!--<com.facebook.login.widget.LoginButton-->
+    <!--android:id="@+id/login_button"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="widget_height"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginBottom="@dimen/padding_X_large"-->
+    <!--android:layout_marginLeft="@dimen/padding_large"-->
+    <!--android:layout_marginRight="@dimen/padding_large"-->
+    <!--android:layout_marginTop="@dimen/padding_X_large" />-->
+
+    <!-- Google plus sign in button-->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_height"
+        android:layout_alignBottom="@id/imageView_login_background"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/padding_XXX_large"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:padding="@dimen/dimen_default" />
+
+    <Button
+        android:id="@+id/btn_sign_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="@string/btn_logout_from_google"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_revoke_access"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_revoke_access"
+        android:visibility="gone" />
+
+
+    <!-- Register Button -->
+    <Button
+        android:id="@+id/button_signup"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_height"
+        android:layout_alignBottom="@id/imageView_login_background"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/padding_X_large"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:background="@color/colorPrimary"
+        android:text="Sign Up"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+</FrameLayout>

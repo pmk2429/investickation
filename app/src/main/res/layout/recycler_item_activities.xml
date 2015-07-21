@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/textView_activityName"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/widget_height"
                 android:layout_alignParentTop="true"
                 android:gravity="top|start"
                 android:paddingBottom="8dp"

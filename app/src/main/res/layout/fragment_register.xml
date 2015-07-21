@@ -41,7 +41,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_user"
@@ -67,7 +68,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_email"
@@ -93,7 +95,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_password"
@@ -120,7 +123,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_phone"
@@ -144,7 +148,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_address"
@@ -171,12 +176,12 @@
     <Button
         android:id="@+id/button_register"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/widget_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
         android:background="@color/colorActionDark"
         android:text="Register"
         android:textColor="@color/colorWhite"

@@ -8,5 +8,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <!-- Both of these are needed -->
+        
     </style>
 </resources>

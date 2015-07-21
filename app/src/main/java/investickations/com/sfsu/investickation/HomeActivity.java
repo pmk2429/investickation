@@ -1,14 +1,12 @@
 package investickations.com.sfsu.investickation;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import investickations.com.sfsu.investickation.R;
-import investickations.com.sfsu.investickation.fragments.Register;
+import investickations.com.sfsu.investickation.fragments.Login;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements Login.ILoginCallBack {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +15,7 @@ public class HomeActivity extends BaseActivity {
 
 
         // if Fragment container is present
-        if (findViewById(R.id.activity_fragment_container) != null) {
+        if (findViewById(R.id.home_fragment_container) != null) {
 
             // if we are restored from the previous state, just return
             if (savedInstanceState != null) {
@@ -25,13 +23,13 @@ public class HomeActivity extends BaseActivity {
             }
 
             // else show the ActivityList Fragment in the 'activity_fragment_container'
-            Register registerFragment = new Register();
+            Login loginFragment = new Login();
 
             // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-            registerFragment.setArguments(getIntent().getExtras());
+            loginFragment.setArguments(getIntent().getExtras());
 
             // add Fragment to 'activity_fragment_container'
-            getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, registerFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, loginFragment).commit();
         }
     }
 
@@ -55,5 +53,10 @@ public class HomeActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction() {
+        
     }
 }

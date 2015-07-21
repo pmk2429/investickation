@@ -2,7 +2,6 @@ package investickations.com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.List;
 
@@ -19,7 +17,6 @@ import investickations.com.sfsu.controllers.ActivitiesListAdapter;
 import investickations.com.sfsu.entities.Activities;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.investickation.R;
-import investickations.com.sfsu.investickation.UserActMainActivity;
 
 
 // TODO: Change the name of Interface to something more relevant and appropriate.
@@ -27,7 +24,7 @@ import investickations.com.sfsu.investickation.UserActMainActivity;
 
 public class ActivityList extends Fragment implements View.OnClickListener {
 
-    private IActivityInteractionListener mInterface;
+    private IActivityCallBacks mInterface;
     private Context context;
 
     private List<Activities> activities;
@@ -54,7 +51,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             rv.setLayoutManager(llm);
         } else {
-            Log.d(AppConfig.LOGSTRING, " adapter not workin");
+            Log.d(AppConfig.LOGSTRING, " No layout manager supplied");
         }
         activities = Activities.initializeData();
 
@@ -68,7 +65,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mInterface = (IActivityInteractionListener) activity;
+            mInterface = (IActivityCallBacks) activity;
             context = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -88,7 +85,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
     }
 
 
-    public interface IActivityInteractionListener {
+    public interface IActivityCallBacks {
         public void onFragmentInteraction();
     }
 

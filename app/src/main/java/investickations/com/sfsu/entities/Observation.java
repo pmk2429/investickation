@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * <tt>Observation</tt> defines individual observations created by the {@link User}.
@@ -20,13 +23,19 @@ import org.json.JSONObject;
  */
 public class Observation implements Parcelable, Entity {
 
+    // dummy vars
+    String tickName, location;
     private long observation_id;
     private int num_ticks;
     private String tickImageUrl;
     private double latitude, longitude;
     private long timestamp, created_at, updated_at;
-
     public Observation() {
+    }
+    public Observation(String tickName, String location, long timestamp) {
+        this.tickName = tickName;
+        this.location = location;
+        this.timestamp = timestamp;
     }
 
     public Observation(int observation_id, int num_ticks, String tickImageUrl, double latitude, double longitude, long timestamp, long created_at, long updated_at) {
@@ -38,6 +47,22 @@ public class Observation implements Parcelable, Entity {
         this.timestamp = timestamp;
         this.created_at = created_at;
         this.updated_at = updated_at;
+    }
+
+    public static List<Observation> initialieData() {
+        List<Observation> observations = new ArrayList<>();
+        observations.add(new Observation("American Dog Tick", "Presidio of San Francisco", System.currentTimeMillis()));
+        observations.add(new Observation("Spotted Red Tick", "Yosemite National Park", System.currentTimeMillis()));
+        observations.add(new Observation("Deer Tick", "Lands End trail", System.currentTimeMillis()));
+        return observations;
+    }
+
+    public String getTickName() {
+        return tickName;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     @Override

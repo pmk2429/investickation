@@ -41,5 +41,10 @@
     <string name="button_postObservation">Post Observation</string>
     <string name="title_activity_home">HomeActivity</string>
 
+    <!-- Google plus login-->
+    <!-- Button text -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
+
 
 </resources>

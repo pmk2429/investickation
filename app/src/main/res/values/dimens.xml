@@ -1,12 +1,24 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="tool_bar_top_padding">24dp</dimen>
 
-    <dimen name="cardView_padding">16dp</dimen>
+    <!-- Default dimension-->
+    <dimen name="dimen_default">0dp</dimen>
 
-    <dimen name="textView_top_padding_full">16dp</dimen>
-    <dimen name="textView_bottom_padding_">0dp</dimen>
 
+    <!-- Default screen dimensions, per the Android Design guidelines. -->
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">12dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_X_large">24dp</dimen>
+    <dimen name="padding_XX_large">48dp</dimen>
+    <dimen name="padding_XXX_large">96dp</dimen>
+    <dimen name="widget_height">48dp</dimen>
+
+
+    <!-- Dimensions for Font size : Application wide-->
+    <dimen name="font_small">16dp</dimen>
+    <dimen name="font_medium">18dp</dimen>
+    <dimen name="font_large">20dp</dimen>
+    <dimen name="font_X_large">22dp</dimen>
+    <dimen name="font_XX_large">24dp</dimen>
+    <dimen name="font_XXX_large">28dp</dimen>
 </resources>

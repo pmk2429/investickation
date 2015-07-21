@@ -10,9 +10,11 @@
     <ImageView
         android:id="@+id/image_usermain"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="160dp"
         android:layout_below="@id/toolbar"
-        android:scaleType="fitCenter"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@mipmap/placeholder_user" />
 
     <!-- Circle button -->
@@ -39,7 +41,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_user"
@@ -65,7 +68,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_email"
@@ -91,7 +95,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_password"
@@ -118,7 +123,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_phone"
@@ -142,7 +148,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        android:padding="8dp" />
 
     <EditText
         android:id="@+id/editText_address"

@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_large">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_observation"
@@ -19,11 +21,11 @@
 
             <ImageView
                 android:id="@+id/image_tick_small"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="@dimen/padding_XX_large"
+                android:layout_height="@dimen/padding_XX_large"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
+                android:layout_marginRight="@dimen/padding_large"
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
@@ -40,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_observationName"
-                android:layout_marginTop="4dp"
                 android:layout_toRightOf="@+id/image_tick_small"
                 android:text="Presidio of San Francisco"
                 android:textSize="14sp" />
@@ -57,11 +58,11 @@
 
             <ImageView
                 android:id="@+id/image_status"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/padding_X_large"
+                android:layout_height="@dimen/padding_X_large"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/textView_timestamp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 android:src="@mipmap/ic_launcher" />
 
 
