@@ -46,5 +46,8 @@
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
 
+    <!-- Call to Action-->
+    <string name="text_change_picture">Change Picture</string>
+
 
 </resources>

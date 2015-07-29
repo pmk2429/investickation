@@ -32,8 +32,8 @@
     <!--  Tick row -->
     <ImageView
         android:id="@+id/icon_tick"
-        android:layout_width="@dimen/widget_height"
-        android:layout_height="@dimen/widget_height"
+        android:layout_width="@dimen/widget_dimen"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/image_tick"
         android:layout_marginLeft="@dimen/padding_large"
@@ -45,7 +45,7 @@
     <EditText
         android:id="@+id/editText_tick"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/image_tick"
         android:layout_marginRight="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
@@ -58,8 +58,8 @@
     <!--  Species row -->
     <ImageView
         android:id="@+id/icon_species"
-        android:layout_width="@dimen/widget_height"
-        android:layout_height="@dimen/widget_height"
+        android:layout_width="@dimen/widget_dimen"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_tick"
         android:layout_marginLeft="@dimen/padding_large"
@@ -71,7 +71,7 @@
     <EditText
         android:id="@+id/editText_species"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/editText_tick"
         android:layout_marginRight="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
@@ -85,8 +85,8 @@
     <!--  Species row -->
     <ImageView
         android:id="@+id/icon_numberOfTicks"
-        android:layout_width="@dimen/widget_height"
-        android:layout_height="@dimen/widget_height"
+        android:layout_width="@dimen/widget_dimen"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_species"
         android:layout_marginLeft="@dimen/padding_large"
@@ -98,7 +98,7 @@
     <EditText
         android:id="@+id/editText_numOfTicks"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/editText_species"
         android:layout_marginRight="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"

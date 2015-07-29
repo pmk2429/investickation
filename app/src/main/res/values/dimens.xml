@@ -3,7 +3,6 @@
     <!-- Default dimension-->
     <dimen name="dimen_default">0dp</dimen>
 
-
     <!-- Default screen dimensions, per the Android Design guidelines. -->
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
@@ -13,8 +12,10 @@
     <dimen name="padding_X3_large">48dp</dimen>
     <dimen name="padding_X4_large">96dp</dimen>
     <dimen name="padding_X5_large">120dp</dimen>
-    <dimen name="widget_height">48dp</dimen>
 
+    <!-- Widget default dimen-->
+    <dimen name="widget_dimen">48dp</dimen>
+    <dimen name="widget_dimen_large">96dp</dimen>
 
     <!-- Dimensions for Font size : Application wide-->
     <dimen name="font_X_small">14dp</dimen>
@@ -24,4 +25,10 @@
     <dimen name="font_X_large">22dp</dimen>
     <dimen name="font_XX_large">24dp</dimen>
     <dimen name="font_XXX_large">28dp</dimen>
+
+    <!-- Dimen for Thumbnail MapView and Images Cardview -->
+    <dimen name="dimen_cardview_default">180dp</dimen>
+    <dimen name="dimen_cardview_large">200dp</dimen>
+    <dimen name="dimen_cardview_X_large">240dp</dimen>
+
 </resources>

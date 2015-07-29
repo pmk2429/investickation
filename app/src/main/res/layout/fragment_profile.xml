@@ -1,89 +1,74 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".PersonalInfoActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".PersonalInfoActivity">
 
 
     <!--  user image -->
     <ImageView
         android:id="@+id/image_usermain"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_width="@dimen/widget_dimen_large"
+        android:layout_height="@dimen/widget_dimen_large"
         android:layout_below="@id/toolbar"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_large"
         android:adjustViewBounds="true"
+        android:background="@color/lightText"
+        android:padding="@dimen/padding_X_large"
         android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_user" />
-
-    <!-- Circle button -->
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignBottom="@id/image_usermain"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="-32dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/circle"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_local_see_black_36dp"/>
 
 
     <!--  User row -->
     <ImageView
         android:id="@+id/icon_user"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/image_usermain"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/widget_dimen"
+        android:layout_height="@dimen/widget_dimen"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_toEndOf="@id/image_usermain"
+        android:layout_toRightOf="@id/image_usermain"
+        android:padding="@dimen/padding_small"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"
-        android:padding="8dp" />
+        android:src="@mipmap/ic_person_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_user"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@id/image_usermain"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_user"
         android:hint="Username"
         android:paddingBottom="16sp"
         android:paddingTop="16dp"
-        android:textSize="16dp" />
+        android:textSize="@dimen/font_small"/>
 
     <!--  Email row -->
     <ImageView
         android:id="@+id/icon_email"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_user"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@id/image_usermain"
+        android:layout_toRightOf="@id/image_usermain"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"
-        android:padding="8dp" />
+        android:src="@mipmap/ic_local_post_office_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_email"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_user"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginRight="@dimen/padding_large"
         android:layout_toRightOf="@id/icon_email"
         android:hint="Email"
-        android:paddingBottom="16sp"
-        android:paddingTop="16dp"
-        android:textSize="16dp" />
+        android:paddingBottom="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_large"
+        android:textSize="@dimen/font_small"/>
 
     <!--  Password row -->
     <ImageView
@@ -94,16 +79,15 @@
         android:layout_below="@id/icon_email"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"
-        android:padding="8dp" />
+        android:src="@mipmap/ic_vpn_key_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_password"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_email"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_password"
@@ -111,7 +95,7 @@
         android:paddingBottom="16dp"
         android:paddingTop="16sp"
         android:password="true"
-        android:textSize="16dp" />
+        android:textSize="16dp"/>
 
     <!--  Phone row -->
     <ImageView
@@ -121,22 +105,19 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_password"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"
-        android:padding="8dp" />
+        android:src="@mipmap/ic_phone_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_phone"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_password"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_phone"
         android:hint="Phone"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
     <!--  User row -->
     <ImageView
@@ -146,22 +127,19 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_phone"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"
-        android:padding="8dp" />
+        android:src="@mipmap/ic_place_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_address"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_phone"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_address"
         android:hint="Address"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
 
     <!-- Save Button -->
@@ -174,8 +152,9 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/darker_gray"
-        android:text="Save" />
+        android:background="@color/colorPrimary"
+        android:text="Save"
+        android:textColor="@color/colorWhite"/>
 
 
 </RelativeLayout>

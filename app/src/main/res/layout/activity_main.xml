@@ -38,7 +38,7 @@
             android:layout_marginBottom="@dimen/padding_large"
             android:layout_marginRight="@dimen/padding_large"
             android:background="@drawable/circle"
-            android:src="@mipmap/ic_add_circle_outline_white_48dp"/>
+            android:src="@mipmap/ic_add_white_36dp"/>
 
     </RelativeLayout>
 

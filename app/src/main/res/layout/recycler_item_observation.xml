@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/padding_large"
-    android:paddingRight="@dimen/padding_large"
-    android:paddingTop="@dimen/padding_large">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/padding_large"
+              android:paddingRight="@dimen/padding_large"
+              android:paddingTop="@dimen/padding_large">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_observation"
@@ -26,7 +26,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="@dimen/padding_large"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"/>
 
             <TextView
                 android:id="@+id/textView_observationName"
@@ -35,7 +35,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/image_tick_small"
                 android:text="American Dog Tick"
-                android:textSize="22sp" />
+                android:textColor="@color/primaryText"
+                android:textSize="22sp"/>
 
             <TextView
                 android:id="@+id/textView_location"
@@ -44,7 +45,7 @@
                 android:layout_below="@+id/textView_observationName"
                 android:layout_toRightOf="@+id/image_tick_small"
                 android:text="Presidio of San Francisco"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/textView_timestamp"
@@ -54,7 +55,7 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="4dp"
                 android:text="1 Hr"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <ImageView
                 android:id="@+id/image_status"
@@ -63,7 +64,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/textView_timestamp"
                 android:layout_marginTop="2dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"/>
 
 
         </RelativeLayout>

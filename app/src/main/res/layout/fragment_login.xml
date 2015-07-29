@@ -14,7 +14,7 @@
     <TextView
         android:id="@+id/txtView_login_header"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="center|top"
         android:layout_marginTop="@dimen/padding_X_large"
         android:text="Welcome to InvesTICKations"
@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/txtView_login_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="top|center"
         android:layout_marginLeft="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
@@ -37,7 +37,7 @@
     <!--<com.facebook.login.widget.LoginButton-->
     <!--android:id="@+id/login_button"-->
     <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="widget_height"-->
+    <!--android:layout_height="widget_dimen"-->
     <!--android:layout_gravity="center_horizontal"-->
     <!--android:layout_marginBottom="@dimen/padding_X_large"-->
     <!--android:layout_marginLeft="@dimen/padding_large"-->
@@ -48,7 +48,7 @@
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_sign_in"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignBottom="@id/imageView_login_background"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/padding_X4_large"
@@ -76,7 +76,7 @@
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignBottom="@id/imageView_login_background"
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:baselineAligned="false">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_ticks"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/dimen_cardview_X_large"
+        android:layout_marginTop="@dimen/padding_large"
         android:layout_weight="1">
 
         <RelativeLayout
@@ -19,41 +19,40 @@
             <ImageView
                 android:id="@+id/image_tickGuideMain"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_tick" />
+                android:src="@mipmap/placeholder_tick"/>
 
 
             <TextView
                 android:id="@+id/textView_tickName"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="@dimen/dimen_default"
                 android:gravity="top|start"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_small"
                 android:text="American Dog Tick"
                 android:textColor="@color/colorWhite"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
 
             <TextView
                 android:id="@+id/textView_tickDetail"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_height"
+                android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="0dp"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_small"
                 android:text="Click to view details->"
                 android:textColor="@color/colorWhite"
-                android:textSize="16dp" />
-
+                android:textSize="@dimen/font_small"/>
 
         </RelativeLayout>
 
