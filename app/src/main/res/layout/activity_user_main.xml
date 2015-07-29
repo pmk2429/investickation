@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawer_layout"
+                                        xmlns:android="http://schemas.android.com/apk/res/android"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical">
 
     <!-- Main content view -->
     <RelativeLayout
@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <!-- container for all the fragments -->
         <FrameLayout
@@ -27,18 +27,18 @@
 
         </FrameLayout>
 
-        <!-- Circle button
+        <!-- Circle button -->
         <ImageButton
-            android:id="@+id/btn_activity_add"
+            android:id="@+id/imageButton_observation_add"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"
             android:background="@drawable/circle"
-            android:src="@mipmap/ic_launcher" /> -->
+            android:src="@mipmap/ic_add_circle_outline_white_48dp"/>
+
     </RelativeLayout>
 
     <!-- Navigation Drawer: Drawer section use to inflate the List in the  -->
@@ -48,7 +48,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/colorWhite"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 
 
 </android.support.v4.widget.DrawerLayout>

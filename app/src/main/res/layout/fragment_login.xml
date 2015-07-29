@@ -27,7 +27,7 @@
         android:layout_gravity="top|center"
         android:layout_marginLeft="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_XXX_large"
+        android:layout_marginTop="@dimen/padding_X4_large"
         android:gravity="center"
         android:text="Record and make observations for Ticks"
         android:textAlignment="center"
@@ -51,7 +51,7 @@
         android:layout_height="@dimen/widget_height"
         android:layout_alignBottom="@id/imageView_login_background"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/padding_XXX_large"
+        android:layout_marginBottom="@dimen/padding_X4_large"
         android:layout_marginLeft="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
         android:padding="@dimen/dimen_default" />

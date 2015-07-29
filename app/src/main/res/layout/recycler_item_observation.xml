@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/image_tick_small"
-                android:layout_width="@dimen/padding_XX_large"
-                android:layout_height="@dimen/padding_XX_large"
+                android:layout_width="@dimen/padding_X3_large"
+                android:layout_height="@dimen/padding_X3_large"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="@dimen/padding_large"

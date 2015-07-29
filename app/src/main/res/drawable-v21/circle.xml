@@ -98,10 +98,7 @@
             </item>
             <item>
                 <shape android:shape="oval">
-
                     <solid android:color="@color/colorPrimary" />
-
-
                 </shape>
             </item>
         </ripple>

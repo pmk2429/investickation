@@ -10,12 +10,14 @@
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_X_large">24dp</dimen>
     <dimen name="padding_X2_large">30dp</dimen>
-    <dimen name="padding_XX_large">48dp</dimen>
-    <dimen name="padding_XXX_large">96dp</dimen>
+    <dimen name="padding_X3_large">48dp</dimen>
+    <dimen name="padding_X4_large">96dp</dimen>
+    <dimen name="padding_X5_large">120dp</dimen>
     <dimen name="widget_height">48dp</dimen>
 
 
     <!-- Dimensions for Font size : Application wide-->
+    <dimen name="font_X_small">14dp</dimen>
     <dimen name="font_small">16dp</dimen>
     <dimen name="font_medium">18dp</dimen>
     <dimen name="font_large">20dp</dimen>

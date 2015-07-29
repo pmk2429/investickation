@@ -1,8 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="investickations.com.sfsu.investickation.fragments.ActivityNew">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                tools:context="investickations.com.sfsu.investickation.fragments.ActivityNew">
 
     <!--  Tick image -->
     <ImageView
@@ -12,94 +13,110 @@
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick" />
+        android:src="@mipmap/placeholder_tick"/>
 
     <!--  Activity Name row -->
     <ImageView
         android:id="@+id/icon_activity"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/widget_height"
+        android:layout_height="@dimen/widget_height"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/image_ActivityImage"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_large"
+        android:padding="@dimen/padding_medium"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"/>
 
     <EditText
         android:id="@+id/editText_ActivityName"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/widget_height"
         android:layout_below="@id/image_ActivityImage"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_large"
         android:layout_toRightOf="@id/icon_activity"
         android:hint="@string/text_activityName"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
-
-    <!--  Num of people row -->
-    <ImageView
-        android:id="@+id/icon_people"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/icon_activity"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
-
-    <EditText
-        android:id="@+id/editText_numOfPeople"
+    <!--Line separator-->
+    <View
+        android:id="@+id/separator_activity_1"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="1dp"
         android:layout_below="@id/editText_ActivityName"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="@dimen/dimen_default"
+        android:layout_marginRight="@dimen/dimen_default"
         android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/icon_people"
-        android:hint="@string/text_totalPeople"
-        android:textSize="16sp" />
+        android:background="@color/divider"/>
 
 
-    <!--  Pets row -->
-    <ImageView
-        android:id="@+id/icon_pets"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/icon_people"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
-
-    <EditText
-        android:id="@+id/editText_pets"
+    <RelativeLayout
+        android:id="@+id/layout_bars"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/editText_numOfPeople"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/icon_pets"
-        android:hint="@string/text_totalPets"
-        android:textSize="16sp" />
+        android:layout_height="84dp"
+        android:layout_below="@id/separator_activity_1">
+
+        <TextView
+            android:id="@+id/textViewStatic_totalPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginTop="@dimen/padding_large"
+            android:text="Total People"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/font_X_small"/>
+
+        <EditText
+            android:id="@+id/editText_numOfPeople"
+            android:layout_width="@dimen/padding_X5_large"
+            android:layout_height="@dimen/widget_height"
+            android:layout_below="@id/textViewStatic_totalPeople"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"
+            android:hint="@string/text_totalPeople"
+            android:paddingTop="@dimen/dimen_default"
+            android:textSize="16sp"/>
+
+        <!--Line separator-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/divider"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/textViewStatic_totalPets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignStart="@id/editText_pets"
+            android:layout_marginTop="@dimen/padding_large"
+            android:text="Total People"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/font_X_small"/>
+
+        <EditText
+            android:id="@+id/editText_pets"
+            android:layout_width="@dimen/padding_X5_large"
+            android:layout_height="@dimen/widget_height"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/textViewStatic_totalPets"
+            android:layout_marginRight="@dimen/padding_large"
+            android:hint="@string/text_totalPets"
+            android:paddingTop="@dimen/dimen_default"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
 
     <!--Line separator-->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/editText_pets"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/divider" />
+        android:layout_below="@id/layout_bars"
+        android:background="@color/divider"/>
 
 
     <!--  Reminder row -->
@@ -107,41 +124,34 @@
         android:id="@+id/icon_reminder"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/icon_pets"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_alignStart="@+id/icon_activity"
+        android:layout_alignTop="@+id/spinner_reminder"
         android:padding="12dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"/>
 
     <Spinner
         android:id="@+id/spinner_reminder"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/editText_pets"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="@dimen/widget_height"
+        android:layout_below="@id/layout_bars"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_large"
         android:layout_toRightOf="@id/icon_reminder"
         android:hint="30 mins"
-        android:textSize="16sp" />
+        android:textSize="16sp"/>
 
 
-    <!-- Start Activity Button -->
-    <Button
-        android:id="@+id/button_startActivity"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+    <!-- Circle button -->
+    <ImageButton
+        android:id="@+id/imageButton_start"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/colorActionDark"
-        android:text="@string/button_startActivity"
-        android:textColor="@color/colorWhite"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:background="@drawable/circle"
+        android:src="@mipmap/ic_play_circle_outline_white_48dp"/>
 
 </RelativeLayout>
