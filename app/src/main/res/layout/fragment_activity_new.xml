@@ -57,29 +57,44 @@
         android:layout_height="84dp"
         android:layout_below="@id/separator_activity_1">
 
+        <ImageView
+            android:id="@+id/icon_people"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_people"/>
+
         <TextView
             android:id="@+id/textViewStatic_totalPeople"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/padding_small"
             android:layout_marginTop="@dimen/padding_large"
+            android:layout_toEndOf="@+id/icon_people"
             android:text="Total People"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
             android:id="@+id/editText_numOfPeople"
-            android:layout_width="@dimen/padding_X5_large"
+            android:layout_width="@dimen/widget_dimen_X1_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPeople"
-            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/padding_small"
             android:layout_marginRight="@dimen/padding_large"
+            android:layout_toEndOf="@+id/icon_people"
             android:hint="@string/text_totalPeople"
             android:paddingTop="@dimen/dimen_default"
             android:textSize="16sp"/>
 
         <!--Line separator-->
         <View
+            android:id="@+id/separator_vertical_observation_1"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
@@ -87,27 +102,41 @@
             android:background="@color/divider"
             android:textAlignment="center"/>
 
+        <!--  Reminder row -->
+        <ImageView
+            android:id="@+id/icon_pets"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@id/separator_vertical_observation_1"
+            android:layout_toRightOf="@+id/separator_vertical_observation_1"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_pet"/>
+
         <TextView
             android:id="@+id/textViewStatic_totalPets"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/padding_X5_large"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignStart="@id/editText_pets"
+            android:layout_marginLeft="@dimen/padding_small"
             android:layout_marginTop="@dimen/padding_large"
-            android:text="Total People"
+            android:layout_toEndOf="@+id/icon_pets"
+            android:text="Total pets"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
             android:id="@+id/editText_pets"
-            android:layout_width="@dimen/padding_X5_large"
+            android:layout_width="@dimen/widget_dimen_X1_large"
             android:layout_height="@dimen/widget_dimen"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/textViewStatic_totalPets"
-            android:layout_marginRight="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:layout_toEndOf="@+id/icon_pets"
             android:hint="@string/text_totalPets"
             android:paddingTop="@dimen/dimen_default"
             android:textSize="16sp"/>
+
 
     </RelativeLayout>
 

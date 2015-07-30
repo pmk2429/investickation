@@ -46,14 +46,8 @@
             android:name=".UserActDetailActivity"
             android:label="@string/title_activity_activity_detail" />
         <activity
-            android:name=".ObservationsActivity"
-            android:label="@string/title_activity_observations" />
-        <activity
             android:name=".ObservationMainActivity"
             android:label="@string/title_activity_observation_main" />
-        <activity
-            android:name=".ObservationDetailActivity"
-            android:label="@string/title_activity_observation_detail" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"></activity>

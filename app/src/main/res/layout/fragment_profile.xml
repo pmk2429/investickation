@@ -9,8 +9,8 @@
     <!--  user image -->
     <ImageView
         android:id="@+id/image_usermain"
-        android:layout_width="@dimen/widget_dimen_large"
-        android:layout_height="@dimen/widget_dimen_large"
+        android:layout_width="@dimen/widget_dimen_X2_large"
+        android:layout_height="@dimen/widget_dimen_X2_large"
         android:layout_below="@id/toolbar"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="@dimen/padding_large"

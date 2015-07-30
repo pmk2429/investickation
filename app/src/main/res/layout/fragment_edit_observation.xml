@@ -1,21 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ObservationMainActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                tools:context=".ObservationMainActivity">
 
 
     <!--  tick image -->
     <ImageView
         android:id="@+id/image_tick"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/dimen_cardview_default"
         android:layout_below="@id/toolbar"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick" />
+        android:src="@mipmap/placeholder_tick"/>
 
     <!-- Circle button -->
     <ImageButton
@@ -28,7 +29,7 @@
         android:layout_marginBottom="-32dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/circle"
-        android:src="@mipmap/ic_launcher" />
+        />
 
     <!--  Tick row -->
     <ImageView
@@ -39,22 +40,22 @@
         android:layout_below="@id/image_tick"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_bug"/>
 
     <EditText
         android:id="@+id/editText_tick"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/image_tick"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_tick"
         android:hint="Tick Name"
         android:paddingBottom="16sp"
         android:paddingTop="16dp"
-        android:textSize="16dp" />
+        android:textSize="16dp"/>
 
     <!--  Species row -->
     <ImageView
@@ -65,22 +66,22 @@
         android:layout_below="@id/icon_tick"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_species"/>
 
     <EditText
         android:id="@+id/editText_species"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_tick"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_species"
         android:hint="Species"
         android:paddingBottom="16sp"
         android:paddingTop="16dp"
-        android:textSize="16dp" />
+        android:textSize="16dp"/>
 
 
     <!--  Species row -->
@@ -92,22 +93,22 @@
         android:layout_below="@id/icon_species"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"/>
 
     <EditText
         android:id="@+id/editText_numOfTicks"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@id/editText_species"
-        android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/icon_numberOfTicks"
         android:hint="Species"
         android:paddingBottom="16sp"
         android:paddingTop="16dp"
-        android:textSize="16dp" />
+        android:textSize="16dp"/>
 
 
     <!-- Edit Observation Button -->
@@ -120,8 +121,9 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/darker_gray"
-        android:text="Update Observation" />
+        android:background="@color/colorPrimary"
+        android:text="Update Observation"
+        android:textColor="@color/colorWhite"/>
 
 
 </RelativeLayout>

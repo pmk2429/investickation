@@ -15,7 +15,8 @@
 
     <!-- Widget default dimen-->
     <dimen name="widget_dimen">48dp</dimen>
-    <dimen name="widget_dimen_large">96dp</dimen>
+    <dimen name="widget_dimen_X1_large">72dp</dimen>
+    <dimen name="widget_dimen_X2_large">96dp</dimen>
 
     <!-- Dimensions for Font size : Application wide-->
     <dimen name="font_X_small">14dp</dimen>

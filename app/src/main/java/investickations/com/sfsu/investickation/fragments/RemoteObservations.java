@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import investickations.com.sfsu.controllers.ObservationsListAdapter;
+import investickations.com.sfsu.adapters.ObservationsListAdapter;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.entities.Observation;
 import investickations.com.sfsu.investickation.R;

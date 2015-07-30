@@ -1,4 +1,4 @@
-package investickations.com.sfsu.controllers;
+package investickations.com.sfsu.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
