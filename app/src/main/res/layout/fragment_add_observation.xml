@@ -37,11 +37,11 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/image_tick"
-        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:padding="@dimen/padding_small"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_bug"/>
+        android:src="@mipmap/ic_bug_gray_36"/>
 
     <EditText
         android:id="@+id/editText_tick"
@@ -63,7 +63,7 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_tick"
-        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:padding="@dimen/padding_small"
         android:scaleType="fitCenter"
@@ -90,11 +90,11 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/icon_species"
-        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:padding="@dimen/padding_small"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_species"/>
+        android:src="@mipmap/ic_species_gray_36"/>
 
     <EditText
         android:id="@+id/editText_numOfTicks"

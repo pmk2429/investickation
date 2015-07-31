@@ -22,11 +22,11 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/image_ActivityImage"
-        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_directions_run_black_36dp"/>
+        android:src="@mipmap/ic_activity_gray_36"/>
 
     <EditText
         android:id="@+id/editText_ActivityName"
@@ -64,10 +64,10 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/padding_small"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_people"/>
+            android:src="@mipmap/ic_group_gray_36"/>
 
         <TextView
             android:id="@+id/textViewStatic_totalPeople"
@@ -113,7 +113,7 @@
             android:layout_toRightOf="@+id/separator_vertical_observation_1"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_pet"/>
+            android:src="@mipmap/ic_pet_gray_36"/>
 
         <TextView
             android:id="@+id/textViewStatic_totalPets"
@@ -157,7 +157,7 @@
         android:layout_alignTop="@+id/spinner_reminder"
         android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_add_alarm_black_36dp"/>
+        android:src="@mipmap/ic_alarm_gray_36"/>
 
     <Spinner
         android:id="@+id/spinner_reminder"

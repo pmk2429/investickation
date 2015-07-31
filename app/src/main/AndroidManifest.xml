@@ -34,7 +34,7 @@
 
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_personal_info" />
         <activity
             android:name=".GuideMasterActivity"
@@ -42,9 +42,6 @@
         <activity
             android:name=".UserActMainActivity"
             android:label="@string/title_activity_user_activity_main" />
-        <activity
-            android:name=".UserActDetailActivity"
-            android:label="@string/title_activity_activity_detail" />
         <activity
             android:name=".ObservationMainActivity"
             android:label="@string/title_activity_observation_main" />

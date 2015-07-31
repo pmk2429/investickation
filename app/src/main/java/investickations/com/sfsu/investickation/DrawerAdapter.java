@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,17 +24,21 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     protected static final int NAVDRAWER_ITEM_OBSERVATIONS = 3;
     protected static final int NAVDRAWER_ITEM_GUIDE = 4;
     protected static final int NAVDRAWER_ITEM_SETTINGS = 5;
+    protected static final int NAVDRAWER_ITEM_REGISTER = 6;
 
     // Header and Row section ID
     private static final int HEADER_TYPE = 0;
     private static final int ROW_TYPE = 1;
     private static Context context;
     private List<String> rows;
+
+    private int ICONS[];
     //protected static final int NAVDRAWER_ITEM_SIGN_IN = 6;
     //protected static final int NAVDRAWER_ITEM_REGISTER = 6;
 
-    public DrawerAdapter(List<String> rows, Context passedContext) {
+    public DrawerAdapter(List<String> rows, int ICONS[], Context passedContext) {
         this.rows = rows;
+        this.ICONS = ICONS;
         context = passedContext;
     }
 
@@ -72,16 +75,16 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 break;
 
             case NAVDRAWER_ITEM_SETTINGS:
-                intent = new Intent(context, ProfileActivity.class);
+                intent = new Intent(context, SettingsActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;
 
-//            case NAVDRAWER_ITEM_REGISTER:
-//                intent = new Intent(context, HomeActivity.class);
-//                context.startActivity(intent);
-//                ((Activity) context).finish();
-//                break;
+            case NAVDRAWER_ITEM_REGISTER:
+                intent = new Intent(context, HomeActivity.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+                break;
         }
     }
 
@@ -102,7 +105,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         if (holder.viewType == ROW_TYPE) {
             String rowText = rows.get(position - 1);
             holder.textView.setText(rowText);
-            holder.imageView.setImageResource(R.mipmap.ic_launcher);
+            holder.imageView.setImageResource(ICONS[position - 1]);
         }
     }
 
@@ -148,7 +151,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "The Item Clicked is: " + getPosition(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, "The Item Clicked is: " + getPosition(), Toast.LENGTH_SHORT).show();
             DrawerAdapter.goToNavDrawerItem(getPosition());
             //DrawerAdapter.demoMethod();
         }

@@ -1,17 +1,14 @@
 package investickations.com.sfsu.investickation;
 
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import investickations.com.sfsu.investickation.fragments.ActivityList;
 import investickations.com.sfsu.investickation.fragments.ActivityNew;
-import investickations.com.sfsu.investickation.fragments.AddObservation;
 
 
 public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, View.OnClickListener {
@@ -25,8 +22,8 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
         setContentView(R.layout.activity_user_main);
         super.onCreate(savedInstanceState);
 
-        //btnAddActivity = (ImageButton) findViewById(R.id.btn_activity_add);
-//        btnAddActivity.setOnClickListener(this);
+        btnAddActivity = (ImageButton) findViewById(R.id.imageButton_activity_add);
+        btnAddActivity.setOnClickListener(this);
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {

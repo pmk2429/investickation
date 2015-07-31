@@ -30,7 +30,7 @@
 
         <!-- Circle button -->
         <ImageButton
-            android:id="@+id/imageButton_observation_add"
+            android:id="@+id/imageButton_activity_add"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"

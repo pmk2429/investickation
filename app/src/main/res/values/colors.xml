@@ -15,9 +15,10 @@
     <color name="secondaryText">#727272</color>
     <color name="lightText">#ccc</color>
 
+    <!-- Color for Divider-->
     <color name="divider">#B6B6B6</color>
 
-
+    <!--White-->
     <color name="colorWhite">#fff</color>
 
 

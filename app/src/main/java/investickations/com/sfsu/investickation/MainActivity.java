@@ -1,40 +1,33 @@
 package investickations.com.sfsu.investickation;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import android.widget.ImageButton;
 
 
 public class MainActivity extends BaseActivity {
 
-
-    // resource identifier for each unique resource. specifying dmeo
+    // resource identifier for each unique resource. specifying demo
     private static String USER_RESOURCE = "users";
-
+    ImageButton btnActivityAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
 
+        btnActivityAdd = (ImageButton) findViewById(R.id.imageButton_activity_add);
+        btnActivityAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityAdd = new Intent(MainActivity.this, UserActMainActivity.class);
+                startActivity(activityAdd);
+                finish();
+            }
+        });
     }
 
     @Override

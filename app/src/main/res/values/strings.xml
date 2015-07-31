@@ -3,7 +3,6 @@
 
     <!--TODO: Verify names of all the Activities -->
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_personal_info">Personal Info</string>
     <string name="title_activity_guide_master">Guide</string>
     <string name="title_activity_user_activity_main">User Activities</string>
@@ -48,6 +47,10 @@
 
     <!-- Call to Action-->
     <string name="text_change_picture">Change Picture</string>
+
+    <!-- String Menu items -->
+    <string name="action_settings">Settings</string>
+    <string name="action_edit">Edit</string>
 
 
 </resources>

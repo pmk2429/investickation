@@ -9,7 +9,7 @@ import investickations.com.sfsu.investickation.fragments.GuideIndex;
 import investickations.com.sfsu.investickation.fragments.Profile;
 
 
-public class ProfileActivity extends BaseActivity {
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

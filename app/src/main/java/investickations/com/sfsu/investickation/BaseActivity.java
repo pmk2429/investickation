@@ -53,11 +53,14 @@ public class BaseActivity extends ActionBarActivity {
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
+        int ICONS[] = {R.mipmap.ic_home, R.mipmap.ic_activity, R.mipmap.ic_observations, R.mipmap.ic_bug, R.mipmap.ic_settings, R.mipmap.ic_edit};
+
+
         List<String> rows = new ArrayList<String>();
         String[] navDrawer = getResources().getStringArray(R.array.navdrawer);
         rows.addAll(Arrays.asList(navDrawer));
 
-        DrawerAdapter drawerAdapter = new DrawerAdapter(rows, this);
+        DrawerAdapter drawerAdapter = new DrawerAdapter(rows, ICONS, this);
 
         drawer_recyclerView.setAdapter(drawerAdapter);
         // performance improvement

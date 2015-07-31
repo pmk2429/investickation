@@ -17,22 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--<ImageView-->
-            <!--android:id="@+id/mapview_activity"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="180dp"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="0dp"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@mipmap/placeholder_tick"/>-->
-
-            <fragment
+            <ImageView
                 android:id="@+id/mapview_activity"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_cardview_large"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/placeholder_tick"/>
+
+            <!--<fragment-->
+            <!--android:id="@+id/mapview_activity"-->
+            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dimen_cardview_large"-->
+            <!--android:layout_gravity="center_horizontal"/>-->
 
 
             <TextView
