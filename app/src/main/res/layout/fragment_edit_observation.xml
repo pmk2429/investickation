@@ -42,7 +42,7 @@
         android:layout_marginTop="16dp"
         android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_bug"/>
+        android:src="@mipmap/ic_bug_report_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_tick"
@@ -68,7 +68,7 @@
         android:layout_marginTop="16dp"
         android:padding="8dp"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_species"/>
+        android:src="@mipmap/ic_species_gray_36"/>
 
     <EditText
         android:id="@+id/editText_species"

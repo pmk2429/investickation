@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="48dp">
+             android:layout_width="match_parent"
+             android:layout_height="48dp">
 
     <ImageView
         android:id="@+id/drawer_row_icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/widget_dimen"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="16dp"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginLeft="@dimen/padding_small"
+        android:padding="12dp"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/drawer_row_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="72dp"
+        android:layout_marginLeft="@dimen/widget_dimen_X1_large"
         android:singleLine="true"
+        android:text="Demo"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#FF757575" />
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/font_small"/>
 
 </FrameLayout>

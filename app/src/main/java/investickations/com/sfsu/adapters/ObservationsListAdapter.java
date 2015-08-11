@@ -32,7 +32,6 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
         this.observationList = observationList;
     }
 
-
     @Override
     public ObservationsListAdapter.ObservationViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_observation, null);

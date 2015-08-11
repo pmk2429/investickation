@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:baselineAligned="false"
+                android:padding="16dp">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_toLeftOf="@id/separator_vertical_observation_1"
+        android:background="@color/colorActivityDashboard"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_activityCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="5"
+            android:textSize="@dimen/font_X4_large"/>
+
+        <TextView
+            android:id="@+id/textViewStatic_activityCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:text="ACTIVITIES"
+            android:textSize="@dimen/font_small"/>
+
+        <Button
+            android:id="@+id/btn_activity_start"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:background="@color/colorWhite"
+            android:text="START"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_small"/>
+
+
+    </RelativeLayout>
+
+
+    <!--Line separator-->
+    <View
+        android:id="@+id/separator_vertical_observation_1"
+        android:layout_width="1dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_toRightOf="@id/separator_vertical_observation_1"
+        android:background="@color/colorObservationDashboard"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_observationCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="14"
+            android:textSize="@dimen/font_X4_large"/>
+
+        <TextView
+            android:id="@+id/textViewStatic_observationCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:text="OBSERVATIONS"
+            android:textSize="@dimen/font_small"/>
+
+        <Button
+            android:id="@+id/btn_observation_post"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:background="@color/colorWhite"
+            android:text="POST"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_small"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -22,7 +22,7 @@ public class Register extends Fragment implements View.OnClickListener {
 
     @InjectView(R.id.button_Register)
     Button btnRegister;
-    private OnFragmentInteractionListener mListener;
+    private IRegisterCallBacks mListener;
 
     public Register() {
         // IMP - Don't delete
@@ -64,7 +64,7 @@ public class Register extends Fragment implements View.OnClickListener {
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            mListener.onRegisterItemListener();
         }
     }
 
@@ -74,7 +74,7 @@ public class Register extends Fragment implements View.OnClickListener {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (IRegisterCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener to communicate with Register");
@@ -89,14 +89,14 @@ public class Register extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mListener.onFragmentInteraction();
+        mListener.onRegisterItemListener();
     }
 
     /**
      * Interface to communicate to other Fragment and/or Activity
      */
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction();
+    public interface IRegisterCallBacks {
+        public void onRegisterItemListener();
     }
 
 }

@@ -3,12 +3,12 @@
 
     <!--TODO: Verify names of all the Activities -->
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_personal_info">Personal Info</string>
-    <string name="title_activity_guide_master">Guide</string>
-    <string name="title_activity_user_activity_main">User Activities</string>
+    <string name="title_activity_personal_info">My Info</string>
+    <string name="title_activity_guide_master">Tick Guide</string>
+    <string name="title_activity_user_activity_main">My Activities</string>
     <string name="title_activity_activity_detail">Activity Details</string>
-    <string name="title_activity_observations">Observations</string>
-    <string name="title_activity_observation_main">Observation Main</string>
+    <!--<string name="title_activity_observations">Observations</string>-->
+    <string name="title_activity_observation_main">My Observations</string>
     <string name="title_activity_observation_detail">Observation Details</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

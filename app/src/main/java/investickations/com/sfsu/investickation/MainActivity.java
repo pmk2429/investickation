@@ -1,14 +1,16 @@
 package investickations.com.sfsu.investickation;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 
+import investickations.com.sfsu.investickation.fragments.Dashboard;
 
-public class MainActivity extends BaseActivity {
+
+public class MainActivity extends BaseActivity implements Dashboard.IDashboardCallback {
 
     // resource identifier for each unique resource. specifying demo
     private static String USER_RESOURCE = "users";
@@ -16,19 +18,31 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_main);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        btnActivityAdd = (ImageButton) findViewById(R.id.imageButton_activity_add);
-        btnActivityAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityAdd = new Intent(MainActivity.this, UserActMainActivity.class);
-                startActivity(activityAdd);
-                finish();
+        // if Fragment container is present,
+        if (findViewById(R.id.mainActivity_fragmentContainer) != null) {
+
+
+            // if we are being restored from previous state, then just RETURN or else we could have
+            // over lapping fragments
+            if (savedInstanceState != null) {
+                return;
             }
-        });
+
+            Dashboard dashboardFragment = new Dashboard();
+
+            // if activity was started with special instructions from an Intent, then pass Intent's extras
+            // to fragments as arguments
+            dashboardFragment.setArguments(getIntent().getExtras());
+
+            // add the Fragment to 'mainActivity_fragmentContainer' FrameLayout
+            getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
+
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,6 +64,25 @@ public class MainActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDashboardInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onActivityButtonClicked() {
+        Intent activityIntent = new Intent(MainActivity.this, UserActMainActivity.class);
+        startActivity(activityIntent);
+        finish();
+    }
+
+    @Override
+    public void onObservationButtonClicked() {
+        Intent observationIntent = new Intent(MainActivity.this, ObservationMainActivity.class);
+        startActivity(observationIntent);
+        finish();
     }
 }
 

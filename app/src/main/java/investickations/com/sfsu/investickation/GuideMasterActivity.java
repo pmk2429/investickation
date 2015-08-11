@@ -1,7 +1,6 @@
 package investickations.com.sfsu.investickation;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +16,10 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setContentView(R.layout.activity_guidmaster);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_guidmaster);
 
+        
         // if Fragment container is present,
         if (findViewById(R.id.guide_fragment_container) != null) {
 
@@ -65,7 +65,7 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
 
     // callback interface to listen to onClick event in GuideIndex Fragment
     @Override
-    public void onItemClick() {
+    public void onGuideItemClick() {
         GuideDetail guideDetailFragment = new GuideDetail();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.guide_fragment_container, guideDetailFragment);

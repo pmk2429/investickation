@@ -4,6 +4,5 @@
              android:layout_height="match_parent"
              android:background="@color/colorPrimary"
              tools:context="investickations.com.sfsu.investickation.fragments.SplashScreen">
-
-
+    
 </FrameLayout>

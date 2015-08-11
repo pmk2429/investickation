@@ -10,7 +10,7 @@ package investickations.com.sfsu.entities;
 public class AppConfig {
 
     // Log message for Application Context
-    public static final String LOGSTRING = "#LOG_INVEST=====> ";
+    public static final String LOGSTRING = "#INVEST=====> ";
 
     // Base url to the endpoint
     public static final String BASE_URL = "http://investickation.com";

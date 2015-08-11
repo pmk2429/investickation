@@ -1,6 +1,5 @@
 package investickations.com.sfsu.investickation;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -9,12 +8,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +17,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import investickations.com.sfsu.entities.AppConfig;
+import investickations.com.sfsu.adapters.DrawerAdapter;
 
 /**
  * Created by Pavitra on 7/8/2015.
@@ -43,6 +38,12 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
 
         ButterKnife.inject(this);
 
@@ -53,7 +54,7 @@ public class BaseActivity extends ActionBarActivity {
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        int ICONS[] = {R.mipmap.ic_home, R.mipmap.ic_activity, R.mipmap.ic_observations, R.mipmap.ic_bug, R.mipmap.ic_settings, R.mipmap.ic_edit};
+        int ICONS[] = {R.mipmap.ic_home_black_36dp, R.mipmap.ic_walk_black_36dp, R.mipmap.ic_observations_black_36dp, R.mipmap.ic_bug_report_black_36dp, R.mipmap.ic_settings_black_36dp, R.mipmap.ic_edit};
 
 
         List<String> rows = new ArrayList<String>();
@@ -73,8 +74,8 @@ public class BaseActivity extends ActionBarActivity {
             @Override
             public void onItemClick(View view, int position) {
 
-                Toast.makeText(BaseActivity.this, "Item clicked: " + position, Toast.LENGTH_SHORT);
-                Log.d(AppConfig.LOGSTRING, "item clicked: " + position);
+                //Toast.makeText(BaseActivity.this, "Item clicked: " + position, Toast.LENGTH_SHORT);
+                //Log.d(AppConfig.LOGSTRING, "item clicked: " + position);
 
                 // call the method to open the corresponding activity
                 //goToNavDrawerItem(position);
@@ -86,12 +87,6 @@ public class BaseActivity extends ActionBarActivity {
         }));
     }
 
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -101,58 +96,6 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-    }
-}
-
-// itemTouchListener implementation for RecyclerView
-class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
-    private OnItemClickListener mListener;
-    private GestureDetector mGestureDetector;
-
-    public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener listener) {
-        mListener = listener;
-
-        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-                View childView = recyclerView.findChildViewUnder(e.getX(), e.getY());
-
-                if (childView != null && mListener != null) {
-                    mListener.onItemLongClick(childView, recyclerView.getChildPosition(childView));
-                }
-            }
-        });
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
-        View childView = view.findChildViewUnder(e.getX(), e.getY());
-
-        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            mListener.onItemClick(childView, view.getChildPosition(childView));
-        }
-
-        return false;
-    }
-
-    @Override
-    public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-    }
-
-    public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
-
-        public void onItemLongClick(View view, int position);
     }
 }
 

@@ -18,6 +18,7 @@ import investickations.com.sfsu.adapters.TicksListAdapter;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.entities.Tick;
 import investickations.com.sfsu.investickation.R;
+import investickations.com.sfsu.investickation.RecyclerItemClickListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +58,21 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
         ticks = Tick.initializeData();
         TicksListAdapter ticksListAdapter = new TicksListAdapter(ticks);
         rv.setAdapter(ticksListAdapter);
+
+
+        // set on click listener for the item click of recyclerview
+        rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), rv, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+                mInterface.onGuideItemClick();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
         return v;
     }
 
@@ -77,7 +93,7 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mInterface.onItemClick();
+        mInterface.onGuideItemClick();
     }
 
     // The container Activity must implement this interface so the frag can deliver messages
@@ -86,7 +102,7 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
         /**
          * method to provide an interface to listen to data sent or button clicked in GuideIndex Fragment
          */
-        public void onItemClick();
+        public void onGuideItemClick();
     }
 
 }

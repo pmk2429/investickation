@@ -1,15 +1,36 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fab="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="investickations.com.sfsu.investickation.fragments.ActivityList">
 
-    <!--Recycler View to display lit of activities-->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_activity_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/colorWhite"
-        android:scrollbars="vertical"/>
+        android:layout_height="match_parent">
+
+        <!--Recycler View to display lit of activities-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_activity_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/colorWhite"
+            android:scrollbars="vertical"/>
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_activity_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="@dimen/padding_small"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorPrimaryDark"
+            fab:fab_icon="@drawable/ic_add_white_36dp"/>
+
+
+    </RelativeLayout>
 </FrameLayout>

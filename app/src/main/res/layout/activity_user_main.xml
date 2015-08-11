@@ -25,20 +25,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
             android:layout_weight="1">
-
         </FrameLayout>
-
-        <!-- Circle button -->
-        <ImageButton
-            android:id="@+id/imageButton_activity_add"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:layout_marginRight="@dimen/padding_large"
-            android:background="@drawable/circle"
-            android:src="@mipmap/ic_add_white_36dp"/>
 
     </RelativeLayout>
 

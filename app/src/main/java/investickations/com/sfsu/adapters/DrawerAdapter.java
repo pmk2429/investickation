@@ -1,4 +1,4 @@
-package investickations.com.sfsu.investickation;
+package investickations.com.sfsu.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,13 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import investickations.com.sfsu.investickation.GuideMasterActivity;
+import investickations.com.sfsu.investickation.HomeActivity;
+import investickations.com.sfsu.investickation.MainActivity;
+import investickations.com.sfsu.investickation.ObservationMainActivity;
+import investickations.com.sfsu.investickation.R;
+import investickations.com.sfsu.investickation.SettingsActivity;
+import investickations.com.sfsu.investickation.UserActMainActivity;
 
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
@@ -121,12 +128,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         return ROW_TYPE;
     }
 
-    /*
-    private static void demoMethod() {
-        Toast.makeText(context, "The Item Clicked is in Demo ", Toast.LENGTH_SHORT).show();
-        Log.d(AppConfig.LOGSTRING, "Method works");
-    }*/
-
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected int viewType;
         Context context;
@@ -151,7 +152,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            //Toast.makeText(context, "The Item Clicked is: " + getPosition(), Toast.LENGTH_SHORT).show();
             DrawerAdapter.goToNavDrawerItem(getPosition());
             //DrawerAdapter.demoMethod();
         }

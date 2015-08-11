@@ -2,6 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorWhite"
                 tools:context="investickations.com.sfsu.investickation.fragments.ObservationDetail">
 
     <!--  Tick image -->
@@ -132,7 +133,7 @@
         android:text="Found Near: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="18dp"/>
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/textView_foundNear"
@@ -146,7 +147,7 @@
         android:text="San Mateo Park"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="16dp"/>
+        android:textSize="14dp"/>
 
 
     <!-- Location -->
@@ -162,7 +163,7 @@
         android:text="Exact location: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="18dp"/>
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/textView_location"
@@ -173,10 +174,10 @@
         android:paddingBottom="0dp"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
-        android:text="35.755815, -121.859291612"
+        android:text="35.755815, -121.859291"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="16dp"/>
+        android:textSize="14dp"/>
 
     <!-- Activity -->
     <TextView
@@ -191,7 +192,7 @@
         android:text="Activity: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="18dp"/>
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/textView_activityName"
@@ -205,6 +206,6 @@
         android:text="Hiking Trail"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="16dp"/>
+        android:textSize="14dp"/>
 
 </RelativeLayout>

@@ -1,14 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="investickations.com.sfsu.investickation.fragments.Login">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/colorWhite"
+             tools:context="investickations.com.sfsu.investickation.fragments.Login">
 
     <ImageView
         android:id="@+id/imageView_login_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/dimen_default" />
+        android:padding="@dimen/dimen_default"/>
 
 
     <TextView
@@ -16,9 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="center|top"
-        android:layout_marginTop="@dimen/padding_X_large"
+        android:layout_marginTop="@dimen/padding_X3_large"
         android:text="Welcome to InvesTICKations"
-        android:textSize="@dimen/font_XXX_large" />
+        android:textColor="@color/primaryText"
+        android:textSize="@dimen/font_X_large"/>
 
     <TextView
         android:id="@+id/txtView_login_content"
@@ -29,9 +31,10 @@
         android:layout_marginRight="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_X4_large"
         android:gravity="center"
-        android:text="Record and make observations for Ticks"
+        android:text="Record Activities and post observations for Ticks"
         android:textAlignment="center"
-        android:textSize="@dimen/font_X_large" />
+        android:textColor="@color/primaryText"
+        android:textSize="@dimen/font_large"/>
 
 
     <!--<com.facebook.login.widget.LoginButton-->
@@ -54,7 +57,7 @@
         android:layout_marginBottom="@dimen/padding_X4_large"
         android:layout_marginLeft="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
-        android:padding="@dimen/dimen_default" />
+        android:padding="@dimen/dimen_default"/>
 
     <Button
         android:id="@+id/btn_sign_out"
@@ -62,14 +65,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="@string/btn_logout_from_google"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btn_revoke_access"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_revoke_access"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 
     <!-- Register Button -->
@@ -87,6 +90,6 @@
         android:text="Sign Up"
         android:textColor="@color/colorWhite"
         android:textSize="18dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
 </FrameLayout>

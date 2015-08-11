@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 
 import investickations.com.sfsu.investickation.fragments.ActivityList;
 import investickations.com.sfsu.investickation.fragments.ActivityNew;
@@ -15,15 +14,11 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
 
     private static String ACTIVITY_RESOURCE = "activities";
 
-    private ImageButton btnAddActivity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.activity_user_main);
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_main);
 
-        btnAddActivity = (ImageButton) findViewById(R.id.imageButton_activity_add);
-        btnAddActivity.setOnClickListener(this);
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {
@@ -69,19 +64,23 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
      * method to listen to the onClick of the Item in Activity List Interface
      */
     @Override
-    public void onFragmentInteraction() {
+    public void onItemClickListener() {
+        
+    }
 
+    @Override
+    public void onActivityAddListener() {
+        // if user clicked the Add Button, replace with AddObservation Fragment
+        ActivityNew addActivityFragment = new ActivityNew();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_fragment_container, addActivityFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
     public void onClick(View v) {
-        if (v == btnAddActivity) {
-            // if user clicked the Add Button, replace with AddObservation Fragment
-            ActivityNew addActivityFragment = new ActivityNew();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.activity_fragment_container, addActivityFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+
+
     }
 }
