@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import investickations.com.sfsu.investickation.R;
 
@@ -15,7 +15,7 @@ import investickations.com.sfsu.investickation.R;
 public class Dashboard extends Fragment implements View.OnClickListener {
 
     private IDashboardCallback mListener;
-    private Button btn_action;
+    private CardView btn_action;
 
     public Dashboard() {
         // Required empty public constructor
@@ -28,10 +28,10 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        btn_action = (Button) v.findViewById(R.id.btn_activity_start);
+        btn_action = (CardView) v.findViewById(R.id.btn_activity_start);
         btn_action.setOnClickListener(this);
 
-        btn_action = (Button) v.findViewById(R.id.btn_observation_post);
+        btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
 
 
