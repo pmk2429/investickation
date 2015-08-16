@@ -125,20 +125,20 @@
     <TextView
         android:id="@+id/textViewStatic_foundNear"
         android:layout_width="140dp"
-        android:layout_height="@dimen/padding_X2_large"
+        android:layout_height="wrap_content"
         android:layout_below="@id/separator_observation_2"
         android:gravity="top|start"
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:text="Found Near: "
         android:textAlignment="center"
-        android:textColor="@color/primaryText"
+        android:textColor="@color/secondaryText"
         android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/textView_foundNear"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/padding_X2_large"
+        android:layout_height="wrap_content"
         android:layout_below="@id/separator_observation_2"
         android:layout_toRightOf="@id/textViewStatic_foundNear"
         android:paddingBottom="0dp"
@@ -146,7 +146,7 @@
         android:paddingTop="8dp"
         android:text="San Mateo Park"
         android:textAlignment="center"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/primaryText"
         android:textSize="14dp"/>
 
 
@@ -154,58 +154,51 @@
     <TextView
         android:id="@+id/textViewStatic_location"
         android:layout_width="140dp"
-        android:layout_height="@dimen/padding_X2_large"
+        android:layout_height="wrap_content"
         android:layout_below="@id/textViewStatic_foundNear"
         android:gravity="top|start"
         android:paddingBottom="0dp"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"
         android:text="Exact location: "
         android:textAlignment="center"
-        android:textColor="@color/primaryText"
+        android:textColor="@color/secondaryText"
         android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/textView_location"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/padding_X2_large"
+        android:layout_height="wrap_content"
         android:layout_below="@id/textView_foundNear"
         android:layout_toRightOf="@id/textViewStatic_location"
-        android:paddingBottom="0dp"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"
         android:text="35.755815, -121.859291"
         android:textAlignment="center"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/primaryText"
         android:textSize="14dp"/>
 
     <!-- Activity -->
     <TextView
         android:id="@+id/textViewStatic_activity"
         android:layout_width="140dp"
-        android:layout_height="@dimen/padding_X2_large"
+        android:layout_height="wrap_content"
         android:layout_below="@id/textViewStatic_location"
         android:gravity="top|start"
-        android:paddingBottom="0dp"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"
         android:text="Activity: "
         android:textAlignment="center"
-        android:textColor="@color/primaryText"
+        android:textColor="@color/secondaryText"
         android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/textView_activityName"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/padding_X2_large"
+        android:layout_height="wrap_content"
         android:layout_below="@id/textView_location"
         android:layout_toRightOf="@id/textViewStatic_activity"
-        android:paddingBottom="0dp"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"
         android:text="Hiking Trail"
         android:textAlignment="center"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/primaryText"
         android:textSize="14dp"/>
 
 </RelativeLayout>

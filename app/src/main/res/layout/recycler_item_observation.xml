@@ -36,7 +36,7 @@
                 android:layout_toRightOf="@+id/image_tick_small"
                 android:text="American Dog Tick"
                 android:textColor="@color/primaryText"
-                android:textSize="22sp"/>
+                android:textSize="@dimen/font_large"/>
 
             <TextView
                 android:id="@+id/textView_location"
@@ -45,6 +45,7 @@
                 android:layout_below="@+id/textView_observationName"
                 android:layout_toRightOf="@+id/image_tick_small"
                 android:text="Presidio of San Francisco"
+                android:textColor="@color/secondaryText"
                 android:textSize="14sp"/>
 
             <TextView
@@ -55,6 +56,7 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="4dp"
                 android:text="1 Hr"
+                android:textColor="@color/secondaryText"
                 android:textSize="14sp"/>
 
             <ImageView
@@ -63,8 +65,7 @@
                 android:layout_height="@dimen/padding_X_large"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/textView_timestamp"
-                android:layout_marginTop="2dp"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@mipmap/ic_cloud_success"/>
 
 
         </RelativeLayout>

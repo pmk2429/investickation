@@ -13,8 +13,8 @@
 
         <!--  Tool bar -->
         <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"
+            android:id="@+id/toolbar_base"
+            layout="@layout/toolbar_master"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -23,7 +23,7 @@
             android:id="@+id/observation_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@id/toolbar_base"
             android:layout_weight="1">
         </FrameLayout>
 
@@ -37,6 +37,5 @@
         android:layout_gravity="start"
         android:background="@color/colorWhite"
         android:scrollbars="vertical"/>
-
 
 </android.support.v4.widget.DrawerLayout>

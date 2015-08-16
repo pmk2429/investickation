@@ -9,7 +9,7 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/padding_small"
-        android:padding="12dp"
+        android:padding="@dimen/padding_medium"
         android:src="@mipmap/ic_launcher"/>
 
     <TextView

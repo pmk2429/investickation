@@ -12,7 +12,7 @@
         android:id="@+id/image_tick"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_cardview_default"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/toolbar_base"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
@@ -124,6 +124,4 @@
         android:background="@color/colorPrimary"
         android:text="Update Observation"
         android:textColor="@color/colorWhite"/>
-
-
 </RelativeLayout>

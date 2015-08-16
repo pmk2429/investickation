@@ -30,7 +30,5 @@
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorPrimaryDark"
             fab:fab_icon="@drawable/ic_add_white_36dp"/>
-
-
     </RelativeLayout>
 </FrameLayout>

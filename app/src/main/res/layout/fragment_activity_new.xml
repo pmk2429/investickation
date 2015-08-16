@@ -16,6 +16,20 @@
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_tick"/>
 
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_selectImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/image_ActivityImage"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-40dp"
+        android:layout_marginRight="@dimen/padding_small"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorPrimaryDark"
+        fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+
+
     <!--  Activity Name row -->
     <ImageView
         android:id="@+id/icon_activity"
@@ -25,7 +39,7 @@
         android:layout_below="@id/image_ActivityImage"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
-        android:padding="8dp"
+        android:padding="@dimen/padding_medium"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_run"/>
 
@@ -66,7 +80,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="@dimen/padding_small"
-            android:padding="8dp"
+            android:padding="@dimen/padding_medium"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_people"/>
 
@@ -110,9 +124,10 @@
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="@dimen/padding_small"
             android:layout_toEndOf="@id/separator_vertical_observation_1"
             android:layout_toRightOf="@+id/separator_vertical_observation_1"
-            android:padding="8dp"
+            android:padding="@dimen/padding_medium"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_pet"/>
 
@@ -156,7 +171,7 @@
         android:layout_height="48dp"
         android:layout_alignStart="@+id/icon_activity"
         android:layout_alignTop="@+id/spinner_reminder"
-        android:padding="8dp"
+        android:padding="@dimen/padding_medium"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_add_alarm_black_36dp"/>
 

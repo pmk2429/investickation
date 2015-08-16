@@ -7,6 +7,7 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_">18dp</dimen>
     <dimen name="padding_X_large">24dp</dimen>
     <dimen name="padding_X2_large">30dp</dimen>
     <dimen name="padding_X3_large">48dp</dimen>
@@ -36,6 +37,5 @@
     <!-- FAB dimensions-->
     <dimen name="dimen_material_default">56dp</dimen>
     <dimen name="dimen_material_large">70dp</dimen>
-
 
 </resources>

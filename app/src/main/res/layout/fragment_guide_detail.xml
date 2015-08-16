@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorWhite"
-    android:focusable="false"
-    tools:context="investickations.com.sfsu.investickation.fragments.GuideDetail">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:focusable="false"
+                tools:context="investickations.com.sfsu.investickation.fragments.GuideDetail">
 
 
     <!--  Tick image -->
@@ -15,7 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick" />
+        android:src="@mipmap/placeholder_tick"/>
 
     <TextView
         android:id="@+id/textView_tickName"
@@ -28,7 +28,7 @@
         android:text="American Dog Tick"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="24dp" />
+        android:textSize="24dp"/>
 
 
     <TextView
@@ -42,7 +42,7 @@
         android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="14dp" />
+        android:textSize="14dp"/>
 
 
     <TextView
@@ -57,7 +57,7 @@
         android:text="Basic Information"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="18dp" />
+        android:textSize="18dp"/>
 
     <View
         android:layout_width="match_parent"
@@ -65,7 +65,7 @@
         android:layout_below="@id/textViewStatic_tickInfo"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/divider" />
+        android:background="@color/divider"/>
 
     <!-- Nick Name -->
     <TextView
@@ -80,7 +80,7 @@
         android:text="Nick Name: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="18dp" />
+        android:textSize="18dp"/>
 
     <TextView
         android:id="@+id/textView_tickNickName"
@@ -94,7 +94,7 @@
         android:text="Lone Star Tick"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="@dimen/font_small" />
+        android:textSize="@dimen/font_small"/>
 
 
     <!-- Formal Name -->
@@ -110,7 +110,7 @@
         android:text="Formal Name: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="@dimen/font_medium" />
+        android:textSize="@dimen/font_medium"/>
 
     <TextView
         android:id="@+id/textView_tickFormalName"
@@ -124,7 +124,7 @@
         android:text="Amblyomma americanum"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="@dimen/font_small" />
+        android:textSize="@dimen/font_small"/>
 
     <!-- Diseases Name -->
     <TextView
@@ -139,7 +139,7 @@
         android:text="Diseases: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="@dimen/font_medium" />
+        android:textSize="@dimen/font_medium"/>
 
     <TextView
         android:id="@+id/textView_tickDisease"
@@ -153,7 +153,7 @@
         android:text="Tularemia"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="@dimen/font_small" />
+        android:textSize="@dimen/font_small"/>
 
 
     <!-- Diseases Name -->
@@ -169,7 +169,7 @@
         android:text="Found Near: "
         android:textAlignment="center"
         android:textColor="@color/primaryText"
-        android:textSize="@dimen/font_medium" />
+        android:textSize="@dimen/font_medium"/>
 
     <TextView
         android:id="@+id/textView_tickLocation"
@@ -183,8 +183,7 @@
         android:text="Dry Areas"
         android:textAlignment="center"
         android:textColor="@color/secondaryText"
-        android:textSize="@dimen/font_small" />
+        android:textSize="@dimen/font_small"/>
 
 
 </RelativeLayout>
-

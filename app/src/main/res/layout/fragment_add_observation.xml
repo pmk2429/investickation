@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -12,23 +13,37 @@
         android:id="@+id/image_tick"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/toolbar_base"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_tick"/>
 
-    <!-- Circle button -->
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+    <!--&lt;!&ndash; Circle button &ndash;&gt;-->
+    <!--<ImageButton-->
+    <!--android:id="@+id/imageButton"-->
+    <!--android:layout_width="70dp"-->
+    <!--android:layout_height="70dp"-->
+    <!--android:layout_alignBottom="@id/image_tick"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_gravity="bottom"-->
+    <!--android:layout_marginBottom="-32dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:background="@drawable/circle"/>-->
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_selectImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@id/image_tick"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="-32dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/circle"/>
+        android:layout_marginBottom="-40dp"
+        android:layout_marginRight="@dimen/padding_small"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorPrimaryDark"
+        fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+
 
     <!--  Tick row -->
     <ImageView
@@ -39,9 +54,9 @@
         android:layout_below="@id/image_tick"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_medium"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_bug_gray_36"/>
+        android:src="@mipmap/ic_bug_report_black_36dp"/>
 
     <EditText
         android:id="@+id/editText_tick"
@@ -65,7 +80,7 @@
         android:layout_below="@id/icon_tick"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_medium"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_launcher"/>
 
@@ -92,9 +107,9 @@
         android:layout_below="@id/icon_species"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_medium"
         android:scaleType="fitCenter"
-        android:src="@mipmap/ic_species_gray_36"/>
+        android:src="@mipmap/ic_paw"/>
 
     <EditText
         android:id="@+id/editText_numOfTicks"
@@ -121,8 +136,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/colorPrimary"
-        android:text="Add Observation"
-        android:textColor="@color/colorWhite"/>
+        android:text="Post Observation"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_small"/>
 
 
 </RelativeLayout>

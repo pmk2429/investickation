@@ -27,7 +27,7 @@ public class BaseActivity extends ActionBarActivity {
     // InjectView is used to inject the UI controls using ButterKnife library.
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @InjectView(R.id.toolbar)
+    @InjectView(R.id.toolbar_base)
     Toolbar toolbar;
     @InjectView(R.id.drawer_recyclerView)
     RecyclerView drawer_recyclerView;
@@ -47,7 +47,7 @@ public class BaseActivity extends ActionBarActivity {
 
         ButterKnife.inject(this);
 
-        // set the toolbar injected using ButterKnife library.
+        // set the toolbar_master injected using ButterKnife library.
         setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);

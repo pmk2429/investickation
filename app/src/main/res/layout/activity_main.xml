@@ -15,8 +15,8 @@
 
         <!--  Tool bar -->
         <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"
+            android:id="@+id/toolbar_base"
+            layout="@layout/toolbar_master"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -25,7 +25,7 @@
             android:id="@+id/mainActivity_fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@id/toolbar_base"
             android:layout_weight="1">
         </FrameLayout>
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/padding_small"
             android:layout_marginRight="@dimen/padding_small"
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorPrimaryDark"
