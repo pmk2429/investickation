@@ -47,7 +47,7 @@
     <!--android:layout_marginRight="@dimen/padding_large"-->
     <!--android:layout_marginTop="@dimen/padding_X_large" />-->
 
-    <!-- Google plus sign in button-->
+    <!-- Google plus sign in button
     <com.google.android.gms.common.SignInButton
         android:id="@+id/btn_sign_in"
         android:layout_width="match_parent"
@@ -73,11 +73,29 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_revoke_access"
         android:visibility="gone"/>
-
+-->
 
     <!-- Register Button -->
     <Button
         android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_dimen"
+        android:layout_alignBottom="@id/imageView_login_background"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/padding_X4_large"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/dimen_default"
+        android:text="Sign Up"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    !-- Register Button -->
+
+    <Button
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignBottom="@id/imageView_login_background"
@@ -87,7 +105,7 @@
         android:layout_marginLeft="@dimen/padding_large"
         android:layout_marginRight="@dimen/padding_large"
         android:background="@color/colorPrimary"
-        android:text="Sign Up"
+        android:text="Login"
         android:textColor="@color/colorWhite"
         android:textSize="18dp"
         android:textStyle="bold"/>

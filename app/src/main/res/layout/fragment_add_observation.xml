@@ -7,122 +7,153 @@
                 android:orientation="vertical"
                 tools:context=".ObservationMainActivity">
 
-
-    <!--  tick image -->
-    <ImageView
-        android:id="@+id/image_tick"
+    <ScrollView
+        android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_below="@id/toolbar_base"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick"/>
-
-    <!--&lt;!&ndash; Circle button &ndash;&gt;-->
-    <!--<ImageButton-->
-    <!--android:id="@+id/imageButton"-->
-    <!--android:layout_width="70dp"-->
-    <!--android:layout_height="70dp"-->
-    <!--android:layout_alignBottom="@id/image_tick"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:layout_marginBottom="-32dp"-->
-    <!--android:layout_marginRight="20dp"-->
-    <!--android:background="@drawable/circle"/>-->
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_selectImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/image_tick"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="-40dp"
-        android:layout_marginRight="@dimen/padding_small"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
 
-    <!--  Tick row -->
-    <ImageView
-        android:id="@+id/icon_tick"
-        android:layout_width="@dimen/widget_dimen"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/image_tick"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_medium"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_bug_report_black_36dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText_tick"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/image_tick"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_toRightOf="@id/icon_tick"
-        android:hint="@string/text_tickName"
-        android:paddingBottom="16sp"
-        android:paddingTop="@dimen/padding_large"
-        android:textSize="16dp"/>
+            <!--  tick image -->
+            <ImageView
+                android:id="@+id/image_tick"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@id/toolbar_base"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/placeholder_tick"/>
 
-    <!--  Species row -->
-    <ImageView
-        android:id="@+id/icon_species"
-        android:layout_width="@dimen/widget_dimen"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/icon_tick"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_medium"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_launcher"/>
+            <!--&lt;!&ndash; Circle button &ndash;&gt;-->
+            <!--<ImageButton-->
+            <!--android:id="@+id/imageButton"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="70dp"-->
+            <!--android:layout_alignBottom="@id/image_tick"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_marginBottom="-32dp"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:background="@drawable/circle"/>-->
 
-    <EditText
-        android:id="@+id/editText_species"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/editText_tick"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_toRightOf="@id/icon_species"
-        android:hint="@string/text_speciesName"
-        android:paddingBottom="16sp"
-        android:paddingTop="@dimen/padding_large"
-        android:textSize="16dp"/>
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_selectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/image_tick"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginRight="@dimen/padding_small"
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_colorPressed="@color/colorPrimaryDark"
+                fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
 
 
-    <!--  Species row -->
-    <ImageView
-        android:id="@+id/icon_numberOfTicks"
-        android:layout_width="@dimen/widget_dimen"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/icon_species"
-        android:layout_marginLeft="@dimen/padding_small"
-        android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_medium"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_paw"/>
+            <!--  Tick row -->
+            <ImageView
+                android:id="@+id/icon_tick"
+                android:layout_width="@dimen/widget_dimen"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/fab_selectImage"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginTop="@dimen/padding_X_large"
+                android:padding="@dimen/padding_medium"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_bug_report_black_36dp"/>
 
-    <EditText
-        android:id="@+id/editText_numOfTicks"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/editText_species"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_toRightOf="@id/icon_numberOfTicks"
-        android:hint="Species"
-        android:paddingBottom="16sp"
-        android:paddingTop="@dimen/padding_large"
-        android:textSize="16dp"/>
+            <EditText
+                android:id="@+id/editText_tick"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/fab_selectImage"
+                android:layout_marginRight="@dimen/padding_large"
+                android:layout_marginTop="@dimen/padding_X_large"
+                android:layout_toRightOf="@id/icon_tick"
+                android:hint="@string/text_tickName"
+                android:paddingBottom="16sp"
+                android:paddingTop="@dimen/padding_large"
+                android:textSize="16dp"/>
+
+            <!--  Species row -->
+            <ImageView
+                android:id="@+id/icon_species"
+                android:layout_width="@dimen/widget_dimen"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/icon_tick"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:padding="@dimen/padding_medium"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_launcher"/>
+
+            <EditText
+                android:id="@+id/editText_species"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_tick"
+                android:layout_marginRight="@dimen/padding_large"
+                android:layout_toRightOf="@id/icon_species"
+                android:hint="@string/text_speciesName"
+                android:paddingBottom="16sp"
+                android:paddingTop="@dimen/padding_large"
+                android:textSize="16dp"/>
+
+            <!--  Species row -->
+            <ImageView
+                android:id="@+id/icon_numberOfTicks"
+                android:layout_width="@dimen/widget_dimen"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/icon_species"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:padding="@dimen/padding_medium"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_paw"/>
+
+            <EditText
+                android:id="@+id/editText_numOfTicks"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_species"
+                android:layout_marginRight="@dimen/padding_large"
+                android:layout_toRightOf="@id/icon_numberOfTicks"
+                android:hint="Species"
+                android:paddingBottom="16sp"
+                android:paddingTop="@dimen/padding_large"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/textViewStatic_chooseFromGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/editText_numOfTicks"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginTop="@dimen/padding_X_large"
+                android:text="@string/text_chooseTickInfo"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/font_small"/>
+
+            <Button
+                android:id="@+id/textView_chooseFromGuide"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewStatic_chooseFromGuide"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:text="@string/text_chooseTick"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_small"/>
+        </RelativeLayout>
+    </ScrollView>
 
 
     <!-- Add Observation Button -->
