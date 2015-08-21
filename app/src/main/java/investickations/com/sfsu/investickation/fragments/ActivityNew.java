@@ -19,6 +19,12 @@ public class ActivityNew extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getActivity().setTitle("Start New Activity");
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

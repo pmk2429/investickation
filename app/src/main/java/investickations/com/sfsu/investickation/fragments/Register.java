@@ -39,10 +39,16 @@ public class Register extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getActivity().setTitle("Register");
+
+
         if (getArguments() != null) {
 
         }
         ButterKnife.inject(getActivity());
+
+
     }
 
     @Override

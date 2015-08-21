@@ -10,6 +10,7 @@
     <!--<string name="title_activity_observations">Observations</string>-->
     <string name="title_activity_observation_main">My Observations</string>
     <string name="title_activity_observation_detail">Observation Details</string>
+    <string name="title_activity_home">InvesTICKations</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Navigation Drawer String array -->
@@ -34,13 +35,12 @@
     <string name="text_totalPets">1 pet</string>
     <string name="text_speciesName">1 pet</string>
     <string name="text_chooseTick">Choose from Tick Guide</string>
-    <string name="text_chooseTickInfo">Can't recognize tick? Select from Guide</string>
+    <string name="text_chooseTickInfo">Can\'t recognize tick? Select from Guide</string>
 
     <!-- Call to action controls-->
     <string name="button_startActivity">Start Activity</string>
     <string name="button_register">Register</string>
     <string name="button_postObservation">Post Observation</string>
-    <string name="title_activity_home">HomeActivity</string>
 
     <!-- Google plus login-->
     <!-- Button text -->

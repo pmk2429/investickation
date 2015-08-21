@@ -1,7 +1,6 @@
 package investickations.com.sfsu.investickation.fragments;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ public class AddObservation extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Add Observation");
 
     }
 
@@ -39,7 +39,7 @@ public class AddObservation extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-       
+
     }
 
 
