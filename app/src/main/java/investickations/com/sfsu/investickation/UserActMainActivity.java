@@ -11,9 +11,10 @@ import android.view.View;
 
 import investickations.com.sfsu.investickation.fragments.ActivityList;
 import investickations.com.sfsu.investickation.fragments.ActivityNew;
+import investickations.com.sfsu.investickation.fragments.ActivityRunning;
 
 
-public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, View.OnClickListener {
+public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, View.OnClickListener {
 
 
     @Override
@@ -100,5 +101,18 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
     public void onClick(View v) {
 
 
+    }
+
+    /**
+     * when the user clicks on the Play Button in ActivityNew Fragment, open the
+     * ActivityRunning Fragment.
+     */
+    @Override
+    public void onPlayButtonclick() {
+        ActivityRunning mActivityRunningFragment = new ActivityRunning();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_fragment_container, mActivityRunningFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

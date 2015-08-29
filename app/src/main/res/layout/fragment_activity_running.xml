@@ -32,15 +32,80 @@
         fab:fab_colorPressed="@color/colorPrimaryDark"
         />
 
+
     <TextView
-        android:id="@+id/textView_activityName"
+        android:id="@+id/textViewStatic_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/mapview_activity"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_X3_large"
+        android:text="Your current running activity:"
+        android:textAlignment="center"
+        android:textColor="@color/primaryText"
+        android:textSize="@dimen/font_small"/>
+
+    <TextView
+        android:id="@+id/textView_activityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewStatic_activity"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/padding_large"
         android:text="Hiking @ Golden Gate bridge"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/font_medium"/>
+
+
+    <!--Line separator-->
+    <View
+        android:id="@+id/separator_observation_1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/textView_activityName"
+        android:layout_marginTop="@dimen/padding_large"
+        android:background="@color/divider"/>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/btn_add_observation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/separator_observation_1"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/padding_X_large"
+        android:layout_weight="1"
+        android:elevation="5dp"
+        android:padding="@dimen/padding_large">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Add Observation"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_small"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_activity_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorPrimaryDark"
+        fab:fab_icon="@drawable/ic_stop_white_36dp"/>
 </RelativeLayout>
