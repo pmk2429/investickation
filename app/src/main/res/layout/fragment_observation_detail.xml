@@ -15,37 +15,34 @@
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_tick"/>
 
+    <!--&lt;!&ndash;  User image &ndash;&gt;-->
+    <!--<ImageView-->
+    <!--android:id="@+id/imageView_user_image"-->
+    <!--android:layout_width="@dimen/widget_dimen"-->
+    <!--android:layout_height="@dimen/widget_dimen"-->
+    <!--android:layout_below="@id/imageView_userTickDetail"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginLeft="@dimen/padding_large"-->
+    <!--android:layout_marginRight="@dimen/padding_large"-->
+    <!--android:layout_marginTop="@dimen/padding_large"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@mipmap/placeholder_tick"/>-->
 
-    <!--  Tick image -->
-    <ImageView
-        android:id="@+id/imageView_user_image"
-        android:layout_width="@dimen/widget_dimen"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/imageView_userTickDetail"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick"/>
-
-
-    <TextView
-        android:id="@+id/textView_tickName"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_below="@id/imageView_userTickDetail"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:layout_toEndOf="@id/imageView_user_image"
-        android:gravity="top|start"
-        android:paddingTop="8dp"
-        android:text="Carole"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24dp"/>
-
+    <!--<TextView-->
+    <!--android:id="@+id/textView_tickName"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:layout_below="@id/imageView_userTickDetail"-->
+    <!--android:layout_marginRight="@dimen/padding_large"-->
+    <!--android:layout_marginTop="@dimen/padding_large"-->
+    <!--android:layout_toEndOf="@id/imageView_user_image"-->
+    <!--android:gravity="top|start"-->
+    <!--android:paddingTop="8dp"-->
+    <!--android:text="Carole"-->
+    <!--android:textAlignment="center"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="24dp"/>-->
 
     <TextView
         android:id="@+id/textView_timestamp"
@@ -54,9 +51,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/imageView_userTickDetail"
         android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
         android:gravity="top|right"
-        android:paddingTop="8dp"
+        android:paddingTop="@dimen/padding_large"
         android:text="5 hr"
         android:textColor="@color/colorPrimary"
         android:textSize="16dp"/>
@@ -65,11 +61,9 @@
     <View
         android:id="@+id/separator_observation_1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/textView_tickName"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/imageView_userTickDetail"
         android:background="@color/divider"/>
-
 
     <TextView
         android:id="@+id/textView_observation_tickName"
@@ -84,7 +78,6 @@
         android:textColor="@color/colorPrimary"
         android:textSize="22dp"/>
 
-
     <TextView
         android:id="@+id/textView_observationDesc"
         android:layout_width="match_parent"
@@ -96,7 +89,6 @@
         android:textAlignment="center"
         android:textColor="@color/primaryText"
         android:textSize="14dp"/>
-
 
     <TextView
         android:id="@+id/textViewStatic_userObsDetail"

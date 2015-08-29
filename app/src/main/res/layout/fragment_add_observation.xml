@@ -55,13 +55,45 @@
                 fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
 
 
+            <TextView
+                android:id="@+id/textViewStatic_chooseFromGuide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_tick"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginTop="@dimen/padding_X3_large"
+                android:text="@string/text_chooseTickInfo"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/font_small"/>
+
+            <Button
+                android:id="@+id/button_chooseFromGuide"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewStatic_chooseFromGuide"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:text="@string/text_chooseTick"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_small"/>
+
+            <!--Line separator-->
+            <View
+                android:id="@+id/separator_observation_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/button_chooseFromGuide"
+                android:background="@color/divider"/>
+
             <!--  Tick row -->
             <ImageView
                 android:id="@+id/icon_tick"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/fab_selectImage"
+                android:layout_below="@id/separator_observation_1"
                 android:layout_marginLeft="@dimen/padding_small"
                 android:layout_marginTop="@dimen/padding_X_large"
                 android:padding="@dimen/padding_medium"
@@ -72,7 +104,7 @@
                 android:id="@+id/editText_tick"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/fab_selectImage"
+                android:layout_below="@id/separator_observation_1"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_marginTop="@dimen/padding_X_large"
                 android:layout_toRightOf="@id/icon_tick"
@@ -82,28 +114,6 @@
                 android:textSize="16dp"/>
 
             <!--  Species row -->
-            <ImageView
-                android:id="@+id/icon_species"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/icon_tick"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_launcher"/>
-
-            <EditText
-                android:id="@+id/editText_species"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_tick"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_toRightOf="@id/icon_species"
-                android:hint="@string/text_speciesName"
-                android:paddingBottom="16sp"
-                android:paddingTop="@dimen/padding_large"
-                android:textSize="16dp"/>
 
             <!--  Species row -->
             <ImageView
@@ -111,47 +121,24 @@
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/icon_species"
                 android:layout_marginLeft="@dimen/padding_small"
                 android:padding="@dimen/padding_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_paw"/>
+                android:src="@mipmap/ic_paw"
+                android:layout_below="@id/icon_tick"/>
 
             <EditText
                 android:id="@+id/editText_numOfTicks"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_species"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_numberOfTicks"
                 android:hint="Species"
                 android:paddingBottom="16sp"
                 android:paddingTop="@dimen/padding_large"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:layout_below="@id/editText_tick"/>
 
-            <TextView
-                android:id="@+id/textViewStatic_chooseFromGuide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/editText_numOfTicks"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_X_large"
-                android:text="@string/text_chooseTickInfo"
-                android:textColor="@color/secondaryText"
-                android:textSize="@dimen/font_small"/>
-
-            <Button
-                android:id="@+id/textView_chooseFromGuide"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textViewStatic_chooseFromGuide"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:text="@string/text_chooseTick"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/font_small"/>
         </RelativeLayout>
     </ScrollView>
 

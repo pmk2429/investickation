@@ -74,6 +74,7 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
     @Override
     public void onActivityButtonClicked() {
         Intent activityIntent = new Intent(MainActivity.this, UserActMainActivity.class);
+        activityIntent.putExtra("ActivityNew", 1);
         startActivity(activityIntent);
         finish();
     }

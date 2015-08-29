@@ -9,17 +9,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
+        
         <!-- Recycler View to display the list of Ticks section -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_remote_observations"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/lightText"
+            android:background="#D6D6D6"
             android:scrollbars="vertical"/>
-
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_observation_add"
@@ -32,6 +30,6 @@
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorPrimaryDark"
             fab:fab_icon="@drawable/ic_add_white_36dp"/>
-
     </RelativeLayout>
+
 </LinearLayout>

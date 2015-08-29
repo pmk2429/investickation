@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical"
+                tools:context=".UserActMainActivity">
+
+
+    <ImageView
+        android:id="@+id/mapview_activity"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_cardview_large"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="0dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/placeholder_tick"/>
+
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_activityImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/mapview_activity"
+        android:layout_centerInParent="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-40dp"
+        android:layout_marginRight="@dimen/padding_small"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorPrimaryDark"
+        />
+
+    <TextView
+        android:id="@+id/textView_activityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mapview_activity"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/padding_X3_large"
+        android:text="Hiking @ Golden Gate bridge"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/font_medium"/>
+</RelativeLayout>

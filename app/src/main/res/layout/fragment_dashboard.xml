@@ -1,211 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/lightText"
-                    android:baselineAligned="false"
-                    android:padding="@dimen/padding_large">
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout_activity"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_cardview_large"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="@dimen/padding_small"
-            android:layout_toLeftOf="@id/separator_vertical_observation_1"
-            android:background="@color/colorActivityDashboard"
-            android:elevation="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_activityCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="5"
-                android:textSize="@dimen/font_X4_large"/>
-
-            <TextView
-                android:id="@+id/textViewStatic_activityCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginTop="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_small"
-                android:paddingRight="@dimen/padding_small"
-                android:text="ACTIVITIES"
-                android:textSize="@dimen/font_small"/>
-
-            <!--<Button-->
-            <!--android:id="@+id/btn_activity_start"-->
-            <!--style="?android:attr/borderlessButtonStyle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginBottom="@dimen/padding_large"-->
-            <!--android:background="@color/colorWhite"-->
-            <!--android:text="START"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:textSize="@dimen/font_small"/>-->
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/btn_activity_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:layout_weight="1"
-                android:elevation="5dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
                 android:padding="@dimen/padding_large">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingRight="@dimen/padding_large"
-                    android:paddingTop="8dp">
+    <RelativeLayout
+        android:id="@+id/relativeLayout_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_cardview_large"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_toLeftOf="@id/separator_vertical_observation_1"
+        android:background="@color/colorActivityDashboard"
+        android:elevation="8dp"
+        android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="START"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_small"/>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
-
-
-        <!--Line separator-->
-        <View
-            android:id="@+id/separator_vertical_observation_1"
-            android:layout_width="1dp"
-            android:layout_height="200dp"
+        <TextView
+            android:id="@+id/textView_activityCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textAlignment="center"/>
+            android:text="5"
+            android:textSize="@dimen/font_X4_large"/>
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout_observation"
+        <TextView
+            android:id="@+id/textViewStatic_activityCount"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/padding_small"
-            android:layout_toRightOf="@id/separator_vertical_observation_1"
-            android:background="@color/colorObservationDashboard"
-            android:elevation="8dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:text="ACTIVITIES"
+            android:textSize="@dimen/font_small"/>
 
-            <TextView
-                android:id="@+id/textView_observationCount"
+        <!--<Button-->
+        <!--android:id="@+id/btn_activity_start"-->
+        <!--style="?android:attr/borderlessButtonStyle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="@dimen/padding_large"-->
+        <!--android:background="@color/colorWhite"-->
+        <!--android:text="START"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--android:textSize="@dimen/font_small"/>-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/btn_activity_recent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:layout_weight="1"
+            android:elevation="5dp"
+            android:padding="@dimen/padding_large">
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="14"
-                android:textSize="@dimen/font_X4_large"/>
+                android:background="@color/colorWhite"
+                android:paddingBottom="8dp"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingTop="8dp">
 
-            <TextView
-                android:id="@+id/textViewStatic_observationCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginTop="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_small"
-                android:paddingRight="@dimen/padding_small"
-                android:text="OBSERVATIONS"
-                android:textSize="@dimen/font_small"/>
-
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/btn_observation_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:layout_weight="1"
-                android:elevation="5dp"
-                android:padding="@dimen/padding_large">
-
-                <RelativeLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingRight="@dimen/padding_large"
-                    android:paddingTop="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="POST"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_small"/>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_horizontal_recentActivity"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_cardview_large"
-            android:layout_below="@id/relativeLayout_observation"
-            android:layout_marginTop="@dimen/padding_large"
-            android:background="@color/colorWhite"
-            android:elevation="8dp">
-
-            <TextView
-                android:id="@+id/textViewStatic_recentActivity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginTop="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_small"
-                android:paddingRight="@dimen/padding_small"
-                android:text="Recent activity"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/font_small"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_horizontal_recentObservation"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_cardview_large"
-            android:layout_below="@id/layout_horizontal_recentActivity"
-            android:layout_marginTop="@dimen/padding_large"
-            android:background="@color/colorWhite"
-            android:elevation="8dp">
-
-            <TextView
-                android:id="@+id/textViewStatic_recentObservation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginTop="@dimen/padding_large"
-                android:paddingLeft="@dimen/padding_small"
-                android:paddingRight="@dimen/padding_small"
-                android:text="Recent observation"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/font_small"/>
-
-        </RelativeLayout>
-
+                    android:text="View Recent"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
     </RelativeLayout>
-</ScrollView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/btn_activity_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/relativeLayout_activity"
+        android:layout_marginRight="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_toLeftOf="@id/separator_vertical_observation_1"
+        android:layout_weight="1"
+        android:elevation="5dp"
+        android:padding="@dimen/padding_large">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="START"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_small"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <!--Line separator-->
+    <View
+        android:id="@+id/separator_vertical_observation_1"
+        android:layout_width="1dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"/>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_observation"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_toRightOf="@id/separator_vertical_observation_1"
+        android:background="@color/colorObservationDashboard"
+        android:elevation="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_observationCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="14"
+            android:textSize="@dimen/font_X4_large"/>
+
+        <TextView
+            android:id="@+id/textViewStatic_observationCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_small"
+            android:text="OBSERVATIONS"
+            android:textSize="@dimen/font_small"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/btn_observation_recent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_large"
+            android:layout_weight="1"
+            android:elevation="5dp"
+            android:padding="@dimen/padding_large">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingBottom="8dp"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Recent"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/btn_observation_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/relativeLayout_observation"
+        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_toRightOf="@id/separator_vertical_observation_1"
+        android:layout_weight="1"
+        android:elevation="5dp"
+        android:padding="@dimen/padding_large">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="POST"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_small"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/layout_horizontal_recentActivity"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/dimen_cardview_large"-->
+    <!--android:layout_below="@id/relativeLayout_observation"-->
+    <!--android:layout_marginTop="@dimen/padding_large"-->
+    <!--android:background="@color/colorWhite"-->
+    <!--android:elevation="8dp">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewStatic_recentActivity"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_gravity="center_horizontal|top"-->
+    <!--android:layout_marginTop="@dimen/padding_large"-->
+    <!--android:paddingLeft="@dimen/padding_small"-->
+    <!--android:paddingRight="@dimen/padding_small"-->
+    <!--android:text="Recent activity"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="@dimen/font_small"/>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/layout_horizontal_recentObservation"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/dimen_cardview_large"-->
+    <!--android:layout_below="@id/layout_horizontal_recentActivity"-->
+    <!--android:layout_marginTop="@dimen/padding_large"-->
+    <!--android:background="@color/colorWhite"-->
+    <!--android:elevation="8dp">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/textViewStatic_recentObservation"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_gravity="center_horizontal|top"-->
+    <!--android:layout_marginTop="@dimen/padding_large"-->
+    <!--android:paddingLeft="@dimen/padding_small"-->
+    <!--android:paddingRight="@dimen/padding_small"-->
+    <!--android:text="Recent observation"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="@dimen/font_small"/>-->
+
+    <!--</RelativeLayout>-->
+
+
+</RelativeLayout>

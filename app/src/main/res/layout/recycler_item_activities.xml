@@ -1,46 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fab="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:baselineAligned="false"
-              android:padding="16dp">
+              android:paddingLeft="@dimen/padding_small"
+              android:paddingRight="@dimen/padding_small"
+              android:paddingTop="@dimen/padding_large">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_activity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@color/colorWhite"
         android:padding="0dp">
 
         <RelativeLayout
             android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/mapview_activity"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_large"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_tick"/>
-
-            <!--<fragment-->
-            <!--android:id="@+id/mapview_activity"-->
-            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/dimen_cardview_large"-->
-            <!--android:layout_gravity="center_horizontal"/>-->
-
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
 
             <TextView
                 android:id="@+id/textView_activityName"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentTop="true"
-                android:background="@color/lightText"
+                android:background="@color/colorWhite"
                 android:gravity="top|start"
                 android:paddingBottom="8dp"
                 android:paddingLeft="@dimen/padding_large"
@@ -50,11 +36,60 @@
                 android:textSize="18dp"
                 android:textStyle="bold"/>
 
+            <ImageView
+                android:id="@+id/mapview_activity"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_cardview_large"
+                android:layout_below="@id/textView_activityName"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/placeholder_tick"/>
+
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_activityImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/mapview_activity"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="-40dp"
+                android:layout_marginLeft="@dimen/padding_small"
+                fab:fab_colorNormal="@color/secondaryText"
+                fab:fab_colorPressed="@color/secondaryText"
+                />
+
+
+            <!--<fragment-->
+            <!--android:id="@+id/mapview_activity"-->
+            <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dimen_cardview_large"-->
+            <!--android:layout_gravity="center_horizontal"/>-->
+
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView_activityName"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/widget_dimen"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:background="@color/lightText"-->
+            <!--android:gravity="top|start"-->
+            <!--android:paddingBottom="8dp"-->
+            <!--android:paddingLeft="@dimen/padding_large"-->
+            <!--android:paddingTop="@dimen/padding_large"-->
+            <!--android:text="@string/text_activityName"-->
+            <!--android:textColor="@color/primaryText"-->
+            <!--android:textSize="18dp"-->
+            <!--android:textStyle="bold"/>-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/mapview_activity"
+                android:layout_marginTop="36dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -62,13 +97,13 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="0.4"
-                    android:background="@color/colorActivityDashboard"
+                    android:background="@color/colorWhite"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/text_totalDistance"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"/>
 
                 <TextView
                     android:id="@+id/textView_numOfObservations"
@@ -76,13 +111,13 @@
                     android:layout_height="48dp"
                     android:layout_toRightOf="@+id/textView_totalDistance"
                     android:layout_weight="0.6"
-                    android:background="@color/colorActivityDashboard"
+                    android:background="@color/colorWhite"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/text_totalObservations"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"
                     android:typeface="sans"/>
 
                 <TextView
@@ -93,13 +128,13 @@
                     android:layout_below="@id/mapview_activity"
                     android:layout_toRightOf="@+id/textView_numOfObservations"
                     android:layout_weight="0.4"
-                    android:background="@color/colorActivityDashboard"
+                    android:background="@color/colorWhite"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/text_totalPeople"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="16dp"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"/>
             </LinearLayout>
 
         </RelativeLayout>
