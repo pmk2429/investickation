@@ -2,7 +2,6 @@ package investickations.com.sfsu.investickation;
 
 // else show the ActivityList Fragment in the 'activity_fragment_container'
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -38,15 +37,16 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
                 activityNew.replace(R.id.activity_fragment_container, activityNewFragment);
                 activityNew.addToBackStack(null);
                 activityNew.commit();
+            } else {
+
+                ActivityList activityListFragment = new ActivityList();
+
+                // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
+                //activityListFragment.setArguments(getIntent().getExtras());
+
+                // add Fragment to 'activity_fragment_container'
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment).commit();
             }
-
-            ActivityList activityListFragment = new ActivityList();
-
-            // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-            //activityListFragment.setArguments(getIntent().getExtras());
-
-            // add Fragment to 'activity_fragment_container'
-            getSupportFragmentManager().beginTransaction().addToBackStack(null).add(R.id.activity_fragment_container, activityListFragment).commit();
         }
     }
 

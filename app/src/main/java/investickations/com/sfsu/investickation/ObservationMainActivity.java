@@ -27,16 +27,22 @@ public class ObservationMainActivity extends BaseActivity implements RemoteObser
             if (savedInstanceState != null) {
                 return;
             }
+            if (getIntent().getIntExtra("ObservationNew", 0) == 1) {
+                AddObservation addObservationFragment = new AddObservation();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.observation_fragment_container, addObservationFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            } else {
+                RemoteObservationsList remoteObservations = new RemoteObservationsList();
 
-            RemoteObservationsList remoteObservations = new RemoteObservationsList();
+                // if activity was started with special instructions from an Intent, then pass Intent's extras
+                // to fragments as arguments
+                remoteObservations.setArguments(getIntent().getExtras());
 
-            // if activity was started with special instructions from an Intent, then pass Intent's extras
-            // to fragments as arguments
-            remoteObservations.setArguments(getIntent().getExtras());
-
-            // add the Fragment to 'guide_fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.observation_fragment_container, remoteObservations).commit();
-
+                // add the Fragment to 'guide_fragment_container' FrameLayout
+                getSupportFragmentManager().beginTransaction().replace(R.id.observation_fragment_container, remoteObservations).commit();
+            }
         }
     }
 

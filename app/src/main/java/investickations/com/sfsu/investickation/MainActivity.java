@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
     @Override
     public void onObservationButtonClicked() {
         Intent observationIntent = new Intent(MainActivity.this, ObservationMainActivity.class);
+        observationIntent.putExtra("ObservationNew", 1);
         startActivity(observationIntent);
         finish();
     }
