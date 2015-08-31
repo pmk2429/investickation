@@ -33,5 +33,8 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'de.hdodenhof:circleimageview:1.3.0'
     compile 'com.getbase:floatingactionbutton:1.10.0'
+    compile('com.github.florent37:materialviewpager:1.1.0@aar') {
+        transitive = true
+    }
 
 }

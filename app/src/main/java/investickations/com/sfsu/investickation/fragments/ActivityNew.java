@@ -1,6 +1,7 @@
 package investickations.com.sfsu.investickation.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,9 +12,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import investickations.com.sfsu.investickation.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class ActivityNew extends Fragment {
     private IActivityNewCallBack mInterface;
 
@@ -43,6 +42,17 @@ public class ActivityNew extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mInterface = (IActivityNewCallBack) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement IActivityNewCallBack");
+        }
     }
 
     public interface IActivityNewCallBack {

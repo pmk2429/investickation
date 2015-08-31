@@ -56,7 +56,6 @@
                 fab:fab_colorPressed="@color/colorPrimaryDark"
                 fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
 
-
             <!--  User row -->
             <ImageView
                 android:id="@+id/icon_user"

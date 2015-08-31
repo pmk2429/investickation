@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 
 import investickations.com.sfsu.investickation.fragments.Dashboard;
+import investickations.com.sfsu.investickation.fragments.DemoActivity;
 
 
 public class MainActivity extends BaseActivity implements Dashboard.IDashboardCallback {
@@ -83,6 +84,13 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
     public void onObservationButtonClicked() {
         Intent observationIntent = new Intent(MainActivity.this, ObservationMainActivity.class);
         startActivity(observationIntent);
+        finish();
+    }
+
+    @Override
+    public void onRecentActivityClicked() {
+        Intent demoIntent = new Intent(MainActivity.this, DemoActivity.class);
+        startActivity(demoIntent);
         finish();
     }
 }

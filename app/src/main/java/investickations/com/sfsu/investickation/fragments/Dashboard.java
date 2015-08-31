@@ -34,6 +34,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
 
+        btn_action = (CardView) v.findViewById(R.id.btn_activity_recent);
+        btn_action.setOnClickListener(this);
 
         return v;
     }
@@ -62,6 +64,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
             mListener.onActivityButtonClicked();
         } else if (v.getId() == R.id.btn_observation_post) {
             mListener.onObservationButtonClicked();
+        } else if (v.getId() == R.id.btn_activity_recent) {
+            mListener.onRecentActivityClicked();
         }
     }
 
@@ -72,6 +76,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         public void onActivityButtonClicked();
 
         public void onObservationButtonClicked();
+
+        public void onRecentActivityClicked();
     }
 
 }

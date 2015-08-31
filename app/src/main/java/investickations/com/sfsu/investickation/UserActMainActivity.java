@@ -3,6 +3,7 @@ package investickations.com.sfsu.investickation;
 // else show the ActivityList Fragment in the 'activity_fragment_container'
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -14,7 +15,7 @@ import investickations.com.sfsu.investickation.fragments.ActivityNew;
 import investickations.com.sfsu.investickation.fragments.ActivityRunning;
 
 
-public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, View.OnClickListener {
+public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.OnFragmentInteractionListener, View.OnClickListener {
 
 
     @Override
@@ -50,13 +51,13 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
     }
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent homeIntent = new Intent(UserActMainActivity.this, MainActivity.class);
-        startActivity(homeIntent);
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent homeIntent = new Intent(UserActMainActivity.this, MainActivity.class);
+//        startActivity(homeIntent);
+//        finish();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,5 +115,10 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
         transaction.replace(R.id.activity_fragment_container, mActivityRunningFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
