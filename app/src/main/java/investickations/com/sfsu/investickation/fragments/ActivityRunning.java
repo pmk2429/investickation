@@ -11,16 +11,13 @@ import android.view.ViewGroup;
 import investickations.com.sfsu.investickation.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ActivityRunning.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ActivityRunning#newInstance} factory method to
- * create an instance of this fragment.
+ * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment
+ * contains the action callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the
+ * user will be redirected to Add Observation for the current ongoing activity.
  */
 public class ActivityRunning extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private IActivityRunningCallBacks mListener;
 
 
     public ActivityRunning() {
@@ -50,10 +47,9 @@ public class ActivityRunning extends Fragment {
         return inflater.inflate(R.layout.fragment_activity_running, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onActivityRunningItemClickListener();
         }
     }
 
@@ -61,7 +57,7 @@ public class ActivityRunning extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (IActivityRunningCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -75,9 +71,9 @@ public class ActivityRunning extends Fragment {
     }
 
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public interface IActivityRunningCallBacks {
+
+        public void onActivityRunningItemClickListener();
     }
 
 }

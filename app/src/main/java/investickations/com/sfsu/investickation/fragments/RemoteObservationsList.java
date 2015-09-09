@@ -22,10 +22,11 @@ import investickations.com.sfsu.investickation.R;
 import investickations.com.sfsu.investickation.RecyclerItemClickListener;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Observation} Fragment which is used to display all the observations made by the user
+ * and are posted on the server. This fragment is attached to {@link investickations.com.sfsu.investickation.ObservationMainActivity} and
+ * the callbacks of this fragment are implemented in that activity.
  */
 
-// TODO: channge the name of interface and method
 public class RemoteObservationsList extends Fragment implements View.OnClickListener {
 
     private IObservationCallBacks mInterface;

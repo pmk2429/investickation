@@ -2,7 +2,6 @@ package investickations.com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +10,13 @@ import android.view.ViewGroup;
 import investickations.com.sfsu.investickation.R;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SplashScreen.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SplashScreen#newInstance} factory method to
- * create an instance of this fragment.
+ * A simple {@link SplashScreen} Fragment that contains the ViewPager for the first time user to get started.
+ * This screen will provide the Gist of 'using the application' using multiple screens. SplashScreen holds
+ * multiple fragments showcsing the features of the application.
  */
 public class SplashScreen extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private ISplashScreenCallBacks mListener;
 
 
     public SplashScreen() {
@@ -45,10 +41,10 @@ public class SplashScreen extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (ISplashScreenCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ISplashScreenCallBacks");
         }
     }
 
@@ -59,9 +55,8 @@ public class SplashScreen extends Fragment {
     }
 
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public interface ISplashScreenCallBacks {
+        public void onSplashScreenItemListener();
     }
 
 }

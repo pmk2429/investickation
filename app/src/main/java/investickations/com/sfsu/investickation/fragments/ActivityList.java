@@ -22,8 +22,6 @@ import investickations.com.sfsu.investickation.R;
 import investickations.com.sfsu.investickation.RecyclerItemClickListener;
 
 
-// TODO: Change the name of Interface to something more relevant and appropriate.
-// TODO: Change the name of method to make it appropriate to Item click listener
 
 public class ActivityList extends Fragment implements View.OnClickListener {
 

@@ -21,16 +21,14 @@ import investickations.com.sfsu.investickation.R;
 import investickations.com.sfsu.investickation.RecyclerItemClickListener;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Tick} fragment which contains the Information; A Guide for each ticks. This fragment displays
+ * a list of Ticks. Each ticks are displayed on a large thumbnail pic.
  */
 
 
-// TODO: Change the name of Interface to something more relevant and appropriate.
-// TODO: Change the name of method to make it appropriate to Item click listener
-
 public class GuideIndex extends Fragment implements View.OnClickListener {
 
-    IGuideIndexListener mInterface;
+    IGuideIndexCallBacks mInterface;
     private Context context;
 
     private List<Tick> ticks;
@@ -83,7 +81,7 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
 
 
         try {
-            mInterface = (IGuideIndexListener) activity;
+            mInterface = (IGuideIndexCallBacks) activity;
             context = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
@@ -97,7 +95,7 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
     }
 
     // The container Activity must implement this interface so the frag can deliver messages
-    public interface IGuideIndexListener {
+    public interface IGuideIndexCallBacks {
 
         /**
          * method to provide an interface to listen to data sent or button clicked in GuideIndex Fragment

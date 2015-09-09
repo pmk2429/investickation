@@ -9,7 +9,7 @@ import investickations.com.sfsu.investickation.fragments.GuideDetail;
 import investickations.com.sfsu.investickation.fragments.GuideIndex;
 
 
-public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGuideIndexListener {
+public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGuideIndexCallBacks {
 
     private static String TICK_RESOURCE = "ticks";
 
@@ -19,7 +19,7 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guidmaster);
 
-        
+
         // if Fragment container is present,
         if (findViewById(R.id.guide_fragment_container) != null) {
 

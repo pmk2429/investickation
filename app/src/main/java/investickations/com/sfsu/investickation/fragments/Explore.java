@@ -10,17 +10,9 @@ import android.view.ViewGroup;
 
 import investickations.com.sfsu.investickation.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Explore.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Explore#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Explore extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private IExploreCallBacks mListener;
 
     public Explore() {
         // Required empty public constructor
@@ -43,7 +35,7 @@ public class Explore extends Fragment {
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onExploreItemListener();
         }
     }
 
@@ -51,7 +43,7 @@ public class Explore extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mListener = (IExploreCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -74,9 +66,8 @@ public class Explore extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public interface IExploreCallBacks {
+        public void onExploreItemListener();
     }
 
 }
