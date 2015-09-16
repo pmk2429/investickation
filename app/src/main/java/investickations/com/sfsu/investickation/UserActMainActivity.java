@@ -2,7 +2,6 @@ package investickations.com.sfsu.investickation;
 
 // else show the ActivityList Fragment in the 'activity_fragment_container'
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -14,7 +13,7 @@ import investickations.com.sfsu.investickation.fragments.ActivityNew;
 import investickations.com.sfsu.investickation.fragments.ActivityRunning;
 
 
-public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.OnFragmentInteractionListener, View.OnClickListener {
+public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, View.OnClickListener {
 
 
     @Override
@@ -117,8 +116,9 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
         transaction.commit();
     }
 
+
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onActivityRunningItemClickListener() {
 
     }
 }

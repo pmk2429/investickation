@@ -16,7 +16,7 @@
         android:layout_marginTop="0dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick"/>
+        android:src="@mipmap/placeholder_maps"/>
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton

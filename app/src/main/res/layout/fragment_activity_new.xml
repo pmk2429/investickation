@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick"/>
+        android:src="@mipmap/placeholder_activity"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_selectImage"
@@ -175,7 +175,7 @@
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_add_alarm_black_36dp"/>
 
-    <Spinner
+    <TextView
         android:id="@+id/spinner_reminder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
@@ -183,7 +183,9 @@
         android:layout_marginRight="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_toRightOf="@id/icon_reminder"
-        android:hint="30 mins"
+        android:paddingTop="@dimen/padding_small"
+        android:text="Set Reminder"
+        android:textColor="@color/colorBlack"
         android:textSize="16sp"/>
 
 
