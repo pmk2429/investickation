@@ -1,34 +1,30 @@
 package investickations.com.sfsu.rest;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import investickations.com.sfsu.rest.service.ApiService;
+import investickations.com.sfsu.entities.AppConfig;
+import investickations.com.sfsu.rest.service.UsersApi;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 /**
+ * TODO: The code for call the Async call to remote API goes in the Activity where it must be required.
+ * <p/>
+ * <p/>
  * Created by Pavitra on 10/6/2015.
  */
 public class RestClient {
-    private static final String BASE_URL = "your base url";
-    private ApiService apiService;
+    private UsersApi apiService;
 
     public RestClient() {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(null) // This is the important line ;)
-                .setDateFormat("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'")
-                .create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(AppConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
-        apiService = retrofit.create(ApiService.class);
+        apiService = retrofit.create(UsersApi.class);
     }
 
-    public ApiService getApiService() {
+    public UsersApi getApiService() {
         return apiService;
     }
 
