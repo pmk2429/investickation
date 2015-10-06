@@ -7,7 +7,6 @@ import retrofit.http.GET;
  */
 public interface ApiService {
 
-    //    @Header("Cache-Control: This is an awesome header")
     @GET("/api/getDummieContent")
     public void getDummieContent();
 
