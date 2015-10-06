@@ -1,4 +1,4 @@
-package investickations.com.sfsu.adapters;
+package investickations.com.sfsu.utils.adapters;
 
 import android.app.Activity;
 import android.content.Context;

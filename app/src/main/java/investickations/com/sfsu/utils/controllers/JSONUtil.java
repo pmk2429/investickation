@@ -1,4 +1,4 @@
-package investickations.com.sfsu.controllers;
+package investickations.com.sfsu.utils.controllers;
 
 import org.json.JSONArray;
 import org.json.JSONException;

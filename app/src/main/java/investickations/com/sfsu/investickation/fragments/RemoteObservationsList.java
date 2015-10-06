@@ -15,7 +15,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import investickations.com.sfsu.adapters.ObservationsListAdapter;
+import investickations.com.sfsu.utils.adapters.ObservationsListAdapter;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.entities.Observation;
 import investickations.com.sfsu.investickation.R;
