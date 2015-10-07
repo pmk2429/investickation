@@ -2,7 +2,7 @@ package investickations.com.sfsu.rest;
 
 
 import investickations.com.sfsu.entities.AppConfig;
-import investickations.com.sfsu.rest.service.UsersApi;
+import investickations.com.sfsu.rest.service.EntitiesApi;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -13,7 +13,7 @@ import retrofit.Retrofit;
  * Created by Pavitra on 10/6/2015.
  */
 public class RestClient {
-    private UsersApi apiService;
+    private EntitiesApi apiService;
 
     public RestClient() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(AppConfig.BASE_URL)
@@ -21,10 +21,10 @@ public class RestClient {
                 .build();
 
 
-        apiService = retrofit.create(UsersApi.class);
+        apiService = retrofit.create(EntitiesApi.class);
     }
 
-    public UsersApi getApiService() {
+    public EntitiesApi getApiService() {
         return apiService;
     }
 

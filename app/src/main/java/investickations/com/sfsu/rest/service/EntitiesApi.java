@@ -3,6 +3,7 @@ package investickations.com.sfsu.rest.service;
 
 import java.util.List;
 
+import investickations.com.sfsu.entities.Entity;
 import investickations.com.sfsu.entities.User;
 import retrofit.Call;
 import retrofit.http.Body;
@@ -29,15 +30,15 @@ import retrofit.http.Path;
  */
 
 // * TODO: Build a GENERIC API for all the Entities i nthe application. Get rid of entity specific methods.
-public interface UsersApi {
+public interface EntitiesApi {
 
     /**
-     * This method returns the list of all the entries in resource.
+     * This method returns the list of all the Entities in resource based on the resourceIdentifier.
      *
      * @return
      */
-    @GET("/users/{user}/tick")
-    public Call<List<User>> getUsers();
+    @GET("/{resource}")
+    public Call<List<Entity>> getEntities(@Path("resource") String resouurce);
 
 
     /**
@@ -45,16 +46,16 @@ public interface UsersApi {
      *
      * @return
      */
-    @POST("/users/new")
-    Call<User> createUser(@Body User user);
+    @POST("/{resource}/new")
+    Call<User> createUser(@Path("resource") String resource, @Body Entity entity);
 
     /**
      * This method displays a specific resource by using ID of that resource.
      *
      * @return
      */
-    @GET("/users/{user}")
-    public Call<User> showUser(@Path("user") String userId);
+    @GET("/{resource}/{resourceId}")
+    public Call<Entity> showentity(@Path("resource") String resource, @Path("resourceId") String resourceId);
 
 
     /**
@@ -62,8 +63,8 @@ public interface UsersApi {
      *
      * @return
      */
-    @GET("/users/{user}")
-    public Call<User> editUser(@Path("user") String userId);
+    @GET("/{resource}/{resourceId}")
+    public Call<Entity> updateEntity(@Path("resource") String resource, @Path("resourceId") String resourceId);
 
 
     /**
@@ -71,8 +72,8 @@ public interface UsersApi {
      *
      * @return
      */
-    @GET("/users/{user}")
-    public Call<User> deleteUser(@Path("user") String userId);
+    @GET("/{resource}/{resourceId}")
+    public Call<Entity> deleteentity(@Path("resource") String resource, @Path("resourceId") String resourceId);
 
     /*
     @GET("/group/{id}/users")
