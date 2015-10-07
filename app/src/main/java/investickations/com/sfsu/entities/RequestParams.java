@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 
 /**
+ * * TODO: Remove this class once the RetroFit is setup completely.
  * <p>
  * <tt>ResourceEndpoint</tt> defines the methods for Resource Class.
  * {@link investickations.com.sfsu.entities.RequestParams.Resource} provides a concrete implementation
@@ -29,6 +30,8 @@ interface ResourceEndpoint {
 }
 
 /**
+ * * TODO: Remove this class once the RetroFit is setup completely.
+ *
  * <p>The <tt>RequestParams </tt>class provides a generic controller for setting up a remote {@link HttpURLConnection } to
  * by building the URL using params in order to communicate via REST API. The parameterized constructor for the {@link RequestParams } expects a BASE_URL to where connection needs to be setup and the HTTP method Verb for the connection eg. GET, POST, DELETE etc.
  * The RequestParams follows the generic REST standards for setting up the connection and so it follows the requirement

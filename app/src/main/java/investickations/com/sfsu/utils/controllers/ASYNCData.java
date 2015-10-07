@@ -12,6 +12,8 @@ import investickations.com.sfsu.entities.Entity;
 import investickations.com.sfsu.entities.RequestParams;
 
 /**
+ * TODO: Remove this class once the RetroFit is setup completely.
+ *
  * Created by Pavitra on 5/19/2015.
  */
 public class ASYNCData {

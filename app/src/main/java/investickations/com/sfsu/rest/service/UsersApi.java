@@ -27,6 +27,8 @@ import retrofit.http.Path;
  * <p/>
  * Created by Pavitra on 10/6/2015.
  */
+
+// * TODO: Build a GENERIC API for all the Entities i nthe application. Get rid of entity specific methods.
 public interface UsersApi {
 
     /**
