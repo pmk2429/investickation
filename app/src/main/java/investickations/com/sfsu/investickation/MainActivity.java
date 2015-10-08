@@ -88,11 +88,18 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
         finish();
     }
 
+    //    TODO: make this method open the {@clicks UserActMainActivity} to view list of Activities
     @Override
-    public void onRecentActivityClicked() {
+    public void onViewActivitiesClicked() {
         Intent demoIntent = new Intent(MainActivity.this, DemoActivity.class);
         startActivity(demoIntent);
         finish();
+    }
+
+    //    TODO: make this method open the {@clicks ObservationMainActivity} to view list of Activities
+    @Override
+    public void onViewObservationsClicked() {
+
     }
 }
 

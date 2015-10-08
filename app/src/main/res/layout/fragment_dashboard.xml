@@ -1,92 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
+<!--TODO: http://stackoverflow.com/questions/4533320/android-clickable-layout-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:baselineAligned="false"
                 android:padding="@dimen/padding_large">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_activity"
+
+    <LinearLayout
+        android:id="@+id/linearLayout_activity"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_cardview_large"
+        android:layout_height="@dimen/dimen_cardview_default"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="@dimen/padding_small"
         android:layout_toLeftOf="@id/separator_vertical_observation_1"
-        android:background="@color/colorActivityDashboard"
-        android:elevation="8dp"
-        android:orientation="horizontal">
+        android:background="@drawable/dashboard_card_border"
+        android:elevation="8dp">
+        <!-- Total Activities made by user-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_activity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/padding_small"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView_activityCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="5"
-            android:textSize="@dimen/font_X4_large"/>
+            <TextView
+                android:id="@+id/textView_activityCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="5"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_X4_large"/>
 
-        <TextView
-            android:id="@+id/textViewStatic_activityCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
-            android:text="ACTIVITIES"
-            android:textSize="@dimen/font_small"/>
+            <TextView
+                android:id="@+id/textViewStatic_activityCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:text="ACTIVITIES"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_small"/>
 
-        <!--<Button-->
-        <!--android:id="@+id/btn_activity_start"-->
-        <!--style="?android:attr/borderlessButtonStyle"-->
+            <!--<Button-->
+            <!--android:id="@+id/btn_activity_start"-->
+            <!--style="?android:attr/borderlessButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="@dimen/padding_large"-->
+            <!--android:background="@color/colorWhite"-->
+            <!--android:text="START"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:textSize="@dimen/font_small"/>-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/padding_large"
+                android:text="tap for details"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/font_X_small"/>
+        </RelativeLayout>
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/btn_activity_recent"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_alignParentBottom="true"-->
         <!--android:layout_centerHorizontal="true"-->
         <!--android:layout_marginBottom="@dimen/padding_large"-->
+        <!--android:padding="@dimen/padding_large"-->
+        <!--card_view:cardPreventCornerOverlap="false">-->
+
+        <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
         <!--android:background="@color/colorWhite"-->
-        <!--android:text="START"-->
-        <!--android:textColor="@color/colorPrimary"-->
-        <!--android:textSize="@dimen/font_small"/>-->
-        <android.support.v7.widget.CardView
-            android:id="@+id/btn_activity_recent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:layout_weight="1"
-            android:elevation="5dp"
-            android:padding="@dimen/padding_large">
+        <!--android:paddingBottom="8dp"-->
+        <!--android:paddingLeft="@dimen/padding_large"-->
+        <!--android:paddingRight="@dimen/padding_large"-->
+        <!--android:paddingTop="8dp">-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:paddingBottom="8dp"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:paddingTop="8dp">
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="tap for details"-->
+        <!--android:textColor="@color/secondaryText"-->
+        <!--android:textSize="@dimen/font_X_small"/>-->
+        <!--</RelativeLayout>-->
+        <!--</android.support.v7.widget.CardView>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Click me"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_small"/>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-    </RelativeLayout>
+        <!--</RelativeLayout>-->
+    </LinearLayout>
 
     <android.support.v7.widget.CardView
         android:id="@+id/btn_activity_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/relativeLayout_activity"
+        android:layout_below="@id/linearLayout_activity"
         android:layout_marginRight="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_toLeftOf="@id/separator_vertical_observation_1"
@@ -121,76 +146,98 @@
         android:layout_centerInParent="true"
         android:textAlignment="center"/>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout_observation"
+    <LinearLayout
+        android:id="@+id/linearLayout_observation"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/dimen_cardview_default"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_toRightOf="@id/separator_vertical_observation_1"
-        android:background="@color/colorObservationDashboard"
-        android:elevation="8dp"
-        android:orientation="horizontal">
+        android:background="@drawable/dashboard_card_border"
+        android:elevation="8dp">
 
-        <TextView
-            android:id="@+id/textView_observationCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="14"
-            android:textSize="@dimen/font_X4_large"/>
+        <!-- Total Observations made by user-->
+        <RelativeLayout
+            android:id="@+id/relativeLayout_observation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/padding_small"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textViewStatic_observationCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_small"
-            android:paddingRight="@dimen/padding_small"
-            android:text="OBSERVATIONS"
-            android:textSize="@dimen/font_small"/>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/btn_observation_recent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:layout_weight="1"
-            android:elevation="5dp"
-            android:padding="@dimen/padding_large">
-
-            <RelativeLayout
+            <TextView
+                android:id="@+id/textView_observationCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:paddingBottom="8dp"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingRight="@dimen/padding_large"
-                android:paddingTop="8dp">
+                android:layout_centerInParent="true"
+                android:text="14"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_X4_large"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View Recent"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_small"/>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+            <TextView
+                android:id="@+id/textViewStatic_observationCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="@dimen/padding_large"
+                android:paddingLeft="@dimen/padding_small"
+                android:paddingRight="@dimen/padding_small"
+                android:text="OBSERVATIONS"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_small"/>
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/padding_large"
+                android:text="tap for details"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/font_X_small"/>
 
+
+            <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/btn_observation_recent"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="@dimen/padding_large"-->
+            <!--android:layout_weight="1"-->
+            <!--android:elevation="5dp"-->
+            <!--android:padding="@dimen/padding_large">-->
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/colorWhite"-->
+            <!--android:paddingBottom="8dp"-->
+            <!--android:paddingLeft="@dimen/padding_large"-->
+            <!--android:paddingRight="@dimen/padding_large"-->
+            <!--android:paddingTop="8dp">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="tap for details"-->
+            <!--android:textColor="@color/secondaryText"-->
+            <!--android:textSize="@dimen/font_X_small"/>-->
+            <!--</RelativeLayout>-->
+            <!--</android.support.v7.widget.CardView>-->
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <android.support.v7.widget.CardView
         android:id="@+id/btn_observation_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/relativeLayout_observation"
+        android:layout_below="@id/linearLayout_observation"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_toRightOf="@id/separator_vertical_observation_1"

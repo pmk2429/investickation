@@ -29,7 +29,6 @@ import retrofit.http.Path;
  * Created by Pavitra on 10/6/2015.
  */
 
-// * TODO: Build a GENERIC API for all the Entities i nthe application. Get rid of entity specific methods.
 public interface EntitiesApi {
 
     /**
@@ -38,7 +37,7 @@ public interface EntitiesApi {
      * @return
      */
     @GET("/{resource}")
-    public Call<List<Entity>> getEntities(@Path("resource") String resouurce);
+    public Call<List<Entity>> getEntities(@Path("resource") String resource);
 
 
     /**
@@ -47,7 +46,7 @@ public interface EntitiesApi {
      * @return
      */
     @POST("/{resource}/new")
-    Call<User> createUser(@Path("resource") String resource, @Body Entity entity);
+    Call<User> createEntity(@Path("resource") String resource, @Body Entity entity);
 
     /**
      * This method displays a specific resource by using ID of that resource.
@@ -55,7 +54,7 @@ public interface EntitiesApi {
      * @return
      */
     @GET("/{resource}/{resourceId}")
-    public Call<Entity> showentity(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    public Call<Entity> showEntity(@Path("resource") String resource, @Path("resourceId") String resourceId);
 
 
     /**
@@ -73,15 +72,5 @@ public interface EntitiesApi {
      * @return
      */
     @GET("/{resource}/{resourceId}")
-    public Call<Entity> deleteentity(@Path("resource") String resource, @Path("resourceId") String resourceId);
-
-    /*
-    @GET("/group/{id}/users")
-    Call<List<User>> groupList(@Path("id") int groupId, @Query("sort") String sort);
-
-    @POST("/users/new")
-    Call<User> createUser(@Body User user);
-
-     */
-
+    public Call<Entity> deleteEntity(@Path("resource") String resource, @Path("resourceId") String resourceId);
 }
