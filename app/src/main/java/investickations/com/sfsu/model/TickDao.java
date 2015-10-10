@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.entities.Tick;
 
@@ -79,5 +82,59 @@ public class TickDao {
         return tickItem;
     }
 
-    
+    /**
+     * Delete the Tick entry from the Table.
+     *
+     * @param Ticks
+     * @return
+     */
+    public boolean delete(Tick ticks) {
+
+        return db.delete(TicksTable.TABLENAME, TicksTable.COLUMN_ID + "=?", new String[]{ticks.getTick_id() + ""}) > 0;
+    }
+
+    /**
+     * get specific Tick using ID.
+     *
+     * @param id
+     * @return
+     */
+    public Tick get(long id) {
+
+        Tick tickItem = null;
+        Cursor c = db.query(true, TicksTable.TABLENAME, tickEntryArray, TicksTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+
+        if (c != null && c.moveToFirst()) {
+            tickItem = buildFromCursor(c);
+            if (!c.isClosed()) {
+                c.close();
+            }
+        }
+        return tickItem;
+    }
+
+    /**
+     * Get list of all the ticks stored in DB
+     *
+     * @return
+     */
+    public List<Tick> getAll() {
+        List<Tick> ticksList = new ArrayList<Tick>();
+
+        // Query the Database to get all the records.
+        Cursor c = db.query(TicksTable.TABLENAME, tickEntryArray, null, null, null, null, null);
+
+        if (c != null && c.moveToFirst()) {
+            // loop until the end of Cursor and add each entry to Ticks ArrayList.
+            do {
+                Tick tickItem = buildFromCursor(c);
+                if (tickItem != null) {
+                    ticksList.add(tickItem);
+                }
+            } while (c.moveToNext());
+        }
+        return ticksList;
+    }
+
+
 }

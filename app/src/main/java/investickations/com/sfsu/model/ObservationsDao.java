@@ -20,6 +20,10 @@ public class ObservationsDao {
     private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TICK_IMAGE, ObservationsTable.COLUMN_LAT, ObservationsTable.COLUMN_LONG, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT};
 
 
+    public ObservationsDao(SQLiteDatabase db) {
+        this.db = db;
+    }
+
     /**
      * Delete the Observation entry from the Table.
      *
@@ -67,10 +71,6 @@ public class ObservationsDao {
             } while (c.moveToNext());
         }
         return observationsList;
-    }
-
-    public ObservationsDao(SQLiteDatabase db) {
-        this.db = db;
     }
 
     /**
