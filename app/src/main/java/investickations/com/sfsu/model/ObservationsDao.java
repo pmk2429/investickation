@@ -20,52 +20,6 @@ public class ObservationsDao {
     private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TICK_IMAGE, ObservationsTable.COLUMN_LAT, ObservationsTable.COLUMN_LONG, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT};
 
 
-    public ObservationsDao(SQLiteDatabase db) {
-        this.db = db;
-    }
-
-    /**
-     * save(Observation) method is used to save the entries (field values) in to Observation Database table
-     *
-     * @param observations
-     * @return
-     */
-    public Long save(Observation observations) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
-        contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(ObservationsTable.COLUMN_TICK_IMAGE, observations.getTickImageUrl());
-        contentValues.put(ObservationsTable.COLUMN_LAT, observations.getLatitude());
-        contentValues.put(ObservationsTable.COLUMN_LONG, observations.getLongitude());
-        contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
-        contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
-        Log.d(AppConfig.LOGSTRING, "Observation : INSERT reached");
-        return db.insert(ObservationsTable.TABLENAME, null, contentValues);
-    }
-
-    /**
-     * update(Observation) method to update the entries in Observation Table
-     *
-     * @param observations
-     * @return
-     */
-    public boolean update(Observation observations) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
-        contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(ObservationsTable.COLUMN_TICK_IMAGE, observations.getTickImageUrl());
-        contentValues.put(ObservationsTable.COLUMN_LAT, observations.getLatitude());
-        contentValues.put(ObservationsTable.COLUMN_LONG, observations.getLongitude());
-        contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
-        contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
-        Log.d(AppConfig.LOGSTRING, "Observation : UPDATE reached");
-        // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
-        // for whether its true or false.
-        return db.update(ObservationsTable.TABLENAME, contentValues, ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getObservation_id() + ""}) > 0;
-    }
-
     /**
      * Delete the Observation entry from the Table.
      *
@@ -113,6 +67,52 @@ public class ObservationsDao {
             } while (c.moveToNext());
         }
         return observationsList;
+    }
+
+    public ObservationsDao(SQLiteDatabase db) {
+        this.db = db;
+    }
+
+    /**
+     * save(Observation) method is used to save the entries (field values) in to Observation Database table
+     *
+     * @param observations
+     * @return
+     */
+    public Long save(Observation observations) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
+        contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+        contentValues.put(ObservationsTable.COLUMN_TICK_IMAGE, observations.getTickImageUrl());
+        contentValues.put(ObservationsTable.COLUMN_LAT, observations.getLatitude());
+        contentValues.put(ObservationsTable.COLUMN_LONG, observations.getLongitude());
+        contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
+        contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
+        contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
+        Log.d(AppConfig.LOGSTRING, "Observation : INSERT reached");
+        return db.insert(ObservationsTable.TABLENAME, null, contentValues);
+    }
+
+    /**
+     * update(Observation) method to update the entries in Observation Table
+     *
+     * @param observations
+     * @return
+     */
+    public boolean update(Observation observations) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
+        contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+        contentValues.put(ObservationsTable.COLUMN_TICK_IMAGE, observations.getTickImageUrl());
+        contentValues.put(ObservationsTable.COLUMN_LAT, observations.getLatitude());
+        contentValues.put(ObservationsTable.COLUMN_LONG, observations.getLongitude());
+        contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
+        contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
+        contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
+        Log.d(AppConfig.LOGSTRING, "Observation : UPDATE reached");
+        // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
+        // for whether its true or false.
+        return db.update(ObservationsTable.TABLENAME, contentValues, ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getObservation_id() + ""}) > 0;
     }
 
     // build the Observation Object using Cursor.

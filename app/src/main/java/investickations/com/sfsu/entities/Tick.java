@@ -45,6 +45,14 @@ public class Tick implements Parcelable, Entity {
         this.imageUrl = imageUrl;
     }
 
+    public static List<Tick> initializeData() {
+        List<Tick> ticks = new ArrayList<>();
+        ticks.add(new Tick("American Dog tick", "Found on Dogs"));
+        ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
+        ticks.add(new Tick("Jungle tick", "Dangerous species"));
+        return ticks;
+    }
+
     @Override
     public Entity createEntityFactory(JSONObject jsonObject) {
         Tick tick = new Tick();
@@ -56,46 +64,73 @@ public class Tick implements Parcelable, Entity {
         return tick_id;
     }
 
+    public void setTick_id(int tick_id) {
+        this.tick_id = tick_id;
+    }
 
     public String getTickName() {
         return tickName;
     }
 
+    public void setTickName(String tickName) {
+        this.tickName = tickName;
+    }
 
     public String getSpecies() {
         return species;
     }
 
+    public void setSpecies(String species) {
+        this.species = species;
+    }
 
     public String getColor() {
         return color;
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getKnown_for() {
         return known_for;
     }
 
+    public void setKnown_for(String known_for) {
+        this.known_for = known_for;
+    }
 
     public String getDescripition() {
         return descripition;
     }
 
+    public void setDescripition(String descripition) {
+        this.descripition = descripition;
+    }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public long getCreated_at() {
         return created_at;
     }
 
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
 
     public long getUpdated_at() {
         return updated_at;
     }
 
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
+    }
 
     @Override
     public String toString() {
@@ -135,14 +170,6 @@ public class Tick implements Parcelable, Entity {
     @Override
     public String getJSONResourceIdentifier() {
         return "ticks";
-    }
-
-    public static List<Tick> initializeData() {
-        List<Tick> ticks = new ArrayList<>();
-        ticks.add(new Tick("American Dog tick", "Found on Dogs"));
-        ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
-        ticks.add(new Tick("Jungle tick", "Dangerous species"));
-        return ticks;
     }
 
 }

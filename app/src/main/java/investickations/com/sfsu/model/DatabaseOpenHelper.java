@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     // specify the name and version of DB.
-    protected static final String DB_NAME = "Investickation.db";
+    protected static final String DB_NAME = "Investickations.db";
     protected static final int DB_VERSION = 1;
 
     // the default constructor
