@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="14"
+                android:text="16"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/font_X4_large"/>
 
