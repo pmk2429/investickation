@@ -30,18 +30,24 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
                 return;
             }
 
-            if (getIntent().getIntExtra("ActivityNew", 0) == 1) {
+            if (getIntent().getIntExtra("ActivityNew", 0) == 1) { // if user clicks on Start Activity
                 ActivityNew activityNewFragment = new ActivityNew();
                 FragmentTransaction activityNew = getSupportFragmentManager().beginTransaction();
                 activityNew.replace(R.id.activity_fragment_container, activityNewFragment);
                 activityNew.addToBackStack(null);
                 activityNew.commit();
+            } else if (getIntent().getIntExtra("ActivityList", 0) == 2) { // if user clicks on ActivityList
+                ActivityList activityList = new ActivityList();
+                FragmentTransaction activityListFragment = getSupportFragmentManager().beginTransaction();
+                activityListFragment.replace(R.id.activity_fragment_container, activityList);
+                activityListFragment.addToBackStack(null);
+                activityListFragment.commit();
             } else {
 
                 ActivityList activityListFragment = new ActivityList();
 
                 // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-                //activityListFragment.setArguments(getIntent().getExtras());
+                activityListFragment.setArguments(getIntent().getExtras());
 
                 // add Fragment to 'activity_fragment_container'
                 getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment).commit();

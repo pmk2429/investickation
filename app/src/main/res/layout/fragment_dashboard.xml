@@ -6,9 +6,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/lightText"
                 android:baselineAligned="false"
                 android:padding="@dimen/padding_large">
-
 
     <LinearLayout
         android:id="@+id/linearLayout_activity"
@@ -19,6 +19,7 @@
         android:layout_toLeftOf="@id/separator_vertical_observation_1"
         android:background="@drawable/dashboard_card_border"
         android:elevation="8dp">
+
         <!-- Total Activities made by user-->
         <RelativeLayout
             android:id="@+id/relativeLayout_activity"
@@ -51,18 +52,6 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/font_small"/>
 
-            <!--<Button-->
-            <!--android:id="@+id/btn_activity_start"-->
-            <!--style="?android:attr/borderlessButtonStyle"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginBottom="@dimen/padding_large"-->
-            <!--android:background="@color/colorWhite"-->
-            <!--android:text="START"-->
-            <!--android:textColor="@color/colorPrimary"-->
-            <!--android:textSize="@dimen/font_small"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,36 +63,6 @@
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X_small"/>
         </RelativeLayout>
-
-        <!--<android.support.v7.widget.CardView-->
-        <!--android:id="@+id/btn_activity_recent"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="@dimen/padding_large"-->
-        <!--android:padding="@dimen/padding_large"-->
-        <!--card_view:cardPreventCornerOverlap="false">-->
-
-        <!--<RelativeLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorWhite"-->
-        <!--android:paddingBottom="8dp"-->
-        <!--android:paddingLeft="@dimen/padding_large"-->
-        <!--android:paddingRight="@dimen/padding_large"-->
-        <!--android:paddingTop="8dp">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="tap for details"-->
-        <!--android:textColor="@color/secondaryText"-->
-        <!--android:textSize="@dimen/font_X_small"/>-->
-        <!--</RelativeLayout>-->
-        <!--</android.support.v7.widget.CardView>-->
-
-        <!--</RelativeLayout>-->
     </LinearLayout>
 
     <android.support.v7.widget.CardView
@@ -198,36 +157,6 @@
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X_small"/>
 
-
-            <!--<android.support.v7.widget.CardView-->
-            <!--android:id="@+id/btn_observation_recent"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_marginBottom="@dimen/padding_large"-->
-            <!--android:layout_weight="1"-->
-            <!--android:elevation="5dp"-->
-            <!--android:padding="@dimen/padding_large">-->
-
-            <!--<RelativeLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/colorWhite"-->
-            <!--android:paddingBottom="8dp"-->
-            <!--android:paddingLeft="@dimen/padding_large"-->
-            <!--android:paddingRight="@dimen/padding_large"-->
-            <!--android:paddingTop="8dp">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="tap for details"-->
-            <!--android:textColor="@color/secondaryText"-->
-            <!--android:textSize="@dimen/font_X_small"/>-->
-            <!--</RelativeLayout>-->
-            <!--</android.support.v7.widget.CardView>-->
-
         </RelativeLayout>
 
     </LinearLayout>
@@ -263,55 +192,5 @@
                 android:textSize="@dimen/font_small"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/layout_horizontal_recentActivity"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/dimen_cardview_large"-->
-    <!--android:layout_below="@id/relativeLayout_observation"-->
-    <!--android:layout_marginTop="@dimen/padding_large"-->
-    <!--android:background="@color/colorWhite"-->
-    <!--android:elevation="8dp">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/textViewStatic_recentActivity"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_gravity="center_horizontal|top"-->
-    <!--android:layout_marginTop="@dimen/padding_large"-->
-    <!--android:paddingLeft="@dimen/padding_small"-->
-    <!--android:paddingRight="@dimen/padding_small"-->
-    <!--android:text="Recent activity"-->
-    <!--android:textColor="@color/colorPrimary"-->
-    <!--android:textSize="@dimen/font_small"/>-->
-
-    <!--</RelativeLayout>-->
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/layout_horizontal_recentObservation"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/dimen_cardview_large"-->
-    <!--android:layout_below="@id/layout_horizontal_recentActivity"-->
-    <!--android:layout_marginTop="@dimen/padding_large"-->
-    <!--android:background="@color/colorWhite"-->
-    <!--android:elevation="8dp">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/textViewStatic_recentObservation"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_gravity="center_horizontal|top"-->
-    <!--android:layout_marginTop="@dimen/padding_large"-->
-    <!--android:paddingLeft="@dimen/padding_small"-->
-    <!--android:paddingRight="@dimen/padding_small"-->
-    <!--android:text="Recent observation"-->
-    <!--android:textColor="@color/colorPrimary"-->
-    <!--android:textSize="@dimen/font_small"/>-->
-
-    <!--</RelativeLayout>-->
-
 
 </RelativeLayout>

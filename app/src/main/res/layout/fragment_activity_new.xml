@@ -6,7 +6,6 @@
                 android:background="@color/colorWhite"
                 tools:context="investickations.com.sfsu.investickation.fragments.ActivityNew">
 
-    <!--  Tick image -->
     <ImageView
         android:id="@+id/image_ActivityImage"
         android:layout_width="match_parent"
@@ -15,6 +14,13 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_activity"/>
+
+    <!--<FrameLayout-->
+    <!--android:id="@+id/mapView_ActivityNew"-->
+    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/dimen_cardview_large"-->
+    <!--android:layout_gravity="center_horizontal"/>-->
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_selectImage"

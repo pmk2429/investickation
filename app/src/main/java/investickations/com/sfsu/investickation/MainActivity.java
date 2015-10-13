@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 
 import investickations.com.sfsu.investickation.fragments.Dashboard;
-import investickations.com.sfsu.investickation.fragments.DemoActivity;
 
 
 public class MainActivity extends BaseActivity implements Dashboard.IDashboardCallback {
@@ -88,18 +87,20 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
         finish();
     }
 
-    //    TODO: make this method open the {@clicks UserActMainActivity} to view list of Activities
     @Override
     public void onViewActivitiesClicked() {
-        Intent demoIntent = new Intent(MainActivity.this, DemoActivity.class);
-        startActivity(demoIntent);
+        Intent activityIntent = new Intent(MainActivity.this, UserActMainActivity.class);
+        activityIntent.putExtra("ActivityList", 2);
+        startActivity(activityIntent);
         finish();
     }
 
-    //    TODO: make this method open the {@clicks ObservationMainActivity} to view list of Activities
     @Override
     public void onViewObservationsClicked() {
-
+        Intent observationIntent = new Intent(MainActivity.this, ObservationMainActivity.class);
+        observationIntent.putExtra("ObservationList", 2);
+        startActivity(observationIntent);
+        finish();
     }
 }
 

@@ -33,6 +33,12 @@ public class ObservationMainActivity extends BaseActivity implements RemoteObser
                 transaction.replace(R.id.observation_fragment_container, addObservationFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            } else if (getIntent().getIntExtra("ObservationList", 0) == 2) {
+                RemoteObservationsList observationsList = new RemoteObservationsList();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.observation_fragment_container, observationsList);
+                transaction.addToBackStack(null);
+                transaction.commit();
             } else {
                 RemoteObservationsList remoteObservations = new RemoteObservationsList();
 
