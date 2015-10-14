@@ -4,6 +4,8 @@
     <dimen name="dimen_default">0dp</dimen>
 
     <!-- Default screen dimensions, per the Android Design guidelines. -->
+    <dimen name="padding_X1_small">4dp</dimen>
+    <dimen name="padding_X_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>

@@ -15,12 +15,11 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import investickations.com.sfsu.utils.adapters.ActivitiesListAdapter;
 import investickations.com.sfsu.entities.Activities;
 import investickations.com.sfsu.entities.AppConfig;
 import investickations.com.sfsu.investickation.R;
 import investickations.com.sfsu.investickation.RecyclerItemClickListener;
-
+import investickations.com.sfsu.utils.adapters.ActivitiesListAdapter;
 
 
 public class ActivityList extends Fragment implements View.OnClickListener {

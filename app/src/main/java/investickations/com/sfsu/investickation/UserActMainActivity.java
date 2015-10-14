@@ -8,12 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import investickations.com.sfsu.investickation.fragments.ActivityDetails;
 import investickations.com.sfsu.investickation.fragments.ActivityList;
 import investickations.com.sfsu.investickation.fragments.ActivityNew;
 import investickations.com.sfsu.investickation.fragments.ActivityRunning;
 
 
-public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, View.OnClickListener {
+public class UserActMainActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener {
 
 
     @Override
@@ -90,7 +91,11 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
      */
     @Override
     public void onItemClickListener() {
-
+        ActivityDetails mActivityDetailsFragment = new ActivityDetails();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_fragment_container, mActivityDetailsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -125,6 +130,11 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
 
     @Override
     public void onActivityRunningItemClickListener() {
+
+    }
+
+    @Override
+    public void onActivityDetailsClick() {
 
     }
 }

@@ -76,7 +76,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cardview_activity);
-            txtViewActivityName = (TextView) itemView.findViewById(R.id.textView_activityName);
+            txtViewActivityName = (TextView) itemView.findViewById(R.id.textView_activityNameMain);
             txtViewDistance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
             txtViewObservations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);
             txtViewPeople = (TextView) itemView.findViewById(R.id.textView_totalPeople);

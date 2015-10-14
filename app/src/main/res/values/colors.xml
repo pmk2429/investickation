@@ -18,6 +18,7 @@
     <color name="primaryText">#212121</color>
     <color name="secondaryText">#727272</color>
     <color name="lightText">#ccc</color>
+    <color name="ultraLightText">#eee</color>
 
     <color name="demo">@color/abc_primary_text_material_dark</color>
 

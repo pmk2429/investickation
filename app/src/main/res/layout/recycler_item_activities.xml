@@ -23,7 +23,7 @@
             android:background="@color/colorWhite">
 
             <TextView
-                android:id="@+id/textView_activityName"
+                android:id="@+id/textView_activityNameMain"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:background="@color/colorWhite"
@@ -37,10 +37,10 @@
                 android:textStyle="bold"/>
 
             <ImageView
-                android:id="@+id/mapview_activity"
+                android:id="@+id/mapView_activity"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_cardview_large"
-                android:layout_below="@id/textView_activityName"
+                android:layout_below="@id/textView_activityNameMain"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
                 android:adjustViewBounds="true"
@@ -51,7 +51,7 @@
                 android:id="@+id/fab_activityImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/mapview_activity"
+                android:layout_alignBottom="@id/mapView_activity"
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="-40dp"
@@ -88,7 +88,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/mapview_activity"
+                android:layout_below="@id/mapView_activity"
                 android:layout_marginTop="36dp"
                 android:orientation="horizontal">
 
@@ -125,7 +125,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@id/mapview_activity"
+                    android:layout_below="@id/mapView_activity"
                     android:layout_toRightOf="@+id/textView_numOfObservations"
                     android:layout_weight="0.4"
                     android:background="@color/colorWhite"

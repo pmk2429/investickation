@@ -51,6 +51,13 @@ public class Activities implements Parcelable, Entity {
         this.update_at = update_at;
     }
 
+    public static List<Activities> initializeData() {
+        List<Activities> activities = new ArrayList<>();
+        activities.add(new Activities("Golden Gate Park", 5, 1, 8));
+        activities.add(new Activities("SF Presidio", 0, 0, 4));
+        activities.add(new Activities("Yosemite", 8, 0, 11));
+        return activities;
+    }
 
     @Override
     public Entity createEntityFactory(JSONObject jsonObject) {
@@ -58,7 +65,6 @@ public class Activities implements Parcelable, Entity {
 
         return activity;
     }
-
 
     public int getActivity_id() {
         return activity_id;
@@ -72,46 +78,37 @@ public class Activities implements Parcelable, Entity {
         return activityName;
     }
 
-
     public String getImageUrl() {
         return imageUrl;
     }
-
 
     public String getLocation_area() {
         return location_area;
     }
 
-
     public int getNum_people() {
         return num_people;
     }
-
 
     public int getNum_pets() {
         return num_pets;
     }
 
-
     public int getNum_ticks() {
         return num_ticks;
     }
-
 
     public long getTimestamp() {
         return timestamp;
     }
 
-
     public long getCreated_at() {
         return created_at;
     }
 
-
     public long getUpdate_at() {
         return update_at;
     }
-
 
     @Override
     public String toString() {
@@ -152,13 +149,5 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String getJSONResourceIdentifier() {
         return "activities";
-    }
-
-    public static List<Activities> initializeData() {
-        List<Activities> activities = new ArrayList<>();
-        activities.add(new Activities("Golden Gate Park", 5, 1, 8));
-        activities.add(new Activities("SF Presidio", 0, 0, 4));
-        activities.add(new Activities("Yosemite", 8, 0, 11));
-        return activities;
     }
 }
