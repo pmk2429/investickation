@@ -6,203 +6,217 @@
                 android:background="@color/ultraLightText"
                 tools:context="com.sfsu.investickation.fragments.ObservationDetail">
 
-    <!--  Tick image -->
-    <ImageView
-        android:id="@+id/imageView_userTickDetail"
+    <ScrollView
+        android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick"/>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_observation_detail_heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView_userTickDetail"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_large"
-        card_view:cardPreventCornerOverlap="false">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:paddingBottom="@dimen/padding_large">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/textView_timestamp"
-                android:layout_width="@dimen/padding_X3_large"
-                android:layout_height="@dimen/padding_X3_large"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/padding_large"
-                android:gravity="top|right"
-                android:paddingTop="@dimen/padding_large"
-                android:text="5 hr"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16dp"/>
-
-            <!--Line separator-->
-            <View
-                android:id="@+id/separator_observation_1"
+            <!--  Tick image -->
+            <ImageView
+                android:id="@+id/imageView_userTickDetail"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/divider"/>
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/placeholder_tick"/>
 
-            <TextView
-                android:id="@+id/textView_observation_tickName"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@+id/separator_observation_1"
-                android:gravity="top|start"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_large"
-                android:text="American Dog Tick"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="22dp"/>
-
-            <TextView
-                android:id="@+id/textView_observationDesc"
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_observation_detail_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView_observation_tickName"
-                android:gravity="top|start"
-                android:paddingLeft="@dimen/padding_large"
-                android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
-                android:textAlignment="center"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"/>
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_observation_detail_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cardview_observation_detail_heading"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:padding="@dimen/padding_large"
-        card_view:cardPreventCornerOverlap="false">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:paddingBottom="@dimen/padding_large">
-
-
-            <TextView
-                android:id="@+id/textViewStatic_userObsDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_medium"
-                android:gravity="top|start"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_small"
-                android:text="Your Observation details:"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="18dp"/>
-
-            <View
-                android:id="@+id/separator_observation_2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/textViewStatic_userObsDetail"
+                android:layout_below="@id/imageView_userTickDetail"
                 android:layout_marginLeft="@dimen/padding_large"
                 android:layout_marginRight="@dimen/padding_large"
-                android:background="@color/divider"/>
+                android:layout_marginTop="@dimen/padding_large"
+                android:padding="@dimen/padding_large"
+                card_view:cardPreventCornerOverlap="false">
 
-            <!-- Found Near -->
-            <TextView
-                android:id="@+id/textViewStatic_foundNear"
-                android:layout_width="140dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:paddingBottom="@dimen/padding_large">
+
+
+                    <TextView
+                        android:id="@+id/textView_timestamp"
+                        android:layout_width="@dimen/padding_X3_large"
+                        android:layout_height="@dimen/padding_X3_large"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/padding_large"
+                        android:gravity="top|right"
+                        android:paddingTop="@dimen/padding_large"
+                        android:text="5 hr"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16dp"/>
+
+                    <!--Line separator-->
+                    <View
+                        android:id="@+id/separator_observation_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="@color/divider"/>
+
+                    <TextView
+                        android:id="@+id/textView_observation_tickName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/widget_dimen"
+                        android:layout_below="@+id/separator_observation_1"
+                        android:gravity="top|start"
+                        android:paddingLeft="@dimen/padding_large"
+                        android:paddingTop="@dimen/padding_large"
+                        android:text="American Dog Tick"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="22dp"/>
+
+                    <TextView
+                        android:id="@+id/textView_observationDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_observation_tickName"
+                        android:gravity="top|start"
+                        android:paddingLeft="@dimen/padding_large"
+                        android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_observation_detail_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/separator_observation_2"
-                android:gravity="top|start"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:text="Found Near: "
-                android:textAlignment="center"
-                android:textColor="@color/secondaryText"
-                android:textSize="16dp"/>
+                android:layout_below="@id/cardview_observation_detail_heading"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"
+                android:layout_marginTop="@dimen/padding_large"
+                android:padding="@dimen/padding_large"
+                card_view:cardPreventCornerOverlap="false">
 
-            <TextView
-                android:id="@+id/textView_foundNear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/separator_observation_2"
-                android:layout_toRightOf="@id/textViewStatic_foundNear"
-                android:paddingBottom="0dp"
-                android:paddingLeft="16dp"
-                android:paddingTop="8dp"
-                android:text="San Mateo Park"
-                android:textAlignment="center"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:paddingBottom="@dimen/padding_large">
 
 
-            <!-- Location -->
-            <TextView
-                android:id="@+id/textViewStatic_location"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textViewStatic_foundNear"
-                android:gravity="top|start"
-                android:paddingBottom="0dp"
-                android:paddingLeft="16dp"
-                android:text="Exact location: "
-                android:textAlignment="center"
-                android:textColor="@color/secondaryText"
-                android:textSize="16dp"/>
+                    <TextView
+                        android:id="@+id/textViewStatic_userObsDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_medium"
+                        android:gravity="top|start"
+                        android:paddingLeft="@dimen/padding_large"
+                        android:paddingTop="@dimen/padding_small"
+                        android:text="Your Observation details:"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp"/>
 
-            <TextView
-                android:id="@+id/textView_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView_foundNear"
-                android:layout_toRightOf="@id/textViewStatic_location"
-                android:paddingLeft="16dp"
-                android:text="35.755815, -121.859291"
-                android:textAlignment="center"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"/>
+                    <View
+                        android:id="@+id/separator_observation_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@id/textViewStatic_userObsDetail"
+                        android:layout_marginLeft="@dimen/padding_large"
+                        android:layout_marginRight="@dimen/padding_large"
+                        android:background="@color/divider"/>
 
-            <!-- Activity -->
-            <TextView
-                android:id="@+id/textViewStatic_activity"
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textViewStatic_location"
-                android:gravity="top|start"
-                android:paddingLeft="16dp"
-                android:text="Activity: "
-                android:textAlignment="center"
-                android:textColor="@color/secondaryText"
-                android:textSize="16dp"/>
+                    <!-- Found Near -->
+                    <TextView
+                        android:id="@+id/textViewStatic_foundNear"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/separator_observation_2"
+                        android:gravity="top|start"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
+                        android:text="Found Near: "
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="16dp"/>
 
-            <TextView
-                android:id="@+id/textView_totalPeople"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView_location"
-                android:layout_toRightOf="@id/textViewStatic_activity"
-                android:paddingLeft="16dp"
-                android:text="Hiking Trail"
-                android:textAlignment="center"
-                android:textColor="@color/primaryText"
-                android:textSize="14dp"/>
+                    <TextView
+                        android:id="@+id/textView_foundNear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/separator_observation_2"
+                        android:layout_toRightOf="@id/textViewStatic_foundNear"
+                        android:paddingBottom="0dp"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="8dp"
+                        android:text="San Mateo Park"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+
+                    <!-- Location -->
+                    <TextView
+                        android:id="@+id/textViewStatic_location"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textViewStatic_foundNear"
+                        android:gravity="top|start"
+                        android:paddingBottom="0dp"
+                        android:paddingLeft="16dp"
+                        android:text="Exact location: "
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="16dp"/>
+
+                    <TextView
+                        android:id="@+id/textView_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_foundNear"
+                        android:layout_toRightOf="@id/textViewStatic_location"
+                        android:paddingLeft="16dp"
+                        android:text="35.755815, -121.859291"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                    <!-- Activity -->
+                    <TextView
+                        android:id="@+id/textViewStatic_activity"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textViewStatic_location"
+                        android:gravity="top|start"
+                        android:paddingLeft="16dp"
+                        android:text="Activity: "
+                        android:textAlignment="center"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="16dp"/>
+
+                    <TextView
+                        android:id="@+id/textView_totalPeople"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_location"
+                        android:layout_toRightOf="@id/textViewStatic_activity"
+                        android:paddingLeft="16dp"
+                        android:text="Hiking Trail"
+                        android:textAlignment="center"
+                        android:textColor="@color/primaryText"
+                        android:textSize="14dp"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
+    </ScrollView>
 </RelativeLayout>

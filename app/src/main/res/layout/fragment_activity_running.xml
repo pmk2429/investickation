@@ -8,22 +8,38 @@
                 tools:context=".UserActMainActivity">
 
 
-    <ImageView
-        android:id="@+id/mapView_activity"
+    <!--<ImageView-->
+    <!--android:id="@+id/mapView_activity"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/dimen_cardview_large"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="0dp"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@mipmap/placeholder_maps"/>-->
+
+
+    <!-- Required: Layout to hold MapView-->
+    <LinearLayout
+        android:id="@+id/linearLayout_mapViewHolder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_cardview_large"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="0dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_maps"/>
+        android:layout_weight="1.0"
+        android:orientation="vertical">
 
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView_activityRunning"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:enabled="true"/>
+
+    </LinearLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_activityImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/mapView_activity"
+        android:layout_alignBottom="@id/linearLayout_mapViewHolder"
         android:layout_centerInParent="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="-40dp"
@@ -37,7 +53,7 @@
         android:id="@+id/textViewStatic_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mapView_activity"
+        android:layout_below="@id/linearLayout_mapViewHolder"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_X3_large"
         android:text="Your current running activity:"

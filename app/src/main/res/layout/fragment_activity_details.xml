@@ -6,178 +6,189 @@
                 android:background="@color/ultraLightText"
                 tools:context="com.sfsu.investickation.fragments.ActivityDetails">
 
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout_activityDetailsHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite">
-
-        <ImageView
-            android:id="@+id/mapView_activityDetails"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_cardview_large"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:src="@mipmap/placeholder_maps"/>
-
-        <TextView
-            android:id="@+id/textView_observationCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/mapView_activityDetails"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginRight="@dimen/padding_small"
-            android:background="@color/secondaryText"
-            android:paddingLeft="@dimen/padding_X_small"
-            android:paddingRight="@dimen/padding_X_small"
-            android:text="4 obs."
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/font_large"/>
-
-
-        <TextView
-            android:id="@+id/textView_activityName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/mapView_activityDetails"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/padding_large"
-            android:text="Hiking @ Golden Gate Park"
-            android:textAlignment="center"
-            android:textColor="@color/primaryText"
-            android:textSize="@dimen/font_X_large"/>
-
-        <TextView
-            android:id="@+id/textView_totalPeople"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView_activityName"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/padding_small"
-            android:text="5 people"
-            android:textAlignment="center"
-            android:textColor="@color/secondaryText"
-            android:textSize="@dimen/font_small"/>
-
-        <TextView
-            android:id="@+id/textView_totalPets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textView_totalPeople"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:layout_marginTop="@dimen/padding_small"
-            android:text="0 pets"
-            android:textAlignment="center"
-            android:textColor="@color/secondaryText"
-            android:textSize="@dimen/font_small"/>
-    </RelativeLayout>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview_activity"
+    <ScrollView
+        android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/relativeLayout_activityDetailsHeading"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"
-        android:background="@color/colorWhite"
-        android:padding="@dimen/padding_large"
-        card_view:cardPreventCornerOverlap="false">
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/relativeLayout_activityDetailsDescription"
+                android:id="@+id/relativeLayout_activityDetailsHeading"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite">
+
+                <ImageView
+                    android:id="@+id/mapView_activityDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_cardview_large"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="0dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/placeholder_maps"/>
 
                 <TextView
-                    android:id="@+id/textViewStatic_activityDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_medium"
-                    android:gravity="top|start"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingTop="@dimen/padding_small"
-                    android:text="Your Activity details:"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18dp"/>
-
-                <View
-                    android:id="@+id/separator_observation_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/textViewStatic_activityDetail"
-                    android:layout_marginLeft="@dimen/padding_large"
-                    android:layout_marginRight="@dimen/padding_large"
-                    android:background="@color/divider"/>
-
-                <TextView
-                    android:id="@+id/textView_totalLocations"
+                    android:id="@+id/textView_observationCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/separator_observation_2"
+                    android:layout_alignBottom="@id/mapView_activityDetails"
+                    android:layout_alignParentLeft="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/padding_large"
+                    android:layout_marginLeft="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_small"
+                    android:background="@color/secondaryText"
+                    android:paddingLeft="@dimen/padding_X_small"
+                    android:paddingRight="@dimen/padding_X_small"
+                    android:text="4 obs."
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_large"/>
+
+
+                <TextView
+                    android:id="@+id/textView_activityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/mapView_activityDetails"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:text="Hiking @ Golden Gate Park"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryText"
+                    android:textSize="@dimen/font_X_large"/>
+
+                <TextView
+                    android:id="@+id/textView_totalPeople"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textView_activityName"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/padding_small"
-                    android:text="12 Locations"
+                    android:text="5 people"
                     android:textAlignment="center"
                     android:textColor="@color/secondaryText"
                     android:textSize="@dimen/font_small"/>
 
                 <TextView
-                    android:id="@+id/textView_totalDistance"
+                    android:id="@+id/textView_totalPets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_totalLocations"
+                    android:layout_below="@id/textView_totalPeople"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="@dimen/padding_large"
                     android:layout_marginTop="@dimen/padding_small"
-                    android:text="5 miles"
+                    android:text="0 pets"
                     android:textAlignment="center"
                     android:textColor="@color/secondaryText"
                     android:textSize="@dimen/font_small"/>
-
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_activity"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/padding_large"
+                android:layout_below="@id/relativeLayout_activityDetailsHeading"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginRight="@dimen/padding_large"
                 android:layout_marginTop="@dimen/padding_large"
-                android:background="@drawable/dashboard_card_border"
-                android:gravity="center">
+                android:background="@color/colorWhite"
+                android:padding="@dimen/padding_large"
+                card_view:cardPreventCornerOverlap="false">
 
-                <Button
-                    android:id="@+id/button_viewAllObservation"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="2dp"
                     android:background="@color/colorWhite"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingRight="@dimen/padding_large"
-                    android:text="View all Observations"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_small"/>
-            </RelativeLayout>
+                    android:orientation="vertical">
 
-        </LinearLayout>
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_activityDetailsDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.CardView>
+                        <TextView
+                            android:id="@+id/textViewStatic_activityDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_medium"
+                            android:gravity="top|start"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="@dimen/padding_small"
+                            android:text="Your Activity details:"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18dp"/>
 
+                        <View
+                            android:id="@+id/separator_observation_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@id/textViewStatic_activityDetail"
+                            android:layout_marginLeft="@dimen/padding_large"
+                            android:layout_marginRight="@dimen/padding_large"
+                            android:background="@color/divider"/>
+
+                        <TextView
+                            android:id="@+id/textView_totalLocations"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/separator_observation_2"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="@dimen/padding_small"
+                            android:text="12 Locations"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_small"/>
+
+                        <TextView
+                            android:id="@+id/textView_totalDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/textView_totalLocations"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="@dimen/padding_large"
+                            android:layout_marginTop="@dimen/padding_small"
+                            android:text="5 miles"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_small"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/padding_large"
+                        android:layout_marginTop="@dimen/padding_large"
+                        android:background="@drawable/dashboard_card_border"
+                        android:gravity="center">
+
+                        <Button
+                            android:id="@+id/button_viewAllObservation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/widget_dimen"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="2dp"
+                            android:background="@color/colorWhite"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingRight="@dimen/padding_large"
+                            android:text="View all Observations"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_small"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

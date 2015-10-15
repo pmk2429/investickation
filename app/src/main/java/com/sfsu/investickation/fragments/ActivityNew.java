@@ -21,6 +21,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
 
 import java.util.Calendar;
@@ -99,10 +100,10 @@ public class ActivityNew extends Fragment {
                 e.printStackTrace();
             }
             // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 5);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d("----->", "Map null");
+            Log.d(AppConfig.LOGSTRING, "Map null");
         }
 
         return v;
