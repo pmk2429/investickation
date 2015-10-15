@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +21,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.investickation.R;
 
 import java.util.Calendar;
-
-import com.sfsu.investickation.R;
 
 
 public class ActivityNew extends Fragment {
@@ -69,7 +69,6 @@ public class ActivityNew extends Fragment {
                 }, hour, minute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
-
             }
         });
 
@@ -83,30 +82,49 @@ public class ActivityNew extends Fragment {
         });
 
 
-        // finally initialize the Google Maps.
         // Gets the MapView from the XML layout and creates it
-        mapView = (MapView) v.findViewById(R.id.mapView_activityNew);
+        mapView = (MapView) v.findViewById(R.id.mapView_activityMap);
         mapView.onCreate(savedInstanceState);
 
         // Gets to GoogleMap from the MapView and does initialization stuff
         googleMap = mapView.getMap();
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-        googleMap.setMyLocationEnabled(true);
 
-        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-        try {
-            MapsInitializer.initialize(this.getActivity());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (googleMap != null) {
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+            googleMap.setMyLocationEnabled(true);
+            // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
+            try {
+                MapsInitializer.initialize(this.getActivity());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // Updates the location and zoom of the MapView
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 5);
+            googleMap.animateCamera(cameraUpdate);
+        } else {
+            Log.d("----->", "Map null");
         }
-
-        // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(43.1, -87.9), 10);
-        googleMap.animateCamera(cameraUpdate);
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
 
     @Override
     public void onAttach(Activity activity) {
