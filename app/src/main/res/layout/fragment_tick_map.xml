@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="investickations.com.sfsu.investickation.fragments.TickMap">
+             tools:context="com.sfsu.investickation.fragments.TickMap">
     <!-- MapView of ticks present around-->
     <fragment
         android:id="@+id/mapView_tick"

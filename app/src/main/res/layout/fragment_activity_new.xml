@@ -4,29 +4,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
-                tools:context="investickations.com.sfsu.investickation.fragments.ActivityNew">
+                tools:context="com.sfsu.investickation.fragments.ActivityNew">
 
-    <ImageView
-        android:id="@+id/image_ActivityImage"
+    <!--<ImageView-->
+    <!--android:id="@+id/image_ActivityImage"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@mipmap/placeholder_activity"/>-->
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView_activityNew"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_activity"/>
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/mapView_ActivityNew"-->
-    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/dimen_cardview_large"-->
-    <!--android:layout_gravity="center_horizontal"/>-->
+        android:layout_weight="1"
+        android:apiKey="AIzaSyD-0lhMA0tghCYXzo2wMwoOizO938U1XkY"
+        android:clickable="true"
+        android:enabled="true"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_selectImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/image_ActivityImage"
+        android:layout_alignBottom="@id/mapView_activityNew"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="-40dp"
@@ -42,7 +44,7 @@
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/image_ActivityImage"
+        android:layout_below="@id/mapView_activityNew"
         android:layout_marginLeft="@dimen/padding_small"
         android:layout_marginTop="@dimen/padding_large"
         android:padding="@dimen/padding_medium"
@@ -53,7 +55,7 @@
         android:id="@+id/editText_ActivityName"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/image_ActivityImage"
+        android:layout_below="@id/mapView_activityNew"
         android:layout_marginRight="@dimen/padding_large"
         android:layout_marginTop="@dimen/padding_large"
         android:layout_toRightOf="@id/icon_activity"

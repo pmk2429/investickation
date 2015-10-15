@@ -7,7 +7,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="investickations.com.sfsu.investickation.fragments.DemoActivity">
+                tools:context="com.sfsu.investickation.fragments.DemoActivity">
 
     <com.github.florent37.materialviewpager.MaterialViewPager
         android:id="@+id/materialViewPager"

@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/ultraLightText"
-                tools:context="investickations.com.sfsu.investickation.fragments.ActivityDetails">
+                tools:context="com.sfsu.investickation.fragments.ActivityDetails">
 
 
     <RelativeLayout

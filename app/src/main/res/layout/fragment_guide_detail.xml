@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/ultraLightText"
                 android:focusable="false"
-                tools:context="investickations.com.sfsu.investickation.fragments.GuideDetail">
+                tools:context="com.sfsu.investickation.fragments.GuideDetail">
 
     <!--  Tick image -->
     <ImageView
