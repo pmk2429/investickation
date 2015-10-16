@@ -64,6 +64,7 @@ public class AppConfig {
     }
 
     // method to check whether there is any network connection or not.
+
     public boolean isConnectedOnline() {
         ConnectivityManager cmObj = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfoObj = cmObj.getActiveNetworkInfo();
