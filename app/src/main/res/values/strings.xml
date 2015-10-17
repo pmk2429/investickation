@@ -62,4 +62,6 @@
     <string name="open_location_settings">Open Location Settings</string>
     <string name="Cancel">Cancel</string>
 
+    <!-- TODO: make list of all Fragment Names in the enitre Application-->
+
 </resources>

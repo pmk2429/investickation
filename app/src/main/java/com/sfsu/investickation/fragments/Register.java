@@ -4,16 +4,19 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.sfsu.entities.User;
+import com.sfsu.investickation.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.sfsu.entities.AppConfig;
-import com.sfsu.investickation.R;
 
 /**
  *
@@ -21,8 +24,21 @@ import com.sfsu.investickation.R;
 public class Register extends Fragment implements View.OnClickListener {
 
     @InjectView(R.id.button_Register)
-    Button btnRegister;
+    private Button btnRegister;
+    @InjectView(R.id.editText_username)
+    private EditText et_username;
+    @InjectView(R.id.editText_email)
+    private EditText et_email;
+    @InjectView(R.id.editText_password)
+    private EditText et_password;
+    @InjectView(R.id.editText_phone)
+    private EditText et_phone;
+    @InjectView(R.id.editText_address)
+    private EditText et_address;
+    @InjectView(R.id.image_usermain)
+    private ImageView imageView_userImage;
     private IRegisterCallBacks mListener;
+
 
     public Register() {
         // IMP - Don't delete
@@ -41,30 +57,23 @@ public class Register extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
 
         getActivity().setTitle("Register");
-
-
         if (getArguments() != null) {
 
         }
         ButterKnife.inject(getActivity());
-
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.inject(getActivity());
-        if (btnRegister != null) {
-            btnRegister.setOnClickListener(this);
-        } else {
-            Log.d(AppConfig.LOGSTRING, "Register button not found");
-        }
 
+        // implement the onClick method
+        btnRegister.setOnClickListener(this);
         return v;
     }
 
@@ -95,7 +104,20 @@ public class Register extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mListener.onRegisterItemListener();
+
+        // get all the values from the Registration form
+        String userName = et_username.getText().toString();
+        String email = et_email.getText().toString();
+        String password = et_password.getText().toString();
+        String zipcode = et_phone.getText().toString();
+        String address = et_address.getText().toString();
+
+        // make a new object.
+        User userObj = User.createUser(userName, email, password, zipcode, address);
+
+        // once the User object is created, simply pass it to RetroFit library
+        // TODO: access code for creating User entitiy using Retrofit
+
     }
 
     /**

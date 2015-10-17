@@ -70,16 +70,21 @@
                 android:src="@mipmap/ic_person_black_36dp"/>
 
             <EditText
-                android:id="@+id/editText_user"
+                android:id="@+id/editText_username"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/image_usermain"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_marginTop="@dimen/padding_X_large"
                 android:layout_toRightOf="@id/icon_user"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Username"
+                android:lines="1"
                 android:paddingBottom="@dimen/padding_large"
                 android:paddingTop="@dimen/padding_large"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  Email row -->
@@ -98,12 +103,17 @@
                 android:id="@+id/editText_email"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_user"
+                android:layout_below="@id/editText_username"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_email"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Email"
+                android:lines="1"
                 android:paddingBottom="@dimen/padding_large"
                 android:paddingTop="@dimen/padding_large"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  Password row -->
@@ -125,10 +135,15 @@
                 android:layout_below="@id/editText_email"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_password"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Password"
+                android:lines="1"
                 android:paddingBottom="@dimen/padding_large"
                 android:paddingTop="@dimen/padding_large"
                 android:password="true"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  Phone row -->
@@ -150,7 +165,12 @@
                 android:layout_below="@id/editText_password"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_phone"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Phone"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  User row -->
@@ -172,7 +192,12 @@
                 android:layout_below="@id/editText_phone"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_address"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Address"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <CheckBox

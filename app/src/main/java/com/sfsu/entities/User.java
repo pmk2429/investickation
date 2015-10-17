@@ -21,16 +21,33 @@ import org.json.JSONObject;
  */
 public class User implements Parcelable, Entity {
 
-    // define all the attributes of the User entity.
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+    // TODO: define how to post Image using Bitmap and Retrofit
     private long user_id;
-    private int zipcode;
+    private String zipcode;
     private String username, email, password, address, city, state;
     private long created_at, updated_at;
+
+
+    private User(Parcel in) {
+//        mData = in.readInt();
+    }
+
 
     public User() {
     }
 
-    public User(int user_id, int zipcode, String username, String email, String password, String address, String city, String state) {
+    public User(int user_id, String username, String email, String password, String address, String city, String zipcode, String
+            state) {
         this.user_id = user_id;
         this.zipcode = zipcode;
         this.username = username;
@@ -39,6 +56,18 @@ public class User implements Parcelable, Entity {
         this.address = address;
         this.city = city;
         this.state = state;
+    }
+
+    // TODO: http://www.javaworld.com/article/2074938/core-java/too-many-parameters-in-java-methods-part-3-builder-pattern.html
+    public static User createUser(String username, String email, String password, String zipcode, String address) {
+
+        // TODO: Create Logic for user_id.
+        // TODO: Parse the Address String and get City, Zip and State
+        int user_id = 0;
+        String city = "", state = "";
+
+        // create and return new customer
+        return new User(user_id, username, email, password, address, city, zipcode, state);
     }
 
     /**
@@ -60,11 +89,11 @@ public class User implements Parcelable, Entity {
         this.user_id = user_id;
     }
 
-    public int getZipcode() {
+    public String getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(int zipcode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 
