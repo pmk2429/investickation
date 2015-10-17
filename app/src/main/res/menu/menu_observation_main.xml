@@ -11,13 +11,13 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="200"
-        android:title="Search"
+        android:title="@string/action_search"
         app:showAsAction="ifRoom"></item>
     <item
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_mode_edit_white_24dp"
         android:orderInCategory="300"
-        android:title="Search"
+        android:title="@string/action_edit"
         app:showAsAction="ifRoom"></item>
 
 </menu>

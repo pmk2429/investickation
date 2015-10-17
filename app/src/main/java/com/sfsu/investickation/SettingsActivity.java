@@ -17,7 +17,6 @@ public class SettingsActivity extends BaseActivity {
         // if Fragment container is present,
         if (findViewById(R.id.profile_fragment_container) != null) {
 
-
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {

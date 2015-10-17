@@ -15,46 +15,38 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!--  user image -->
-            <!--<ImageView-->
-            <!--android:id="@+id/image_usermain"-->
-            <!--android:layout_width="@dimen/widget_dimen_X2_large"-->
-            <!--android:layout_height="@dimen/widget_dimen_X2_large"-->
-            <!--android:layout_below="@id/toolbar_base"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginLeft="@dimen/padding_large"-->
-            <!--android:layout_marginTop="@dimen/padding_large"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:background="@color/lightText"-->
-            <!--android:padding="@dimen/padding_X_large"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:src="@mipmap/ic_local_see_black_36dp"/>-->
 
-            <!--  user image -->
-            <ImageView
-                android:id="@+id/image_usermain"
+
+            <RelativeLayout
+                android:id="@+id/demo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_cardview_default"
-                android:layout_below="@id/toolbar_base"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_user"/>
+                android:background="@color/colorPrimary">
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_selectImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/image_usermain"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="-36dp"
-                android:layout_marginRight="@dimen/padding_small"
-                fab:fab_colorNormal="@color/colorPrimary"
-                fab:fab_colorPressed="@color/colorPrimaryDark"
-                fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+                <!--  user image -->
+                <ImageView
+                    android:id="@+id/imageView_userProfile"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_below="@id/toolbar_base"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_horizontal"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/placeholder_user"/>
 
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_userProfileImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/imageView_userProfile"
+                    android:layout_alignEnd="@id/imageView_userProfile"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="-36dp"
+                    fab:fab_colorNormal="@color/colorPrimary"
+                    fab:fab_colorPressed="@color/colorPrimaryDark"
+                    fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+            </RelativeLayout>
 
             <!--  User row -->
             <ImageView
@@ -62,7 +54,7 @@
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/image_usermain"
+                android:layout_below="@id/demo"
                 android:layout_marginLeft="@dimen/padding_small"
                 android:layout_marginTop="@dimen/padding_large"
                 android:padding="@dimen/padding_medium"
@@ -73,13 +65,18 @@
                 android:id="@+id/editText_user"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@id/image_usermain"
+                android:layout_below="@id/demo"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_toRightOf="@id/icon_user"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Username"
+                android:lines="1"
                 android:paddingBottom="16sp"
                 android:paddingTop="16dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  Email row -->
@@ -101,9 +98,14 @@
                 android:layout_below="@id/editText_user"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_email"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Email"
+                android:lines="1"
                 android:paddingBottom="@dimen/padding_large"
                 android:paddingTop="@dimen/padding_large"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  Password row -->
@@ -125,10 +127,15 @@
                 android:layout_below="@id/editText_email"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_password"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Password"
+                android:lines="1"
                 android:paddingBottom="@dimen/padding_large"
                 android:paddingTop="16sp"
                 android:password="true"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  Phone row -->
@@ -150,7 +157,12 @@
                 android:layout_below="@id/editText_password"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_phone"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Phone"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
             <!--  User row -->
@@ -172,7 +184,12 @@
                 android:layout_below="@id/editText_phone"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_toRightOf="@id/icon_address"
+                android:layout_weight="1"
+                android:ellipsize="end"
                 android:hint="Address"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
         </RelativeLayout>
