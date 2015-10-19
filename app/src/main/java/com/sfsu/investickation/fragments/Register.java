@@ -24,19 +24,19 @@ import butterknife.InjectView;
 public class Register extends Fragment implements View.OnClickListener {
 
     @InjectView(R.id.button_Register)
-    private Button btnRegister;
+    Button btnRegister;
     @InjectView(R.id.editText_username)
-    private EditText et_username;
+    EditText et_username;
     @InjectView(R.id.editText_email)
-    private EditText et_email;
+    EditText et_email;
     @InjectView(R.id.editText_password)
-    private EditText et_password;
+    EditText et_password;
     @InjectView(R.id.editText_phone)
-    private EditText et_phone;
+    EditText et_phone;
     @InjectView(R.id.editText_address)
-    private EditText et_address;
+    EditText et_address;
     @InjectView(R.id.image_usermain)
-    private ImageView imageView_userImage;
+    ImageView imageView_userImage;
     private IRegisterCallBacks mListener;
 
 

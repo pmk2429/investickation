@@ -31,6 +31,8 @@ public class User implements Parcelable, Entity {
             return new User[size];
         }
     };
+
+
     // TODO: define how to post Image using Bitmap and Retrofit
     private long user_id;
     private String zipcode;
@@ -39,7 +41,7 @@ public class User implements Parcelable, Entity {
 
 
     private User(Parcel in) {
-//        mData = in.readInt();
+        // mData = in.readInt();
     }
 
 

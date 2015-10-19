@@ -5,22 +5,25 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.sfsu.entities.AppConfig;
+import com.sfsu.entities.Entity;
+import com.sfsu.entities.Observation;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sfsu.entities.AppConfig;
-import com.sfsu.entities.Observation;
-
 /**
- * ObservationsDao is a DataAccess Object.
+ * ObservationsDao for providing abstraction layer over DB.
  * Created by Pavitra on 6/3/2015.
  */
-public class ObservationsDao {
+public class ObservationsDao implements EntityDao {
     private SQLiteDatabase db;
+    // Observations's entry array for storing all the column names
     private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TICK_IMAGE, ObservationsTable.COLUMN_LAT, ObservationsTable.COLUMN_LONG, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT};
 
 
-    public ObservationsDao(SQLiteDatabase db) {
+    @Override
+    public void setDatabase(SQLiteDatabase db) {
         this.db = db;
     }
 
@@ -30,7 +33,8 @@ public class ObservationsDao {
      * @param observations
      * @return
      */
-    public boolean delete(Observation observations) {
+    public boolean delete(Entity entity) {
+        Observation observations = (Observation) entity;
 
         return db.delete(ObservationsTable.TABLENAME, ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getObservation_id() + ""}) > 0;
     }
@@ -41,7 +45,7 @@ public class ObservationsDao {
      * @param id
      * @return
      */
-    public Observation get(long id) {
+    public Entity get(long id) {
 
         Observation observationItem = null;
         Cursor c = db.query(true, ObservationsTable.TABLENAME, observationEntryArray, ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
@@ -55,8 +59,13 @@ public class ObservationsDao {
         return observationItem;
     }
 
-    public List<Observation> getAll() {
-        List<Observation> observationsList = new ArrayList<Observation>();
+    /**
+     * Method to get all the Observations from the DB
+     *
+     * @return
+     */
+    public List<Entity> getAll() {
+        List<Entity> observationsList = new ArrayList<Entity>();
 
         // Query the Database to get all the records.
         Cursor c = db.query(ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
@@ -74,12 +83,13 @@ public class ObservationsDao {
     }
 
     /**
-     * save(Observation) method is used to save the entries (field values) in to Observation Database table
+     * This method is used to save the entries (field values) in to Observation Database table
      *
      * @param observations
      * @return
      */
-    public Long save(Observation observations) {
+    public long save(Entity entity) {
+        Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
         contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
@@ -94,12 +104,13 @@ public class ObservationsDao {
     }
 
     /**
-     * update(Observation) method to update the entries in Observation Table
+     * This method is used to update the entries in Observation Table
      *
      * @param observations
      * @return
      */
-    public boolean update(Observation observations) {
+    public boolean update(Entity entity) {
+        Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
         contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());

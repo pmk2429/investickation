@@ -5,21 +5,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.sfsu.entities.AppConfig;
+import com.sfsu.entities.Entity;
+import com.sfsu.entities.Tick;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sfsu.entities.AppConfig;
-import com.sfsu.entities.Tick;
 
 /**
  * Dao for Ticks related DB operation.
  * Created by Pavitra on 10/8/2015.
  */
-public class TickDao {
+public class TickDao implements EntityDao {
     private SQLiteDatabase db;
     private String[] tickEntryArray = new String[]{TicksTable.COLUMN_ID, TicksTable.COLUMN_TICK_NAME, TicksTable.COLUMN_TICK_SPECIES, TicksTable.COLUMN_KNOWN_FOR, TicksTable.COLUMN_DESCRIPTION, TicksTable.COLUMN_IMAGE, TicksTable.COLUMN_CREATEDAT, TicksTable.COLUMN_UPDATEDAT};
 
-    public TickDao(SQLiteDatabase db) {
+    @Override
+    public void setDatabase(SQLiteDatabase db) {
         this.db = db;
     }
 
@@ -29,7 +31,8 @@ public class TickDao {
      * @param ticks
      * @return
      */
-    public Long save(Tick tick) {
+    public long save(Entity entity) {
+        Tick tick = (Tick) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(TicksTable.COLUMN_ID, tick.getTick_id());
         contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
@@ -49,7 +52,8 @@ public class TickDao {
      * @param Ticks
      * @return
      */
-    public boolean update(Tick tick) {
+    public boolean update(Entity entity) {
+        Tick tick = (Tick) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(TicksTable.COLUMN_ID, tick.getTick_id());
         contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
@@ -88,8 +92,8 @@ public class TickDao {
      * @param Ticks
      * @return
      */
-    public boolean delete(Tick ticks) {
-
+    public boolean delete(Entity entity) {
+        Tick ticks = (Tick) entity;
         return db.delete(TicksTable.TABLENAME, TicksTable.COLUMN_ID + "=?", new String[]{ticks.getTick_id() + ""}) > 0;
     }
 
@@ -99,7 +103,7 @@ public class TickDao {
      * @param id
      * @return
      */
-    public Tick get(long id) {
+    public Entity get(long id) {
 
         Tick tickItem = null;
         Cursor c = db.query(true, TicksTable.TABLENAME, tickEntryArray, TicksTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
@@ -118,8 +122,8 @@ public class TickDao {
      *
      * @return
      */
-    public List<Tick> getAll() {
-        List<Tick> ticksList = new ArrayList<Tick>();
+    public List<Entity> getAll() {
+        List<Entity> ticksList = new ArrayList<Entity>();
 
         // Query the Database to get all the records.
         Cursor c = db.query(TicksTable.TABLENAME, tickEntryArray, null, null, null, null, null);
