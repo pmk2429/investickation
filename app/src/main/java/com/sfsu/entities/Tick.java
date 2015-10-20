@@ -3,7 +3,7 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONObject;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,26 +23,61 @@ import java.util.List;
 
 public class Tick implements Parcelable, Entity {
 
+    public static final Creator<Tick> CREATOR = new Creator<Tick>() {
+        @Override
+        public Tick createFromParcel(Parcel in) {
+            return new Tick(in);
+        }
+
+        @Override
+        public Tick[] newArray(int size) {
+            return new Tick[size];
+        }
+    };
+
     private int tick_id;
-    private String tickName, species, color, known_for, descripition, imageUrl;
+    @SerializedName("tickName")
+    private String tickName;
+    @SerializedName("species")
+    private String species;
+    @SerializedName("color")
+    private String color;
+    @SerializedName("known_for")
+    private String known_for;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("imageUrl")
+    private String imageUrl;
     private long created_at, updated_at;
 
     public Tick() {
     }
 
-    public Tick(String tickName, String descripition) {
+    public Tick(String tickName, String description) {
         this.tickName = tickName;
-        this.descripition = descripition;
+        this.description = description;
     }
 
-    public Tick(int tick_id, String name, String species, String color, String known_for, String descripition, String imageUrl) {
+    public Tick(int tick_id, String name, String species, String color, String known_for, String description, String imageUrl) {
         this.tick_id = tick_id;
         this.tickName = name;
         this.species = species;
         this.color = color;
         this.known_for = known_for;
-        this.descripition = descripition;
+        this.description = description;
         this.imageUrl = imageUrl;
+    }
+
+    protected Tick(Parcel in) {
+        tick_id = in.readInt();
+        tickName = in.readString();
+        species = in.readString();
+        color = in.readString();
+        known_for = in.readString();
+        description = in.readString();
+        imageUrl = in.readString();
+        created_at = in.readLong();
+        updated_at = in.readLong();
     }
 
     public static List<Tick> initializeData() {
@@ -51,13 +86,6 @@ public class Tick implements Parcelable, Entity {
         ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
         ticks.add(new Tick("Jungle tick", "Dangerous species"));
         return ticks;
-    }
-
-    @Override
-    public Entity createEntityFactory(JSONObject jsonObject) {
-        Tick tick = new Tick();
-
-        return tick;
     }
 
     public int getTick_id() {
@@ -100,12 +128,12 @@ public class Tick implements Parcelable, Entity {
         this.known_for = known_for;
     }
 
-    public String getDescripition() {
-        return descripition;
+    public String getdescription() {
+        return description;
     }
 
-    public void setDescripition(String descripition) {
-        this.descripition = descripition;
+    public void setdescription(String description) {
+        this.description = description;
     }
 
     public String getImageUrl() {
@@ -140,7 +168,7 @@ public class Tick implements Parcelable, Entity {
                 ", species='" + species + '\'' +
                 ", color='" + color + '\'' +
                 ", known_for='" + known_for + '\'' +
-                ", descripition='" + descripition + '\'' +
+                ", description='" + description + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
@@ -154,7 +182,15 @@ public class Tick implements Parcelable, Entity {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(tick_id);
+        parcel.writeString(tickName);
+        parcel.writeString(species);
+        parcel.writeString(color);
+        parcel.writeString(known_for);
+        parcel.writeString(description);
+        parcel.writeString(imageUrl);
+        parcel.writeLong(created_at);
+        parcel.writeLong(updated_at);
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.sfsu.utils.adapters.DrawerAdapter;
+import com.sfsu.adapters.DrawerAdapter;
 
 /**
  * Created by Pavitra on 7/8/2015.

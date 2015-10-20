@@ -1,10 +1,11 @@
-package com.sfsu.rest.service;
+package com.sfsu.rest;
 
-
-import java.util.List;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
+
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -13,11 +14,12 @@ import retrofit.http.Path;
 
 /**
  * The <b>Service</b> interface is used to manage URL calls to the REST Api. In this interface you have to specify the type
- * of the request like POST, GET, PUT, etc.. and the uri because in Retrofit you have to set a base url (common url for all requests)
- * and each method in your interface specifies the end of your url with your arguments. Best practice: begin all your endpoint by
- * a '/' like this way you know that all your request begin by a / and your base url have always to finish without /. Some of you will
- * need to add some headers to their requests. You can do it in two ways: with the <tt>@Header</tt> annotation, above your request or in
- * your parameters if you want to use a dynamic header, and programmatically. The second method is explained in the bonus part.
+ * of the request like POST, GET, PUT, etc.. and the uri because in Retrofit you have to set a base url (common url for all
+ * requests) and each method in your interface specifies the end of your url with your arguments. Best practice: begin all your
+ * endpoint by a '/' like this way you know that all your request begin by a / and your base url have always to finish without /.
+ * Some of you will need to add some headers to their requests. You can do it in two ways: with the <tt>@Header</tt> annotation,
+ * above your request or in your parameters if you want to use a dynamic header, and programmatically. The second method is
+ * explained in the bonus part.
  * The second best practice: create an interface for each type of request (for example one for all user requests like
  * Signing In, Signing Out, getProfile and another for content, etc…). In this article I will show you only Get and Post requests,
  * because they are commonly used.
@@ -46,7 +48,7 @@ public interface EntitiesApi {
      * @return
      */
     @POST("/{resource}/new")
-    Call<User> createEntity(@Path("resource") String resource, @Body Entity entity);
+    Call<User> add(@Path("resource") String resource, @Body Entity entity);
 
     /**
      * This method displays a specific resource by using ID of that resource.
@@ -54,16 +56,19 @@ public interface EntitiesApi {
      * @return
      */
     @GET("/{resource}/{resourceId}")
-    public Call<Entity> showEntity(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    public Call<Entity> show(@Path("resource") String resource, @Path("resourceId") String resourceId);
 
 
     /**
-     * edit() method is called when we need to edit a resource.
+     * Use to update the entity.
      *
+     * @param resource   Specifies the type of resource
+     * @param resourceId Resource Id. ie UserId, TickId etc
+     * @param entity     Entire entity object
      * @return
      */
     @GET("/{resource}/{resourceId}")
-    public Call<Entity> updateEntity(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    public Call<Entity> update(@Path("resource") String resource, @Path("resourceId") String resourceId, @Body Entity entity);
 
 
     /**
@@ -72,5 +77,5 @@ public interface EntitiesApi {
      * @return
      */
     @GET("/{resource}/{resourceId}")
-    public Call<Entity> deleteEntity(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    public Call<Entity> delete(@Path("resource") String resource, @Path("resourceId") String resourceId);
 }

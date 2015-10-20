@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,12 +57,6 @@ public class Activities implements Parcelable, Entity {
         return activities;
     }
 
-    @Override
-    public Entity createEntityFactory(JSONObject jsonObject) {
-        Activities activity = new Activities();
-
-        return activity;
-    }
 
     public int getActivity_id() {
         return activity_id;

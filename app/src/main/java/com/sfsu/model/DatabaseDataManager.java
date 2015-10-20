@@ -10,6 +10,9 @@ import java.util.List;
 /**
  * DatabaseDataManager class provides Abstraction layer over DAO layer that contains all the methods required
  * to perform database transactions over the DB for that Model.
+ * <br/>
+ * This class provides abstraction on top of the DAO layer for efficient error handling and modularity
+ * of the application.
  * <p/>
  * Created by Pavitra on 5/27/2015.
  */

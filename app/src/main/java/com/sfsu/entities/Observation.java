@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +28,10 @@ public class Observation implements Parcelable, Entity {
     private String tickImageUrl;
     private double latitude, longitude;
     private long timestamp, created_at, updated_at;
+
     public Observation() {
     }
+
     public Observation(String tickName, String location, long timestamp) {
         this.tickName = tickName;
         this.location = location;
@@ -63,13 +63,6 @@ public class Observation implements Parcelable, Entity {
 
     public String getLocation() {
         return location;
-    }
-
-    @Override
-    public Entity createEntityFactory(JSONObject jsonObject) {
-        Observation observation = new Observation();
-
-        return observation;
     }
 
     public long getObservation_id() {

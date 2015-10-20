@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import com.sfsu.utils.adapters.TicksListAdapter;
+import com.sfsu.adapters.TicksListAdapter;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;

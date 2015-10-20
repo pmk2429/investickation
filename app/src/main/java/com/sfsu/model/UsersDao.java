@@ -19,7 +19,7 @@ public class UsersDao implements EntityDao {
 
     private SQLiteDatabase db;
 
-    // User;s string array.
+    // User's string array.
     private String[] usersEntryArray = new String[]{UsersTable.COLUMN_ID, UsersTable.COLUMN_USERNAME, UsersTable.COLUMN_EMAIL, UsersTable.COLUMN_PASSWORD, UsersTable.COLUMN_ADDRESS, UsersTable.COLUMN_CITY, UsersTable.COLUMN_STATE, UsersTable.COLUMN_ZIPCODE, UsersTable.COLUMN_CREATEDAT, UsersTable.COLUMN_UPDATEDAT};
 
 
@@ -155,16 +155,17 @@ public class UsersDao implements EntityDao {
             userItem = new User();
             userItem.setUser_id(c.getLong(0));
             userItem.setUsername(c.getString(1));
-            userItem.setEmail(c.getString(1));
-            userItem.setPassword(c.getString(1));
-            userItem.setAddress(c.getString(1));
-            userItem.setCity(c.getString(1));
-            userItem.setState(c.getString(1));
-            userItem.setZipcode(c.getString(1));
-            userItem.setCreated_at(c.getLong(1));
-            userItem.setUpdated_at(c.getLong(1));
+            userItem.setEmail(c.getString(2));
+            userItem.setPassword(c.getString(3));
+            userItem.setAddress(c.getString(4));
+            userItem.setCity(c.getString(5));
+            userItem.setState(c.getString(6));
+            userItem.setZipcode(c.getString(7));
+            userItem.setCreated_at(c.getLong(8));
+            userItem.setUpdated_at(c.getLong(9));
         }
         return userItem;
     }
 
+    
 }

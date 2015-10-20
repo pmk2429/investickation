@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONObject;
-
 /**
  * Created by Pavitra on 5/19/2015.
  */
@@ -60,7 +58,6 @@ public class User implements Parcelable, Entity {
         this.state = state;
     }
 
-    // TODO: http://www.javaworld.com/article/2074938/core-java/too-many-parameters-in-java-methods-part-3-builder-pattern.html
     public static User createUser(String username, String email, String password, String zipcode, String address) {
 
         // TODO: Create Logic for user_id.
@@ -70,17 +67,6 @@ public class User implements Parcelable, Entity {
 
         // create and return new customer
         return new User(user_id, username, email, password, address, city, zipcode, state);
-    }
-
-    /**
-     * createUserFactory() is the factory design pattern to create Users without revealing
-     * the implementation logic to the users.
-     */
-    @Override
-    public Entity createEntityFactory(JSONObject jsonObject) {
-        User user = new User();
-
-        return user;
     }
 
     public long getUser_id() {

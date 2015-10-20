@@ -17,7 +17,7 @@ import com.sfsu.entities.Activities;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.utils.adapters.ActivitiesListAdapter;
+import com.sfsu.adapters.ActivitiesListAdapter;
 
 import java.util.List;
 

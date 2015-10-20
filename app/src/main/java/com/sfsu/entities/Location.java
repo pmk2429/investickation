@@ -37,12 +37,6 @@ public class Location implements Parcelable, Entity {
     }
 
 
-    @Override
-    public Entity createEntityFactory(JSONObject jsonObject) {
-
-        Location location = new Location();
-        return location;
-    }
 
     public int getLocation_id() {
         return location_id;

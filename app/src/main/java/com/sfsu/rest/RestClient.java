@@ -2,7 +2,7 @@ package com.sfsu.rest;
 
 
 import com.sfsu.entities.AppConfig;
-import com.sfsu.rest.service.EntitiesApi;
+
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
