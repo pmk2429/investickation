@@ -167,4 +167,9 @@ public class Observation implements Parcelable, Entity {
     public String getJSONResourceIdentifier() {
         return "observations";
     }
+
+    @Override
+    public String getResourceType() {
+        return AppConfig.OBSERVATION_RESOURCE;
+    }
 }

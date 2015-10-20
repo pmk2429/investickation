@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.controllers.RetrofitController;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,6 +38,7 @@ public class Register extends Fragment implements View.OnClickListener {
     EditText et_address;
     @InjectView(R.id.image_usermain)
     ImageView imageView_userImage;
+    private RetrofitController retrofitController;
     private IRegisterCallBacks mListener;
 
 
@@ -72,6 +74,9 @@ public class Register extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.inject(getActivity());
 
+        // initialize the RetroFit controller.
+        retrofitController = new RetrofitController(getActivity());
+
         // implement the onClick method
         btnRegister.setOnClickListener(this);
         return v;
@@ -104,7 +109,6 @@ public class Register extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         // get all the values from the Registration form
         String userName = et_username.getText().toString();
         String email = et_email.getText().toString();
@@ -115,8 +119,8 @@ public class Register extends Fragment implements View.OnClickListener {
         // make a new object.
         User userObj = User.createUser(userName, email, password, zipcode, address);
 
-        // once the User object is created, simply pass it to RetroFit library
-        // TODO: access code for creating User entitiy using Retrofit
+        // once the User object is created, simply pass it to RetroFit Service
+        retrofitController.get(userObj.getResourceType(), userObj.getUser_id());
 
     }
 

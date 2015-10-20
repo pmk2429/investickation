@@ -21,10 +21,11 @@ public class AppConfig {
     // Base url to the endpoint
     public static final String BASE_URL = "http://investickation.com";
     // Resource Identifiers
-    public static final String USER_RESOURCE = "user";
+    public static final String USER_RESOURCE = "users";
     public static final String ACTIVITY_RESOURCE = "activities";
     public static final String OBSERVATION_RESOURCE = "observations";
     public static final String TICK_RESOURCE = "ticks";
+    public static final String LOCATION_RESOURCE = "locations";
     // HTTP verbs
     public static final String GET_VERB = "GET";
     public static final String POST_VERB = "POST";

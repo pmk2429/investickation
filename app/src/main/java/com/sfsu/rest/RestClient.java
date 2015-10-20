@@ -27,5 +27,4 @@ public class RestClient {
     public EntitiesApi getApiService() {
         return apiService;
     }
-
 }

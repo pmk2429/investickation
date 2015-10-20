@@ -17,4 +17,6 @@ public interface Entity {
 
 //    public Entity createEntityFactory(JSONObject jsonObject);
 
+    public String getResourceType();
+
 }

@@ -189,4 +189,9 @@ public class User implements Parcelable, Entity {
     public String getJSONResourceIdentifier() {
         return "users";
     }
+
+    @Override
+    public String getResourceType() {
+        return AppConfig.USER_RESOURCE;
+    }
 }

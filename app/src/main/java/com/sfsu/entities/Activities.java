@@ -142,4 +142,9 @@ public class Activities implements Parcelable, Entity {
     public String getJSONResourceIdentifier() {
         return "activities";
     }
+
+    @Override
+    public String getResourceType() {
+        return AppConfig.ACTIVITY_RESOURCE;
+    }
 }

@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.json.JSONObject;
-
 /**
  * <p>
  * <tt>Location </tt> contains the latitude and longitude of the user whenever the user
@@ -35,7 +33,6 @@ public class Location implements Parcelable, Entity {
         this.longitude = longitude;
         this.timestamp = timestamp;
     }
-
 
 
     public int getLocation_id() {
@@ -97,6 +94,11 @@ public class Location implements Parcelable, Entity {
     @Override
     public String getJSONResourceIdentifier() {
         return "locations";
+    }
+
+    @Override
+    public String getResourceType() {
+        return AppConfig.LOCATION_RESOURCE;
     }
 
 

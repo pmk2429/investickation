@@ -2,7 +2,6 @@ package com.sfsu.rest;
 
 
 import com.sfsu.entities.Entity;
-import com.sfsu.entities.User;
 
 import java.util.List;
 
@@ -33,13 +32,22 @@ import retrofit.http.Path;
 
 public interface EntitiesApi {
 
+
+    /**
+     * This method gets a specific resource by using ID of that resource.
+     *
+     * @return
+     */
+    @GET("/{resource}/{resourceId}")
+    public Call<Entity> get(@Path("resource") String resource, @Path("resourceId") String resourceId);
+
     /**
      * This method returns the list of all the Entities in resource based on the resourceIdentifier.
      *
      * @return
      */
     @GET("/{resource}")
-    public Call<List<Entity>> getEntities(@Path("resource") String resource);
+    public Call<List<Entity>> getAll(@Path("resource") String resource);
 
 
     /**
@@ -48,15 +56,7 @@ public interface EntitiesApi {
      * @return
      */
     @POST("/{resource}/new")
-    Call<User> add(@Path("resource") String resource, @Body Entity entity);
-
-    /**
-     * This method displays a specific resource by using ID of that resource.
-     *
-     * @return
-     */
-    @GET("/{resource}/{resourceId}")
-    public Call<Entity> show(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    Call<Entity> add(@Path("resource") String resource, @Body Entity entity);
 
 
     /**
