@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Dao for Ticks related DB operation.
+ * Dao for Ticks related DB operation and data manipulation.
  * Created by Pavitra on 10/8/2015.
  */
 public class TickDao implements EntityDao {
@@ -38,7 +38,7 @@ public class TickDao implements EntityDao {
         contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
         contentValues.put(TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
         contentValues.put(TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
-        contentValues.put(TicksTable.COLUMN_DESCRIPTION, tick.getDescripition());
+        contentValues.put(TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
         contentValues.put(TicksTable.COLUMN_IMAGE, tick.getImageUrl());
         contentValues.put(TicksTable.COLUMN_CREATEDAT, tick.getCreated_at());
         contentValues.put(TicksTable.COLUMN_UPDATEDAT, tick.getUpdated_at());
@@ -59,7 +59,7 @@ public class TickDao implements EntityDao {
         contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
         contentValues.put(TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
         contentValues.put(TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
-        contentValues.put(TicksTable.COLUMN_DESCRIPTION, tick.getDescripition());
+        contentValues.put(TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
         contentValues.put(TicksTable.COLUMN_IMAGE, tick.getImageUrl());
         contentValues.put(TicksTable.COLUMN_CREATEDAT, tick.getCreated_at());
         contentValues.put(TicksTable.COLUMN_UPDATEDAT, tick.getUpdated_at());
@@ -78,7 +78,7 @@ public class TickDao implements EntityDao {
             tickItem.setTickName(c.getString(1));
             tickItem.setSpecies(c.getString(2));
             tickItem.setKnown_for(c.getString(3));
-            tickItem.setDescripition(c.getString(4));
+            tickItem.setDescription(c.getString(4));
             tickItem.setImageUrl(c.getString(5));
             tickItem.setCreated_at(c.getLong(6));
             tickItem.setUpdated_at(c.getLong(7));

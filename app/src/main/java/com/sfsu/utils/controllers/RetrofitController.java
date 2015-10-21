@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import retrofit.Call;
+import retrofit.Callback;
 
 /**
  * The RetrofitController provides a level of abstraction between Retrofit API and the Fragments/Activities.
@@ -83,6 +84,19 @@ public class RetrofitController {
         }
     }
 
+    //
+
+    /**
+     * Method to add Resource using the Retrofit API.
+     *
+     * @param resourceType
+     * @param entity
+     * @return
+     */
+    public void demo(String resourceType, Entity entity, Callback<Entity> callback) {
+        entitiesApi.demo(resourceType, entity, callback);
+    }
+
     /**
      * Method to update the entity
      *
@@ -112,11 +126,10 @@ public class RetrofitController {
     public Call<Entity> delete(String resourceType, long entityId) {
         String resourceIdString = String.valueOf(entityId);
         Object[] args = {resourceType, resourceIdString};
-        if (Collections.frequency(Arrays.asList(args), null) >= 2) {
+        if (Collections.frequency(Arrays.asList(args), null) >= 1) {
             return null;
         } else {
             return entitiesApi.delete(resourceType, resourceIdString);
         }
     }
-
 }

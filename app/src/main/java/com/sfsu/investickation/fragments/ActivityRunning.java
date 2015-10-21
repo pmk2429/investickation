@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.entities.Activities;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
 
@@ -28,6 +30,7 @@ public class ActivityRunning extends Fragment {
 
     MapView mapView;
     GoogleMap googleMap;
+    private Activities activitiesCreatedObj;
     private IActivityRunningCallBacks mListener;
 
     public ActivityRunning() {
@@ -55,6 +58,9 @@ public class ActivityRunning extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_activity_running, container, false);
 
+        // retrieve all the data passed from the ActivityRunning fragment.
+        activitiesCreatedObj = getArguments().getParcelable(AppConfig.ACTIVITY_RESOURCE);
+
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
         mapView.onCreate(savedInstanceState);
@@ -77,6 +83,16 @@ public class ActivityRunning extends Fragment {
         } else {
             Log.d(AppConfig.LOGSTRING, "Map is null");
         }
+
+        // initialize the FAB
+        final FloatingActionButton stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_activity_stop);
+        stopActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // collect the information from Activity and just send it to the Retrofit Controller.
+
+            }
+        });
 
         return v;
     }

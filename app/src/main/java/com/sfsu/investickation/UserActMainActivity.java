@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sfsu.entities.Activities;
+import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.fragments.ActivityDetails;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
@@ -115,12 +117,17 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
     }
 
     /**
-     * when the user clicks on the Play Button in ActivityNew Fragment, open the
-     * ActivityRunning Fragment.
+     * This method will be called when the user clicks on the Play Button in ActivityNew Fragment. All the Details of the
+     * Activity started by the user will be collected and passed to the ActivityRunning fragment.
      */
     @Override
-    public void onPlayButtonclick() {
+    public void onPlayButtonClick(Activities newActivityDetailsObject) {
         ActivityRunning mActivityRunningFragment = new ActivityRunning();
+        // set the data to Bundle
+        Bundle newActivityBundle = new Bundle();
+        newActivityBundle.putParcelable(AppConfig.ACTIVITY_RESOURCE, newActivityDetailsObject);
+        mActivityRunningFragment.setArguments(newActivityBundle);
+        // initialize the transaction.
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mActivityRunningFragment);
         transaction.addToBackStack(null);
@@ -137,4 +144,5 @@ public class UserActMainActivity extends BaseActivity implements ActivityList.IA
     public void onActivityDetailsClick() {
 
     }
+
 }

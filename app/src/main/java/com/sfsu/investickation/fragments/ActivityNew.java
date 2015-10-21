@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -22,19 +23,21 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.entities.Activities;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
 
 import java.util.Calendar;
 
 
-public class ActivityNew extends Fragment {
+public class ActivityNew extends Fragment implements View.OnClickListener {
     GoogleMap googleMap;
     MapView mapView;
     SupportMapFragment fragment;
     private Context mContext;
     private IActivityNewCallBack mInterface;
     private TextView txtView_setReminder;
+    private Activities activitiesObj;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -75,14 +78,9 @@ public class ActivityNew extends Fragment {
             }
         });
 
-        // initialize the FAB
+        // start the activity
         final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_activity_start);
-        addProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mInterface.onPlayButtonclick();
-            }
-        });
+        addProject.setOnClickListener(this);
 
 
         // Gets the MapView from the XML layout and creates it
@@ -141,7 +139,25 @@ public class ActivityNew extends Fragment {
         }
     }
 
+    // collect all the details of an Activity and pass it on to Parent Activity
+    @Override
+    public void onClick(View v) {
+        // collect all the data for the New Activity posted by user.
+        EditText et_activityName = (EditText) v.findViewById(R.id.editText_ActivityName);
+        EditText et_totalPeople = (EditText) v.findViewById(R.id.editText_numOfPeople);
+        EditText et_totalPets = (EditText) v.findViewById(R.id.editText_pets);
+
+        String activityName = et_activityName.getText().toString();
+        int totalPeople = Integer.valueOf(et_totalPeople.getText().toString());
+        int totalPets = Integer.valueOf(et_totalPets.getText().toString());
+
+        activitiesObj = new Activities(activityName, totalPeople, totalPets);
+        
+        // TODO: collect information about Reminder
+        mInterface.onPlayButtonClick(activitiesObj);
+    }
+
     public interface IActivityNewCallBack {
-        public void onPlayButtonclick();
+        public void onPlayButtonClick(Activities newActivityDetails);
     }
 }

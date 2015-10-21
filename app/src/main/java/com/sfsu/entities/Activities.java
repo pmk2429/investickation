@@ -21,13 +21,25 @@ import java.util.List;
  */
 public class Activities implements Parcelable, Entity {
 
+    public static final Creator<Activities> CREATOR = new Creator<Activities>() {
+        @Override
+        public Activities createFromParcel(Parcel in) {
+            return new Activities(in);
+        }
+
+        @Override
+        public Activities[] newArray(int size) {
+            return new Activities[size];
+        }
+    };
     private int activity_id;
-    private String activityName, imageUrl, location_area;
+    private String activityName, location_area;
     private int num_people, num_pets, num_ticks;
     private long timestamp, created_at, update_at;
 
     public Activities() {
     }
+
 
     public Activities(String name, int num_people, int num_pets, int num_ticks) {
         this.activityName = name;
@@ -36,10 +48,14 @@ public class Activities implements Parcelable, Entity {
         this.num_ticks = num_ticks;
     }
 
-    public Activities(int activity_id, String name, String imageUrl, String location_area, int num_people, int num_pets, int num_ticks, long timestamp, long created_at, long update_at) {
-        this.activity_id = activity_id;
+    public Activities(String name, int num_people, int num_pets) {
         this.activityName = name;
-        this.imageUrl = imageUrl;
+        this.num_people = num_people;
+        this.num_pets = num_pets;
+    }
+
+    public Activities(String name, String location_area, int num_people, int num_pets, int num_ticks, long timestamp, long created_at, long update_at) {
+        this.activityName = name;
         this.location_area = location_area;
         this.num_people = num_people;
         this.num_pets = num_pets;
@@ -47,6 +63,18 @@ public class Activities implements Parcelable, Entity {
         this.timestamp = timestamp;
         this.created_at = created_at;
         this.update_at = update_at;
+    }
+
+    protected Activities(Parcel in) {
+        activity_id = in.readInt();
+        activityName = in.readString();
+        location_area = in.readString();
+        num_people = in.readInt();
+        num_pets = in.readInt();
+        num_ticks = in.readInt();
+        timestamp = in.readLong();
+        created_at = in.readLong();
+        update_at = in.readLong();
     }
 
     public static List<Activities> initializeData() {
@@ -68,10 +96,6 @@ public class Activities implements Parcelable, Entity {
 
     public String getActivityName() {
         return activityName;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 
     public String getLocation_area() {
@@ -107,7 +131,6 @@ public class Activities implements Parcelable, Entity {
         return "Activity{" +
                 "activity_id=" + activity_id +
                 ", name='" + activityName + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
                 ", location_area='" + location_area + '\'' +
                 ", num_people=" + num_people +
                 ", num_pets=" + num_pets +
@@ -125,7 +148,15 @@ public class Activities implements Parcelable, Entity {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeInt(activity_id);
+        parcel.writeString(activityName);
+        parcel.writeString(location_area);
+        parcel.writeInt(num_people);
+        parcel.writeInt(num_pets);
+        parcel.writeInt(num_ticks);
+        parcel.writeLong(timestamp);
+        parcel.writeLong(created_at);
+        parcel.writeLong(update_at);
     }
 
     @Override

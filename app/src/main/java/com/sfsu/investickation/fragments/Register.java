@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 import com.sfsu.utils.controllers.RetrofitController;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  *
@@ -119,10 +122,21 @@ public class Register extends Fragment implements View.OnClickListener {
         // make a new object.
         User userObj = User.createUser(userName, email, password, zipcode, address);
 
-        // once the User object is created, simply pass it to RetroFit Service
-        retrofitController.get(userObj.getResourceType(), userObj.getUser_id());
+        // once the User object is created, simply pass it to RetroFit Service to add it to DB using API
+        retrofitController.demo(userObj.getResourceType(), userObj, new Callback<Entity>() {
+            @Override
+            public void onResponse(Response<Entity> response) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
 
     }
+
 
     /**
      * Interface to communicate to other Fragment and/or Activity

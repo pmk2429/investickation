@@ -6,6 +6,7 @@ import com.sfsu.entities.Entity;
 import java.util.List;
 
 import retrofit.Call;
+import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -57,6 +58,12 @@ public interface EntitiesApi {
      */
     @POST("/{resource}/new")
     Call<Entity> add(@Path("resource") String resource, @Body Entity entity);
+
+    /**
+     * Demo
+     */
+    @POST("/{resource}/new")
+    void demo(@Path("resource") String resource, @Body Entity entity, Callback<Entity> callback);
 
 
     /**

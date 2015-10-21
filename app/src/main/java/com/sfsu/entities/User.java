@@ -58,6 +58,7 @@ public class User implements Parcelable, Entity {
         this.state = state;
     }
 
+    
     public static User createUser(String username, String email, String password, String zipcode, String address) {
 
         // TODO: Create Logic for user_id.
