@@ -20,7 +20,7 @@
 
             <!--  tick image -->
             <ImageView
-                android:id="@+id/imageView_tickAddObservation"
+                android:id="@+id/imageView_addObs_tickImage"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_below="@id/toolbar_base"
@@ -42,10 +42,10 @@
             <!--android:background="@drawable/circle"/>-->
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_addTickImage"
+                android:id="@+id/fab_addObs_addTickImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/imageView_tickAddObservation"
+                android:layout_alignBottom="@id/imageView_addObs_tickImage"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="-40dp"
@@ -59,7 +59,7 @@
                 android:id="@+id/textViewStatic_chooseFromGuide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageView_tickAddObservation"
+                android:layout_below="@id/imageView_addObs_tickImage"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/padding_large"
                 android:layout_marginTop="@dimen/padding_X3_large"
@@ -101,7 +101,7 @@
                 android:src="@mipmap/ic_bug_report_black_36dp"/>
 
             <EditText
-                android:id="@+id/editText_tick"
+                android:id="@+id/editText_addObs_newTick"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/separator_observation_1"
@@ -117,7 +117,7 @@
 
             <!--  Species row -->
             <ImageView
-                android:id="@+id/icon_numberOfTicks"
+                android:id="@+id/icon_tickSpecies"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
@@ -128,12 +128,12 @@
                 android:src="@mipmap/ic_paw"/>
 
             <EditText
-                android:id="@+id/editText_numOfTicks"
+                android:id="@+id/editText_addObs_tickSpecies"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_tick"
+                android:layout_below="@id/editText_addObs_newTick"
                 android:layout_marginRight="@dimen/padding_large"
-                android:layout_toRightOf="@id/icon_numberOfTicks"
+                android:layout_toRightOf="@id/icon_tickSpecies"
                 android:hint="Species"
                 android:paddingBottom="16sp"
                 android:paddingTop="@dimen/padding_large"
@@ -145,7 +145,7 @@
 
     <!-- Add Observation Button -->
     <Button
-        android:id="@+id/button_addObservation"
+        android:id="@+id/button_postObservation"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"

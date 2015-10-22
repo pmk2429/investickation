@@ -17,10 +17,10 @@ import butterknife.InjectView;
 import com.sfsu.investickation.GuideMasterActivity;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
-import com.sfsu.investickation.ObservationMainActivity;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.SettingsActivity;
-import com.sfsu.investickation.UserActMainActivity;
+import com.sfsu.investickation.UserActivityMasterActivity;
 
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
@@ -64,13 +64,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 break;
 
             case NAVDRAWER_ITEM_ACTIVITIES:
-                intent = new Intent(context, UserActMainActivity.class);
+                intent = new Intent(context, UserActivityMasterActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;
 
             case NAVDRAWER_ITEM_OBSERVATIONS:
-                intent = new Intent(context, ObservationMainActivity.class);
+                intent = new Intent(context, ObservationMasterActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;

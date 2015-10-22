@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
     @Override
     public void onActivityButtonClicked() {
-        Intent activityIntent = new Intent(MainActivity.this, UserActMainActivity.class);
+        Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
         activityIntent.putExtra("ActivityNew", 1);
         startActivity(activityIntent);
         finish();
@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
     @Override
     public void onObservationButtonClicked() {
-        Intent observationIntent = new Intent(MainActivity.this, ObservationMainActivity.class);
+        Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
         observationIntent.putExtra("ObservationNew", 1);
         startActivity(observationIntent);
         finish();
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
     @Override
     public void onViewActivitiesClicked() {
-        Intent activityIntent = new Intent(MainActivity.this, UserActMainActivity.class);
+        Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
         activityIntent.putExtra("ActivityList", 2);
         startActivity(activityIntent);
         finish();
@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
     @Override
     public void onViewObservationsClicked() {
-        Intent observationIntent = new Intent(MainActivity.this, ObservationMainActivity.class);
+        Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
         observationIntent.putExtra("ObservationList", 2);
         startActivity(observationIntent);
         finish();

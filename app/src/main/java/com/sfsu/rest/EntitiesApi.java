@@ -57,7 +57,7 @@ public interface EntitiesApi {
      * @return
      */
     @POST("/{resource}/new")
-    Call<Entity> add(@Path("resource") String resource, @Body Entity entity);
+    public Call<Entity> add(@Path("resource") String resource, @Body Entity entity);
 
     /**
      * Demo

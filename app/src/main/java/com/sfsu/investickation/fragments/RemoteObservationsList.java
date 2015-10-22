@@ -12,24 +12,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
-
 import com.sfsu.adapters.ObservationsListAdapter;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Observation;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 
+import java.util.List;
+
 /**
  * A simple {@link Observation} Fragment which is used to display all the observations made by the user
- * and are posted on the server. This fragment is attached to {@link com.sfsu.investickation.ObservationMainActivity} and
+ * and are posted on the server. This fragment is attached to {@link ObservationMasterActivity} and
  * the callbacks of this fragment are implemented in that activity.
  */
 
 public class RemoteObservationsList extends Fragment implements View.OnClickListener {
 
-    private IObservationCallBacks mInterface;
+    private IRemoteObservationCallBacks mInterface;
     private Context context;
 
     private List<Observation> observationList;
@@ -61,7 +61,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
             Log.d(AppConfig.LOGSTRING, " No Layout manager supplied");
         }
 
-        observationList = Observation.initialieData();
+        observationList = Observation.initializeData();
 
         ObservationsListAdapter mObservationsListAdapter = new ObservationsListAdapter(observationList);
         recyclerView_observations.setAdapter(mObservationsListAdapter);
@@ -96,7 +96,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         super.onAttach(activity);
 
         try {
-            mInterface = (IObservationCallBacks) activity;
+            mInterface = (IRemoteObservationCallBacks) activity;
             context = activity;
         } catch (Exception e) {
             throw new ClassCastException(activity.toString() + " must implement IObservationCallBacks");
@@ -109,7 +109,8 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
     }
 
 
-    public interface IObservationCallBacks {
+    public interface IRemoteObservationCallBacks {
+
         public void onObservationAddListener();
 
         public void onItemClickListener();

@@ -1,6 +1,7 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.controllers.RetrofitController;
 
 /**
  * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment
@@ -30,8 +32,11 @@ public class ActivityRunning extends Fragment {
 
     MapView mapView;
     GoogleMap googleMap;
-    private Activities activitiesCreatedObj;
+    private Activities newActivityObj;
+    private Context mContext;
     private IActivityRunningCallBacks mListener;
+    private RetrofitController retrofitController;
+
 
     public ActivityRunning() {
         // Required empty public constructor
@@ -59,7 +64,10 @@ public class ActivityRunning extends Fragment {
         View v = inflater.inflate(R.layout.fragment_activity_running, container, false);
 
         // retrieve all the data passed from the ActivityRunning fragment.
-        activitiesCreatedObj = getArguments().getParcelable(AppConfig.ACTIVITY_RESOURCE);
+        newActivityObj = getArguments().getParcelable(AppConfig.ACTIVITY_RESOURCE);
+
+        // initialize the RetrofitController.
+        retrofitController = new RetrofitController(mContext);
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
@@ -89,8 +97,9 @@ public class ActivityRunning extends Fragment {
         stopActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // collect the information from Activity and just send it to the Retrofit Controller.
-
+                // on stop button click the newActivityObj will be passed on to Retrofit Controller
+                retrofitController.add(AppConfig.ACTIVITY_RESOURCE, newActivityObj);
+                // TODO: get the result from the Controller and pass it on to ActivityList Fragment.
             }
         });
 
@@ -108,6 +117,7 @@ public class ActivityRunning extends Fragment {
         super.onAttach(activity);
         try {
             mListener = (IActivityRunningCallBacks) activity;
+            mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");

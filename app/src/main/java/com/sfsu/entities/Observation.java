@@ -19,29 +19,37 @@ import java.util.List;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
+
+// TODO: does this class require Tick and geoLocation object??? Creating a Custom object.
 public class Observation implements Parcelable, Entity {
 
-    // dummy vars
-    String tickName, location;
+    public static final Creator<Observation> CREATOR = new Creator<Observation>() {
+        @Override
+        public Observation createFromParcel(Parcel in) {
+            return new Observation(in);
+        }
+
+        @Override
+        public Observation[] newArray(int size) {
+            return new Observation[size];
+        }
+    };
+
+
     private long observation_id;
+    private String tickName, tickSpecies, geoLocation, tickImageUrl;
     private int num_ticks;
-    private String tickImageUrl;
     private double latitude, longitude;
     private long timestamp, created_at, updated_at;
 
-    public Observation() {
-    }
-
-    public Observation(String tickName, String location, long timestamp) {
-        this.tickName = tickName;
-        this.location = location;
-        this.timestamp = timestamp;
-    }
-
-    public Observation(int observation_id, int num_ticks, String tickImageUrl, double latitude, double longitude, long timestamp, long created_at, long updated_at) {
+    // constructor to get the data from the Object.
+    public Observation(long observation_id, String tickName, String tickSpecies, String geoLocation, String tickImageUrl, int num_ticks, double latitude, double longitude, long timestamp, long created_at, long updated_at) {
         this.observation_id = observation_id;
-        this.num_ticks = num_ticks;
+        this.tickName = tickName;
+        this.tickSpecies = tickSpecies;
+        this.geoLocation = geoLocation;
         this.tickImageUrl = tickImageUrl;
+        this.num_ticks = num_ticks;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
@@ -49,7 +57,44 @@ public class Observation implements Parcelable, Entity {
         this.updated_at = updated_at;
     }
 
-    public static List<Observation> initialieData() {
+    // Default Constructor
+    public Observation() {
+    }
+
+    // constructor for demo purposes
+    public Observation(String tickName, String geoLocation, long timestamp) {
+        this.tickName = tickName;
+        this.geoLocation = geoLocation;
+        this.timestamp = timestamp;
+    }
+
+
+    // Constructor to create the Observation object.
+    public Observation(String tickName, String tickSpecies, String geoLocation, String tickImageUrl, double latitude, double
+            longitude, long timestamp) {
+        this.tickName = tickName;
+        this.geoLocation = geoLocation;
+        this.tickImageUrl = tickImageUrl;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timestamp = timestamp;
+        this.tickSpecies = tickSpecies;
+    }
+
+    protected Observation(Parcel in) {
+        tickName = in.readString();
+        geoLocation = in.readString();
+        observation_id = in.readLong();
+        num_ticks = in.readInt();
+        tickImageUrl = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        timestamp = in.readLong();
+        created_at = in.readLong();
+        updated_at = in.readLong();
+    }
+
+    public static List<Observation> initializeData() {
         List<Observation> observations = new ArrayList<>();
         observations.add(new Observation("American Dog Tick", "Presidio of San Francisco", System.currentTimeMillis()));
         observations.add(new Observation("Spotted Red Tick", "Yosemite National Park", System.currentTimeMillis()));
@@ -57,12 +102,19 @@ public class Observation implements Parcelable, Entity {
         return observations;
     }
 
+    // Factory method to return the Observation object.
+    public static Observation createObservation(String tickName, String tickSpecies, String geoLocation, String imageUrl,
+                                                double latitude, double longitude, long timestamp) {
+
+        return new Observation(tickName, tickSpecies, geoLocation, imageUrl, latitude, longitude, timestamp);
+    }
+
     public String getTickName() {
         return tickName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getGeoLocation() {
+        return geoLocation;
     }
 
     public long getObservation_id() {
@@ -150,7 +202,16 @@ public class Observation implements Parcelable, Entity {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(tickName);
+        parcel.writeString(geoLocation);
+        parcel.writeLong(observation_id);
+        parcel.writeInt(num_ticks);
+        parcel.writeString(tickImageUrl);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
+        parcel.writeLong(timestamp);
+        parcel.writeLong(created_at);
+        parcel.writeLong(updated_at);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.sfsu.utils.controllers;
 
 import android.content.Context;
 
+import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Entity;
 import com.sfsu.rest.EntitiesApi;
 import com.sfsu.rest.RestClient;
@@ -26,18 +27,17 @@ import retrofit.Callback;
  */
 public class RetrofitController {
 
-    private RestClient mRestClient;
     private Context context;
     private EntitiesApi entitiesApi;
 
     public RetrofitController(Context context) {
         this.context = context;
-        mRestClient = new RestClient();
-        entitiesApi = mRestClient.getApiService();
+        entitiesApi = RestClient.createRetrofitService(AppConfig.BASE_URL);
     }
 
     /**
-     * Method provides the Controller layer to GET and POST data using Retrofit.
+     * Method provides the Controller layer to GET and POST data using Retrofit. Get the Call from the EntitiesApi and
+     * then pass on the parsed object to the Calling Fragment/Activity.
      *
      * @param entityId - entity Id of resource. Converts it to String.
      * @return
@@ -66,22 +66,23 @@ public class RetrofitController {
     }
 
     /**
-     * Method to add Resource using the Retrofit API.
+     * Method to add Resource using the Retrofit API. This method receives the Call<Entity> as response by calling the
+     * Retrofit API and it parses this response to get the Entity and returns it back to the calling Fragment/Entity method.
      *
      * @param resourceType
      * @param entity
      * @return
      */
-    public Call<Entity> add(String resourceType, Entity entity) {
-        if (!resourceType.equals("") && resourceType != null) {
-            if (entity != null) {
-                return entitiesApi.add(resourceType, entity);
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+    public Entity add(String resourceType, Entity entity) {
+        Entity entity1 = null;
+        Object[] args = {resourceType, entity};
+        if (Collections.frequency(Arrays.asList(args), null) >= 1) {
+
+            entitiesApi.add(resourceType, entity);
+
+            return entity1;
         }
+        return entity1;
     }
 
     //

@@ -2,6 +2,7 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,14 +20,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.entities.AppConfig;
+import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.controllers.RetrofitController;
 
 import java.io.File;
+import java.sql.Timestamp;
 
 public class AddObservation extends Fragment {
 
@@ -35,6 +41,11 @@ public class AddObservation extends Fragment {
     private Bitmap bitmap;
     private ImageView imageView_tickAddObservation;
     private String selectedImagePath;
+    private Button btn_PostObservation;
+    private Observation newlyCreatedTickObj;
+    private RetrofitController retrofitController;
+    private IAddObservationCallBack mInterface;
+    private Context mContext;
 
     public AddObservation() {
         // Required empty public constructor
@@ -54,14 +65,41 @@ public class AddObservation extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
 
-        imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_tickAddObservation);
+        btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
+        imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);
 
         // initialize the Floating button.
-        final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addTickImage);
+        final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
         addTickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startDialogForChoosingImage();
+            }
+        });
+
+        btn_PostObservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: complete this code. Get data from this Fragment and callback on ObservationMasterActivity to RetrofitController
+                EditText et_tickName = (EditText) v.findViewById(R.id.editText_addObs_newTick);
+                EditText et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
+                String tickName = et_tickName.getText().toString();
+                String tickSpecies = et_tickSpecies.getText().toString();
+
+                // create a Tick Obj
+                // TODO : logic for ID, and image manipulation
+                long currentTime = new Timestamp(System.currentTimeMillis()).getTime();
+                double latitude = 37.773972;
+                double longitude = -122.431297;
+                String geoLocation = "San Francisco";
+
+                newlyCreatedTickObj = Observation.createObservation(tickName, tickSpecies, geoLocation, "", latitude,
+                        longitude, currentTime);
+
+                // pass the object to the ObservationActivity.
+                mInterface.postObservationData(newlyCreatedTickObj);
+                // once the data is sent to RetrofitController get the response from same and pass it to RemoteObservations
+
             }
         });
 
@@ -162,8 +200,6 @@ public class AddObservation extends Fragment {
 
                 // set Tick image to imageView.
                 imageView_tickAddObservation.setImageBitmap(bitmap);
-
-
                 //TODO: create BLOB or large Binary representation and send it on server.
 
             } catch (Exception e) {
@@ -205,6 +241,13 @@ public class AddObservation extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        try {
+            mInterface = (IAddObservationCallBack) activity;
+            mContext = activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement IAddObservationCallBack");
+        }
 
     }
 
@@ -212,6 +255,10 @@ public class AddObservation extends Fragment {
     public void onDetach() {
         super.onDetach();
 
+    }
+
+    public static interface IAddObservationCallBack {
+        void postObservationData(Observation newObservation);
     }
 
 

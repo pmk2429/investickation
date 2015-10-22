@@ -4,15 +4,18 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.RemoteObservationsList;
+import com.sfsu.utils.controllers.RetrofitController;
 
-public class ObservationMainActivity extends BaseActivity implements RemoteObservationsList.IObservationCallBacks, View.OnClickListener {
+public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
-    private static String OBSERVATION_RESOURCE = "observations";
+
+    private Observation newlyCreatedObs;
+    private RetrofitController retrofitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class ObservationMainActivity extends BaseActivity implements RemoteObser
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Call back method when user clicks on the plus button in RemoteObservationsList Fragment to add Observation
+     */
     @Override
     public void onObservationAddListener() {
         AddObservation addObservationFragment = new AddObservation();
@@ -83,6 +89,9 @@ public class ObservationMainActivity extends BaseActivity implements RemoteObser
         transaction.commit();
     }
 
+    /**
+     * Callback for item click in RemoteObservationsList.
+     */
     @Override
     public void onItemClickListener() {
         ObservationDetail observationDetailFragment = new ObservationDetail();
@@ -92,10 +101,16 @@ public class ObservationMainActivity extends BaseActivity implements RemoteObser
         transaction.commit();
     }
 
+    /**
+     * This method provides the Call back interface to the AddObservation Fragment when user click Post Observation button.
+     *
+     * @param newObservation
+     */
     @Override
-    public void onClick(View v) {
-        // if user clicked the Add Button, replace with AddObservation Fragment
+    public void postObservationData(Observation newObservation) {
+        newlyCreatedObs = newObservation;
 
-
+        // pass this object to RetrofitController and get response.
+        retrofitController.add(newlyCreatedObs.getResourceType(), newlyCreatedObs);
     }
 }

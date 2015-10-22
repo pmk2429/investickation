@@ -47,7 +47,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
 //                  holder.imageView_tickImage.setImageResource();
 //                  holder.imageView_imageStatus.setImageResource();
                     holder.txtView_observationName.setText(observation.getTickName());
-                    holder.txtView_location.setText(observation.getLocation());
+                    holder.txtView_location.setText(observation.getGeoLocation());
                     holder.txtView_timestamp.setText(Long.toString((new Date(observation.getTimestamp()).getTime())));
                 }
             }

@@ -58,6 +58,7 @@ public class Tick implements Parcelable, Entity {
         this.description = description;
     }
 
+    // constructor for retrieving all the data from the Tick Object.
     public Tick(int tick_id, String name, String species, String color, String known_for, String description, String imageUrl) {
         this.tick_id = tick_id;
         this.tickName = name;
@@ -78,6 +79,18 @@ public class Tick implements Parcelable, Entity {
         imageUrl = in.readString();
         created_at = in.readLong();
         updated_at = in.readLong();
+    }
+
+
+    // constructor for creating the Tick object and sending it over to Retrofit API.
+    public Tick(String tickName, String species, String imageUrl) {
+        this.tickName = tickName;
+        this.species = species;
+        this.imageUrl = imageUrl;
+    }
+
+    public static Tick createTick(String name, String species, String imageUrl) {
+        return new Tick(name, species, imageUrl);
     }
 
     public static List<Tick> initializeData() {
