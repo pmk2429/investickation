@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
@@ -14,7 +15,7 @@ import com.sfsu.utils.controllers.RetrofitController;
 public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
 
-    private Observation newlyCreatedObs;
+    private Observation newlyCreatedObs, observationResponseObj;
     private RetrofitController retrofitController;
 
     @Override
@@ -108,9 +109,24 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
      */
     @Override
     public void postObservationData(Observation newObservation) {
+
         newlyCreatedObs = newObservation;
 
         // pass this object to RetrofitController and get response.
-        retrofitController.add(newlyCreatedObs.getResourceType(), newlyCreatedObs);
+        observationResponseObj = (Observation) retrofitController.add(newlyCreatedObs.getResourceType(), newlyCreatedObs);
+
+        // define the RemoteObservationsList Fragment
+        RemoteObservationsList mRemoteObservationsList = new RemoteObservationsList();
+
+        // once you get the response, simply pass it to RemoteObservations Fragment to display
+        Bundle newObservationBundle = new Bundle();
+        newObservationBundle.putParcelable(AppConfig.OBSERVATION_RESOURCE, observationResponseObj);
+        
+        mRemoteObservationsList.setArguments(newObservationBundle);
+        // begin transaction and commit
+        FragmentTransaction mFragmentTransaction = getSupportFragmentManager().beginTransaction();
+        mFragmentTransaction.replace(R.id.observation_fragment_container, mRemoteObservationsList);
+        mFragmentTransaction.addToBackStack(null);
+        mFragmentTransaction.commit();
     }
 }

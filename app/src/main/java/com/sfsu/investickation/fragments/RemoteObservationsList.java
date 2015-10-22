@@ -31,8 +31,8 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
 
     private IRemoteObservationCallBacks mInterface;
     private Context context;
-
     private List<Observation> observationList;
+    private Observation newObservationObject;
 
     public RemoteObservationsList() {
         // Required empty public constructor
@@ -50,8 +50,11 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
-        RecyclerView recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
 
+        // retrieve the Observation Response Object from the Bundle
+        newObservationObject = getArguments().getParcelable(AppConfig.OBSERVATION_RESOURCE);
+
+        RecyclerView recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);
 
         if (context != null) {
@@ -62,6 +65,9 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         }
 
         observationList = Observation.initializeData();
+
+        // TODO: add newObservationObject to observationList - !?
+        // observationList.add(newObservationObject);
 
         ObservationsListAdapter mObservationsListAdapter = new ObservationsListAdapter(observationList);
         recyclerView_observations.setAdapter(mObservationsListAdapter);

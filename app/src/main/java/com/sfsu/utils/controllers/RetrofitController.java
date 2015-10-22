@@ -13,6 +13,7 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * The RetrofitController provides a level of abstraction between Retrofit API and the Fragments/Activities.
@@ -29,10 +30,31 @@ public class RetrofitController {
 
     private Context context;
     private EntitiesApi entitiesApi;
+    private Entity entityResponseObj;
+    private List<Entity> entityListResponse;
 
     public RetrofitController(Context context) {
         this.context = context;
         entitiesApi = RestClient.createRetrofitService(AppConfig.BASE_URL);
+    }
+
+    /**
+     * getters and setter for accessing the data from the Response
+     **/
+    public List<Entity> getEntityListResponse() {
+        return entityListResponse;
+    }
+
+    public void setEntityListResponse(List<Entity> entityListResponse) {
+        this.entityListResponse = entityListResponse;
+    }
+
+    public Entity getEntityResponseObj() {
+        return entityResponseObj;
+    }
+
+    public void setEntityResponseObj(Entity entityResponseObj) {
+        this.entityResponseObj = entityResponseObj;
     }
 
     /**
@@ -42,11 +64,25 @@ public class RetrofitController {
      * @param entityId - entity Id of resource. Converts it to String.
      * @return
      */
-    public Call<Entity> get(String resourceType, long entityId) {
-        if (entityId != 0 && entityId > 0) {
-            String resourceId = String.valueOf(entityId);
-            return entitiesApi.get(resourceType, resourceId);
+    public Entity get(String resourceType, long entityId) {
+        Object[] args = {resourceType, entityId};
+        final String resourceId = String.valueOf(entityId);
+        if (Collections.frequency(Arrays.asList(args), null) >= 1) {
+            return null;
         } else {
+            Call<Entity> entityCall = entitiesApi.get(resourceType, resourceId);
+            entityCall.enqueue(new Callback<Entity>() {
+                @Override
+                public void onResponse(Response<Entity> response) {
+                    Entity entityObj = response.body();
+                    setEntityResponseObj(entityObj);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
             return null;
         }
     }
@@ -57,11 +93,27 @@ public class RetrofitController {
      * @param resourceType
      * @return
      */
-    public Call<List<Entity>> getAll(String resourceType) {
-        if (!resourceType.equals("") && resourceType != null) {
-            return entitiesApi.getAll(resourceType);
-        } else {
+    public List<Entity> getAll(final String resourceType) {
+        Object[] args = {resourceType};
+
+        if (Collections.frequency(Arrays.asList(args), null) >= 0) {
             return null;
+        } else {
+
+            Call<List<Entity>> listCall = entitiesApi.getAll(resourceType);
+            listCall.enqueue(new Callback<List<Entity>>() {
+                @Override
+                public void onResponse(Response<List<Entity>> response) {
+                    List<Entity> entityList = response.body();
+                    setEntityListResponse(entityList);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    // TODO: custom Exception
+                }
+            });
+            return getEntityListResponse();
         }
     }
 
@@ -74,28 +126,27 @@ public class RetrofitController {
      * @return
      */
     public Entity add(String resourceType, Entity entity) {
-        Entity entity1 = null;
+        //final Entity[] demo = new Entity[1];
         Object[] args = {resourceType, entity};
         if (Collections.frequency(Arrays.asList(args), null) >= 1) {
+            return null;
+        } else {
+            Call<Entity> entityCall = entitiesApi.add(resourceType, entity);
+            entityCall.enqueue(new Callback<Entity>() {
+                @Override
+                public void onResponse(Response<Entity> response) {
+                    Entity createdEntityResponse = response.body();
+                    setEntityResponseObj(createdEntityResponse);
+                    //demo[0] = createdEntityResponse;
+                }
 
-            entitiesApi.add(resourceType, entity);
-
-            return entity1;
+                @Override
+                public void onFailure(Throwable t) {
+                    // TODO: create custom Exceptions
+                }
+            });
+            return getEntityResponseObj();
         }
-        return entity1;
-    }
-
-    //
-
-    /**
-     * Method to add Resource using the Retrofit API.
-     *
-     * @param resourceType
-     * @param entity
-     * @return
-     */
-    public void demo(String resourceType, Entity entity, Callback<Entity> callback) {
-        entitiesApi.demo(resourceType, entity, callback);
     }
 
     /**
@@ -106,13 +157,27 @@ public class RetrofitController {
      * @param entity
      * @return
      */
-    public Call<Entity> update(String resourceType, long entityId, Entity entity) {
+    public Entity update(String resourceType, long entityId, Entity entity) {
         String resourceIdString = String.valueOf(entityId);
         Object[] args = {resourceType, resourceIdString, entity};
         if (Collections.frequency(Arrays.asList(args), null) >= 2) {
             return null;
         } else {
-            return entitiesApi.update(resourceType, resourceIdString, entity);
+            Call<Entity> entityCall = entitiesApi.update(resourceType, resourceIdString, entity);
+            entityCall.enqueue(new Callback<Entity>() {
+                @Override
+                public void onResponse(Response<Entity> response) {
+                    Entity updatedEntityResponse = response.body();
+                    setEntityResponseObj(updatedEntityResponse);
+                    //demo[0] = createdEntityResponse;
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    // TODO: custom exception for error
+                }
+            });
+            return getEntityResponseObj();
         }
     }
 
@@ -124,13 +189,28 @@ public class RetrofitController {
      * @param entityId
      * @return
      */
-    public Call<Entity> delete(String resourceType, long entityId) {
+    public Entity delete(String resourceType, long entityId) {
         String resourceIdString = String.valueOf(entityId);
         Object[] args = {resourceType, resourceIdString};
         if (Collections.frequency(Arrays.asList(args), null) >= 1) {
             return null;
         } else {
-            return entitiesApi.delete(resourceType, resourceIdString);
+
+            Call<Entity> entityCall = entitiesApi.delete(resourceType, resourceIdString);
+            entityCall.enqueue(new Callback<Entity>() {
+                @Override
+                public void onResponse(Response<Entity> response) {
+                    Entity deletedEntityResponse = response.body();
+                    setEntityResponseObj(deletedEntityResponse);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    // TODO: custom exception
+                }
+            });
+
+            return getEntityResponseObj();
         }
     }
 }

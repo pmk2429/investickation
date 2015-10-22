@@ -123,7 +123,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     @Override
     public void onPlayButtonClick(Activities newActivityDetailsObject) {
         ActivityRunning mActivityRunningFragment = new ActivityRunning();
-        // set the data to Bundle
+        // set the data to Bundle to pass it to ActivityRunning Fragment
         Bundle newActivityBundle = new Bundle();
         newActivityBundle.putParcelable(AppConfig.ACTIVITY_RESOURCE, newActivityDetailsObject);
         mActivityRunningFragment.setArguments(newActivityBundle);
