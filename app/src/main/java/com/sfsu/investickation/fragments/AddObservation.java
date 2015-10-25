@@ -93,8 +93,11 @@ public class AddObservation extends Fragment {
                 double longitude = -122.431297;
                 String geoLocation = "San Francisco";
 
+
                 newlyCreatedTickObj = Observation.createObservation(tickName, tickSpecies, geoLocation, "", latitude,
                         longitude, currentTime);
+
+                // once the data for Observation is collected, get the current Location
 
                 // pass the object to the ObservationActivity.
                 mInterface.postObservationData(newlyCreatedTickObj);

@@ -7,9 +7,9 @@ import com.sfsu.entities.Entity;
 import com.sfsu.rest.EntitiesApi;
 import com.sfsu.rest.RestClient;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -31,7 +31,7 @@ public class RetrofitController {
     private Context context;
     private EntitiesApi entitiesApi;
     private Entity entityResponseObj;
-    private List<Entity> entityListResponse;
+    private ArrayList<Entity> entityListResponse;
 
     public RetrofitController(Context context) {
         this.context = context;
@@ -41,11 +41,11 @@ public class RetrofitController {
     /**
      * getters and setter for accessing the data from the Response
      **/
-    public List<Entity> getEntityListResponse() {
+    public ArrayList<Entity> getEntityListResponse() {
         return entityListResponse;
     }
 
-    public void setEntityListResponse(List<Entity> entityListResponse) {
+    public void setEntityListResponse(ArrayList<Entity> entityListResponse) {
         this.entityListResponse = entityListResponse;
     }
 
@@ -93,18 +93,18 @@ public class RetrofitController {
      * @param resourceType
      * @return
      */
-    public List<Entity> getAll(final String resourceType) {
+    public ArrayList<Entity> getAll(final String resourceType) {
         Object[] args = {resourceType};
 
         if (Collections.frequency(Arrays.asList(args), null) >= 0) {
             return null;
         } else {
 
-            Call<List<Entity>> listCall = entitiesApi.getAll(resourceType);
-            listCall.enqueue(new Callback<List<Entity>>() {
+            Call<ArrayList<Entity>> listCall = entitiesApi.getAll(resourceType);
+            listCall.enqueue(new Callback<ArrayList<Entity>>() {
                 @Override
-                public void onResponse(Response<List<Entity>> response) {
-                    List<Entity> entityList = response.body();
+                public void onResponse(Response<ArrayList<Entity>> response) {
+                    ArrayList<Entity> entityList = response.body();
                     setEntityListResponse(entityList);
                 }
 

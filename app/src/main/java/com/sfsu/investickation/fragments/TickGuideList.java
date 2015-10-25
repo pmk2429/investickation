@@ -12,13 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import com.sfsu.adapters.TicksListAdapter;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+
+import java.util.List;
 
 /**
  * A simple {@link Tick} fragment which contains the Information; A Guide for each ticks. This fragment displays
@@ -26,35 +26,37 @@ import com.sfsu.investickation.RecyclerItemClickListener;
  */
 
 
-public class GuideIndex extends Fragment implements View.OnClickListener {
+public class TickGuideList extends Fragment implements View.OnClickListener {
 
     IGuideIndexCallBacks mInterface;
-    private Context context;
+    private Context mContext;
+    private List<Tick> tickList;
 
-    private List<Tick> ticks;
-
-    public GuideIndex() {
+    public TickGuideList() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_guide_index, container, false);
+
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
         rv.setHasFixedSize(true);
 
-        if (context != null) {
+        if (mContext != null) {
             rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
             Log.d(AppConfig.LOGSTRING, "Guide Activity not found");
         }
 
-        ticks = Tick.initializeData();
-        TicksListAdapter ticksListAdapter = new TicksListAdapter(ticks);
+        //TODO: get the data passed by the Activity and pass it to Adapter
+        tickList = getArguments().getParcelableArrayList(AppConfig.TICK_LIST_KEY);
+
+        tickList = Tick.initializeData();
+        TicksListAdapter ticksListAdapter = new TicksListAdapter(tickList);
         rv.setAdapter(ticksListAdapter);
 
 
@@ -82,7 +84,7 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
 
         try {
             mInterface = (IGuideIndexCallBacks) activity;
-            context = activity;
+            mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IGuideIndexListener");
@@ -101,6 +103,8 @@ public class GuideIndex extends Fragment implements View.OnClickListener {
          * method to provide an interface to listen to data sent or button clicked in GuideIndex Fragment
          */
         public void onGuideItemClick();
+
+
     }
 
 }

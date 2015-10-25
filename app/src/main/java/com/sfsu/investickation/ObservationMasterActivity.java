@@ -121,7 +121,7 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         // once you get the response, simply pass it to RemoteObservations Fragment to display
         Bundle newObservationBundle = new Bundle();
         newObservationBundle.putParcelable(AppConfig.OBSERVATION_RESOURCE, observationResponseObj);
-        
+
         mRemoteObservationsList.setArguments(newObservationBundle);
         // begin transaction and commit
         FragmentTransaction mFragmentTransaction = getSupportFragmentManager().beginTransaction();

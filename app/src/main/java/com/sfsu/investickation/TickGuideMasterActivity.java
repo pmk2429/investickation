@@ -5,13 +5,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.investickation.fragments.GuideDetail;
-import com.sfsu.investickation.fragments.GuideIndex;
+import com.sfsu.entities.AppConfig;
+import com.sfsu.entities.Entity;
+import com.sfsu.entities.Tick;
+import com.sfsu.investickation.fragments.TickGuideDetail;
+import com.sfsu.investickation.fragments.TickGuideList;
+import com.sfsu.utils.controllers.RetrofitController;
+
+import java.util.ArrayList;
 
 
-public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGuideIndexCallBacks {
+public class TickGuideMasterActivity extends BaseActivity implements TickGuideList.IGuideIndexCallBacks {
 
-    private static String TICK_RESOURCE = "ticks";
+    private RetrofitController retrofitController;
+    private ArrayList<Tick> tickList;
+    private ArrayList<Entity> entityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +27,12 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guidmaster);
 
+        retrofitController = new RetrofitController(this);
+        // get the list of ticks from the REST API using RetrofitController
+        entityList = retrofitController.getAll(AppConfig.TICK_RESOURCE);
+
+        // one of the solution
+        //tickList = (ArrayList<Tick>) (ArrayList<?>) entityList;
 
         // if Fragment container is present,
         if (findViewById(R.id.guide_fragment_container) != null) {
@@ -30,7 +44,9 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
                 return;
             }
 
-            GuideIndex guideIndexFragment = new GuideIndex();
+            TickGuideList guideIndexFragment = new TickGuideList();
+            Bundle ticksListBundle = new Bundle();
+            ticksListBundle.putParcelableArrayList(AppConfig.TICK_LIST_KEY, tickList);
 
             // if activity was started with special instructions from an Intent, then pass Intent's extras
             // to fragments as arguments
@@ -38,7 +54,6 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
 
             // add the Fragment to 'guide_fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.guide_fragment_container, guideIndexFragment).commit();
-
         }
     }
 
@@ -66,7 +81,7 @@ public class GuideMasterActivity extends BaseActivity implements GuideIndex.IGui
     // callback interface to listen to onClick event in GuideIndex Fragment
     @Override
     public void onGuideItemClick() {
-        GuideDetail guideDetailFragment = new GuideDetail();
+        TickGuideDetail guideDetailFragment = new TickGuideDetail();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
         transaction.addToBackStack(null);

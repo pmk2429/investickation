@@ -12,10 +12,10 @@ import com.sfsu.investickation.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GuideDetail extends Fragment {
+public class TickGuideDetail extends Fragment {
 
 
-    public GuideDetail() {
+    public TickGuideDetail() {
         // Required empty public constructor
     }
 

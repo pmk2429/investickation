@@ -31,11 +31,22 @@ public class AppConfig {
     public static final String POST_VERB = "POST";
     public static final String PUT_VERB = "PUT";
     public static final String DELETE_VERB = "DELETE";
+    // Unique Key
+    public static final String USER_KEY = "key_user";
+    public static final String ACTIVITY_KEY = "key_activities";
+    public static final String OBSERVATION_KEY = "key_observation";
+    public static final String LOCATION_KEY = "key_location";
+    public static final String TICK_KEY = "key_tick";
+    // list keys
+    public static final String USER_LIST_KEY = "key_user_list";
+    public static final String ACTIVITY_LIST_KEY = "key_activities_list";
+    public static final String OBSERVATION_LIST_KEY = "key_observation_list";
+    public static final String LOCATION_LIST_KEY = "key_location_list";
+    public static final String TICK_LIST_KEY = "key_tick_list";
 
-    
+
     // context passed for each activity
     private Context myContext;
-
 
     // Constructor
     public AppConfig(Context myContext) {

@@ -14,7 +14,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.sfsu.investickation.GuideMasterActivity;
+import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
@@ -76,7 +76,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 break;
 
             case NAVDRAWER_ITEM_GUIDE:
-                intent = new Intent(context, GuideMasterActivity.class);
+                intent = new Intent(context, TickGuideMasterActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;

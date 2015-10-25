@@ -3,7 +3,7 @@ package com.sfsu.rest;
 
 import com.sfsu.entities.Entity;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -48,7 +48,7 @@ public interface EntitiesApi {
      * @return
      */
     @GET("/{resource}")
-    public Call<List<Entity>> getAll(@Path("resource") String resource);
+    public Call<ArrayList<Entity>> getAll(@Path("resource") String resource);
 
 
     /**
