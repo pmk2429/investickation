@@ -20,8 +20,7 @@
             <RelativeLayout
                 android:id="@+id/demo"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_default"
-                android:background="@color/colorPrimary">
+                android:layout_height="@dimen/dimen_cardview_default">
 
                 <!--  user image -->
                 <ImageView

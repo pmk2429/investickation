@@ -3,6 +3,7 @@ package com.sfsu.investickation;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -10,10 +11,8 @@ import android.widget.ImageButton;
 import com.sfsu.investickation.fragments.Dashboard;
 
 
-public class MainActivity extends BaseActivity implements Dashboard.IDashboardCallback {
+public class MainActivity extends AppCompatActivity implements Dashboard.IDashboardCallback {
 
-    // resource identifier for each unique resource. specifying demo
-    private static String USER_RESOURCE = "users";
     ImageButton btnActivityAdd;
 
     @Override
@@ -23,7 +22,6 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
         // if Fragment container is present,
         if (findViewById(R.id.mainActivity_fragmentContainer) != null) {
-
 
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
@@ -39,7 +37,6 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
             // add the Fragment to 'mainActivity_fragmentContainer' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
-
         }
     }
 
@@ -53,17 +50,14 @@ public class MainActivity extends BaseActivity implements Dashboard.IDashboardCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Make sure this is the method with just `Bundle` as the signature
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
     @Override

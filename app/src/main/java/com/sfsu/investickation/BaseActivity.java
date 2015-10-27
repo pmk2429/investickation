@@ -11,13 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sfsu.adapters.DrawerAdapter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.sfsu.adapters.DrawerAdapter;
 
 /**
  * Created by Pavitra on 7/8/2015.
@@ -73,12 +74,6 @@ public class BaseActivity extends ActionBarActivity {
         drawer_recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getParent(), drawer_recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
-                //Toast.makeText(BaseActivity.this, "Item clicked: " + position, Toast.LENGTH_SHORT);
-                //Log.d(AppConfig.LOGSTRING, "item clicked: " + position);
-
-                // call the method to open the corresponding activity
-                //goToNavDrawerItem(position);
             }
 
             @Override

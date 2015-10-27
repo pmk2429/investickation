@@ -1,16 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fab="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhite"
+              android:orientation="vertical"
+              tools:context=".MainActivity">
 
     <ScrollView
         android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1">
 
 
@@ -210,20 +210,27 @@
                 android:text="I agree privacy statement"/>
 
         </RelativeLayout>
+
     </ScrollView>
 
     <!-- Register Button -->
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/padding_large"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
-        android:background="@color/colorPrimary"
-        android:text="Register"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_small"/>
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <Button
+            android:id="@+id/button_registerUser"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="@dimen/padding_large"
+            android:layout_marginRight="@dimen/padding_large"
+            android:background="@color/colorPrimary"
+            android:text="Register"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/font_small"/>
+    </RelativeLayout>
+</LinearLayout>

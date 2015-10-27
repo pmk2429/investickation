@@ -147,12 +147,17 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         EditText et_totalPeople = (EditText) v.findViewById(R.id.editText_numOfPeople);
         EditText et_totalPets = (EditText) v.findViewById(R.id.editText_pets);
 
-        String activityName = et_activityName.getText().toString();
-        int totalPeople = Integer.valueOf(et_totalPeople.getText().toString());
-        int totalPets = Integer.valueOf(et_totalPets.getText().toString());
+//        String activityName = et_activityName.getText().toString();
+//        int totalPeople = Integer.valueOf(et_totalPeople.getText().toString());
+//        int totalPets = Integer.valueOf(et_totalPets.getText().toString());
+
+        String activityName = "";
+        int totalPeople = 1;
+        int totalPets = 1;
+
 
         activitiesObj = new Activities(activityName, totalPeople, totalPets);
-        
+
         // TODO: collect information about Reminder
         mInterface.onPlayButtonClick(activitiesObj);
     }

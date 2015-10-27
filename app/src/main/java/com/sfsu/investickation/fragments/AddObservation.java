@@ -2,6 +2,7 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,9 +47,22 @@ public class AddObservation extends Fragment {
     private RetrofitController retrofitController;
     private IAddObservationCallBack mInterface;
     private Context mContext;
+    private Intent locationIntent;
+
+    // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getLocationDataFromService(intent);
+        }
+    };
 
     public AddObservation() {
         // Required empty public constructor
+    }
+
+    private void getLocationDataFromService(Intent intent) {
+        // TODO: add the Lat Long into the Observation and send it to Retrofit API
     }
 
     @Override
@@ -102,7 +116,6 @@ public class AddObservation extends Fragment {
                 // pass the object to the ObservationActivity.
                 mInterface.postObservationData(newlyCreatedTickObj);
                 // once the data is sent to RetrofitController get the response from same and pass it to RemoteObservations
-
             }
         });
 
@@ -257,6 +270,22 @@ public class AddObservation extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+//        getActivity().unregisterReceiver(broadcastReceiver);
+//        getActivity().stopService(locationIntent);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        getActivity().startService(locationIntent);
+//        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
 
     }
 

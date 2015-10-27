@@ -15,7 +15,7 @@
         <!--  Tool bar -->
         <include
             android:id="@+id/toolbar_base"
-            layout="@layout/toolbar_master"
+            layout="@layout/toolbar_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -24,8 +24,8 @@ import butterknife.InjectView;
  */
 public class Register extends Fragment implements View.OnClickListener {
 
-    @InjectView(R.id.button_Register)
-    Button btnRegister;
+    @InjectView(R.id.button_registerUser)
+    Button btnRegisterUser;
     @InjectView(R.id.editText_username)
     EditText et_username;
     @InjectView(R.id.editText_email)
@@ -72,13 +72,11 @@ public class Register extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
-        ButterKnife.inject(getActivity());
-
         // initialize the RetroFit controller.
         retrofitController = new RetrofitController(getActivity());
 
         // implement the onClick method
-        btnRegister.setOnClickListener(this);
+        btnRegisterUser.setOnClickListener(this);
         return v;
     }
 
@@ -109,17 +107,19 @@ public class Register extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // get all the values from the Registration form
-        String userName = et_username.getText().toString();
-        String email = et_email.getText().toString();
-        String password = et_password.getText().toString();
-        String zipcode = et_phone.getText().toString();
-        String address = et_address.getText().toString();
+        if (v.getId() == btnRegisterUser.getId()) {
 
-        // make a new object.
-        User userObj = User.createUser(userName, email, password, zipcode, address);
+            // get all the values from the Registration form
+            String userName = et_username.getText().toString();
+            String email = et_email.getText().toString();
+            String password = et_password.getText().toString();
+            String zipcode = et_phone.getText().toString();
+            String address = et_address.getText().toString();
 
-        // TODO: add the logic for passing the Object to Controller
+            // make a new object.
+            User userObj = User.createUser(userName, email, password, zipcode, address);
+            // TODO: add the logic for passing the Object to Controller
+        }
     }
 
 

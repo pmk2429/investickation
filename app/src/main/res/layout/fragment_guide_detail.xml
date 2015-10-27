@@ -1,239 +1,281 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/ultraLightText"
-                android:focusable="false"
-                tools:context="com.sfsu.investickation.fragments.TickGuideDetail">
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/main_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <ScrollView
-        android:id="@+id/scrollViewMain"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
+        android:layout_height="@dimen/dimen_cardview_large"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <RelativeLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_profile"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <!--  Tick image -->
             <ImageView
                 android:id="@+id/image_tickGuideDetail"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
+                android:background="@drawable/header"
+                android:fitsSystemWindows="true"
                 android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_tick"/>
+                app:layout_collapseMode="parallax"/>
 
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview_tickGuide_detail_heading"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/image_tickGuideDetail"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_large"
-                android:padding="@dimen/padding_large"
-                card_view:cardPreventCornerOverlap="false">
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/padding_large">
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-                    <TextView
-                        android:id="@+id/textView_tickName"
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                        xmlns:tools="http://schemas.android.com/tools"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="top|start"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="16dp"
-                        android:text="American Dog Tick"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="24dp"/>
+                        android:layout_height="match_parent"
+                        android:background="@color/ultraLightText"
+                        android:focusable="false"
+                        tools:context="com.sfsu.investickation.fragments.TickGuideDetail">
 
-
-                    <TextView
-                        android:id="@+id/textView_tickDetails"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_tickName"
-                        android:gravity="top|start"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
-                        android:textAlignment="center"
-                        android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
-
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview_tickGuide_detail_description"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cardview_tickGuide_detail_heading"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_large"
-                android:padding="@dimen/padding_large"
-                card_view:cardPreventCornerOverlap="false">
+                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_tickGuide_detail_heading"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/padding_large">
+                    android:layout_marginLeft="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_large"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:padding="@dimen/padding_large"
+                    card_view:cardPreventCornerOverlap="false">
 
-                    <TextView
-                        android:id="@+id/textViewStatic_tickInfo"
-                        android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="16dp"
-                        android:text="Basic Information"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18dp"/>
+                        android:background="@color/colorWhite"
+                        android:paddingBottom="@dimen/padding_large">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/textViewStatic_tickInfo"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:background="@color/divider"/>
+                        <TextView
+                            android:id="@+id/textView_tickName"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="top|start"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:text="American Dog Tick"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="24dp"/>
 
-                    <!-- Nick Name -->
-                    <TextView
-                        android:id="@+id/textViewStatic_tickNickName"
-                        android:layout_width="140dp"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickInfo"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="@dimen/padding_small"
-                        android:text="Nick Name: "
-                        android:textAlignment="center"
-                        android:textColor="@color/primaryText"
-                        android:textSize="18dp"/>
 
-                    <TextView
-                        android:id="@+id/textView_tickNickName"
+                        <TextView
+                            android:id="@+id/textView_tickDetails"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/textView_tickName"
+                            android:gravity="top|start"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
+                            android:textAlignment="center"
+                            android:textColor="@color/primaryText"
+                            android:textSize="14dp"/>
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_tickGuide_detail_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cardview_tickGuide_detail_heading"
+                    android:layout_marginLeft="@dimen/padding_large"
+                    android:layout_marginRight="@dimen/padding_large"
+                    android:layout_marginTop="@dimen/padding_large"
+                    android:padding="@dimen/padding_large"
+                    card_view:cardPreventCornerOverlap="false">
+
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickInfo"
-                        android:layout_toRightOf="@id/textViewStatic_tickNickName"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="8dp"
-                        android:text="Lone Star Tick"
-                        android:textAlignment="center"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="@dimen/font_small"/>
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:paddingBottom="@dimen/padding_large">
+
+                        <TextView
+                            android:id="@+id/textViewStatic_tickInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top|start"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:text="Basic Information"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18dp"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@id/textViewStatic_tickInfo"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="16dp"
+                            android:background="@color/divider"/>
+
+                        <!-- Nick Name -->
+                        <TextView
+                            android:id="@+id/textViewStatic_tickNickName"
+                            android:layout_width="140dp"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickInfo"
+                            android:gravity="top|start"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="@dimen/padding_small"
+                            android:text="Nick Name: "
+                            android:textAlignment="center"
+                            android:textColor="@color/primaryText"
+                            android:textSize="18dp"/>
+
+                        <TextView
+                            android:id="@+id/textView_tickNickName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickInfo"
+                            android:layout_toRightOf="@id/textViewStatic_tickNickName"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="8dp"
+                            android:text="Lone Star Tick"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_small"/>
 
 
-                    <!-- Formal Name -->
-                    <TextView
-                        android:id="@+id/textViewStatic_tickFormalName"
-                        android:layout_width="140dp"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickNickName"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="8dp"
-                        android:text="Formal Name: "
-                        android:textAlignment="center"
-                        android:textColor="@color/primaryText"
-                        android:textSize="@dimen/font_medium"/>
+                        <!-- Formal Name -->
+                        <TextView
+                            android:id="@+id/textViewStatic_tickFormalName"
+                            android:layout_width="140dp"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickNickName"
+                            android:gravity="top|start"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="8dp"
+                            android:text="Formal Name: "
+                            android:textAlignment="center"
+                            android:textColor="@color/primaryText"
+                            android:textSize="@dimen/font_medium"/>
 
-                    <TextView
-                        android:id="@+id/textView_tickFormalName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickNickName"
-                        android:layout_toRightOf="@id/textViewStatic_tickFormalName"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:text="Amblyomma americanum"
-                        android:textAlignment="center"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="@dimen/font_small"/>
+                        <TextView
+                            android:id="@+id/textView_tickFormalName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickNickName"
+                            android:layout_toRightOf="@id/textViewStatic_tickFormalName"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:text="Amblyomma americanum"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_small"/>
 
-                    <!-- Diseases Name -->
-                    <TextView
-                        android:id="@+id/textViewStatic_tickDisease"
-                        android:layout_width="140dp"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickFormalName"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="8dp"
-                        android:text="Diseases: "
-                        android:textAlignment="center"
-                        android:textColor="@color/primaryText"
-                        android:textSize="@dimen/font_medium"/>
+                        <!-- Diseases Name -->
+                        <TextView
+                            android:id="@+id/textViewStatic_tickDisease"
+                            android:layout_width="140dp"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickFormalName"
+                            android:gravity="top|start"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="8dp"
+                            android:text="Diseases: "
+                            android:textAlignment="center"
+                            android:textColor="@color/primaryText"
+                            android:textSize="@dimen/font_medium"/>
 
-                    <TextView
-                        android:id="@+id/textView_tickDisease"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickFormalName"
-                        android:layout_toRightOf="@id/textViewStatic_tickDisease"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="8dp"
-                        android:text="Tularemia"
-                        android:textAlignment="center"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="@dimen/font_small"/>
-
-
-                    <!-- Diseases Name -->
-                    <TextView
-                        android:id="@+id/textViewStatic_Location"
-                        android:layout_width="140dp"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickDisease"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="8dp"
-                        android:text="Found Near: "
-                        android:textAlignment="center"
-                        android:textColor="@color/primaryText"
-                        android:textSize="@dimen/font_medium"/>
-
-                    <TextView
-                        android:id="@+id/textView_tickLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_X2_large"
-                        android:layout_below="@id/textViewStatic_tickDisease"
-                        android:layout_toRightOf="@id/textViewStatic_Location"
-                        android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="8dp"
-                        android:text="Dry Areas"
-                        android:textAlignment="center"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="@dimen/font_small"/>
+                        <TextView
+                            android:id="@+id/textView_tickDisease"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickFormalName"
+                            android:layout_toRightOf="@id/textViewStatic_tickDisease"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="8dp"
+                            android:text="Tularemia"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_small"/>
 
 
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-            
+                        <!-- Diseases Name -->
+                        <TextView
+                            android:id="@+id/textViewStatic_Location"
+                            android:layout_width="140dp"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickDisease"
+                            android:gravity="top|start"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="8dp"
+                            android:text="Found Near: "
+                            android:textAlignment="center"
+                            android:textColor="@color/primaryText"
+                            android:textSize="@dimen/font_medium"/>
+
+                        <TextView
+                            android:id="@+id/textView_tickLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_below="@id/textViewStatic_tickDisease"
+                            android:layout_toRightOf="@id/textViewStatic_Location"
+                            android:paddingBottom="0dp"
+                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingTop="8dp"
+                            android:text="Dry Areas"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_small"/>
+
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

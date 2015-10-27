@@ -52,7 +52,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
 
         // retrieve the Observation Response Object from the Bundle
-        newObservationObject = getArguments().getParcelable(AppConfig.OBSERVATION_RESOURCE);
+        //newObservationObject = getArguments().getParcelable(AppConfig.OBSERVATION_RESOURCE);
 
         RecyclerView recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);

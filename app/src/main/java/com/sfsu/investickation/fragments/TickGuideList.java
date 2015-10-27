@@ -53,7 +53,7 @@ public class TickGuideList extends Fragment implements View.OnClickListener {
         }
 
         //TODO: get the data passed by the Activity and pass it to Adapter
-        tickList = getArguments().getParcelableArrayList(AppConfig.TICK_LIST_KEY);
+        //tickList = getArguments().getParcelableArrayList(AppConfig.TICK_LIST_KEY);
 
         tickList = Tick.initializeData();
         TicksListAdapter ticksListAdapter = new TicksListAdapter(tickList);
