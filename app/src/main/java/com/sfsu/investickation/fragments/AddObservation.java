@@ -30,7 +30,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.controllers.RetrofitController;
+import com.sfsu.controllers.RetrofitController;
 
 import java.io.File;
 import java.sql.Timestamp;

@@ -27,5 +27,10 @@
     <color name="colorWhite">#fff</color>
     <color name="colorBlack">#000</color>
 
+    <!-- MaterialViewPager colors-->
+    <color name="statusBarColor">@color/colorSecondary</color>
+    <color name="navigationBarColor">@color/colorSecondaryDark</color>
+    <color name="drawerArrowColor">@android:color/white</color>
+
 
 </resources>

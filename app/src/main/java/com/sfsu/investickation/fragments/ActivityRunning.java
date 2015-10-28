@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.controllers.RetrofitController;
+import com.sfsu.controllers.RetrofitController;
 
 /**
  * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment

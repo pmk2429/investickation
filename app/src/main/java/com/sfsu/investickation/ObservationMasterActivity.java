@@ -10,7 +10,7 @@ import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.RemoteObservationsList;
-import com.sfsu.utils.controllers.RetrofitController;
+import com.sfsu.controllers.RetrofitController;
 
 public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 

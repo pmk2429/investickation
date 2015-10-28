@@ -14,7 +14,7 @@ import android.widget.ImageView;
 
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.controllers.RetrofitController;
+import com.sfsu.controllers.RetrofitController;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

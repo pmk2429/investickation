@@ -47,4 +47,8 @@
     <dimen name="card_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- dimens for MaterialPager CarView-->
+    <dimen name="cardMarginHorizontal">10dp</dimen>
+    <dimen name="cardMarginVertical">8dp</dimen>
+
 </resources>

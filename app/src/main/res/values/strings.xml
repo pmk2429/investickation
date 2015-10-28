@@ -61,6 +61,7 @@
     <string name="gps_network_not_enabled">GPS - Network not enabled</string>
     <string name="open_location_settings">Open Location Settings</string>
     <string name="Cancel">Cancel</string>
+    <string name="title_activity_tick_info">TickInfoActivity</string>
 
     <!-- TODO: make list of all Fragment Names in the enitre Application-->
 

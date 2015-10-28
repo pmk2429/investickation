@@ -83,7 +83,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
             setupDrawerContent(navigationView);
         }
 
-//        set the Title to CollapsingToolbar
+        // set the Title to CollapsingToolbar
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_dashboard);
         collapsingToolbar.setTitle("InvesTICKations");
         final ImageView imageView = (ImageView) v.findViewById(R.id.imageView_dashboardHeader);

@@ -10,7 +10,7 @@ import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
 import com.sfsu.investickation.fragments.TickGuideList;
-import com.sfsu.utils.controllers.RetrofitController;
+import com.sfsu.controllers.RetrofitController;
 
 import java.util.ArrayList;
 

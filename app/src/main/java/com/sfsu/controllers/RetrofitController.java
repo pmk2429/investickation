@@ -1,4 +1,4 @@
-package com.sfsu.utils.controllers;
+package com.sfsu.controllers;
 
 import android.content.Context;
 

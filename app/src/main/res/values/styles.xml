@@ -11,6 +11,13 @@
         <item name="android:windowTranslucentStatus">true</item>
         <!-- Both of these are needed -->
 
+        <!-- Styles for MaterialViewPager-->
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+        
     </style>
 
     <style name="AppTheme.NavBarDrawer" parent="AppTheme.Base">
@@ -30,4 +37,9 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/drawerArrowColor</item>
+    </style>
 </resources>
