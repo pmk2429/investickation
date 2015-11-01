@@ -30,9 +30,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <!-- Material Theme -->
-        <!--<item name="android:navigationBarColor" tools:targetApi="21">@color/colorPrimary-->
-        <!--</item>-->
+
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
     </style>
 

@@ -1,6 +1,8 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -27,11 +29,16 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.MainActivity;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.SettingsActivity;
+import com.sfsu.investickation.TickGuideMasterActivity;
+import com.sfsu.investickation.UserActivityMasterActivity;
 
 
 public class Dashboard extends Fragment implements View.OnClickListener {
 
+    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private IDashboardCallback mListener;
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
@@ -39,6 +46,9 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private GoogleMap googleMap;
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbarMain;
+    private int mCurrentSelectedPosition;
+    private NavigationView mNavigationView;
+    private Context mContext;
 
     public Dashboard() {
         // Required empty public constructor
@@ -51,41 +61,12 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+
+        // lot of code for setting up NavDrawer so calling a method inssted for keeping onCreate free from clutter
         // setup the Toolbar for this Fragment.
-        toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_dashboard_scrollable);
+        setActionBarAndNavDrawer(v);
 
-        if (toolbarMain != null) {
-            ((MainActivity) getActivity()).setSupportActionBar(toolbarMain);
 
-            Log.i(AppConfig.LOGSTRING, " Tool bar found");
-
-            // get the ActionBar and set the Menu icon.
-            final ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-
-            mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-
-            toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
-            });
-        } else {
-            Log.i(AppConfig.LOGSTRING, " no mannnnn");
-        }
-
-        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-        if (navigationView != null) {
-            Log.i(AppConfig.LOGSTRING, " Nav View proper");
-            setupDrawerContent(navigationView);
-        }
-
-        // set the Title to CollapsingToolbar
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_dashboard);
-        collapsingToolbar.setTitle("InvesTICKations");
         final ImageView imageView = (ImageView) v.findViewById(R.id.imageView_dashboardHeader);
 
 
@@ -133,26 +114,111 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         return v;
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        Log.i(AppConfig.LOGSTRING, " Inside the setupDrawerContent()");
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-//                        menuItem.setChecked(true);
-//                        mDrawerLayout.closeDrawers();
-                        selectDrawer(menuItem);
-                        return true;
-                    }
-                });
+    /**
+     * Method to setup ActionBar, NavigationDrawer.
+     *
+     * @param v
+     */
+
+    private void setActionBarAndNavDrawer(View v) {
+
+        toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_dashboard_scrollable);
+
+        if (toolbarMain != null) {
+            ((MainActivity) getActivity()).setSupportActionBar(toolbarMain);
+
+            // get the ActionBar and set the Menu icon.
+            final ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+
+            // initialize the DrawerLayout
+            mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+
+            // set the onClick Listener for the Drawer click event
+            toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
+        }
+
+        // initialize the NavigationView and also setup OnClickListener for each of the Items in list
+        mNavigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    selectDrawerItem(menuItem);
+                    return true;
+                }
+            });
+        }
+
+        // set the Title to CollapsingToolbar
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_dashboard);
+        collapsingToolbar.setTitle("InvesTICKations");
     }
 
-    private void selectDrawer(MenuItem menuItem) {
-        if (menuItem != null)
-            Log.i(AppConfig.LOGSTRING, " : " + menuItem.getTitle().toString());
-        else
-            Log.i(AppConfig.LOGSTRING, " : no menu item passed");
+    // method to setup Navigation Drawer item click Listener
+    private void selectDrawerItem(MenuItem menuItem) {
+        Intent intent;
+
+        try {
+            switch (menuItem.getItemId()) {
+                case R.id.nav_home:
+                    intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 0;
+                    break;
+
+                case R.id.nav_activities:
+                    intent = new Intent(mContext, UserActivityMasterActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 1;
+                    break;
+
+                case R.id.nav_observations:
+                    intent = new Intent(mContext, ObservationMasterActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 2;
+                    break;
+
+                case R.id.navigation_ticksData:
+                    intent = new Intent(mContext, TickGuideMasterActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 3;
+                    break;
+
+                case R.id.nav_settings:
+                    intent = new Intent(mContext, SettingsActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 4;
+                    break;
+            }
+        } catch (Exception e) {
+            Log.d(AppConfig.LOGSTRING, e.getMessage());
+        }
+
+        // Hihhlight the selected item and close the drawer
+        menuItem.setChecked(true);
+        mDrawerLayout.closeDrawers();
     }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -194,6 +260,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onAttach(activity);
         try {
             mListener = (IDashboardCallback) activity;
+            mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IDashboardCallback");

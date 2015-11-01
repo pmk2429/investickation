@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Investickations</string>
+    <string name="app_name">InvesTICKations</string>
 
     <!--TODO: Verify names of all the Activities -->
     <string name="hello_world">Hello world!</string>

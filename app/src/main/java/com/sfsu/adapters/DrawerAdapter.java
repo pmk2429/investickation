@@ -103,6 +103,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
             return new ViewHolder(view, viewType, context);
         } else if (viewType == ROW_TYPE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false);
+            //View itemView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+            //      .inflate(R.layout.drawer_row, parent, false);
             return new ViewHolder(view, viewType, context);
         }
         return null;
@@ -128,6 +130,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
             return HEADER_TYPE;
         return ROW_TYPE;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected int viewType;

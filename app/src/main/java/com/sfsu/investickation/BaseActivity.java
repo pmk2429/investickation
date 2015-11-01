@@ -80,6 +80,8 @@ public class BaseActivity extends ActionBarActivity {
             public void onItemLongClick(View view, int position) {
             }
         }));
+
+
     }
 
     @Override

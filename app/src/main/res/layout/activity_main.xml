@@ -12,13 +12,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <!-- container for all the fragments -->
         <FrameLayout
             android:id="@+id/mainActivity_fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_base"
             android:layout_weight="1">
         </FrameLayout>
 
@@ -32,6 +31,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer_view"/>
+        app:menu="@menu/drawer_view_main"/>
 
 </android.support.v4.widget.DrawerLayout>
