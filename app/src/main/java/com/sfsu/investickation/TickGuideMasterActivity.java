@@ -5,12 +5,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
 import com.sfsu.investickation.fragments.TickGuideList;
-import com.sfsu.controllers.RetrofitController;
 
 import java.util.ArrayList;
 

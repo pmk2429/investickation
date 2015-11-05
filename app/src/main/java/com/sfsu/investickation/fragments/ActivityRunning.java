@@ -1,7 +1,11 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,15 +22,17 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.AppConfig;
 import com.sfsu.investickation.R;
-import com.sfsu.controllers.RetrofitController;
+import com.sfsu.utils.service.LocationService;
 
 /**
  * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment
  * contains the action callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the
  * user will be redirected to Add Observation for the current ongoing activity.
+ * In addition to the current
  */
 public class ActivityRunning extends Fragment {
 
@@ -36,7 +42,19 @@ public class ActivityRunning extends Fragment {
     private Context mContext;
     private IActivityRunningCallBacks mListener;
     private RetrofitController retrofitController;
+    private Intent locationIntent;
+    /**
+     * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
+     * This receiver receives the Location every specified interval of time.
+     */
+    private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
 
+        // simply call the method to collect the location
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            collectLocationData(intent);
+        }
+    };
 
     public ActivityRunning() {
         // Required empty public constructor
@@ -50,11 +68,39 @@ public class ActivityRunning extends Fragment {
         return fragment;
     }
 
+    /**
+     * Method to collect location every specified interval of time.
+     *
+     * @param locationIntent
+     */
+    private void collectLocationData(Intent locationIntent) {
+
+        if (locationIntent != null) {
+            Log.i("~!@#$", "intent not null");
+            Bundle bundle = locationIntent.getExtras();
+            Location locationVal = (Location) bundle.get("locINFO");
+            // TODO: get the Location object from the BroadcastReceiver
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (IActivityRunningCallBacks) activity;
+            mContext = activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement IActivityRunningCallBacks interface");
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Ongoing Activity");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
     }
 
     @Override
@@ -62,6 +108,9 @@ public class ActivityRunning extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_activity_running, container, false);
+
+        // initialize the location intent.
+        locationIntent = new Intent(mContext, LocationService.class);
 
         // retrieve all the data passed from the ActivityRunning fragment.
         newActivityObj = getArguments().getParcelable(AppConfig.ACTIVITY_RESOURCE);
@@ -89,7 +138,7 @@ public class ActivityRunning extends Fragment {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d(AppConfig.LOGSTRING, "Map is null");
+            Log.d(AppConfig.LOGTAG, "Map is null");
         }
 
         // initialize the FAB
@@ -106,23 +155,13 @@ public class ActivityRunning extends Fragment {
         return v;
     }
 
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onActivityRunningItemClickListener();
         }
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (IActivityRunningCallBacks) activity;
-            mContext = activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {
@@ -130,10 +169,17 @@ public class ActivityRunning extends Fragment {
         mListener = null;
     }
 
+    // start the Service on onResume and register for broadcast receiver too.
     @Override
     public void onResume() {
         mapView.onResume();
         super.onResume();
+
+        // start the service onResume of the Fragment.
+        getActivity().startService(locationIntent);
+
+        // register the broadcast receiver to receive the broadcast data
+        getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
     }
 
     @Override
@@ -148,7 +194,16 @@ public class ActivityRunning extends Fragment {
         mapView.onLowMemory();
     }
 
+    // unregister the broadcast receiver in the onPause.
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(locationBroadcastReceiver);
+    }
 
+    /**
+     * Interface for defining the callbacks to the parent activity
+     */
     public interface IActivityRunningCallBacks {
 
         public void onActivityRunningItemClickListener();

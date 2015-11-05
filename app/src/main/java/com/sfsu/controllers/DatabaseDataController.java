@@ -1,14 +1,16 @@
-package com.sfsu.model;
+package com.sfsu.controllers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sfsu.entities.Entity;
+import com.sfsu.model.DatabaseOpenHelper;
+import com.sfsu.model.EntityDao;
 
 import java.util.List;
 
 /**
- * DatabaseDataManager class provides Abstraction layer over DAO layer that contains all the methods required
+ * DatabaseDataController class provides Abstraction layer over DAO layer that contains all the methods required
  * to perform database transactions over the DB for that Model.
  * <br/>
  * This class provides abstraction on top of the DAO layer for efficient error handling and modularity
@@ -16,7 +18,7 @@ import java.util.List;
  * <p/>
  * Created by Pavitra on 5/27/2015.
  */
-public class DatabaseDataManager {
+public class DatabaseDataController {
     private Context myContext;
     private DatabaseOpenHelper dbOpenHelper;
     private SQLiteDatabase sqLiteDatabase;
@@ -24,7 +26,7 @@ public class DatabaseDataManager {
     private EntityDao entityDao;
 
 
-    public DatabaseDataManager(Context myContext, Entity entity) {
+    public DatabaseDataController(Context myContext, Entity entity) {
         // set the Helpers and Managers in Constructor
         this.myContext = myContext;
         dbOpenHelper = new DatabaseOpenHelper(this.myContext);

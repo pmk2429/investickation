@@ -53,7 +53,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             recyclerView_activity.setLayoutManager(llm);
         } else {
-            Log.d(AppConfig.LOGSTRING, " No layout manager supplied");
+            Log.d(AppConfig.LOGTAG, " No layout manager supplied");
         }
         activities = Activities.initializeData();
 

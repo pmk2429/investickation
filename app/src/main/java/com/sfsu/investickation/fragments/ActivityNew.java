@@ -57,7 +57,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_activity_new, container, false);
 
-
         // set the Timer Reminder.
         txtView_setReminder = (TextView) v.findViewById(R.id.spinner_reminder);
         txtView_setReminder.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +102,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d(AppConfig.LOGSTRING, "Map null");
+            Log.d(AppConfig.LOGTAG, "Map null");
         }
 
         return v;
@@ -159,6 +158,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         activitiesObj = new Activities(activityName, totalPeople, totalPets);
 
         // TODO: collect information about Reminder
+
         mInterface.onPlayButtonClick(activitiesObj);
     }
 

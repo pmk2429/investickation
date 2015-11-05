@@ -153,7 +153,7 @@ public class Profile extends Fragment {
                             break;
                     }
                 } catch (Exception e) {
-                    Log.d(AppConfig.LOGSTRING, e.getMessage());
+                    Log.d(AppConfig.LOGTAG, e.getMessage());
                 }
 
                 // use to transform coordinates according to orientation.
@@ -170,7 +170,7 @@ public class Profile extends Fragment {
                 //TODO: create BLOB or large Binary representation and send it on server.
 
             } catch (Exception e) {
-                Log.d(AppConfig.LOGSTRING, e.getMessage());
+                Log.d(AppConfig.LOGTAG, e.getMessage());
             }
 
 

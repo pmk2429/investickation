@@ -37,7 +37,7 @@ public class TickMap extends Fragment {
                 googleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapView_tick)).getMap();
             }
         } catch (NullPointerException exception) {
-            Log.e(AppConfig.LOGSTRING, exception.toString());
+            Log.e(AppConfig.LOGTAG, exception.toString());
         }
 
         return v;

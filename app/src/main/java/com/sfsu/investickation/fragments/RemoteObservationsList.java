@@ -61,7 +61,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             recyclerView_observations.setLayoutManager(llm);
         } else {
-            Log.d(AppConfig.LOGSTRING, " No Layout manager supplied");
+            Log.d(AppConfig.LOGTAG, " No Layout manager supplied");
         }
 
         observationList = Observation.initializeData();

@@ -49,7 +49,7 @@ public class TickGuideList extends Fragment implements View.OnClickListener {
         if (mContext != null) {
             rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            Log.d(AppConfig.LOGSTRING, "Guide Activity not found");
+            Log.d(AppConfig.LOGTAG, "Guide Activity not found");
         }
 
         //TODO: get the data passed by the Activity and pass it to Adapter

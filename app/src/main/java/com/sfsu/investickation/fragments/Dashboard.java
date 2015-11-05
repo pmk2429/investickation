@@ -108,7 +108,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d(AppConfig.LOGSTRING, "Map null");
+            Log.d(AppConfig.LOGTAG, "Map null");
         }
 
         return v;
@@ -204,7 +204,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
                     break;
             }
         } catch (Exception e) {
-            Log.d(AppConfig.LOGSTRING, e.getMessage());
+            Log.d(AppConfig.LOGTAG, e.getMessage());
         }
 
         // Hihhlight the selected item and close the drawer
@@ -222,14 +222,14 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(AppConfig.LOGSTRING, " inside on items selected");
+        Log.i(AppConfig.LOGTAG, " inside on items selected");
         switch (item.getItemId()) {
             case android.R.id.home:
-                Log.i(AppConfig.LOGSTRING, " drawer selected");
+                Log.i(AppConfig.LOGTAG, " drawer selected");
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             default:
-                Log.i(AppConfig.LOGSTRING, " itemId: " + item.getItemId());
+                Log.i(AppConfig.LOGTAG, " itemId: " + item.getItemId());
         }
 
 

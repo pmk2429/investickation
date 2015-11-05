@@ -99,7 +99,7 @@ public class ObservationsDao implements EntityDao {
         contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
-        Log.d(AppConfig.LOGSTRING, "Observation : INSERT reached");
+        Log.d(AppConfig.LOGTAG, "Observation : INSERT reached");
         return db.insert(ObservationsTable.TABLENAME, null, contentValues);
     }
 
@@ -120,7 +120,7 @@ public class ObservationsDao implements EntityDao {
         contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
-        Log.d(AppConfig.LOGSTRING, "Observation : UPDATE reached");
+        Log.d(AppConfig.LOGTAG, "Observation : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(ObservationsTable.TABLENAME, contentValues, ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getObservation_id() + ""}) > 0;
