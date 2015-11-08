@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ObservationsListAdapter;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
@@ -52,7 +52,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
 
         // retrieve the Observation Response Object from the Bundle
-        //newObservationObject = getArguments().getParcelable(AppConfig.OBSERVATION_RESOURCE);
+        //newObservationObject = getArguments().getParcelable(AppUtils.OBSERVATION_RESOURCE);
 
         RecyclerView recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);
@@ -61,7 +61,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             recyclerView_observations.setLayoutManager(llm);
         } else {
-            Log.d(AppConfig.LOGTAG, " No Layout manager supplied");
+            Log.d(AppUtils.LOGTAG, " No Layout manager supplied");
         }
 
         observationList = Observation.initializeData();

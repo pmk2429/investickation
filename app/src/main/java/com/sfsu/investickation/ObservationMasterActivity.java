@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
@@ -120,7 +120,7 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
 
         // once you get the response, simply pass it to RemoteObservations Fragment to display
         Bundle newObservationBundle = new Bundle();
-        newObservationBundle.putParcelable(AppConfig.OBSERVATION_RESOURCE, observationResponseObj);
+        newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, observationResponseObj);
 
         mRemoteObservationsList.setArguments(newObservationBundle);
         // begin transaction and commit

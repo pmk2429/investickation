@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,7 +224,7 @@ public class Tick implements Parcelable, Entity {
 
     @Override
     public String getResourceType() {
-        return AppConfig.TICK_RESOURCE;
+        return AppUtils.TICK_RESOURCE;
     }
 
 }

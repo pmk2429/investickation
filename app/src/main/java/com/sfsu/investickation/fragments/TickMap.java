@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
 
 
@@ -37,7 +37,7 @@ public class TickMap extends Fragment {
                 googleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapView_tick)).getMap();
             }
         } catch (NullPointerException exception) {
-            Log.e(AppConfig.LOGTAG, exception.toString());
+            Log.e(AppUtils.LOGTAG, exception.toString());
         }
 
         return v;

@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
 
 import java.io.File;
@@ -153,7 +153,7 @@ public class Profile extends Fragment {
                             break;
                     }
                 } catch (Exception e) {
-                    Log.d(AppConfig.LOGTAG, e.getMessage());
+                    Log.d(AppUtils.LOGTAG, e.getMessage());
                 }
 
                 // use to transform coordinates according to orientation.
@@ -170,7 +170,7 @@ public class Profile extends Fragment {
                 //TODO: create BLOB or large Binary representation and send it on server.
 
             } catch (Exception e) {
-                Log.d(AppConfig.LOGTAG, e.getMessage());
+                Log.d(AppUtils.LOGTAG, e.getMessage());
             }
 
 

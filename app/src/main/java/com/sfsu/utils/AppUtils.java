@@ -1,4 +1,4 @@
-package com.sfsu.entities;
+package com.sfsu.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,14 +7,18 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * <p>
- * <tt>AppConfig</tt> class is the Application Level Configuration Class which contains all the
+ * <tt>AppUtils</tt> class is the Application Level Configuration Class which contains all the
  * default and static final keywords as well as methods required through out the application.
  * </p>
  * Created by Pavitra on 6/5/2015.
  */
-public class AppConfig {
+public class AppUtils {
 
     // Log message for Application Context
     public static final String LOGTAG = "~!@#$%";
@@ -49,11 +53,34 @@ public class AppConfig {
     private Context myContext;
 
     // Constructor
-    public AppConfig(Context myContext) {
+    public AppUtils(Context myContext) {
         this.myContext = myContext;
     }
 
-    // Method to check if Location is enabled or disabled.
+    /**
+     * Helper method to get the current system time stamp
+     *
+     * @return
+     */
+    public static long getCurrentTimeStamp() {
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * Helper method to get the Current date and time from timestamp
+     *
+     * @return
+     */
+    public static String getCurrentDateAndTime(long timestamp) {
+        Date date = new Date(timestamp);
+        Format format = new SimpleDateFormat("MM-dd-yy HH:mm:ss");
+        String dateTime = format.format(date);
+        return dateTime;
+    }
+
+    // method to check whether there is any network connection or not.
+
+    // Method to check if UserLocation is enabled or disabled.
     public boolean isLocationEnabled() {
         int locationMode = 0;
         String locationProviders;
@@ -76,8 +103,6 @@ public class AppConfig {
             return !TextUtils.isEmpty(locationProviders);
         }
     }
-
-    // method to check whether there is any network connection or not.
 
     public boolean isConnectedOnline() {
         ConnectivityManager cmObj = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);

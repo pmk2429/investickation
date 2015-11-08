@@ -1,5 +1,7 @@
 package com.sfsu.entities;
 
+import com.sfsu.utils.AppUtils;
+
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -151,7 +153,7 @@ public class RequestParams implements ResourceEndpoint {
     @Override
     public void index() {
         resourceUrl = new StringBuilder();
-        resourceUrl.append(AppConfig.BASE_URL + "/" + resourceIdentifier);
+        resourceUrl.append(AppUtils.BASE_URL + "/" + resourceIdentifier);
     }
 
     /**
@@ -162,7 +164,7 @@ public class RequestParams implements ResourceEndpoint {
     @Override
     public void create() {
         resourceUrl = new StringBuilder();
-        resourceUrl.append(AppConfig.BASE_URL + "/" + resourceIdentifier);
+        resourceUrl.append(AppUtils.BASE_URL + "/" + resourceIdentifier);
     }
 
     /**
@@ -173,7 +175,7 @@ public class RequestParams implements ResourceEndpoint {
     @Override
     public void show() {
         resourceUrl = new StringBuilder();
-        resourceUrl.append(AppConfig.BASE_URL + "/" + resourceIdentifier + "/" + resource_id);
+        resourceUrl.append(AppUtils.BASE_URL + "/" + resourceIdentifier + "/" + resource_id);
     }
 
     /**
@@ -184,7 +186,7 @@ public class RequestParams implements ResourceEndpoint {
     @Override
     public void edit() {
         resourceUrl = new StringBuilder();
-        resourceUrl.append(AppConfig.BASE_URL + "/" + resourceIdentifier + "/" + resource_id + "/edit");
+        resourceUrl.append(AppUtils.BASE_URL + "/" + resourceIdentifier + "/" + resource_id + "/edit");
     }
 
     /**
@@ -195,7 +197,7 @@ public class RequestParams implements ResourceEndpoint {
     @Override
     public void destroy() {
         resourceUrl = new StringBuilder();
-        resourceUrl.append(AppConfig.BASE_URL + "/" + resourceIdentifier + "/" + resource_id);
+        resourceUrl.append(AppUtils.BASE_URL + "/" + resourceIdentifier + "/" + resource_id);
     }
 
 }

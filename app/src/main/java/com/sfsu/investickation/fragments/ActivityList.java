@@ -14,7 +14,7 @@ import android.view.WindowManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.entities.Activities;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.adapters.ActivitiesListAdapter;
@@ -53,7 +53,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             recyclerView_activity.setLayoutManager(llm);
         } else {
-            Log.d(AppConfig.LOGTAG, " No layout manager supplied");
+            Log.d(AppUtils.LOGTAG, " No layout manager supplied");
         }
         activities = Activities.initializeData();
 

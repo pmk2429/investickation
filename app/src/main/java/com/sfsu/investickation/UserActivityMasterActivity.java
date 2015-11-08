@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.sfsu.entities.Activities;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.fragments.ActivityDetails;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
@@ -125,7 +125,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         ActivityRunning mActivityRunningFragment = new ActivityRunning();
         // set the data to Bundle to pass it to ActivityRunning Fragment
         Bundle newActivityBundle = new Bundle();
-        newActivityBundle.putParcelable(AppConfig.ACTIVITY_RESOURCE, newActivityDetailsObject);
+        newActivityBundle.putParcelable(AppUtils.ACTIVITY_RESOURCE, newActivityDetailsObject);
         mActivityRunningFragment.setArguments(newActivityBundle);
         // initialize the transaction.
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

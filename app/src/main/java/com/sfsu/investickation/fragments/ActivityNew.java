@@ -24,7 +24,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.entities.Activities;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
 
 import java.util.Calendar;
@@ -77,6 +77,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
             }
         });
 
+
+
         // start the activity
         final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_activity_start);
         addProject.setOnClickListener(this);
@@ -102,7 +104,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d(AppConfig.LOGTAG, "Map null");
+            Log.d(AppUtils.LOGTAG, "Map null");
         }
 
         return v;

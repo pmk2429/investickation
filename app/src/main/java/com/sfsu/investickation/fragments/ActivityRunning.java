@@ -24,9 +24,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Activities;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.service.LocationService;
+import com.sfsu.service.LocationService;
 
 /**
  * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment
@@ -45,7 +45,7 @@ public class ActivityRunning extends Fragment {
     private Intent locationIntent;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
-     * This receiver receives the Location every specified interval of time.
+     * This receiver receives the UserLocation every specified interval of time.
      */
     private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
 
@@ -79,7 +79,7 @@ public class ActivityRunning extends Fragment {
             Log.i("~!@#$", "intent not null");
             Bundle bundle = locationIntent.getExtras();
             Location locationVal = (Location) bundle.get("locINFO");
-            // TODO: get the Location object from the BroadcastReceiver
+            // TODO: get the UserLocation object from the BroadcastReceiver
         }
     }
 
@@ -113,7 +113,7 @@ public class ActivityRunning extends Fragment {
         locationIntent = new Intent(mContext, LocationService.class);
 
         // retrieve all the data passed from the ActivityRunning fragment.
-        newActivityObj = getArguments().getParcelable(AppConfig.ACTIVITY_RESOURCE);
+        newActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
 
         // initialize the RetrofitController.
         retrofitController = new RetrofitController(mContext);
@@ -138,7 +138,7 @@ public class ActivityRunning extends Fragment {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d(AppConfig.LOGTAG, "Map is null");
+            Log.d(AppUtils.LOGTAG, "Map is null");
         }
 
         // initialize the FAB
@@ -147,7 +147,7 @@ public class ActivityRunning extends Fragment {
             @Override
             public void onClick(View view) {
                 // on stop button click the newActivityObj will be passed on to Retrofit Controller
-                retrofitController.add(AppConfig.ACTIVITY_RESOURCE, newActivityObj);
+                retrofitController.add(AppUtils.ACTIVITY_RESOURCE, newActivityObj);
                 // TODO: get the result from the Controller and pass it on to ActivityList Fragment.
             }
         });

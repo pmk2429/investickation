@@ -1,4 +1,4 @@
-package com.sfsu.utils.service;
+package com.sfsu.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;

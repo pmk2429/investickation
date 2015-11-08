@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 
@@ -42,7 +42,7 @@ public class TickDao implements EntityDao {
         contentValues.put(TicksTable.COLUMN_IMAGE, tick.getImageUrl());
         contentValues.put(TicksTable.COLUMN_CREATEDAT, tick.getCreated_at());
         contentValues.put(TicksTable.COLUMN_UPDATEDAT, tick.getUpdated_at());
-        Log.d(AppConfig.LOGTAG, "TICK : INSERT reached");
+        Log.d(AppUtils.LOGTAG, "TICK : INSERT reached");
         return db.insert(TicksTable.TABLENAME, null, contentValues);
     }
 
@@ -63,7 +63,7 @@ public class TickDao implements EntityDao {
         contentValues.put(TicksTable.COLUMN_IMAGE, tick.getImageUrl());
         contentValues.put(TicksTable.COLUMN_CREATEDAT, tick.getCreated_at());
         contentValues.put(TicksTable.COLUMN_UPDATEDAT, tick.getUpdated_at());
-        Log.d(AppConfig.LOGTAG, "Tick : UPDATE reached");
+        Log.d(AppUtils.LOGTAG, "Tick : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(TicksTable.TABLENAME, contentValues, TicksTable.COLUMN_ID + "=?", new String[]{tick.getTick_id() + ""}) > 0;

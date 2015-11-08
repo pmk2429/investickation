@@ -3,6 +3,8 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sfsu.utils.AppUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,6 +178,6 @@ public class Activities implements Parcelable, Entity {
 
     @Override
     public String getResourceType() {
-        return AppConfig.ACTIVITY_RESOURCE;
+        return AppUtils.ACTIVITY_RESOURCE;
     }
 }

@@ -3,6 +3,8 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.sfsu.utils.AppUtils;
+
 /**
  * Created by Pavitra on 5/19/2015.
  */
@@ -193,6 +195,6 @@ public class User implements Parcelable, Entity {
 
     @Override
     public String getResourceType() {
-        return AppConfig.USER_RESOURCE;
+        return AppUtils.USER_RESOURCE;
     }
 }

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
 
@@ -47,7 +47,7 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipcode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
         contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(AppConfig.LOGTAG, "User : INSERT reached");
+        Log.d(AppUtils.LOGTAG, "User : INSERT reached");
         return db.insert(UsersTable.TABLENAME, null, contentValues);
     }
 
@@ -70,7 +70,7 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipcode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
         contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(AppConfig.LOGTAG, "User : INSERT reached");
+        Log.d(AppUtils.LOGTAG, "User : INSERT reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(UsersTable.TABLENAME, contentValues, UsersTable.COLUMN_ID + "=?", new String[]{user.getUser_id() + ""}) > 0;

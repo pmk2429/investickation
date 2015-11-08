@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sfsu.controllers.RetrofitController;
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
@@ -29,7 +29,7 @@ public class TickGuideMasterActivity extends BaseActivity implements TickGuideLi
 
         retrofitController = new RetrofitController(this);
         // get the list of ticks from the REST API using RetrofitController
-        entityList = retrofitController.getAll(AppConfig.TICK_RESOURCE);
+        entityList = retrofitController.getAll(AppUtils.TICK_RESOURCE);
 
         // one of the solution
         //tickList = (ArrayList<Tick>) (ArrayList<?>) entityList;
@@ -46,7 +46,7 @@ public class TickGuideMasterActivity extends BaseActivity implements TickGuideLi
 
             TickGuideList guideIndexFragment = new TickGuideList();
             Bundle ticksListBundle = new Bundle();
-            ticksListBundle.putParcelableArrayList(AppConfig.TICK_LIST_KEY, tickList);
+            ticksListBundle.putParcelableArrayList(AppUtils.TICK_LIST_KEY, tickList);
 
             // if activity was started with special instructions from an Intent, then pass Intent's extras
             // to fragments as arguments

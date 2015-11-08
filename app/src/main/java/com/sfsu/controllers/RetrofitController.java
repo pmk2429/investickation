@@ -2,7 +2,7 @@ package com.sfsu.controllers;
 
 import android.content.Context;
 
-import com.sfsu.entities.AppConfig;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.rest.EntitiesApi;
 import com.sfsu.rest.RestClient;
@@ -35,7 +35,7 @@ public class RetrofitController {
 
     public RetrofitController(Context context) {
         this.context = context;
-        entitiesApi = RestClient.createRetrofitService(AppConfig.BASE_URL);
+        entitiesApi = RestClient.createRetrofitService(AppUtils.BASE_URL);
     }
 
     /**
