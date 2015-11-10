@@ -77,14 +77,11 @@ public class Observation implements Parcelable, Entity {
     // Default Constructor
     public Observation() {
     }
-
-
     // constructor for demo purposes
     public Observation(String tickName, String geoLocation, long timestamp) {
         this.geoLocation = geoLocation;
         this.timestamp = timestamp;
     }
-
 
     // Constructor to create the Observation object.
     public Observation(String tickName, String tickSpecies, String geoLocation, String tickImageUrl, double latitude, double
@@ -119,6 +116,21 @@ public class Observation implements Parcelable, Entity {
         return new Observation(tickName, tickSpecies, geoLocation, imageUrl, latitude, longitude, timestamp);
     }
 
+    public UserLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(UserLocation location) {
+        this.location = location;
+    }
+
+    public Tick getTickObj() {
+        return tickObj;
+    }
+
+    public void setTickObj(Tick tickObj) {
+        this.tickObj = tickObj;
+    }
 
     public String getGeoLocation() {
         return geoLocation;

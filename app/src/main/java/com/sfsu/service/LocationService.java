@@ -179,6 +179,15 @@ public class LocationService extends Service implements LocationListener, Google
     // Callbacks for LocationListener interface. This callback will then create a UserLocation Object out of new UserLocation values.
     @Override
     public void onLocationChanged(Location location) {
+        if (location == null) {
+            Log.d(AppUtils.LOGTAG, " Locations is null");
+        } else {
+            handleNewLocation(location);
+        }
+
+    }
+
+    private void handleNewLocation(Location location) {
         // Assign the new location
         mLastLocation = location;
 

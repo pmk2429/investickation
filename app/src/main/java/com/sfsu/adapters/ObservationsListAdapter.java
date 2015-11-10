@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Date;
-import java.util.List;
-
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -46,7 +46,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
                 for (Observation observation : observationList) {
 //                  holder.imageView_tickImage.setImageResource();
 //                  holder.imageView_imageStatus.setImageResource();
-                    holder.txtView_observationName.setText(observation.getTickName());
+                    holder.txtView_observationName.setText("American Dog Tick");
                     holder.txtView_location.setText(observation.getGeoLocation());
                     holder.txtView_timestamp.setText(Long.toString((new Date(observation.getTimestamp()).getTime())));
                 }

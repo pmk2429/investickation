@@ -42,13 +42,13 @@ public class Activities implements Parcelable, Entity {
     public Activities() {
     }
 
-
     public Activities(String name, int num_people, int num_pets, int num_ticks) {
         this.activityName = name;
         this.num_people = num_people;
         this.num_pets = num_pets;
         this.num_ticks = num_ticks;
     }
+
 
     public Activities(String name, int num_people, int num_pets) {
         this.activityName = name;
@@ -86,7 +86,6 @@ public class Activities implements Parcelable, Entity {
         activities.add(new Activities("Yosemite", 8, 0, 11));
         return activities;
     }
-
 
     public int getActivity_id() {
         return activity_id;
@@ -179,5 +178,12 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String getResourceType() {
         return AppUtils.ACTIVITY_RESOURCE;
+    }
+
+    /**
+     * A list of constant values assigned to Activities. Started represents the
+     */
+    public static enum STATE {
+        STARTED, RUNNING, STOPPED;
     }
 }

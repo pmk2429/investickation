@@ -43,6 +43,8 @@ dependencies {
     compile('com.github.florent37:materialviewpager:1.1.0@aar') {
         transitive = true
     }
+    // ORM mapper
+//    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     /*
     // Unit testing dependencies
     testCompile 'junit:junit:4.12'

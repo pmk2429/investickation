@@ -5,9 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Observation;
+import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,8 @@ import java.util.List;
 public class ObservationsDao implements EntityDao {
     private SQLiteDatabase db;
     // Observations's entry array for storing all the column names
-    private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TICK_IMAGE, ObservationsTable.COLUMN_LAT, ObservationsTable.COLUMN_LONG, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT};
+    private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT, ObservationsTable
+            .COLUMN_FK_TICK_ID, ObservationsTable.COLUMN_FK_LOCATION_ID};
 
 
     @Override
@@ -93,12 +94,12 @@ public class ObservationsDao implements EntityDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
         contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(ObservationsTable.COLUMN_TICK_IMAGE, observations.getTickImageUrl());
-        contentValues.put(ObservationsTable.COLUMN_LAT, observations.getLatitude());
-        contentValues.put(ObservationsTable.COLUMN_LONG, observations.getLongitude());
         contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
+        // get TickId and LocationId
+        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getTick_id());
+        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getLocation_id());
         Log.d(AppUtils.LOGTAG, "Observation : INSERT reached");
         return db.insert(ObservationsTable.TABLENAME, null, contentValues);
     }
@@ -114,12 +115,12 @@ public class ObservationsDao implements EntityDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put(ObservationsTable.COLUMN_ID, observations.getObservation_id());
         contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(ObservationsTable.COLUMN_TICK_IMAGE, observations.getTickImageUrl());
-        contentValues.put(ObservationsTable.COLUMN_LAT, observations.getLatitude());
-        contentValues.put(ObservationsTable.COLUMN_LONG, observations.getLongitude());
         contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
+        // get LocationId and TickId
+        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getTick_id());
+        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getLocation_id());
         Log.d(AppUtils.LOGTAG, "Observation : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
@@ -132,10 +133,10 @@ public class ObservationsDao implements EntityDao {
         if (c != null) {
             observationItem = new Observation();
             observationItem.setObservation_id(c.getLong(0));
-            observationItem.setNum_ticks(c.getInt(1));
-            observationItem.setTickImageUrl(c.getString(2));
-            observationItem.setLatitude(c.getDouble(3));
-            observationItem.setLongitude(c.getDouble(4));
+//            observationItem.setNum_ticks(c.getInt(1));
+//            observationItem.setTickObj(c.getExtras(2));
+//            observationItem.setLatitude(c.getDouble(3));
+//            observationItem.setLongitude(c.getDouble(4));
             observationItem.setTimestamp(c.getLong(5));
             observationItem.setCreated_at(c.getLong(6));
             observationItem.setUpdated_at(c.getLong(7));
