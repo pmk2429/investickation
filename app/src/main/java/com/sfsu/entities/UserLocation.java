@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.sfsu.utils.AppUtils;
-
 /**
  * <p>
  * <tt>UserLocation </tt> contains the latitude and longitude of the user whenever the user
@@ -144,16 +142,6 @@ public class UserLocation implements Parcelable, Entity {
     @Override
     public String getName() {
         return "UserLocation";
-    }
-
-    @Override
-    public String getJSONResourceIdentifier() {
-        return "locations";
-    }
-
-    @Override
-    public String getResourceType() {
-        return AppUtils.LOCATION_RESOURCE;
     }
 
 

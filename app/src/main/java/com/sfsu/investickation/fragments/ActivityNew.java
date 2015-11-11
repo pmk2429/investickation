@@ -24,8 +24,8 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.entities.Activities;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.AppUtils;
 
 import java.util.Calendar;
 
@@ -76,7 +76,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
                 mTimePicker.show();
             }
         });
-
 
 
         // start the activity

@@ -13,8 +13,16 @@ import java.util.Date;
 
 /**
  * <p>
- * <tt>AppUtils</tt> class is the Application Level Configuration Class which contains all the
- * default and static final keywords as well as methods required through out the application.
+ * <tt>AppUtils</tt> class is the Application Level Configuration Class which contains all the default and static final keywords
+ * as well as methods required through out the application.
+ * </p>
+ * <p>
+ * The main reason for defining these resources in AppUtils is to make these resources independent of Activity and Fragment
+ * Lifecycle events hence making it easy to use.
+ * </p>
+ * <p>
+ * AppUtils also define the application level methods that might be required for the Activities/Fragments to carry out specific
+ * operations such as network connections checks, getting current timestamps etc.
  * </p>
  * Created by Pavitra on 6/5/2015.
  */
@@ -104,6 +112,11 @@ public class AppUtils {
         }
     }
 
+    /**
+     * Returns <tt>true</tt> if the Connections is available. Else returns <tt>false</tt>.
+     *
+     * @return
+     */
     public boolean isConnectedOnline() {
         ConnectivityManager cmObj = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfoObj = cmObj.getActiveNetworkInfo();

@@ -2,10 +2,10 @@ package com.sfsu.controllers;
 
 import android.content.Context;
 
-import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.rest.EntitiesApi;
 import com.sfsu.rest.RestClient;
+import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

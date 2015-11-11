@@ -5,9 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
+import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,8 +122,8 @@ public class TickDao implements EntityDao {
      *
      * @return
      */
-    public List<Entity> getAll() {
-        List<Entity> ticksList = new ArrayList<Entity>();
+    public List<Tick> getAll() {
+        List<Tick> ticksList = new ArrayList<Tick>();
 
         // Query the Database to get all the records.
         Cursor c = db.query(TicksTable.TABLENAME, tickEntryArray, null, null, null, null, null);

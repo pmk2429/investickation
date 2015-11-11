@@ -1,5 +1,6 @@
-package com.sfsu.entities;
+package com.sfsu.deprecated;
 
+import com.sfsu.entities.Entity;
 import com.sfsu.utils.AppUtils;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.HashMap;
  * * TODO: Remove this class once the RetroFit is setup completely.
  * <p>
  * <tt>ResourceEndpoint</tt> defines the methods for Resource Class.
- * {@link com.sfsu.entities.RequestParams.Resource} provides a concrete implementation
+ * {@link RequestParams.Resource} provides a concrete implementation
  * of the <tt>ResourceEndpoint</tt> interface. All the methods defined reflects the action that
  * is performed on each resource using the endpoint URL.
  * </p>
@@ -44,7 +45,7 @@ interface ResourceEndpoint {
  * <p/>
  * <p>
  * <tt>RequestParams</tt> class is the interface to the REST endpoint URL.
- * Depending on each of the methods, a dynamic URL is constructed in {@link com.sfsu.entities.RequestParams} to which the connection is to be made and operations are to be performed.
+ * Depending on each of the methods, a dynamic URL is constructed in {@link RequestParams} to which the connection is to be made and operations are to be performed.
  * <tt>RequestParams</tt> helps to perform operations on the resources of the applications by providing concrete
  * implementation of each methods and generating dynamic URL for each resource.
  * </p>

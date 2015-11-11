@@ -7,8 +7,6 @@ import com.sfsu.entities.Entity;
 import com.sfsu.model.DatabaseOpenHelper;
 import com.sfsu.model.EntityDao;
 
-import java.util.List;
-
 /**
  * DatabaseDataController class provides Abstraction layer over DAO layer that contains all the methods required
  * to perform database transactions over the DB for that Model.
@@ -59,8 +57,8 @@ public class DatabaseDataController {
         return this.entityDao.get(id);
     }
 
-    public List<Entity> getAll() {
-        return this.entityDao.getAll();
-    }
+//    public List<Entity> getAll() {
+//        return this.entityDao.getAll();
+//    }
 
 }

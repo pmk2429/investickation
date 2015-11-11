@@ -14,10 +14,6 @@ public interface Entity {
     public Entity getEntity();
 
     public String getName();
-
-    public String getJSONResourceIdentifier();
-
-    public String getResourceType();
-
+    
 
 }

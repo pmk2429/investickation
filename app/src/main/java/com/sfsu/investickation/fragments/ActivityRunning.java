@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,11 +21,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
-import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Activities;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
 import com.sfsu.service.LocationService;
+import com.sfsu.utils.AppUtils;
 
 /**
  * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment
@@ -41,7 +39,6 @@ public class ActivityRunning extends Fragment {
     private Activities newActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
-    private RetrofitController retrofitController;
     private Intent locationIntent;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
@@ -115,9 +112,6 @@ public class ActivityRunning extends Fragment {
         // retrieve all the data passed from the ActivityRunning fragment.
         newActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
 
-        // initialize the RetrofitController.
-        retrofitController = new RetrofitController(mContext);
-
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
         mapView.onCreate(savedInstanceState);
@@ -146,22 +140,15 @@ public class ActivityRunning extends Fragment {
         stopActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 // on stop button click the newActivityObj will be passed on to Retrofit Controller
-                retrofitController.add(AppUtils.ACTIVITY_RESOURCE, newActivityObj);
-                // TODO: get the result from the Controller and pass it on to ActivityList Fragment.
+                // pass the newActivityObj to the callback method and let Activity handle the data processing
+                mListener.onActivityStopButtonClicked(newActivityObj);
             }
         });
 
         return v;
     }
-
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onActivityRunningItemClickListener();
-        }
-    }
-
 
     @Override
     public void onDetach() {
@@ -202,11 +189,17 @@ public class ActivityRunning extends Fragment {
     }
 
     /**
-     * Interface for defining the callbacks to the parent activity
+     * Callback Interface for defining the callback methods to the UserActivityMasterActivity Activity.
      */
     public interface IActivityRunningCallBacks {
 
-        public void onActivityRunningItemClickListener();
+        /**
+         * Call back method when the user clicks on the Stop button in this Fragment. The newly created Activity object
+         * is passed to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.
+         *
+         * @param mNewActivityObj
+         */
+        public void onActivityStopButtonClicked(Activities mNewActivityObj);
     }
 
 }

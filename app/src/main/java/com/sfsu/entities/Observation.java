@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.sfsu.utils.AppUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +75,7 @@ public class Observation implements Parcelable, Entity {
     // Default Constructor
     public Observation() {
     }
+
     // constructor for demo purposes
     public Observation(String tickName, String geoLocation, long timestamp) {
         this.geoLocation = geoLocation;
@@ -213,15 +212,5 @@ public class Observation implements Parcelable, Entity {
     @Override
     public String getName() {
         return "Observations";
-    }
-
-    @Override
-    public String getJSONResourceIdentifier() {
-        return "observations";
-    }
-
-    @Override
-    public String getResourceType() {
-        return AppUtils.OBSERVATION_RESOURCE;
     }
 }

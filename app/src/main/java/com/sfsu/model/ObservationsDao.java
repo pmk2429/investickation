@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ObservationsDao for providing abstraction layer over DB.
+ * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
+ * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
+ * Database and then build up the Observation object.
+ * <p/>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
@@ -52,11 +55,16 @@ public class ObservationsDao implements EntityDao {
         Cursor c = db.query(true, ObservationsTable.TABLENAME, observationEntryArray, ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
 
         if (c != null && c.moveToFirst()) {
+            // once the Observation Item is build from cursor, create Tick object and Location object.
             observationItem = buildFromCursor(c);
+            // TODO: create Tick object and Location Object.
+            observationItem.setTickObj(null);
+            observationItem.setLocation(null);
             if (!c.isClosed()) {
                 c.close();
             }
         }
+        // the final ObservationItem will contain the Composite Object composed of Location and Tick objects.
         return observationItem;
     }
 
@@ -65,8 +73,8 @@ public class ObservationsDao implements EntityDao {
      *
      * @return
      */
-    public List<Entity> getAll() {
-        List<Entity> observationsList = new ArrayList<Entity>();
+    public List<Observation> getAll() {
+        List<Observation> observationsList = new ArrayList<Observation>();
 
         // Query the Database to get all the records.
         Cursor c = db.query(ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
@@ -143,4 +151,8 @@ public class ObservationsDao implements EntityDao {
         }
         return observationItem;
     }
+
+    /**
+     * Method to build the Tick Object and Location Object.
+     */
 }

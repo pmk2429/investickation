@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.sfsu.adapters.ActivitiesListAdapter;
 import com.sfsu.entities.Activities;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.adapters.ActivitiesListAdapter;
+import com.sfsu.utils.AppUtils;
 
 import java.util.List;
 
@@ -50,20 +50,25 @@ public class ActivityList extends Fragment implements View.OnClickListener {
         recyclerView_activity.setHasFixedSize(true);
 
         if (context != null) {
-            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-            recyclerView_activity.setLayoutManager(llm);
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            recyclerView_activity.setLayoutManager(mLinearLayoutManager);
         } else {
             Log.d(AppUtils.LOGTAG, " No layout manager supplied");
         }
+
+        // TODO: temporary method to get the data and display it in ListView.
         activities = Activities.initializeData();
+
 
         ActivitiesListAdapter adapter = new ActivitiesListAdapter(activities);
         recyclerView_activity.setAdapter(adapter);
 
-        // implement touch event for the item click in RecyclerView
+        // touch listener when the user clicks on the Activity in the List.
         recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_activity, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                // call the interface callback to listen to the item click event
+
                 mInterface.onItemClickListener();
             }
 
@@ -73,6 +78,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
             }
         }));
 
+        // Add new Activity button.
         final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_activity_add);
         addProject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +115,19 @@ public class ActivityList extends Fragment implements View.OnClickListener {
     }
 
 
+    /**
+     * Callback interface to handle callback methods for the ActivityList fragment.
+     */
     public interface IActivityCallBacks {
+        /**
+         * When the user clicks on the Activity List item, it will be listened to using this callback.
+         */
         public void onItemClickListener();
 
+        /**
+         * When the User clicks on the Add button to Add New Activity, it will be listened to using this
+         * callback.
+         */
         public void onActivityAddListener();
     }
 

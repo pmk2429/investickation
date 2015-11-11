@@ -1,6 +1,5 @@
 package com.sfsu.investickation;
 
-// else show the ActivityList Fragment in the 'activity_fragment_container'
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -8,21 +7,38 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Activities;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.fragments.ActivityDetails;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
+import com.sfsu.utils.AppUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
+ * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments and so
+ * on. All the Activity related operations are carried out in UserActivityMasterActivity.
+ * <p/>
+ * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
+ */
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener {
 
+
+    private RetrofitController retrofitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
+
+
+        // initialize the RetrofitController.
+        retrofitController = new RetrofitController(this);
+        List<Activities> listSavedActivities = getListOfSavedActivities();
 
 
         // if Fragment container is present
@@ -33,22 +49,31 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
                 return;
             }
 
+            // is the ActivityNew is being called
             if (getIntent().getIntExtra("ActivityNew", 0) == 1) { // if user clicks on Start Activity
                 ActivityNew activityNewFragment = new ActivityNew();
                 FragmentTransaction activityNew = getSupportFragmentManager().beginTransaction();
                 activityNew.replace(R.id.activity_fragment_container, activityNewFragment);
                 activityNew.addToBackStack(null);
                 activityNew.commit();
-            } else if (getIntent().getIntExtra("ActivityList", 0) == 2) { // if user clicks on ActivityList
+            }
+            // if ActivityList is being called.
+            else if (getIntent().getIntExtra("ActivityList", 0) == 2) { // if user clicks on ActivityList
                 ActivityList activityList = new ActivityList();
                 FragmentTransaction activityListFragment = getSupportFragmentManager().beginTransaction();
                 activityListFragment.replace(R.id.activity_fragment_container, activityList);
                 activityListFragment.addToBackStack(null);
                 activityListFragment.commit();
-            } else {
+            }
+            /* if no press, open ActivityList. The first time the UserActivityMasterActivity is opened, the default Fragment
+            to be displayed it the ActivityList Fragment.
 
+            Since this Fragment displays the List of Activities stored in the Server, we have to pass the List of Activities
+            in the Bundle to this Fragment.
+             */
+
+            else {
                 ActivityList activityListFragment = new ActivityList();
-
                 // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
                 activityListFragment.setArguments(getIntent().getExtras());
 
@@ -88,9 +113,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * method to listen to the onClick of the Item in Activity List Interface
-     */
+    // callback for item click on RecyclerView.
     @Override
     public void onItemClickListener() {
         ActivityDetails mActivityDetailsFragment = new ActivityDetails();
@@ -100,6 +123,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         transaction.commit();
     }
 
+    // callback for Adding New Activity
     @Override
     public void onActivityAddListener() {
         // if user clicked the Add Button, replace with AddObservation Fragment
@@ -112,8 +136,6 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
     @Override
     public void onClick(View v) {
-
-
     }
 
     /**
@@ -136,13 +158,28 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
 
     @Override
-    public void onActivityRunningItemClickListener() {
-
-    }
-
-    @Override
     public void onActivityDetailsClick() {
 
     }
 
+
+    // the newly created Activity object is passed over to Retrofit.
+    @Override
+    public void onActivityStopButtonClicked(Activities mNewActivityObj) {
+
+        retrofitController.add(AppUtils.ACTIVITY_RESOURCE, mNewActivityObj);
+    }
+
+    /**
+     * Method to call the RetrofitConttroller and get List of all Activities stored in Server.
+     *
+     * @return
+     */
+    public ArrayList<Activities> getListOfSavedActivities() {
+        // casting and converting the ArrayList of Entities to ArrayList of Activities.
+        ArrayList<Activities> activitiesList = (ArrayList<Activities>) (ArrayList<?>) retrofitController.getAll(AppUtils
+                .ACTIVITY_RESOURCE);
+        return activitiesList;
+
+    }
 }

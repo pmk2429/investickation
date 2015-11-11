@@ -3,8 +3,6 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.sfsu.utils.AppUtils;
-
 /**
  * Created by Pavitra on 5/19/2015.
  */
@@ -60,7 +58,7 @@ public class User implements Parcelable, Entity {
         this.state = state;
     }
 
-    
+
     public static User createUser(String username, String email, String password, String zipcode, String address) {
 
         // TODO: Create Logic for user_id.
@@ -188,13 +186,4 @@ public class User implements Parcelable, Entity {
         return "User";
     }
 
-    @Override
-    public String getJSONResourceIdentifier() {
-        return "users";
-    }
-
-    @Override
-    public String getResourceType() {
-        return AppUtils.USER_RESOURCE;
-    }
 }

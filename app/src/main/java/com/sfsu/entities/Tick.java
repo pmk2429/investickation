@@ -217,14 +217,4 @@ public class Tick implements Parcelable, Entity {
         return "Tick";
     }
 
-    @Override
-    public String getJSONResourceIdentifier() {
-        return "ticks";
-    }
-
-    @Override
-    public String getResourceType() {
-        return AppUtils.TICK_RESOURCE;
-    }
-
 }
