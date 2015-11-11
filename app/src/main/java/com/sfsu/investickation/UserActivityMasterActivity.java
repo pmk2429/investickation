@@ -3,12 +3,14 @@ package com.sfsu.investickation;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Activities;
+import com.sfsu.exceptions.NetworkErrorException;
 import com.sfsu.investickation.fragments.ActivityDetails;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
@@ -16,7 +18,6 @@ import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
@@ -28,6 +29,7 @@ import java.util.List;
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener {
 
 
+    ArrayList<Activities> listSavedActivities;
     private RetrofitController retrofitController;
 
     @Override
@@ -38,8 +40,15 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
         // initialize the RetrofitController.
         retrofitController = new RetrofitController(this);
-        List<Activities> listSavedActivities = getListOfSavedActivities();
 
+        try {
+            // get the List of Activities from server.
+            listSavedActivities = getListOfSavedActivities();
+        } catch (NetworkErrorException e) {
+            Log.i(AppUtils.LOGTAG, e.getMessage());
+        } catch (Exception e) {
+            Log.i(AppUtils.LOGTAG, e.getMessage());
+        }
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {
@@ -74,9 +83,10 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
             else {
                 ActivityList activityListFragment = new ActivityList();
-                // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-                activityListFragment.setArguments(getIntent().getExtras());
-
+                Bundle bundleListOfActivities = new Bundle();
+                bundleListOfActivities.putParcelableArrayList(AppUtils.ACTIVITY_KEY, listSavedActivities);
+                // finally add the Bundle to the activityList Fragment instance.
+                activityListFragment.setArguments(bundleListOfActivities);
                 // add Fragment to 'activity_fragment_container'
                 getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment).commit();
             }
@@ -166,16 +176,15 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     // the newly created Activity object is passed over to Retrofit.
     @Override
     public void onActivityStopButtonClicked(Activities mNewActivityObj) {
-
         retrofitController.add(AppUtils.ACTIVITY_RESOURCE, mNewActivityObj);
     }
 
     /**
-     * Method to call the RetrofitConttroller and get List of all Activities stored in Server.
+     * Method to call the RetrofitController and get List of all Activities stored in Server.
      *
      * @return
      */
-    public ArrayList<Activities> getListOfSavedActivities() {
+    public ArrayList<Activities> getListOfSavedActivities() throws NetworkErrorException {
         // casting and converting the ArrayList of Entities to ArrayList of Activities.
         ArrayList<Activities> activitiesList = (ArrayList<Activities>) (ArrayList<?>) retrofitController.getAll(AppUtils
                 .ACTIVITY_RESOURCE);

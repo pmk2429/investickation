@@ -27,7 +27,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
     private IActivityCallBacks mInterface;
     private Context context;
 
-    private List<Activities> activities;
+    private List<Activities> serverActivitiesList;
 
     public ActivityList() {
         // Required empty public constructor
@@ -52,31 +52,41 @@ public class ActivityList extends Fragment implements View.OnClickListener {
         if (context != null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
+
+            // retrieve the list of serverActivitiesList passed from the UserActivityMainActivity
+            if (getArguments() != null) {
+
+//              TODO:  serverActivitiesList = getArguments().getParcelableArrayList(AppUtils.ACTIVITY_KEY);
+            }
         } else {
             Log.d(AppUtils.LOGTAG, " No layout manager supplied");
         }
 
         // TODO: temporary method to get the data and display it in ListView.
-        activities = Activities.initializeData();
+        serverActivitiesList = Activities.initializeData();
 
+        if (serverActivitiesList.size() > 0) {
+            // set the List of Acvities to Adapter.
+            ActivitiesListAdapter adapter = new ActivitiesListAdapter(serverActivitiesList);
+            recyclerView_activity.setAdapter(adapter);
 
-        ActivitiesListAdapter adapter = new ActivitiesListAdapter(activities);
-        recyclerView_activity.setAdapter(adapter);
+            // touch listener when the user clicks on the Activity in the List.
+            recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_activity, new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    // call the interface callback to listen to the item click event
 
-        // touch listener when the user clicks on the Activity in the List.
-        recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_activity, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                // call the interface callback to listen to the item click event
+                    mInterface.onItemClickListener();
+                }
 
-                mInterface.onItemClickListener();
-            }
+                @Override
+                public void onItemLongClick(View view, int position) {
 
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        }));
+                }
+            }));
+        } else {
+            // TODO: display a message saying that no records found. and a sad emoticon
+        }
 
         // Add new Activity button.
         final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_activity_add);
