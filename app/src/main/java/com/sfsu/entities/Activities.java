@@ -16,6 +16,8 @@ import java.util.List;
  * <p>
  * Activity also defines the Factory design pattern to create activities using
  * creational design pattern by abstracting the logic from user.
+ * <p/>
+ * In addition to the properties possessed by the Activities, it also references the current User to know which User is logged in
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
@@ -34,35 +36,45 @@ public class Activities implements Parcelable, Entity {
     };
     private int activity_id;
     private String activityName, location_area;
-    private int num_people, num_pets, num_ticks;
+    private int num_people, num_pets;
     private long timestamp, created_at, update_at;
+    private long fk_user_id;
+    // Enum identifier for setting State of Object.
+    private STATE activityState;
 
+    // Default constructor -> REQUIRED
     public Activities() {
     }
 
-    public Activities(String name, int num_people, int num_pets, int num_ticks) {
+
+    /**
+     * Constructor for creating the Model object to send it over to retrofit for storing on Server.
+     *
+     * @param name
+     * @param num_people
+     * @param num_pets
+     * @param timestamp
+     */
+    public Activities(String name, int num_people, int num_pets, long timestamp) {
         this.activityName = name;
         this.num_people = num_people;
         this.num_pets = num_pets;
-        this.num_ticks = num_ticks;
+        this.timestamp = timestamp;
     }
 
 
+    /**
+     * Constructor for DEMO purpose.
+     *
+     * @param name
+     * @param num_people
+     * @param num_pets
+     * @param num_ticks
+     */
     public Activities(String name, int num_people, int num_pets) {
         this.activityName = name;
         this.num_people = num_people;
         this.num_pets = num_pets;
-    }
-
-    public Activities(String name, String location_area, int num_people, int num_pets, int num_ticks, long timestamp, long created_at, long update_at) {
-        this.activityName = name;
-        this.location_area = location_area;
-        this.num_people = num_people;
-        this.num_pets = num_pets;
-        this.num_ticks = num_ticks;
-        this.timestamp = timestamp;
-        this.created_at = created_at;
-        this.update_at = update_at;
     }
 
     protected Activities(Parcel in) {
@@ -71,18 +83,48 @@ public class Activities implements Parcelable, Entity {
         location_area = in.readString();
         num_people = in.readInt();
         num_pets = in.readInt();
-        num_ticks = in.readInt();
         timestamp = in.readLong();
         created_at = in.readLong();
         update_at = in.readLong();
     }
 
+    /**
+     * Constructor to create the Retrofit Model and pass it over to RetrofitController.
+     *
+     * @param name
+     * @param location_area
+     * @param num_people
+     * @param num_pets
+     * @param num_ticks
+     * @param timestamp
+     * @param created_at
+     * @param update_at
+     */
+    public Activities(String name, String location_area, int num_people, int num_pets, long timestamp, long created_at, long update_at) {
+        this.activityName = name;
+        this.location_area = location_area;
+        this.num_people = num_people;
+        this.num_pets = num_pets;
+        this.timestamp = timestamp;
+        this.created_at = created_at;
+        this.update_at = update_at;
+    }
+
     public static List<Activities> initializeData() {
         List<Activities> activities = new ArrayList<>();
-        activities.add(new Activities("Golden Gate Park", 5, 1, 8));
-        activities.add(new Activities("SF Presidio", 0, 0, 4));
-        activities.add(new Activities("Yosemite", 8, 0, 11));
+        activities.add(new Activities("Golden Gate Park", 5, 1));
+        activities.add(new Activities("SF Presidio", 0, 0));
+        activities.add(new Activities("Yosemite", 8, 0));
         return activities;
+    }
+
+    /**
+     * Method to set the State of current ongoing Activity
+     *
+     * @param state
+     */
+    public void setState(STATE state) {
+        this.activityState = state;
     }
 
     public int getActivity_id() {
@@ -109,10 +151,6 @@ public class Activities implements Parcelable, Entity {
         return num_pets;
     }
 
-    public int getNum_ticks() {
-        return num_ticks;
-    }
-
     public long getTimestamp() {
         return timestamp;
     }
@@ -133,7 +171,6 @@ public class Activities implements Parcelable, Entity {
                 ", location_area='" + location_area + '\'' +
                 ", num_people=" + num_people +
                 ", num_pets=" + num_pets +
-                ", num_ticks=" + num_ticks +
                 ", timestamp=" + timestamp +
                 ", created_at=" + created_at +
                 ", update_at=" + update_at +
@@ -152,7 +189,6 @@ public class Activities implements Parcelable, Entity {
         parcel.writeString(location_area);
         parcel.writeInt(num_people);
         parcel.writeInt(num_pets);
-        parcel.writeInt(num_ticks);
         parcel.writeLong(timestamp);
         parcel.writeLong(created_at);
         parcel.writeLong(update_at);
@@ -168,10 +204,11 @@ public class Activities implements Parcelable, Entity {
         return "Activity";
     }
 
+
     /**
      * A list of constant values assigned to Activities. Started represents the
      */
     public static enum STATE {
-        STARTED, RUNNING, STOPPED;
+        RUNNING, CREATED;
     }
 }

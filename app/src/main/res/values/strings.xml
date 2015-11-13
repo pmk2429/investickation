@@ -64,5 +64,9 @@
     <string name="title_activity_tick_info">TickInfoActivity</string>
 
     <!-- TODO: make list of all Fragment Names in the enitre Application-->
+    <string name="alertDialog_inputManual">Enter when you get reminded for watching ticks</string>
+    <string name="alertDialog_inputManual_hint">28 mins</string>
+    <string name="alertDialog_cancel">Cancel</string>
+    <string name="alertDialog_apply">Apply</string>
 
 </resources>

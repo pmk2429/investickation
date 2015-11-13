@@ -81,7 +81,7 @@
 
             <!--Line separator-->
             <View
-                android:id="@+id/separator_observation_1"
+                android:id="@+id/view_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/button_chooseFromGuide"
@@ -93,7 +93,7 @@
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@id/separator_observation_1"
+                android:layout_below="@id/view_divider"
                 android:layout_marginLeft="@dimen/padding_small"
                 android:layout_marginTop="@dimen/padding_X_large"
                 android:padding="@dimen/padding_medium"
@@ -104,7 +104,7 @@
                 android:id="@+id/editText_addObs_newTick"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/separator_observation_1"
+                android:layout_below="@id/view_divider"
                 android:layout_marginRight="@dimen/padding_large"
                 android:layout_marginTop="@dimen/padding_X_large"
                 android:layout_toRightOf="@id/icon_tick"

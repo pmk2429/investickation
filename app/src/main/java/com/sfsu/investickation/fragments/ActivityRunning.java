@@ -34,8 +34,8 @@ import com.sfsu.utils.AppUtils;
  */
 public class ActivityRunning extends Fragment {
 
-    MapView mapView;
-    GoogleMap googleMap;
+    private MapView mapView;
+    private GoogleMap googleMap;
     private Activities newActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
@@ -91,6 +91,7 @@ public class ActivityRunning extends Fragment {
                     + " must implement IActivityRunningCallBacks interface");
         }
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -195,7 +196,7 @@ public class ActivityRunning extends Fragment {
 
         /**
          * Call back method when the user clicks on the Stop button in this Fragment. The newly created Activity object
-         * is passed to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.
+         * is passed  to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.
          *
          * @param mNewActivityObj
          */

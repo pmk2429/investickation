@@ -5,12 +5,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.utils.AppUtils;
+import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.RemoteObservationsList;
-import com.sfsu.controllers.RetrofitController;
+import com.sfsu.utils.AppUtils;
 
 public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
@@ -113,7 +113,7 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         newlyCreatedObs = newObservation;
 
         // pass this object to RetrofitController and get response.
-        observationResponseObj = (Observation) retrofitController.add(newlyCreatedObs.getResourceType(), newlyCreatedObs);
+        observationResponseObj = (Observation) retrofitController.add(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
 
         // define the RemoteObservationsList Fragment
         RemoteObservationsList mRemoteObservationsList = new RemoteObservationsList();

@@ -59,7 +59,7 @@
 
                     <!--Line separator-->
                     <View
-                        android:id="@+id/separator_observation_1"
+                        android:id="@+id/view_divider"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:background="@color/divider"/>
@@ -68,7 +68,7 @@
                         android:id="@+id/textView_observation_tickName"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/widget_dimen"
-                        android:layout_below="@+id/separator_observation_1"
+                        android:layout_below="@+id/view_divider"
                         android:gravity="top|start"
                         android:paddingLeft="@dimen/padding_large"
                         android:paddingTop="@dimen/padding_large"

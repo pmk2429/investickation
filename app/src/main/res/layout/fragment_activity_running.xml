@@ -65,7 +65,7 @@
 
     <!--Line separator-->
     <View
-        android:id="@+id/separator_observation_1"
+        android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/textView_totalPeople"
@@ -77,7 +77,7 @@
         android:id="@+id/btn_add_observation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/separator_observation_1"
+        android:layout_below="@id/view_divider"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_X_large"
         android:layout_weight="1"

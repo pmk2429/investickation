@@ -173,9 +173,11 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     }
 
 
-    // the newly created Activity object is passed over to Retrofit.
+    /* The newly created Activity object is passed over to Retrofit. The Activity model references the current user who is
+     logged in and hence it is mandatory to pass the current user id along with the Activity Object. */
     @Override
     public void onActivityStopButtonClicked(Activities mNewActivityObj) {
+        // get the current User Id.
         retrofitController.add(AppUtils.ACTIVITY_RESOURCE, mNewActivityObj);
     }
 
