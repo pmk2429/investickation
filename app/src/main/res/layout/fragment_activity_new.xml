@@ -73,6 +73,9 @@
         android:layout_marginTop="@dimen/padding_large"
         android:layout_toRightOf="@id/icon_activity"
         android:hint="@string/text_activityName"
+        android:lines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:textSize="16sp"/>
 
     <!--Line separator-->
@@ -125,7 +128,10 @@
             android:layout_marginRight="@dimen/padding_large"
             android:layout_toEndOf="@+id/icon_people"
             android:hint="@string/text_totalPeople"
+            android:lines="1"
             android:paddingTop="@dimen/dimen_default"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
             android:textSize="16sp"/>
 
         <!--Line separator-->
@@ -164,16 +170,18 @@
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
-            android:id="@+id/editText_pets"
+            android:id="@+id/editText_totalPets"
             android:layout_width="@dimen/widget_dimen_X1_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPets"
             android:layout_marginLeft="@dimen/padding_small"
             android:layout_toEndOf="@+id/icon_pets"
             android:hint="@string/text_totalPets"
+            android:lines="1"
             android:paddingTop="@dimen/dimen_default"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
             android:textSize="16sp"/>
-
 
     </RelativeLayout>
 

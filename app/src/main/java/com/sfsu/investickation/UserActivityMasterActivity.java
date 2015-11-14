@@ -148,17 +148,20 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     public void onClick(View v) {
     }
 
-    /**
+    /*
      * This method will be called when the user clicks on the Play Button in ActivityNew Fragment. All the Details of the
      * Activity started by the user will be collected and passed to the ActivityRunning fragment.
      */
     @Override
     public void onPlayButtonClick(Activities newActivityDetailsObject) {
+
         ActivityRunning mActivityRunningFragment = new ActivityRunning();
         // set the data to Bundle to pass it to ActivityRunning Fragment
         Bundle newActivityBundle = new Bundle();
-        newActivityBundle.putParcelable(AppUtils.ACTIVITY_RESOURCE, newActivityDetailsObject);
-        mActivityRunningFragment.setArguments(newActivityBundle);
+        if (newActivityDetailsObject != null) {
+            newActivityBundle.putParcelable(AppUtils.ACTIVITY_RESOURCE, newActivityDetailsObject);
+            mActivityRunningFragment.setArguments(newActivityBundle);
+        }
         // initialize the transaction.
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mActivityRunningFragment);

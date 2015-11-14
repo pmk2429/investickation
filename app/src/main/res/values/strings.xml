@@ -26,13 +26,13 @@
 
     <!--TODO: List of all the String resources -->
     <string name="text_activityName">Hiking trail</string>
-    <string name="text_observationName"></string>
+    <string name="text_observationName">American Tick</string>
     <string name="text_locationName">Golden Gate Park</string>
     <string name="text_tickName">American Dog Tick</string>
     <string name="text_totalDistance">6 Miles</string>
     <string name="text_totalObservations">5 Observations</string>
-    <string name="text_totalPeople">6 people</string>
-    <string name="text_totalPets">1 pet</string>
+    <string name="text_totalPeople">4</string>
+    <string name="text_totalPets">1</string>
     <string name="text_speciesName">1 pet</string>
     <string name="text_chooseTick">Choose from Tick Guide</string>
     <string name="text_chooseTickInfo">Can\'t recognize tick? Select from Guide</string>
@@ -68,5 +68,16 @@
     <string name="alertDialog_inputManual_hint">28 mins</string>
     <string name="alertDialog_cancel">Cancel</string>
     <string name="alertDialog_apply">Apply</string>
+    <string name="alertDialog_reminder_30">30</string>
+    <string name="alertDialog_reminder_60">60</string>
+
+    <!-- Error methods for all the Validations-->
+    <string name="error_invalid_string">Enter valid text</string>
+    <string name="error_empty_string">Empty Character Sequence</string>
+    <!--<string name="error_invalid_email">Invalid Email ID</string>-->
+    <string name="error_invalid_password">Incorrect Password</string>
+    <string name="error_NAN">Enter valid numeric value</string>
+
+    <!-- Exception messages-->
 
 </resources>

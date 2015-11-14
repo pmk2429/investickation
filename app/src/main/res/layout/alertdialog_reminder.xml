@@ -5,20 +5,19 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_large">
 
-    <ImageView
-        android:id="@+id/imageView_alertDialog_logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo"/>
+    <!--<ImageView-->
+    <!--android:id="@+id/imageView_alertDialog_logo"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:scaleType="fitCenter"-->
+    <!--android:src="@drawable/logo"/>-->
 
     <Button
         android:id="@+id/button_alertDialog_30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/imageView_alertDialog_logo"
         android:layout_marginLeft="@dimen/padding_X2_large"
         android:layout_marginTop="@dimen/padding_X2_large"
         android:layout_weight="1.0"
@@ -33,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/imageView_alertDialog_logo"
         android:layout_marginRight="@dimen/padding_X2_large"
         android:layout_marginTop="@dimen/padding_X2_large"
         android:layout_weight="1.0"
@@ -42,6 +40,39 @@
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_medium"
         />
+
+    <!--<RadioGroup-->
+    <!--android:id="@+id/radioSelectReminder"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/button_alertDialog_30"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="@dimen/padding_X2_large">-->
+
+    <!--<RadioButton-->
+    <!--android:id="@+id/radioButton30"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:checked="true"-->
+    <!--android:text="30 mins"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="@dimen/font_large"/>-->
+
+    <!--<RadioButton-->
+    <!--android:id="@+id/radioButton60"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginLeft="@dimen/padding_X3_large"-->
+    <!--android:text="60 mins"-->
+    <!--android:textColor="@color/colorPrimary"-->
+    <!--android:textSize="@dimen/font_large"/>-->
+
+    <!--</RadioGroup>-->
+
 
     <View
         android:id="@+id/view_divider"
@@ -57,19 +88,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_divider"
+        android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_large"
         android:text="@string/alertDialog_inputManual"
         android:textColor="@color/secondaryText"/>
 
     <EditText
         android:id="@+id/editText_alertDialog_manualInput"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/widget_dimen_X1_large"
         android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/textViewStatic_alertDialogInput"
+        android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_large"
         android:hint="@string/alertDialog_inputManual_hint"
         android:lines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:textColor="@color/colorSecondary"/>
-
 
 </RelativeLayout>

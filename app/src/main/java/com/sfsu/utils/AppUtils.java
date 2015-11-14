@@ -86,6 +86,16 @@ public class AppUtils {
         return dateTime;
     }
 
+    /**
+     * Returns <tt>true</tt> if input String is not empty and Numeric.
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        return !TextUtils.isEmpty(str) && TextUtils.isDigitsOnly(str);
+    }
+
     // method to check whether there is any network connection or not.
 
     // Method to check if UserLocation is enabled or disabled.
