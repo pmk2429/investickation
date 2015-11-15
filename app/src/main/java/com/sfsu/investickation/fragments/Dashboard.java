@@ -21,12 +21,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
@@ -50,6 +47,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private int mCurrentSelectedPosition;
     private NavigationView mNavigationView;
     private Context mContext;
+    private GoogleMapController mGoogleMapController;
 
     public Dashboard() {
         // Required empty public constructor
@@ -62,14 +60,11 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
         // lot of code for setting up NavDrawer so calling a method inssted for keeping onCreate free from clutter
         // setup the Toolbar for this Fragment.
         setActionBarAndNavDrawer(v);
 
-
         final ImageView imageView = (ImageView) v.findViewById(R.id.imageView_dashboardHeader);
-
 
         // set the button in Dashboard to the corresponding action
         btn_action = (CardView) v.findViewById(R.id.btn_activity_start);
@@ -78,6 +73,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         // set the button in Dashboard to the corresponding action
         btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
+
+        mGoogleMapController = new GoogleMapController(mContext);
 
         // when the use clicks the entire relativelayout, redirect to the appropriate call action
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_observation);
@@ -93,24 +90,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         mapView = (MapView) v.findViewById(R.id.mapView_activityDashboard);
         mapView.onCreate(savedInstanceState);
 
-        // Gets to GoogleMap from the MapView and does initialization of googleMap Object.
-        googleMap = mapView.getMap();
-
-        if (googleMap != null) {
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            googleMap.setMyLocationEnabled(true);
-            // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-            try {
-                MapsInitializer.initialize(this.getActivity());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
-            googleMap.animateCamera(cameraUpdate);
-        } else {
-            Log.d(LOGTAG, "Map null");
-        }
+        // setup the Google Maps in MapView.
+        mGoogleMapController.setupGoogleMap(mapView);
 
         return v;
     }

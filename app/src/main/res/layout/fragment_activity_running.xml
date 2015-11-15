@@ -6,7 +6,7 @@
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
                 tools:context=".UserActMainActivity">
-    
+
 
     <!-- Required: Layout to hold MapView-->
     <LinearLayout
@@ -45,13 +45,13 @@
         android:layout_below="@id/linearLayout_mapViewHolder"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/padding_X3_large"
-        android:text="Your current running activity:"
+        android:text="@string/activityRunning_activityInfo"
         android:textAlignment="center"
         android:textColor="@color/primaryText"
         android:textSize="@dimen/font_small"/>
 
     <TextView
-        android:id="@+id/textView_totalPeople"
+        android:id="@+id/textView_actRun_activityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewStatic_activity"
@@ -68,13 +68,13 @@
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/textView_totalPeople"
+        android:layout_below="@id/textView_actRun_activityName"
         android:layout_marginTop="@dimen/padding_large"
         android:background="@color/divider"/>
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/btn_add_observation"
+        android:id="@+id/cardView_activityRunning_addObservation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_divider"
@@ -97,14 +97,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Add Observation"
+                android:text="@string/button_addObservation"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/font_small"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_activity_stop"
+        android:id="@+id/fab_actRun_activityStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

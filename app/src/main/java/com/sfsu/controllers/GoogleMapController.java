@@ -1,6 +1,7 @@
 package com.sfsu.controllers;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -49,5 +50,14 @@ public class GoogleMapController {
         } else {
             Log.d(AppUtils.LOGTAG, "Map null");
         }
+    }
+
+    /**
+     * Returns the current location of the User.
+     *
+     * @return
+     */
+    public Location getCurrentLocation() {
+        return null;
     }
 }

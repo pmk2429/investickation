@@ -8,11 +8,13 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
@@ -44,6 +46,8 @@ public class ActivityRunning extends Fragment {
     private IActivityRunningCallBacks mListener;
     private Intent locationIntent;
     private GoogleMapController mGoogleMapController;
+    private CardView btn_addObservation;
+    private TextView txtView_activityName;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
      * This receiver receives the UserLocation every specified interval of time.
@@ -103,6 +107,9 @@ public class ActivityRunning extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_activity_running, container, false);
 
+        btn_addObservation = (CardView) v.findViewById(R.id.cardView_activityRunning_addObservation);
+        txtView_activityName = (TextView) v.findViewById(R.id.textView_actRun_activityName);
+
         // initialize the location intent.
         locationIntent = new Intent(mContext, LocationService.class);
 
@@ -117,14 +124,18 @@ public class ActivityRunning extends Fragment {
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
         mapView.onCreate(savedInstanceState);
 
+        // initialize the GoogleMapController
         mGoogleMapController = new GoogleMapController(mContext);
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);
 
+        // TODO: geoLocate the User's Location and set it to the Geo Location Area
+        String textViewData = newActivityObj.getActivityName() + " @ " + " YET TO SET"; //newActivityObj.getLocation_area();
+        txtView_activityName.setText(textViewData);
 
-        // initialize the FAB
-        final FloatingActionButton stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_activity_stop);
+        // initialize and set onClickListener for FAB
+        final FloatingActionButton stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_actRun_activityStop);
         stopActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,6 +147,13 @@ public class ActivityRunning extends Fragment {
                 and lets the Activity handle the data processing.
                  */
                 mListener.onActivityStopButtonClicked(newActivityObj);
+            }
+        });
+
+        btn_addObservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

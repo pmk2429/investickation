@@ -41,6 +41,7 @@
     <string name="button_startActivity">Start Activity</string>
     <string name="button_register">Register</string>
     <string name="button_postObservation">Post Observation</string>
+    <string name="button_addObservation">Add Observation</string>
 
     <!-- Google plus login-->
     <!-- Button text -->
@@ -62,8 +63,9 @@
     <string name="open_location_settings">Open Location Settings</string>
     <string name="Cancel">Cancel</string>
     <string name="title_activity_tick_info">TickInfoActivity</string>
+    <string name="activityRunning_activityInfo">Your current ongoing Activity:</string>
 
-    <!-- TODO: make list of all Fragment Names in the enitre Application-->
+    <!-- TODO: make list of all Fragment Names in the entire Application-->
     <string name="alertDialog_inputManual">Enter when you get reminded for watching ticks</string>
     <string name="alertDialog_inputManual_hint">28 mins</string>
     <string name="alertDialog_cancel">Cancel</string>
