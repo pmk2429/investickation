@@ -110,6 +110,7 @@ public class ActivityRunning extends Fragment {
         The retrieved object has the running state set. So perform all the operations only when state is RUNNING.
          */
         newActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
+        Log.i(LOGTAG, newActivityObj.toString());
         Log.i(LOGTAG, newActivityObj.getState() + "");
 
         // Gets the MapView from the XML layout and creates it
@@ -128,9 +129,12 @@ public class ActivityRunning extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // on stop button click the newActivityObj will be passed on to Retrofit Controller
-                // pass the newActivityObj to the callback method and let Activity handle the data processing
-                // change the state of the Activity to CREATED and stop Service as well as unregister Receiver.
+                // onStop button clics, change the state of Activity to CREATED.
+                newActivityObj.setState(Activities.STATE.CREATED);
+
+                /* newActivityObj will be passed on to Retrofit Controller pass the newActivityObj to the callback method
+                and lets the Activity handle the data processing.
+                 */
                 mListener.onActivityStopButtonClicked(newActivityObj);
             }
         });
@@ -181,7 +185,7 @@ public class ActivityRunning extends Fragment {
     public void onPause() {
         super.onPause();
 
-        newActivityObj.setState(Activities.STATE.CREATED);
+        // stop the service and unregister the broadcast receiver.
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
     }
