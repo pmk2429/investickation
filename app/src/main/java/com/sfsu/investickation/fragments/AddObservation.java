@@ -27,10 +27,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.sfsu.utils.AppUtils;
+import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
-import com.sfsu.controllers.RetrofitController;
+import com.sfsu.utils.AppUtils;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -48,6 +48,7 @@ public class AddObservation extends Fragment {
     private IAddObservationCallBack mInterface;
     private Context mContext;
     private Intent locationIntent;
+    private EditText et_tickName, et_tickSpecies;
 
     // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -82,6 +83,9 @@ public class AddObservation extends Fragment {
         btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
         imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);
 
+        et_tickName = (EditText) v.findViewById(R.id.editText_addObs_newTick);
+        et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
+
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
         addTickImage.setOnClickListener(new View.OnClickListener() {
@@ -95,13 +99,12 @@ public class AddObservation extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO: complete this code. Get data from this Fragment and callback on ObservationMasterActivity to RetrofitController
-                EditText et_tickName = (EditText) v.findViewById(R.id.editText_addObs_newTick);
-                EditText et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
+
                 String tickName = et_tickName.getText().toString();
                 String tickSpecies = et_tickSpecies.getText().toString();
 
-                // create a Tick Obj
                 // TODO : logic for ID, and image manipulation
+                // create a Tick Obj
                 long currentTime = new Timestamp(System.currentTimeMillis()).getTime();
                 double latitude = 37.773972;
                 double longitude = -122.431297;

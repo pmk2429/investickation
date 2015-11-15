@@ -217,4 +217,9 @@ public class Tick implements Parcelable, Entity {
         return "Tick";
     }
 
+    @Override
+    public String getResourceType() {
+        return "ticks";
+    }
+
 }

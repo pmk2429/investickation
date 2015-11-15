@@ -204,6 +204,11 @@ public class Activities implements Parcelable, Entity {
         return "Activity";
     }
 
+    @Override
+    public String getResourceType() {
+        return "activities";
+    }
+
 
     /**
      * A list of constant values assigned to Activities. Started represents the

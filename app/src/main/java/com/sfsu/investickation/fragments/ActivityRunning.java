@@ -15,31 +15,34 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
 
 /**
- * A simple fragment to make the user Add observations for the current ongoing {@link Activities}. This fragment
- * contains the action callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the
- * user will be redirected to Add Observation for the current ongoing activity.
- * In addition to the current
+ * This fragment provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
+ * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
+ * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
+ * Observation for the current ongoing activity.
+ * <p/>
+ * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
+ * state, the Activity performs various operations such as getting Location updates, getting the updates from the
+ * BroadcastReceiver, recording the observations etc.
+ * <p/>
+ * All these operations will be carried out when the Activity is in RUNNING state ONLY.
+ * Observation,
  */
 public class ActivityRunning extends Fragment {
 
     private MapView mapView;
-    private GoogleMap googleMap;
     private Activities newActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
     private Intent locationIntent;
+    private GoogleMapController mGoogleMapController;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
      * This receiver receives the UserLocation every specified interval of time.
@@ -57,13 +60,6 @@ public class ActivityRunning extends Fragment {
         // Required empty public constructor
     }
 
-    public static ActivityRunning newInstance(String param1, String param2) {
-        ActivityRunning fragment = new ActivityRunning();
-        Bundle args = new Bundle();
-
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     /**
      * Method to collect location every specified interval of time.
@@ -98,7 +94,6 @@ public class ActivityRunning extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Ongoing Activity");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
     }
 
     @Override
@@ -110,31 +105,20 @@ public class ActivityRunning extends Fragment {
         // initialize the location intent.
         locationIntent = new Intent(mContext, LocationService.class);
 
-        // retrieve all the data passed from the ActivityRunning fragment.
+        /* retrieve all the data passed from the ActivityRunning fragment.
+        The retrieved object has the running state set. So perform all the operations only when state is RUNNING.
+         */
         newActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
         mapView.onCreate(savedInstanceState);
 
-        // Gets to GoogleMap from the MapView and does initialization stuff
-        googleMap = mapView.getMap();
+        mGoogleMapController = new GoogleMapController(mContext);
 
-        if (googleMap != null) {
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            googleMap.setMyLocationEnabled(true);
-            // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-            try {
-                MapsInitializer.initialize(this.getActivity());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
-            googleMap.animateCamera(cameraUpdate);
-        } else {
-            Log.d(AppUtils.LOGTAG, "Map is null");
-        }
+        // setup google Map.
+        mGoogleMapController.setupGoogleMap(mapView);
+
 
         // initialize the FAB
         final FloatingActionButton stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_activity_stop);

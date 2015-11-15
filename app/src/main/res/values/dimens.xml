@@ -8,6 +8,7 @@
     <dimen name="padding_X_small">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_medium">12dp</dimen>
+    <dimen name="padding_temp">14dp</dimen>
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_">18dp</dimen>
     <dimen name="padding_X_large">24dp</dimen>

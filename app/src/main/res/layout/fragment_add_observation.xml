@@ -113,7 +113,6 @@
                 android:paddingTop="@dimen/padding_large"
                 android:textSize="16dp"/>
 
-            <!--  Species row -->
 
             <!--  Species row -->
             <ImageView
@@ -123,7 +122,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_tick"
                 android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
+                android:padding="@dimen/padding_temp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_paw"/>
 

@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.utils.AppUtils;
@@ -47,6 +43,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
     private String reminderTimeValue;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
     private Button btnHour, btnHalfHour;
+    private GoogleMapController mGoogleMapController;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -82,6 +79,11 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
         mapView.onCreate(savedInstanceState);
 
+        mGoogleMapController = new GoogleMapController(mContext);
+
+        // setup google Map.
+        mGoogleMapController.setupGoogleMap(mapView);
+
         // setOnclickListener for the TextView.
         txtView_setReminder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,9 +109,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         // start the activity
         final FloatingActionButton addProject = (FloatingActionButton) rootView.findViewById(R.id.fab_activity_start);
         addProject.setOnClickListener(this);
-
-        // setup google Map.
-        setupGoogleMap();
 
         return rootView;
     }
@@ -166,7 +165,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
 
         // on click of the Positive Button, set the textView_Reminder value for selected option.
         alertDialog.setPositiveButton(R.string.alertDialog_apply, new DialogInterface.OnClickListener() {
@@ -239,8 +237,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
                 toggleBackground(btnHalfHour);
                 clearFocusView(btnHour);
                 clearFocusView(et_manualInput);
-//                Toast.makeText(getActivity(), isHalfHourButtonClicked + " : " + isHourButtonClicked + " : " + isManualInputSet, Toast
-//                        .LENGTH_SHORT).show();
                 break;
 
             case R.id.button_alertDialog_60:
@@ -250,8 +246,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
                 toggleBackground(btnHour);
                 clearFocusView(btnHalfHour);
                 clearFocusView(et_manualInput);
-//                Toast.makeText(getActivity(), isHalfHourButtonClicked + " : " + isHourButtonClicked + " : " + isManualInputSet, Toast
-//                        .LENGTH_SHORT).show();
                 break;
 
             case R.id.editText_alertDialog_manualInput:
@@ -261,33 +255,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
                 clearFocusView(btnHour);
                 clearFocusView(btnHalfHour);
                 break;
-//                Toast.makeText(getActivity(), isHalfHourButtonClicked + " : " + isHourButtonClicked + " : " + isManualInputSet, Toast
-//                        .LENGTH_SHORT).show();
-        }
-    }
-
-
-    /**
-     * setUp Google Map and its corresponding attributes.
-     */
-    private void setupGoogleMap() {
-        // Gets to GoogleMap from the MapView and does initialization stuff
-        googleMap = mapView.getMap();
-
-        if (googleMap != null) {
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            googleMap.setMyLocationEnabled(true);
-            // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-            try {
-                MapsInitializer.initialize(this.getActivity());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
-            googleMap.animateCamera(cameraUpdate);
-        } else {
-            Log.d(AppUtils.LOGTAG, "Map null");
         }
     }
 
@@ -324,7 +291,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
     // collect all the details of an Activity and pass it on to Parent Activity
     @Override
     public void onClick(View v) {
-
         /*
         Validate all the input Strings and once the validation passes, create the activity object and pass it to parent Activity
          */

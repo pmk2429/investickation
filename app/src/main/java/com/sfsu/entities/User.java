@@ -186,4 +186,9 @@ public class User implements Parcelable, Entity {
         return "User";
     }
 
+    @Override
+    public String getResourceType() {
+        return "users";
+    }
+
 }

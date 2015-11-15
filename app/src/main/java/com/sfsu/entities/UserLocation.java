@@ -144,5 +144,10 @@ public class UserLocation implements Parcelable, Entity {
         return "UserLocation";
     }
 
+    @Override
+    public String getResourceType() {
+        return "locations";
+    }
+
 
 }
