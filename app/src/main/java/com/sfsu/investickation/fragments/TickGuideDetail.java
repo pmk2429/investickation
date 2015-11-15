@@ -14,6 +14,7 @@ import com.sfsu.investickation.R;
  */
 public class TickGuideDetail extends Fragment {
 
+    private final String LOGTAG = "~!@#TickDetail :";
 
     public TickGuideDetail() {
         // Required empty public constructor

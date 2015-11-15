@@ -28,8 +28,8 @@ import java.util.ArrayList;
  */
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener {
 
-
-    ArrayList<Activities> listSavedActivities;
+    private final String LOGTAG = "~!@#$UserActivity :";
+    private ArrayList<Activities> listSavedActivities;
     private RetrofitController retrofitController;
 
     @Override
@@ -45,9 +45,9 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
             // get the List of Activities from server.
             listSavedActivities = getListOfSavedActivities();
         } catch (NetworkErrorException e) {
-            Log.i(AppUtils.LOGTAG, e.getMessage());
+            Log.i(LOGTAG, e.getMessage());
         } catch (Exception e) {
-            Log.i(AppUtils.LOGTAG, e.getMessage());
+            Log.i(LOGTAG, e.getMessage());
         }
 
         // if Fragment container is present

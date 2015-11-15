@@ -25,6 +25,7 @@ import butterknife.InjectView;
  */
 public class BaseActivity extends ActionBarActivity {
 
+    private final String LOGTAG = "~!@#$BaseActivity:";
     // InjectView is used to inject the UI controls using ButterKnife library.
     @InjectView(R.id.drawer_layout)
     DrawerLayout drawerLayout;

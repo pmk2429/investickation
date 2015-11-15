@@ -29,6 +29,7 @@ import java.util.List;
 
 public class RemoteObservationsList extends Fragment implements View.OnClickListener {
 
+    private final String LOGTAG = "~!@#RemoteObs :";
     private IRemoteObservationCallBacks mInterface;
     private Context context;
     private List<Observation> observationList;
@@ -61,7 +62,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             recyclerView_observations.setLayoutManager(llm);
         } else {
-            Log.d(AppUtils.LOGTAG, " No Layout manager supplied");
+            Log.d(LOGTAG, " No Layout manager supplied");
         }
 
         observationList = Observation.initializeData();

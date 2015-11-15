@@ -119,6 +119,15 @@ public class Activities implements Parcelable, Entity {
     }
 
     /**
+     * Returns the state of the this Activity
+     *
+     * @param state
+     */
+    public STATE getState() {
+        return activityState;
+    }
+
+    /**
      * Method to set the State of current ongoing Activity
      *
      * @param state
@@ -215,5 +224,7 @@ public class Activities implements Parcelable, Entity {
      */
     public static enum STATE {
         RUNNING, CREATED;
+
+
     }
 }

@@ -9,9 +9,8 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-
-import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.AppUtils;
 
 
 public class TickMap extends Fragment {

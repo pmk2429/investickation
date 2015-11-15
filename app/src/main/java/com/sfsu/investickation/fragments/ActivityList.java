@@ -17,16 +17,15 @@ import com.sfsu.adapters.ActivitiesListAdapter;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.utils.AppUtils;
 
 import java.util.List;
 
 
 public class ActivityList extends Fragment implements View.OnClickListener {
 
+    private final String LOGTAG = "~!@#ActivityList :";
     private IActivityCallBacks mInterface;
     private Context context;
-
     private List<Activities> serverActivitiesList;
 
     public ActivityList() {
@@ -59,7 +58,7 @@ public class ActivityList extends Fragment implements View.OnClickListener {
 //              TODO:  serverActivitiesList = getArguments().getParcelableArrayList(AppUtils.ACTIVITY_KEY);
             }
         } else {
-            Log.d(AppUtils.LOGTAG, " No layout manager supplied");
+            Log.d(LOGTAG, " No layout manager supplied");
         }
 
         // TODO: temporary method to get the data and display it in ListView.

@@ -14,6 +14,7 @@ import com.sfsu.investickation.R;
  */
 public class ActivityDetails extends Fragment {
 
+    private final String LOGTAG = "~!@#ActivityDetails :";
     private IActivityDetailsCallBacks mListener;
 
     public ActivityDetails() {

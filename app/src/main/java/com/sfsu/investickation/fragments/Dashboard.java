@@ -27,18 +27,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.utils.AppUtils;
 
 
 public class Dashboard extends Fragment implements View.OnClickListener {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+    private final String LOGTAG = "~!@#Dashboard :";
     private IDashboardCallback mListener;
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
@@ -108,7 +109,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
             googleMap.animateCamera(cameraUpdate);
         } else {
-            Log.d(AppUtils.LOGTAG, "Map null");
+            Log.d(LOGTAG, "Map null");
         }
 
         return v;
@@ -204,7 +205,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
                     break;
             }
         } catch (Exception e) {
-            Log.d(AppUtils.LOGTAG, e.getMessage());
+            Log.d(LOGTAG, e.getMessage());
         }
 
         // Hihhlight the selected item and close the drawer
@@ -222,14 +223,14 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(AppUtils.LOGTAG, " inside on items selected");
+        Log.i(LOGTAG, " inside on items selected");
         switch (item.getItemId()) {
             case android.R.id.home:
-                Log.i(AppUtils.LOGTAG, " drawer selected");
+                Log.i(LOGTAG, " drawer selected");
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             default:
-                Log.i(AppUtils.LOGTAG, " itemId: " + item.getItemId());
+                Log.i(LOGTAG, " itemId: " + item.getItemId());
         }
 
 

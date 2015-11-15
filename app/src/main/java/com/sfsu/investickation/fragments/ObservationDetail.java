@@ -14,6 +14,7 @@ import com.sfsu.investickation.R;
  */
 public class ObservationDetail extends Fragment {
 
+    private final String LOGTAG = "~!@#ObservationDetail :";
 
     public ObservationDetail() {
         // Required empty public constructor

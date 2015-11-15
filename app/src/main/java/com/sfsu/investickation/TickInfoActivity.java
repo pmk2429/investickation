@@ -17,8 +17,8 @@ import com.sfsu.investickation.fragments.RecyclerViewFragment;
 import com.sfsu.investickation.fragments.ScrollFragment;
 
 public class TickInfoActivity extends AppCompatActivity {
+    private final String LOGTAG = "~!@#$TickInfoActivity :";
     private MaterialViewPager mViewPager;
-
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;

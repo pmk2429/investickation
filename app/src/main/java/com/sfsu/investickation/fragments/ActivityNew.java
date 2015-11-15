@@ -32,6 +32,8 @@ import com.sfsu.utils.AppUtils;
  * Activities object to the ActivityRunning fragment.
  */
 public class ActivityNew extends Fragment implements View.OnClickListener {
+
+    private final String LOGTAG = "~!@#$ActivityNew :";
     private GoogleMap googleMap;
     private MapView mapView;
     private SupportMapFragment fragment;

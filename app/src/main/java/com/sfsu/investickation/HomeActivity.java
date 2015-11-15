@@ -8,6 +8,8 @@ import com.sfsu.investickation.fragments.Register;
 
 public class HomeActivity extends BaseActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks {
 
+    private final String LOGTAG = "~!@#$HomeActivity :";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

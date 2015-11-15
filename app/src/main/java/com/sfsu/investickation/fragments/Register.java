@@ -24,6 +24,8 @@ import butterknife.InjectView;
  */
 public class Register extends Fragment implements View.OnClickListener {
 
+    private final String LOGTAG = "~!@#Register :";
+
     @InjectView(R.id.button_registerUser)
     Button btnRegisterUser;
     @InjectView(R.id.editText_username)

@@ -13,6 +13,7 @@ import com.sfsu.investickation.fragments.Dashboard;
 
 public class MainActivity extends AppCompatActivity implements Dashboard.IDashboardCallback {
 
+    private final String LOGTAG = "~!@#$MainActivity :";
     ImageButton btnActivityAdd;
 
     @Override

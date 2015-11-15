@@ -30,7 +30,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.AppUtils;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -39,6 +38,7 @@ public class AddObservation extends Fragment {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
+    private final String LOGTAG = "~!@#$AddObservation :";
     private Bitmap bitmap;
     private ImageView imageView_tickAddObservation;
     private String selectedImagePath;
@@ -207,7 +207,7 @@ public class AddObservation extends Fragment {
                             break;
                     }
                 } catch (Exception e) {
-                    Log.d(AppUtils.LOGTAG, e.getMessage());
+                    Log.d(LOGTAG, e.getMessage());
                 }
 
                 // use to transform coordinates according to orientation.
@@ -222,7 +222,7 @@ public class AddObservation extends Fragment {
                 //TODO: create BLOB or large Binary representation and send it on server.
 
             } catch (Exception e) {
-                Log.d(AppUtils.LOGTAG, e.getMessage());
+                Log.d(LOGTAG, e.getMessage());
             }
 
 

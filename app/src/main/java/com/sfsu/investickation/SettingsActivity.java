@@ -9,6 +9,8 @@ import com.sfsu.investickation.fragments.Profile;
 
 public class SettingsActivity extends BaseActivity {
 
+    private final String LOGTAG = "~!@#$SettingsActivity :";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

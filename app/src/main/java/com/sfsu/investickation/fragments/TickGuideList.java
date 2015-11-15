@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sfsu.adapters.TicksListAdapter;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
@@ -28,7 +27,8 @@ import java.util.List;
 
 public class TickGuideList extends Fragment implements View.OnClickListener {
 
-    IGuideIndexCallBacks mInterface;
+    private final String LOGTAG = "~!@#$TickList :";
+    private IGuideIndexCallBacks mInterface;
     private Context mContext;
     private List<Tick> tickList;
 
@@ -49,7 +49,7 @@ public class TickGuideList extends Fragment implements View.OnClickListener {
         if (mContext != null) {
             rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            Log.d(AppUtils.LOGTAG, "Guide Activity not found");
+            Log.d(LOGTAG, "Guide Activity not found");
         }
 
         //TODO: get the data passed by the Activity and pass it to Adapter

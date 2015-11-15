@@ -14,7 +14,7 @@ import com.sfsu.utils.AppUtils;
 
 public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
-
+    private final String LOGTAG = "~!@#$ObservationMasterActivity :";
     private Observation newlyCreatedObs, observationResponseObj;
     private RetrofitController retrofitController;
 

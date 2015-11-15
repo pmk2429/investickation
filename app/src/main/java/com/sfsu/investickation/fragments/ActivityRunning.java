@@ -37,6 +37,7 @@ import com.sfsu.utils.AppUtils;
  */
 public class ActivityRunning extends Fragment {
 
+    private final String LOGTAG = "~!@#$ActivityRunning :";
     private MapView mapView;
     private Activities newActivityObj;
     private Context mContext;
@@ -109,6 +110,7 @@ public class ActivityRunning extends Fragment {
         The retrieved object has the running state set. So perform all the operations only when state is RUNNING.
          */
         newActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
+        Log.i(LOGTAG, newActivityObj.getState() + "");
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
@@ -128,6 +130,7 @@ public class ActivityRunning extends Fragment {
 
                 // on stop button click the newActivityObj will be passed on to Retrofit Controller
                 // pass the newActivityObj to the callback method and let Activity handle the data processing
+                // change the state of the Activity to CREATED and stop Service as well as unregister Receiver.
                 mListener.onActivityStopButtonClicked(newActivityObj);
             }
         });
@@ -141,17 +144,24 @@ public class ActivityRunning extends Fragment {
         mListener = null;
     }
 
-    // start the Service on onResume and register for broadcast receiver too.
+    /* start the Service on onResume and register for broadcast receiver too only if the Activity state is RUNNING.
+    So check for the state of the ActivtyObjet and then perform startService as well as register for Receiver.
+    */
+
     @Override
     public void onResume() {
         mapView.onResume();
         super.onResume();
 
-        // start the service onResume of the Fragment.
-        getActivity().startService(locationIntent);
+        // perform check for RUNNING state of Activity
+        if (newActivityObj.getState() == Activities.STATE.RUNNING) {
 
-        // register the broadcast receiver to receive the broadcast data
-        getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+            // start the service to capture Location updates.
+            getActivity().startService(locationIntent);
+
+            // register the broadcast receiver to receive the location objects as broadcast data
+            getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+        }
     }
 
     @Override
@@ -170,7 +180,10 @@ public class ActivityRunning extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
+        newActivityObj.setState(Activities.STATE.CREATED);
         getActivity().unregisterReceiver(locationBroadcastReceiver);
+        getActivity().stopService(locationIntent);
     }
 
     /**

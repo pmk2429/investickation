@@ -13,6 +13,8 @@ import com.sfsu.investickation.R;
 
 public class EditObservation extends Fragment {
 
+    private final String LOGTAG = "~!@#EditObservation :";
+
     public EditObservation() {
         // Required empty public constructor
     }

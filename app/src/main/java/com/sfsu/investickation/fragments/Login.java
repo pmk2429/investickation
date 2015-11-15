@@ -14,7 +14,7 @@ import com.sfsu.investickation.R;
 
 public class Login extends Fragment implements View.OnClickListener {
 
-
+    private final String LOGTAG = "~!@#LOGIN :";
     private ILoginCallBack mListener;
     private Button btnSignUp;
     private Context context;

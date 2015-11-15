@@ -6,17 +6,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sfsu.controllers.RetrofitController;
-import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
 import com.sfsu.investickation.fragments.TickGuideList;
+import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 
 
 public class TickGuideMasterActivity extends BaseActivity implements TickGuideList.IGuideIndexCallBacks {
 
+    private final String LOGTAG = "~!@#$TickGuideMasterActivity :";
     private RetrofitController retrofitController;
     private ArrayList<Tick> tickList;
     private ArrayList<Entity> entityList;
