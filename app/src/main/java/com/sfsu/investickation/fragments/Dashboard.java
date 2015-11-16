@@ -226,11 +226,11 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
         Log.i(LOGTAG, " inside on items selected");
         switch (item.getItemId()) {
             case android.R.id.home:
-                Log.i(LOGTAG, " drawer selected");
+                //Log.i(LOGTAG, " drawer selected");
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             default:
-                Log.i(LOGTAG, " itemId: " + item.getItemId());
+                //Log.i(LOGTAG, " itemId: " + item.getItemId());
         }
 
 
@@ -289,12 +289,12 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
 
     @Override
     public void setCurrentLocation(Location mLocation) {
-        Log.i(LOGTAG, mLocation.toString());
+
     }
 
     @Override
     public void setLocationArea(String locationArea) {
-        Log.i(LOGTAG, locationArea);
+
     }
 
 

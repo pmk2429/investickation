@@ -220,7 +220,6 @@ public class ActivityRunning extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
         // stop the service and unregister the broadcast receiver.
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
