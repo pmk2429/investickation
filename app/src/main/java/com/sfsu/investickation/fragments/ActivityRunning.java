@@ -20,6 +20,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Activities;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
@@ -88,7 +89,6 @@ public class ActivityRunning extends Fragment {
         try {
             mListener = (IActivityRunningCallBacks) activity;
             mContext = activity;
-            mLocationListener = (GoogleMapController.ILocationCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IActivityRunningCallBacks interface");
@@ -124,17 +124,22 @@ public class ActivityRunning extends Fragment {
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
-        mapView.onCreate(savedInstanceState);
+        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
+        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
+        mapView.onCreate(mapViewSavedInstanceState);
 
-        // initialize the GoogleMapController
         mGoogleMapController = new GoogleMapController(mContext, this);
+
+        // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
+//        mGoogleMapController.connectGoogleApi();
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);
 
-        // TODO: geoLocate the User's Location and set it to the Geo Location Area
-        String textViewData = newActivityObj.getActivityName() + " @ " + " YET TO SET"; //newActivityObj.getLocation_area();
-        txtView_activityName.setText(textViewData);
+        // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
+        StringBuilder textViewData = new StringBuilder();
+        textViewData.append(newActivityObj.getActivityName() + " @ " + newActivityObj.getLocation_area());
+        txtView_activityName.setText(textViewData.toString());
 
         // initialize and set onClickListener for FAB
         final FloatingActionButton stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_actRun_activityStop);
@@ -152,10 +157,13 @@ public class ActivityRunning extends Fragment {
             }
         });
 
+        // Open the New Observation Fragment in button click.
         btn_addObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent observationIntent = new Intent(mContext, ObservationMasterActivity.class);
+                observationIntent.putExtra("ObservationNew", 1);
+                mContext.startActivity(observationIntent);
             }
         });
 
@@ -198,6 +206,14 @@ public class ActivityRunning extends Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        final Bundle mapViewSaveState = new Bundle(outState);
+        mapView.onSaveInstanceState(mapViewSaveState);
+        outState.putBundle("mapViewSaveState", mapViewSaveState);
+        super.onSaveInstanceState(outState);
     }
 
     // unregister the broadcast receiver in the onPause.

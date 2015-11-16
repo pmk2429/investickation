@@ -178,12 +178,16 @@ public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
      */
     private void handleNewLocation(Location location) {
 
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
+        try {
+            double currentLatitude = location.getLatitude();
+            double currentLongitude = location.getLongitude();
 
-        // when the handleNewLocation method is handled, call the setCurrentLocation and setLocationArea.
-        mInterface.setCurrentLocation(location);
-        setLocationArea(currentLatitude, currentLongitude);
+            // when the handleNewLocation method is handled, call the setCurrentLocation and setLocationArea.
+            mInterface.setCurrentLocation(location);
+            setLocationArea(currentLatitude, currentLongitude);
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+        }
     }
 
     @Override
@@ -220,20 +224,21 @@ public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
         try {
             // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             addressesList = mGeocoder.getFromLocation(latitude, longitude, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String city = addressesList.get(0).getLocality();
+            String city = addressesList.get(0).getLocality();
 //        String state = addressesList.get(0).getAdminArea();
 //        String country = addressesList.get(0).getCountryName();
 //        String postalCode = addressesList.get(0).getPostalCode();
-        String knownName = addressesList.get(0).getFeatureName();
+            String knownName = addressesList.get(0).getFeatureName();
 
-        if (knownName.equals(null)) {
-            // if the area/feature name cannot be found, then pass the City name.
-            mInterface.setLocationArea(city);
+            if (knownName.equals(null)) {
+                // if the area/feature name cannot be found, then pass the City name.
+                mInterface.setLocationArea(city);
+            }
+            mInterface.setLocationArea(knownName);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        mInterface.setLocationArea(knownName);
+
     }
 
     /**

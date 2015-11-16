@@ -129,13 +129,12 @@ public class ActivityList extends Fragment implements View.OnClickListener {
      */
     public interface IActivityCallBacks {
         /**
-         * When the user clicks on the Activity List item, it will be listened to using this callback.
+         * Callback method to handle the Item click event of ActivityList.
          */
         public void onItemClickListener();
 
         /**
-         * When the User clicks on the Add button to Add New Activity, it will be listened to using this
-         * callback.
+         * Callback method to handle the click event of the Add Button in ActivityList Fragment.
          */
         public void onActivityAddListener();
     }

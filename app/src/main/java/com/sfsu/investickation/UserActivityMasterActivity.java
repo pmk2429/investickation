@@ -1,6 +1,7 @@
 package com.sfsu.investickation;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
  * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
-public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener {
+public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
 
     private final String LOGTAG = "~!@#$UserActivity :";
     private ArrayList<Activities> listSavedActivities;
@@ -61,17 +62,17 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
             // is the ActivityNew is being called
             if (getIntent().getIntExtra("ActivityNew", 0) == 1) { // if user clicks on Start Activity
                 ActivityNew activityNewFragment = new ActivityNew();
-                FragmentTransaction activityNew = getSupportFragmentManager().beginTransaction();
-                activityNew.replace(R.id.activity_fragment_container, activityNewFragment);
-                activityNew.addToBackStack(null);
-                activityNew.commit();
+                FragmentTransaction activityNewTransaction = getSupportFragmentManager().beginTransaction();
+                activityNewTransaction.add(R.id.activity_fragment_container, activityNewFragment);
+//                activityNewTransaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE THE FIRST FRAGMENT IN THE STACK
+                activityNewTransaction.commit();
             }
             // if ActivityList is being called.
             else if (getIntent().getIntExtra("ActivityList", 0) == 2) { // if user clicks on ActivityList
                 ActivityList activityList = new ActivityList();
                 FragmentTransaction activityListFragment = getSupportFragmentManager().beginTransaction();
                 activityListFragment.replace(R.id.activity_fragment_container, activityList);
-                activityListFragment.addToBackStack(null);
+//                activityListFragment.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN THE STACK
                 activityListFragment.commit();
             }
             /* if no press, open ActivityList. The first time the UserActivityMasterActivity is opened, the default Fragment
@@ -88,19 +89,26 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
                 // finally add the Bundle to the activityList Fragment instance.
                 activityListFragment.setArguments(bundleListOfActivities);
                 // add Fragment to 'activity_fragment_container'
-                getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment)
+                        .commit();
             }
         }
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent homeIntent = new Intent(UserActMainActivity.this, MainActivity.class);
-//        startActivity(homeIntent);
-//        finish();
-//    }
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            Intent homeIntent = new Intent(UserActivityMasterActivity.this, MainActivity.class);
+            startActivity(homeIntent);
+            finish();
+            super.onBackPressed();
+        } else if (count > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,7 +141,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         transaction.commit();
     }
 
-    // callback for Adding New Activity
+
     @Override
     public void onActivityAddListener() {
         // if user clicked the Add Button, replace with AddObservation Fragment

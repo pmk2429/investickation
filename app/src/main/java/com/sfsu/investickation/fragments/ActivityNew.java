@@ -4,7 +4,9 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -24,14 +26,16 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Activities;
+import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.utils.AppUtils;
 
 /**
  * ActivityNew Fragment provides User the capability to add new Activity. The ActivityNew fragment passes the newly created
  * Activities object to the ActivityRunning fragment.
  */
-public class ActivityNew extends Fragment implements View.OnClickListener {
+public class ActivityNew extends Fragment implements View.OnClickListener, GoogleMapController.ILocationCallBacks {
 
     private final String LOGTAG = "~!@#$ActivityNew :";
     private GoogleMap googleMap;
@@ -47,6 +51,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
     private Button btnHour, btnHalfHour;
     private GoogleMapController mGoogleMapController;
     private GoogleMapController.ILocationCallBacks mLocationListener;
+    private String locationArea;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -64,7 +69,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View rootView = inflater.inflate(R.layout.fragment_activity_new, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_activity_new, container, false);
+
+        // reference for setting up the Activities Object.
+        newActivityObj = new Activities();
 
         // set the Timer Reminder.
         txtView_setReminder = (TextView) rootView.findViewById(R.id.spinner_reminder);
@@ -78,11 +86,16 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         et_totalPeople.addTextChangedListener(new TextValidator(et_totalPeople));
         et_totalPets.addTextChangedListener(new TextValidator(et_totalPets));
 
-        // Gets the MapView from the XML layout and creates it
+        // Get the MapView from the XML layout and inflate it
         mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
-        mapView.onCreate(savedInstanceState);
+        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
+        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
+        mapView.onCreate(mapViewSavedInstanceState);
 
         mGoogleMapController = new GoogleMapController(mContext, this);
+
+        // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
+        mGoogleMapController.connectGoogleApi();
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);
@@ -285,7 +298,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         try {
             mInterface = (IActivityNewCallBack) activity;
             mContext = activity;
-            mLocationListener = (GoogleMapController.ILocationCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IActivityNewCallBack");
@@ -308,6 +320,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
 
             // set the state of Currently running activity to Running.
             newActivityObj.setState(Activities.STATE.RUNNING);
+
+            newActivityObj.setLocation_area(locationArea);
 
             mInterface.onPlayButtonClick(newActivityObj);
         } else {
@@ -349,6 +363,29 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
             }
         }
         return true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        final Bundle mapViewSaveState = new Bundle(outState);
+        mapView.onSaveInstanceState(mapViewSaveState);
+        outState.putBundle("mapViewSaveState", mapViewSaveState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void setCurrentLocation(Location mLocation) {
+
+    }
+
+
+    @Override
+    public void setLocationArea(String locationArea) {
+        if (locationArea != null || !locationArea.equals("")) {
+            this.locationArea = locationArea;
+        } else {
+            newActivityObj.setLocation_area("AMIGOE");
+        }
     }
 
 

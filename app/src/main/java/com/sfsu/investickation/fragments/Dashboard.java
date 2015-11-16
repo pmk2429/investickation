@@ -310,14 +310,23 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
         public void onDashboardInteraction(Uri uri);
 
         /**
-         *
+         * Callback when the start activity button is clicked.
          */
         public void onActivityButtonClicked();
 
+        /**
+         * Callback method when the post observation button is clicked.
+         */
         public void onObservationButtonClicked();
 
+        /**
+         * Callback method when the View Activity button is clicked.
+         */
         public void onViewActivitiesClicked();
 
+        /**
+         * Callback method when the view observations button is clicked.
+         */
         public void onViewObservationsClicked();
     }
 

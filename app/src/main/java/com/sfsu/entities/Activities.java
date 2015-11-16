@@ -46,7 +46,6 @@ public class Activities implements Parcelable, Entity {
     public Activities() {
     }
 
-
     /**
      * Constructor for creating the Model object to send it over to retrofit for storing on Server.
      *
@@ -61,7 +60,6 @@ public class Activities implements Parcelable, Entity {
         this.num_pets = num_pets;
         this.timestamp = timestamp;
     }
-
 
     /**
      * Constructor for DEMO purpose.
@@ -118,6 +116,10 @@ public class Activities implements Parcelable, Entity {
         return activities;
     }
 
+    public void setFk_user_id(long fk_user_id) {
+        this.fk_user_id = fk_user_id;
+    }
+
     /**
      * Returns the state of the this Activity
      *
@@ -148,28 +150,56 @@ public class Activities implements Parcelable, Entity {
         return activityName;
     }
 
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
     public String getLocation_area() {
         return location_area;
+    }
+
+    public void setLocation_area(String location_area) {
+        this.location_area = location_area;
     }
 
     public int getNum_people() {
         return num_people;
     }
 
+    public void setNum_people(int num_people) {
+        this.num_people = num_people;
+    }
+
     public int getNum_pets() {
         return num_pets;
+    }
+
+    public void setNum_pets(int num_pets) {
+        this.num_pets = num_pets;
     }
 
     public long getTimestamp() {
         return timestamp;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public long getCreated_at() {
         return created_at;
     }
 
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
+
     public long getUpdate_at() {
         return update_at;
+    }
+
+    public void setUpdate_at(long update_at) {
+        this.update_at = update_at;
     }
 
     @Override
