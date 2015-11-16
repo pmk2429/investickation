@@ -1,5 +1,6 @@
 package com.sfsu.controllers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,27 +14,27 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
-import com.sfsu.utils.AppUtils;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 /**
+ * <p>
  * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. GoogleMapController
- * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Dev Console and so on.
+ * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
+ * </p>
+ * GoogleMapController also provides Callback Interface to get the User's current Location and Featured name of the Location if
+ * present.
  * <p/>
- * GoogleMapController also consists of a Callback Interface to
  * Created by Pavitra on 11/14/2015.
  */
-public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
+public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
     private static final String TAG = "~!@#$GoogleMapCtlr: ";
@@ -46,39 +47,83 @@ public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
     private LocationRequest mLocationRequest;
     private Context mContext;
     private Location mLocation;
-    private LatLng mLatLng;
     private ILocationCallBacks mInterface;
     private Geocoder mGeocoder;
     private List<Address> addressesList;
 
+    /**
+     * Setting the Location change listener for the Maps
+     */
+    private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
+        @Override
+        public void onMyLocationChange(Location location) {
+            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+//                        mMarker = mMap.addMarker(new MarkerOptions().position(loc));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+
+        }
+    };
+
+    /**
+     * Constructor overloading for setting up GoogleMapController in Fragment.
+     *
+     * @param mContext
+     * @param fragment
+     */
     public GoogleMapController(Context mContext, Fragment fragment) {
-        this.mContext = mContext;
-        mInterface = (ILocationCallBacks) fragment;
-        // build GoogleApiClient
-        buildGoogleApiClient();
+        try {
+            this.mContext = mContext;
+            mInterface = (ILocationCallBacks) fragment;
+            // build GoogleApiClient
+            buildGoogleApiClient();
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+        }
+    }
+
+
+    /**
+     * Constructor overloading for using GoogleMapController in Activity
+     *
+     * @param mContext
+     * @param activity
+     */
+    public GoogleMapController(Context mContext, Activity activity) {
+        try {
+            this.mContext = mContext;
+            mInterface = (ILocationCallBacks) activity;
+            // build GoogleApiClient
+            buildGoogleApiClient();
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+        }
     }
 
     /**
-     * Setups the Google Map and locates the current User Location.
+     * Sets up the Google Map and locates the current User Location.
      */
     public void setupGoogleMap(MapView mapView) {
-        // Gets to GoogleMap from the MapView and does initialization stuff
-        mGoogleMap = mapView.getMap();
+        if (mapView != null) {
+            // Gets to GoogleMap from the MapView and does initialization stuff
+            mGoogleMap = mapView.getMap();
+            if (mGoogleMap != null) {
+                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mGoogleMap.setMyLocationEnabled(true);
+                // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
+                try {
+                    MapsInitializer.initialize(mContext);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // Updates the location and zoom of the MapView
+//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(mUserLocation.getLatitude(),
+//                        mUserLocation.getLongitude()), 10);
+//                mGoogleMap.animateCamera(cameraUpdate);
+                mGoogleMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
-        if (mGoogleMap != null) {
-            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mGoogleMap.setMyLocationEnabled(true);
-            // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-            try {
-                MapsInitializer.initialize(mContext);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                Log.d(TAG, "MapView is NULL");
             }
-            // Updates the location and zoom of the MapView
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(37.773972, -122.431297), 10);
-            mGoogleMap.animateCamera(cameraUpdate);
-        } else {
-            Log.d(AppUtils.LOGTAG, "Map null");
         }
     }
 
@@ -126,13 +171,15 @@ public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
         }
     }
 
+    /**
+     * Private helper method to handle new Location and call the methods defined in the Interface.
+     *
+     * @param location
+     */
     private void handleNewLocation(Location location) {
-        Log.i(TAG, location.toString());
 
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
-
-        mLatLng = new LatLng(currentLatitude, currentLongitude);
 
         // when the handleNewLocation method is handled, call the setCurrentLocation and setLocationArea.
         mInterface.setCurrentLocation(location);
@@ -161,7 +208,8 @@ public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
 
 
     /**
-     * Sets the Feature Location name from the <tt>latitude</tt> and <tt>longitude</tt>. Returns <tt>null</tt> if not present
+     * Sets the Feature Location name from the <tt>latitude</tt> and <tt>longitude</tt>. Returns <tt>null</tt> if Location is
+     * not present
      *
      * @param latitude
      * @param longitude
@@ -175,18 +223,16 @@ public class GoogleMapController implements GoogleApiClient.ConnectionCallbacks,
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-//        String address = addressesList.get(0).getAddressLine(0);
-//        String city = addressesList.get(0).getLocality();
+        String city = addressesList.get(0).getLocality();
 //        String state = addressesList.get(0).getAdminArea();
 //        String country = addressesList.get(0).getCountryName();
 //        String postalCode = addressesList.get(0).getPostalCode();
         String knownName = addressesList.get(0).getFeatureName();
 
         if (knownName.equals(null)) {
-            mInterface.setLocationArea("PMK2429");
+            // if the area/feature name cannot be found, then pass the City name.
+            mInterface.setLocationArea(city);
         }
-
         mInterface.setLocationArea(knownName);
     }
 

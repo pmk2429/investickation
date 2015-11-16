@@ -51,6 +51,17 @@ public class UserLocation implements Parcelable, Entity {
     }
 
     /**
+     * Constructor overloading to set User's Location and display it on Google Maps.
+     *
+     * @param latitude
+     * @param longitude
+     */
+    public UserLocation(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    /**
      * Constructor to create the Location object while retrieving the data from the Server.
      *
      * @param location_id

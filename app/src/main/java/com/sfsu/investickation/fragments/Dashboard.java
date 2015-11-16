@@ -100,10 +100,12 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
         final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
         mapView.onCreate(mapViewSavedInstanceState);
 
+        // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
+        mGoogleMapController.connectGoogleApi();
+
         // setup the Google Maps in MapView.
         mGoogleMapController.setupGoogleMap(mapView);
 
-        mGoogleMapController.connectGoogleApi();
 
         return v;
     }
