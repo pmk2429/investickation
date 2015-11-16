@@ -48,6 +48,7 @@ public class ActivityRunning extends Fragment {
     private GoogleMapController mGoogleMapController;
     private CardView btn_addObservation;
     private TextView txtView_activityName;
+    private GoogleMapController.ILocationCallBacks mLocationListener;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
      * This receiver receives the UserLocation every specified interval of time.
@@ -87,6 +88,7 @@ public class ActivityRunning extends Fragment {
         try {
             mListener = (IActivityRunningCallBacks) activity;
             mContext = activity;
+            mLocationListener = (GoogleMapController.ILocationCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IActivityRunningCallBacks interface");
@@ -125,7 +127,7 @@ public class ActivityRunning extends Fragment {
         mapView.onCreate(savedInstanceState);
 
         // initialize the GoogleMapController
-        mGoogleMapController = new GoogleMapController(mContext);
+        mGoogleMapController = new GoogleMapController(mContext, this);
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);

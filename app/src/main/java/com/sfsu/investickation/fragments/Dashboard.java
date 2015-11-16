@@ -3,6 +3,7 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -33,7 +34,7 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.utils.AppUtils;
 
 
-public class Dashboard extends Fragment implements View.OnClickListener {
+public class Dashboard extends Fragment implements View.OnClickListener, GoogleMapController.ILocationCallBacks {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private final String LOGTAG = "~!@#Dashboard :";
@@ -48,11 +49,17 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private NavigationView mNavigationView;
     private Context mContext;
     private GoogleMapController mGoogleMapController;
+    private GoogleMapController.ILocationCallBacks mLocationListener;
 
     public Dashboard() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,9 +81,9 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
 
-        mGoogleMapController = new GoogleMapController(mContext);
+        mGoogleMapController = new GoogleMapController(mContext, this);
 
-        // when the use clicks the entire relativelayout, redirect to the appropriate call action
+        // when the use clicks the entire relativeLayout, redirect to the appropriate call action
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_observation);
         relativeLayoutDashboard.setOnClickListener(this);
 
@@ -88,13 +95,19 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityDashboard);
-        mapView.onCreate(savedInstanceState);
+
+        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
+        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
+        mapView.onCreate(mapViewSavedInstanceState);
 
         // setup the Google Maps in MapView.
         mGoogleMapController.setupGoogleMap(mapView);
 
+        mGoogleMapController.connectGoogleApi();
+
         return v;
     }
+
 
     /**
      * Method to setup ActionBar, NavigationDrawer.
@@ -197,8 +210,12 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        //This MUST be done before saving any of your own or your base class's variables
+        final Bundle mapViewSaveState = new Bundle(outState);
+        mapView.onSaveInstanceState(mapViewSaveState);
+        outState.putBundle("mapViewSaveState", mapViewSaveState);
         outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+        super.onSaveInstanceState(outState);
     }
 
 
@@ -268,10 +285,31 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void setCurrentLocation(Location mLocation) {
+        Log.i(LOGTAG, mLocation.toString());
+    }
 
+    @Override
+    public void setLocationArea(String locationArea) {
+        Log.i(LOGTAG, locationArea);
+    }
+
+
+    /**
+     * Callback Interface to get the callbacks from the Dashboard fragment.
+     */
     public interface IDashboardCallback {
+        /**
+         * Called when the Item in the Dashboard is clicked.
+         *
+         * @param uri
+         */
         public void onDashboardInteraction(Uri uri);
 
+        /**
+         *
+         */
         public void onActivityButtonClicked();
 
         public void onObservationButtonClicked();

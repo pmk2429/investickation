@@ -46,6 +46,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
     private Button btnHour, btnHalfHour;
     private GoogleMapController mGoogleMapController;
+    private GoogleMapController.ILocationCallBacks mLocationListener;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -81,7 +82,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
         mapView.onCreate(savedInstanceState);
 
-        mGoogleMapController = new GoogleMapController(mContext);
+        mGoogleMapController = new GoogleMapController(mContext, this);
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);
@@ -284,6 +285,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener {
         try {
             mInterface = (IActivityNewCallBack) activity;
             mContext = activity;
+            mLocationListener = (GoogleMapController.ILocationCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IActivityNewCallBack");
