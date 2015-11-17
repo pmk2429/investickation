@@ -30,6 +30,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.UserActivityMasterActivity;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -49,6 +50,8 @@ public class AddObservation extends Fragment {
     private Context mContext;
     private Intent locationIntent;
     private EditText et_tickName, et_tickSpecies;
+    private String activityUUID;
+    private Bundle args;
 
     // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -71,7 +74,7 @@ public class AddObservation extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Add Observation");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-
+        args = getArguments();
     }
 
     @Override
@@ -79,6 +82,12 @@ public class AddObservation extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
+
+        if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_UUID)) {
+            activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
+        } else {
+            activityUUID = "";
+        }
 
         btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
         imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);

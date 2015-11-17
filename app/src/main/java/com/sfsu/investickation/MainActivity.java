@@ -1,7 +1,6 @@
 package com.sfsu.investickation;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,6 +12,10 @@ import com.sfsu.investickation.fragments.Dashboard;
 
 public class MainActivity extends AppCompatActivity implements Dashboard.IDashboardCallback {
 
+    public static final String KEY_ADD_ACTIVITY = "add_new_activity_from_dashboard";
+    public static final String KEY_ADD_OBSERVATION = "add_new_observation_from_dashboard";
+    public static final String KEY_VIEW_ACTIVITY_LIST = "view_activityList_from_dashboard";
+    public static final String KEY_VIEW_OBSERVATION_LIST = "view_observationList_from_dashboard";
     private final String LOGTAG = "~!@#$MainActivity :";
     ImageButton btnActivityAdd;
 
@@ -62,14 +65,9 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
     }
 
     @Override
-    public void onDashboardInteraction(Uri uri) {
-
-    }
-
-    @Override
     public void onActivityButtonClicked() {
         Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
-        activityIntent.putExtra("ActivityNew", 1);
+        activityIntent.putExtra(KEY_ADD_ACTIVITY, 1);
         startActivity(activityIntent);
         finish();
     }
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
     @Override
     public void onObservationButtonClicked() {
         Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
-        observationIntent.putExtra("ObservationNew", 1);
+        observationIntent.putExtra(KEY_ADD_OBSERVATION, 1);
         startActivity(observationIntent);
         finish();
     }
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
     @Override
     public void onViewActivitiesClicked() {
         Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
-        activityIntent.putExtra("ActivityList", 2);
+        activityIntent.putExtra(KEY_VIEW_ACTIVITY_LIST, 2);
         startActivity(activityIntent);
         finish();
     }
@@ -93,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
     @Override
     public void onViewObservationsClicked() {
         Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
-        observationIntent.putExtra("ObservationList", 2);
+        observationIntent.putExtra(KEY_VIEW_OBSERVATION_LIST, 2);
         startActivity(observationIntent);
         finish();
     }

@@ -20,7 +20,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Activities;
-import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
@@ -42,7 +41,7 @@ public class ActivityRunning extends Fragment {
 
     private final String LOGTAG = "~!@#$ActivityRunning :";
     private MapView mapView;
-    private Activities newActivityObj;
+    private Activities currentActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
     private Intent locationIntent;
@@ -76,7 +75,6 @@ public class ActivityRunning extends Fragment {
     private void collectLocationData(Intent locationIntent) {
 
         if (locationIntent != null) {
-            Log.i("~!@#$", "intent not null");
             Bundle bundle = locationIntent.getExtras();
             Location locationVal = (Location) bundle.get("locINFO");
             // TODO: get the UserLocation object from the BroadcastReceiver
@@ -104,8 +102,7 @@ public class ActivityRunning extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_activity_running, container, false);
 
@@ -118,9 +115,9 @@ public class ActivityRunning extends Fragment {
         /* retrieve all the data passed from the ActivityRunning fragment.
         The retrieved object has the running state set. So perform all the operations only when state is RUNNING.
          */
-        newActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
-        Log.i(LOGTAG, newActivityObj.toString());
-        Log.i(LOGTAG, newActivityObj.getState() + "");
+        currentActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
+        Log.i(LOGTAG, currentActivityObj.toString());
+        Log.i(LOGTAG, currentActivityObj.getState() + "");
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
@@ -138,7 +135,7 @@ public class ActivityRunning extends Fragment {
 
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
-        textViewData.append(newActivityObj.getActivityName() + " @ " + newActivityObj.getLocation_area());
+        textViewData.append(currentActivityObj.getActivityName() + " @ " + currentActivityObj.getLocation_area());
         txtView_activityName.setText(textViewData.toString());
 
         // initialize and set onClickListener for FAB
@@ -148,12 +145,12 @@ public class ActivityRunning extends Fragment {
             public void onClick(View view) {
 
                 // onStop button clics, change the state of Activity to CREATED.
-                newActivityObj.setState(Activities.STATE.CREATED);
+                currentActivityObj.setState(Activities.STATE.CREATED);
 
-                /* newActivityObj will be passed on to Retrofit Controller pass the newActivityObj to the callback method
+                /* currentActivityObj will be passed on to Retrofit Controller pass the currentActivityObj to the callback method
                 and lets the Activity handle the data processing.
                  */
-                mListener.onActivityStopButtonClicked(newActivityObj);
+                mListener.onActivityStopButtonClicked(currentActivityObj);
             }
         });
 
@@ -161,9 +158,7 @@ public class ActivityRunning extends Fragment {
         btn_addObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent observationIntent = new Intent(mContext, ObservationMasterActivity.class);
-                observationIntent.putExtra("ObservationNew", 1);
-                mContext.startActivity(observationIntent);
+                mListener.onAddNewObservationButtonClicked(currentActivityObj.getUUID());
             }
         });
 
@@ -186,7 +181,7 @@ public class ActivityRunning extends Fragment {
         super.onResume();
 
         // perform check for RUNNING state of Activity
-        if (newActivityObj.getState() == Activities.STATE.RUNNING) {
+        if (currentActivityObj.getState() == Activities.STATE.RUNNING) {
 
             // start the service to capture Location updates.
             getActivity().startService(locationIntent);
@@ -216,7 +211,11 @@ public class ActivityRunning extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    // unregister the broadcast receiver in the onPause.
+    /**
+     * Callback Interface for defining the callback methods to the UserActivityMasterActivity Activity.
+     * 1) Unregister the broadcast receiver in the onPause.
+     * 2)
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -226,17 +225,26 @@ public class ActivityRunning extends Fragment {
     }
 
     /**
-     * Callback Interface for defining the callback methods to the UserActivityMasterActivity Activity.
+     * Callback Interface for handling onClick Listeners in <tt>ActivityRunning</tt> Fragment.
      */
     public interface IActivityRunningCallBacks {
 
         /**
-         * Call back method when the user clicks on the Stop button in this Fragment. The newly created Activity object
-         * is passed  to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.
+         * Callback method when the user clicks on the Stop button in <tt>ActivityRunning</tt> Fragment. The newly created
+         * Activity object is passed  to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.
          *
-         * @param mNewActivityObj
+         * @param currentActivityObj Current Ongoing Activity Object passed from the ActivityNew
          */
-        public void onActivityStopButtonClicked(Activities mNewActivityObj);
+        public void onActivityStopButtonClicked(Activities currentActivityObj);
+
+
+        /**
+         * Callback method to handle the new AddObservation button click in <tt>ActivityNew</tt> Fragment. This method takes
+         * in the unique UUID of the Activity currently ongoing to determing that the Observation is under a specific activity.
+         *
+         * @param currentActivityUUID
+         */
+        public void onAddNewObservationButtonClicked(String currentActivityUUID);
     }
 
 }

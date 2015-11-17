@@ -41,6 +41,7 @@ public class Activities implements Parcelable, Entity {
     private long fk_user_id;
     // Enum identifier for setting State of Object.
     private STATE activityState;
+    private String UUID;
 
     // Default constructor -> REQUIRED
     public Activities() {
@@ -54,11 +55,12 @@ public class Activities implements Parcelable, Entity {
      * @param num_pets
      * @param timestamp
      */
-    public Activities(String name, int num_people, int num_pets, long timestamp) {
+    public Activities(String name, int num_people, int num_pets, long timestamp, String UUID) {
         this.activityName = name;
         this.num_people = num_people;
         this.num_pets = num_pets;
         this.timestamp = timestamp;
+        this.UUID = UUID;
     }
 
     /**
@@ -114,6 +116,14 @@ public class Activities implements Parcelable, Entity {
         activities.add(new Activities("SF Presidio", 0, 0));
         activities.add(new Activities("Yosemite", 8, 0));
         return activities;
+    }
+
+    public String getUUID() {
+        return UUID;
+    }
+
+    public void setUUID(String UUID) {
+        this.UUID = UUID;
     }
 
     public void setFk_user_id(long fk_user_id) {

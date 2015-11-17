@@ -1,7 +1,9 @@
 package com.sfsu.investickation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,7 +16,7 @@ import com.sfsu.utils.AppUtils;
 
 public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
-    private final String LOGTAG = "~!@#$ObservationMasterActivity :";
+    private final String LOGTAG = "~!@#$ObsMasterAct :";
     private Observation newlyCreatedObs, observationResponseObj;
     private RetrofitController retrofitController;
 
@@ -31,29 +33,61 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
             if (savedInstanceState != null) {
                 return;
             }
-            if (getIntent().getIntExtra("ObservationNew", 0) == 1) {
+            // if Intent is called by clicking on the PostObservation button in Dashboard
+            if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
                 AddObservation addObservationFragment = new AddObservation();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.observation_fragment_container, addObservationFragment);
-                transaction.addToBackStack(null);
+//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
                 transaction.commit();
-            } else if (getIntent().getIntExtra("ObservationList", 0) == 2) {
+            } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_USRACT_ADD_OBS, 0) == 1) {
+                // if the intent is called from the UserActivityMasterActivity
+                Log.i(LOGTAG, "inside desired fragment");
+                AddObservation addObservationFragment = new AddObservation();
+                // get the UUID of the current activity
+                String currentActivityUUID = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
+                // create a Bundle and pass it to the New Observation Fragment.
+                Bundle newObservationBundle = new Bundle();
+                newObservationBundle.putString(UserActivityMasterActivity.KEY_ACTIVITY_UUID, currentActivityUUID);
+                addObservationFragment.setArguments(newObservationBundle);
+                // initialize the transaction.
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.observation_fragment_container, addObservationFragment);
+//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
+                transaction.commit();
+            }
+            // if the Intent is called by clicking on View Observations list in Dashboard
+            else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 RemoteObservationsList observationsList = new RemoteObservationsList();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.observation_fragment_container, observationsList);
-                transaction.addToBackStack(null);
+//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE THE FIRST FRAGMENT IN STACK
                 transaction.commit();
-            } else {
+            }
+            // else if the Observations is clicked in the NavDrawer
+            else {
+                Log.i(LOGTAG, "No mane not desired fragment");
                 RemoteObservationsList remoteObservations = new RemoteObservationsList();
-
                 // if activity was started with special instructions from an Intent, then pass Intent's extras
-                // to fragments as arguments
                 remoteObservations.setArguments(getIntent().getExtras());
-
                 // add the Fragment to 'guide_fragment_container' FrameLayout
                 getSupportFragmentManager().beginTransaction().replace(R.id.observation_fragment_container, remoteObservations).commit();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            Intent homeIntent = new Intent(ObservationMasterActivity.this, MainActivity.class);
+            startActivity(homeIntent);
+            finish();
+            super.onBackPressed();
+        } else if (count > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     @Override

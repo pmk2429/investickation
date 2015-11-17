@@ -43,6 +43,7 @@ dependencies {
     compile('com.github.florent37:materialviewpager:1.1.0@aar') {
         transitive = true
     }
+    compile 'org.apache.commons:commons-lang3:3.4'
     // ORM mapper
 //    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     /*

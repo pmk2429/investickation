@@ -4,7 +4,6 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,10 +25,10 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Activities;
-import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.utils.AppUtils;
+
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * ActivityNew Fragment provides User the capability to add new Activity. The ActivityNew fragment passes the newly created
@@ -37,6 +36,7 @@ import com.sfsu.utils.AppUtils;
  */
 public class ActivityNew extends Fragment implements View.OnClickListener, GoogleMapController.ILocationCallBacks {
 
+    private static final int ID_LENGTH = 10;
     private final String LOGTAG = "~!@#$ActivityNew :";
     private GoogleMap googleMap;
     private MapView mapView;
@@ -315,12 +315,16 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Googl
             int totalPeople = Integer.parseInt(et_totalPeople.getText().toString());
             int totalPets = Integer.parseInt(et_totalPets.getText().toString());
 
-            // create a new Activites Object (Model).
-            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp());
+            // create Unique ID for the Running activity.
+            String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
+
+            // create a new Activities Object (Model).
+            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), activityUUID);
 
             // set the state of Currently running activity to Running.
             newActivityObj.setState(Activities.STATE.RUNNING);
 
+            // build on the same newActivity Object.
             newActivityObj.setLocation_area(locationArea);
 
             mInterface.onPlayButtonClick(newActivityObj);

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
@@ -302,30 +301,24 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
      * Callback Interface to get the callbacks from the Dashboard fragment.
      */
     public interface IDashboardCallback {
-        /**
-         * Called when the Item in the Dashboard is clicked.
-         *
-         * @param uri
-         */
-        public void onDashboardInteraction(Uri uri);
 
         /**
-         * Callback when the start activity button is clicked.
+         * Callback method when the <tt>'START ACTIVITY'</tt> button is clicked in {@link Dashboard}.
          */
         public void onActivityButtonClicked();
 
         /**
-         * Callback method when the post observation button is clicked.
+         * Callback method when the <tt>'POST OBSERVATION'</tt> button is clicked in {@link Dashboard}.
          */
         public void onObservationButtonClicked();
 
         /**
-         * Callback method when the View Activity button is clicked.
+         * Callback method when the <tt>'VIEW ACTIVITIES'</tt> button is clicked in {@link Dashboard}.
          */
         public void onViewActivitiesClicked();
 
         /**
-         * Callback method when the view observations button is clicked.
+         * Callback method when the <tt>'VIEW OBSERVATIONS'</tt> button is clicked in {@link Dashboard}.
          */
         public void onViewObservationsClicked();
     }

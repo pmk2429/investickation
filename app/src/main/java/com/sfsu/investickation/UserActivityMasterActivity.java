@@ -29,6 +29,8 @@ import java.util.ArrayList;
  */
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
 
+    public static final String KEY_USRACT_ADD_OBS = "add_new_observation_from_activity";
+    public static final String KEY_ACTIVITY_UUID = "ongoing_activity_uuid";
     private final String LOGTAG = "~!@#$UserActivity :";
     private ArrayList<Activities> listSavedActivities;
     private RetrofitController retrofitController;
@@ -60,7 +62,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
             }
 
             // is the ActivityNew is being called
-            if (getIntent().getIntExtra("ActivityNew", 0) == 1) { // if user clicks on Start Activity
+            if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) { // if user clicks on Start Activity
                 ActivityNew activityNewFragment = new ActivityNew();
                 FragmentTransaction activityNewTransaction = getSupportFragmentManager().beginTransaction();
                 activityNewTransaction.add(R.id.activity_fragment_container, activityNewFragment);
@@ -68,7 +70,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
                 activityNewTransaction.commit();
             }
             // if ActivityList is being called.
-            else if (getIntent().getIntExtra("ActivityList", 0) == 2) { // if user clicks on ActivityList
+            else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) { // if user clicks on ActivityList
                 ActivityList activityList = new ActivityList();
                 FragmentTransaction activityListFragment = getSupportFragmentManager().beginTransaction();
                 activityListFragment.replace(R.id.activity_fragment_container, activityList);
@@ -190,6 +192,24 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     public void onActivityStopButtonClicked(Activities mNewActivityObj) {
         // get the current User Id.
         retrofitController.add(AppUtils.ACTIVITY_RESOURCE, mNewActivityObj);
+    }
+
+    /*
+     *The currentActivityUUID param will help identify that whether the Observation belongs to any {@lin}
+     */
+    @Override
+    public void onAddNewObservationButtonClicked(String currentActivityUUID) {
+        try {
+            // create and intent and open the AddObservation fragment to add Observation.
+            Intent addObservationIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
+            // put the extras in addObservationIntent to perform fragment Transaction efficiently.
+            addObservationIntent.putExtra(KEY_USRACT_ADD_OBS, 1);
+            addObservationIntent.putExtra(KEY_ACTIVITY_UUID, currentActivityUUID);
+            startActivity(addObservationIntent);
+            finish();
+        } catch (Exception e) {
+            Log.i(LOGTAG, e.getMessage());
+        }
     }
 
     /**
