@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
 import com.sfsu.controllers.GoogleMapController;
+import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.service.LocationService;
@@ -45,10 +46,12 @@ public class ActivityRunning extends Fragment {
     private Context mContext;
     private IActivityRunningCallBacks mListener;
     private Intent locationIntent;
+    private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
     private CardView btn_addObservation;
     private TextView txtView_activityName;
-    private GoogleMapController.ILocationCallBacks mLocationListener;
+
+    private LocationController.ILocationCallBacks mLocationListener;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
      * This receiver receives the UserLocation every specified interval of time.
@@ -125,10 +128,10 @@ public class ActivityRunning extends Fragment {
         final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
         mapView.onCreate(mapViewSavedInstanceState);
 
+        mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
-
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-//        mGoogleMapController.connectGoogleApi();
+//        mLocationController.connectGoogleApi();
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);

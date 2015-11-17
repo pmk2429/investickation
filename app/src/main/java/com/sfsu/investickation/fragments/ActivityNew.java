@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.sfsu.controllers.GoogleMapController;
+import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.utils.AppUtils;
@@ -34,9 +35,9 @@ import org.apache.commons.lang3.RandomStringUtils;
  * ActivityNew Fragment provides User the capability to add new Activity. The ActivityNew fragment passes the newly created
  * Activities object to the ActivityRunning fragment.
  */
-public class ActivityNew extends Fragment implements View.OnClickListener, GoogleMapController.ILocationCallBacks {
+public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
-    private static final int ID_LENGTH = 10;
+    private static final int ID_LENGTH = 16;
     private final String LOGTAG = "~!@#$ActivityNew :";
     private GoogleMap googleMap;
     private MapView mapView;
@@ -49,8 +50,9 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Googl
     private String reminderTimeValue;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
     private Button btnHour, btnHalfHour;
+    private LocationController locationController;
     private GoogleMapController mGoogleMapController;
-    private GoogleMapController.ILocationCallBacks mLocationListener;
+    private LocationController.ILocationCallBacks mLocationListener;
     private String locationArea;
 
     public ActivityNew() {
@@ -92,12 +94,13 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Googl
         final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
         mapView.onCreate(mapViewSavedInstanceState);
 
+        locationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
 
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-        mGoogleMapController.connectGoogleApi();
+        locationController.connectGoogleApi();
 
-        // setup google Map.
+        // setup google Map using the GoogleMapController.
         mGoogleMapController.setupGoogleMap(mapView);
 
         // setOnclickListener for the TextView.

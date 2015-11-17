@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.sfsu.controllers.GoogleMapController;
+import com.sfsu.controllers.LocationController;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
@@ -33,7 +34,7 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.utils.AppUtils;
 
 
-public class Dashboard extends Fragment implements View.OnClickListener, GoogleMapController.ILocationCallBacks {
+public class Dashboard extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private final String LOGTAG = "~!@#Dashboard :";
@@ -47,8 +48,9 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
     private int mCurrentSelectedPosition;
     private NavigationView mNavigationView;
     private Context mContext;
+    private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
-    private GoogleMapController.ILocationCallBacks mLocationListener;
+    private LocationController.ILocationCallBacks mLocationListener;
 
     public Dashboard() {
         // Required empty public constructor
@@ -80,6 +82,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
         btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
 
+        mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
 
         // when the use clicks the entire relativeLayout, redirect to the appropriate call action
@@ -100,7 +103,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, GoogleM
         mapView.onCreate(mapViewSavedInstanceState);
 
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-        mGoogleMapController.connectGoogleApi();
+        mLocationController.connectGoogleApi();
 
         // setup the Google Maps in MapView.
         mGoogleMapController.setupGoogleMap(mapView);
