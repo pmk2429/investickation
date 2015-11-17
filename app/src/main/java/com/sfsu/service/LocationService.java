@@ -15,24 +15,24 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.sfsu.entities.UserLocation;
+import com.sfsu.entities.EntityLocation;
 import com.sfsu.utils.AppUtils;
 
 /**
- * Service to get the periodic UserLocation updates while the User performed Activity is still Running. This service runs in tandem
+ * Service to get the periodic EntityLocation updates while the User performed Activity is still Running. This service runs in tandem
  * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
  * is created the {@link LocationService } starts and when the <tt>ActivityRunning</tt> is paused/stopped, the
  * {@link LocationService } is stopped too.
  * <p/>
- * The LocationService service creates a UserLocation object and sends it over to the currently running activity which will
- * post the data on the server. This way after every 10 minutes, a UserLocation will be captured and sent over to the server
+ * The LocationService service creates a EntityLocation object and sends it over to the currently running activity which will
+ * post the data on the server. This way after every 10 minutes, a EntityLocation will be captured and sent over to the server
  * for getting user's location and finally these locations will be used to depict the probable trajectory of the user.
  */
 public class LocationService extends Service implements LocationListener, GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks {
 
     public static final String BROADCAST_ACTION = "com.sfsu.investickation";
-    // UserLocation updates intervals in sec
+    // EntityLocation updates intervals in sec
     private static int _SECOND = 1000;
     private static int _MIN = 60 * _SECOND;
     private static int UPDATE_INTERVAL = 5 * _MIN; // 5 mins
@@ -42,8 +42,8 @@ public class LocationService extends Service implements LocationListener, Google
     private static int DELAY_BROADCAST = 10 * _MIN;
     // Handler communicate between this Thread and UI thread.
     private final Handler handler = new Handler();
-    // captured UserLocation object.
-    private UserLocation capturedLocation;
+    // captured EntityLocation object.
+    private EntityLocation capturedLocation;
     // getting the LocationObject.
     private Location mLastLocation;
 
@@ -53,7 +53,7 @@ public class LocationService extends Service implements LocationListener, Google
     // boolean flag to toggle periodic location updates
     private boolean mRequestingLocationUpdates = false;
 
-    // getting the UserLocation requests
+    // getting the EntityLocation requests
     private LocationRequest mLocationRequest;
     private Intent intent;
     private int counter = 0;
@@ -137,7 +137,7 @@ public class LocationService extends Service implements LocationListener, Google
      * create the LocationRequest object by specifying all the params needed to initialize the object.
      */
     public void createLocationRequest() {
-        Log.i(AppUtils.LOGTAG, "Creating UserLocation Requests.");
+        Log.i(AppUtils.LOGTAG, "Creating EntityLocation Requests.");
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FATEST_INTERVAL);
@@ -176,7 +176,7 @@ public class LocationService extends Service implements LocationListener, Google
 
     }
 
-    // Callbacks for LocationListener interface. This callback will then create a UserLocation Object out of new UserLocation values.
+    // Callbacks for LocationListener interface. This callback will then create a EntityLocation Object out of new EntityLocation values.
     @Override
     public void onLocationChanged(Location location) {
         if (location == null) {
@@ -191,8 +191,8 @@ public class LocationService extends Service implements LocationListener, Google
         // Assign the new location
         mLastLocation = location;
 
-        // create a new UserLocation object and send it to the ActivityRunning fragment as soon as Location is changed
-        capturedLocation = UserLocation.createUserLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude(), AppUtils
+        // create a new EntityLocation object and send it to the ActivityRunning fragment as soon as Location is changed
+        capturedLocation = EntityLocation.createUserLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude(), AppUtils
                 .getCurrentTimeStamp());
 
         // once the object is created, simply pass the object to broadcast receiver.

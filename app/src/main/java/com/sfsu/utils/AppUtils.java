@@ -98,7 +98,7 @@ public class AppUtils {
 
     // method to check whether there is any network connection or not.
 
-    // Method to check if UserLocation is enabled or disabled.
+    // Method to check if EntityLocation is enabled or disabled.
     public boolean isLocationEnabled() {
         int locationMode = 0;
         String locationProviders;

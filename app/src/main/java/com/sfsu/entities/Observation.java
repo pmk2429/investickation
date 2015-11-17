@@ -35,15 +35,20 @@ public class Observation implements Parcelable, Entity {
             return new Observation[size];
         }
     };
+
     private long observation_id;
-    private String geoLocation;
+    private String geoLocation, tickName;
     private int num_ticks;
     private long timestamp, created_at, updated_at;
-    private UserLocation location;
+    private EntityLocation locationObj;
     private Tick tickObj;
 
+    // REQUIRED : Default Constructor
+    public Observation() {
+    }
+
     // constructor to get the data from the Object.
-    public Observation(long observation_id, Tick tickObj, UserLocation location, String geoLocation, int num_ticks, long
+    public Observation(long observation_id, Tick tickObj, EntityLocation locationObj, String geoLocation, int num_ticks, long
             timestamp, long created_at, long updated_at) {
         this.observation_id = observation_id;
         this.geoLocation = geoLocation;
@@ -52,29 +57,24 @@ public class Observation implements Parcelable, Entity {
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.tickObj = tickObj;
-        this.location = location;
+        this.locationObj = locationObj;
     }
 
     /**
-     * Constructor to create the Observation object for sending it over to Server.
+     * IMP : Constructor to create the Observation object for sending it over to Server.
      *
-     * @param observation_id
      * @param num_ticks
      * @param timestamp
      * @param location
      * @param tickObj
      */
-    public Observation(long observation_id, int num_ticks, long timestamp, UserLocation location, Tick tickObj) {
-        this.observation_id = observation_id;
+    public Observation(Tick tickObj, int num_ticks, long timestamp, EntityLocation locationObj) {
         this.num_ticks = num_ticks;
         this.timestamp = timestamp;
-        this.location = location;
+        this.locationObj = locationObj;
         this.tickObj = tickObj;
     }
 
-    // Default Constructor
-    public Observation() {
-    }
 
     // constructor for demo purposes
     public Observation(String tickName, String geoLocation, long timestamp) {
@@ -82,12 +82,6 @@ public class Observation implements Parcelable, Entity {
         this.timestamp = timestamp;
     }
 
-    // Constructor to create the Observation object.
-    public Observation(String tickName, String tickSpecies, String geoLocation, String tickImageUrl, double latitude, double
-            longitude, long timestamp) {
-        this.geoLocation = geoLocation;
-        this.timestamp = timestamp;
-    }
 
     protected Observation(Parcel in) {
         observation_id = in.readLong();
@@ -96,7 +90,7 @@ public class Observation implements Parcelable, Entity {
         timestamp = in.readLong();
         created_at = in.readLong();
         updated_at = in.readLong();
-        location = in.readParcelable(UserLocation.class.getClassLoader());
+        locationObj = in.readParcelable(EntityLocation.class.getClassLoader());
         tickObj = in.readParcelable(Tick.class.getClassLoader());
     }
 
@@ -108,19 +102,12 @@ public class Observation implements Parcelable, Entity {
         return observations;
     }
 
-    // Factory method to return the Observation object.
-    public static Observation createObservation(String tickName, String tickSpecies, String geoLocation, String imageUrl,
-                                                double latitude, double longitude, long timestamp) {
-
-        return new Observation(tickName, tickSpecies, geoLocation, imageUrl, latitude, longitude, timestamp);
+    public EntityLocation getLocation() {
+        return locationObj;
     }
 
-    public UserLocation getLocation() {
-        return location;
-    }
-
-    public void setLocation(UserLocation location) {
-        this.location = location;
+    public void setLocation(EntityLocation location) {
+        this.locationObj = location;
     }
 
     public Tick getTickObj() {
@@ -199,7 +186,7 @@ public class Observation implements Parcelable, Entity {
         dest.writeLong(timestamp);
         dest.writeLong(created_at);
         dest.writeLong(updated_at);
-        dest.writeParcelable(location, flags);
+        dest.writeParcelable(locationObj, flags);
         dest.writeParcelable(tickObj, flags);
     }
 

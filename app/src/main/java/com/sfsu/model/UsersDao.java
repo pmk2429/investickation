@@ -5,9 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.sfsu.utils.AppUtils;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
+import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,5 +167,5 @@ public class UsersDao implements EntityDao {
         return userItem;
     }
 
-    
+
 }

@@ -5,28 +5,29 @@ import android.os.Parcelable;
 
 /**
  * <p>
- * <tt>UserLocation </tt> contains the latitude and longitude of the user whenever the user
- * is on the ongoing {@link Activities}. By making use of UserLocation, we can develop a trajectory
- * of each activity and the possible existence of the ticks in the proximity of activity.
- * This way {@link UserLocation} helps to detect the presence of ticks and {@link User}'s path.
+ * <tt>EntityLocation </tt> consists of the current latitude and longitude of the Entity(User, Tick) whenever the user
+ * has an ongoing {@link Activities}. It is used to determine the Location of User for its ongoing Activity as well
+ * as the Location of the Tick when the Observation is made by the User.
+ * By making use of EntityLocation, a trajectory of each {@link Activities} of User is developed. It also helps to possibly
+ * determine the existence of the ticks in the proximity of user's activity.
  * </p>
  * <p>
- * UserLocation can also be built using the Factory design pattern.
+ * This way {@link EntityLocation} helps to detect the presence of {@link Tick} and also determine {@link User}'s path.
  * </p>
  * <p/>
  * Created by Pavitra on 5/19/2015.
  */
-public class UserLocation implements Parcelable, Entity {
+public class EntityLocation implements Parcelable, Entity {
 
-    public static final Creator<UserLocation> CREATOR = new Creator<UserLocation>() {
+    public static final Creator<EntityLocation> CREATOR = new Creator<EntityLocation>() {
         @Override
-        public UserLocation createFromParcel(Parcel in) {
-            return new UserLocation(in);
+        public EntityLocation createFromParcel(Parcel in) {
+            return new EntityLocation(in);
         }
 
         @Override
-        public UserLocation[] newArray(int size) {
-            return new UserLocation[size];
+        public EntityLocation[] newArray(int size) {
+            return new EntityLocation[size];
         }
     };
     private int location_id;
@@ -34,17 +35,17 @@ public class UserLocation implements Parcelable, Entity {
     private double latitude, longitude;
     private long timestamp;
 
-    public UserLocation() {
+    public EntityLocation() {
     }
 
     /**
-     * Constructor to create a UserLocation object from the params
+     * Constructor to create a EntityLocation object from the params
      *
      * @param latitude
      * @param longitude
      * @param timestamp
      */
-    private UserLocation(double latitude, double longitude, long timestamp) {
+    public EntityLocation(double latitude, double longitude, long timestamp) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
@@ -56,13 +57,13 @@ public class UserLocation implements Parcelable, Entity {
      * @param latitude
      * @param longitude
      */
-    public UserLocation(double latitude, double longitude) {
+    public EntityLocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
     /**
-     * Constructor to create the Location object while retrieving the data from the Server.
+     * IMP : Constructor to create the Location object while retrieving the data from the Server.
      *
      * @param location_id
      * @param fk_userid
@@ -70,7 +71,7 @@ public class UserLocation implements Parcelable, Entity {
      * @param longitude
      * @param timestamp
      */
-    public UserLocation(int location_id, int fk_userid, double latitude, double longitude, long timestamp) {
+    public EntityLocation(int location_id, int fk_userid, double latitude, double longitude, long timestamp) {
         this.location_id = location_id;
         this.fk_userid = fk_userid;
         this.latitude = latitude;
@@ -78,7 +79,7 @@ public class UserLocation implements Parcelable, Entity {
         this.timestamp = timestamp;
     }
 
-    protected UserLocation(Parcel in) {
+    protected EntityLocation(Parcel in) {
         location_id = in.readInt();
         fk_userid = in.readInt();
         latitude = in.readDouble();
@@ -87,12 +88,12 @@ public class UserLocation implements Parcelable, Entity {
     }
 
     /**
-     * factory design pattern to create the UserLocation object.
+     * factory design pattern to create the EntityLocation object.
      *
      * @return
      */
-    public static UserLocation createUserLocation(double latitude, double longitude, long timestamp) {
-        return new UserLocation(latitude, longitude, timestamp);
+    public static EntityLocation createUserLocation(double latitude, double longitude, long timestamp) {
+        return new EntityLocation(latitude, longitude, timestamp);
     }
 
     public int getLocation_id() {
@@ -122,7 +123,7 @@ public class UserLocation implements Parcelable, Entity {
 
     @Override
     public String toString() {
-        return "UserLocation{" +
+        return "EntityLocation{" +
                 "location_id=" + location_id +
                 ", fk_userid=" + fk_userid +
                 ", latitude=" + latitude +
@@ -152,7 +153,7 @@ public class UserLocation implements Parcelable, Entity {
 
     @Override
     public String getName() {
-        return "UserLocation";
+        return "EntityLocation";
     }
 
     @Override

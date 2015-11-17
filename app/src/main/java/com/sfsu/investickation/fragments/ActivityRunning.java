@@ -54,7 +54,7 @@ public class ActivityRunning extends Fragment {
     private LocationController.ILocationCallBacks mLocationListener;
     /**
      * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
-     * This receiver receives the UserLocation every specified interval of time.
+     * This receiver receives the EntityLocation every specified interval of time.
      */
     private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
 
@@ -80,7 +80,7 @@ public class ActivityRunning extends Fragment {
         if (locationIntent != null) {
             Bundle bundle = locationIntent.getExtras();
             Location locationVal = (Location) bundle.get("locINFO");
-            // TODO: get the UserLocation object from the BroadcastReceiver
+            // TODO: get the EntityLocation object from the BroadcastReceiver
         }
     }
 

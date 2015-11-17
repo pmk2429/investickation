@@ -138,6 +138,30 @@
                 android:paddingTop="@dimen/padding_large"
                 android:textSize="16dp"/>
 
+            <!--  Species row -->
+            <ImageView
+                android:id="@+id/icon_numOfTicks"
+                android:layout_width="@dimen/widget_dimen"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/icon_tickSpecies"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:padding="@dimen/padding_temp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_list_numbered_black_48dp"/>
+
+            <EditText
+                android:id="@+id/editText_addObs_numOfTicks"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_addObs_tickSpecies"
+                android:layout_marginRight="@dimen/padding_large"
+                android:layout_toRightOf="@id/icon_numOfTicks"
+                android:hint="2"
+                android:paddingBottom="16sp"
+                android:paddingTop="@dimen/padding_large"
+                android:textSize="16dp"/>
+
         </RelativeLayout>
     </ScrollView>
 

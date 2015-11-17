@@ -103,7 +103,7 @@ public class TickDao implements EntityDao {
      * @param id
      * @return
      */
-    public Entity get(long id) {
+    public Tick get(long id) {
 
         Tick tickItem = null;
         Cursor c = db.query(true, TicksTable.TABLENAME, tickEntryArray, TicksTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
@@ -116,6 +116,28 @@ public class TickDao implements EntityDao {
         }
         return tickItem;
     }
+
+    /**
+     * get specific Tick using ID.
+     *
+     * @param id
+     * @return
+     */
+    public Tick get(String name) {
+
+        Tick tickItem = null;
+        Cursor c = db.query(true, TicksTable.TABLENAME, tickEntryArray, TicksTable.COLUMN_ID + "=?", new String[]{name + ""},
+                null, null, null, null);
+
+        if (c != null && c.moveToFirst()) {
+            tickItem = buildFromCursor(c);
+            if (!c.isClosed()) {
+                c.close();
+            }
+        }
+        return tickItem;
+    }
+
 
     /**
      * Get list of all the ticks stored in DB

@@ -162,7 +162,7 @@
                         android:textSize="14dp"/>
 
 
-                    <!-- UserLocation -->
+                    <!-- EntityLocation -->
                     <TextView
                         android:id="@+id/textViewStatic_location"
                         android:layout_width="140dp"

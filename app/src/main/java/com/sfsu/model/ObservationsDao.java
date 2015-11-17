@@ -68,6 +68,11 @@ public class ObservationsDao implements EntityDao {
         return observationItem;
     }
 
+    @Override
+    public Entity get(String entityName) {
+        return null;
+    }
+
     /**
      * Method to get all the Observations from the DB
      *
