@@ -16,6 +16,9 @@ import com.google.android.gms.maps.model.LatLng;
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
  * InfoWindow on the location etc.
  * <p/>
+ * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
+ * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
+ * <p/>
  * Created by Pavitra on 11/16/2015.
  */
 public class GoogleMapController {

@@ -20,19 +20,17 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * <p>
- * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
- * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
- * </p>
- * LocationController also provides Callback Interface to get the User's current Location and Featured name of the Location if
- * present.
+ * Controller used to handle all the Location related operations and tasks such as finding the Last Know Location, getting
+ * Location updates etc. The LocationController uses FusedLocation service provided by Google to get the Location updates.
  * <p/>
+ * <tt>LocationController</tt> also provides Callback Interface to get the User's current Location and Featured name of the Location if
+ * present.
  * Created by Pavitra on 11/14/2015.
  */
 public class LocationController implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private static final String TAG = "~!@#$GoogleMapCtlr: ";
+    private static final String TAG = "~!@#LocationCtlr: ";
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static int UPDATE_INTERVAL = 10000; // 10 sec
     private static int FATEST_INTERVAL = 5000; // 5 sec
