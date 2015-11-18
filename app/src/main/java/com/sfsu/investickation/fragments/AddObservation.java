@@ -22,12 +22,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.controllers.RetrofitController;
@@ -40,6 +43,7 @@ import com.sfsu.model.TickDao;
 import com.sfsu.utils.AppUtils;
 
 import java.io.File;
+import java.util.List;
 
 public class AddObservation extends Fragment implements LocationController.ILocationCallBacks {
 
@@ -61,6 +65,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private LocationController mLocationController;
     private EntityLocation entityLocation;
     private DatabaseDataController dbController;
+    private List<Tick> tickList;
 
     // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -69,6 +74,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             getLocationDataFromService(intent);
         }
     };
+    private Tick tickData;
 
     public AddObservation() {
         // Required empty public constructor
@@ -87,7 +93,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
@@ -106,9 +112,24 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
         imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);
 
-        et_tickName = (EditText) v.findViewById(R.id.editText_addObs_newTick);
+        et_tickName = (EditText) v.findViewById(R.id.editText_addObs_tickName);
+        et_tickName.setKeyListener(null);
         et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
+        et_tickSpecies.setKeyListener(null);
         et_numOfTicks = (EditText) v.findViewById(R.id.editText_addObs_numOfTicks);
+
+        et_tickName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChooseTickDialog(inflater);
+            }
+        });
+        et_tickSpecies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChooseTickDialog(inflater);
+            }
+        });
 
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
@@ -122,18 +143,15 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         btn_PostObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: complete this code. Get data from this Fragment and callback on ObservationMasterActivity to RetrofitController
-
                 String tickName = et_tickName.getText().toString();
                 String tickSpecies = et_tickSpecies.getText().toString();
                 int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
 
-                Tick tickObj = getTickFromName(tickName);
+//                Tick tickObj = getTickFromName(tickName);
 
                 // finally when all values are collected, create a new Observation object.
-                newObservationObj = new Observation(tickObj, numOfTicks, AppUtils.getCurrentTimeStamp(), entityLocation);
-
-                // once the data for Observation is collected, get the current EntityLocation
+                newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
+                        entityLocation);
 
                 // pass the object to the ObservationActivity.
                 mInterface.postObservationData(newObservationObj);
@@ -142,6 +160,40 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         });
 
         return v;
+    }
+
+    /**
+     * Helper method to setup and display Choose Tick Dialog having Custom Layout
+     *
+     * @param inflater
+     */
+    private void openChooseTickDialog(LayoutInflater inflater) {
+        AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext);
+        View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
+
+        // identify the ListView
+        ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
+
+        // Build an ArrayAdapter
+        final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
+        listViewTicks.setAdapter(dialogAdapter);
+
+        dialogAdapter.setNotifyOnChange(true);
+        dialogAdapter.notifyDataSetChanged();
+
+        // when the user simply presses the news item, then the DetailedNewsActivity will get started.
+        listViewTicks.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        setTickData(tickList.get(position));
+                    }
+                });
+
+
+        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
+        alertDialogChooseTick.setView(customView);
+
     }
 
     /**
@@ -275,7 +327,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                 try {
                     bitmap = BitmapFactory.decodeFile(selectedImagePath);
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 600, 400, false);
                 } catch (Exception e) {
                     Log.d("---Exception", e.getMessage());
                 }
@@ -325,7 +377,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setCurrentLocation(Location mLocation) {
-        this.entityLocation = new EntityLocation(mLocation.getLatitude(), mLocation.getLongitude(), AppUtils.getCurrentTimeStamp());
+        this.entityLocation = new EntityLocation(mLocation.getLatitude(), mLocation.getLongitude());
 
     }
 
@@ -334,7 +386,24 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     }
 
+    /**
+     * Helper method to populate the Values of EditTexts in {@link AddObservation} Fragment
+     *
+     * @param tickData
+     */
+    public void setTickData(Tick tickData) {
+        this.tickData = tickData;
+    }
+
+    /**
+     * Callback interface to handle the onClick Listeners in {@link AddObservation} Fragment.
+     */
     public static interface IAddObservationCallBack {
+        /**
+         * Callback method to post the new {@link Observation} on the Server via {@link RetrofitController}.
+         *
+         * @param newObservation
+         */
         void postObservationData(Observation newObservation);
     }
 

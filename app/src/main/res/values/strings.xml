@@ -37,6 +37,12 @@
     <string name="text_chooseTick">Choose from Tick Guide</string>
     <string name="text_chooseTickInfo">Can\'t recognize tick? Select from Guide</string>
 
+    <!-- -->
+    <string name="tickSpecies">Dermacentor variabilis</string>
+    <string name="tickName">American Dog Tick</string>
+    <string name="tickCount">7</string>
+    <string name="alert_chooseTick">Choose the desired Tick:</string>
+
     <!-- Call to action controls-->
     <string name="button_startActivity">Start Activity</string>
     <string name="button_register">Register</string>

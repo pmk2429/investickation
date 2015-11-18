@@ -17,7 +17,7 @@ import java.util.List;
  * The Observation provides a factory design pattern to create observations by collecting
  * the data from Ticks and Activities and posting the data on the server.
  * </p>
- * Observation holds reference to the Tick and Location captured by the User for a specific Observation.
+ * Observation holds reference to the Tick, Location and User for a each Observation captured by the User.
  * Created by Pavitra on 5/19/2015.
  */
 
@@ -37,19 +37,34 @@ public class Observation implements Parcelable, Entity {
     };
 
     private long observation_id;
-    private String geoLocation, tickName;
+    private String geoLocation;
+    private String tickName;
+    private String imageUrl;
     private int num_ticks;
     private long timestamp, created_at, updated_at;
     private EntityLocation locationObj;
     private Tick tickObj;
+    private User userId;
 
     // REQUIRED : Default Constructor
     public Observation() {
     }
 
-    // constructor to get the data from the Object.
-    public Observation(long observation_id, Tick tickObj, EntityLocation locationObj, String geoLocation, int num_ticks, long
-            timestamp, long created_at, long updated_at) {
+    /**
+     * IMP -  Constructor Overloading to create the Observation object while retrieving the data from the Server via Retrofit.
+     *
+     * @param observation_id - Observation ID of the recorded Observation.
+     * @param tickObj        - The Tick Object retrieved from the JSON data
+     * @param locationObj    - EntityLocation object of the Observation.
+     * @param imageUrl       - ImageUrl of the Image on the Server.
+     * @param geoLocation    - The area - feature name of the Location
+     * @param num_ticks      - Total number of Ticks during this Observation.
+     * @param timestamp      - The Timestamp during which the Observation was recorded.
+     * @param created_at     - Timestamp when the Observation entry was recorded on the Server
+     * @param updated_at     - Timestamp when the Observation entry was updated on the Server
+     */
+    public Observation(long observation_id, Tick tickObj, EntityLocation locationObj, String imageUrl, String geoLocation, int
+            num_ticks, long timestamp, long created_at, long updated_at) {
         this.observation_id = observation_id;
         this.geoLocation = geoLocation;
         this.num_ticks = num_ticks;
@@ -58,30 +73,32 @@ public class Observation implements Parcelable, Entity {
         this.updated_at = updated_at;
         this.tickObj = tickObj;
         this.locationObj = locationObj;
+        this.imageUrl = imageUrl;
     }
 
     /**
-     * IMP : Constructor to create the Observation object for sending it over to Server.
+     * IMP : Constructor overloading to create the Observation object for sending it over to Server via Retrofit.
+     * TODO: Add UserId to the Constructor.
      *
-     * @param num_ticks
-     * @param timestamp
-     * @param location
-     * @param tickObj
+     * @param imageUrl    - Image of Tick captured by the User for this Observation
+     * @param tickName    -  Name of the Tick captured by the User
+     * @param num_ticks   - Total number of Ticks found in this  Observation
+     * @param timestamp   - Current Timestamp of the Observation.
+     * @param locationObj - Location captured by the Android Device for the Observation
      */
-    public Observation(Tick tickObj, int num_ticks, long timestamp, EntityLocation locationObj) {
+    public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj) {
+        this.imageUrl = imageUrl;
         this.num_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;
-        this.tickObj = tickObj;
+        this.tickName = tickName;
     }
-
 
     // constructor for demo purposes
     public Observation(String tickName, String geoLocation, long timestamp) {
         this.geoLocation = geoLocation;
         this.timestamp = timestamp;
     }
-
 
     protected Observation(Parcel in) {
         observation_id = in.readLong();
@@ -100,6 +117,14 @@ public class Observation implements Parcelable, Entity {
         observations.add(new Observation("Spotted Red Tick", "Yosemite National Park", System.currentTimeMillis()));
         observations.add(new Observation("Deer Tick", "Lands End trail", System.currentTimeMillis()));
         return observations;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public EntityLocation getLocation() {

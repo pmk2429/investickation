@@ -160,7 +160,7 @@
 
         <TextView
             android:id="@+id/textViewStatic_totalPets"
-            android:layout_width="@dimen/padding_X5_large"
+            android:layout_width="@dimen/padding_dimen_X3_large"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_small"
             android:layout_marginTop="@dimen/padding_large"

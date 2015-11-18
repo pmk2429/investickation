@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageView_alertTick_tickImage"
+        android:layout_width="@dimen/widget_dimen_large"
+        android:layout_height="@dimen/widget_dimen_large"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_large"
+        android:scaleType="fitXY"
+        android:src="@mipmap/placeholder_tick"
+        />
+
+    <TextView
+        android:id="@+id/textView_alertTick_tickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/imageView_alertTick_tickImage"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_toEndOf="@id/imageView_alertTick_tickImage"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/tickName"
+        android:textColor="@color/colorSecondary"
+        android:textSize="@dimen/font_medium"
+        />
+
+    <TextView
+        android:id="@+id/textView_alertTick_tickSpecies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_alertTick_tickName"
+        android:layout_marginLeft="@dimen/padding_large"
+        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_X_small"
+        android:layout_toEndOf="@id/imageView_alertTick_tickImage"
+        android:lines="1"
+        android:singleLine="true"
+        android:text="@string/tickSpecies"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/font_small"
+        />
+</RelativeLayout>

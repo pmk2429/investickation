@@ -39,7 +39,7 @@ public class EntityLocation implements Parcelable, Entity {
     }
 
     /**
-     * Constructor to create a EntityLocation object from the params
+     * Constructor overloading to create a EntityLocation object to send it to server
      *
      * @param latitude
      * @param longitude
@@ -52,7 +52,8 @@ public class EntityLocation implements Parcelable, Entity {
     }
 
     /**
-     * Constructor overloading to set User's Location and display it on Google Maps.
+     * Constructor overloading to set User's Location and display it on Google Maps as well as build a Composite Observation
+     * Object to parse it to JSON and send it over to Server.
      *
      * @param latitude
      * @param longitude

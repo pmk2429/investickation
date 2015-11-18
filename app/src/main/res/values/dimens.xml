@@ -13,12 +13,16 @@
     <dimen name="padding_">18dp</dimen>
     <dimen name="padding_X_large">24dp</dimen>
     <dimen name="padding_X2_large">30dp</dimen>
-    <dimen name="padding_X3_large">48dp</dimen>
-    <dimen name="padding_X4_large">96dp</dimen>
-    <dimen name="padding_X5_large">120dp</dimen>
+    <dimen name="padding_X3_large">36dp</dimen>
+
+    <!-- Dimensions padding -->
+    <dimen name="padding_dimen_X_large">48dp</dimen>
+    <dimen name="padding_dimen_X2_large">96dp</dimen>
+    <dimen name="padding_dimen_X3_large">120dp</dimen>
 
     <!-- Widget default dimen-->
     <dimen name="widget_dimen">48dp</dimen>
+    <dimen name="widget_dimen_large">56dp</dimen>
     <dimen name="widget_dimen_X1_large">72dp</dimen>
     <dimen name="widget_dimen_X2_large">96dp</dimen>
 

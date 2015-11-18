@@ -47,8 +47,8 @@
 
                     <TextView
                         android:id="@+id/textView_timestamp"
-                        android:layout_width="@dimen/padding_X3_large"
-                        android:layout_height="@dimen/padding_X3_large"
+                        android:layout_width="@dimen/padding_dimen_X_large"
+                        android:layout_height="@dimen/padding_dimen_X_large"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/padding_large"
                         android:gravity="top|right"
