@@ -2,8 +2,8 @@ package com.sfsu.investickation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,13 +36,9 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
             // if Intent is called by clicking on the PostObservation button in Dashboard
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
                 AddObservation addObservationFragment = new AddObservation();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.observation_fragment_container, addObservationFragment);
-//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
-                transaction.commit();
+                setFragmentTransaction(addObservationFragment);
             } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_USRACT_ADD_OBS, 0) == 1) {
                 // if the intent is called from the UserActivityMasterActivity
-                Log.i(LOGTAG, "inside desired fragment");
                 AddObservation addObservationFragment = new AddObservation();
                 // get the UUID of the current activity
                 String currentActivityUUID = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
@@ -50,31 +46,35 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
                 Bundle newObservationBundle = new Bundle();
                 newObservationBundle.putString(UserActivityMasterActivity.KEY_ACTIVITY_UUID, currentActivityUUID);
                 addObservationFragment.setArguments(newObservationBundle);
-                // initialize the transaction.
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.observation_fragment_container, addObservationFragment);
-//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
-                transaction.commit();
+                setFragmentTransaction(addObservationFragment);
             }
             // if the Intent is called by clicking on View Observations list in Dashboard
             else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 RemoteObservationsList observationsList = new RemoteObservationsList();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.observation_fragment_container, observationsList);
-//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE THE FIRST FRAGMENT IN STACK
-                transaction.commit();
+                setFragmentTransaction(observationsList);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
-                Log.i(LOGTAG, "No mane not desired fragment");
-                RemoteObservationsList remoteObservations = new RemoteObservationsList();
+                RemoteObservationsList remoteObservationsFragment = new RemoteObservationsList();
                 // if activity was started with special instructions from an Intent, then pass Intent's extras
-                remoteObservations.setArguments(getIntent().getExtras());
-                // add the Fragment to 'guide_fragment_container' FrameLayout
-                getSupportFragmentManager().beginTransaction().replace(R.id.observation_fragment_container, remoteObservations).commit();
+                remoteObservationsFragment.setArguments(getIntent().getExtras());
+                setFragmentTransaction(remoteObservationsFragment);
             }
         }
     }
+
+    /**
+     * Helper method to perform Fragment Transitions in switching Fragments.
+     *
+     * @param fragment
+     */
+    private void setFragmentTransaction(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.observation_fragment_container, fragment);
+//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
+        transaction.commit();
+    }
+
 
     @Override
     public void onBackPressed() {

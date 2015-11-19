@@ -178,6 +178,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         // Build an ArrayAdapter
         final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
         listViewTicks.setAdapter(dialogAdapter);
+
+        // make the divider invisible
         listViewTicks.setDivider(null);
         listViewTicks.setDividerHeight(0);
 
@@ -188,6 +190,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
         alertDialogChooseTick.setView(customView);
 
+        // create a dialog to get the reference to when dismissing the Dialog.
         final AlertDialog dialog = alertDialogChooseTick.create();
         dialog.show();
 
@@ -196,6 +199,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // set Texts in EditTexts.
                         setTickData(tickList.get(position));
                         dialog.dismiss();
                     }
