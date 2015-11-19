@@ -25,9 +25,9 @@ import java.util.List;
  */
 
 
-public class TickGuideList extends Fragment implements View.OnClickListener {
+public class TickGuideList extends Fragment {
 
-    private final String LOGTAG = "~!@#$TickList :";
+    private final String LOGTAG = "~!@#$TickGuideList :";
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
     private List<Tick> tickList;
@@ -80,8 +80,6 @@ public class TickGuideList extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-
         try {
             mInterface = (IGuideIndexCallBacks) activity;
             mContext = activity;
@@ -91,16 +89,13 @@ public class TickGuideList extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        mInterface.onGuideItemClick();
-    }
-
-    // The container Activity must implement this interface so the frag can deliver messages
+    /**
+     * Callback Interface to handle onClick Listeners in {@link TickGuideList} Fragment.
+     */
     public interface IGuideIndexCallBacks {
 
         /**
-         * method to provide an interface to listen to data sent or button clicked in GuideIndex Fragment
+         * Callback method to provide an interface to listen to data sent or button clicked in {@link TickGuideList} Fragment
          */
         public void onGuideItemClick();
 

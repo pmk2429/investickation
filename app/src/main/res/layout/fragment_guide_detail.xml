@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_cardview_large"
+        android:layout_height="@dimen/dimen_cardview_X1_large"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_large"
                     android:layout_marginRight="@dimen/padding_large"
-                    android:layout_marginTop="@dimen/padding_large"
+                    android:layout_marginTop="@dimen/padding_X3_large"
                     android:padding="@dimen/padding_large"
                     card_view:cardPreventCornerOverlap="false">
 
@@ -141,14 +141,16 @@
                             android:text="Basic Information"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="18dp"/>
+                            android:textSize="@dimen/font_large"/>
 
                         <View
+                            android:id="@+id/separator_tickDetail"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_below="@id/textViewStatic_tickInfo"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
+                            android:layout_marginTop="@dimen/padding_medium"
                             android:background="@color/divider"/>
 
                         <!-- Nick Name -->
@@ -156,7 +158,7 @@
                             android:id="@+id/textViewStatic_tickNickName"
                             android:layout_width="140dp"
                             android:layout_height="@dimen/padding_X2_large"
-                            android:layout_below="@id/textViewStatic_tickInfo"
+                            android:layout_below="@id/separator_tickDetail"
                             android:gravity="top|start"
                             android:paddingBottom="0dp"
                             android:paddingLeft="@dimen/padding_large"
@@ -164,13 +166,13 @@
                             android:text="Nick Name: "
                             android:textAlignment="center"
                             android:textColor="@color/primaryText"
-                            android:textSize="18dp"/>
+                            android:textSize="@dimen/font_small"/>
 
                         <TextView
                             android:id="@+id/textView_tickNickName"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/padding_X2_large"
-                            android:layout_below="@id/textViewStatic_tickInfo"
+                            android:layout_below="@id/separator_tickDetail"
                             android:layout_toRightOf="@id/textViewStatic_tickNickName"
                             android:paddingBottom="0dp"
                             android:paddingLeft="@dimen/padding_large"
@@ -194,7 +196,7 @@
                             android:text="Formal Name: "
                             android:textAlignment="center"
                             android:textColor="@color/primaryText"
-                            android:textSize="@dimen/font_medium"/>
+                            android:textSize="@dimen/font_small"/>
 
                         <TextView
                             android:id="@+id/textView_tickFormalName"
@@ -223,7 +225,7 @@
                             android:text="Diseases: "
                             android:textAlignment="center"
                             android:textColor="@color/primaryText"
-                            android:textSize="@dimen/font_medium"/>
+                            android:textSize="@dimen/font_small"/>
 
                         <TextView
                             android:id="@+id/textView_tickDisease"
@@ -253,7 +255,7 @@
                             android:text="Found Near: "
                             android:textAlignment="center"
                             android:textColor="@color/primaryText"
-                            android:textSize="@dimen/font_medium"/>
+                            android:textSize="@dimen/font_small"/>
 
                         <TextView
                             android:id="@+id/textView_tickLocation"
@@ -276,6 +278,16 @@
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        android:src="@mipmap/ic_info_outline_white_36dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
