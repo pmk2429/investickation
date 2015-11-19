@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -71,7 +72,7 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
     private void setFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.observation_fragment_container, fragment);
-//                transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
+        // transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
         transaction.commit();
     }
 
@@ -112,9 +113,7 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Call back method when user clicks on the plus button in RemoteObservationsList Fragment to add Observation
-     */
+
     @Override
     public void onObservationAddListener() {
         AddObservation addObservationFragment = new AddObservation();
@@ -124,11 +123,9 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         transaction.commit();
     }
 
-    /**
-     * Callback for item click in RemoteObservationsList.
-     */
+
     @Override
-    public void onItemClickListener() {
+    public void onObservationListItemClickListener() {
         ObservationDetail observationDetailFragment = new ObservationDetail();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.observation_fragment_container, observationDetailFragment);
@@ -136,25 +133,24 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         transaction.commit();
     }
 
-    /**
-     * This method provides the Call back interface to the AddObservation Fragment when user click Post Observation button.
-     *
-     * @param newObservation
-     */
+
     @Override
     public void postObservationData(Observation newObservation) {
 
         newlyCreatedObs = newObservation;
 
+        Log.i(LOGTAG, newlyCreatedObs.toString());
+
         // pass this object to RetrofitController and get response.
-        observationResponseObj = (Observation) retrofitController.add(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
+//        observationResponseObj = (Observation) retrofitController.add(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
 
         // define the RemoteObservationsList Fragment
         RemoteObservationsList mRemoteObservationsList = new RemoteObservationsList();
 
         // once you get the response, simply pass it to RemoteObservations Fragment to display
         Bundle newObservationBundle = new Bundle();
-        newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, observationResponseObj);
+        // TODO: pass the Observation object Responded by Retrofit
+        newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
 
         mRemoteObservationsList.setArguments(newObservationBundle);
         // begin transaction and commit

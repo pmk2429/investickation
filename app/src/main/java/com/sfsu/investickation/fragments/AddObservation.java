@@ -17,6 +17,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private Context mContext;
     private Intent locationIntent;
     private EditText et_tickName, et_tickSpecies, et_numOfTicks;
-    private String activityUUID;
+    private String activityUUID, requestToken, userId;
     private Bundle args;
     private LocationController mLocationController;
     private EntityLocation entityLocation;
@@ -145,12 +147,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 String tickName = et_tickName.getText().toString();
                 String tickSpecies = et_tickSpecies.getText().toString();
                 int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
+                requestToken = "skbdjskmdcvslkvndjfnvsckjnskdb";
+                userId = "3dknv-vjbv78-dcnbdvkn";
 
 //                Tick tickObj = getTickFromName(tickName);
 
                 // finally when all values are collected, create a new Observation object.
                 newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
-                        entityLocation);
+                        entityLocation, requestToken, userId);
 
                 // pass the object to the ObservationActivity.
                 mInterface.postObservationData(newObservationObj);
@@ -274,6 +278,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         bitmap = null;
         selectedImagePath = null;
 
+
+        // TODO: write logic for making FileName and Directory.
+
         // if the Image was selected from the Camera
         if (resultCode == getActivity().RESULT_OK && requestCode == CAMERA_PICTURE) {
             if (null != data) {
@@ -293,6 +300,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 try {
                     int imageHeight = imageView_tickAddObservation.getHeight();
                     int imageWidth = imageView_tickAddObservation.getWidth();
+
+                    // set the selectedImagePath
+                    selectedImagePath = imageFile.getAbsolutePath();
 
                     bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
                     bitmap = getScaledBitmap(imageFile.getAbsolutePath(), 250, 250);
@@ -323,6 +333,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                         Log.d(LOGTAG, e.getMessage());
                     }
 
+                    // Picasso.with(mContext).load(imageFile).centerCrop().into(imageView_tickAddObservation);
+
                     imageView_tickAddObservation.setImageBitmap(bitmap);
                     //TODO: create BLOB or large Binary representation and send it on server.
 
@@ -348,8 +360,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 c.close();
 
                 try {
-                    bitmap = BitmapFactory.decodeFile(selectedImagePath);
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, false);
+                    //bitmap = BitmapFactory.decodeFile(selectedImagePath);
+                    //bitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, false);
                 } catch (Exception e) {
                     Log.d("---Exception", e.getMessage());
                 }
@@ -456,6 +468,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     }
 
+    private void validateNumber(int i) {
+
+    }
+
+    private void validateString(int i) {
+
+    }
+
     /**
      * Callback interface to handle the onClick Listeners in {@link AddObservation} Fragment.
      */
@@ -468,5 +488,40 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         void postObservationData(Observation newObservation);
     }
 
+    /**
+     * TODO: http://stackoverflow.com/questions/33072569/best-practice-input-validation-android
+     */
+    private class TextValidator implements TextWatcher {
 
+        private View view;
+
+        public TextValidator(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            switch (view.getId()) {
+                case R.id.editText_ActivityName:
+                    validateString(1);
+                    break;
+                case R.id.editText_numOfPeople:
+                    validateNumber(1);
+                    break;
+                case R.id.editText_totalPets:
+                    validateNumber(2);
+                    break;
+            }
+        }
+    }
 }

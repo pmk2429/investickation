@@ -1,18 +1,23 @@
 package com.sfsu.utils;
 
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 /**
+ * TextValidator is used to validate the input View for null, empty String, number or character
+ * .
  * Created by Pavitra on 11/13/2015.
  */
 public abstract class TextValidator implements TextWatcher {
 
-    private final EditText mEditText;
+    private EditText mEditText;
+    private View view;
 
-    public TextValidator(EditText editText) {
-        this.mEditText = editText;
+    public TextValidator(View view, Fragment fragment) {
+        this.view = view;
     }
 
     /**

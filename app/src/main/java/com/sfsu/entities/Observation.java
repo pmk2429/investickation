@@ -45,6 +45,7 @@ public class Observation implements Parcelable, Entity {
     private EntityLocation locationObj;
     private Tick tickObj;
     private User userObj;
+    private String requestToken, userId;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -86,12 +87,15 @@ public class Observation implements Parcelable, Entity {
      * @param timestamp   - Current Timestamp of the Observation.
      * @param locationObj - Location captured by the Android Device for the Observation
      */
-    public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj) {
+    public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj, String
+            requestToken, String userId) {
         this.imageUrl = imageUrl;
         this.num_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;
         this.tickName = tickName;
+        this.requestToken = requestToken;
+        this.userId = userId;
     }
 
     // constructor for demo purposes
@@ -117,6 +121,22 @@ public class Observation implements Parcelable, Entity {
         observations.add(new Observation("Spotted Red Tick", "Yosemite National Park", System.currentTimeMillis()));
         observations.add(new Observation("Deer Tick", "Lands End trail", System.currentTimeMillis()));
         return observations;
+    }
+
+    public String getRequestToken() {
+        return requestToken;
+    }
+
+    public void setRequestToken(String requestToken) {
+        this.requestToken = requestToken;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getImageUrl() {
@@ -191,10 +211,12 @@ public class Observation implements Parcelable, Entity {
     public String toString() {
         return "Observation{" +
                 "observation_id=" + observation_id +
+                ", geoLocation='" + geoLocation + '\'' +
+                ", tickName='" + tickName + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", num_ticks=" + num_ticks +
                 ", timestamp=" + timestamp +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", locationObj=" + locationObj +
                 '}';
     }
 
