@@ -74,7 +74,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             getLocationDataFromService(intent);
         }
     };
-    private Tick tickData;
 
     public AddObservation() {
         // Required empty public constructor
@@ -168,18 +167,29 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * @param inflater
      */
     private void openChooseTickDialog(LayoutInflater inflater) {
-        AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext);
+        final AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
         View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
 
         // identify the ListView
         ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
 
+        tickList = Tick.getAllTicks();
+
         // Build an ArrayAdapter
         final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
         listViewTicks.setAdapter(dialogAdapter);
+        listViewTicks.setDivider(null);
+        listViewTicks.setDividerHeight(0);
 
         dialogAdapter.setNotifyOnChange(true);
         dialogAdapter.notifyDataSetChanged();
+
+        // set the characteristics of AlertDialog.
+        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
+        alertDialogChooseTick.setView(customView);
+
+        final AlertDialog dialog = alertDialogChooseTick.create();
+        dialog.show();
 
         // when the user simply presses the news item, then the DetailedNewsActivity will get started.
         listViewTicks.setOnItemClickListener(
@@ -187,13 +197,20 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         setTickData(tickList.get(position));
+                        dialog.dismiss();
                     }
                 });
+    }
 
 
-        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
-        alertDialogChooseTick.setView(customView);
-
+    /**
+     * Helper method to populate the Values of EditTexts in {@link AddObservation} Fragment
+     *
+     * @param tickData
+     */
+    public void setTickData(Tick tickData) {
+        et_tickName.setText(tickData.getTickName());
+        et_tickSpecies.setText(tickData.getSpecies());
     }
 
     /**
@@ -384,15 +401,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void setLocationArea(String locationArea) {
 
-    }
-
-    /**
-     * Helper method to populate the Values of EditTexts in {@link AddObservation} Fragment
-     *
-     * @param tickData
-     */
-    public void setTickData(Tick tickData) {
-        this.tickData = tickData;
     }
 
     /**

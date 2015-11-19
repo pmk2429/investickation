@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +53,9 @@ public class Tick implements Parcelable, Entity {
     public Tick() {
     }
 
-    public Tick(String tickName, String description) {
+    public Tick(String tickName, String species) {
         this.tickName = tickName;
-        this.description = description;
+        this.species = species;
     }
 
     // constructor for retrieving all the data from the Tick Object.
@@ -99,6 +98,19 @@ public class Tick implements Parcelable, Entity {
         ticks.add(new Tick("American Dog tick", "Found on Dogs"));
         ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
         ticks.add(new Tick("Jungle tick", "Dangerous species"));
+        return ticks;
+    }
+
+    public static List<Tick> getAllTicks() {
+        List<Tick> ticks = new ArrayList<>();
+        ticks.add(new Tick("American Dog tick", "Species 1"));
+        ticks.add(new Tick("Spotted Tick", "Species 2"));
+        ticks.add(new Tick("Deer Tick", "Species 3"));
+        ticks.add(new Tick("Rocky Mountain Wood Tick", "Species 4"));
+        ticks.add(new Tick("Lone Star Tick", "Species 5"));
+        ticks.add(new Tick("Gulf Coast Tick", "Species 6"));
+        ticks.add(new Tick("Ixodes Ticks", "Species 7"));
+        ticks.add(new Tick("Amblyomma americanum", "Species 8"));
         return ticks;
     }
 

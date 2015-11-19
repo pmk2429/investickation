@@ -40,6 +40,7 @@
     <!-- -->
     <string name="tickSpecies">Dermacentor variabilis</string>
     <string name="tickName">American Dog Tick</string>
+    <string name="tickImagesDesc">Tick Image</string>
     <string name="tickCount">7</string>
     <string name="alert_chooseTick">Choose the desired Tick:</string>
 

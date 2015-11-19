@@ -42,4 +42,10 @@
         <item name="spinBars">true</item>
         <item name="color">@color/drawerArrowColor</item>
     </style>
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorSecondary</item>
+        <item name="android:textColorPrimary">@color/colorSecondary</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
 </resources>
