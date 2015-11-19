@@ -52,7 +52,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private final String LOGTAG = "~!@#$AddObservation :";
     private Bitmap bitmap;
     private ImageView imageView_tickAddObservation;
-    private String selectedImagePath;
+    private String selectedImagePath, picturePath;
     private Button btn_PostObservation;
     private Observation newObservationObj;
     private RetrofitController retrofitController;
@@ -271,64 +271,65 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         bitmap = null;
         selectedImagePath = null;
 
         // if the Image was selected from the Camera
         if (resultCode == getActivity().RESULT_OK && requestCode == CAMERA_PICTURE) {
-
-            // get the Path to the File created using Camera
-            File imageFile = new File(Environment.getExternalStorageDirectory().toString());
-            for (File temp : imageFile.listFiles()) {
-                if (temp.getName().equals("demo.jpg")) {
-                    imageFile = temp;
-                    break;
-                }
-            }
-
-            if (!imageFile.exists()) {
-                Toast.makeText(getActivity(), "Error capturing Tick image", Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
-                int rotate = 0;
-                try {
-                    ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
-                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-
-                    switch (orientation) {
-                        case ExifInterface.ORIENTATION_ROTATE_270:
-                            rotate = 270;
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_180:
-                            rotate = 180;
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_90:
-                            rotate = 90;
-                            break;
+            if (null != data) {
+                // get the Path to the File created using Camera
+                File imageFile = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : imageFile.listFiles()) {
+                    if (temp.getName().equals("demo.jpg")) {
+                        imageFile = temp;
+                        break;
                     }
+                }
+
+                if (!imageFile.exists()) {
+                    Toast.makeText(getActivity(), "Error capturing Tick image", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                try {
+                    int imageHeight = imageView_tickAddObservation.getHeight();
+                    int imageWidth = imageView_tickAddObservation.getWidth();
+
+                    bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                    bitmap = getScaledBitmap(imageFile.getAbsolutePath(), 250, 250);
+                    int rotate = 0;
+                    try {
+                        ExifInterface exif = new ExifInterface(imageFile.getAbsolutePath());
+                        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                        switch (orientation) {
+                            case ExifInterface.ORIENTATION_ROTATE_270:
+                                rotate = 270;
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_180:
+                                rotate = 180;
+                                break;
+                            case ExifInterface.ORIENTATION_ROTATE_90:
+                                rotate = 90;
+                                break;
+                        }
+                        // use to transform coordinates according to orientation.
+                        Matrix matrix = new Matrix();
+                        // rotate based on degrees
+                        matrix.postRotate(rotate);
+                        // create a new bitmap from the matrix
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+                    } catch (Exception e) {
+                        Log.d(LOGTAG, e.getMessage());
+                    }
+
+                    imageView_tickAddObservation.setImageBitmap(bitmap);
+                    //TODO: create BLOB or large Binary representation and send it on server.
+
                 } catch (Exception e) {
                     Log.d(LOGTAG, e.getMessage());
                 }
-
-                // use to transform coordinates according to orientation.
-                Matrix matrix = new Matrix();
-                // rotate based on degrees
-                matrix.postRotate(rotate);
-                // create a new bitmap from the matrix
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-                // set Tick image to imageView.
-                imageView_tickAddObservation.setImageBitmap(bitmap);
-                //TODO: create BLOB or large Binary representation and send it on server.
-
-            } catch (Exception e) {
-                Log.d(LOGTAG, e.getMessage());
             }
-
 
         }
         // if the image is chosen from Gallery
@@ -348,17 +349,65 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                 try {
                     bitmap = BitmapFactory.decodeFile(selectedImagePath);
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 600, 400, false);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, false);
                 } catch (Exception e) {
                     Log.d("---Exception", e.getMessage());
                 }
                 // set the bitmap in ImageView
-                imageView_tickAddObservation.setImageBitmap(bitmap);
-
+                imageView_tickAddObservation.setImageBitmap(getScaledBitmap(selectedImagePath, 600, 600));
             } else {
                 Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    /**
+     * Helper method to get Scaled Bitmap.
+     *
+     * @param picturePath
+     * @param width
+     * @param height
+     * @return
+     */
+    private Bitmap getScaledBitmap(String picturePath, int width, int height) {
+        BitmapFactory.Options sizeOptions = new BitmapFactory.Options();
+        sizeOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(picturePath, sizeOptions);
+
+        int inSampleSize = calculateInSampleSize(sizeOptions, width, height);
+
+        sizeOptions.inJustDecodeBounds = false;
+        sizeOptions.inSampleSize = inSampleSize;
+
+        return BitmapFactory.decodeFile(picturePath, sizeOptions);
+    }
+
+    /**
+     * Method to calculate the Bitmap in Sample Size.
+     *
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and width
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will
+            // guarantee a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        return inSampleSize;
     }
 
     @Override

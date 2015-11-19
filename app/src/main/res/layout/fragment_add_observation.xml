@@ -22,11 +22,12 @@
             <ImageView
                 android:id="@+id/imageView_addObs_tickImage"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="@dimen/dimen_cardview_large"
                 android:layout_below="@id/toolbar_base"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/placeholder_tick"/>
 
             <!--&lt;!&ndash; Circle button &ndash;&gt;-->
@@ -62,7 +63,7 @@
                 android:layout_below="@id/imageView_addObs_tickImage"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_X3_large"
+                android:layout_marginTop="@dimen/padding_large"
                 android:text="@string/text_chooseTickInfo"
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_small"/>
@@ -71,7 +72,7 @@
                 android:id="@+id/button_chooseFromGuide"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/widget_dimen_medium"
                 android:layout_below="@id/textViewStatic_chooseFromGuide"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="@dimen/padding_large"
@@ -176,7 +177,7 @@
     <Button
         android:id="@+id/button_postObservation"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"

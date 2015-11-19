@@ -21,6 +21,7 @@
     <dimen name="padding_dimen_X3_large">120dp</dimen>
 
     <!-- Widget default dimen-->
+    <dimen name="widget_dimen_medium">40dp</dimen>
     <dimen name="widget_dimen">48dp</dimen>
     <dimen name="widget_dimen_large">56dp</dimen>
     <dimen name="widget_dimen_X1_large">72dp</dimen>
@@ -40,6 +41,7 @@
     <dimen name="dimen_cardview_default">180dp</dimen>
     <dimen name="dimen_cardview_large">200dp</dimen>
     <dimen name="dimen_cardview_X_large">240dp</dimen>
+    <dimen name="dimen_cardview_X1_large">256dp</dimen>
 
     <!-- FAB dimensions-->
     <dimen name="dimen_material_default">56dp</dimen>

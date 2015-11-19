@@ -35,7 +35,7 @@
     <string name="text_totalPets">1</string>
     <string name="text_speciesName">1 pet</string>
     <string name="text_chooseTick">Choose from Tick Guide</string>
-    <string name="text_chooseTickInfo">Can\'t recognize tick? Select from Guide</string>
+    <string name="text_chooseTickInfo">Can\'t recognize tick?</string>
 
     <!-- -->
     <string name="tickSpecies">Dermacentor variabilis</string>
