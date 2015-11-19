@@ -44,7 +44,7 @@ public class Observation implements Parcelable, Entity {
     private long timestamp, created_at, updated_at;
     private EntityLocation locationObj;
     private Tick tickObj;
-    private User userId;
+    private User userObj;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -63,8 +63,8 @@ public class Observation implements Parcelable, Entity {
      * @param created_at     - Timestamp when the Observation entry was recorded on the Server
      * @param updated_at     - Timestamp when the Observation entry was updated on the Server
      */
-    public Observation(long observation_id, Tick tickObj, EntityLocation locationObj, String imageUrl, String geoLocation, int
-            num_ticks, long timestamp, long created_at, long updated_at) {
+    public Observation(long observation_id, Tick tickObj, EntityLocation locationObj, String imageUrl, String geoLocation,
+                       int num_ticks, long timestamp, long created_at, long updated_at) {
         this.observation_id = observation_id;
         this.geoLocation = geoLocation;
         this.num_ticks = num_ticks;

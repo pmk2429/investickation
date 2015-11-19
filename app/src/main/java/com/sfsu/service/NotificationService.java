@@ -21,7 +21,6 @@ public class NotificationService extends Service {
         Notification notification = new Notification(R.drawable.notification_template_icon_bg, "Notify Alarm strart", System.currentTimeMillis());
         Intent myIntent = new Intent(this, ActivityNew.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, myIntent, 0);
-        notification.setLatestEventInfo(this, "Notify label", "Notify text", contentIntent);
         mNM.notify(1, notification);
     }
 
