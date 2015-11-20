@@ -3,19 +3,31 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.sfsu.adapters.TicksListAdapter;
 import com.sfsu.entities.Tick;
+import com.sfsu.investickation.MainActivity;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+import com.sfsu.investickation.SettingsActivity;
+import com.sfsu.investickation.TickGuideMasterActivity;
+import com.sfsu.investickation.UserActivityMasterActivity;
 
 import java.util.List;
 
@@ -31,6 +43,10 @@ public class TickGuideList extends Fragment {
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
     private List<Tick> tickList;
+    private Toolbar toolbarMain;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+    private int mCurrentSelectedPosition;
 
     public TickGuideList() {
         // Required empty public constructor
@@ -42,6 +58,8 @@ public class TickGuideList extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_guide_index, container, false);
+
+        setActionBarAndNavDrawer(v);
 
         RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
         rv.setHasFixedSize(true);
@@ -74,6 +92,92 @@ public class TickGuideList extends Fragment {
             }
         }));
         return v;
+    }
+
+    private void setActionBarAndNavDrawer(View v) {
+        toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_guideList);
+
+        if (toolbarMain != null) {
+            ((TickGuideMasterActivity) getActivity()).setSupportActionBar(toolbarMain);
+
+            // get the ActionBar and set the Menu icon.
+            final ActionBar actionBar = ((TickGuideMasterActivity) getActivity()).getSupportActionBar();
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+
+            // initialize the DrawerLayout
+            mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+
+            // set the onClick Listener for the Drawer click event
+            toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+            });
+        }
+
+        // initialize the NavigationView and also setup OnClickListener for each of the Items in list
+        mNavigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        if (mNavigationView != null) {
+            mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    selectDrawerItem(menuItem);
+                    return true;
+                }
+            });
+        }
+    }
+
+    private void selectDrawerItem(MenuItem menuItem) {
+        Intent intent;
+
+        try {
+            switch (menuItem.getItemId()) {
+                case R.id.nav_home:
+                    intent = new Intent(mContext, MainActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 0;
+                    break;
+
+                case R.id.nav_activities:
+                    intent = new Intent(mContext, UserActivityMasterActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 1;
+                    break;
+
+                case R.id.nav_observations:
+                    intent = new Intent(mContext, ObservationMasterActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 2;
+                    break;
+
+                case R.id.navigation_ticksData:
+                    intent = new Intent(mContext, TickGuideMasterActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 3;
+                    break;
+
+                case R.id.nav_settings:
+                    intent = new Intent(mContext, SettingsActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 4;
+                    break;
+            }
+        } catch (Exception e) {
+            Log.d(LOGTAG, e.getMessage());
+        }
+
+        // Hihhlight the selected item and close the drawer
+        menuItem.setChecked(true);
+        mDrawerLayout.closeDrawers();
     }
 
 

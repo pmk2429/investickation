@@ -234,8 +234,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
             default:
                 //Log.i(LOGTAG, " itemId: " + item.getItemId());
         }
-
-
         return super.onOptionsItemSelected(item);
 
     }

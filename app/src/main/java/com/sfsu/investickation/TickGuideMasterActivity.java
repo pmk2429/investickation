@@ -2,6 +2,7 @@ package com.sfsu.investickation;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,7 +16,7 @@ import com.sfsu.utils.AppUtils;
 import java.util.ArrayList;
 
 
-public class TickGuideMasterActivity extends BaseActivity implements TickGuideList.IGuideIndexCallBacks {
+public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideList.IGuideIndexCallBacks {
 
     private final String LOGTAG = "~!@#$TickGuideMasterActivity :";
     private RetrofitController retrofitController;

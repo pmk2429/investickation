@@ -2,7 +2,9 @@ package com.sfsu.investickation.fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.view.ViewGroup;
 import com.sfsu.investickation.R;
 
 /**
- * Contains the information about each Tick in the InvesTICKations project.
+ * Represents the detailed information about each Tick in the InvesTICKations project.
  */
 public class TickGuideDetail extends Fragment {
 
@@ -32,7 +34,21 @@ public class TickGuideDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_guide_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_guide_detail, container, false);
+
+        // identify the Toolbar and remove it.
+//        Toolbar parentActivityToolbar = ((TickGuideMasterActivity) getActivity()).mToolbar;
+//        parentActivityToolbar.removeAllViews();
+//        parentActivityToolbar.removeAllViewsInLayout();
+
+
+        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar_guideDetail);
+        collapsingToolbar.setTitle("Tick Name");
+
+        return rootView;
     }
 
 

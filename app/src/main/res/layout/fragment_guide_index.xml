@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:baselineAligned="false"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--  Tool bar -->
+    <include
+        android:id="@+id/toolbar_guideList"
+        layout="@layout/toolbar_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
     <!-- Recycler View to display the list of Ticks section -->
     <android.support.v7.widget.RecyclerView
@@ -13,5 +21,4 @@
         android:layout_gravity="start"
         android:background="@color/colorWhite"
         android:scrollbars="vertical"/>
-
 </LinearLayout>

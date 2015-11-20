@@ -35,6 +35,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
     private List<Observation> observationList;
     private Observation newObservationObject;
     private RecyclerView recyclerView_observations;
+    private Bundle args;
 
     public RemoteObservationsList() {
         // Required empty public constructor
@@ -45,6 +46,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("My Observations");
+        args = getArguments();
     }
 
     @Override
@@ -54,8 +56,10 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
 
         // retrieve the Observation Response Object from the Bundle. This object will be the one returned as Response by Retrofit
-        newObservationObject = getArguments().getParcelable(AppUtils.OBSERVATION_RESOURCE);
-        Log.i(LOGTAG, newObservationObject.toString());
+        if (args != null) {
+            newObservationObject = getArguments().getParcelable(AppUtils.OBSERVATION_RESOURCE);
+        }
+
 
         recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);

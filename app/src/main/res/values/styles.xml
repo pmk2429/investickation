@@ -1,6 +1,6 @@
 <!-- values/themes.xml -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="AppTheme" parent="AppTheme.Base"/>
 
@@ -8,30 +8,29 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorSecondary</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <!-- Both of these are needed -->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <!--<item name="android:fitsSystemWindows">true</item>-->
+        <!--&lt;!&ndash; Both of these are needed &ndash;&gt;-->
 
-        <!-- Styles for MaterialViewPager-->
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="windowActionBar">false</item>
+        <!--&lt;!&ndash; Styles for MaterialViewPager&ndash;&gt;-->
+        <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item name="windowActionBar">false</item>-->
 
-        <item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+        <!--<item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>-->
+        <!--<item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>-->
+        <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
 
     </style>
 
     <style name="AppTheme.NavBarDrawer" parent="AppTheme.Base">
         <!-- Customize your theme here. -->
         <item name="android:textColorPrimary">@color/colorSecondary</item>
-        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
-
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+        <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
