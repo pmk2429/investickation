@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.sfsu.investickation.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Contains the information about each Tick in the InvesTICKations project.
  */
 public class TickGuideDetail extends Fragment {
 
