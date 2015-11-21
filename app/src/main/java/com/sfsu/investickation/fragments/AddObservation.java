@@ -17,8 +17,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +33,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.LocationController;
-import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
@@ -43,11 +40,13 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.model.TickDao;
 import com.sfsu.utils.AppUtils;
+import com.sfsu.validation.TextValidator;
+import com.sfsu.validation.ValidationUtil;
 
 import java.io.File;
 import java.util.List;
 
-public class AddObservation extends Fragment implements LocationController.ILocationCallBacks {
+public class AddObservation extends Fragment implements LocationController.ILocationCallBacks, TextValidator.ITextValidate {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
@@ -57,7 +56,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private String selectedImagePath, picturePath;
     private Button btn_PostObservation;
     private Observation newObservationObj;
-    private RetrofitController retrofitController;
     private IAddObservationCallBack mInterface;
     private Context mContext;
     private Intent locationIntent;
@@ -68,6 +66,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private EntityLocation entityLocation;
     private DatabaseDataController dbController;
     private List<Tick> tickList;
+    private boolean isTotalTicksNumber, isTickNameValid, isTickSpeciesValid;
+    private TextValidator mTextValidator;
 
     // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -113,11 +113,18 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
         imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);
 
+
+        // identify all the EditTexts and set Validation on all.
         et_tickName = (EditText) v.findViewById(R.id.editText_addObs_tickName);
         et_tickName.setKeyListener(null);
+        et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
+
         et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
         et_tickSpecies.setKeyListener(null);
+        et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
+
         et_numOfTicks = (EditText) v.findViewById(R.id.editText_addObs_numOfTicks);
+        et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
 
         et_tickName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,21 +151,22 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         btn_PostObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tickName = et_tickName.getText().toString();
-                String tickSpecies = et_tickSpecies.getText().toString();
-                int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
-                requestToken = "skbdjskmdcvslkvndjfnvsckjnskdb";
-                userId = "3dknv-vjbv78-dcnbdvkn";
 
-//                Tick tickObj = getTickFromName(tickName);
+                if (isTotalTicksNumber) {
+                    String tickName = et_tickName.getText().toString();
+                    String tickSpecies = et_tickSpecies.getText().toString();
+                    int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
+                    requestToken = "skbdjskmdcvslkvndjfnvsckjnskdb";
+                    userId = "3dknv-vjbv78-dcnbdvkn";
 
-                // finally when all values are collected, create a new Observation object.
-                newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
-                        entityLocation, requestToken, userId);
+                    // finally when all values are collected, create a new Observation object.
+                    newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
+                            entityLocation, requestToken, userId);
 
-                // pass the object to the ObservationActivity.
-                mInterface.postObservationData(newObservationObj);
-                // once the data is sent to RetrofitController get the response from same and pass it to RemoteObservations
+                    // pass the object to the ObservationActivity.
+                    mInterface.postObservationData(newObservationObj);
+                    // once the data is sent to RetrofitController get the response from same and pass it to RemoteObservations
+                }
             }
         });
 
@@ -468,12 +476,35 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     }
 
-    private void validateNumber(int i) {
-
+    private boolean validateNumber(EditText mEditText, String text) {
+        if (text.isEmpty() || !AppUtils.isNumeric(text)) {
+            mEditText.setError(getString(R.string.error_NAN));
+            mEditText.requestFocus();
+            return false;
+        } else {
+            mEditText.setError(null);
+        }
+        return true;
     }
 
-    private void validateString(int i) {
-
+    @Override
+    public void validate(View mView, String text) {
+        Log.i(LOGTAG, "method called");
+        EditText mEditText = (EditText) mView;
+        switch (mView.getId()) {
+            case R.id.editText_addObs_tickName:
+                Log.i(LOGTAG, "name");
+                isTickNameValid = ValidationUtil.validateString(mEditText, text);
+                break;
+            case R.id.editText_addObs_tickSpecies:
+                Log.i(LOGTAG, "species");
+                isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
+                break;
+            case R.id.editText_addObs_numOfTicks:
+                Log.i(LOGTAG, "number");
+                isTotalTicksNumber = validateNumber(mEditText, text);
+                break;
+        }
     }
 
     /**
@@ -488,40 +519,4 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         void postObservationData(Observation newObservation);
     }
 
-    /**
-     * TODO: http://stackoverflow.com/questions/33072569/best-practice-input-validation-android
-     */
-    private class TextValidator implements TextWatcher {
-
-        private View view;
-
-        public TextValidator(View view) {
-            this.view = view;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            switch (view.getId()) {
-                case R.id.editText_ActivityName:
-                    validateString(1);
-                    break;
-                case R.id.editText_numOfPeople:
-                    validateNumber(1);
-                    break;
-                case R.id.editText_totalPets:
-                    validateNumber(2);
-                    break;
-            }
-        }
-    }
 }

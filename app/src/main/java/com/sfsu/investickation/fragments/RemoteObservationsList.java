@@ -58,9 +58,11 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         // retrieve the Observation Response Object from the Bundle. This object will be the one returned as Response by Retrofit
         if (args != null) {
             newObservationObject = getArguments().getParcelable(AppUtils.OBSERVATION_RESOURCE);
+            if (newObservationObject != null) {
+                Log.i(LOGTAG, newObservationObject.toString());
+            }
         }
-
-
+        
         recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);
 

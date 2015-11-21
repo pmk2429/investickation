@@ -313,7 +313,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         /*
         Validate all the input Strings and once the validation passes, create the activity object and pass it to parent Activity
          */
-        if (validateString(0) && validateNumber(1) && validateNumber(2)) {
+        if (validateString() && validateNumber(1) && validateNumber(2)) {
             String activityName = et_activityName.getText().toString();
             int totalPeople = Integer.parseInt(et_totalPeople.getText().toString());
             int totalPets = Integer.parseInt(et_totalPets.getText().toString());
@@ -337,7 +337,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     }
 
     // validate the input String be it first name, last name, address etc
-    private boolean validateString(int checkCode) {
+    private boolean validateString() {
         if (et_activityName.getText().toString().trim().isEmpty()) {
             et_activityName.setError(getString(R.string.error_invalid_string));
             et_activityName.requestFocus();
@@ -433,7 +433,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         public void afterTextChanged(Editable s) {
             switch (view.getId()) {
                 case R.id.editText_ActivityName:
-                    validateString(1);
+                    validateString();
                     break;
                 case R.id.editText_numOfPeople:
                     validateNumber(1);
