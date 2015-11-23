@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_cardview_X1_large"
+        android:layout_height="@dimen/cardview_X1_large"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -72,17 +72,17 @@
                     android:id="@+id/cardview_tickGuide_detail_heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_large"
-                    android:layout_marginRight="@dimen/padding_large"
-                    android:layout_marginTop="@dimen/padding_X3_large"
-                    android:padding="@dimen/padding_large"
+                    android:layout_marginLeft="@dimen/view_dimen_large"
+                    android:layout_marginRight="@dimen/view_dimen_large"
+                    android:layout_marginTop="@dimen/view_dimen_X2_large"
+                    android:padding="@dimen/view_dimen_large"
                     card_view:cardPreventCornerOverlap="false">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
-                        android:paddingBottom="@dimen/padding_large">
+                        android:paddingBottom="@dimen/view_dimen_large">
 
                         <TextView
                             android:id="@+id/textView_tickName"
@@ -118,17 +118,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cardview_tickGuide_detail_heading"
-                    android:layout_marginLeft="@dimen/padding_large"
-                    android:layout_marginRight="@dimen/padding_large"
-                    android:layout_marginTop="@dimen/padding_large"
-                    android:padding="@dimen/padding_large"
+                    android:layout_marginLeft="@dimen/view_dimen_large"
+                    android:layout_marginRight="@dimen/view_dimen_large"
+                    android:layout_marginTop="@dimen/view_dimen_large"
+                    android:padding="@dimen/view_dimen_large"
                     card_view:cardPreventCornerOverlap="false">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
-                        android:paddingBottom="@dimen/padding_large">
+                        android:paddingBottom="@dimen/view_dimen_large">
 
                         <TextView
                             android:id="@+id/textViewStatic_tickInfo"
@@ -150,19 +150,19 @@
                             android:layout_below="@id/textViewStatic_tickInfo"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
-                            android:layout_marginTop="@dimen/padding_medium"
+                            android:layout_marginTop="@dimen/view_dimen_medium"
                             android:background="@color/divider"/>
 
                         <!-- Nick Name -->
                         <TextView
                             android:id="@+id/textViewStatic_tickNickName"
                             android:layout_width="140dp"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/separator_tickDetail"
                             android:gravity="top|start"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
-                            android:paddingTop="@dimen/padding_small"
+                            android:paddingLeft="@dimen/view_dimen_large"
+                            android:paddingTop="@dimen/view_dimen_small"
                             android:text="Nick Name: "
                             android:textAlignment="center"
                             android:textColor="@color/primaryText"
@@ -171,11 +171,11 @@
                         <TextView
                             android:id="@+id/textView_tickNickName"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/separator_tickDetail"
                             android:layout_toRightOf="@id/textViewStatic_tickNickName"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingTop="8dp"
                             android:text="Lone Star Tick"
                             android:textAlignment="center"
@@ -187,11 +187,11 @@
                         <TextView
                             android:id="@+id/textViewStatic_tickFormalName"
                             android:layout_width="140dp"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/textViewStatic_tickNickName"
                             android:gravity="top|start"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingTop="8dp"
                             android:text="Formal Name: "
                             android:textAlignment="center"
@@ -201,7 +201,7 @@
                         <TextView
                             android:id="@+id/textView_tickFormalName"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/textViewStatic_tickNickName"
                             android:layout_toRightOf="@id/textViewStatic_tickFormalName"
                             android:paddingBottom="0dp"
@@ -216,11 +216,11 @@
                         <TextView
                             android:id="@+id/textViewStatic_tickDisease"
                             android:layout_width="140dp"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/textViewStatic_tickFormalName"
                             android:gravity="top|start"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingTop="8dp"
                             android:text="Diseases: "
                             android:textAlignment="center"
@@ -230,11 +230,11 @@
                         <TextView
                             android:id="@+id/textView_tickDisease"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/textViewStatic_tickFormalName"
                             android:layout_toRightOf="@id/textViewStatic_tickDisease"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingTop="8dp"
                             android:text="Tularemia"
                             android:textAlignment="center"
@@ -246,11 +246,11 @@
                         <TextView
                             android:id="@+id/textViewStatic_Location"
                             android:layout_width="140dp"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/textViewStatic_tickDisease"
                             android:gravity="top|start"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingTop="8dp"
                             android:text="Found Near: "
                             android:textAlignment="center"
@@ -260,11 +260,11 @@
                         <TextView
                             android:id="@+id/textView_tickLocation"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/padding_X2_large"
+                            android:layout_height="@dimen/view_dimen_X1_large"
                             android:layout_below="@id/textViewStatic_tickDisease"
                             android:layout_toRightOf="@id/textViewStatic_Location"
                             android:paddingBottom="0dp"
-                            android:paddingLeft="@dimen/padding_large"
+                            android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingTop="8dp"
                             android:text="Dry Areas"
                             android:textAlignment="center"

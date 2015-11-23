@@ -4,9 +4,9 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:baselineAligned="false"
-              android:paddingLeft="@dimen/padding_small"
-              android:paddingRight="@dimen/padding_small"
-              android:paddingTop="@dimen/padding_large">
+              android:paddingLeft="@dimen/view_dimen_small"
+              android:paddingRight="@dimen/view_dimen_small"
+              android:paddingTop="@dimen/view_dimen_large">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_activity"
@@ -29,8 +29,8 @@
                 android:background="@color/colorWhite"
                 android:gravity="top|start"
                 android:paddingBottom="8dp"
-                android:paddingLeft="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_large"
+                android:paddingLeft="@dimen/view_dimen_large"
+                android:paddingTop="@dimen/view_dimen_large"
                 android:text="@string/text_activityName"
                 android:textColor="@color/primaryText"
                 android:textSize="18dp"
@@ -39,7 +39,7 @@
             <ImageView
                 android:id="@+id/mapView_activity"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_large"
+                android:layout_height="@dimen/cardview_large"
                 android:layout_below="@id/textView_activityNameMain"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
@@ -55,7 +55,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="-40dp"
-                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/view_dimen_small"
                 fab:fab_colorNormal="@color/secondaryText"
                 fab:fab_colorPressed="@color/secondaryText"
                 />

@@ -16,44 +16,23 @@ import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 /**
- *
+ * Registers the User and sends the User input Data to Server via Retrofit Controller. The user enters the Full name. address,
  */
 public class Register extends Fragment implements View.OnClickListener {
 
     private final String LOGTAG = "~!@#Register :";
 
-    @InjectView(R.id.button_registerUser)
-    Button btnRegisterUser;
-    @InjectView(R.id.editText_username)
-    EditText et_username;
-    @InjectView(R.id.editText_email)
-    EditText et_email;
-    @InjectView(R.id.editText_password)
-    EditText et_password;
-    @InjectView(R.id.editText_phone)
-    EditText et_phone;
-    @InjectView(R.id.editText_address)
-    EditText et_address;
-    @InjectView(R.id.image_usermain)
-    ImageView imageView_userImage;
+
+    private Button btnRegisterUser;
+    private EditText et_username, et_email, et_password, et_phone, et_address;
+    private ImageView imageView_userImage;
     private RetrofitController retrofitController;
     private IRegisterCallBacks mListener;
-
+    
 
     public Register() {
         // IMP - Don't delete
-    }
-
-    // Factory method to create Fragment instance.
-    public static Register newInstance(String param1, String param2) {
-        Register fragment = new Register();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -64,7 +43,6 @@ public class Register extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
 
         }
-        ButterKnife.inject(getActivity());
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 

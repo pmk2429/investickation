@@ -1,36 +1,25 @@
 <!-- values/themes.xml -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="AppTheme.Base"/>
 
+    <!-- Parent Theme-->
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorSecondary</item>
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-        <!--<item name="android:fitsSystemWindows">true</item>-->
-        <!--&lt;!&ndash; Both of these are needed &ndash;&gt;-->
 
-        <!--&lt;!&ndash; Styles for MaterialViewPager&ndash;&gt;-->
-        <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="windowActionBar">false</item>-->
-
-        <!--<item name="android:statusBarColor" tools:targetApi="21">@color/statusBarColor</item>-->
-        <!--<item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
-
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
     </style>
 
-    <style name="AppTheme.NavBarDrawer" parent="AppTheme.Base">
-        <!-- Customize your theme here. -->
+    <!-- Main theme for the Application. Material style for the Fragments and Activities screens-->
+    <style name="AppTheme.MaterialStyle" parent="AppTheme.Base">
         <item name="android:textColorPrimary">@color/colorSecondary</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!--<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -42,9 +31,18 @@
         <item name="color">@color/drawerArrowColor</item>
     </style>
 
-    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="AppCompatAlertDialogStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/colorSecondary</item>
         <item name="android:textColorPrimary">@color/colorSecondary</item>
         <item name="android:background">@color/colorWhite</item>
     </style>
+
+
+    <style name="RaisedButtonStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/font_small</item>
+        <item name="android:background">@drawable/raised_button_background</item>
+    </style>
+
 </resources>

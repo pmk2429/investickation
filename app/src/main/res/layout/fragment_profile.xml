@@ -20,7 +20,7 @@
             <RelativeLayout
                 android:id="@+id/demo"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_default">
+                android:layout_height="@dimen/cardview_default">
 
                 <!--  user image -->
                 <ImageView
@@ -54,9 +54,9 @@
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/demo"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginTop="@dimen/padding_large"
-                android:padding="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_person_black_36dp"/>
 
@@ -85,8 +85,8 @@
                 android:layout_height="48dp"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_user"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_email_black_36dp"/>
 
@@ -95,14 +95,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/editText_user"
-                android:layout_marginRight="@dimen/padding_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_toRightOf="@id/icon_email"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:hint="Email"
                 android:lines="1"
-                android:paddingBottom="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_large"
+                android:paddingBottom="@dimen/view_dimen_large"
+                android:paddingTop="@dimen/view_dimen_large"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
@@ -114,8 +114,8 @@
                 android:layout_height="48dp"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_email"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_vpn_key_black_36dp"/>
 
@@ -124,13 +124,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_below="@id/editText_email"
-                android:layout_marginRight="@dimen/padding_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_toRightOf="@id/icon_password"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:hint="Password"
                 android:lines="1"
-                android:paddingBottom="@dimen/padding_large"
+                android:paddingBottom="@dimen/view_dimen_large"
                 android:paddingTop="16sp"
                 android:password="true"
                 android:scrollHorizontally="true"
@@ -144,8 +144,8 @@
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_password"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_phone_black_36dp"/>
 
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/editText_password"
-                android:layout_marginRight="@dimen/padding_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_toRightOf="@id/icon_phone"
                 android:layout_weight="1"
                 android:ellipsize="end"
@@ -171,8 +171,8 @@
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_phone"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_location_on_black_36dp"/>
 
@@ -181,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/editText_phone"
-                android:layout_marginRight="@dimen/padding_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_toRightOf="@id/icon_address"
                 android:layout_weight="1"
                 android:ellipsize="end"
@@ -200,9 +200,9 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/padding_large"
-        android:layout_marginLeft="@dimen/padding_large"
-        android:layout_marginRight="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/view_dimen_large"
+        android:layout_marginLeft="@dimen/view_dimen_large"
+        android:layout_marginRight="@dimen/view_dimen_large"
         android:background="@color/colorPrimary"
         android:text="Save"
         android:textColor="@color/colorWhite"/>

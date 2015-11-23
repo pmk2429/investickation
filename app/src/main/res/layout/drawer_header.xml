@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="@dimen/padding_small"
+        android:layout_marginLeft="@dimen/view_dimen_small"
         android:orientation="vertical">
 
         <TextView

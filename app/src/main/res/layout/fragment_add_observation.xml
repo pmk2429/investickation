@@ -22,7 +22,7 @@
             <ImageView
                 android:id="@+id/imageView_addObs_tickImage"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_large"
+                android:layout_height="@dimen/cardview_large"
                 android:layout_below="@id/toolbar_base"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
@@ -50,7 +50,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="-40dp"
-                android:layout_marginRight="@dimen/padding_small"
+                android:layout_marginRight="@dimen/view_dimen_small"
                 fab:fab_colorNormal="@color/colorPrimary"
                 fab:fab_colorPressed="@color/colorPrimaryDark"
                 fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
@@ -62,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView_addObs_tickImage"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
                 android:text="@string/text_chooseTickInfo"
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_small"/>
@@ -75,7 +75,7 @@
                 android:layout_height="@dimen/widget_dimen_medium"
                 android:layout_below="@id/textViewStatic_chooseFromGuide"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/view_dimen_large"
                 android:text="@string/text_chooseTick"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/font_small"/>
@@ -95,9 +95,9 @@
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/view_divider"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginTop="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_bug_report_black_36dp"/>
 
@@ -106,13 +106,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/view_divider"
-                android:layout_marginEnd="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_small"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
                 android:layout_toEndOf="@id/icon_tick"
                 android:hint="@string/text_tickName"
                 android:lines="1"
                 android:paddingBottom="16sp"
-                android:paddingTop="@dimen/padding_large"
+                android:paddingTop="@dimen/view_dimen_large"
                 android:singleLine="true"
                 android:textSize="16dp"/>
 
@@ -124,8 +124,8 @@
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_tick"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_temp"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_temp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_paw"/>
 
@@ -134,12 +134,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/editText_addObs_tickName"
-                android:layout_marginEnd="@dimen/padding_large"
+                android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_tickSpecies"
                 android:hint="@string/tickSpecies"
                 android:lines="1"
                 android:paddingBottom="16sp"
-                android:paddingTop="@dimen/padding_large"
+                android:paddingTop="@dimen/view_dimen_large"
                 android:singleLine="true"
                 android:textSize="16dp"/>
 
@@ -150,8 +150,8 @@
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/icon_tickSpecies"
-                android:layout_marginStart="@dimen/padding_small"
-                android:padding="@dimen/padding_temp"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:padding="@dimen/view_dimen_temp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_list_numbered_black_48dp"/>
 
@@ -160,12 +160,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_below="@id/editText_addObs_tickSpecies"
-                android:layout_marginEnd="@dimen/padding_large"
+                android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_numOfTicks"
                 android:hint="@string/tickCount"
                 android:lines="1"
                 android:paddingBottom="16sp"
-                android:paddingTop="@dimen/padding_large"
+                android:paddingTop="@dimen/view_dimen_large"
                 android:singleLine="true"
                 android:textSize="16dp"/>
 

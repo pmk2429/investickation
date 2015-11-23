@@ -152,7 +152,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             @Override
             public void onClick(View v) {
 
-                if (isTotalTicksNumber) {
+                if (isTickNameValid && isTickSpeciesValid && isTotalTicksNumber) {
                     String tickName = et_tickName.getText().toString();
                     String tickSpecies = et_tickSpecies.getText().toString();
                     int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
@@ -169,7 +169,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 }
             }
         });
-
         return v;
     }
 

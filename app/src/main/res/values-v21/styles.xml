@@ -6,16 +6,18 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorSecondary</item>
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
-        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
+
+        <!--<item name="android:windowContentTransitions">true</item>-->
+        <!--<item name="android:windowAllowEnterTransitionOverlap">true</item>-->
+        <!--<item name="android:windowAllowReturnTransitionOverlap">true</item>-->
+        <!--<item name="android:windowSharedElementEnterTransition">@android:transition/move</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@android:transition/move</item>-->
         <!-- MUST BE FALSE ALWAYS FOR V21 and HIGHER-->
-        <item name="android:windowTranslucentStatus">false</item>
-        
+        <!--<item name="android:windowTranslucentStatus">false</item>-->
+
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!-- MUST BE NOT SET-->
+        <!--<item name="android:statusBarColor">@color/colorSecondary</item>-->
         <item name="android:fitsSystemWindows">true</item>
     </style>
 </resources>

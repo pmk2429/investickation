@@ -6,7 +6,7 @@
                                    android:background="@color/colorPrimary"
                                    android:elevation="4dp"
                                    android:fitsSystemWindows="true"
-                                   android:paddingTop="@dimen/padding_large"
+                                   android:paddingTop="@dimen/view_dimen_large"
                                    app:layout_collapseMode="pin"
                                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

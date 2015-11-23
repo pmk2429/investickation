@@ -6,6 +6,11 @@ import android.support.v4.app.FragmentTransaction;
 import com.sfsu.investickation.fragments.Login;
 import com.sfsu.investickation.fragments.Register;
 
+/**
+ * HomeActivity which holds {@link Login} and {@link Register} fragments. This Activity is opened when the user is done
+ * navigating the WelcomeScreenActivity for the first time. Also, when the User logs out, then s/he will be redirected to this
+ * Activity to allow the User to Login again.
+ */
 public class HomeActivity extends BaseActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks {
 
     private final String LOGTAG = "~!@#$HomeActivity :";

@@ -32,17 +32,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView_userTickDetail"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_large"
-                android:padding="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/view_dimen_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:padding="@dimen/view_dimen_large"
                 card_view:cardPreventCornerOverlap="false">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/padding_large">
+                    android:paddingBottom="@dimen/view_dimen_large">
 
 
                     <TextView
@@ -50,9 +50,9 @@
                         android:layout_width="@dimen/padding_dimen_X_large"
                         android:layout_height="@dimen/padding_dimen_X_large"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/padding_large"
+                        android:layout_marginRight="@dimen/view_dimen_large"
                         android:gravity="top|right"
-                        android:paddingTop="@dimen/padding_large"
+                        android:paddingTop="@dimen/view_dimen_large"
                         android:text="5 hr"
                         android:textColor="@color/colorPrimary"
                         android:textSize="16dp"/>
@@ -70,8 +70,8 @@
                         android:layout_height="@dimen/widget_dimen"
                         android:layout_below="@+id/view_divider"
                         android:gravity="top|start"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="@dimen/padding_large"
+                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingTop="@dimen/view_dimen_large"
                         android:text="American Dog Tick"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textView_observation_tickName"
                         android:gravity="top|start"
-                        android:paddingLeft="@dimen/padding_large"
+                        android:paddingLeft="@dimen/view_dimen_large"
                         android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
                         android:textAlignment="center"
                         android:textColor="@color/primaryText"
@@ -98,27 +98,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardview_observation_detail_heading"
-                android:layout_marginLeft="@dimen/padding_large"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_large"
-                android:padding="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/view_dimen_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:padding="@dimen/view_dimen_large"
                 card_view:cardPreventCornerOverlap="false">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/padding_large">
+                    android:paddingBottom="@dimen/view_dimen_large">
 
 
                     <TextView
                         android:id="@+id/textViewStatic_userObsDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_medium"
+                        android:layout_marginTop="@dimen/view_dimen_medium"
                         android:gravity="top|start"
-                        android:paddingLeft="@dimen/padding_large"
-                        android:paddingTop="@dimen/padding_small"
+                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingTop="@dimen/view_dimen_small"
                         android:text="Your Observation details:"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
@@ -129,8 +129,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@id/textViewStatic_userObsDetail"
-                        android:layout_marginLeft="@dimen/padding_large"
-                        android:layout_marginRight="@dimen/padding_large"
+                        android:layout_marginLeft="@dimen/view_dimen_large"
+                        android:layout_marginRight="@dimen/view_dimen_large"
                         android:background="@color/divider"/>
 
                     <!-- Found Near -->

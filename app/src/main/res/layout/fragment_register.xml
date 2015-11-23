@@ -1,217 +1,179 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:fab="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:layout_gravity="center"
               android:background="@color/colorWhite"
+              android:backgroundTint="@color/colorSecondary"
+              android:gravity="center"
               android:orientation="vertical"
               tools:context=".MainActivity">
 
-    <ScrollView
-        android:id="@+id/scrollViewMain"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center">
 
+        <!--  User row -->
+        <ImageView
+            android:id="@+id/icon_user"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/view_dimen_small"
+            android:layout_marginTop="@dimen/view_dimen_X_large"
+            android:padding="@dimen/view_dimen_medium"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_person_black_36dp"/>
 
-        <RelativeLayout
+        <EditText
+            android:id="@+id/editText_username"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_marginTop="@dimen/view_dimen_X_large"
+            android:layout_toEndOf="@id/icon_user"
+            android:ellipsize="end"
+            android:hint="@string/fullName"
+            android:lines="1"
+            android:paddingBottom="@dimen/view_dimen_large"
+            android:paddingTop="@dimen/view_dimen_large"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/lightText"
+            android:textSize="@dimen/font_small"/>
 
-            <!--  user image -->
-            <ImageView
-                android:id="@+id/image_usermain"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_default"
-                android:layout_below="@id/toolbar_base"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_user"/>
+        <!--  Email row -->
+        <ImageView
+            android:id="@+id/icon_email"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/icon_user"
+            android:layout_marginStart="@dimen/view_dimen_small"
+            android:padding="@dimen/view_dimen_medium"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_email_black_36dp"/>
 
-            <!--&lt;!&ndash; Circle button &ndash;&gt;-->
-            <!--<ImageButton-->
-            <!--android:id="@+id/imageButton"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:layout_alignBottom="@id/image_usermain"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:layout_marginBottom="-32dp"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:background="@drawable/circle"-->
-            <!--/>-->
+        <EditText
+            android:id="@+id/editText_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_below="@id/editText_username"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_toEndOf="@id/icon_email"
+            android:ellipsize="end"
+            android:hint="@string/email"
+            android:lines="1"
+            android:paddingBottom="@dimen/view_dimen_large"
+            android:paddingTop="@dimen/view_dimen_large"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/lightText"
+            android:textSize="@dimen/font_small"/>
 
+        <!--  Password row -->
+        <ImageView
+            android:id="@+id/icon_password"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/icon_email"
+            android:layout_marginStart="@dimen/view_dimen_small"
+            android:padding="@dimen/view_dimen_medium"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_vpn_key_black_36dp"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_selectImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/image_usermain"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="-36dp"
-                android:layout_marginRight="@dimen/padding_small"
-                fab:fab_colorNormal="@color/colorPrimary"
-                fab:fab_colorPressed="@color/colorPrimaryDark"
-                fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+        <EditText
+            android:id="@+id/editText_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_below="@id/editText_email"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_toEndOf="@id/icon_password"
+            android:ellipsize="end"
+            android:hint="@string/password"
+            android:lines="1"
+            android:paddingBottom="@dimen/view_dimen_large"
+            android:paddingTop="@dimen/view_dimen_large"
+            android:password="true"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/lightText"
+            android:textSize="@dimen/font_small"/>
 
-            <!--  User row -->
-            <ImageView
-                android:id="@+id/icon_user"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/image_usermain"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginTop="@dimen/padding_X_large"
-                android:padding="@dimen/padding_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_person_black_36dp"/>
+        <!--  Phone row -->
+        <ImageView
+            android:id="@+id/icon_phone"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/icon_password"
+            android:layout_marginStart="@dimen/view_dimen_small"
+            android:padding="@dimen/view_dimen_medium"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_phone_black_36dp"/>
 
-            <EditText
-                android:id="@+id/editText_username"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/image_usermain"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_marginTop="@dimen/padding_X_large"
-                android:layout_toRightOf="@id/icon_user"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:hint="Username"
-                android:lines="1"
-                android:paddingBottom="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_large"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
+        <EditText
+            android:id="@+id/editText_phone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_below="@id/editText_password"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_toEndOf="@id/icon_phone"
+            android:ellipsize="end"
+            android:hint="@string/phoneNumber"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/lightText"
+            android:textSize="@dimen/font_small"/>
 
-            <!--  Email row -->
-            <ImageView
-                android:id="@+id/icon_email"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/icon_user"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_email_black_36dp"/>
+        <!--  User row -->
+        <ImageView
+            android:id="@+id/icon_address"
+            android:layout_width="@dimen/widget_dimen"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/icon_phone"
+            android:layout_marginStart="@dimen/view_dimen_small"
+            android:padding="@dimen/view_dimen_medium"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_location_on_black_36dp"/>
 
-            <EditText
-                android:id="@+id/editText_email"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_username"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_toRightOf="@id/icon_email"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:hint="Email"
-                android:lines="1"
-                android:paddingBottom="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_large"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
+        <EditText
+            android:id="@+id/editText_address"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_below="@id/editText_phone"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_toEndOf="@id/icon_address"
+            android:ellipsize="end"
+            android:hint="@string/address"
+            android:lines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/lightText"
+            android:textSize="@dimen/font_small"/>
 
-            <!--  Password row -->
-            <ImageView
-                android:id="@+id/icon_password"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/icon_email"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_vpn_key_black_36dp"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editText_address"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/view_dimen_small"
+            android:buttonTint="@color/colorWhite"
+            android:gravity="center"
+            android:text="@string/privacyPolicy"
+            android:textColor="@color/colorWhite"/>
+    </RelativeLayout>
 
-            <EditText
-                android:id="@+id/editText_password"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_email"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_toRightOf="@id/icon_password"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:hint="Password"
-                android:lines="1"
-                android:paddingBottom="@dimen/padding_large"
-                android:paddingTop="@dimen/padding_large"
-                android:password="true"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
-
-            <!--  Phone row -->
-            <ImageView
-                android:id="@+id/icon_phone"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/icon_password"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_phone_black_36dp"/>
-
-            <EditText
-                android:id="@+id/editText_phone"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_password"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_toRightOf="@id/icon_phone"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:hint="Phone"
-                android:lines="1"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
-
-            <!--  User row -->
-            <ImageView
-                android:id="@+id/icon_address"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@id/icon_phone"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:padding="@dimen/padding_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_location_on_black_36dp"/>
-
-            <EditText
-                android:id="@+id/editText_address"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_phone"
-                android:layout_marginRight="@dimen/padding_large"
-                android:layout_toRightOf="@id/icon_address"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:hint="Address"
-                android:lines="1"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/editText_address"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/padding_small"
-                android:gravity="center"
-                android:text="I agree privacy statement"/>
-
-        </RelativeLayout>
-
-    </ScrollView>
 
     <!-- Register Button -->
     <RelativeLayout
@@ -226,10 +188,10 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="15dp"
-            android:layout_marginLeft="@dimen/padding_large"
-            android:layout_marginRight="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/view_dimen_large"
+            android:layout_marginRight="@dimen/view_dimen_large"
             android:background="@color/colorPrimary"
-            android:text="Register"
+            android:text="@string/button_register"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/font_small"/>
     </RelativeLayout>

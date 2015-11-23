@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.sfsu.investickation.R;
 
@@ -16,22 +15,11 @@ public class Login extends Fragment implements View.OnClickListener {
 
     private final String LOGTAG = "~!@#LOGIN :";
     private ILoginCallBack mListener;
-    private Button btnSignUp;
     private Context context;
 
 
     public Login() {
         // Required empty public constructor
-    }
-
-
-    public static Login newInstance() {
-        Login fragment = new Login();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -45,9 +33,7 @@ public class Login extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-        btnSignUp = (Button) v.findViewById(R.id.btn_signup);
 
-        btnSignUp.setOnClickListener(this);
 
         return v;
     }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/welcome_fragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#cc0000"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    android:paddingTop="48dp"
+    android:weightSum="6">
+
+    <FrameLayout
+        android:id="@+id/image_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_add_white_36dp"/>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/screen_heading"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom|center_horizontal"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:text="Set Reminder"
+        android:textColor="#ffffff"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/screen_desc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="top|center_horizontal"
+        android:minHeight="@dimen/widget_dimen"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:text="Set reminder to get reminded"
+        android:textColor="#ffffff"
+        android:textSize="16sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"/>
+
+</LinearLayout>

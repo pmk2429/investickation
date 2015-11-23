@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_large">
+    android:padding="@dimen/view_dimen_large">
 
     <!--<ImageView-->
     <!--android:id="@+id/imageView_alertDialog_logo"-->
@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/padding_X2_large"
-        android:layout_marginTop="@dimen/padding_X2_large"
+        android:layout_marginLeft="@dimen/view_dimen_X1_large"
+        android:layout_marginTop="@dimen/view_dimen_X1_large"
         android:layout_weight="1.0"
         android:background="@color/colorPrimary"
         android:text="30 mins"
@@ -32,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/padding_X2_large"
-        android:layout_marginTop="@dimen/padding_X2_large"
+        android:layout_marginRight="@dimen/view_dimen_X1_large"
+        android:layout_marginTop="@dimen/view_dimen_X1_large"
         android:layout_weight="1.0"
         android:background="@color/colorPrimary"
         android:text="60 mins"
@@ -79,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/button_alertDialog_30"
-        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginTop="@dimen/view_dimen_large"
         android:background="@color/divider"
         />
 
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/view_divider"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginTop="@dimen/view_dimen_large"
         android:text="@string/alertDialog_inputManual"
         android:textColor="@color/secondaryText"/>
 
@@ -99,7 +99,7 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/textViewStatic_alertDialogInput"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginTop="@dimen/view_dimen_large"
         android:hint="@string/alertDialog_inputManual_hint"
         android:lines="1"
         android:scrollHorizontally="true"

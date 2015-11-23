@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_cardview_X_large"
+        android:layout_height="@dimen/cardview_X_large"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -36,7 +36,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/padding_large">
+                android:padding="@dimen/view_dimen_large">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,18 +68,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/ultraLightText"
-            android:paddingBottom="@dimen/padding_large"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingRight="@dimen/padding_large"
-            android:paddingTop="@dimen/padding_X2_large"
+            android:paddingBottom="@dimen/view_dimen_large"
+            android:paddingLeft="@dimen/view_dimen_large"
+            android:paddingRight="@dimen/view_dimen_large"
+            android:paddingTop="@dimen/view_dimen_X1_large"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:id="@+id/linearLayout_activity"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_cardview_default"
+                android:layout_height="@dimen/cardview_default"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="@dimen/padding_small"
+                android:layout_marginRight="@dimen/view_dimen_small"
                 android:layout_toLeftOf="@id/separator_vertical_observation_1"
                 android:background="@drawable/dashboard_card_border"
                 android:elevation="8dp">
@@ -89,7 +89,7 @@
                     android:id="@+id/relativeLayout_activity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/padding_small"
+                    android:layout_marginTop="@dimen/view_dimen_small"
                     android:background="@color/colorWhite"
                     android:orientation="horizontal">
 
@@ -100,7 +100,7 @@
                         android:layout_centerInParent="true"
                         android:text="5"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_X4_large"/>
+                        android:textSize="@dimen/font_X3_large"/>
 
                     <TextView
                         android:id="@+id/textViewStatic_activityCount"
@@ -109,9 +109,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal|top"
-                        android:layout_marginTop="@dimen/padding_large"
-                        android:paddingLeft="@dimen/padding_small"
-                        android:paddingRight="@dimen/padding_small"
+                        android:layout_marginTop="@dimen/view_dimen_large"
+                        android:paddingLeft="@dimen/view_dimen_small"
+                        android:paddingRight="@dimen/view_dimen_small"
                         android:text="ACTIVITIES"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/font_small"/>
@@ -122,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerInParent="true"
-                        android:layout_marginBottom="@dimen/padding_large"
+                        android:layout_marginBottom="@dimen/view_dimen_large"
                         android:text="tap for details"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_X_small"/>
@@ -137,20 +137,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/linearLayout_activity"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_marginTop="@dimen/padding_large"
+                android:layout_marginRight="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_large"
                 android:layout_toLeftOf="@id/separator_vertical_observation_1"
                 android:layout_weight="1"
                 android:elevation="5dp"
-                android:padding="@dimen/padding_large">
+                android:padding="@dimen/view_dimen_large">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     android:paddingBottom="8dp"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingRight="@dimen/padding_large"
+                    android:paddingLeft="@dimen/view_dimen_large"
+                    android:paddingRight="@dimen/view_dimen_large"
                     android:paddingTop="8dp">
 
                     <TextView
@@ -176,9 +176,9 @@
             <LinearLayout
                 android:id="@+id/linearLayout_observation"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_cardview_default"
+                android:layout_height="@dimen/cardview_default"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/view_dimen_small"
                 android:layout_toRightOf="@id/separator_vertical_observation_1"
                 android:background="@drawable/dashboard_card_border"
                 android:elevation="8dp">
@@ -188,7 +188,7 @@
                     android:id="@+id/relativeLayout_observation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/padding_small"
+                    android:layout_marginTop="@dimen/view_dimen_small"
                     android:background="@color/colorWhite"
                     android:orientation="horizontal">
 
@@ -199,7 +199,7 @@
                         android:layout_centerInParent="true"
                         android:text="16"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_X4_large"/>
+                        android:textSize="@dimen/font_X3_large"/>
 
                     <TextView
                         android:id="@+id/textViewStatic_observationCount"
@@ -208,9 +208,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal|top"
-                        android:layout_marginTop="@dimen/padding_large"
-                        android:paddingLeft="@dimen/padding_small"
-                        android:paddingRight="@dimen/padding_small"
+                        android:layout_marginTop="@dimen/view_dimen_large"
+                        android:paddingLeft="@dimen/view_dimen_small"
+                        android:paddingRight="@dimen/view_dimen_small"
                         android:text="OBSERVATIONS"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/font_small"/>
@@ -220,7 +220,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerInParent="true"
-                        android:layout_marginBottom="@dimen/padding_large"
+                        android:layout_marginBottom="@dimen/view_dimen_large"
                         android:text="tap for details"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_X_small"/>
@@ -235,20 +235,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/linearLayout_observation"
-                android:layout_marginLeft="@dimen/padding_small"
-                android:layout_marginTop="@dimen/padding_large"
+                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_large"
                 android:layout_toRightOf="@id/separator_vertical_observation_1"
                 android:layout_weight="1"
                 android:elevation="5dp"
-                android:padding="@dimen/padding_large">
+                android:padding="@dimen/view_dimen_large">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     android:paddingBottom="8dp"
-                    android:paddingLeft="@dimen/padding_large"
-                    android:paddingRight="@dimen/padding_large"
+                    android:paddingLeft="@dimen/view_dimen_large"
+                    android:paddingRight="@dimen/view_dimen_large"
                     android:paddingTop="8dp">
 
                     <TextView
@@ -268,9 +268,9 @@
             <LinearLayout
                 android:id="@+id/linearLayout_mapViewHolder"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_cardview_large"
+                android:layout_height="@dimen/cardview_large"
                 android:layout_below="@id/btn_observation_post"
-                android:layout_marginTop="@dimen/padding_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
                 android:layout_weight="1.0"
                 android:orientation="vertical">
 
@@ -288,7 +288,7 @@
                 android:layout_below="@id/linearLayout_mapViewHolder"
                 android:layout_marginTop="@dimen/dimen_default"
                 android:background="@color/colorWhite"
-                android:padding="@dimen/padding_small"
+                android:padding="@dimen/view_dimen_small"
                 android:text="Your observations"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/font_medium"/>

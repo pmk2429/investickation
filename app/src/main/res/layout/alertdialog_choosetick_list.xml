@@ -8,7 +8,7 @@
         android:id="@+id/listView_chooseTick"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/padding_large"
-        android:layout_marginTop="@dimen/padding_large"></ListView>
+        android:layout_marginBottom="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_large"></ListView>
 
 </LinearLayout>

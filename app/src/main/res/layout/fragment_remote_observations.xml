@@ -26,7 +26,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="16dp"
-            android:layout_marginRight="@dimen/padding_small"
+            android:layout_marginRight="@dimen/view_dimen_small"
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorPrimaryDark"
             fab:fab_icon="@drawable/ic_add_white_36dp"/>

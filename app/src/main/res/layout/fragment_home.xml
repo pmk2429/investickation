@@ -1,0 +1,77 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.sfsu.investickation.fragments.Home">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView_home_logo"
+            android:layout_width="@dimen/widget_dimen_large"
+            android:layout_height="@dimen/widget_dimen_large"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/widget_dimen"/>
+
+        <TextView
+            android:id="@+id/textView_home_header"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/padding_dimen_X_large"
+            android:text="Welcome to InvesTICKations"
+            android:textColor="@color/primaryText"
+            android:textSize="@dimen/font_X_large"/>
+
+        <TextView
+            android:id="@+id/textView_home_content"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_below="@id/textView_home_header"
+            android:layout_marginLeft="@dimen/view_dimen_large"
+            android:layout_marginRight="@dimen/view_dimen_large"
+            android:gravity="center"
+            android:text="Record Activities and post observations for Ticks"
+            android:textAlignment="center"
+            android:textColor="@color/primaryText"
+            android:textSize="@dimen/font_small"/>
+
+
+        <!-- Register Button-->
+        <TextView
+            android:id="@+id/button_home_login"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/widget_dimen"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/view_dimen_X_large"
+            android:text="@string/button_login"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_medium"/>
+
+
+        <!-- Register Button -->
+        <TextView
+            android:id="@+id/button_home_signup"
+            style="@style/RaisedButtonStyle"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/button_home_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/view_dimen_large"
+            android:paddingBottom="@dimen/view_dimen_small"
+            android:paddingLeft="@dimen/widget_dimen_large"
+            android:paddingRight="@dimen/widget_dimen_large"
+            android:paddingTop="@dimen/view_dimen_small"
+            android:text="@string/signup"
+            android:textColor="@color/colorWhite"
+            />
+
+    </RelativeLayout>
+</FrameLayout>

@@ -21,8 +21,16 @@
         <item>Guide</item>
         <item>Settings</item>
         <item>Register</item>
-
     </string-array>
+
+    <!-- Register-->
+    <string name="fullName">Full Name</string>
+    <string name="email">abs@xyz.com</string>
+    <string name="password">***</string>
+    <string name="phoneNumber">Phone</string>
+    <string name="address">Home Address</string>
+    <string name="privacyPolicy">I agree to Terms and Conditions</string>
+    <string name="signup">Sign Up</string>
 
     <!--TODO: List of all the String resources -->
     <string name="text_activityName">Hiking trail</string>
@@ -47,6 +55,7 @@
     <!-- Call to action controls-->
     <string name="button_startActivity">Start Activity</string>
     <string name="button_register">Register</string>
+    <string name="button_login">Already have an account? Log in</string>
     <string name="button_postObservation">Post Observation</string>
     <string name="button_addObservation">Add Observation</string>
 
@@ -86,6 +95,8 @@
     <!--<string name="error_invalid_email">Invalid Email ID</string>-->
     <string name="error_invalid_password">Incorrect Password</string>
     <string name="error_NAN">Enter valid numeric value</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="title_activity_welcome_screen">WelcomeScreenActivity</string>
 
     <!-- Exception messages-->
 
