@@ -29,7 +29,7 @@ public class Register extends Fragment implements View.OnClickListener {
     private ImageView imageView_userImage;
     private RetrofitController retrofitController;
     private IRegisterCallBacks mListener;
-    
+
 
     public Register() {
         // IMP - Don't delete
@@ -55,6 +55,7 @@ public class Register extends Fragment implements View.OnClickListener {
         // initialize the RetroFit controller.
         retrofitController = new RetrofitController(getActivity());
 
+        btnRegisterUser = (Button) v.findViewById(R.id.button_registerUser);
         // implement the onClick method
         btnRegisterUser.setOnClickListener(this);
         return v;
@@ -62,7 +63,7 @@ public class Register extends Fragment implements View.OnClickListener {
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onRegisterItemListener();
+            mListener.onRegisterButtonClick();
         }
     }
 
@@ -75,7 +76,7 @@ public class Register extends Fragment implements View.OnClickListener {
             mListener = (IRegisterCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener to communicate with Register");
+                    + " must implement IRegisterCallbacks to communicate with Register");
         }
     }
 
@@ -104,10 +105,13 @@ public class Register extends Fragment implements View.OnClickListener {
 
 
     /**
-     * Interface to communicate to other Fragment and/or Activity
+     * Callback Interface to implement onclick Listener in {@link Register} Fragment.
      */
     public interface IRegisterCallBacks {
-        public void onRegisterItemListener();
+        /**
+         *
+         */
+        public void onRegisterButtonClick();
     }
 
 }

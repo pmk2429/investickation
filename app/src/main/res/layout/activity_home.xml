@@ -12,19 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--  Tool bar -->
-        <include
-            android:id="@+id/toolbar_base"
-            layout="@layout/toolbar_scroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        <!--&lt;!&ndash;  Tool bar &ndash;&gt;-->
+        <!--<include-->
+        <!--android:id="@+id/toolbar_base"-->
+        <!--layout="@layout/toolbar_scroll"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
 
         <!-- container for all the fragments -->
         <FrameLayout
             android:id="@+id/home_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_base">
+            android:layout_height="match_parent">
         </FrameLayout>
 
     </RelativeLayout>

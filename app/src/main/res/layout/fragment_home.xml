@@ -40,15 +40,16 @@
             android:textSize="@dimen/font_small"/>
 
 
-        <!-- Register Button-->
+        <!-- Login Button-->
         <TextView
-            android:id="@+id/button_home_login"
+            android:id="@+id/textView_home_login"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_gravity="bottom"
             android:layout_marginBottom="@dimen/view_dimen_X_large"
+            android:clickable="true"
             android:text="@string/button_login"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
@@ -57,14 +58,15 @@
 
         <!-- Register Button -->
         <TextView
-            android:id="@+id/button_home_signup"
+            android:id="@+id/textView_home_signUp"
             style="@style/RaisedButtonStyle"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/button_home_login"
+            android:layout_above="@id/textView_home_login"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/view_dimen_large"
+            android:clickable="true"
             android:paddingBottom="@dimen/view_dimen_small"
             android:paddingLeft="@dimen/widget_dimen_large"
             android:paddingRight="@dimen/widget_dimen_large"

@@ -1,21 +1,26 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.R;
 
 /**
-
+ * Holds the Callbacks for the Login and Register Fragments. This Fragment will be displayed to the user when the User logs in
+ * for the first time after Navigating through WelcomeScreen. In addition, when the User logs out of the Application, the same
+ * Fragment will be opened.
  */
 public class Home extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private IHomeCallbacks mInterface;
+    private Context mContext;
 
     public Home() {
         // Required empty public constructor
@@ -26,46 +31,63 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        final TextView txtView_login = (TextView) rootView.findViewById(R.id.textView_home_login);
+        final TextView txtView_signUp = (TextView) rootView.findViewById(R.id.textView_home_signUp);
+
+
+        txtView_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterface.onLoginButtonClicked();
+            }
+        });
+
+        txtView_signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mInterface.onSignUpButtonClicked();
+            }
+        });
+
+
+
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            mInterface = (IHomeCallbacks) activity;
+            mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement IHomeCallbacks");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mInterface = null;
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * Callback Interface to handle the onClick Listeners for {@link Home} Fragment.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+    public interface IHomeCallbacks {
+        /**
+         * Callback method when the user clicks on the Login button in {@Home} Fragment
+         */
+        public void onLoginButtonClicked();
+
+        /**
+         * Callback method when the user clicks on the Register button in {@Home} Fragment
+         */
+        public void onSignUpButtonClicked();
     }
 
 }

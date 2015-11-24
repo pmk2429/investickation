@@ -47,7 +47,7 @@ public class Login extends Fragment implements View.OnClickListener {
             context = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement ILoginCallbacks interface");
         }
     }
 
@@ -59,13 +59,20 @@ public class Login extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        mListener.onFragmentInteraction();
+        mListener.onLoginButtonClick();
     }
 
 
+    /**
+     * Callback interface to handle onclick Listeners of {@link Login} Fragment.
+     */
     public interface ILoginCallBack {
 
-        public void onFragmentInteraction();
+        /**
+         * Callback method to handle the onclick of Login button in {@link Login} Fragment. On click of Login makes a database
+         * call
+         */
+        public void onLoginButtonClick();
     }
 
 }

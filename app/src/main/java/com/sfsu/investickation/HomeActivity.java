@@ -1,8 +1,11 @@
 package com.sfsu.investickation;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
+import com.sfsu.investickation.fragments.Home;
 import com.sfsu.investickation.fragments.Login;
 import com.sfsu.investickation.fragments.Register;
 
@@ -11,7 +14,7 @@ import com.sfsu.investickation.fragments.Register;
  * navigating the WelcomeScreenActivity for the first time. Also, when the User logs out, then s/he will be redirected to this
  * Activity to allow the User to Login again.
  */
-public class HomeActivity extends BaseActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks {
+public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home.IHomeCallbacks {
 
     private final String LOGTAG = "~!@#$HomeActivity :";
 
@@ -19,8 +22,7 @@ public class HomeActivity extends BaseActivity implements Login.ILoginCallBack, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
+        
         // if Fragment container is present
         if (findViewById(R.id.home_fragment_container) != null) {
 
@@ -30,29 +32,51 @@ public class HomeActivity extends BaseActivity implements Login.ILoginCallBack, 
             }
 
             // else show the ActivityList Fragment in the 'activity_fragment_container'
-            Login loginFragment = new Login();
+            Home homeFragment = new Home();
 
             // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-            loginFragment.setArguments(getIntent().getExtras());
+            homeFragment.setArguments(getIntent().getExtras());
 
             // add Fragment to 'activity_fragment_container'
-            getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, loginFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, homeFragment).commit();
         }
     }
 
-
-    @Override
-    public void onFragmentInteraction() {
-        Register registerFragment = new Register();
+    /**
+     * Helper method to provide Fragment Transaction.
+     *
+     * @param fragment
+     */
+    private void switchFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.home_fragment_container, registerFragment);
+        transaction.replace(R.id.home_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+
+    /*
+    Method to handle the Click event of Login button in Login Fragment.
+     */
+    @Override
+    public void onLoginButtonClick() {
 
     }
 
     @Override
-    public void onRegisterItemListener() {
+    public void onRegisterButtonClick() {
 
+    }
+
+    @Override
+    public void onLoginButtonClicked() {
+        Login loginFragment = new Login();
+        switchFragment(loginFragment);
+    }
+
+    @Override
+    public void onSignUpButtonClicked() {
+        Register registerFragment = new Register();
+        switchFragment(registerFragment);
     }
 }

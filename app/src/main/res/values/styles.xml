@@ -37,6 +37,10 @@
         <item name="android:background">@color/colorWhite</item>
     </style>
 
+    <style name="TextInputLayout" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
     <style name="RaisedButtonStyle">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
