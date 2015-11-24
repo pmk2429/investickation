@@ -33,6 +33,7 @@
     <string name="address">Home Address</string>
     <string name="privacyPolicy">I agree to Terms and Conditions</string>
     <string name="signup">Sign Up</string>
+    <string name="textSignUp">Sign Up</string>
 
     <!--Login-->
     <string name="login">Login</string>

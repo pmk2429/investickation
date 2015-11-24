@@ -23,13 +23,11 @@ public class Register extends Fragment implements View.OnClickListener {
 
     private final String LOGTAG = "~!@#Register :";
 
-
     private Button btnRegisterUser;
     private EditText et_username, et_email, et_password, et_phone, et_address;
     private ImageView imageView_userImage;
     private RetrofitController retrofitController;
     private IRegisterCallBacks mListener;
-
 
     public Register() {
         // IMP - Don't delete
