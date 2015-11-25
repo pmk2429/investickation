@@ -7,18 +7,18 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class ObservationsTable {
     static final String TABLENAME = "Observations";
-    static final String COLUMN_ID = "observation_id";
+    static final String COLUMN_ID = "id";
     static final String COLUMN_NUMOFTICKS = "no_of_ticks";
     static final String COLUMN_TIMESTAMP = "timestamp";
     static final String COLUMN_CREATEDAT = "created_at";
     static final String COLUMN_UPDATEDAT = "updated_at";
-    static final String COLUMN_FK_TICK_ID = "fk_tick_id";
-    static final String COLUMN_FK_LOCATION_ID = "fk_location_id";
+    static final String COLUMN_FK_TICK_ID = "tick_id";
+    static final String COLUMN_FK_LOCATION_ID = "location_id";
 
     static public void onCreate(SQLiteDatabase db) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE " + ObservationsTable.TABLENAME + " (");
-        sb.append(COLUMN_ID + " integer primary key autoincrement, ");
+        sb.append(COLUMN_ID + " long primary key autoincrement, ");
         sb.append(COLUMN_FK_TICK_ID + " integer, ");
         sb.append(COLUMN_FK_LOCATION_ID + " integer, ");
         sb.append(COLUMN_NUMOFTICKS + " integer not null, ");

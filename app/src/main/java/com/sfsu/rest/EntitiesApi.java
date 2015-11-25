@@ -2,12 +2,15 @@ package com.sfsu.rest;
 
 
 import com.sfsu.entities.Entity;
+import com.sfsu.entities.User;
 
 import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
@@ -85,4 +88,15 @@ public interface EntitiesApi {
      */
     @GET("/{resource}/{resourceId}")
     public Call<Entity> delete(@Path("resource") String resource, @Path("resourceId") String resourceId);
+
+    /**
+     * Login the user and get RequestToken for the User.
+     *
+     * @param email
+     * @param password
+     * @param callback
+     */
+    @FormUrlEncoded
+    @POST("/login")
+    public Call<String> login(@Field("email") String email, @Field("password") String password, Callback<User> callback);
 }

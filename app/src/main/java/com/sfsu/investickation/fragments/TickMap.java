@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.AppUtils;
 
 
 public class TickMap extends Fragment {
 
+    private static final String LOGTAG = "`!@#$TickMap ";
     GoogleMap googleMap;
 
     public TickMap() {
@@ -36,7 +36,7 @@ public class TickMap extends Fragment {
                 googleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapView_tick)).getMap();
             }
         } catch (NullPointerException exception) {
-            Log.e(AppUtils.LOGTAG, exception.toString());
+            Log.e(LOGTAG, exception.toString());
         }
 
         return v;

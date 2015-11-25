@@ -34,7 +34,7 @@ public class TickDao implements EntityDao {
     public long save(Entity entity) {
         Tick tick = (Tick) entity;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TicksTable.COLUMN_ID, tick.getTick_id());
+        contentValues.put(TicksTable.COLUMN_ID, tick.getId());
         contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
         contentValues.put(TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
         contentValues.put(TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
@@ -55,7 +55,7 @@ public class TickDao implements EntityDao {
     public boolean update(Entity entity) {
         Tick tick = (Tick) entity;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TicksTable.COLUMN_ID, tick.getTick_id());
+        contentValues.put(TicksTable.COLUMN_ID, tick.getId());
         contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
         contentValues.put(TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
         contentValues.put(TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
@@ -66,7 +66,7 @@ public class TickDao implements EntityDao {
         Log.d(AppUtils.LOGTAG, "Tick : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
-        return db.update(TicksTable.TABLENAME, contentValues, TicksTable.COLUMN_ID + "=?", new String[]{tick.getTick_id() + ""}) > 0;
+        return db.update(TicksTable.TABLENAME, contentValues, TicksTable.COLUMN_ID + "=?", new String[]{tick.getId() + ""}) > 0;
     }
 
     // build the Tick Object using Cursor.
@@ -74,7 +74,7 @@ public class TickDao implements EntityDao {
         Tick tickItem = null;
         if (c != null) {
             tickItem = new Tick();
-            tickItem.setTick_id(c.getInt(0));
+            tickItem.setId(c.getString(0));
             tickItem.setTickName(c.getString(1));
             tickItem.setSpecies(c.getString(2));
             tickItem.setKnown_for(c.getString(3));
@@ -94,16 +94,17 @@ public class TickDao implements EntityDao {
      */
     public boolean delete(Entity entity) {
         Tick ticks = (Tick) entity;
-        return db.delete(TicksTable.TABLENAME, TicksTable.COLUMN_ID + "=?", new String[]{ticks.getTick_id() + ""}) > 0;
+        return db.delete(TicksTable.TABLENAME, TicksTable.COLUMN_ID + "=?", new String[]{ticks.getId() + ""}) > 0;
     }
 
     /**
-     * get specific Tick using ID.
+     * Returns Tick for corresponding Id.
      *
      * @param id
      * @return
      */
-    public Tick get(long id) {
+    @Override
+    public Tick get(String id) {
 
         Tick tickItem = null;
         Cursor c = db.query(true, TicksTable.TABLENAME, tickEntryArray, TicksTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
@@ -118,12 +119,13 @@ public class TickDao implements EntityDao {
     }
 
     /**
-     * get specific Tick using ID.
+     * Returns Tick for corresponding Name.
      *
      * @param id
      * @return
      */
-    public Tick get(String name) {
+    @Override
+    public Tick getByName(String name) {
 
         Tick tickItem = null;
         Cursor c = db.query(true, TicksTable.TABLENAME, tickEntryArray, TicksTable.COLUMN_ID + "=?", new String[]{name + ""},

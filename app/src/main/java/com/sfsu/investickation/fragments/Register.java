@@ -17,7 +17,14 @@ import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 
 /**
- * Registers the User and sends the User input Data to Server via Retrofit Controller. The user enters the Full name. address,
+ * Registers the User and sends the User input Data to server and creates a copy in SQLite server for future accesses. The data
+ * entered by the User passed a Custom Validation and after that the User object is passed to {@link RetrofitController} which
+ * will then after make a network call and save the data on server. Meanwhile, when the server gives back the response, this
+ * Fragment passes the {@link User} object to the {@link com.sfsu.investickation.HomeActivity} where the copy of a User object
+ * is stored on the local SQLite DB.
+ * <p/>
+ * The main reason for storing the User on local DB is to avoid making unwanted network calls when the user wants to log back
+ * in.
  */
 public class Register extends Fragment implements View.OnClickListener {
 

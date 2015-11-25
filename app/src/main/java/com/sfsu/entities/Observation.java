@@ -36,7 +36,7 @@ public class Observation implements Parcelable, Entity {
         }
     };
 
-    private long observation_id;
+    private String id;
     private String geoLocation;
     private String tickName;
     private String imageUrl;
@@ -45,7 +45,7 @@ public class Observation implements Parcelable, Entity {
     private EntityLocation locationObj;
     private Tick tickObj;
     private User userObj;
-    private String requestToken, userId;
+    private String requestToken, user_id;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -64,9 +64,9 @@ public class Observation implements Parcelable, Entity {
      * @param created_at     - Timestamp when the Observation entry was recorded on the Server
      * @param updated_at     - Timestamp when the Observation entry was updated on the Server
      */
-    public Observation(long observation_id, Tick tickObj, EntityLocation locationObj, String imageUrl, String geoLocation,
+    public Observation(String id, Tick tickObj, EntityLocation locationObj, String imageUrl, String geoLocation,
                        int num_ticks, long timestamp, long created_at, long updated_at) {
-        this.observation_id = observation_id;
+        this.id = id;
         this.geoLocation = geoLocation;
         this.num_ticks = num_ticks;
         this.timestamp = timestamp;
@@ -88,14 +88,14 @@ public class Observation implements Parcelable, Entity {
      * @param locationObj - Location captured by the Android Device for the Observation
      */
     public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj, String
-            requestToken, String userId) {
+            requestToken, String user_id) {
         this.imageUrl = imageUrl;
         this.num_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;
         this.tickName = tickName;
         this.requestToken = requestToken;
-        this.userId = userId;
+        this.user_id = user_id;
     }
 
     // constructor for demo purposes
@@ -105,7 +105,7 @@ public class Observation implements Parcelable, Entity {
     }
 
     protected Observation(Parcel in) {
-        observation_id = in.readLong();
+        id = in.readString();
         geoLocation = in.readString();
         num_ticks = in.readInt();
         timestamp = in.readLong();
@@ -131,13 +131,6 @@ public class Observation implements Parcelable, Entity {
         this.requestToken = requestToken;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -167,12 +160,48 @@ public class Observation implements Parcelable, Entity {
         return geoLocation;
     }
 
-    public long getObservation_id() {
-        return observation_id;
+    public void setGeoLocation(String geoLocation) {
+        this.geoLocation = geoLocation;
     }
 
-    public void setObservation_id(long observation_id) {
-        this.observation_id = observation_id;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTickName() {
+        return tickName;
+    }
+
+    public void setTickName(String tickName) {
+        this.tickName = tickName;
+    }
+
+    public EntityLocation getLocationObj() {
+        return locationObj;
+    }
+
+    public void setLocationObj(EntityLocation locationObj) {
+        this.locationObj = locationObj;
+    }
+
+    public User getUserObj() {
+        return userObj;
+    }
+
+    public void setUserObj(User userObj) {
+        this.userObj = userObj;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public int getNum_ticks() {
@@ -207,18 +236,6 @@ public class Observation implements Parcelable, Entity {
         this.updated_at = updated_at;
     }
 
-    @Override
-    public String toString() {
-        return "Observation{" +
-                "observation_id=" + observation_id +
-                ", geoLocation='" + geoLocation + '\'' +
-                ", tickName='" + tickName + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", num_ticks=" + num_ticks +
-                ", timestamp=" + timestamp +
-                ", locationObj=" + locationObj +
-                '}';
-    }
 
     @Override
     public int describeContents() {
@@ -227,7 +244,7 @@ public class Observation implements Parcelable, Entity {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(observation_id);
+        dest.writeString(id);
         dest.writeString(geoLocation);
         dest.writeInt(num_ticks);
         dest.writeLong(timestamp);

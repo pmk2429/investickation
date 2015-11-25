@@ -31,7 +31,7 @@ public class AppUtils {
     // Log message for Application Context
     public static final String LOGTAG = "~!@#$%";
     // Base url to the endpoint
-    public static final String BASE_URL = "http://investickation.com";
+    public static final String BASE_URL = "http://investickation.com:3000";
     // Resource Identifiers
     public static final String USER_RESOURCE = "users";
     public static final String ACTIVITY_RESOURCE = "activities";

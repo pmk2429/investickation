@@ -34,19 +34,17 @@ public class Activities implements Parcelable, Entity {
             return new Activities[size];
         }
     };
-    private int activity_id;
+    private String id;
     private String activityName, location_area;
-    private int num_people, num_pets;
-    private long timestamp, created_at, update_at;
-    private long fk_user_id;
+    private int num_people, num_of_pets;
+    private long timestamp, created_at, updated_at;
+    private String user_id;
     // Enum identifier for setting State of Object.
     private STATE activityState;
     private String UUID;
-
     // Default constructor -> REQUIRED
     public Activities() {
     }
-
     /**
      * Constructor for creating the Model object to send it over to retrofit for storing on Server.
      *
@@ -58,7 +56,7 @@ public class Activities implements Parcelable, Entity {
     public Activities(String name, int num_people, int num_pets, long timestamp, String UUID) {
         this.activityName = name;
         this.num_people = num_people;
-        this.num_pets = num_pets;
+        this.num_of_pets = num_pets;
         this.timestamp = timestamp;
         this.UUID = UUID;
     }
@@ -74,18 +72,18 @@ public class Activities implements Parcelable, Entity {
     public Activities(String name, int num_people, int num_pets) {
         this.activityName = name;
         this.num_people = num_people;
-        this.num_pets = num_pets;
+        this.num_of_pets = num_pets;
     }
 
     protected Activities(Parcel in) {
-        activity_id = in.readInt();
+        id = in.readString();
         activityName = in.readString();
         location_area = in.readString();
         num_people = in.readInt();
-        num_pets = in.readInt();
+        num_of_pets = in.readInt();
         timestamp = in.readLong();
         created_at = in.readLong();
-        update_at = in.readLong();
+        updated_at = in.readLong();
     }
 
     /**
@@ -100,14 +98,15 @@ public class Activities implements Parcelable, Entity {
      * @param created_at
      * @param update_at
      */
-    public Activities(String name, String location_area, int num_people, int num_pets, long timestamp, long created_at, long update_at) {
+    public Activities(String name, String location_area, int num_people, int num_pets, long timestamp, long created_at, long
+            updated_at) {
         this.activityName = name;
         this.location_area = location_area;
         this.num_people = num_people;
-        this.num_pets = num_pets;
+        this.num_of_pets = num_pets;
         this.timestamp = timestamp;
         this.created_at = created_at;
-        this.update_at = update_at;
+        this.updated_at = updated_at;
     }
 
     public static List<Activities> initializeData() {
@@ -118,16 +117,44 @@ public class Activities implements Parcelable, Entity {
         return activities;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getNum_of_pets() {
+        return num_of_pets;
+    }
+
+    public void setNum_of_pets(int num_of_pets) {
+        this.num_of_pets = num_of_pets;
+    }
+
+    public long getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
+    }
+
     public String getUUID() {
         return UUID;
     }
 
     public void setUUID(String UUID) {
         this.UUID = UUID;
-    }
-
-    public void setFk_user_id(long fk_user_id) {
-        this.fk_user_id = fk_user_id;
     }
 
     /**
@@ -148,13 +175,6 @@ public class Activities implements Parcelable, Entity {
         this.activityState = state;
     }
 
-    public int getActivity_id() {
-        return activity_id;
-    }
-
-    public void setActivity_id(int activity_id) {
-        this.activity_id = activity_id;
-    }
 
     public String getActivityName() {
         return activityName;
@@ -180,13 +200,6 @@ public class Activities implements Parcelable, Entity {
         this.num_people = num_people;
     }
 
-    public int getNum_pets() {
-        return num_pets;
-    }
-
-    public void setNum_pets(int num_pets) {
-        this.num_pets = num_pets;
-    }
 
     public long getTimestamp() {
         return timestamp;
@@ -204,28 +217,6 @@ public class Activities implements Parcelable, Entity {
         this.created_at = created_at;
     }
 
-    public long getUpdate_at() {
-        return update_at;
-    }
-
-    public void setUpdate_at(long update_at) {
-        this.update_at = update_at;
-    }
-
-    @Override
-    public String toString() {
-        return "Activity{" +
-                "activity_id=" + activity_id +
-                ", name='" + activityName + '\'' +
-                ", location_area='" + location_area + '\'' +
-                ", num_people=" + num_people +
-                ", num_pets=" + num_pets +
-                ", timestamp=" + timestamp +
-                ", created_at=" + created_at +
-                ", update_at=" + update_at +
-                '}';
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -233,14 +224,14 @@ public class Activities implements Parcelable, Entity {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(activity_id);
+        parcel.writeString(id);
         parcel.writeString(activityName);
         parcel.writeString(location_area);
         parcel.writeInt(num_people);
-        parcel.writeInt(num_pets);
+        parcel.writeInt(num_of_pets);
         parcel.writeLong(timestamp);
         parcel.writeLong(created_at);
-        parcel.writeLong(update_at);
+        parcel.writeLong(updated_at);
     }
 
     @Override
@@ -264,7 +255,5 @@ public class Activities implements Parcelable, Entity {
      */
     public static enum STATE {
         RUNNING, CREATED;
-
-
     }
 }

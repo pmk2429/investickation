@@ -20,7 +20,6 @@ import java.util.List;
  * Created by Pavitra on 5/19/2015.
  */
 
-
 public class Tick implements Parcelable, Entity {
 
     public static final Creator<Tick> CREATOR = new Creator<Tick>() {
@@ -35,7 +34,7 @@ public class Tick implements Parcelable, Entity {
         }
     };
 
-    private int tick_id;
+    private String id;
     @SerializedName("tickName")
     private String tickName;
     @SerializedName("species")
@@ -59,8 +58,8 @@ public class Tick implements Parcelable, Entity {
     }
 
     // constructor for retrieving all the data from the Tick Object.
-    public Tick(int tick_id, String name, String species, String color, String known_for, String description, String imageUrl) {
-        this.tick_id = tick_id;
+    public Tick(String id, String name, String species, String color, String known_for, String description, String imageUrl) {
+        this.id = id;
         this.tickName = name;
         this.species = species;
         this.color = color;
@@ -70,7 +69,7 @@ public class Tick implements Parcelable, Entity {
     }
 
     protected Tick(Parcel in) {
-        tick_id = in.readInt();
+        id = in.readString();
         tickName = in.readString();
         species = in.readString();
         color = in.readString();
@@ -114,13 +113,6 @@ public class Tick implements Parcelable, Entity {
         return ticks;
     }
 
-    public int getTick_id() {
-        return tick_id;
-    }
-
-    public void setTick_id(int tick_id) {
-        this.tick_id = tick_id;
-    }
 
     public String getTickName() {
         return tickName;
@@ -189,7 +181,7 @@ public class Tick implements Parcelable, Entity {
     @Override
     public String toString() {
         return "Tick{" +
-                "tick_id=" + tick_id +
+                "tick_id=" + id +
                 ", name='" + tickName + '\'' +
                 ", species='" + species + '\'' +
                 ", color='" + color + '\'' +
@@ -206,9 +198,17 @@ public class Tick implements Parcelable, Entity {
         return 0;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(tick_id);
+        parcel.writeString(id);
         parcel.writeString(tickName);
         parcel.writeString(species);
         parcel.writeString(color);

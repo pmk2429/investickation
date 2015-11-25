@@ -22,9 +22,9 @@ public interface EntityDao {
 
     boolean delete(Entity entityItem);
 
-    <T extends Entity> T get(long id);
+    <T extends Entity> T get(String id);
 
-    <T extends Entity> T get(String entityName);
+    <T extends Entity> T getByName(String entityName);
 
     List<? extends Entity> getAll();
 

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class TicksTable {
     static final String TABLENAME = "Ticks";
-    static final String COLUMN_ID = "tick_id";
+    static final String COLUMN_ID = "id";
     static final String COLUMN_TICK_NAME = "name";
     static final String COLUMN_TICK_SPECIES = "species";
     static final String COLUMN_KNOWN_FOR = "known_for";
@@ -20,7 +20,7 @@ public class TicksTable {
     static public void onCreate(SQLiteDatabase db) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE " + TicksTable.TABLENAME + " (");
-        sb.append(COLUMN_ID + " integer primary key autoincrement, ");
+        sb.append(COLUMN_ID + " long primary key autoincrement, ");
         sb.append(COLUMN_TICK_NAME + " text not null, ");
         sb.append(COLUMN_TICK_SPECIES + " text not null, ");
         sb.append(COLUMN_KNOWN_FOR + " text not null, ");

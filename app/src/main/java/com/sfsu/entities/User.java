@@ -32,66 +32,89 @@ public class User implements Parcelable, Entity {
 
 
     // TODO: define how to post Image using Bitmap and Retrofit
-    private long user_id;
-    private String zipcode;
-    private String username, email, password, address, city, state;
+    private String id;
+    private String full_name, email, password, address, city, state;
+    private int zipCode;
     private long created_at, updated_at;
-
 
     private User(Parcel in) {
         // mData = in.readInt();
     }
 
-
     public User() {
     }
 
-    public User(int user_id, String username, String email, String password, String address, String city, String zipcode, String
-            state) {
-        this.user_id = user_id;
-        this.zipcode = zipcode;
-        this.username = username;
+    /**
+     * Constructor overloading to deserialize the Response from Retrofit to User object.
+     *
+     * @param id
+     * @param full_name
+     * @param email
+     * @param address
+     * @param city
+     * @param state
+     * @param zipCode
+     */
+    public User(String id, String full_name, String email, String address, String city, String state, int zipCode) {
+        this.id = id;
+        this.full_name = full_name;
         this.email = email;
-        this.password = password;
         this.address = address;
         this.city = city;
         this.state = state;
+        this.zipCode = zipCode;
     }
 
-
-    public static User createUser(String username, String email, String password, String zipcode, String address) {
+    public static User createUser(String fullName, String email, String password, String zipcode, String address) {
 
         // TODO: Create Logic for user_id.
         // TODO: Parse the Address String and get City, Zip and State
-        int user_id = 0;
+        String user_id = "";
         String city = "", state = "";
+        int zip = 94132;
 
         // create and return new customer
-        return new User(user_id, username, email, password, address, city, zipcode, state);
+        return new User(user_id, fullName, email, address, city, state, zip);
     }
 
-    public long getUser_id() {
-        return user_id;
+    public String getId() {
+        return id;
     }
 
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCity() {
+        return city;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
     }
 
     public String getEmail() {
@@ -118,22 +141,6 @@ public class User implements Parcelable, Entity {
         this.address = address;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public long getCreated_at() {
         return created_at;
     }
@@ -150,21 +157,6 @@ public class User implements Parcelable, Entity {
         this.updated_at = updated_at;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "user_id=" + user_id +
-                ", zipcode=" + zipcode +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
-    }
 
     @Override
     public int describeContents() {
