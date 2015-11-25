@@ -18,7 +18,7 @@ import retrofit.Retrofit;
  * Created by Pavitra on 10/6/2015.
  */
 public class ServiceGenerator {
-    private static EntitiesApi apiService;
+    private static EntitiesApiService apiService;
 
     private static OkHttpClient httpClient = new OkHttpClient();
     private static Retrofit.Builder builder =
@@ -106,12 +106,12 @@ public class ServiceGenerator {
     }
 
 
-    public static EntitiesApi createRetrofitService(String baseUrl) {
+    public static EntitiesApiService createRetrofitService(String baseUrl) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        apiService = retrofit.create(EntitiesApi.class);
+        apiService = retrofit.create(EntitiesApiService.class);
 
         return apiService;
     }

@@ -3,7 +3,7 @@ package com.sfsu.controllers;
 import android.content.Context;
 
 import com.sfsu.entities.Entity;
-import com.sfsu.rest.EntitiesApi;
+import com.sfsu.rest.EntitiesApiService;
 import com.sfsu.rest.ServiceGenerator;
 import com.sfsu.utils.AppUtils;
 
@@ -29,7 +29,7 @@ import retrofit.Response;
 public class RetrofitController {
 
     private Context context;
-    private EntitiesApi entitiesApi;
+    private EntitiesApiService entitiesApi;
     private Entity entityResponseObj;
     private ArrayList<Entity> entityListResponse;
 
@@ -58,7 +58,7 @@ public class RetrofitController {
     }
 
     /**
-     * Method provides the Controller layer to GET and POST data using Retrofit. Get the Call from the EntitiesApi and
+     * Method provides the Controller layer to GET and POST data using Retrofit. Get the Call from the EntitiesApiService and
      * then pass on the parsed object to the Calling Fragment/Activity.
      *
      * @param entityId - entity Id of resource. Converts it to String.

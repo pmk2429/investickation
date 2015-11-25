@@ -54,11 +54,11 @@ public class DatabaseDataController {
         return this.entityDao.delete(entity);
     }
 
-    public Entity get(long id) {
+    public Entity get(String id) {
         return this.entityDao.get(id);
     }
 
-    public Entity get(String entityName) {
+    public Entity getByName(String entityName) {
         return this.entityDao.get(entityName);
     }
 

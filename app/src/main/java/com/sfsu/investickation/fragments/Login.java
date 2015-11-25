@@ -13,16 +13,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.controllers.LoginController;
 import com.sfsu.helper.SessionManager;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.model.UsersDao;
-import com.sfsu.rest.EntitiesApi;
+import com.sfsu.rest.LoginService;
 import com.sfsu.rest.ServiceGenerator;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
+
+import retrofit.Call;
 
 /**
  * Allows user to Login to InvesTICKations app. The details entered by the user will be validated and compared to the
@@ -109,13 +112,32 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      * @param password
      */
     private void checkLogin(final String email, final String password) {
+
+        LoginController mLoginController = new LoginController(mContext);
+        mLoginController.checkLogin(email, password);
+
         // Tag used to cancel the request
         String tag_string_req = "req_login";
 
         // make a call to retrofit controller to check Login sessions.
-        EntitiesApi entitiesApi = ServiceGenerator.createService(EntitiesApi.class);
+        LoginService mLoginService = ServiceGenerator.createService(LoginService.class);
 
-        
+        // TODO: change this code and delegate the calls to LoginController or SessionManager to handle Retrofit calls.
+        Call<Login> userLoginCall = mLoginService.login(email, password);
+
+
+        // success
+        /*
+        * On success, perform following steps:
+        * 1) get the Access Token
+        * 2) session.setLogin(true);
+        * 3) Get User object
+        * 4) store it in DB for future purpose.
+        * 5) open main activity
+        * */
+
+        // response
+
     }
 
 

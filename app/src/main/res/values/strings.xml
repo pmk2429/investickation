@@ -34,6 +34,7 @@
     <string name="privacyPolicy">I agree to Terms and Conditions</string>
     <string name="signup">Sign Up</string>
     <string name="textSignUp">Sign Up</string>
+    <string name="zipcode">Zip Code</string>
 
     <!--Login-->
     <string name="login">Login</string>

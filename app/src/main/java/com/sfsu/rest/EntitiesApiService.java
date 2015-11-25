@@ -34,7 +34,7 @@ import retrofit.http.Path;
  * Created by Pavitra on 10/6/2015.
  */
 
-public interface EntitiesApi {
+public interface EntitiesApiService {
 
 
     /**
