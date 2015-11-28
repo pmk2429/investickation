@@ -4,6 +4,9 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
 /**
+ * Singleton Bus provider that creates and returns Bus instance. This class enforces singleton design pattern in order to re
+ * use the same bus instance throughout the entire application.
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class BusProvider {
