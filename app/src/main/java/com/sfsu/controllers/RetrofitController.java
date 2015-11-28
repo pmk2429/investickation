@@ -3,8 +3,8 @@ package com.sfsu.controllers;
 import android.content.Context;
 
 import com.sfsu.entities.Entity;
-import com.sfsu.network.rest.EntitiesApiService;
 import com.sfsu.network.handler.ServiceManager;
+import com.sfsu.network.rest.EntitiesApiService;
 import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;

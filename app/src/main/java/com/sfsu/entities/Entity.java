@@ -9,7 +9,7 @@ package com.sfsu.entities;
  * In addition, Entity interface exemplifies the idea of polymorphism and provides bridge methods to preserce the
  * polymorphism in InvesTICKations.
  * </p>
- * <p/>
+ * <p>
  * Created by Pavitra on 6/3/2015.
  */
 public interface Entity {
