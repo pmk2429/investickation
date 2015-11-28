@@ -1,4 +1,4 @@
-package com.sfsu.rest;
+package com.sfsu.network.rest;
 
 import com.sfsu.investickation.fragments.Login;
 

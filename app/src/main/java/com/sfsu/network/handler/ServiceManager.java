@@ -1,8 +1,9 @@
-package com.sfsu.rest;
+package com.sfsu.network.handler;
 
 
 import android.util.Base64;
 
+import com.sfsu.network.rest.EntitiesApiService;
 import com.sfsu.utils.AppUtils;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -17,7 +18,7 @@ import retrofit.Retrofit;
 /**
  * Created by Pavitra on 10/6/2015.
  */
-public class ServiceGenerator {
+public class ServiceManager {
     private static EntitiesApiService apiService;
 
     private static OkHttpClient httpClient = new OkHttpClient();
@@ -60,7 +61,7 @@ public class ServiceGenerator {
      * A RequestInterceptor is used to set the authorization header value for any HTTP request executed with this OkHttp client.
      * But this is only done if the parameters for email and password are provided. If you don’t pass any email and password to
      * the method, it will create the same client as the first method. That’s why we can simplify the first method from the
-     * ServiceGenerator class.
+     * ServiceManager class.
      * </p>
      * For the authentication part we adjusted the format of given email and password. Additionally, the newly created
      * (concatenated) string has to be Base64 encoded.

@@ -1,10 +1,8 @@
-package com.sfsu.rest;
+package com.sfsu.network.rest;
 
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
-
-import java.util.ArrayList;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -34,8 +32,7 @@ import retrofit.http.Path;
  * Created by Pavitra on 10/6/2015.
  */
 
-public interface EntitiesApiService {
-
+public interface EntitiesApiService<T> {
 
     /**
      * This method gets a specific resource by using ID of that resource.
@@ -51,7 +48,7 @@ public interface EntitiesApiService {
      * @return
      */
     @GET("/{resource}")
-    public Call<ArrayList<Entity>> getAll(@Path("resource") String resource);
+    public Call<T> getAll(@Path("resource") String resource);
 
 
     /**
@@ -61,12 +58,6 @@ public interface EntitiesApiService {
      */
     @POST("/{resource}/new")
     public Call<Entity> add(@Path("resource") String resource, @Body Entity entity);
-
-    /**
-     * Demo
-     */
-    @POST("/{resource}/new")
-    void demo(@Path("resource") String resource, @Body Entity entity, Callback<Entity> callback);
 
 
     /**

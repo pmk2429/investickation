@@ -19,8 +19,8 @@ import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.model.UsersDao;
-import com.sfsu.rest.LoginService;
-import com.sfsu.rest.ServiceGenerator;
+import com.sfsu.network.rest.LoginService;
+import com.sfsu.network.handler.ServiceManager;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -120,7 +120,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         String tag_string_req = "req_login";
 
         // make a call to retrofit controller to check Login sessions.
-        LoginService mLoginService = ServiceGenerator.createService(LoginService.class);
+        LoginService mLoginService = ServiceManager.createService(LoginService.class);
 
         // TODO: change this code and delegate the calls to LoginController or SessionManager to handle Retrofit calls.
         Call<Login> userLoginCall = mLoginService.login(email, password);
