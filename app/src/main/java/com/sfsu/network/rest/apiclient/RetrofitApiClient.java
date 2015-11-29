@@ -4,7 +4,7 @@ package com.sfsu.network.rest.apiclient;
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
-    public static final String BASE_API_URL = "https://api.github.com";
+    public static final String BASE_API_URL = "https://investickations.com:3000";
 
     /**
      * Returns the ApiClient for the corresponding ApiClient.
@@ -28,7 +28,7 @@ public class RetrofitApiClient {
      * Enum of ApiTypes
      */
     public enum ApiTypes {
-        USER_API(UserApiClient.class), ACTIVITY_API(ActivitiesApiClient.class), OBSERVATION_API(ObservationApiClient.class),
+        USER_API(UserApiClient.class), ACTIVITY_API(ActivityApiClient.class), OBSERVATION_API(ObservationApiClient.class),
         TICK_API(TickApiClient.class), LOCATION_API(LocationApiClient.class);
 
         // apiClass enum variable

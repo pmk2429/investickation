@@ -9,15 +9,19 @@ import retrofit.Retrofit;
 /**
  * Created by Pavitra on 11/28/2015.
  */
-public class ActivitiesApiClient extends RetrofitApiClient {
+public class ActivityApiClient extends RetrofitApiClient {
     private ActivityApiService mService;
 
-    public ActivitiesApiClient() {
+    public ActivityApiClient() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(new OkHttpClient())
                 .build();
         mService = retrofit.create(ActivityApiService.class);
+    }
+
+    public ActivityApiService getService() {
+        return mService;
     }
 }

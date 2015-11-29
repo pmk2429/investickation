@@ -12,7 +12,7 @@ import com.squareup.otto.Bus;
  */
 public class ApiRequestHandler {
     private Bus mBus;
-    ;
+
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.

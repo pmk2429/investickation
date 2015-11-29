@@ -10,7 +10,6 @@ package com.sfsu.network.rest.apiclient;
  * Created by Pavitra on 11/27/2015.
  */
 public class ApiClient {
-    public static final String BASE_API_URL = "https://api.github.com";
 
     private static volatile ApiClient instance;
 
