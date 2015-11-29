@@ -1,4 +1,4 @@
-package com.sfsu.network.rest;
+package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Observation;

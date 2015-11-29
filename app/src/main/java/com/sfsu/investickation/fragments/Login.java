@@ -19,7 +19,7 @@ import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.model.UsersDao;
-import com.sfsu.network.rest.LoginService;
+import com.sfsu.network.rest.service.LoginService;
 import com.sfsu.network.handler.ServiceManager;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;

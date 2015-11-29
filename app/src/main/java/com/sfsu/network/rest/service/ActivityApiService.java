@@ -1,7 +1,8 @@
-package com.sfsu.network.rest;
+package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
+import com.sfsu.network.rest.EntitiesApiService;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import retrofit.http.Path;
  * Created by Pavitra on 10/6/2015.
  */
 
-public interface ActivityApiService {
+public interface ActivityApiService extends EntitiesApiService {
 
     /**
      * This method gets a specific activity by using ID of that resource.
