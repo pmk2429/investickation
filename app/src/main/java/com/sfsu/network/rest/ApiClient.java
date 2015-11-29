@@ -17,7 +17,7 @@ import retrofit.Retrofit;
 public class ApiClient {
     public static final String API_BASE_URL = "http://investickation.com:3000";
 
-    private static volatile ApiClient instance;
+    private static volatile ApiClient mInstance;
 
     private EntitiesApiService myEntitiesApiService;
 
@@ -26,12 +26,12 @@ public class ApiClient {
     }
 
     public static ApiClient getInstance() {
-        ApiClient localInstance = instance;
+        ApiClient localInstance = mInstance;
         if (localInstance == null) {
             synchronized (ApiClient.class) {
-                localInstance = instance;
+                localInstance = mInstance;
                 if (localInstance == null) {
-                    instance = localInstance = new ApiClient();
+                    mInstance = localInstance = new ApiClient();
                 }
             }
         }

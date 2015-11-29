@@ -15,8 +15,8 @@ public class TickEvent extends BaseNetworkEvent {
 
         public String httpRequestType, tickResourceName, tickId;
 
-        public OnLoadingInitialized(String TickId) {
-            super(TickId);
+        public OnLoadingInitialized(String tickId) {
+            super(tickId);
         }
 
         public OnLoadingInitialized(Tick tick, String httpRequestType, String tickId) {

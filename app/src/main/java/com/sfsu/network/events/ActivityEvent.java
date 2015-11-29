@@ -15,8 +15,8 @@ public class ActivityEvent extends BaseNetworkEvent {
 
         public String httpRequestType, activitiesResourceName, activitiesId;
 
-        public OnLoadingInitialized(String ActivitiesId) {
-            super(ActivitiesId);
+        public OnLoadingInitialized(String activityId) {
+            super(activityId);
         }
 
         public OnLoadingInitialized(Activities activity, String httpRequestType, String activitiesId) {

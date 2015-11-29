@@ -1,8 +1,9 @@
 package com.sfsu.network.rest;
 
 
-import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
+
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -19,23 +20,23 @@ import retrofit.http.Path;
  * Created by Pavitra on 10/6/2015.
  */
 
-public interface EntitiesApiService<T> {
+public interface UserApiService {
 
     /**
-     * This method gets a specific resource by using ID of that resource.
+     * This method gets a specific user by using ID of that resource.
      *
      * @return
      */
-    @GET("/{resource}/{resourceId}")
-    public Call<Entity> get(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    @GET("/users/{id}")
+    public Call<User> get(@Path("id") String userId);
 
     /**
      * This method returns the list of all the Entities in resource based on the resourceIdentifier.
      *
      * @return
      */
-    @GET("/{resource}")
-    public Call<T> getAll(@Path("resource") String resource);
+    @GET("/users")
+    public Call<List<User>> getAll();
 
 
     /**
@@ -43,20 +44,12 @@ public interface EntitiesApiService<T> {
      *
      * @return
      */
-    @POST("/{resource}/new")
-    public Call<Entity> add(@Path("resource") String resource, @Body Entity entity);
+    @POST("/users")
+    public Call<User> add(@Body User user);
 
 
-    /**
-     * Use to update the entity.
-     *
-     * @param resource   Specifies the type of resource
-     * @param resourceId Resource Id. ie UserId, TickId etc
-     * @param entity     Entire entity object
-     * @return
-     */
-    @GET("/{resource}/{resourceId}")
-    public Call<Entity> update(@Path("resource") String resource, @Path("resourceId") String resourceId, @Body Entity entity);
+    @GET("/users/{id}")
+    public Call<User> update(@Path("id") String userId, @Body User user);
 
 
     /**
@@ -64,8 +57,8 @@ public interface EntitiesApiService<T> {
      *
      * @return
      */
-    @GET("/{resource}/{resourceId}")
-    public Call<Entity> delete(@Path("resource") String resource, @Path("resourceId") String resourceId);
+    @GET("/users/{id}")
+    public Call<User> delete(@Path("id") String userId);
 
     /**
      * Login the user and get RequestToken for the User.

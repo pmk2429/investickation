@@ -15,6 +15,11 @@ public class ApiRequestHandler {
     private Bus mBus;
     private ApiClient mApiClient;
 
+    /**
+     * Constructor overloading to initialize the Bus to be used for this Request Handling.
+     *
+     * @param bus
+     */
     public ApiRequestHandler(Bus bus) {
         mBus = bus;
         mApiClient = ApiClient.getInstance();

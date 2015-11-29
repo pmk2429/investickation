@@ -9,19 +9,7 @@ import android.app.Application;
  * Created by Pavitra on 11/24/2015.
  */
 public class AppController extends Application {
-    public static final String LOGTAG = AppController.class.getSimpleName();
 
-    private static AppController mInstance;
-
-    public static synchronized AppController getInstance() {
-        return mInstance;
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mInstance = this;
-    }
 
 
 }
