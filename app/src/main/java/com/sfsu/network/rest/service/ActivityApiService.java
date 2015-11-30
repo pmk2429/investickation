@@ -2,7 +2,6 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
-import com.sfsu.network.rest.EntitiesApiService;
 
 import java.util.List;
 
@@ -13,15 +12,14 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
- * The <b>Service</b> interface is used to manage URL calls to the REST Api. In this interface you have to specify the type
- * of the request like POST, GET, PUT, etc.
+ * The <b>Service</b> interface to manage http network calls for {@link Activities} related operations to the REST API endpoint.
  * Created by Pavitra on 10/6/2015.
  */
 
-public interface ActivityApiService extends EntitiesApiService {
+public interface ActivityApiService {
 
     /**
-     * This method gets a specific activity by using ID of that resource.
+     * Returns a specific {@link Activities} matching .
      *
      * @return
      */
@@ -29,7 +27,7 @@ public interface ActivityApiService extends EntitiesApiService {
     public Call<Activities> get(@Path("id") String activityId);
 
     /**
-     * This method returns the list of all the Entities in resource based on the resourceIdentifier.
+     * Returns the list of all the {@link Activities} in the server database.
      *
      * @return
      */
@@ -38,7 +36,7 @@ public interface ActivityApiService extends EntitiesApiService {
 
 
     /**
-     * This method is used to create the specified resource and store in database.
+     * Adds new {@link Activities} record in the Server.
      *
      * @return
      */
@@ -46,6 +44,13 @@ public interface ActivityApiService extends EntitiesApiService {
     public Call<Activities> add(@Body Activities activity);
 
 
+    /**
+     * Updates {@link Activities} record.
+     *
+     * @param activityId
+     * @param activity
+     * @return
+     */
     @GET("/activities/{id}")
     public Call<Activities> update(@Path("id") String activityId, @Body Activities activity);
 

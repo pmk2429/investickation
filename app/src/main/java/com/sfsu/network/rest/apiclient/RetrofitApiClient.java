@@ -24,6 +24,7 @@ public class RetrofitApiClient {
         return null;
     }
 
+
     /**
      * Enum of ApiTypes
      */
@@ -52,5 +53,9 @@ public class RetrofitApiClient {
             return this.apiClass;
         }
     }
+
+
+
+
 }
 

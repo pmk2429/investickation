@@ -3,7 +3,6 @@ package com.sfsu.network.handler;
 
 import android.util.Base64;
 
-import com.sfsu.network.rest.EntitiesApiService;
 import com.sfsu.utils.AppUtils;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -19,8 +18,6 @@ import retrofit.Retrofit;
  * Created by Pavitra on 10/6/2015.
  */
 public class ServiceManager {
-    private static EntitiesApiService apiService;
-
     private static OkHttpClient httpClient = new OkHttpClient();
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
@@ -106,14 +103,4 @@ public class ServiceManager {
         return retrofit.create(serviceClass);
     }
 
-
-    public static EntitiesApiService createRetrofitService(String baseUrl) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        apiService = retrofit.create(EntitiesApiService.class);
-
-        return apiService;
-    }
 }

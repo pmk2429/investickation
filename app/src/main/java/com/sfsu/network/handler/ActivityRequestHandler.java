@@ -20,4 +20,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         super(bus);
         mApiClient = RetrofitApiClient.getApi(RetrofitApiClient.ApiTypes.ACTIVITY_API);
     }
+
+    
 }

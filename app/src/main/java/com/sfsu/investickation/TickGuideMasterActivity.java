@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideList.IGuideIndexCallBacks {
 
     private final String LOGTAG = "~!@#$TickGuideMasterActivity :";
-    private RetrofitController retrofitController;
     private ArrayList<Tick> tickList;
     private ArrayList<Entity> entityList;
 
@@ -29,9 +27,8 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guidmaster);
 
-        retrofitController = new RetrofitController(this);
         // get the list of ticks from the REST API using RetrofitController
-        entityList = retrofitController.getAll(AppUtils.TICK_RESOURCE);
+//        entityList = retrofitController.getAll(AppUtils.TICK_RESOURCE);
 
         // one of the solution
         //tickList = (ArrayList<Tick>) (ArrayList<?>) entityList;

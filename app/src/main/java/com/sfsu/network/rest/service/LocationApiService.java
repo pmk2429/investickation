@@ -12,8 +12,7 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
- * The <b>Service</b> interface is used to manage URL calls to the REST Api. In this interface you have to specify the type
- * of the request like POST, GET, PUT, etc.
+ * The <b>Service</b> interface used to manage http network calls for {@link EntityLocation} to the REST API endpoint.
  * Created by Pavitra on 10/6/2015.
  */
 

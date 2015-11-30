@@ -8,7 +8,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
 /**
- * Created by Pavitra on 11/25/2015.
+ * The <b>Service</b> interface to manage http network calls for Login/Logout of User Session.
  */
 public interface LoginService {
 

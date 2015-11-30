@@ -1,6 +1,5 @@
 package com.sfsu.network.handler;
 
-import com.sfsu.network.rest.apiclient.LocationApiClient;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.squareup.otto.Bus;
 
@@ -9,7 +8,8 @@ import com.squareup.otto.Bus;
  */
 public class LocationRequestHandler extends ApiRequestHandler {
 
-    private LocationApiClient mApiClient;
+    // private LocationApiClient mApiClient;
+    private RetrofitApiClient mApiClient;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -18,6 +18,5 @@ public class LocationRequestHandler extends ApiRequestHandler {
      */
     public LocationRequestHandler(Bus bus) {
         super(bus);
-        mApiClient = RetrofitApiClient.getApi(RetrofitApiClient.ApiTypes.LOCATION_API);
     }
 }

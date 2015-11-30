@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
@@ -19,7 +18,6 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
 
     private final String LOGTAG = "~!@#$ObsMasterAct :";
     private Observation newlyCreatedObs, observationResponseObj;
-    private RetrofitController retrofitController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

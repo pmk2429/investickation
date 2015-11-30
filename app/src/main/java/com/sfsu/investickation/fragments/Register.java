@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.sfsu.controllers.RetrofitController;
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 import com.sfsu.validation.TextValidator;
@@ -36,7 +35,6 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     private Button btnRegisterUser;
     private EditText et_fullName, et_email, et_password, et_zipcode, et_address;
     private ImageView imageView_userImage;
-    private RetrofitController retrofitController;
     private IRegisterCallBacks mListener;
     private Context mContext;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid;
@@ -60,7 +58,6 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
         // initialize the RetroFit controller.
-        retrofitController = new RetrofitController(mContext);
 
         et_fullName = (EditText) v.findViewById(R.id.editText_register_fullName);
         et_fullName.addTextChangedListener(new TextValidator(mContext, Register.this, et_fullName));
