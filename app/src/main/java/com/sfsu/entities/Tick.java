@@ -35,7 +35,7 @@ public class Tick implements Parcelable, Entity {
     };
 
     private String id;
-    @SerializedName("tickName")
+    @SerializedName("name")
     private String tickName;
     @SerializedName("species")
     private String species;

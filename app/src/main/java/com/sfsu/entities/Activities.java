@@ -3,6 +3,8 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,17 +36,23 @@ public class Activities implements Parcelable, Entity {
             return new Activities[size];
         }
     };
+    @SerializedName("location_area")
+    String location_area;
     private String id;
-    private String activityName, location_area;
+    @SerializedName("name")
+    private String activityName;
+    
     private int num_people, num_of_pets;
     private long timestamp, created_at, updated_at;
     private String user_id;
     // Enum identifier for setting State of Object.
     private STATE activityState;
     private String UUID;
+
     // Default constructor -> REQUIRED
     public Activities() {
     }
+
     /**
      * Constructor for creating the Model object to send it over to retrofit for storing on Server.
      *

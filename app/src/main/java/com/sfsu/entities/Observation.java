@@ -3,21 +3,18 @@ package com.sfsu.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * <p>
- * <tt>Observation</tt> defines tick related data created by the {@link User}. The {@link Observation} is the process of
- * capturing the tick and posting the
- * data on the central server. Each observation observes a behavior of capturing tick
- * image and specifying thr details(if known) and then posting the data on the server.
+ * <tt>Observation</tt> defines tick related data created by the {@link User}. The {@link Observation} specifies the process of
+ * capturing the tick and posting the data on the central server. Each observation contains tick image and specifying the
+ * details(if known) and then posting the data on the server.
  * </p>
- * <p>
- * The Observation provides a factory design pattern to create observations by collecting
- * the data from Ticks and Activities and posting the data on the server.
- * </p>
- * Observation holds reference to the Tick, Location and User for a each Observation captured by the User.
+ * Observation holds reference to the {@link Tick} and {@link EntityLocation} for a each Observation captured by the User.
  * Created by Pavitra on 5/19/2015.
  */
 
@@ -42,9 +39,13 @@ public class Observation implements Parcelable, Entity {
     private String imageUrl;
     private int num_ticks;
     private long timestamp, created_at, updated_at;
+
+    @SerializedName("location")
     private EntityLocation locationObj;
+
+    @SerializedName("tick")
     private Tick tickObj;
-    private User userObj;
+
     private String requestToken, user_id;
 
     // REQUIRED : Default Constructor
@@ -186,14 +187,6 @@ public class Observation implements Parcelable, Entity {
 
     public void setLocationObj(EntityLocation locationObj) {
         this.locationObj = locationObj;
-    }
-
-    public User getUserObj() {
-        return userObj;
-    }
-
-    public void setUserObj(User userObj) {
-        this.userObj = userObj;
     }
 
     public String getUser_id() {
