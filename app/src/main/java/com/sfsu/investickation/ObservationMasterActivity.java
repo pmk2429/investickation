@@ -12,7 +12,10 @@ import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.RemoteObservationsList;
+import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
@@ -141,14 +144,26 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
 
         // pass this object to RetrofitController and get response.
 //        observationResponseObj = (Observation) retrofitController.add(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
+        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newlyCreatedObs, AppUtils.ADD_METHOD));
+
+    }
+
+
+    /**
+     * Subscriber method to get the Response returned via Retrofit and eventually published by {@link com.squareup.otto.Bus}
+     *
+     * @param onLoaded - OnLoaded Observation Response Event
+     */
+    @Subscribe
+    public void getObservationResponse(ObservationEvent.OnLoaded onLoaded) {
 
         // define the RemoteObservationsList Fragment
         RemoteObservationsList mRemoteObservationsList = new RemoteObservationsList();
 
         // once you get the response, simply pass it to RemoteObservations Fragment to display
         Bundle newObservationBundle = new Bundle();
-        // TODO: pass the Observation object Responded by Retrofit
-        newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
+        // TODO: verify the object returned by the Retrofit and send it to RemoteObservationList
+        newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, onLoaded.getResponse());
 
         mRemoteObservationsList.setArguments(newObservationBundle);
         // begin transaction and commit

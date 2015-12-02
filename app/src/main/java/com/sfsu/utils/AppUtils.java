@@ -37,7 +37,6 @@ public class AppUtils {
     public static final String OBSERVATION_RESOURCE = "observations";
     public static final String TICK_RESOURCE = "ticks";
     public static final String LOCATION_RESOURCE = "locations";
-
     // Unique Key
     public static final String USER_KEY = "key_user";
     public static final String ACTIVITY_KEY = "key_activities";
@@ -50,8 +49,12 @@ public class AppUtils {
     public static final String OBSERVATION_LIST_KEY = "key_observation_list";
     public static final String LOCATION_LIST_KEY = "key_location_list";
     public static final String TICK_LIST_KEY = "key_tick_list";
-
-
+    // Service Verbs
+    public static final String GET_METHOD = "get";
+    public static final String GET_ALL_METHOD = "getAll";
+    public static final String ADD_METHOD = "add";
+    public static final String UPDATE_METHOD = "update";
+    public static final String DELETE_METHOD = "delete";
     // context passed for each activity
     private Context myContext;
 

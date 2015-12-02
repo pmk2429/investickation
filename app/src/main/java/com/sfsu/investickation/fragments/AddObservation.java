@@ -511,7 +511,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     public static interface IAddObservationCallBack {
         /**
-         * Callback method to post the new {@link Observation} on the Server via {@link RetrofitController}.
+         * Callback method to post the new {@link Observation} on the Server via {@link com.sfsu.network.handler
+         * .ObservationRequestHandler} and {@link com.squareup.otto.Bus}.
          *
          * @param newObservation
          */
