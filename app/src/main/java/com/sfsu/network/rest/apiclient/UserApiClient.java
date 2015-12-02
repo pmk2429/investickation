@@ -24,4 +24,9 @@ public class UserApiClient extends RetrofitApiClient {
     public UserApiService getService() {
         return mService;
     }
+
+    public void get(String userId) {
+        mService.get(userId);
+    }
+
 }

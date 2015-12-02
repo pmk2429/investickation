@@ -4,32 +4,33 @@ package com.sfsu.network.events;
  * The base events class that provides Generic definition of events performed/ carried out/ controller/ occurred in the entire
  * Application. This class provides the base type of Events which contains all the base characteristics exhibited by all types
  * of implementing events.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class BaseNetworkEvent {
     public static final String UNHANDLED_MSG = "UNHANDLED_MSG";
     public static final int UNHANDLED_CODE = -1;
 
+
     protected static class OnStart<Rq, S> {
         private Rq mRequest;
-        private S resourceType;
+        private S resourceId;
 
-        public OnStart(S resourceType) {
-            this.resourceType = resourceType;
+        public OnStart(S resourceId) {
+            this.resourceId = resourceId;
         }
 
-        public OnStart(Rq mRequest, S resource) {
+        public OnStart(Rq mRequest, S resourceId) {
             this.mRequest = mRequest;
-            this.resourceType = resource;
+            this.resourceId = resourceId;
         }
 
         public Rq getRequest() {
             return mRequest;
         }
 
-        public S getResourceType() {
-            return this.resourceType;
+        public S getResourceId() {
+            return this.resourceId;
         }
     }
 

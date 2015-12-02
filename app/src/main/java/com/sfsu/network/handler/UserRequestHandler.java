@@ -1,8 +1,10 @@
 package com.sfsu.network.handler;
 
-import com.sfsu.network.rest.apiclient.RetrofitApiClient;
+import com.sfsu.entities.User;
+import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.rest.apiclient.UserApiClient;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 /**
  * Created by Pavitra on 11/28/2015.
@@ -18,6 +20,26 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     public UserRequestHandler(Bus bus) {
         super(bus);
-        mApiClient = RetrofitApiClient.getApi(RetrofitApiClient.ApiTypes.USER_API);
+    }
+
+    /**
+     * Subscribes to the event when {@link com.sfsu.entities.User} is Loaded. Receives the User object and make network calls to
+     * Retrofit depending on the type of request made.
+     *
+     * @param onLoadingInitialized
+     */
+    @Subscribe
+    public void onInitializeUserEvent(UserEvent.OnLoadingInitialized onLoadingInitialized) {
+        User user = new User();
+
+        UserApiClient apiClient = new UserApiClient();
+
+        switch (onLoadingInitialized.apiRequestMethod) {
+            case GET_METHOD:
+                apiClient.getService().add(onLoadingInitialized.getRequest());
+
+        }
+
+
     }
 }

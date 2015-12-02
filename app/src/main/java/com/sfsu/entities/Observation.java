@@ -8,8 +8,8 @@ import java.util.List;
 
 /**
  * <p>
- * <tt>Observation</tt> defines tick related data created by the {@link User}.
- * The {@link Observation} is the process of capturing the tick and posting the
+ * <tt>Observation</tt> defines tick related data created by the {@link User}. The {@link Observation} is the process of
+ * capturing the tick and posting the
  * data on the central server. Each observation observes a behavior of capturing tick
  * image and specifying thr details(if known) and then posting the data on the server.
  * </p>

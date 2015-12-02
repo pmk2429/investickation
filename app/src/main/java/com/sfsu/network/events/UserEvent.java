@@ -4,7 +4,7 @@ import com.sfsu.entities.User;
 
 /**
  * Defines all the User events performed under {@link User} Entity such as CRUD, searching user etc.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class UserEvent extends BaseNetworkEvent {
@@ -15,17 +15,25 @@ public class UserEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<User, String> {
 
-        public String httpRequestType, userResourceName, userId;
+        public String apiRequestMethod;
 
-        public OnLoadingInitialized(String userId) {
+        public OnLoadingInitialized(String userId, String apiRequestMethod) {
             super(userId);
+            this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(User user, String httpRequestType, String userId) {
-            super(user, httpRequestType);
-            this.httpRequestType = httpRequestType;
-            this.userId = userId;
-            this.userResourceName = user.getResourceType();
+        public OnLoadingInitialized(User user, String userId, String apiRequestMethod) {
+            super(user, userId);
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        public OnLoadingInitialized(User user, String apiRequestMethod) {
+            super(user, "");
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        public String getApiRequestMethod() {
+            return apiRequestMethod;
         }
     }
 

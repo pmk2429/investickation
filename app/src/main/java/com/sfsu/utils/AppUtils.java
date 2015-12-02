@@ -29,7 +29,6 @@ import java.util.Date;
 public class AppUtils {
 
     // Log message for Application Context
-    public static final String LOGTAG = "~!@#$%";
     // Base url to the endpoint
     public static final String BASE_URL = "http://investickation.com:3000";
     // Resource Identifiers
@@ -38,11 +37,7 @@ public class AppUtils {
     public static final String OBSERVATION_RESOURCE = "observations";
     public static final String TICK_RESOURCE = "ticks";
     public static final String LOCATION_RESOURCE = "locations";
-    // HTTP verbs
-    public static final String GET_VERB = "GET";
-    public static final String POST_VERB = "POST";
-    public static final String PUT_VERB = "PUT";
-    public static final String DELETE_VERB = "DELETE";
+
     // Unique Key
     public static final String USER_KEY = "key_user";
     public static final String ACTIVITY_KEY = "key_activities";

@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.User;
-import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  * Created by Pavitra on 6/3/2015.
  */
 public class UsersDao implements EntityDao {
-
+    private final String LOGTAG = "~!@#$UsersDao :";
     private SQLiteDatabase db;
 
     // User's string array.
@@ -47,7 +46,7 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
         contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(AppUtils.LOGTAG, "User : INSERT reached");
+        Log.d(LOGTAG, "User : INSERT reached");
         return db.insert(UsersTable.TABLENAME, null, contentValues);
     }
 
@@ -70,7 +69,7 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
         contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(AppUtils.LOGTAG, "User : INSERT reached");
+        Log.d(LOGTAG, "User : INSERT reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(UsersTable.TABLENAME, contentValues, UsersTable.COLUMN_ID + "=?", new String[]{user.getId() + ""}) > 0;

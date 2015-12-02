@@ -13,17 +13,44 @@ public class ObservationEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<Observation, String> {
 
-        public String httpRequestType, observationResourceName, observationId;
+        public String apiRequestMethod;
 
-        public OnLoadingInitialized(String observationId) {
-            super(observationId);
+        /**
+         * Constructor overloading for HTTP UPDATE calls.
+         *
+         * @param observation
+         * @param observationId
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(Observation observation, String observationId, String apiRequestMethod) {
+            super(observation, observationId);
+            this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(Observation observation, String httpRequestType, String observationId) {
-            super(observation, httpRequestType);
-            this.httpRequestType = httpRequestType;
-            this.observationId = observationId;
-            this.observationResourceName = observation.getResourceType();
+        /**
+         * Constructor overlaoding for HTTP GET, DELETE calls.
+         *
+         * @param observationId
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(String observationId, String apiRequestMethod) {
+            super(observationId);
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        /**
+         * Constructor overloading for HTTP POST calls.
+         *
+         * @param observation
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(Observation observation, String apiRequestMethod) {
+            super(observation, "");
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        public String getApiRequestMethod() {
+            return apiRequestMethod;
         }
     }
 

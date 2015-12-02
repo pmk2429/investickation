@@ -13,17 +13,44 @@ public class ActivityEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<Activities, String> {
 
-        public String httpRequestType, activitiesResourceName, activitiesId;
+        public String apiRequestMethod;
 
-        public OnLoadingInitialized(String activityId) {
+        /**
+         * Constructor overloading for HTTP GET, DELETE calls.
+         *
+         * @param activityId
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(String activityId, String apiRequestMethod) {
             super(activityId);
+            this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(Activities activity, String httpRequestType, String activitiesId) {
-            super(activity, httpRequestType);
-            this.httpRequestType = httpRequestType;
-            this.activitiesId = activitiesId;
-            this.activitiesResourceName = activity.getResourceType();
+        /**
+         * Constructor overloading for UPDATE calls.
+         *
+         * @param activity
+         * @param activityId
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(Activities activity, String activityId, String apiRequestMethod) {
+            super(activity, activityId);
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        /**
+         * Constructor overloading for POST calls
+         *
+         * @param activity
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(Activities activity, String apiRequestMethod) {
+            super(activity, "");
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        public String getApiRequestMethod() {
+            return apiRequestMethod;
         }
     }
 

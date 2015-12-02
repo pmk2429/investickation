@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
-import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.List;
  * Created by Pavitra on 10/8/2015.
  */
 public class TickDao implements EntityDao {
+    private final String LOGTAG = "~!@#$TickDao: ";
     private SQLiteDatabase db;
     private String[] tickEntryArray = new String[]{TicksTable.COLUMN_ID, TicksTable.COLUMN_TICK_NAME, TicksTable.COLUMN_TICK_SPECIES, TicksTable.COLUMN_KNOWN_FOR, TicksTable.COLUMN_DESCRIPTION, TicksTable.COLUMN_IMAGE, TicksTable.COLUMN_CREATEDAT, TicksTable.COLUMN_UPDATEDAT};
 
@@ -42,7 +42,7 @@ public class TickDao implements EntityDao {
         contentValues.put(TicksTable.COLUMN_IMAGE, tick.getImageUrl());
         contentValues.put(TicksTable.COLUMN_CREATEDAT, tick.getCreated_at());
         contentValues.put(TicksTable.COLUMN_UPDATEDAT, tick.getUpdated_at());
-        Log.d(AppUtils.LOGTAG, "TICK : INSERT reached");
+        Log.d(LOGTAG, "TICK : INSERT reached");
         return db.insert(TicksTable.TABLENAME, null, contentValues);
     }
 
@@ -63,7 +63,7 @@ public class TickDao implements EntityDao {
         contentValues.put(TicksTable.COLUMN_IMAGE, tick.getImageUrl());
         contentValues.put(TicksTable.COLUMN_CREATEDAT, tick.getCreated_at());
         contentValues.put(TicksTable.COLUMN_UPDATEDAT, tick.getUpdated_at());
-        Log.d(AppUtils.LOGTAG, "Tick : UPDATE reached");
+        Log.d(LOGTAG, "Tick : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(TicksTable.TABLENAME, contentValues, TicksTable.COLUMN_ID + "=?", new String[]{tick.getId() + ""}) > 0;

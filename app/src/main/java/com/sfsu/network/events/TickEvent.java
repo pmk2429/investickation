@@ -13,17 +13,25 @@ public class TickEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<Tick, String> {
 
-        public String httpRequestType, tickResourceName, tickId;
+        public String apiRequestMethod;
 
-        public OnLoadingInitialized(String tickId) {
+        public OnLoadingInitialized(String tickId, String apiRequestMethod) {
             super(tickId);
+            this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(Tick tick, String httpRequestType, String tickId) {
-            super(tick, httpRequestType);
-            this.httpRequestType = httpRequestType;
-            this.tickId = tickId;
-            this.tickResourceName = tick.getResourceType();
+        public OnLoadingInitialized(Tick tick, String tickId, String apiRequestMethod) {
+            super(tick, tickId);
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        public OnLoadingInitialized(Tick tick, String apiRequestMethod) {
+            super(tick, "");
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+        public String getApiRequestMethod() {
+            return apiRequestMethod;
         }
     }
 
