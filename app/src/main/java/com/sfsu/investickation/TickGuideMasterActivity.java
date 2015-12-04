@@ -10,6 +10,7 @@ import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
 import com.sfsu.investickation.fragments.TickGuideList;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -54,6 +55,18 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             // add the Fragment to 'guide_fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.guide_fragment_container, guideIndexFragment).commit();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
     }
 
     @Override

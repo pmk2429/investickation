@@ -32,6 +32,7 @@ import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -245,6 +246,18 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     public boolean onQueryTextChange(String newText) {
         // don't matter
         return false;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
     }
 
     /**

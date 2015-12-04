@@ -129,6 +129,18 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
 
 
     @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
+    }
+
+    @Override
     public void postObservationData(Observation newObservation) {
         newlyCreatedObs = newObservation;
         Log.i(LOGTAG, newlyCreatedObs.toString());

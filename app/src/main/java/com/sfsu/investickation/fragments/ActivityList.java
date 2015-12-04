@@ -22,6 +22,7 @@ import com.sfsu.adapters.ActivitiesListAdapter;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,6 +175,17 @@ public class ActivityList extends Fragment implements View.OnClickListener, Sear
         return false;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
+    }
 
     /**
      * Callback interface to handle callback methods for the ActivityList fragment.

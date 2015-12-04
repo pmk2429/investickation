@@ -22,6 +22,7 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
 
@@ -30,11 +31,11 @@ import com.sfsu.utils.AppUtils;
  * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
  * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
  * Observation for the current ongoing activity.
- * <p/>
+ * <p>
  * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
  * BroadcastReceiver, recording the observations etc.
- * <p/>
+ * <p>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
  * Observation,
  */
@@ -192,7 +193,10 @@ public class ActivityRunning extends Fragment {
             // register the broadcast receiver to receive the location objects as broadcast data
             getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
         }
+
+        BusProvider.bus().register(this);
     }
+
 
     @Override
     public void onDestroy() {
@@ -225,6 +229,7 @@ public class ActivityRunning extends Fragment {
         // stop the service and unregister the broadcast receiver.
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
+        BusProvider.bus().unregister(this);
     }
 
     /**

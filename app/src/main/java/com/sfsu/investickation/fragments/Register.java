@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -24,7 +25,7 @@ import com.sfsu.validation.ValidationUtil;
  * will then after make a network call and save the data on server. Meanwhile, when the server gives back the response, this
  * Fragment passes the {@link User} object to the {@link com.sfsu.investickation.HomeActivity} where the copy of a User object
  * is stored on the local SQLite DB.
- * <p/>
+ * <p>
  * The main reason for storing the User on local DB is to avoid making unwanted network calls when the user wants to log back
  * in.
  */
@@ -41,6 +42,18 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
 
     public Register() {
         // IMP - Don't delete
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
     }
 
     @Override

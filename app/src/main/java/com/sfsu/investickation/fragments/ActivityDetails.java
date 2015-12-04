@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.sfsu.investickation.R;
+import com.sfsu.network.bus.BusProvider;
 
 /**
  */
@@ -62,6 +63,18 @@ public class ActivityDetails extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
     }
 
 

@@ -31,6 +31,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;
 
 
@@ -242,6 +243,13 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        BusProvider.bus().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
     }
 
     @Override

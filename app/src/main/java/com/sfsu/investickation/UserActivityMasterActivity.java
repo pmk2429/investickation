@@ -15,6 +15,7 @@ import com.sfsu.investickation.fragments.ActivityDetails;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -205,6 +206,18 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         } catch (Exception e) {
             Log.i(LOGTAG, e.getMessage());
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
     }
 
     /**

@@ -39,6 +39,7 @@ import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.model.TickDao;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
@@ -461,6 +462,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onPause();
 //        getActivity().unregisterReceiver(broadcastReceiver);
 //        getActivity().stopService(locationIntent);
+
+        BusProvider.bus().unregister(this);
     }
 
 
@@ -469,6 +472,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onResume();
 //        getActivity().startService(locationIntent);
 //        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+
+        BusProvider.bus().register(this);
 
     }
 
