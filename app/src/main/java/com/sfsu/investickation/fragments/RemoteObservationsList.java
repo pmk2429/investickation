@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,6 +24,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.utils.AppUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,7 +33,7 @@ import java.util.List;
  * the callbacks of this fragment are implemented in that activity.
  */
 
-public class RemoteObservationsList extends Fragment implements View.OnClickListener {
+public class RemoteObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
     private final String LOGTAG = "~!@#RemoteObs :";
     private IRemoteObservationCallBacks mInterface;
@@ -36,9 +42,15 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
     private Observation newObservationObject;
     private RecyclerView recyclerView_observations;
     private Bundle args;
+    private ObservationsListAdapter mObservationsListAdapter;
 
     public RemoteObservationsList() {
         // Required empty public constructor
+    }
+
+
+    public static RemoteObservationsList newInstance() {
+        return new RemoteObservationsList();
     }
 
 
@@ -62,7 +74,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
                 Log.i(LOGTAG, newObservationObject.toString());
             }
         }
-        
+
         recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);
 
@@ -77,7 +89,8 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
 
         //observationList.add(newObservationObject);
 
-        ObservationsListAdapter mObservationsListAdapter = new ObservationsListAdapter(observationList);
+        //pass the observationList to the Adapter
+        mObservationsListAdapter = new ObservationsListAdapter(observationList);
         recyclerView_observations.setAdapter(mObservationsListAdapter);
 
         // implement touch event for the item click in RecyclerView
@@ -122,6 +135,57 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         mInterface.onObservationAddListener();
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_observation_list, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+    }
+
+    /*
+    This will be fired when the text in the SearchView changes. Accordingly the Incremental search will be performed by the
+    name of each element present in the list.
+     */
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        final List<Observation> filteredModelList = filter(observationList, query);
+        mObservationsListAdapter.animateTo(filteredModelList);
+        recyclerView_observations.scrollToPosition(0);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // don't matter
+        return false;
+    }
+
+    /**
+     * Helper method to filter the List of Observation on search text change in this Fragment.
+     *
+     * @param observationList
+     * @param query
+     * @return
+     */
+    private List<Observation> filter(List<Observation> observationList, String query) {
+        query = query.toLowerCase();
+
+        final List<Observation> filteredObservationList = new ArrayList<>();
+        for (Observation observation : observationList) {
+            // perform the search on TickName since it will be visible to user.
+            final String text = observation.getTickName().toLowerCase();
+            if (text.contains(query)) {
+                filteredObservationList.add(observation);
+            }
+        }
+        return filteredObservationList;
+    }
 
     /**
      * Callback Interface to handle onClick Listeners in {@link RemoteObservationsList} Fragment.

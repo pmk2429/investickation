@@ -8,13 +8,17 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +33,7 @@ import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +42,7 @@ import java.util.List;
  */
 
 
-public class TickGuideList extends Fragment {
+public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String LOGTAG = "~!@#$TickGuideList :";
     private IGuideIndexCallBacks mInterface;
@@ -47,6 +52,8 @@ public class TickGuideList extends Fragment {
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int mCurrentSelectedPosition;
+    private TicksListAdapter ticksListAdapter;
+    private RecyclerView recyclerView_tickList;
 
     public TickGuideList() {
         // Required empty public constructor
@@ -61,11 +68,11 @@ public class TickGuideList extends Fragment {
 
         setActionBarAndNavDrawer(v);
 
-        RecyclerView rv = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
-        rv.setHasFixedSize(true);
+        recyclerView_tickList = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
+        recyclerView_tickList.setHasFixedSize(true);
 
         if (mContext != null) {
-            rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView_tickList.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
             Log.d(LOGTAG, "Guide Activity not found");
         }
@@ -74,12 +81,13 @@ public class TickGuideList extends Fragment {
         //tickList = getArguments().getParcelableArrayList(AppUtils.TICK_LIST_KEY);
 
         tickList = Tick.initializeData();
-        TicksListAdapter ticksListAdapter = new TicksListAdapter(tickList);
-        rv.setAdapter(ticksListAdapter);
+
+        ticksListAdapter = new TicksListAdapter(tickList);
+        recyclerView_tickList.setAdapter(ticksListAdapter);
 
 
         // set on click listener for the item click of recyclerview
-        rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), rv, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
@@ -191,6 +199,52 @@ public class TickGuideList extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement IGuideIndexListener");
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_tick_list, menu);
+
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        final List<Tick> filteredModelList = filter(tickList, query);
+        ticksListAdapter.animateTo(filteredModelList);
+        recyclerView_tickList.scrollToPosition(0);
+        return true;
+    }
+
+    /**
+     * Helper method to filter the List of Observation on search text change in this Fragment.
+     *
+     * @param tickList
+     * @param query
+     * @return
+     */
+    private List<Tick> filter(List<Tick> tickList, String query) {
+        query = query.toLowerCase();
+
+        final List<Tick> filteredTickList = new ArrayList<>();
+        for (Tick tick : tickList) {
+            // perform the search on TickName since it will be visible to user.
+            final String text = tick.getTickName().toLowerCase();
+            if (text.contains(query)) {
+                filteredTickList.add(tick);
+            }
+        }
+        return filteredTickList;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // don't matter
+        return false;
     }
 
     /**

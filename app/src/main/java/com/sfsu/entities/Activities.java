@@ -41,7 +41,7 @@ public class Activities implements Parcelable, Entity {
     private String id;
     @SerializedName("name")
     private String activityName;
-    
+
     private int num_people, num_of_pets;
     private long timestamp, created_at, updated_at;
     private String user_id;
@@ -248,7 +248,7 @@ public class Activities implements Parcelable, Entity {
     }
 
     @Override
-    public String getName() {
+    public String getGeneralName() {
         return "Activity";
     }
 

@@ -13,9 +13,9 @@ import android.os.Parcelable;
  * This construct makes the main user of the application. The class
  * provides all the getters and setters as well as all tostring() method
  * </p>
- * <p/>
+ * <p>
  * The User class also provides the Factory pattern to create the user on demand.
- * <p/>
+ * <p>
  */
 public class User implements Parcelable, Entity {
 
@@ -174,7 +174,7 @@ public class User implements Parcelable, Entity {
     }
 
     @Override
-    public String getName() {
+    public String getGeneralName() {
         return "User";
     }
 

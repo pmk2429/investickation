@@ -50,6 +50,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
+    private static String BUNDLE_KEY = "AddObs_Bundle_Key";
     private final String LOGTAG = "~!@#$AddObservation :";
     private Bitmap bitmap;
     private ImageView imageView_tickAddObservation;
@@ -79,6 +80,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     public AddObservation() {
         // Required empty public constructor
+    }
+
+    public static AddObservation newInstance(String key, String value) {
+        AddObservation addObservation = new AddObservation();
+        Bundle args = new Bundle();
+        args.putString(key, value);
+        addObservation.setArguments(args);
+        return addObservation;
     }
 
     private void getLocationDataFromService(Intent intent) {
@@ -165,7 +174,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                     // pass the object to the ObservationActivity.
                     mInterface.postObservationData(newObservationObj);
-                    // once the data is sent to RetrofitController get the response from same and pass it to RemoteObservations
                 }
             }
         });
@@ -511,8 +519,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     public static interface IAddObservationCallBack {
         /**
-         * Callback method to post the new {@link Observation} on the Server via {@link com.sfsu.network.handler
-         * .ObservationRequestHandler} and {@link com.squareup.otto.Bus}.
+         * Callback method to post the new {@link Observation} on the Server via
+         * {@link com.sfsu.network.handler.ObservationRequestHandler} and {@link com.squareup.otto.Bus}.
          *
          * @param newObservation
          */

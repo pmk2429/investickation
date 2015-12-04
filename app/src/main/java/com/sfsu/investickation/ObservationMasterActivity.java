@@ -35,19 +35,16 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
             if (savedInstanceState != null) {
                 return;
             }
+
             // if Intent is called by clicking on the PostObservation button in Dashboard
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
-                AddObservation addObservationFragment = new AddObservation();
+                AddObservation addObservationFragment = AddObservation.newInstance("", "");
                 setFragmentTransaction(addObservationFragment);
             } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_USRACT_ADD_OBS, 0) == 1) {
-                // if the intent is called from the UserActivityMasterActivity
-                AddObservation addObservationFragment = new AddObservation();
-                // get the UUID of the current activity
                 String currentActivityUUID = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
-                // create a Bundle and pass it to the New Observation Fragment.
-                Bundle newObservationBundle = new Bundle();
-                newObservationBundle.putString(UserActivityMasterActivity.KEY_ACTIVITY_UUID, currentActivityUUID);
-                addObservationFragment.setArguments(newObservationBundle);
+                // if the intent is called from the UserActivityMasterActivity
+                AddObservation addObservationFragment = AddObservation.newInstance(UserActivityMasterActivity
+                        .KEY_ACTIVITY_UUID, currentActivityUUID);
                 setFragmentTransaction(addObservationFragment);
             }
             // if the Intent is called by clicking on View Observations list in Dashboard
@@ -58,8 +55,6 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
             // else if the Observations is clicked in the NavDrawer
             else {
                 RemoteObservationsList remoteObservationsFragment = new RemoteObservationsList();
-                // if activity was started with special instructions from an Intent, then pass Intent's extras
-                remoteObservationsFragment.setArguments(getIntent().getExtras());
                 setFragmentTransaction(remoteObservationsFragment);
             }
         }
@@ -89,13 +84,11 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         } else if (count > 0) {
             getSupportFragmentManager().popBackStack();
         }
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_observation_main, menu);
         return true;
     }
 
@@ -137,15 +130,10 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
 
     @Override
     public void postObservationData(Observation newObservation) {
-
         newlyCreatedObs = newObservation;
-
         Log.i(LOGTAG, newlyCreatedObs.toString());
-
         // pass this object to RetrofitController and get response.
-//        observationResponseObj = (Observation) retrofitController.add(AppUtils.OBSERVATION_RESOURCE, newlyCreatedObs);
         BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newlyCreatedObs, AppUtils.ADD_METHOD));
-
     }
 
 
@@ -162,6 +150,7 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
 
         // once you get the response, simply pass it to RemoteObservations Fragment to display
         Bundle newObservationBundle = new Bundle();
+
         // TODO: verify the object returned by the Retrofit and send it to RemoteObservationList
         newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, onLoaded.getResponse());
 

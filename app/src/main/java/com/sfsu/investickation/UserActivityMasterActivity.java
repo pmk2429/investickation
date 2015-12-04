@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p/>
+ * <p>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
@@ -110,7 +110,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_activity_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_user_activity_main, menu);
         return true;
     }
 

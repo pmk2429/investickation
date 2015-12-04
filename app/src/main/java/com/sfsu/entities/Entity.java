@@ -26,7 +26,7 @@ public interface Entity {
      *
      * @return
      */
-    public String getName();
+    public String getGeneralName();
 
     /**
      * Returns the Resource type of each Entity used to make REST calls to the API.

@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
+
+import java.util.List;
 
 /**
  * <p>
@@ -32,6 +32,88 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
         this.tickList = tickList;
     }
 
+    // this method is used to create the Fragment view
+    @Override
+    public TicksListAdapter.TickViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_tickguide, null);
+        TickViewHolder tickViewHolder = new TickViewHolder(v);
+        return tickViewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(TicksListAdapter.TickViewHolder holder, int position) {
+        if (holder != null) {
+            holder.txtTickName.setText("American Dog Tick");
+            holder.txtTickDetail.setText("Click Here to view details");
+        }
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return tickList.size();
+    }
+
+    /**
+     * Method to animate this Adapter for the holding List based on the changes in Query text.
+     *
+     * @param Ticks
+     */
+    public void animateTo(List<Tick> ticks) {
+        applyAndAnimateRemovals(ticks);
+        applyAndAnimateAdditions(ticks);
+        applyAndAnimateMovedItems(ticks);
+    }
+
+    private void applyAndAnimateRemovals(List<Tick> newTicks) {
+        for (int i = tickList.size() - 1; i >= 0; i--) {
+            final Tick tick = tickList.get(i);
+            if (!newTicks.contains(tick)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Tick> newTicks) {
+        for (int i = 0, count = newTicks.size(); i < count; i++) {
+            final Tick tick = newTicks.get(i);
+            if (!tickList.contains(tick)) {
+                addItem(i, tick);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Tick> newTicks) {
+        for (int toPosition = newTicks.size() - 1; toPosition >= 0; toPosition--) {
+            final Tick tick = newTicks.get(toPosition);
+            final int fromPosition = tickList.indexOf(tick);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    private void moveItem(int fromPosition, int toPosition) {
+        final Tick tick = tickList.remove(fromPosition);
+        tickList.add(toPosition, tick);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public Tick removeItem(int position) {
+        final Tick tick = tickList.remove(position);
+        notifyItemRemoved(position);
+        return tick;
+    }
+
+    public void addItem(int position, Tick tick) {
+        tickList.add(position, tick);
+        notifyItemInserted(position);
+    }
+
     public static class TickViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
@@ -48,33 +130,5 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
             imageViewTick = (ImageView) itemView.findViewById(R.id.image_tickGuideMain);
         }
     }
-
-    // this method is used to create the Fragment view
-    @Override
-    public TicksListAdapter.TickViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_tickguide, null);
-        TickViewHolder tickViewHolder = new TickViewHolder(v);
-        return tickViewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(TicksListAdapter.TickViewHolder holder, int position) {
-        if (holder != null) {
-            
-            holder.txtTickName.setText("American Dog Tick");
-            holder.txtTickDetail.setText("Click Here to view details");
-        }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemCount() {
-        return tickList.size();
-    }
-
 
 }

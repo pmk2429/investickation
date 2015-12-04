@@ -155,7 +155,7 @@ public class EntityLocation implements Parcelable, Entity {
     }
 
     @Override
-    public String getName() {
+    public String getGeneralName() {
         return "EntityLocation";
     }
 

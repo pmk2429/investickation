@@ -70,6 +70,58 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     }
 
 
+    public void animateTo(List<Observation> observations) {
+        applyAndAnimateRemovals(observations);
+        applyAndAnimateAdditions(observations);
+        applyAndAnimateMovedItems(observations);
+    }
+
+    private void applyAndAnimateRemovals(List<Observation> newObservations) {
+        for (int i = observationList.size() - 1; i >= 0; i--) {
+            final Observation observation = observationList.get(i);
+            if (!newObservations.contains(observation)) {
+                removeItem(i);
+            }
+        }
+    }
+
+    private void applyAndAnimateAdditions(List<Observation> newObservations) {
+        for (int i = 0, count = newObservations.size(); i < count; i++) {
+            final Observation observation = newObservations.get(i);
+            if (!observationList.contains(observation)) {
+                addItem(i, observation);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(List<Observation> newObservations) {
+        for (int toPosition = newObservations.size() - 1; toPosition >= 0; toPosition--) {
+            final Observation observation = newObservations.get(toPosition);
+            final int fromPosition = observationList.indexOf(observation);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    private void moveItem(int fromPosition, int toPosition) {
+        final Observation observation = observationList.remove(fromPosition);
+        observationList.add(toPosition, observation);
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    public Observation removeItem(int position) {
+        final Observation observation = observationList.remove(position);
+        notifyItemRemoved(position);
+        return observation;
+    }
+
+    public void addItem(int position, Observation observation) {
+        observationList.add(position, observation);
+        notifyItemInserted(position);
+    }
+
+
     public static class ObservationViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
@@ -87,5 +139,6 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
             txtView_timestamp = (TextView) itemView.findViewById(R.id.textView_timestamp);
         }
     }
+
 
 }
