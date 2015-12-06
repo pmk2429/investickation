@@ -2,7 +2,8 @@ package com.sfsu.network.handler;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.network.events.ActivityEvent;
-import com.sfsu.network.rest.apiclient.ActivityApiClient;
+import com.sfsu.network.rest.apiclient.RetrofitApiClient;
+import com.sfsu.network.rest.service.ActivityApiService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -14,12 +15,12 @@ import com.squareup.otto.Subscribe;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class ActivityRequestHandler extends ApiRequestHandler {
 
-    private ActivityApiClient mApiClient;
+    private ActivityApiService mApiService;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -28,7 +29,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     public ActivityRequestHandler(Bus bus) {
         super(bus);
-
+        mApiService = RetrofitApiClient.createService(ActivityApiService.class);
     }
 
     /**
@@ -39,7 +40,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeActivityEvent(ActivityEvent.OnLoadingInitialized onLoadingInitialized) {
-        Activities activities = new Activities();
+
     }
 
 }

@@ -2,7 +2,8 @@ package com.sfsu.network.handler;
 
 import com.sfsu.entities.Observation;
 import com.sfsu.network.events.ObservationEvent;
-import com.sfsu.network.rest.apiclient.ObservationApiClient;
+import com.sfsu.network.rest.apiclient.RetrofitApiClient;
+import com.sfsu.network.rest.service.ObservationApiService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -14,12 +15,12 @@ import com.squareup.otto.Subscribe;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
 
-    private ObservationApiClient mApiClient;
+    private ObservationApiService mApiService;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -28,6 +29,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      */
     public ObservationRequestHandler(Bus bus) {
         super(bus);
+        mApiService = RetrofitApiClient.createService(ObservationApiService.class);
     }
 
     /**

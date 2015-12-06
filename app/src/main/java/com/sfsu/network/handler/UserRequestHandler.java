@@ -1,9 +1,9 @@
 package com.sfsu.network.handler;
 
 import com.sfsu.entities.User;
-import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.UserEvent;
-import com.sfsu.network.rest.apiclient.UserApiClient;
+import com.sfsu.network.rest.apiclient.RetrofitApiClient;
+import com.sfsu.network.rest.service.UserApiService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -15,12 +15,12 @@ import com.squareup.otto.Subscribe;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class UserRequestHandler extends ApiRequestHandler {
 
-    private UserApiClient mApiClient;
+    private UserApiService mApiService;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -29,6 +29,7 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     public UserRequestHandler(Bus bus) {
         super(bus);
+        mApiService = RetrofitApiClient.createService(UserApiService.class);
     }
 
     /**
@@ -39,14 +40,12 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeUserEvent(UserEvent.OnLoadingInitialized onLoadingInitialized) {
-        User user = new User();
 
-        BusProvider.bus().post(new UserEvent.OnLoadingInitialized(user, ADD_METHOD));
-        UserApiClient apiClient = new UserApiClient();
+        UserApiService apiService = RetrofitApiClient.createService(UserApiService.class);
 
         switch (onLoadingInitialized.apiRequestMethod) {
             case GET_METHOD:
-                apiClient.getService().add(onLoadingInitialized.getRequest());
+                mApiService.add(onLoadingInitialized.getRequest());
 
         }
 

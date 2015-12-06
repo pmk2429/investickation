@@ -9,6 +9,7 @@ package com.sfsu.network.rest.apiclient;
  * </p>
  * Created by Pavitra on 11/27/2015.
  */
+@Deprecated
 public class ApiClient {
 
     private static volatile ApiClient instance;
@@ -30,5 +31,6 @@ public class ApiClient {
         return localInstance;
 
     }
+
 
 }
