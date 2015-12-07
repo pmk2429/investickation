@@ -41,7 +41,6 @@ public class Activities implements Parcelable, Entity {
     private String id;
     @SerializedName("name")
     private String activityName;
-
     private int num_people, num_of_pets;
     private long timestamp, created_at, updated_at;
     private String user_id;
@@ -54,7 +53,7 @@ public class Activities implements Parcelable, Entity {
     }
 
     /**
-     * Constructor for creating the Model object to send it over to retrofit for storing on Server.
+     * Constructor overloading for creating the Activities Model and sending the object to ActivityRunning fragment.
      *
      * @param name
      * @param num_people
@@ -67,6 +66,29 @@ public class Activities implements Parcelable, Entity {
         this.num_of_pets = num_pets;
         this.timestamp = timestamp;
         this.UUID = UUID;
+    }
+
+    /**
+     * Constructor to create the Retrofit Model and pass it over to RetrofitController.
+     *
+     * @param name
+     * @param location_area
+     * @param num_people
+     * @param num_pets
+     * @param num_ticks
+     * @param timestamp
+     * @param created_at
+     * @param update_at
+     */
+    public Activities(String name, String location_area, int num_people, int num_pets, long timestamp, long created_at, long
+            updated_at) {
+        this.activityName = name;
+        this.location_area = location_area;
+        this.num_people = num_people;
+        this.num_of_pets = num_pets;
+        this.timestamp = timestamp;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
     /**
@@ -92,29 +114,6 @@ public class Activities implements Parcelable, Entity {
         timestamp = in.readLong();
         created_at = in.readLong();
         updated_at = in.readLong();
-    }
-
-    /**
-     * Constructor to create the Retrofit Model and pass it over to RetrofitController.
-     *
-     * @param name
-     * @param location_area
-     * @param num_people
-     * @param num_pets
-     * @param num_ticks
-     * @param timestamp
-     * @param created_at
-     * @param update_at
-     */
-    public Activities(String name, String location_area, int num_people, int num_pets, long timestamp, long created_at, long
-            updated_at) {
-        this.activityName = name;
-        this.location_area = location_area;
-        this.num_people = num_people;
-        this.num_of_pets = num_pets;
-        this.timestamp = timestamp;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
     public static List<Activities> initializeData() {

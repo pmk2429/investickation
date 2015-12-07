@@ -171,7 +171,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                     // finally when all values are collected, create a new Observation object.
                     newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
-                            entityLocation, requestToken, userId);
+                            entityLocation, userId);
 
                     // pass the object to the ObservationActivity.
                     mInterface.postObservationData(newObservationObj);
@@ -293,7 +293,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onActivityResult(requestCode, resultCode, data);
         bitmap = null;
         selectedImagePath = null;
-
 
         // TODO: write logic for making FileName and Directory.
 

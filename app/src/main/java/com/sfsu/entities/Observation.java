@@ -1,5 +1,6 @@
 package com.sfsu.entities;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -39,6 +40,7 @@ public class Observation implements Parcelable, Entity {
     private String imageUrl;
     private int num_ticks;
     private long timestamp, created_at, updated_at;
+    private Bitmap tickImage;
 
     @SerializedName("location")
     private EntityLocation locationObj;
@@ -46,41 +48,14 @@ public class Observation implements Parcelable, Entity {
     @SerializedName("tick")
     private Tick tickObj;
 
-    private String requestToken, user_id;
+    private String user_id;
 
     // REQUIRED : Default Constructor
     public Observation() {
     }
-
-    /**
-     * IMP -  Constructor Overloading to create the Observation object while retrieving the data from the Server via Retrofit.
-     *
-     * @param observation_id - Observation ID of the recorded Observation.
-     * @param tickObj        - The Tick Object retrieved from the JSON data
-     * @param locationObj    - EntityLocation object of the Observation.
-     * @param imageUrl       - ImageUrl of the Image on the Server.
-     * @param geoLocation    - The area - feature name of the Location
-     * @param num_ticks      - Total number of Ticks during this Observation.
-     * @param timestamp      - The Timestamp during which the Observation was recorded.
-     * @param created_at     - Timestamp when the Observation entry was recorded on the Server
-     * @param updated_at     - Timestamp when the Observation entry was updated on the Server
-     */
-    public Observation(String id, Tick tickObj, EntityLocation locationObj, String imageUrl, String geoLocation,
-                       int num_ticks, long timestamp, long created_at, long updated_at) {
-        this.id = id;
-        this.geoLocation = geoLocation;
-        this.num_ticks = num_ticks;
-        this.timestamp = timestamp;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.tickObj = tickObj;
-        this.locationObj = locationObj;
-        this.imageUrl = imageUrl;
-    }
-
+    
     /**
      * IMP : Constructor overloading to create the Observation object for sending it over to Server via Retrofit.
-     * TODO: Add UserId to the Constructor.
      *
      * @param imageUrl    - Image of Tick captured by the User for this Observation
      * @param tickName    -  Name of the Tick captured by the User
@@ -88,14 +63,13 @@ public class Observation implements Parcelable, Entity {
      * @param timestamp   - Current Timestamp of the Observation.
      * @param locationObj - Location captured by the Android Device for the Observation
      */
-    public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj, String
-            requestToken, String user_id) {
+    public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj,
+                       String user_id) {
         this.imageUrl = imageUrl;
         this.num_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;
         this.tickName = tickName;
-        this.requestToken = requestToken;
         this.user_id = user_id;
     }
 
@@ -123,15 +97,6 @@ public class Observation implements Parcelable, Entity {
         observations.add(new Observation("Deer Tick", "Lands End trail", System.currentTimeMillis()));
         return observations;
     }
-
-    public String getRequestToken() {
-        return requestToken;
-    }
-
-    public void setRequestToken(String requestToken) {
-        this.requestToken = requestToken;
-    }
-
 
     public String getImageUrl() {
         return imageUrl;
