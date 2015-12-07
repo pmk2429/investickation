@@ -108,4 +108,7 @@
 
     <!-- Exception messages-->
 
+    <!-- Preferences -->
+    <string name="pref_file_name">com.sfsu.investickations.TOKEN_FILE</string>
+
 </resources>
