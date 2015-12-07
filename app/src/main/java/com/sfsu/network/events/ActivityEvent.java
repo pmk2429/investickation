@@ -2,6 +2,8 @@ package com.sfsu.network.events;
 
 import com.sfsu.entities.Activities;
 
+import java.util.List;
+
 /**
  * Created by Pavitra on 11/27/2015.
  */
@@ -60,6 +62,10 @@ public class ActivityEvent extends BaseNetworkEvent {
     public static class OnLoaded extends OnDone<Activities> {
         public OnLoaded(Activities entity) {
             super(entity);
+        }
+
+        public OnLoaded(List<Activities> activitiesList) {
+            super(activitiesList);
         }
     }
 

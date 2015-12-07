@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ObservationsListAdapter;
@@ -22,7 +23,10 @@ import com.sfsu.entities.Observation;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
 
     private final String LOGTAG = "~!@#RemoteObs :";
     private IRemoteObservationCallBacks mInterface;
-    private Context context;
+    private Context mContext;
     private List<Observation> observationList;
     private Observation newObservationObject;
     private RecyclerView recyclerView_observations;
@@ -78,7 +82,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
         recyclerView_observations.setHasFixedSize(true);
 
-        if (context != null) {
+        if (mContext != null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_observations.setLayoutManager(mLinearLayoutManager);
         } else {
@@ -86,6 +90,8 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         }
 
         observationList = Observation.initializeData();
+        // make a network call and get all the Observations
+        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", AppUtils.GET_ALL_METHOD));
 
         //observationList.add(newObservationObject);
 
@@ -124,7 +130,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
 
         try {
             mInterface = (IRemoteObservationCallBacks) activity;
-            context = activity;
+            mContext = activity;
         } catch (Exception e) {
             throw new ClassCastException(activity.toString() + " must implement IObservationCallBacks");
         }
@@ -135,6 +141,21 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         mInterface.onObservationAddListener();
     }
 
+
+    /**
+     * Subscribes to get list of Observations present on Server.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void getObservationList(ObservationEvent.OnLoaded onLoaded) {
+        observationList = onLoaded.getResponseList();
+    }
+
+    @Subscribe
+    public void onReposLoadingFailed(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

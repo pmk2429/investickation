@@ -1,5 +1,7 @@
 package com.sfsu.network.events;
 
+import java.util.List;
+
 /**
  * The base events class that provides Generic definition of events performed/ carried out/ controller/ occurred in the entire
  * Application. This class provides the base type of Events which contains all the base characteristics exhibited by all types
@@ -37,15 +39,23 @@ public class BaseNetworkEvent {
     protected static class OnDone<Rs> {
 
         private Rs mResponse;
+        private List<Rs> mResponseList;
 
         public OnDone(Rs response) {
             mResponse = response;
+        }
+
+        public OnDone(List<Rs> responseList) {
+            mResponseList = responseList;
         }
 
         public Rs getResponse() {
             return mResponse;
         }
 
+        public List<Rs> getResponseList() {
+            return mResponseList;
+        }
     }
 
     protected static class OnFailed {

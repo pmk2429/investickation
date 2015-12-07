@@ -2,6 +2,8 @@ package com.sfsu.network.events;
 
 import com.sfsu.entities.Tick;
 
+import java.util.List;
+
 /**
  * Created by Pavitra on 11/27/2015.
  */
@@ -41,6 +43,10 @@ public class TickEvent extends BaseNetworkEvent {
     public static class OnLoaded extends OnDone<Tick> {
         public OnLoaded(Tick entity) {
             super(entity);
+        }
+
+        public OnLoaded(List<Tick> tickList) {
+            super(tickList);
         }
     }
 

@@ -2,6 +2,8 @@ package com.sfsu.network.events;
 
 import com.sfsu.entities.Observation;
 
+import java.util.List;
+
 /**
  * Created by Pavitra on 11/27/2015.
  */
@@ -49,6 +51,7 @@ public class ObservationEvent extends BaseNetworkEvent {
             this.apiRequestMethod = apiRequestMethod;
         }
 
+
         public String getApiRequestMethod() {
             return apiRequestMethod;
         }
@@ -60,6 +63,10 @@ public class ObservationEvent extends BaseNetworkEvent {
     public static class OnLoaded extends OnDone<Observation> {
         public OnLoaded(Observation entity) {
             super(entity);
+        }
+
+        public OnLoaded(List<Observation> observationList) {
+            super(observationList);
         }
     }
 

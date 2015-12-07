@@ -2,6 +2,8 @@ package com.sfsu.network.events;
 
 import com.sfsu.entities.EntityLocation;
 
+import java.util.List;
+
 /**
  * Created by Pavitra on 11/27/2015.
  */
@@ -41,6 +43,10 @@ public class LocationEvent extends BaseNetworkEvent {
     public static class OnLoaded extends OnDone<EntityLocation> {
         public OnLoaded(EntityLocation entity) {
             super(entity);
+        }
+
+        public OnLoaded(List<EntityLocation> locationList) {
+            super(locationList);
         }
     }
 
