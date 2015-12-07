@@ -57,7 +57,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 break;
             case GET_ALL_METHOD:
                 listObservationCall = mApiService.getAll();
-                makeAllObservationsCall(listObservationCall);
+                getAllObservationsCall(listObservationCall);
                 break;
             case ADD_METHOD:
                 observationCall = mApiService.add(onLoadingInitialized.getRequest());
@@ -97,7 +97,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      *
      * @param listObservationCall
      */
-    public void makeAllObservationsCall(Call<List<Observation>> listObservationCall) {
+    public void getAllObservationsCall(Call<List<Observation>> listObservationCall) {
         // makes the Calls to network.
         listObservationCall.enqueue(new Callback<List<Observation>>() {
             @Override
