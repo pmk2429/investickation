@@ -1,5 +1,7 @@
 package com.sfsu.network.rest.apiclient;
 
+import android.util.Base64;
+
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -13,7 +15,7 @@ import retrofit.Retrofit;
 /**
  * Retrofit Service Generator class which initializes the calling Service interface passed as an input param. Depending on the
  * createService method called, this class will return the Service with or without token.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
@@ -69,6 +71,41 @@ public class RetrofitApiClient {
         Retrofit retrofit = builder.client(httpClient).build();
 
         // return the ServiceClass passed.
+        return retrofit.create(serviceClass);
+    }
+
+
+    /**
+     * Generates the Service to to login the User. Wraps the Email and Password fields in the Header and requests the call.
+     *
+     * @param serviceClass
+     * @param email
+     * @param password
+     * @param <S>
+     * @return
+     */
+    public static <S> S createService(Class<S> serviceClass, String email, String password) {
+        if (email != null && password != null) {
+            String credentials = email + ":" + password;
+            final String basic = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+
+            httpClient.interceptors().clear();
+            httpClient.interceptors().add(new Interceptor() {
+                @Override
+                public Response intercept(Interceptor.Chain chain) throws IOException {
+                    Request original = chain.request();
+
+                    Request.Builder requestBuilder = original.newBuilder()
+                            .header("Authorization", basic).header("Accept", "applicaton/json").method(original.method(),
+                                    original.body());
+
+                    Request request = requestBuilder.build();
+                    return chain.proceed(request);
+                }
+            });
+        }
+
+        Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
 }
