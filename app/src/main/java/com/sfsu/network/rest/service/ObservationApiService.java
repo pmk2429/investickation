@@ -23,7 +23,7 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @GET("/observations/{id}")
+    @GET("observations/{id}")
     public Call<Observation> get(@Path("id") String observationId);
 
     /**
@@ -31,7 +31,7 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @GET("/observations")
+    @GET("observations")
     public Call<List<Observation>> getAll();
 
 
@@ -40,7 +40,7 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @POST("/observations")
+    @POST("observations")
     public Call<Observation> add(@Body Observation observation);
 
 
@@ -51,7 +51,7 @@ public interface ObservationApiService {
      * @param observation
      * @return
      */
-    @GET("/observations/{id}")
+    @GET("observations/{id}")
     public Call<Observation> update(@Path("id") String observationId, @Body Observation observation);
 
 
@@ -60,7 +60,7 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @GET("/observations/{id}")
+    @GET("observations/{id}")
     public Call<Observation> delete(@Path("id") String observationId);
 
 }

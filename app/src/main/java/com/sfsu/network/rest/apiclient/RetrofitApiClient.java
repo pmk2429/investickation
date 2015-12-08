@@ -19,7 +19,7 @@ import retrofit.Retrofit;
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
-    public static final String BASE_API_URL = "https://investickations.com:3000";
+    public static final String BASE_API_URL = "https://investickations.com:3000/api/";
     protected static OkHttpClient httpClient = new OkHttpClient();
 
     private static Retrofit.Builder builder =

@@ -26,7 +26,7 @@ public interface UserApiService {
      *
      * @return
      */
-    @GET("/users/{id}")
+    @GET("users/{id}")
     public Call<User> get(@Path("id") String userId);
 
     /**
@@ -34,7 +34,7 @@ public interface UserApiService {
      *
      * @return
      */
-    @GET("/users")
+    @GET("users")
     public Call<List<User>> getAll();
 
 
@@ -43,11 +43,11 @@ public interface UserApiService {
      *
      * @return
      */
-    @POST("/users")
+    @POST("users")
     public Call<User> add(@Body User user);
 
 
-    @GET("/users/{id}")
+    @GET("users/{id}")
     public Call<User> update(@Path("id") String userId, @Body User user);
 
 
@@ -56,15 +56,7 @@ public interface UserApiService {
      *
      * @return
      */
-    @GET("/users/{id}")
+    @GET("users/{id}")
     public Call<User> delete(@Path("id") String userId);
 
-    /**
-     * @param email    - email entered by the user.
-     * @param password - password entered by the user.
-     * @return Call<LoginResponse>
-     */
-    @FormUrlEncoded
-    @POST("/users/login")
-    public Call<LoginResponse> login(@Field("email") String email, @Field("password") String password);
 }

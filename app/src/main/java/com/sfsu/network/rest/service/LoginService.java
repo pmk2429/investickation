@@ -1,6 +1,6 @@
 package com.sfsu.network.rest.service;
 
-import com.sfsu.investickation.fragments.Login;
+import com.sfsu.network.login.LoginResponse;
 
 import retrofit.Call;
 import retrofit.http.Field;
@@ -20,6 +20,6 @@ public interface LoginService {
      * @return
      */
     @FormUrlEncoded
-    @POST("/users/login")
-    Call<Login> login(@Field("email") String email, @Field("password") String password);
+    @POST("users/login")
+    Call<LoginResponse> login(@Field("email") String email, @Field("password") String password);
 }

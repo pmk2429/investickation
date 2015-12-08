@@ -23,7 +23,7 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("/activities/{id}")
+    @GET("activities/{id}")
     public Call<Activities> get(@Path("id") String activityId);
 
     /**
@@ -31,7 +31,7 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("/activities")
+    @GET("activities")
     public Call<List<Activities>> getAll();
 
 
@@ -40,7 +40,7 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @POST("/activities")
+    @POST("activities")
     public Call<Activities> add(@Body Activities activity);
 
 
@@ -51,7 +51,7 @@ public interface ActivityApiService {
      * @param activity
      * @return
      */
-    @GET("/activities/{id}")
+    @GET("activities/{id}")
     public Call<Activities> update(@Path("id") String activityId, @Body Activities activity);
 
 
@@ -60,7 +60,7 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("/activities/{id}")
+    @GET("activities/{id}")
     public Call<Activities> delete(@Path("id") String activityId);
 
 }

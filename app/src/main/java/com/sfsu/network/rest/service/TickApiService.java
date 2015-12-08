@@ -23,7 +23,7 @@ public interface TickApiService {
      *
      * @return
      */
-    @GET("/ticks/{id}")
+    @GET("ticks/{id}")
     public Call<Tick> get(@Path("id") String tickId);
 
     /**
@@ -31,7 +31,7 @@ public interface TickApiService {
      *
      * @return
      */
-    @GET("/ticks")
+    @GET("ticks")
     public Call<List<Tick>> getAll();
 
 
@@ -40,7 +40,7 @@ public interface TickApiService {
      *
      * @return
      */
-    @POST("/ticks")
+    @POST("ticks")
     public Call<Tick> add(@Body Tick tick);
 
 
@@ -51,7 +51,7 @@ public interface TickApiService {
      * @param Tick
      * @return
      */
-    @GET("/ticks/{id}")
+    @GET("ticks/{id}")
     public Call<Tick> update(@Path("id") String tickId, @Body Tick tick);
 
 
@@ -60,7 +60,7 @@ public interface TickApiService {
      *
      * @return
      */
-    @GET("/ticks/{id}")
+    @GET("ticks/{id}")
     public Call<Tick> delete(@Path("id") String tickId);
 
 }
