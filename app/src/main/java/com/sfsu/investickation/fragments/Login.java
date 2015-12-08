@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +15,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
-import com.sfsu.controllers.LoginController;
 import com.sfsu.helper.SessionManager;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.model.UsersDao;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.handler.ServiceManager;
-import com.sfsu.network.rest.service.LoginService;
+import com.sfsu.network.events.LoginEvent;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
-
-import retrofit.Call;
+import com.squareup.otto.Subscribe;
 
 /**
  * Allows user to Login to InvesTICKations app. The details entered by the user will be validated and compared to the
@@ -86,59 +85,10 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
             ((HomeActivity) mContext).finish();
         }
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = et_email.getText().toString().trim();
-                String password = et_password.getText().toString().trim();
-
-                // verify and validate email and password input fields
-                if (isEmailValid && isPasswordValid) {
-                    checkLogin(email, password);
-                } else {
-                    // Prompt user to enter credentials
-                    Toast.makeText(mContext, "Please enter valid credentials!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
+        // set onClickListener on this Fragment.
+        btnLogin.setOnClickListener(this);
 
         return v;
-    }
-
-    /**
-     * Helper method to check Login credentials entered by user.
-     *
-     * @param email
-     * @param password
-     */
-    private void checkLogin(final String email, final String password) {
-
-        LoginController mLoginController = new LoginController(mContext);
-        mLoginController.checkLogin(email, password);
-
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
-
-        // make a call to retrofit controller to check Login sessions.
-        LoginService mLoginService = ServiceManager.createService(LoginService.class);
-
-        // TODO: change this code and delegate the calls to LoginController or SessionManager to handle Retrofit calls.
-        Call<Login> userLoginCall = mLoginService.login(email, password);
-
-
-        // success
-        /*
-        * On success, perform following steps:
-        * 1) get the Access Token
-        * 2) session.setLogin(true);
-        * 3) Get User object
-        * 4) store it in DB for future purpose.
-        * 5) open main activity
-        * */
-
-        // response
-
     }
 
 
@@ -162,7 +112,17 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
     @Override
     public void onClick(View v) {
-        mListener.onLoginButtonClick();
+
+        final String email = et_email.getText().toString().trim();
+        final String password = et_password.getText().toString().trim();
+
+        // verify and validate email and password input fields
+        if (isEmailValid && isPasswordValid) {
+            BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
+        } else {
+            // Prompt user to enter credentials
+            Snackbar.make(v, "Please enter valid credentials!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
     }
 
     @Override
@@ -175,7 +135,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
             case R.id.editText_login_password:
                 isPasswordValid = ValidationUtil.validateString(mEditText, text);
                 break;
-
         }
     }
 
@@ -189,6 +148,19 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     public void onResume() {
         super.onResume();
         BusProvider.bus().register(this);
+    }
+
+    @Subscribe
+    public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
+        // Save the Access Token in Shared Preferences
+
+
+        // save the User id into SharedPreferences.
+    }
+
+    @Subscribe
+    public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

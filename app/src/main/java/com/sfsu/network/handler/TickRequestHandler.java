@@ -21,8 +21,8 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
- * <p>
+ * <p/>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class TickRequestHandler extends ApiRequestHandler {

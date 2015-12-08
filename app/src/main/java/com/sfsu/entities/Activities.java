@@ -41,7 +41,7 @@ public class Activities implements Parcelable, Entity {
     private String id;
     @SerializedName("name")
     private String activityName;
-    private int num_people, num_of_pets;
+    private int num_of_people, num_of_pets;
     private long timestamp, created_at, updated_at;
     private String user_id;
     // Enum identifier for setting State of Object.
@@ -60,9 +60,9 @@ public class Activities implements Parcelable, Entity {
      * @param num_pets
      * @param timestamp
      */
-    public Activities(String name, int num_people, int num_pets, long timestamp, String UUID) {
+    public Activities(String name, int num_of_people, int num_pets, long timestamp, String UUID) {
         this.activityName = name;
-        this.num_people = num_people;
+        this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
         this.timestamp = timestamp;
         this.UUID = UUID;
@@ -80,11 +80,11 @@ public class Activities implements Parcelable, Entity {
      * @param created_at
      * @param update_at
      */
-    public Activities(String name, String location_area, int num_people, int num_pets, long timestamp, long created_at, long
+    public Activities(String name, String location_area, int num_of_people, int num_pets, long timestamp, long created_at, long
             updated_at) {
         this.activityName = name;
         this.location_area = location_area;
-        this.num_people = num_people;
+        this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
         this.timestamp = timestamp;
         this.created_at = created_at;
@@ -99,9 +99,9 @@ public class Activities implements Parcelable, Entity {
      * @param num_pets
      * @param num_ticks
      */
-    public Activities(String name, int num_people, int num_pets) {
+    public Activities(String name, int num_of_people, int num_pets) {
         this.activityName = name;
-        this.num_people = num_people;
+        this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
     }
 
@@ -109,7 +109,7 @@ public class Activities implements Parcelable, Entity {
         id = in.readString();
         activityName = in.readString();
         location_area = in.readString();
-        num_people = in.readInt();
+        num_of_people = in.readInt();
         num_of_pets = in.readInt();
         timestamp = in.readLong();
         created_at = in.readLong();
@@ -200,11 +200,11 @@ public class Activities implements Parcelable, Entity {
     }
 
     public int getNum_people() {
-        return num_people;
+        return num_of_people;
     }
 
     public void setNum_people(int num_people) {
-        this.num_people = num_people;
+        this.num_of_people = num_people;
     }
 
 
@@ -234,7 +234,7 @@ public class Activities implements Parcelable, Entity {
         parcel.writeString(id);
         parcel.writeString(activityName);
         parcel.writeString(location_area);
-        parcel.writeInt(num_people);
+        parcel.writeInt(num_of_people);
         parcel.writeInt(num_of_pets);
         parcel.writeLong(timestamp);
         parcel.writeLong(created_at);

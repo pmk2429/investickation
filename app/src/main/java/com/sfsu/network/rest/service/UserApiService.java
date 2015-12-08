@@ -2,11 +2,11 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.User;
+import com.sfsu.network.login.LoginResponse;
 
 import java.util.List;
 
 import retrofit.Call;
-import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -60,13 +60,11 @@ public interface UserApiService {
     public Call<User> delete(@Path("id") String userId);
 
     /**
-     * Login the user and get RequestToken for the User.
-     *
-     * @param email
-     * @param password
-     * @param callback
+     * @param email    - email entered by the user.
+     * @param password - password entered by the user.
+     * @return Call<LoginResponse>
      */
     @FormUrlEncoded
-    @POST("/login")
-    public Call<String> login(@Field("email") String email, @Field("password") String password, Callback<User> callback);
+    @POST("/users/login")
+    public Call<LoginResponse> login(@Field("email") String email, @Field("password") String password);
 }

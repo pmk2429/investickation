@@ -1,11 +1,20 @@
 package com.sfsu.network.handler;
 
 import com.sfsu.entities.User;
+import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
+import com.sfsu.network.login.LoginResponse;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.UserApiService;
+import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.io.IOException;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
 
 /**
  * <p>
@@ -21,6 +30,7 @@ import com.squareup.otto.Subscribe;
 public class UserRequestHandler extends ApiRequestHandler {
 
     private UserApiService mApiService;
+    private Bus mBus;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -29,6 +39,7 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     public UserRequestHandler(Bus bus) {
         super(bus);
+        this.mBus = bus;
         mApiService = RetrofitApiClient.createService(UserApiService.class);
     }
 
@@ -41,14 +52,45 @@ public class UserRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeUserEvent(UserEvent.OnLoadingInitialized onLoadingInitialized) {
 
-        UserApiService apiService = RetrofitApiClient.createService(UserApiService.class);
-
         switch (onLoadingInitialized.apiRequestMethod) {
             case GET_METHOD:
                 mApiService.add(onLoadingInitialized.getRequest());
 
         }
+    }
 
+    /**
+     * Subscribes to the User Login event and then posts the {@link com.sfsu.network.login.LoginResponse} back to the Bus.
+     *
+     * @param onLoadingInitialized
+     */
+    @Subscribe
+    public void onIntitalizeUserLoginEvent(LoginEvent.OnLoadingInitialized onLoadingInitialized) {
+        Call<LoginResponse> userLoginCall = mApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
+        userLoginCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Response<LoginResponse> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new LoginEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new LoginEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(LoginEvent.FAILED);
+                    }
+                }
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new LoginEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(LoginEvent.FAILED);
+                }
+            }
+        });
     }
 }

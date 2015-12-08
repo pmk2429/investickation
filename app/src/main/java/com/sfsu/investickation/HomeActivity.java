@@ -14,7 +14,7 @@ import com.sfsu.investickation.fragments.Register;
  * navigating the WelcomeScreenActivity for the first time. Also, when the User logs out, then s/he will be redirected to this
  * Activity to allow the User to Login again.
  */
-public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home.IHomeCallbacks {
+public class HomeActivity extends AppCompatActivity implements Register.IRegisterCallBacks, Home.IHomeCallbacks {
 
     private final String LOGTAG = "~!@#$HomeActivity :";
 
@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        
+
         // if Fragment container is present
         if (findViewById(R.id.home_fragment_container) != null) {
 
@@ -52,15 +52,6 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         transaction.replace(R.id.home_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-
-    /*
-    Method to handle the Click event of Login button in Login Fragment.
-     */
-    @Override
-    public void onLoginButtonClick() {
-
     }
 
     @Override
