@@ -1,5 +1,6 @@
 package com.sfsu.investickation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,8 +15,10 @@ import com.sfsu.investickation.fragments.Register;
  * navigating the WelcomeScreenActivity for the first time. Also, when the User logs out, then s/he will be redirected to this
  * Activity to allow the User to Login again.
  */
-public class HomeActivity extends AppCompatActivity implements Register.IRegisterCallBacks, Home.IHomeCallbacks {
+public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home
+        .IHomeCallbacks {
 
+    public static final String KEY_LOGIN_SUCCESS = "login_success";
     private final String LOGTAG = "~!@#$HomeActivity :";
 
     @Override
@@ -69,5 +72,13 @@ public class HomeActivity extends AppCompatActivity implements Register.IRegiste
     public void onSignUpButtonClicked() {
         Register registerFragment = new Register();
         switchFragment(registerFragment);
+    }
+
+    @Override
+    public void onLoginButtonClick() {
+        Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
+        dashboardIntent.putExtra(KEY_LOGIN_SUCCESS, 1);
+        startActivity(dashboardIntent);
+        finish();
     }
 }

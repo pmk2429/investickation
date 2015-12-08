@@ -60,7 +60,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

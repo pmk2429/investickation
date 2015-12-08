@@ -35,7 +35,7 @@ public class TickDao implements EntityDao {
         Tick tick = (Tick) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(TicksTable.COLUMN_ID, tick.getId());
-        contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
+        contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getTickName());
         contentValues.put(TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
         contentValues.put(TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
         contentValues.put(TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
@@ -56,7 +56,7 @@ public class TickDao implements EntityDao {
         Tick tick = (Tick) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(TicksTable.COLUMN_ID, tick.getId());
-        contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getName());
+        contentValues.put(TicksTable.COLUMN_TICK_NAME, tick.getTickName());
         contentValues.put(TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
         contentValues.put(TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
         contentValues.put(TicksTable.COLUMN_DESCRIPTION, tick.getDescription());

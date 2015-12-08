@@ -31,10 +31,9 @@
         <item name="color">@color/drawerArrowColor</item>
     </style>
 
-    <style name="AppCompatAlertDialogStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorSecondary</item>
         <item name="android:textColorPrimary">@color/colorSecondary</item>
-        <item name="android:background">@color/colorWhite</item>
     </style>
 
     <style name="TextInputLayout" parent="TextAppearance.AppCompat">

@@ -33,14 +33,18 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
                 return;
             }
 
-            Dashboard dashboardFragment = new Dashboard();
-
-            // if activity was started with special instructions from an Intent, then pass Intent's extras
-            // to fragments as arguments
-            dashboardFragment.setArguments(getIntent().getExtras());
-
-            // add the Fragment to 'mainActivity_fragmentContainer' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
+            // if Intent is called by clicking on the PostObservation button in Dashboard
+            if (getIntent().getIntExtra(HomeActivity.KEY_LOGIN_SUCCESS, 0) == 1) {
+                Dashboard dashboardFragment = new Dashboard();
+                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
+            } else {
+                Dashboard dashboardFragment = new Dashboard();
+                // if activity was started with special instructions from an Intent, then pass Intent's extras
+                // to fragments as arguments
+                dashboardFragment.setArguments(getIntent().getExtras());
+                // add the Fragment to 'mainActivity_fragmentContainer' FrameLayout
+                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
+            }
         }
     }
 
