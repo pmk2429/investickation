@@ -49,6 +49,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     private Context mContext;
     private DatabaseDataController dbController;
     private AuthPreferences mAuthPreferences;
+    private User mUserObj;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
 
     public Register() {
@@ -141,12 +142,11 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 String state = et_state.getText().toString();
 
                 // make a new User object.
-                User userObj = User.createUser(fullName, address, city, state, zipcode, email, password);
+                mUserObj = User.createUser(fullName, address, city, state, zipcode, email, password);
 
                 Log.i(LOGTAG, "creating user.......");
                 // once the user object is created, pass it to Bus to send it over to api via retrofit
-                BusProvider.bus().post(new UserEvent.OnLoadingInitialized(userObj, AppUtils.ADD_METHOD));
-
+                BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, AppUtils.ADD_METHOD));
             }
         }
     }
@@ -195,11 +195,9 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // store the user response in the database.
         //dbController.save(userResponse);
 
-        Log.i(LOGTAG, userResponse.getEmail() + " : " + userResponse.getPassword());
         // once the user has successfully registered, make another call to API for the email and password to get the access
         // token and follow the same procedure as for the Login.
-
-        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(userResponse.getEmail(), userResponse.getPassword()));
+        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(mUserObj.getEmail(), mUserObj.getPassword()));
     }
 
     /**
@@ -227,6 +225,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         Log.i(LOGTAG, mLoginResponse.getAccessToken() + " : " + mLoginResponse.getUser_id());
         //mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
 
+        Log.i(LOGTAG, "opening dashboard");
         // pass the user object to the parent activity
         mListener.onRegisterButtonClick();
     }
