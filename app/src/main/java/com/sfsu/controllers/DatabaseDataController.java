@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.sfsu.entities.Entity;
-import com.sfsu.model.DatabaseOpenHelper;
-import com.sfsu.model.EntityDao;
+import com.sfsu.db.DatabaseOpenHelper;
+import com.sfsu.db.EntityDao;
 
 import java.util.List;
 

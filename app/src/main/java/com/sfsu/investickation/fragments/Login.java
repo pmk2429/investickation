@@ -18,7 +18,7 @@ import com.sfsu.helper.SessionManager;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.model.UsersDao;
+import com.sfsu.db.UsersDao;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
@@ -167,7 +167,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
         mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
-        
+
         // once the token is set successfully, open the dashboard.
         mListener.onLoginButtonClick();
     }

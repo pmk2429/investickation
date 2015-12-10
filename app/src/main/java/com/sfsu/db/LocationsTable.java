@@ -1,4 +1,4 @@
-package com.sfsu.model;
+package com.sfsu.db;
 
 /**
  * Created by Pavitra on 11/9/2015.

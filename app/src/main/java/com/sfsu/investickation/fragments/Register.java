@@ -15,9 +15,12 @@ import android.widget.ImageView;
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.UserEvent;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
+import com.squareup.otto.Subscribe;
 
 /**
  * Registers the User and sends the User input Data to server and creates a copy in SQLite server for future accesses. The data
@@ -34,43 +37,28 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     private final String LOGTAG = "~!@#Register :";
 
     private Button btnRegisterUser;
-    private EditText et_fullName, et_email, et_password, et_zipcode, et_address;
+    private EditText et_fullName, et_email, et_password, et_zipcode, et_address, et_city, et_state;
     private ImageView imageView_userImage;
     private IRegisterCallBacks mListener;
     private Context mContext;
-    private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid;
+    private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
 
     public Register() {
         // IMP - Don't delete
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        BusProvider.bus().unregister(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        BusProvider.bus().register(this);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getActivity().setTitle("Register");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
-        // initialize the RetroFit controller.
 
         et_fullName = (EditText) v.findViewById(R.id.editText_register_fullName);
         et_fullName.addTextChangedListener(new TextValidator(mContext, Register.this, et_fullName));
@@ -82,6 +70,10 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         et_address.addTextChangedListener(new TextValidator(mContext, Register.this, et_address));
         et_zipcode = (EditText) v.findViewById(R.id.editText_register_zip);
         et_zipcode.addTextChangedListener(new TextValidator(mContext, Register.this, et_zipcode));
+        et_city = (EditText) v.findViewById(R.id.editText_register_city);
+        et_city.addTextChangedListener(new TextValidator(mContext, Register.this, et_city));
+        et_state = (EditText) v.findViewById(R.id.editText_register_state);
+        et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
 
         btnRegisterUser = (Button) v.findViewById(R.id.button_registerUser);
         // implement the onClick method
@@ -89,8 +81,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         return v;
     }
 
-    // This makes sure that the container activity has implemented
-    // the callback interface. If not, it throws an exception.
+    // This makes sure that the container activity has implemented the callback interface. If not, it throws an exception.
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -110,6 +101,18 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == btnRegisterUser.getId()) {
 
@@ -120,14 +123,17 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 String fullName = et_fullName.getText().toString();
                 String email = et_email.getText().toString();
                 String password = et_password.getText().toString();
-                String zipcode = et_zipcode.getText().toString();
+                int zipcode = Integer.valueOf(et_zipcode.getText().toString());
                 String address = et_address.getText().toString();
+                String city = et_city.getText().toString();
+                String state = et_state.getText().toString();
 
                 // make a new User object.
-                User userObj = User.createUser(fullName, email, password, zipcode, address);
+                User userObj = User.createUser(fullName, address, city, state, zipcode, email, password);
 
-                // TODO: Make a single Initialization - Singleton Pattern
-                // finally send it to RetrofitController to
+                // once the user object is created, pass it to Bus to send it over to api via retrofit
+                BusProvider.bus().post(new UserEvent.OnLoadingInitialized(userObj, AppUtils.ADD_METHOD));
+
             }
         }
     }
@@ -148,20 +154,55 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
             case R.id.editText_register_address:
                 isAddressValid = ValidationUtil.validateString(mEditText, text);
                 break;
-
-
+            case R.id.editText_register_city:
+                isCityValid = ValidationUtil.validateString(mEditText, text);
+                break;
+            case R.id.editText_register_state:
+                isStateValid = ValidationUtil.validateString(mEditText, text);
+                break;
+            case R.id.editText_register_zip:
+                isZipcodeValid = ValidationUtil.validateNumber(mEditText, text);
+                break;
         }
     }
 
+
+    /**
+     * Subscribes to successful user creation on server.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onUserCreateSuccess(UserEvent.OnLoaded onLoaded) {
+        // once the user is successfully created, store the response in the SQLite database to store the user info for further
+        // requirements.
+        User userResponse = onLoaded.getResponse();
+
+        // pass the user object to the parent activity
+        mListener.onRegisterButtonClick(userResponse);
+
+    }
+
+    /**
+     * Subscribes to failure in creating user on server.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onUserCreateFailure(UserEvent.OnLoadingError onLoadingError) {
+
+    }
 
     /**
      * Callback Interface to implement onclick Listener in {@link Register} Fragment.
      */
     public interface IRegisterCallBacks {
         /**
+         * Callback listener when the user clicks on the Register button in {@link Register} fragment.
          *
+         * @param userResponse
          */
-        public void onRegisterButtonClick();
+        public void onRegisterButtonClick(User userResponse);
     }
 
 }

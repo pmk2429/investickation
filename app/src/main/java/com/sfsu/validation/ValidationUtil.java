@@ -15,6 +15,13 @@ public class ValidationUtil {
     public static final String ERROR_INVALID_EMAIL = "Invalid email";
 
 
+    /**
+     * Validates the EditText for the input numeric value [0-9].
+     *
+     * @param mEditText
+     * @param text
+     * @return
+     */
     public static boolean validateNumber(EditText mEditText, String text) {
         if (text.isEmpty() || !AppUtils.isNumeric(text)) {
             mEditText.setError(ERROR_NAN);
@@ -26,6 +33,13 @@ public class ValidationUtil {
         return true;
     }
 
+    /**
+     * Validates the EditText for the input text [A-Z a-z].
+     *
+     * @param mEditText
+     * @param text
+     * @return
+     */
     public static boolean validateString(EditText mEditText, String text) {
         if (mEditText.getText().toString().trim().isEmpty()) {
             mEditText.setError(ERROR_INVALID_STR);
@@ -63,6 +77,12 @@ public class ValidationUtil {
         return true;
     }
 
+    /**
+     * helper method for validating email.
+     *
+     * @param email
+     * @return
+     */
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

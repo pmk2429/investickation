@@ -45,36 +45,58 @@ public class User implements Parcelable, Entity {
     }
 
     /**
-     * Constructor overloading to deserialize the Response from Retrofit to User object.
+     * Constructor for the Retrofit Response.
      *
      * @param id
      * @param full_name
      * @param email
+     * @param password
      * @param address
      * @param city
      * @param state
      * @param zipCode
+     * @param created_at
+     * @param updated_at
      */
-    public User(String id, String full_name, String email, String address, String city, String state, int zipCode) {
+    public User(String id, String full_name, String email, String password, String address, String city, String state, int zipCode, long created_at, long updated_at) {
         this.id = id;
         this.full_name = full_name;
         this.email = email;
+        this.password = password;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    /**
+     * Constructor overloading to build a {@link User} object to send it over to server via Retrofit.
+     *
+     * @param full_name
+     * @param address
+     * @param city
+     * @param state
+     * @param zipCode
+     * @param email
+     * @param password
+     */
+    public User(String full_name, String address, String city, String state, int zipCode, String email, String password) {
+        this.full_name = full_name;
+        this.email = email;
+        this.password = password;
         this.address = address;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
     }
 
-    public static User createUser(String fullName, String email, String password, String zipcode, String address) {
+    public static User createUser(String fullName, String address, String city, String state, int zipcode, String email, String
+            password) {
 
-        // TODO: Create Logic for user_id.
-        // TODO: Parse the Address String and get City, Zip and State
-        String user_id = "";
-        String city = "", state = "";
-        int zip = 94132;
-
-        // create and return new customer
-        return new User(user_id, fullName, email, address, city, state, zip);
+        // create and return new user
+        return new User(fullName, address, city, state, zipcode, email, password);
     }
 
     public String getId() {

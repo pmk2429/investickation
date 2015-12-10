@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
             }
 
             // if Intent is called by clicking on the PostObservation button in Dashboard
-            if (getIntent().getIntExtra(HomeActivity.KEY_LOGIN_SUCCESS, 0) == 1) {
+            if (getIntent().getIntExtra(HomeActivity.KEY_SIGNIN_SUCCESS, 0) == 1) {
                 Dashboard dashboardFragment = new Dashboard();
                 getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
             } else {

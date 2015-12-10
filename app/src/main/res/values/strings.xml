@@ -34,10 +34,12 @@
     <string name="privacyPolicy">I agree to Terms and Conditions</string>
     <string name="signup">Sign Up</string>
     <string name="textSignUp">Sign Up</string>
-    <string name="zipcode">Zip Code</string>
 
     <!--Login-->
     <string name="login">Login</string>
+    <string name="text_zipcode">Zip Code</string>
+    <string name="text_state">State</string>
+    <string name="text_city">City</string>
 
     <!--TODO: List of all the String resources -->
     <string name="text_activityName">Hiking trail</string>

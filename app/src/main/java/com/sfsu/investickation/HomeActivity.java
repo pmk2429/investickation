@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.UsersDao;
+import com.sfsu.entities.User;
 import com.sfsu.investickation.fragments.Home;
 import com.sfsu.investickation.fragments.Login;
 import com.sfsu.investickation.fragments.Register;
@@ -18,13 +21,16 @@ import com.sfsu.investickation.fragments.Register;
 public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home
         .IHomeCallbacks {
 
-    public static final String KEY_LOGIN_SUCCESS = "login_success";
+    public static final String KEY_SIGNIN_SUCCESS = "signin_success";
     private final String LOGTAG = "~!@#$HomeActivity :";
+    private DatabaseDataController dbController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        dbController = new DatabaseDataController(this, new UsersDao());
 
         // if Fragment container is present
         if (findViewById(R.id.home_fragment_container) != null) {
@@ -58,18 +64,25 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
     }
 
     @Override
-    public void onRegisterButtonClick() {
+    public void onRegisterButtonClick(User userResponse) {
+        // save the user in db
+        dbController.save(userResponse);
 
+        // open the Dashboard
+        Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
+        dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
+        startActivity(dashboardIntent);
+        finish();
     }
 
     @Override
-    public void onLoginButtonClicked() {
+    public void onLoginClicked() {
         Login loginFragment = new Login();
         switchFragment(loginFragment);
     }
 
     @Override
-    public void onSignUpButtonClicked() {
+    public void onSignUpClicked() {
         Register registerFragment = new Register();
         switchFragment(registerFragment);
     }
@@ -77,7 +90,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
     @Override
     public void onLoginButtonClick() {
         Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
-        dashboardIntent.putExtra(KEY_LOGIN_SUCCESS, 1);
+        dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
         startActivity(dashboardIntent);
         finish();
     }

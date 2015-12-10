@@ -1,4 +1,4 @@
-package com.sfsu.model;
+package com.sfsu.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

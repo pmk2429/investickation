@@ -1,4 +1,4 @@
-package com.sfsu.model;
+package com.sfsu.db;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,7 +7,6 @@ import android.util.Log;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Observation;
-import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;

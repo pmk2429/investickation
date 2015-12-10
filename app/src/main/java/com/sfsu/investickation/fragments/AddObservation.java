@@ -38,7 +38,7 @@ import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
-import com.sfsu.model.TickDao;
+import com.sfsu.db.TickDao;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.R;
 
 /**
@@ -40,17 +39,16 @@ public class Home extends Fragment {
         txtView_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterface.onLoginButtonClicked();
+                mInterface.onLoginClicked();
             }
         });
 
         txtView_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mInterface.onSignUpButtonClicked();
+                mInterface.onSignUpClicked();
             }
         });
-
 
 
         return rootView;
@@ -82,12 +80,12 @@ public class Home extends Fragment {
         /**
          * Callback method when the user clicks on the Login button in {@Home} Fragment
          */
-        public void onLoginButtonClicked();
+        public void onLoginClicked();
 
         /**
          * Callback method when the user clicks on the Register button in {@Home} Fragment
          */
-        public void onSignUpButtonClicked();
+        public void onSignUpClicked();
     }
 
 }

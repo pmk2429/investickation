@@ -1,4 +1,4 @@
-package com.sfsu.model;
+package com.sfsu.db;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -21,7 +21,7 @@ public class UsersTable {
     static public void onCreate(SQLiteDatabase db) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE " + UsersTable.TABLENAME + " (");
-        sb.append(COLUMN_ID + " long primary key autoincrement, ");
+        sb.append(COLUMN_ID + " text unique primary key, ");
         sb.append(COLUMN_FULLNAME + " text not null, ");
         sb.append(COLUMN_EMAIL + " text not null, ");
         sb.append(COLUMN_PASSWORD + " text not null, ");
