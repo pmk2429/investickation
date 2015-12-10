@@ -19,8 +19,10 @@ import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.model.UsersDao;
+import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
+import com.sfsu.network.login.LoginResponse;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -46,6 +48,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     private Button btnLogin;
     private EditText et_email, et_password;
     private boolean isEmailValid, isPasswordValid;
+    private AuthPreferences mAuthPreferences;
 
     public Login() {
         // Required empty public constructor
@@ -75,6 +78,9 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
         // Session manager
         session = new SessionManager(getActivity().getApplicationContext());
+
+        // preference manager for access token and user_id.
+        mAuthPreferences = new AuthPreferences(mContext);
 
         // Check if user is already logged in or not
         if (session.isLoggedIn()) {
@@ -118,10 +124,8 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // verify and validate email and password input fields
         if (isEmailValid && isPasswordValid) {
             if (email.equals("pmk@mail.sfsu.edu") && password.equals("12345")) {
-                //BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
-                mListener.onLoginButtonClick();
+                BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
             }
-
         } else {
             // Prompt user to enter credentials
             Snackbar.make(v, "Please enter valid credentials!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -153,12 +157,19 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         BusProvider.bus().register(this);
     }
 
+    /**
+     * Subscribes to the Login event if the Response returned from the api is {@link LoginResponse}
+     *
+     * @param onLoaded
+     */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
         // Save the Access Token in Shared Preferences
-
-
-        // save the User id into SharedPreferences.
+        LoginResponse mLoginResponse = onLoaded.getResponse();
+        mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
+        
+        // once the token is set successfully, open the dashboard.
+        mListener.onLoginButtonClick();
     }
 
     @Subscribe

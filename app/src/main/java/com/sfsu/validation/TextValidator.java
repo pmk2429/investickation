@@ -32,7 +32,6 @@ public class TextValidator implements TextWatcher {
         this.mInterface = (ITextValidate) fragment;
         this.mView = mView;
         this.mContext = mContext;
-
     }
 
     @Override
