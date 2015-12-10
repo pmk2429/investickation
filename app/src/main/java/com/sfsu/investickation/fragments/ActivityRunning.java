@@ -22,6 +22,7 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
@@ -51,6 +52,7 @@ public class ActivityRunning extends Fragment {
     private GoogleMapController mGoogleMapController;
     private CardView btn_addObservation;
     private TextView txtView_activityName;
+    private AuthPreferences mAuthPreferences;
 
     private LocationController.ILocationCallBacks mLocationListener;
     /**
@@ -122,6 +124,8 @@ public class ActivityRunning extends Fragment {
         currentActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
         Log.i(LOGTAG, currentActivityObj.toString());
         Log.i(LOGTAG, currentActivityObj.getState() + "");
+
+        mAuthPreferences = new AuthPreferences(mContext);
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);

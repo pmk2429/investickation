@@ -34,10 +34,6 @@ public class InvestickationApp extends Application {
         return mInstance;
     }
 
-    public static InvestickationApp getmInstance() {
-        return mInstance;
-    }
-
     /*
     Register the Bus,
     initialize the ApiRequestHandler and
@@ -47,16 +43,22 @@ public class InvestickationApp extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+
         mUserRequestHandler = new UserRequestHandler(mBus);
         mBus.register(mUserRequestHandler);
 
         mActivityRequestHandler = new ActivityRequestHandler(mBus);
         mBus.register(mActivityRequestHandler);
+
         mObservationRequestHandler = new ObservationRequestHandler(mBus);
         mBus.register(mObservationRequestHandler);
+
         mLocationRequestHandler = new LocationRequestHandler(mBus);
         mBus.register(mLocationRequestHandler);
+
         mTickRequestHandler = new TickRequestHandler(mBus);
         mBus.register(mTickRequestHandler);
+
+
     }
 }

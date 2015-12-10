@@ -38,11 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Tick} fragment which contains the Information; A Guide for each ticks. This fragment displays
- * a list of Ticks. Each ticks are displayed on a large thumbnail pic.
+ * A Guide for each ticks. This fragment displays list of Ticks. Each ticks are displayed on a large thumbnail pic.
  */
-
-
 public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String LOGTAG = "~!@#$TickGuideList :";

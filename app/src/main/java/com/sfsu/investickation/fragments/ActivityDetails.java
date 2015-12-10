@@ -22,7 +22,6 @@ public class ActivityDetails extends Fragment {
         // Required empty public constructor
     }
 
-
     public static ActivityDetails newInstance() {
         ActivityDetails fragment = new ActivityDetails();
         Bundle args = new Bundle();

@@ -39,6 +39,7 @@ import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.model.TickDao;
+import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
@@ -70,6 +71,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private List<Tick> tickList;
     private boolean isTotalTicksNumber, isTickNameValid, isTickSpeciesValid;
     private TextValidator mTextValidator;
+    private AuthPreferences mAuthPreferences;
 
     // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -101,6 +103,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         getActivity().setTitle("Add Observation");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         args = getArguments();
+        mAuthPreferences = new AuthPreferences(mContext);
     }
 
     @Override
@@ -108,6 +111,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
+
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_UUID)) {
             activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
@@ -122,7 +126,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         // identify the Views in this Fragment.
         btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
         imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);
-
 
         // identify all the EditTexts and set Validation on all.
         et_tickName = (EditText) v.findViewById(R.id.editText_addObs_tickName);
