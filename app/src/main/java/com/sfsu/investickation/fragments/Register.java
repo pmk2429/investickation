@@ -16,12 +16,11 @@ import android.widget.ImageView;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
 import com.sfsu.entities.User;
+import com.sfsu.investickation.BuildConfig;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
-import com.sfsu.network.login.LoginResponse;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
@@ -191,13 +190,15 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // requirements.
         User userResponse = onLoaded.getResponse();
 
-        Log.i(LOGTAG, "user created successfully");
-        // store the user response in the database.
+        // set password to the user response object and save it to DB.
+        userResponse.setPassword(mUserObj.getPassword());
+
+        // TODO: store the user response in the database.
         //dbController.save(userResponse);
 
         // once the user has successfully registered, make another call to API for the email and password to get the access
         // token and follow the same procedure as for the Login.
-        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(mUserObj.getEmail(), mUserObj.getPassword()));
+        mListener.onRegisterButtonClick(mUserObj);
     }
 
     /**
@@ -207,32 +208,9 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
      */
     @Subscribe
     public void onUserCreateFailure(UserEvent.OnLoadingError onLoadingError) {
-        Log.i(LOGTAG, onLoadingError.toString());
+        if (BuildConfig.DEBUG)
+            Log.i(LOGTAG, onLoadingError.toString());
         Log.i(LOGTAG, "failure to create user");
-    }
-
-
-    /**
-     * Subscribes to the Login event if the Response returned from the api is {@link LoginResponse}
-     *
-     * @param onLoaded
-     */
-    @Subscribe
-    public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
-        // Save the Access Token in Shared Preferences
-        LoginResponse mLoginResponse = onLoaded.getResponse();
-        Log.i(LOGTAG, "success: inside the login after register");
-        Log.i(LOGTAG, mLoginResponse.getAccessToken() + " : " + mLoginResponse.getUser_id());
-        //mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
-
-        Log.i(LOGTAG, "opening dashboard");
-        // pass the user object to the parent activity
-        mListener.onRegisterButtonClick();
-    }
-
-    @Subscribe
-    public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
-        Log.i(LOGTAG, "All went well but Login failed.");
     }
 
     /**
@@ -240,11 +218,14 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
      */
     public interface IRegisterCallBacks {
         /**
-         * Callback listener when the user clicks on the Register button in {@link Register} fragment.
+         * Callback listener when the user clicks on the Register button in {@link Register} fragment. This method
+         * will handle the calls for Registration and delegates the control to Login fragment to make another call to the
+         * server in order to get Access Token and User id.
          *
          * @param userResponse
          */
-        public void onRegisterButtonClick();
+        public void onRegisterButtonClick(User mUserObj);
+
     }
 
 }

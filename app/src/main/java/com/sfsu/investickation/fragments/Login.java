@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,15 +120,23 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         final String email = et_email.getText().toString().trim();
         final String password = et_password.getText().toString().trim();
 
-        // verify and validate email and password input fields
         if (isEmailValid && isPasswordValid) {
-            if (email.equals("pmk@mail.sfsu.edu") && password.equals("12345")) {
-                BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
-            }
+            loginUser(email, password);
         } else {
             // Prompt user to enter credentials
-            Snackbar.make(v, "Please enter valid credentials!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Toast.makeText(mContext, "Please enter valid credentials!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Helper method to login the User by making a network call to api using retrofit.
+     *
+     * @param email
+     * @param password
+     */
+    public void loginUser(final String email, final String password) {
+        // verify and validate email and password input fields
+        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
     }
 
     @Override
@@ -169,7 +176,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
 
         // once the token is set successfully, open the dashboard.
-        mListener.onLoginButtonClick();
+        mListener.userLoggedIn();
     }
 
     @Subscribe
@@ -186,7 +193,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
          * Callback method to handle the onclick of Login button in {@link Login} Fragment. On click of Login makes a database
          * call
          */
-        public void onLoginButtonClick();
+        public void userLoggedIn();
     }
 
 }

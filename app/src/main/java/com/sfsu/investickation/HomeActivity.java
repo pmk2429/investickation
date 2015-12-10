@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
+import com.sfsu.entities.User;
 import com.sfsu.investickation.fragments.Home;
 import com.sfsu.investickation.fragments.Login;
 import com.sfsu.investickation.fragments.Register;
@@ -62,14 +63,6 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         transaction.commit();
     }
 
-    @Override
-    public void onRegisterButtonClick() {
-        // open the Dashboard
-        Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
-        dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
-        startActivity(dashboardIntent);
-        finish();
-    }
 
     @Override
     public void onLoginClicked() {
@@ -83,8 +76,26 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         switchFragment(registerFragment);
     }
 
+
     @Override
-    public void onLoginButtonClick() {
+    public void onRegisterButtonClick(User mUserObj) {
+        // pass this user obj to Login and make a call to Login
+        Login mLoginFragment = new Login();
+
+        // verify the details and pass the control to Login fragment.
+        if (mUserObj.getEmail() != null && mUserObj.getPassword() != null) {
+            mLoginFragment.loginUser(mUserObj.getEmail(), mUserObj.getPassword());
+        }
+
+//        // open the Dashboard
+//        Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
+//        dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
+//        startActivity(dashboardIntent);
+//        finish();
+    }
+
+    @Override
+    public void userLoggedIn() {
         Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
         dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
         startActivity(dashboardIntent);
