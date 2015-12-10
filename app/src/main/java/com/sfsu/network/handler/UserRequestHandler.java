@@ -1,5 +1,7 @@
 package com.sfsu.network.handler;
 
+import android.util.Log;
+
 import com.sfsu.entities.User;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
@@ -30,6 +32,7 @@ import retrofit.Response;
  */
 public class UserRequestHandler extends ApiRequestHandler {
 
+    private final String LOGTAG = "~!@#$UserReqHdlr :";
     private UserApiService mApiService;
     private Bus mBus;
 
@@ -39,8 +42,8 @@ public class UserRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public UserRequestHandler(Bus bus) {
-        super(bus);
-        this.mBus = bus;
+//        super(bus);
+        mBus = bus;
         mApiService = RetrofitApiClient.createService(UserApiService.class);
     }
 
@@ -52,11 +55,62 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeUserEvent(UserEvent.OnLoadingInitialized onLoadingInitialized) {
+        Log.i(LOGTAG, "inside onInitializeUserEvent");
+        Call<User> userCall = null;
 
+        Log.i(LOGTAG, "Created user:" + onLoadingInitialized.getRequest().toString());
+
+        // delegating call to specific method.
         switch (onLoadingInitialized.apiRequestMethod) {
             case GET_METHOD:
-                mApiService.add(onLoadingInitialized.getRequest());
+                userCall = mApiService.get(onLoadingInitialized.getResourceId());
+                makeCRUDCall(userCall);
+                break;
+            case ADD_METHOD:
+                Log.i(LOGTAG, "yayyyy inside the add user method");
+                userCall = mApiService.add(onLoadingInitialized.getRequest());
+                makeCRUDCall(userCall);
+                break;
         }
+    }
+
+    /**
+     * Helper method for dealing with CRUD operations for {@link User} entity.
+     *
+     * @param userCall
+     */
+    private void makeCRUDCall(Call<User> userCall) {
+        Log.i(LOGTAG, "making CRUD call");
+        // makes the Calls to network.
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response) {
+                Log.i(LOGTAG, "inside onResponse");
+                if (response.isSuccess()) {
+                    Log.i(LOGTAG, "Response Success");
+                    mBus.post(new UserEvent.OnLoaded(response.body()));
+                } else {
+                    Log.i(LOGTAG, "Response Failure");
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new UserEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(UserEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.i(LOGTAG, "inside onFailure");
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new UserEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(UserEvent.FAILED);
+                }
+            }
+        });
     }
 
     /**

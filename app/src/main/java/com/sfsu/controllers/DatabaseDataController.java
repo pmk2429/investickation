@@ -3,9 +3,9 @@ package com.sfsu.controllers;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sfsu.entities.Entity;
 import com.sfsu.db.DatabaseOpenHelper;
 import com.sfsu.db.EntityDao;
+import com.sfsu.entities.Entity;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * <br/>
  * This class provides abstraction on top of the DAO (Entity DAOs) layer for efficient error handling and modularity
  * of data retrieval.
- * <p/>
+ * <p>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseDataController {

@@ -34,7 +34,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public ActivityRequestHandler(Bus bus) {
-        super(bus);
+       
         mApiService = RetrofitApiClient.createService(ActivityApiService.class);
     }
 

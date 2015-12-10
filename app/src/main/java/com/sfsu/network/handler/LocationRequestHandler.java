@@ -34,7 +34,6 @@ public class LocationRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public LocationRequestHandler(Bus bus) {
-        super(bus);
         mApiService = RetrofitApiClient.createService(LocationApiService.class);
     }
 

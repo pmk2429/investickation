@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.UsersDao;
 import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
+import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
+import com.sfsu.network.login.LoginResponse;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
@@ -41,6 +47,8 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     private ImageView imageView_userImage;
     private IRegisterCallBacks mListener;
     private Context mContext;
+    private DatabaseDataController dbController;
+    private AuthPreferences mAuthPreferences;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
 
     public Register() {
@@ -74,6 +82,10 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         et_city.addTextChangedListener(new TextValidator(mContext, Register.this, et_city));
         et_state = (EditText) v.findViewById(R.id.editText_register_state);
         et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
+
+        // preference manager for access token and user_id.
+        mAuthPreferences = new AuthPreferences(mContext);
+        dbController = new DatabaseDataController(mContext, new UsersDao());
 
         btnRegisterUser = (Button) v.findViewById(R.id.button_registerUser);
         // implement the onClick method
@@ -131,6 +143,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 // make a new User object.
                 User userObj = User.createUser(fullName, address, city, state, zipcode, email, password);
 
+                Log.i(LOGTAG, "creating user.......");
                 // once the user object is created, pass it to Bus to send it over to api via retrofit
                 BusProvider.bus().post(new UserEvent.OnLoadingInitialized(userObj, AppUtils.ADD_METHOD));
 
@@ -178,9 +191,15 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // requirements.
         User userResponse = onLoaded.getResponse();
 
-        // pass the user object to the parent activity
-        mListener.onRegisterButtonClick(userResponse);
+        Log.i(LOGTAG, "user created successfully");
+        // store the user response in the database.
+        //dbController.save(userResponse);
 
+        Log.i(LOGTAG, userResponse.getEmail() + " : " + userResponse.getPassword());
+        // once the user has successfully registered, make another call to API for the email and password to get the access
+        // token and follow the same procedure as for the Login.
+
+        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(userResponse.getEmail(), userResponse.getPassword()));
     }
 
     /**
@@ -190,7 +209,31 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
      */
     @Subscribe
     public void onUserCreateFailure(UserEvent.OnLoadingError onLoadingError) {
+        Log.i(LOGTAG, onLoadingError.toString());
+        Log.i(LOGTAG, "failure to create user");
+    }
 
+
+    /**
+     * Subscribes to the Login event if the Response returned from the api is {@link LoginResponse}
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
+        // Save the Access Token in Shared Preferences
+        LoginResponse mLoginResponse = onLoaded.getResponse();
+        Log.i(LOGTAG, "success: inside the login after register");
+        Log.i(LOGTAG, mLoginResponse.getAccessToken() + " : " + mLoginResponse.getUser_id());
+        //mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
+
+        // pass the user object to the parent activity
+        mListener.onRegisterButtonClick();
+    }
+
+    @Subscribe
+    public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
+        Log.i(LOGTAG, "All went well but Login failed.");
     }
 
     /**
@@ -202,7 +245,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
          *
          * @param userResponse
          */
-        public void onRegisterButtonClick(User userResponse);
+        public void onRegisterButtonClick();
     }
 
 }

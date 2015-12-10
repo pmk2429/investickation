@@ -191,6 +191,12 @@ public class User implements Parcelable, Entity {
     }
 
     @Override
+    public String toString() {
+        return id + ", " + full_name + ", " + email + ", " + password + ", " + address + ", " + city + ", " + state + ", " +
+                zipCode + ", " + +created_at + ", " + updated_at + ", ";
+    }
+
+    @Override
     public Entity getEntity() {
         return this;
     }

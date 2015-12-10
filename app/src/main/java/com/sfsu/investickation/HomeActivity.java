@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
-import com.sfsu.entities.User;
 import com.sfsu.investickation.fragments.Home;
 import com.sfsu.investickation.fragments.Login;
 import com.sfsu.investickation.fragments.Register;
@@ -64,10 +63,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
     }
 
     @Override
-    public void onRegisterButtonClick(User userResponse) {
-        // save the user in db
-        dbController.save(userResponse);
-
+    public void onRegisterButtonClick() {
         // open the Dashboard
         Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
         dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);

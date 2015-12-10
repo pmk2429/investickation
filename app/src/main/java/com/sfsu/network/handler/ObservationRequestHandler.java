@@ -34,7 +34,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public ObservationRequestHandler(Bus bus) {
-        super(bus);
         mApiService = RetrofitApiClient.createService(ObservationApiService.class);
     }
 

@@ -1,7 +1,5 @@
 package com.sfsu.network.handler;
 
-import com.squareup.otto.Bus;
-
 /**
  * <p>
  * Parent class for all RequestHandlers in the application. It contains the api method identifiers and a constructor to handle
@@ -17,16 +15,16 @@ public class ApiRequestHandler {
     protected final String UPDATE_METHOD = "update";
     protected final String DELETE_METHOD = "delete";
 
-    private Bus mBus;
-
-    /**
-     * Constructor overloading to initialize the Bus to be used for this Request Handling.
-     *
-     * @param bus
-     */
-    public ApiRequestHandler(Bus bus) {
-        mBus = bus;
-    }
+//    private Bus mBus;
+//
+//    /**
+//     * Constructor overloading to initialize the Bus to be used for this Request Handling.
+//     *
+//     * @param bus
+//     */
+//    public ApiRequestHandler(Bus bus) {
+//        mBus = bus;
+//    }
 
 
 }

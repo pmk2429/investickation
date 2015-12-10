@@ -50,7 +50,6 @@ public class Home extends Fragment {
             }
         });
 
-
         return rootView;
     }
 

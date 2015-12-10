@@ -35,7 +35,6 @@ public class TickRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public TickRequestHandler(Bus bus) {
-        super(bus);
         mApiService = RetrofitApiClient.createService(TickApiService.class);
     }
 

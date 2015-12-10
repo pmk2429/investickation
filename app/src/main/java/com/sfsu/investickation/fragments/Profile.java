@@ -166,9 +166,6 @@ public class Profile extends Fragment {
                 // set Tick image to imageView.
                 imageView_user.setImageBitmap(bitmap);
 
-
-                //TODO: create BLOB or large Binary representation and send it on server.
-
             } catch (Exception e) {
                 Log.d(LOGTAG, e.getMessage());
             }

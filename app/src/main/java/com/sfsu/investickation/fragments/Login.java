@@ -14,11 +14,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.UsersDao;
 import com.sfsu.helper.SessionManager;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.db.UsersDao;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;

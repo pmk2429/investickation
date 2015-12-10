@@ -14,7 +14,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_info);
+        setContentView(R.layout.activity_settings);
 
         // if Fragment container is present,
         if (findViewById(R.id.profile_fragment_container) != null) {
