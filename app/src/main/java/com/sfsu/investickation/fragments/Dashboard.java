@@ -28,9 +28,9 @@ import com.sfsu.controllers.LocationController;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.utils.AppUtils;
 
@@ -196,7 +196,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
                     break;
 
                 case R.id.nav_settings:
-                    intent = new Intent(mContext, SettingsActivity.class);
+                    intent = new Intent(mContext, UserProfileActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 4;
@@ -225,14 +225,11 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(LOGTAG, " inside on items selected");
         switch (item.getItemId()) {
             case android.R.id.home:
-                //Log.i(LOGTAG, " drawer selected");
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             default:
-                //Log.i(LOGTAG, " itemId: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
 

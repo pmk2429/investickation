@@ -86,12 +86,6 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         if (mUserObj.getEmail() != null && mUserObj.getPassword() != null) {
             mLoginFragment.login(mUserObj.getEmail(), mUserObj.getPassword());
         }
-
-//        // open the Dashboard
-//        Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
-//        dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
-//        startActivity(dashboardIntent);
-//        finish();
     }
 
     @Override
@@ -101,4 +95,6 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         startActivity(dashboardIntent);
         finish();
     }
+
+
 }

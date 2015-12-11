@@ -56,7 +56,7 @@ public class TextValidator implements TextWatcher {
      */
     public interface ITextValidate {
         /**
-         * Method to validate the given EditText
+         * Validates the given EditText for the input text.
          *
          * @param mView
          * @param text

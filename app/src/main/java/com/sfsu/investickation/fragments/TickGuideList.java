@@ -29,7 +29,7 @@ import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.investickation.SettingsActivity;
+import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
@@ -171,7 +171,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                     break;
 
                 case R.id.nav_settings:
-                    intent = new Intent(mContext, SettingsActivity.class);
+                    intent = new Intent(mContext, UserProfileActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 4;

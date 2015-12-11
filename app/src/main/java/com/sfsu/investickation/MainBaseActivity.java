@@ -110,7 +110,7 @@ public class MainBaseActivity extends AppCompatActivity {
                     break;
 
                 case R.id.nav_settings:
-                    intent = new Intent(this, SettingsActivity.class);
+                    intent = new Intent(this, UserProfileActivity.class);
                     startActivity(intent);
                     finish();
                     mCurrentSelectedPosition = 4;

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Main content view -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--  Tool bar -->
+        <include
+            android:id="@+id/toolbar_base"
+            layout="@layout/toolbar_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- container for all the fragments that belong to GuideMaster Activity-->
+        <FrameLayout
+            android:id="@+id/profile_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar_base"
+            android:layout_weight="1">
+
+        </FrameLayout>
+    </RelativeLayout>
+
+    <!-- Navigation Drawer: Drawer section use to inflate the List in the  -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawer_recyclerView"
+        android:layout_width="304dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorWhite"
+        android:scrollbars="vertical"/>
+
+
+</android.support.v4.widget.DrawerLayout>

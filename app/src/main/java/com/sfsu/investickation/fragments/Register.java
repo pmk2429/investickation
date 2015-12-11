@@ -83,6 +83,12 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         et_state = (EditText) v.findViewById(R.id.editText_register_state);
         et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
 
+//
+//        if (v != null) {
+//            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//        }
+
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
         dbController = new DatabaseDataController(mContext, new UsersDao());
@@ -143,7 +149,6 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 // make a new User object.
                 mUserObj = User.createUser(fullName, address, city, state, zipcode, email, password);
 
-                Log.i(LOGTAG, "creating user.......");
                 // once the user object is created, pass it to Bus to send it over to api via retrofit
                 BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, AppUtils.ADD_METHOD));
             }

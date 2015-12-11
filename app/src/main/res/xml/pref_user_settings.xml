@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- My Account -->
+    <PreferenceCategory
+        android:title="My Account">
+
+        <Preference
+            android:key="full_name"
+            android:summary="john"
+            android:title="Username"/>
+
+        <EditTextPreference
+            android:key="email"
+            android:summary="pmk.2429@gmail.com"
+            android:title="Email"/>
+
+    </PreferenceCategory>
+
+    <!-- Notifications -->
+    <PreferenceCategory
+        android:title="Notifications">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="receiveNotifications"
+            android:summary="Want to receive Notifications ?"
+            android:title="Receive Notifications"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="vibrateMode"
+            android:summary="Vibrate phone while receiving Notifications?"
+            android:title="Vibrate Phone"/>
+
+    </PreferenceCategory>
+
+    <!-- Location -->
+    <PreferenceCategory
+        android:title="Locations">
+
+        <PreferenceScreen
+            android:key="about_location"
+            android:persistent="false"
+            android:title="Location Service">
+
+            <Preference
+                android:key="location_service"
+                android:summary="ATnT"
+                android:title="Location Service"/>
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <!-- About-->
+    <PreferenceCategory
+        android:title="About">
+
+        <PreferenceScreen
+            android:key="about_location"
+            android:persistent="false"
+            android:title="Location Service">
+
+            <Preference
+                android:key="location_service"
+                android:summary="ATnT"
+                android:title="Location Service"/>
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+
+    <!-- Legal-->
+    <PreferenceCategory
+        android:title="Legal">
+
+        <!-- Privacy Policy -->
+        <PreferenceScreen
+            android:key="privacy_policy"
+            android:persistent="false"
+            android:title="Privacy Policy">
+
+            <Preference
+                android:key="privacy_policy_content"
+                android:summary="Copyright @ InvesTICKations"
+                android:title="Privacy Policy for InvesTICKations"/>
+
+        </PreferenceScreen>
+
+        <!-- Terms of Use -->
+        <PreferenceScreen
+            android:key="terms_of_use"
+            android:persistent="false"
+            android:title="Terms of Use">
+
+            <Preference
+                android:key="terms_of_use_content"
+                android:summary="Terms of Use InvesTICKations"
+                android:title="Terms of Use"/>
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <!-- Feedback -->
+    <PreferenceCategory
+        android:title="About">
+
+        <PreferenceScreen
+            android:key="about_location"
+            android:persistent="false"
+            android:title="Location Service">
+
+            <Preference
+                android:key="location_service"
+                android:summary="ATnT"
+                android:title="Location Service"/>
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

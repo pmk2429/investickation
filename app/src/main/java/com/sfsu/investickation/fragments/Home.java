@@ -62,7 +62,7 @@ public class Home extends Fragment {
             mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement IHomeCallbacks");
+                    + " must implement IHomeCallbacks interface");
         }
     }
 

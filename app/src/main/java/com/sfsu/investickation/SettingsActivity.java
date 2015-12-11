@@ -1,60 +1,37 @@
 package com.sfsu.investickation;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.preference.PreferenceFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
-import com.sfsu.investickation.fragments.Profile;
-
-
-public class SettingsActivity extends BaseActivity {
-
-    private final String LOGTAG = "~!@#$SettingsActivity :";
+/**
+ * Defines all the app related settings for User.
+ */
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        // if Fragment container is present,
-        if (findViewById(R.id.profile_fragment_container) != null) {
+        // Display the fragment as the main content for User Settings
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
 
-            // if we are being restored from previous state, then just RETURN or else we could have
-            // over lapping fragments
-            if (savedInstanceState != null) {
-                return;
-            }
-
-            Profile profileFragment = new Profile();
-
-            // if activity was started with special instructions from an Intent, then pass Intent's extras
-            // to fragments as arguments
-            profileFragment.setArguments(getIntent().getExtras());
-
-            // add the Fragment to 'guide_fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, profileFragment).commit();
-        }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_personal_info, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    /**
+     * User Settings Fragment that allows users to tweak some app related settings.
+     */
+    public static class SettingsFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            addPreferencesFromResource(R.xml.pref_user_settings);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

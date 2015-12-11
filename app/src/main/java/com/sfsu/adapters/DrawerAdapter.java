@@ -14,7 +14,7 @@ import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.investickation.SettingsActivity;
+import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 
@@ -83,7 +83,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
                 break;
 
             case NAVDRAWER_ITEM_SETTINGS:
-                intent = new Intent(context, SettingsActivity.class);
+                intent = new Intent(context, UserProfileActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;
