@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
 
         // verify the details and pass the control to Login fragment.
         if (mUserObj.getEmail() != null && mUserObj.getPassword() != null) {
-            mLoginFragment.loginUser(mUserObj.getEmail(), mUserObj.getPassword());
+            mLoginFragment.login(mUserObj.getEmail(), mUserObj.getPassword());
         }
 
 //        // open the Dashboard

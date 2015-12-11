@@ -121,7 +121,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         final String password = et_password.getText().toString().trim();
 
         if (isEmailValid && isPasswordValid) {
-            loginUser(email, password);
+            login(email, password);
         } else {
             // Prompt user to enter credentials
             Toast.makeText(mContext, "Please enter valid credentials!", Toast.LENGTH_LONG).show();
@@ -134,7 +134,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      * @param email
      * @param password
      */
-    public void loginUser(final String email, final String password) {
+    public void login(final String email, final String password) {
         // verify and validate email and password input fields
         BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
     }
