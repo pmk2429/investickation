@@ -12,7 +12,7 @@ import com.squareup.otto.Bus;
 
 /**
  * Contains all the application level components which are needed to be initialized during the run time of app
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class InvestickationApp extends Application {

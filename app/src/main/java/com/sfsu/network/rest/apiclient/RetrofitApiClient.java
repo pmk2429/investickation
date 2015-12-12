@@ -15,17 +15,16 @@ import retrofit.Retrofit;
 /**
  * Retrofit Service Generator class which initializes the calling Service interface passed as an input param. Depending on the
  * createService method called, this class will return the Service with or without token.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
     public static final String BASE_API_URL = "http://52.25.160.49:3000/api/";
     protected static OkHttpClient httpClient = new OkHttpClient();
 
-    private static Retrofit.Builder builder =
-            new Retrofit.Builder()
-                    .baseUrl(BASE_API_URL)
-                    .addConverterFactory(GsonConverterFactory.create());
+    private static Retrofit.Builder builder = new Retrofit.Builder()
+            .baseUrl(BASE_API_URL)
+            .addConverterFactory(GsonConverterFactory.create());
 
     /**
      * Generates the Retrofit Service interface for the type of Service class passed as an input param.
