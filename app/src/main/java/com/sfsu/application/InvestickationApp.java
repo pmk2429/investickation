@@ -59,6 +59,5 @@ public class InvestickationApp extends Application {
         mTickRequestHandler = new TickRequestHandler(mBus);
         mBus.register(mTickRequestHandler);
 
-
     }
 }

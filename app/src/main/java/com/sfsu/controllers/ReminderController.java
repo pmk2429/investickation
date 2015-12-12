@@ -39,6 +39,7 @@ public class ReminderController {
         mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + selectedInterval,
                 selectedInterval, mPendingIntent);
         Toast.makeText(mContext, "Reminder started", Toast.LENGTH_SHORT).show();
+
     }
 
     /**
@@ -59,5 +60,15 @@ public class ReminderController {
     public ReminderController interval(long selectedInterval) {
         this.selectedInterval = selectedInterval;
         return this;
+    }
+
+    /**
+     * Returns if the Alarm is already set in AlarmManager.
+     *
+     * @return
+     */
+    public boolean isSet() {
+        return (PendingIntent.getBroadcast(mContext, 0, new Intent("com.sfsu.receiver.ReminderReceiver"),
+                PendingIntent.FLAG_NO_CREATE) != null);
     }
 }
