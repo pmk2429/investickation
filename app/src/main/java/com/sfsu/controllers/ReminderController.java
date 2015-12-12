@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.widget.Toast;
 
 import com.sfsu.receiver.ReminderReceiver;
 
@@ -15,14 +16,18 @@ public class ReminderController {
 
     private Context mContext;
     private long selectedInterval;
+    private PendingIntent mPendingIntent;
+    private Intent mAlarmIntent;
 
     /**
-     * Initialize the Alarm Manager for the current Context.
+     * Initialize the Alarm Manager for the current Context. Initialze the PendingIntent and Intent for current context.
      *
      * @param context
      */
     public ReminderController init(Context context) {
         this.mContext = context;
+        mAlarmIntent = new Intent(mContext, ReminderReceiver.class);
+        mPendingIntent = PendingIntent.getBroadcast(mContext, 0, mAlarmIntent, 0);
         return this;
     }
 
@@ -31,12 +36,18 @@ public class ReminderController {
      */
     public void schedule() {
         AlarmManager mAlarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(mContext, ReminderReceiver.class);
-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(mContext, 0, alarmIntent, 0);
-
         mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + selectedInterval,
                 selectedInterval, mPendingIntent);
+        Toast.makeText(mContext, "Reminder started", Toast.LENGTH_SHORT).show();
+    }
 
+    /**
+     * Stops the reminder.
+     */
+    public void cancel() {
+        AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(mPendingIntent);
+        Toast.makeText(mContext, "Reminder stopped", Toast.LENGTH_SHORT).show();
     }
 
     /**
