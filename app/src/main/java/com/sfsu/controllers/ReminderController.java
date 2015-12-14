@@ -58,7 +58,8 @@ public class ReminderController {
      * @return
      */
     public ReminderController interval(long selectedInterval) {
-        this.selectedInterval = selectedInterval;
+        if (selectedInterval != 0 && selectedInterval != -1)
+            this.selectedInterval = selectedInterval == 30000 ? AlarmManager.INTERVAL_HALF_HOUR : AlarmManager.INTERVAL_HOUR;
         return this;
     }
 

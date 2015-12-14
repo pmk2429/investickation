@@ -33,17 +33,19 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.LocationController;
+import com.sfsu.db.TickDao;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
-import com.sfsu.db.TickDao;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.util.List;
@@ -169,15 +171,15 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     String tickName = et_tickName.getText().toString();
                     String tickSpecies = et_tickSpecies.getText().toString();
                     int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
-                    requestToken = "skbdjskmdcvslkvndjfnvsckjnskdb";
-                    userId = "3dknv-vjbv78-dcnbdvkn";
+
+                    userId = mAuthPreferences.getUser_id();
 
                     // finally when all values are collected, create a new Observation object.
+                    // TODO: change the Observation POJO to match as per the Api
                     newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
                             entityLocation, userId);
 
-                    // pass the object to the ObservationActivity.
-                    mInterface.postObservationData(newObservationObj);
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, AppUtils.ADD_METHOD));
                 }
             }
         });
@@ -519,6 +521,25 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 isTotalTicksNumber = validateNumber(mEditText, text);
                 break;
         }
+    }
+
+
+    /**
+     * Subscribes to the successful observation create event.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationCreateSuccess(ObservationEvent.OnLoaded onLoaded) {
+        Observation observationResponse = onLoaded.getResponse();
+        // pass the object to the ObservationActivity.
+        mInterface.postObservationData(observationResponse);
+    }
+
+    @Subscribe
+    public void onObservationCreateFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, "Observation cannot be posted on server", Toast.LENGTH_LONG).show();
+        // TODO: save the Observation in the SQLite db.
     }
 
     /**

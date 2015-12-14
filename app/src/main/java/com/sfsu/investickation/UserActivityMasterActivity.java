@@ -24,13 +24,14 @@ import java.util.ArrayList;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p>
+ * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
 
     public static final String KEY_USRACT_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_UUID = "ongoing_activity_uuid";
+    public static final String KEY_ACTIVITY_DETAILS = "selected_activity";
     private final String LOGTAG = "~!@#$UserActivity :";
     private ArrayList<Activities> listSavedActivities;
 
@@ -81,11 +82,8 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
              */
 
             else {
+                Log.i(LOGTAG, "its going OK");
                 ActivityList activityListFragment = new ActivityList();
-                Bundle bundleListOfActivities = new Bundle();
-                bundleListOfActivities.putParcelableArrayList(AppUtils.ACTIVITY_KEY, listSavedActivities);
-                // finally add the Bundle to the activityList Fragment instance.
-                activityListFragment.setArguments(bundleListOfActivities);
                 // add Fragment to 'activity_fragment_container'
                 getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment)
                         .commit();
@@ -129,10 +127,10 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         return super.onOptionsItemSelected(item);
     }
 
-    // callback for item click on RecyclerView.
+
     @Override
-    public void onItemClickListener() {
-        ActivityDetails mActivityDetailsFragment = new ActivityDetails();
+    public void onItemClickListener(Activities mActivity) {
+        ActivityDetails mActivityDetailsFragment = ActivityDetails.newInstance(KEY_ACTIVITY_DETAILS, mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mActivityDetailsFragment);
         transaction.addToBackStack(null);

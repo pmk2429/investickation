@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
@@ -24,19 +25,21 @@ import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 /**
  * This fragment provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
  * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
  * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
  * Observation for the current ongoing activity.
- * <p>
+ * <p/>
  * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
  * BroadcastReceiver, recording the observations etc.
- * <p>
+ * <p/>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
  * Observation,
  */
@@ -105,6 +108,7 @@ public class ActivityRunning extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Ongoing Activity");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        mAuthPreferences = new AuthPreferences(mContext);
     }
 
     @Override
@@ -125,7 +129,6 @@ public class ActivityRunning extends Fragment {
         Log.i(LOGTAG, currentActivityObj.toString());
         Log.i(LOGTAG, currentActivityObj.getState() + "");
 
-        mAuthPreferences = new AuthPreferences(mContext);
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
@@ -151,14 +154,11 @@ public class ActivityRunning extends Fragment {
         stopActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // onStop button clics, change the state of Activity to CREATED.
+                // onStop button click, change the state of Activity to CREATED.
                 currentActivityObj.setState(Activities.STATE.CREATED);
 
-                /* currentActivityObj will be passed on to Retrofit Controller pass the currentActivityObj to the callback method
-                and lets the Activity handle the data processing.
-                 */
-                mListener.onActivityStopButtonClicked(currentActivityObj);
+                // save the Activity on the server.
+                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(currentActivityObj, AppUtils.ADD_METHOD));
             }
         });
 
@@ -234,6 +234,25 @@ public class ActivityRunning extends Fragment {
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
         BusProvider.bus().unregister(this);
+    }
+
+
+    /**
+     * Subscribes to activity on create success.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onActivityCreateSuccess(ActivityEvent.OnLoaded onLoaded) {
+        Activities mActivityResponse = onLoaded.getResponse();
+
+        // pass the activity response to the UserActivityMasterActivity
+        mListener.onActivityStopButtonClicked(mActivityResponse);
+    }
+
+    @Subscribe
+    public void onActivityCreateFailure(ActivityEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, "Error creating activity", Toast.LENGTH_LONG).show();
     }
 
     /**

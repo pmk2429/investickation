@@ -2,11 +2,13 @@ package com.sfsu.network.rest.apiclient;
 
 import android.util.Base64;
 
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.File;
 import java.io.IOException;
 
 import retrofit.GsonConverterFactory;
@@ -20,8 +22,18 @@ import retrofit.Retrofit;
  */
 public class RetrofitApiClient {
     public static final String BASE_API_URL = "http://52.25.160.49:3000/api/";
-    protected static OkHttpClient httpClient = new OkHttpClient();
 
+//    // interceptor to cache the Response from server.
+//    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
+//        @Override
+//        public Response intercept(Interceptor.Chain chain) throws IOException {
+//            Response originalResponse = chain.proceed(chain.request());
+//            return originalResponse.newBuilder()
+//                    .header("Cache-Control", String.format("max-age=%d, only-if-cached, max-stale=%d", 120, 0))
+//                    .build();
+//        }
+//    };
+    protected static OkHttpClient httpClient = new OkHttpClient();
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create());
@@ -73,7 +85,6 @@ public class RetrofitApiClient {
         return retrofit.create(serviceClass);
     }
 
-
     /**
      * Generates the Service to to login the User. Wraps the Email and Password fields in the Header and requests the call.
      *
@@ -106,6 +117,20 @@ public class RetrofitApiClient {
 
         Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
+    }
+
+    /**
+     * Helper method to cache the Response sent by the server.
+     */
+    private static void createCacheForOkHTTP() {
+        Cache cache = null;
+        cache = new Cache(getDirectory(), 1024 * 1024 * 10);
+//        okHttpClient.setCache(cache);
+    }
+
+    //returns the file to store cached details
+    private static File getDirectory() {
+        return new File("location");
     }
 }
 

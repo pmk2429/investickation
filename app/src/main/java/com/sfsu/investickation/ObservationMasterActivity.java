@@ -11,13 +11,13 @@ import android.view.MenuItem;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
-import com.sfsu.investickation.fragments.RemoteObservationsList;
+import com.sfsu.investickation.fragments.ObservationsList;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
-public class ObservationMasterActivity extends BaseActivity implements RemoteObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
+public class ObservationMasterActivity extends BaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
     private final String LOGTAG = "~!@#$ObsMasterAct :";
     private Observation newlyCreatedObs, observationResponseObj;
@@ -49,12 +49,12 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
             }
             // if the Intent is called by clicking on View Observations list in Dashboard
             else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
-                RemoteObservationsList observationsList = new RemoteObservationsList();
+                ObservationsList observationsList = new ObservationsList();
                 setFragmentTransaction(observationsList);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
-                RemoteObservationsList remoteObservationsFragment = new RemoteObservationsList();
+                ObservationsList remoteObservationsFragment = new ObservationsList();
                 setFragmentTransaction(remoteObservationsFragment);
             }
         }
@@ -157,8 +157,8 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
     @Subscribe
     public void getObservationResponse(ObservationEvent.OnLoaded onLoaded) {
 
-        // define the RemoteObservationsList Fragment
-        RemoteObservationsList mRemoteObservationsList = new RemoteObservationsList();
+        // define the ObservationsList Fragment
+        ObservationsList mObservationsList = new ObservationsList();
 
         // once you get the response, simply pass it to RemoteObservations Fragment to display
         Bundle newObservationBundle = new Bundle();
@@ -166,10 +166,10 @@ public class ObservationMasterActivity extends BaseActivity implements RemoteObs
         // TODO: verify the object returned by the Retrofit and send it to RemoteObservationList
         newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, onLoaded.getResponse());
 
-        mRemoteObservationsList.setArguments(newObservationBundle);
+        mObservationsList.setArguments(newObservationBundle);
         // begin transaction and commit
         FragmentTransaction mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragmentTransaction.replace(R.id.observation_fragment_container, mRemoteObservationsList);
+        mFragmentTransaction.replace(R.id.observation_fragment_container, mObservationsList);
         mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
     }

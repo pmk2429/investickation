@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>
  * <tt>Activity</tt> refers to the state of the user where the User is performing
@@ -36,22 +33,20 @@ public class Activities implements Parcelable, Entity {
             return new Activities[size];
         }
     };
-    @SerializedName("location_area")
-    String location_area;
+
     private String id;
     @SerializedName("name")
     private String activityName;
-    private int num_of_people, num_of_pets;
-    private long timestamp, created_at, updated_at;
+    private int num_of_people, num_of_pets, num_of_ticks;
+    private String location_area;
+    private long timestamp1, created_at1, updated_at1;
     private String user_id;
     // Enum identifier for setting State of Object.
     private STATE activityState;
     private String UUID;
-
     // Default constructor -> REQUIRED
     public Activities() {
     }
-
     /**
      * Constructor overloading for creating the Activities Model and sending the object to ActivityRunning fragment.
      *
@@ -64,7 +59,7 @@ public class Activities implements Parcelable, Entity {
         this.activityName = name;
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
-        this.timestamp = timestamp;
+        this.timestamp1 = timestamp;
         this.UUID = UUID;
     }
 
@@ -86,9 +81,9 @@ public class Activities implements Parcelable, Entity {
         this.location_area = location_area;
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
-        this.timestamp = timestamp;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.timestamp1 = timestamp;
+        this.created_at1 = created_at;
+        this.updated_at1 = updated_at;
     }
 
     /**
@@ -111,17 +106,17 @@ public class Activities implements Parcelable, Entity {
         location_area = in.readString();
         num_of_people = in.readInt();
         num_of_pets = in.readInt();
-        timestamp = in.readLong();
-        created_at = in.readLong();
-        updated_at = in.readLong();
+        timestamp1 = in.readLong();
+        created_at1 = in.readLong();
+        updated_at1 = in.readLong();
     }
 
-    public static List<Activities> initializeData() {
-        List<Activities> activities = new ArrayList<>();
-        activities.add(new Activities("Golden Gate Park", 5, 1));
-        activities.add(new Activities("SF Presidio", 0, 0));
-        activities.add(new Activities("Yosemite", 8, 0));
-        return activities;
+    public int getNum_of_ticks() {
+        return num_of_ticks;
+    }
+
+    public void setNum_of_ticks(int num_of_ticks) {
+        this.num_of_ticks = num_of_ticks;
     }
 
     public String getUser_id() {
@@ -149,11 +144,11 @@ public class Activities implements Parcelable, Entity {
     }
 
     public long getUpdated_at() {
-        return updated_at;
+        return updated_at1;
     }
 
     public void setUpdated_at(long updated_at) {
-        this.updated_at = updated_at;
+        this.updated_at1 = updated_at;
     }
 
     public String getUUID() {
@@ -209,19 +204,19 @@ public class Activities implements Parcelable, Entity {
 
 
     public long getTimestamp() {
-        return timestamp;
+        return timestamp1;
     }
 
     public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp1 = timestamp;
     }
 
     public long getCreated_at() {
-        return created_at;
+        return created_at1;
     }
 
     public void setCreated_at(long created_at) {
-        this.created_at = created_at;
+        this.created_at1 = created_at;
     }
 
     @Override
@@ -236,9 +231,9 @@ public class Activities implements Parcelable, Entity {
         parcel.writeString(location_area);
         parcel.writeInt(num_of_people);
         parcel.writeInt(num_of_pets);
-        parcel.writeLong(timestamp);
-        parcel.writeLong(created_at);
-        parcel.writeLong(updated_at);
+        parcel.writeLong(timestamp1);
+        parcel.writeLong(created_at1);
+        parcel.writeLong(updated_at1);
     }
 
     @Override
@@ -256,6 +251,11 @@ public class Activities implements Parcelable, Entity {
         return "activities";
     }
 
+    @Override
+    public String toString() {
+        return id + " : " + activityName + " : " + location_area + " : " + num_of_people + " : " + num_of_pets + " : " +
+                num_of_ticks + " : " + timestamp1 + " : " + created_at1 + " : " + updated_at1 + " : " + user_id;
+    }
 
     /**
      * A list of constant values assigned to Activities. Started represents the

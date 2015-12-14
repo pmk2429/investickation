@@ -23,12 +23,18 @@ import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ActivityList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+/**
+ * Shows list of Activities created by User. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
+ * user's choice.
+ */
+public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String LOGTAG = "~!@#ActivityList :";
     private IActivityCallBacks mInterface;
@@ -46,6 +52,9 @@ public class ActivityList extends Fragment implements View.OnClickListener, Sear
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Activities");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        // initialize the Bus to get list of Activities from server.
+        // must be cached for frequent accesses.
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", AppUtils.GET_ALL_METHOD));
     }
 
     @Override
@@ -60,39 +69,9 @@ public class ActivityList extends Fragment implements View.OnClickListener, Sear
         if (mContext != null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
-
-            // retrieve the list of serverActivitiesList passed from the UserActivityMainActivity
-            if (getArguments() != null) {
-                // TODO:  serverActivitiesList = getArguments().getParcelableArrayList(AppUtils.ACTIVITY_KEY);
-            }
+            
         } else {
             Log.d(LOGTAG, " No layout manager supplied");
-        }
-
-        // TODO: temporary method to get the data and display it in ListView.
-        serverActivitiesList = Activities.initializeData();
-
-        if (serverActivitiesList.size() > 0) {
-            // set the List of Activities to Adapter.
-            mActivitiesListAdapter = new ActivitiesListAdapter(serverActivitiesList);
-            recyclerView_activity.setAdapter(mActivitiesListAdapter);
-
-            // touch listener when the user clicks on the Activity in the List.
-            recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_activity,
-                    new RecyclerItemClickListener.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            // call the interface callback to listen to the item click event
-                            mInterface.onItemClickListener();
-                        }
-
-                        @Override
-                        public void onItemLongClick(View view, int position) {
-
-                        }
-                    }));
-        } else {
-            // TODO: display a message saying that no records found with a sad emoticon
         }
 
         // Add new Activity button.
@@ -107,6 +86,55 @@ public class ActivityList extends Fragment implements View.OnClickListener, Sear
         return v;
     }
 
+
+    /**
+     * Subscribes to loading list of Activities from Server. This builds the list and is us
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onActivitiesLoadedSuccess(ActivityEvent.OnLoaded onLoaded) {
+        Log.i(LOGTAG, "Activities loaded successfully");
+        serverActivitiesList = onLoaded.getResponseList();
+
+        if (serverActivitiesList.size() > 0 && serverActivitiesList != null) {
+            displayActivitiesList();
+        } else {
+            Log.i(LOGTAG, "success but failed");
+        }
+    }
+
+    @Subscribe
+    public void onActivitiesLoadedSuccess(ActivityEvent.OnLoadingError onLoadingError) {
+        Log.i(LOGTAG, "Activities loaded failure");
+        Log.i(LOGTAG, onLoadingError.getErrorMessage());
+    }
+
+
+    /**
+     * Helper method to display list of activities in RecyclerView.
+     */
+    private void displayActivitiesList() {
+        Log.i(LOGTAG, "in wanted method");
+        // set the List of Activities to Adapter.
+        mActivitiesListAdapter = new ActivitiesListAdapter(serverActivitiesList);
+        recyclerView_activity.setAdapter(mActivitiesListAdapter);
+
+        // touch listener when the user clicks on the Activity in the List.
+        recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_activity,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        // call the interface callback to listen to the item click event
+                        mInterface.onItemClickListener(serverActivitiesList.get(position));
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                }));
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -135,11 +163,6 @@ public class ActivityList extends Fragment implements View.OnClickListener, Sear
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         searchView.setOnQueryTextListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        mInterface.onItemClickListener();
     }
 
     @Override
@@ -194,7 +217,7 @@ public class ActivityList extends Fragment implements View.OnClickListener, Sear
         /**
          * Callback method to handle the Item click event of ActivityList.
          */
-        public void onItemClickListener();
+        public void onItemClickListener(Activities mActivity);
 
         /**
          * Callback method to handle the click event of the Add Button in ActivityList Fragment.

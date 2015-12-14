@@ -46,10 +46,15 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     @Override
     public void onBindViewHolder(ActivitiesListAdapter.ActivityViewHolder holder, int position) {
         if (holder != null) {
-            holder.txtViewActivityName.setText("Hiking @ Golden Gate Presidio");
-            holder.txtViewDistance.setText("5.5 miles");
-            holder.txtViewObservations.setText("6 Observations");
-            holder.txtViewPeople.setText("2 people");
+            String activityName = activityList.get(position).getActivityName() + " @ " + activityList.get(position)
+                    .getLocation_area();
+            holder.txtViewActivityName.setText(activityName);
+            String pets = activityList.get(position).getNum_people() + " pets";
+            holder.txtViewDistance.setText(pets);
+            String observations = activityList.get(position).getNum_of_ticks() + " Observations";
+            holder.txtViewObservations.setText(observations);
+            String people = activityList.get(position).getNum_people() + " people";
+            holder.txtViewPeople.setText(people);
         }
     }
 

@@ -15,15 +15,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ObservationsListAdapter;
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.Observation;
-import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
@@ -32,29 +31,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Observation} Fragment which is used to display all the observations made by the user
- * and are posted on the server. This fragment is attached to {@link ObservationMasterActivity} and
- * the callbacks of this fragment are implemented in that activity.
+ * Displays List of {@link Observation}s made by the User. The Observation are combined to that store on the Local SQLite DB
+ * and also those which are retrieved from the Server. Depending on the the where the Observation is stored, the RecyclerView
+ * item displays an icon
  */
 
-public class RemoteObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
     private final String LOGTAG = "~!@#RemoteObs :";
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
-    private List<Observation> observationList;
+    private List<Observation> observationList, remoteObservationList, localObservationList;
     private Observation newObservationObject;
     private RecyclerView recyclerView_observations;
     private Bundle args;
     private ObservationsListAdapter mObservationsListAdapter;
+    private DatabaseDataController dbController;
 
-    public RemoteObservationsList() {
+    public ObservationsList() {
         // Required empty public constructor
     }
 
 
-    public static RemoteObservationsList newInstance() {
-        return new RemoteObservationsList();
+    public static ObservationsList newInstance() {
+        return new ObservationsList();
     }
 
 
@@ -63,6 +63,7 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         getActivity().setTitle("My Observations");
         args = getArguments();
+        dbController = new DatabaseDataController(mContext, new ObservationsDao());
     }
 
     @Override
@@ -70,6 +71,17 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
+
+        recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
+        recyclerView_observations.setHasFixedSize(true);
+
+
+        if (mContext != null) {
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            recyclerView_observations.setLayoutManager(mLinearLayoutManager);
+        } else {
+            Log.d(LOGTAG, " No Layout manager supplied");
+        }
 
         // retrieve the Observation Response Object from the Bundle. This object will be the one returned as Response by Retrofit
         if (args != null) {
@@ -79,39 +91,17 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
             }
         }
 
-        recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
-        recyclerView_observations.setHasFixedSize(true);
+        // TODO: think of this one.
+        localObservationList = (List<Observation>) dbController.getAll();
 
-        if (mContext != null) {
-            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-            recyclerView_observations.setLayoutManager(mLinearLayoutManager);
-        } else {
-            Log.d(LOGTAG, " No Layout manager supplied");
-        }
 
         observationList = Observation.initializeData();
-        // make a network call and get all the Observations
-        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", AppUtils.GET_ALL_METHOD));
 
-        //observationList.add(newObservationObject);
+        //observationList = new ArrayList<>(remoteObservationList);
+        //observationList.addAll(localObservationList);
 
-        //pass the observationList to the Adapter
-        mObservationsListAdapter = new ObservationsListAdapter(observationList);
-        recyclerView_observations.setAdapter(mObservationsListAdapter);
-
-        // implement touch event for the item click in RecyclerView
-        recyclerView_observations.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_observations, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                mInterface.onObservationListItemClickListener();
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        }));
+        //observationList.add(newObservationObject)
+        displayObservationList();
 
         final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_observation_add);
         addProject.setOnClickListener(new View.OnClickListener() {
@@ -141,21 +131,6 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         mInterface.onObservationAddListener();
     }
 
-
-    /**
-     * Subscribes to get list of Observations present on Server.
-     *
-     * @param onLoaded
-     */
-    @Subscribe
-    public void getObservationList(ObservationEvent.OnLoaded onLoaded) {
-        observationList = onLoaded.getResponseList();
-    }
-
-    @Subscribe
-    public void onReposLoadingFailed(ObservationEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -208,19 +183,69 @@ public class RemoteObservationsList extends Fragment implements View.OnClickList
         return filteredObservationList;
     }
 
+
     /**
-     * Callback Interface to handle onClick Listeners in {@link RemoteObservationsList} Fragment.
+     * Subscribes to the success loading of all the {@link Observation} from server.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationsLoadSuccess(ObservationEvent.OnLoaded onLoaded) {
+        remoteObservationList = onLoaded.getResponseList();
+
+        if (remoteObservationList.size() > 0 && remoteObservationList != null) {
+            // displayObservationList();
+        } else {
+            // TODO: display message that no observations in the List.
+        }
+    }
+
+    /**
+     * Subscribes to the failure event of getting all {@link Observation} from server.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
+
+    }
+
+    /**
+     * Helper method to display list of Observations in RecyclerView.
+     */
+    private void displayObservationList() {
+        //pass the observationList to the Adapter
+        mObservationsListAdapter = new ObservationsListAdapter(observationList);
+        recyclerView_observations.setAdapter(mObservationsListAdapter);
+
+        // implement touch event for the item click in RecyclerView
+        recyclerView_observations.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_observations, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+                mInterface.onObservationListItemClickListener();
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
+    }
+
+    /**
+     * Callback Interface to handle onClick Listeners in {@link ObservationsList} Fragment.
      */
     public interface IRemoteObservationCallBacks {
 
         /**
-         * Callback method to handle onClick Listener when user clicks on '+' button in {@link RemoteObservationsList} Fragment.
+         * Callback method to handle onClick Listener when user clicks on '+' button in {@link ObservationsList} Fragment.
          */
         public void onObservationAddListener();
 
 
         /**
-         * Callback method to handle the on item click Listener of the Observations List in {@link RemoteObservationsList}
+         * Callback method to handle the on item click Listener of the Observations List in {@link ObservationsList}
          * Fragment
          */
         public void onObservationListItemClickListener();
