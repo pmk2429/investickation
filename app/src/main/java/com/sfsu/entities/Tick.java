@@ -1,5 +1,6 @@
 package com.sfsu.entities;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,13 +11,10 @@ import java.util.List;
 
 /**
  * <p>
- * <tt>Tick </tt> provides a default behavior of the Tick entity. The Tick class contains
- * all the getters and setters for the Tick interface and provides a toString() method.
+ * <tt>Tick </tt> <a href="https://en.wikipedia.org/wiki/Tick">(as described in Wiki)</a> are the real world entities
+ * that are small arachnids in the order Parasitiformes.
  * </p>
- * <p>
- * The Tick class also provides a Factory design pattern implementation called createTickFactory()
- * to create Ticks by abstracting the implementation logic from the user.
- * </p>
+ * The Tick class contains characteristics that a specific Tick exhibit.
  * Created by Pavitra on 5/19/2015.
  */
 
@@ -37,16 +35,12 @@ public class Tick implements Parcelable, Entity {
     private String id;
     @SerializedName("name")
     private String tickName;
-    @SerializedName("species")
     private String species;
-    @SerializedName("color")
-    private String color;
-    @SerializedName("known_for")
     private String known_for;
-    @SerializedName("description")
     private String description;
-    @SerializedName("imageUrl")
+    @SerializedName("image_url")
     private String imageUrl;
+    private Bitmap image;
     private long created_at, updated_at;
 
     public Tick() {
@@ -57,22 +51,51 @@ public class Tick implements Parcelable, Entity {
         this.species = species;
     }
 
-    // constructor for retrieving all the data from the Tick Object.
-    public Tick(String id, String name, String species, String color, String known_for, String description, String imageUrl) {
+    /**
+     * Constructor overloading for Tick response.
+     *
+     * @param id
+     * @param tickName
+     * @param species
+     * @param known_for
+     * @param description
+     * @param image
+     * @param created_at
+     * @param updated_at
+     */
+    public Tick(String id, String tickName, String species, String known_for, String description, Bitmap image, long created_at, long updated_at) {
         this.id = id;
-        this.tickName = name;
+        this.tickName = tickName;
         this.species = species;
-        this.color = color;
         this.known_for = known_for;
         this.description = description;
-        this.imageUrl = imageUrl;
+        this.image = image;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+
+    /**
+     * Constructor overloading for creating {@link Tick} instances using.
+     *
+     * @param name
+     * @param species
+     * @param known_for
+     * @param description
+     * @param image
+     */
+    public Tick(String name, String species, String known_for, String description, Bitmap image) {
+        this.tickName = name;
+        this.species = species;
+        this.known_for = known_for;
+        this.description = description;
+        this.image = image;
     }
 
     protected Tick(Parcel in) {
         id = in.readString();
         tickName = in.readString();
         species = in.readString();
-        color = in.readString();
         known_for = in.readString();
         description = in.readString();
         imageUrl = in.readString();
@@ -80,16 +103,18 @@ public class Tick implements Parcelable, Entity {
         updated_at = in.readLong();
     }
 
-
-    // constructor for creating the Tick object and sending it over to Retrofit API.
-    public Tick(String tickName, String species, String imageUrl) {
-        this.tickName = tickName;
-        this.species = species;
-        this.imageUrl = imageUrl;
-    }
-
-    public static Tick createTick(String name, String species, String imageUrl) {
-        return new Tick(name, species, imageUrl);
+    /**
+     * Static method for creating {@link Tick} instance.
+     *
+     * @param name
+     * @param species
+     * @param known_for
+     * @param description
+     * @param image
+     * @return
+     */
+    public static Tick createTick(String name, String species, String known_for, String description, Bitmap image) {
+        return new Tick(name, species, known_for, description, image);
     }
 
     public static List<Tick> initializeData() {
@@ -99,20 +124,6 @@ public class Tick implements Parcelable, Entity {
         ticks.add(new Tick("Jungle tick", "Dangerous species"));
         return ticks;
     }
-
-    public static List<Tick> getAllTicks() {
-        List<Tick> ticks = new ArrayList<>();
-        ticks.add(new Tick("American Dog tick", "Species 1"));
-        ticks.add(new Tick("Spotted Tick", "Species 2"));
-        ticks.add(new Tick("Deer Tick", "Species 3"));
-        ticks.add(new Tick("Rocky Mountain Wood Tick", "Species 4"));
-        ticks.add(new Tick("Lone Star Tick", "Species 5"));
-        ticks.add(new Tick("Gulf Coast Tick", "Species 6"));
-        ticks.add(new Tick("Ixodes Ticks", "Species 7"));
-        ticks.add(new Tick("Amblyomma americanum", "Species 8"));
-        return ticks;
-    }
-
 
     public String getTickName() {
         return tickName;
@@ -128,14 +139,6 @@ public class Tick implements Parcelable, Entity {
 
     public void setSpecies(String species) {
         this.species = species;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public String getKnown_for() {
@@ -180,17 +183,8 @@ public class Tick implements Parcelable, Entity {
 
     @Override
     public String toString() {
-        return "Tick{" +
-                "tick_id=" + id +
-                ", name='" + tickName + '\'' +
-                ", species='" + species + '\'' +
-                ", color='" + color + '\'' +
-                ", known_for='" + known_for + '\'' +
-                ", description='" + description + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
+        return id + " : " + tickName + " : " + species + " : " + known_for + " : " + description + " : " + imageUrl +
+                " : " + created_at + " : " + updated_at;
     }
 
     @Override
@@ -211,7 +205,6 @@ public class Tick implements Parcelable, Entity {
         parcel.writeString(id);
         parcel.writeString(tickName);
         parcel.writeString(species);
-        parcel.writeString(color);
         parcel.writeString(known_for);
         parcel.writeString(description);
         parcel.writeString(imageUrl);

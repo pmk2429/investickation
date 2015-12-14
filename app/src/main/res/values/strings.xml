@@ -99,6 +99,9 @@
     <string name="alertDialog_reminder_30">30</string>
     <string name="alertDialog_reminder_60">60</string>
 
+    <!-- Tick adapter -->
+    <string name="tick_click_here_for_details">Click here for more details</string>
+
     <!-- Error methods for all the Validations-->
     <string name="error_invalid_string">Enter valid text</string>
     <string name="error_empty_string">Empty Character Sequence</string>

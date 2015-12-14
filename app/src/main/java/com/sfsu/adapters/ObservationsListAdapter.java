@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.AppUtils;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,13 +43,11 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
         if (holder != null) {
             if (observationList != null && observationList.size() > 0) {
-                for (Observation observation : observationList) {
-//                  holder.imageView_tickImage.setImageResource();
-//                  holder.imageView_imageStatus.setImageResource();
-                    holder.txtView_observationName.setText("American Dog Tick");
-                    holder.txtView_location.setText(observation.getGeoLocation());
-                    holder.txtView_timestamp.setText(Long.toString((new Date(observation.getTimestamp()).getTime())));
-                }
+                Observation mObservation = observationList.get(position);
+                holder.txtView_observationName.setText(mObservation.getTickName());
+                holder.txtView_location.setText(mObservation.getGeoLocation());
+                String dateAndTime = AppUtils.getCurrentDateAndTime(mObservation.getTimestamp());
+                holder.txtView_timestamp.setText(dateAndTime);
             }
         }
     }

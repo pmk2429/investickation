@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAdapter.ActivityViewHolder> {
 
-    List<Activities> activityList;
+    private List<Activities> activityList;
 
     public ActivitiesListAdapter(List<Activities> activityList) {
         this.activityList = activityList;
@@ -68,6 +68,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     public int getItemCount() {
         return activityList.size();
     }
+
 
     public void animateTo(List<Activities> activities) {
         applyAndAnimateRemovals(activities);
@@ -121,18 +122,20 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
 
+    /**
+     * ViewHolder pattern for holding {@link Activities} objects.
+     */
     public static class ActivityViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
+        CardView cardViewActivity;
         private TextView txtViewActivityName;
         private TextView txtViewDistance;
         private TextView txtViewObservations;
         private TextView txtViewPeople;
 
         public ActivityViewHolder(View itemView) {
-
             super(itemView);
-            cv = (CardView) itemView.findViewById(R.id.cardview_activity);
+            cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_activity);
             txtViewActivityName = (TextView) itemView.findViewById(R.id.textView_activityNameMain);
             txtViewDistance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
             txtViewObservations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);

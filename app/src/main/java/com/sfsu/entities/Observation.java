@@ -21,7 +21,6 @@ import java.util.List;
 
 public class Observation implements Parcelable, Entity {
 
-
     public static final Creator<Observation> CREATOR = new Creator<Observation>() {
         @Override
         public Observation createFromParcel(Parcel in) {
@@ -35,25 +34,24 @@ public class Observation implements Parcelable, Entity {
     };
 
     private String id;
-    private String geoLocation;
+    private String geo_location;
     private String tickName;
     private String imageUrl;
-    private int num_ticks;
+    private int num_of_ticks;
     private long timestamp, created_at, updated_at;
-    private Bitmap tickImage;
+    private Bitmap tick_image;
+    private String user_id;
 
     @SerializedName("location")
     private EntityLocation locationObj;
-
     @SerializedName("tick")
     private Tick tickObj;
 
-    private String user_id;
 
     // REQUIRED : Default Constructor
     public Observation() {
     }
-    
+
     /**
      * IMP : Constructor overloading to create the Observation object for sending it over to Server via Retrofit.
      *
@@ -66,7 +64,7 @@ public class Observation implements Parcelable, Entity {
     public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj,
                        String user_id) {
         this.imageUrl = imageUrl;
-        this.num_ticks = num_ticks;
+        this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;
         this.tickName = tickName;
@@ -75,14 +73,14 @@ public class Observation implements Parcelable, Entity {
 
     // constructor for demo purposes
     public Observation(String tickName, String geoLocation, long timestamp) {
-        this.geoLocation = geoLocation;
+        this.geo_location = geoLocation;
         this.timestamp = timestamp;
     }
 
     protected Observation(Parcel in) {
         id = in.readString();
-        geoLocation = in.readString();
-        num_ticks = in.readInt();
+        geo_location = in.readString();
+        num_of_ticks = in.readInt();
         timestamp = in.readLong();
         created_at = in.readLong();
         updated_at = in.readLong();
@@ -123,11 +121,11 @@ public class Observation implements Parcelable, Entity {
     }
 
     public String getGeoLocation() {
-        return geoLocation;
+        return geo_location;
     }
 
     public void setGeoLocation(String geoLocation) {
-        this.geoLocation = geoLocation;
+        this.geo_location = geoLocation;
     }
 
     public String getId() {
@@ -163,11 +161,11 @@ public class Observation implements Parcelable, Entity {
     }
 
     public int getNum_ticks() {
-        return num_ticks;
+        return num_of_ticks;
     }
 
     public void setNum_ticks(int num_ticks) {
-        this.num_ticks = num_ticks;
+        this.num_of_ticks = num_ticks;
     }
 
     public long getTimestamp() {
@@ -203,8 +201,8 @@ public class Observation implements Parcelable, Entity {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(geoLocation);
-        dest.writeInt(num_ticks);
+        dest.writeString(geo_location);
+        dest.writeInt(num_of_ticks);
         dest.writeLong(timestamp);
         dest.writeLong(created_at);
         dest.writeLong(updated_at);

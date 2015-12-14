@@ -37,6 +37,7 @@ import com.sfsu.db.TickDao;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
+import com.sfsu.helper.TickHelper;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
@@ -198,7 +199,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         // identify the ListView
         ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
 
-        tickList = Tick.getAllTicks();
+        tickList = TickHelper.getAllTicks();
 
         // Build an ArrayAdapter
         final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);

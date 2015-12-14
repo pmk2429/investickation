@@ -27,7 +27,6 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
 
     private List<Tick> tickList;
 
-
     public TicksListAdapter(List<Tick> tickList) {
         this.tickList = tickList;
     }
@@ -43,8 +42,12 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     @Override
     public void onBindViewHolder(TicksListAdapter.TickViewHolder holder, int position) {
         if (holder != null) {
-            holder.txtTickName.setText("American Dog Tick");
-            holder.txtTickDetail.setText("Click Here to view details");
+            if (tickList != null) {
+                Tick mTick = tickList.get(position);
+                holder.txtTickName.setText(mTick.getTickName());
+                holder.imageViewTick.setImageBitmap(null);
+                holder.txtTickDetail.setText(R.string.tick_click_here_for_details);
+            }
         }
     }
 
