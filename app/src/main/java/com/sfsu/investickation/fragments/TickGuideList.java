@@ -271,7 +271,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                mInterface.onTickListItemClick(tickList.get(position));
+                mInterface.onTickListItemClickListener(tickList.get(position));
             }
 
             @Override
@@ -292,7 +292,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
          *
          * @param tick
          */
-        public void onTickListItemClick(Tick mTick);
+        public void onTickListItemClickListener(Tick mTick);
 
 
     }

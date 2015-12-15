@@ -44,7 +44,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)
     FloatingActionButton addProject;
-    
+
     private IActivityCallBacks mInterface;
     private Context mContext;
     private List<Activities> serverActivitiesList;
@@ -133,7 +133,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
                     @Override
                     public void onItemClick(View view, int position) {
                         // call the interface callback to listen to the item click event
-                        mInterface.onItemClickListener(serverActivitiesList.get(position));
+                        mInterface.onActivitiesListItemClickListener(serverActivitiesList.get(position));
                     }
 
                     @Override
@@ -224,7 +224,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         /**
          * Callback method to handle the Item click event of ActivityList.
          */
-        public void onItemClickListener(Activities mActivity);
+        public void onActivitiesListItemClickListener(Activities mActivity);
 
         /**
          * Callback method to handle the click event of the Add Button in ActivityList Fragment.

@@ -33,14 +33,16 @@ public class Tick implements Parcelable, Entity {
     };
 
     private String id;
-    @SerializedName("name")
+    @SerializedName("common_name")
     private String tickName;
+    private String scientific_name;
     private String species;
     private String known_for;
     private String description;
     @SerializedName("image_url")
     private String imageUrl;
     private Bitmap image;
+    private String found_near_habitat;
     private long created_at1, updated_at1;
 
     public Tick() {
@@ -63,17 +65,19 @@ public class Tick implements Parcelable, Entity {
      * @param created_at
      * @param updated_at
      */
-    public Tick(String id, String tickName, String species, String known_for, String description, Bitmap image, long created_at, long updated_at) {
+    public Tick(String id, String commonName, String scientific_name, String species, String known_for, String description,
+                Bitmap image, String found_near_habitat, long created_at, long updated_at) {
         this.id = id;
-        this.tickName = tickName;
+        this.tickName = commonName;
         this.species = species;
         this.known_for = known_for;
+        this.scientific_name = scientific_name;
         this.description = description;
         this.image = image;
         this.created_at1 = created_at;
         this.updated_at1 = updated_at;
+        this.found_near_habitat = found_near_habitat;
     }
-
 
     /**
      * Constructor overloading for creating {@link Tick} instances using.
@@ -123,6 +127,30 @@ public class Tick implements Parcelable, Entity {
         ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
         ticks.add(new Tick("Jungle tick", "Dangerous species"));
         return ticks;
+    }
+
+    public String getFound_near_habitat() {
+        return found_near_habitat;
+    }
+
+    public void setFound_near_habitat(String found_near_habitat) {
+        this.found_near_habitat = found_near_habitat;
+    }
+
+    public String getScientific_name() {
+        return scientific_name;
+    }
+
+    public void setScientific_name(String scientific_name) {
+        this.scientific_name = scientific_name;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public String getTickName() {

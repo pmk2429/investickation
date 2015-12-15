@@ -8,9 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.TickGuideMasterActivity;
+
+import butterknife.Bind;
 
 /**
  * Displays the detailed information about each Tick in the InvesTICKations project.
@@ -18,6 +22,21 @@ import com.sfsu.investickation.R;
 public class TickGuideDetail extends Fragment {
 
     private final String LOGTAG = "~!@#TickDetail :";
+    @Bind(R.id.textViewStatic_tickDet_knownFor)
+    TextView txtView_knownFor;
+    @Bind(R.id.textView_tickDet_tickFormalName)
+    TextView txtView_tickFormalName;
+    @Bind(R.id.textView_tickDet_tickLocation)
+    TextView txtView_tickLocation;
+    @Bind(R.id.textView_tickDet_tickName)
+    TextView txtView_tickName;
+    @Bind(R.id.textView_tickDet_tickSpecies)
+    TextView txtView_tickSpecies;
+    @Bind(R.id.textView_tickDet_tickDetails)
+    TextView txtView_description;
+
+    private Bundle args;
+    private Tick mTick;
 
     public TickGuideDetail() {
         // Required empty public constructor
@@ -42,30 +61,33 @@ public class TickGuideDetail extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getActivity().setTitle("Tick Details");
+        if (getArguments() != null) {
+            args = getArguments();
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_guide_detail, container, false);
-
-        // identify the Toolbar and remove it.
-//        Toolbar parentActivityToolbar = ((TickGuideMasterActivity) getActivity()).mToolbar;
-//        parentActivityToolbar.removeAllViews();
-//        parentActivityToolbar.removeAllViewsInLayout();
-
-
         final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);
 
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) rootView.findViewById(R.id.collapsing_toolbar_guideDetail);
-        collapsingToolbar.setTitle("Tick Name");
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id
+                .collapsing_toolbar_guideDetail);
+
+        if (args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL) != null) {
+            mTick = args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL);
+        }
+
+        collapsingToolbar.setTitle(mTick.getTickName());
+
+        txtView_tickSpecies.setText(mTick.getSpecies());
+        txtView_knownFor.setText(mTick.getKnown_for());
+        txtView_tickFormalName.setText(mTick.getScientific_name());
+        txtView_description.setText(mTick.getDescription());
+        txtView_tickLocation.setText(mTick.getFound_near_habitat());
 
         return rootView;
     }
-
-
 }

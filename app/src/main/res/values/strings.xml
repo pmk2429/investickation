@@ -105,9 +105,17 @@
     <!-- Tick adapter -->
     <string name="tick_click_here_for_details">Click here for more details</string>
 
+    <!-- Tick Details-->
+    <string name="basicInfo">Basic Information</string>
+    <string name="tick_species">Species:</string>
+    <string name="tick_knownFor">Known For:</string>
+    <string name="tick_formalName">Formal Name:</string>
+    <string name="tick_location_habitat">Habitat:</string>
+
     <!-- Error methods for all the Validations-->
     <string name="error_invalid_string">Enter valid text</string>
     <string name="error_empty_string">Empty Character Sequence</string>
+
     <!--<string name="error_invalid_email">Invalid Email ID</string>-->
     <string name="error_invalid_password">Incorrect Password</string>
     <string name="error_NAN">Enter valid numeric value</string>

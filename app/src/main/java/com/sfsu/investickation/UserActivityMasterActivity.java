@@ -120,7 +120,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
 
     @Override
-    public void onItemClickListener(Activities mActivity) {
+    public void onActivitiesListItemClickListener(Activities mActivity) {
         ActivityDetails mActivityDetailsFragment = ActivityDetails.newInstance(KEY_ACTIVITY_DETAILS, mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.activity_fragment_container, mActivityDetailsFragment);

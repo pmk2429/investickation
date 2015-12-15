@@ -1,5 +1,6 @@
 package com.sfsu.investickation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,15 +12,14 @@ import com.sfsu.entities.Tick;
 import com.sfsu.investickation.fragments.TickGuideDetail;
 import com.sfsu.investickation.fragments.TickGuideList;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 
 
 public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideList.IGuideIndexCallBacks {
 
+    public final static String KEY_TICK_DETAIL = "tick_object_detail";
     private final String LOGTAG = "~!@#$TickGuideMasterActivity :";
-    private final String KEY_TICK_DETAIL = "tick_object_detail";
     private ArrayList<Tick> tickList;
     private ArrayList<Entity> entityList;
 
@@ -46,16 +46,23 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             }
 
             TickGuideList guideIndexFragment = new TickGuideList();
-            Bundle ticksListBundle = new Bundle();
-            ticksListBundle.putParcelableArrayList(AppUtils.TICK_LIST_KEY, tickList);
-
-            // if activity was started with special instructions from an Intent, then pass Intent's extras
-            // to fragments as arguments
-            guideIndexFragment.setArguments(getIntent().getExtras());
-
             // add the Fragment to 'guide_fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.guide_fragment_container, guideIndexFragment).commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            Intent homeIntent = new Intent(TickGuideMasterActivity.this, MainActivity.class);
+            startActivity(homeIntent);
+            finish();
+            super.onBackPressed();
+        } else if (count > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     @Override
@@ -91,10 +98,10 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
     }
 
     @Override
-    public void onTickListItemClick(Tick tick) {
-        TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, tick);
+    public void onTickListItemClickListener(Tick mTick) {
+        TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, mTick);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
+        transaction.add(R.id.guide_fragment_container, guideDetailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
