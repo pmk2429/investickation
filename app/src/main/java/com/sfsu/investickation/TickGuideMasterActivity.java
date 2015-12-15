@@ -29,16 +29,8 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guidmaster);
 
-        // get the list of ticks from the REST API using RetrofitController
-//        entityList = retrofitController.getAll(AppUtils.TICK_RESOURCE);
-
-        // one of the solution
-        //tickList = (ArrayList<Tick>) (ArrayList<?>) entityList;
-
         // if Fragment container is present,
         if (findViewById(R.id.guide_fragment_container) != null) {
-
-
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
@@ -101,7 +93,8 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
     public void onTickListItemClickListener(Tick mTick) {
         TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, mTick);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.guide_fragment_container, guideDetailFragment);
+        transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.addToBackStack(null);
         transaction.commit();
     }

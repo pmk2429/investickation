@@ -106,6 +106,7 @@
     <string name="tick_click_here_for_details">Click here for more details</string>
 
     <!-- Tick Details-->
+    <string name="tickDetails_toolbar_title">Tick Details</string>
     <string name="basicInfo">Basic Information</string>
     <string name="tick_species">Species:</string>
     <string name="tick_knownFor">Known For:</string>

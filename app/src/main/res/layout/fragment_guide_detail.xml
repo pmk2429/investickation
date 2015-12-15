@@ -87,10 +87,10 @@
                         <TextView
                             android:id="@+id/textView_tickDet_tickName"
                             android:layout_width="match_parent"
-                            android:layout_height="48dp"
+                            android:layout_height="@dimen/widget_dimen"
                             android:gravity="top|start"
-                            android:paddingStart="16dp"
-                            android:paddingTop="16dp"
+                            android:paddingStart="@dimen/view_dimen_large"
+                            android:paddingTop="@dimen/view_dimen_large"
                             android:text="American Dog Tick"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
@@ -119,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/cardview_tickGuide_detail_heading"
                     android:layout_margin="@dimen/view_dimen_large"
+                    android:layout_marginBottom="@dimen/widget_dimen"
                     android:padding="@dimen/view_dimen_large"
                     card_view:cardPreventCornerOverlap="false">
 

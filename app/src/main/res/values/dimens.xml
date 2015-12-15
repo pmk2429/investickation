@@ -25,6 +25,7 @@
     <dimen name="widget_dimen_medium">40dp</dimen>
     <dimen name="widget_dimen">48dp</dimen>
     <dimen name="widget_dimen_large">56dp</dimen>
+    <dimen name="widget_dimen_X_large">64dp</dimen>
     <dimen name="widget_dimen_X1_large">72dp</dimen>
     <dimen name="widget_dimen_X2_large">96dp</dimen>
     <dimen name="widget_dimen_X3_large">120dp</dimen>

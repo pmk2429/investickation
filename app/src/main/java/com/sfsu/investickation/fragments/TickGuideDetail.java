@@ -15,6 +15,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.TickGuideMasterActivity;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Displays the detailed information about each Tick in the InvesTICKations project.
@@ -71,17 +72,20 @@ public class TickGuideDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_guide_detail, container, false);
-        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);
+        ButterKnife.bind(this, rootView);
 
+        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id
                 .collapsing_toolbar_guideDetail);
+        collapsingToolbar.setTitle("Tick Details");
+        String title = getResources().getString(R.string.tickDetails_toolbar_title);
+
 
         if (args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL) != null) {
             mTick = args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL);
         }
 
-        collapsingToolbar.setTitle(mTick.getTickName());
-
+        txtView_tickName.setText(mTick.getTickName());
         txtView_tickSpecies.setText(mTick.getSpecies());
         txtView_knownFor.setText(mTick.getKnown_for());
         txtView_tickFormalName.setText(mTick.getScientific_name());
