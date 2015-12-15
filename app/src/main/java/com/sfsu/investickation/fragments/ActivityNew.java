@@ -31,6 +31,8 @@ import com.sfsu.utils.AppUtils;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import butterknife.Bind;
+
 /**
  * ActivityNew Fragment provides User the capability to add new Activity. The ActivityNew fragment passes the newly created
  * Activities object to the ActivityRunning fragment.
@@ -39,17 +41,30 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
     private static final int ID_LENGTH = 16;
     private final String LOGTAG = "~!@#$ActivityNew :";
+
+    @Bind(R.id.editText_ActivityName)
+    private EditText et_activityName;
+    @Bind(R.id.editText_numOfPeople)
+    private EditText et_totalPeople;
+    @Bind(R.id.editText_totalPets)
+    private EditText et_totalPets;
+    @Bind(R.id.editText_alertDialog_manualInput)
+    private EditText et_manualInput;
+    @Bind(R.id.spinner_reminder)
+    private TextView txtView_setReminder;
+    @Bind(R.id.button_alertDialog_30)
+    private Button btnHalfHour;
+    @Bind(R.id.button_alertDialog_60)
+    private Button btnHour;
+
     private GoogleMap googleMap;
     private MapView mapView;
     private SupportMapFragment fragment;
     private Context mContext;
     private IActivityNewCallBack mInterface;
-    private TextView txtView_setReminder;
     private Activities newActivityObj;
-    private EditText et_activityName, et_totalPeople, et_totalPets, et_manualInput;
     private String reminderTimeValue;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
-    private Button btnHour, btnHalfHour;
     private LocationController locationController;
     private GoogleMapController mGoogleMapController;
     private LocationController.ILocationCallBacks mLocationListener;
@@ -75,14 +90,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
         // reference for setting up the Activities Object.
         newActivityObj = new Activities();
-
-        // set the Timer Reminder.
-        txtView_setReminder = (TextView) rootView.findViewById(R.id.spinner_reminder);
-
-        // collect all the data for the New Activity posted by user.
-        et_activityName = (EditText) rootView.findViewById(R.id.editText_ActivityName);
-        et_totalPeople = (EditText) rootView.findViewById(R.id.editText_numOfPeople);
-        et_totalPets = (EditText) rootView.findViewById(R.id.editText_totalPets);
 
         et_activityName.addTextChangedListener(new TextValidator(et_activityName));
         et_totalPeople.addTextChangedListener(new TextValidator(et_totalPeople));
@@ -147,10 +154,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         View convertView = inflater.inflate(R.layout.alertdialog_reminder, null);
         alertDialog.setTitle("Set Reminder");
         // set the onClickListener for each buttons defined in the custom layout.
-
-        btnHalfHour = (Button) convertView.findViewById(R.id.button_alertDialog_30);
-        btnHour = (Button) convertView.findViewById(R.id.button_alertDialog_60);
-        et_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_manualInput);
 
         btnHalfHour.setOnClickListener(new View.OnClickListener() {
             @Override

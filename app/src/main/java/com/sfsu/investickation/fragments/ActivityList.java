@@ -30,6 +30,9 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Shows list of Activities created by User. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
  * user's choice.
@@ -37,10 +40,14 @@ import java.util.List;
 public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String LOGTAG = "~!@#ActivityList :";
+    @Bind(R.id.recyclerview_activity_list)
+    RecyclerView recyclerView_activity;
+    @Bind(R.id.fab_activity_add)
+    FloatingActionButton addProject;
+    
     private IActivityCallBacks mInterface;
     private Context mContext;
     private List<Activities> serverActivitiesList;
-    private RecyclerView recyclerView_activity;
     private ActivitiesListAdapter mActivitiesListAdapter;
 
     public ActivityList() {
@@ -61,21 +68,21 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_activity_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_activity_list, container, false);
 
-        recyclerView_activity = (RecyclerView) v.findViewById(R.id.recyclerview_activity_list);
+        ButterKnife.bind(this, rootView);
+
         recyclerView_activity.setHasFixedSize(true);
 
         if (mContext != null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
-            
+
         } else {
             Log.d(LOGTAG, " No layout manager supplied");
         }
 
         // Add new Activity button.
-        final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_activity_add);
         addProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,7 +90,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             }
         });
 
-        return v;
+        return rootView;
     }
 
 

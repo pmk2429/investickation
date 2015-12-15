@@ -14,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:id="@+id/relativeLayout_activityDetailsHeading"
@@ -33,15 +33,15 @@
                     android:src="@mipmap/placeholder_maps"/>
 
                 <TextView
-                    android:id="@+id/textView_observationCount"
+                    android:id="@+id/textView_actDet_observationCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/mapView_activityDetails"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/view_dimen_large"
-                    android:layout_marginLeft="@dimen/view_dimen_large"
-                    android:layout_marginRight="@dimen/view_dimen_small"
+                    android:layout_marginEnd="@dimen/view_dimen_small"
+                    android:layout_marginStart="@dimen/view_dimen_large"
                     android:background="@color/secondaryText"
                     android:paddingLeft="@dimen/view_dimen_X_small"
                     android:paddingRight="@dimen/view_dimen_X_small"
@@ -52,7 +52,7 @@
 
 
                 <TextView
-                    android:id="@+id/textView_activityName"
+                    android:id="@+id/textView_actDet_activityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/mapView_activityDetails"
@@ -64,10 +64,10 @@
                     android:textSize="@dimen/font_X_large"/>
 
                 <TextView
-                    android:id="@+id/textView_totalPeople"
+                    android:id="@+id/textView_actDet_totalPeople"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_activityName"
+                    android:layout_below="@id/textView_actDet_activityName"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/view_dimen_small"
                     android:text="5 people"
@@ -76,10 +76,10 @@
                     android:textSize="@dimen/font_small"/>
 
                 <TextView
-                    android:id="@+id/textView_totalPets"
+                    android:id="@+id/textView_actDet_totalPets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_totalPeople"
+                    android:layout_below="@id/textView_actDet_totalPeople"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="@dimen/view_dimen_large"
                     android:layout_marginTop="@dimen/view_dimen_small"
@@ -119,12 +119,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/view_dimen_medium"
                             android:gravity="top|start"
-                            android:paddingLeft="@dimen/view_dimen_large"
+                            android:paddingStart="@dimen/view_dimen_large"
                             android:paddingTop="@dimen/view_dimen_small"
-                            android:text="Your Activity details:"
+                            android:text="@string/activityDetails"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="18dp"/>
+                            android:textSize="@dimen/font_medium"/>
 
                         <View
                             android:id="@+id/separator_observation_2"
@@ -136,7 +136,7 @@
                             android:background="@color/divider"/>
 
                         <TextView
-                            android:id="@+id/textView_totalLocations"
+                            android:id="@+id/textView_actDet_totalLocations"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/separator_observation_2"
@@ -151,7 +151,7 @@
                             android:id="@+id/textView_totalDistance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/textView_totalLocations"
+                            android:layout_below="@id/textView_actDet_totalLocations"
                             android:layout_centerInParent="true"
                             android:layout_marginBottom="@dimen/view_dimen_large"
                             android:layout_marginTop="@dimen/view_dimen_small"
@@ -172,7 +172,7 @@
                         android:gravity="center">
 
                         <Button
-                            android:id="@+id/button_viewAllObservation"
+                            android:id="@+id/button_actDet_viewAllObservation"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/widget_dimen"
                             android:layout_centerInParent="true"

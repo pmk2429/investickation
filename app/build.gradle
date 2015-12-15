@@ -22,11 +22,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    // compile 'com.android.support:appcompat-v7:21.0.3'
-    // third party libraries
-    // Rest API - Retrofit
-    //Picasso
-    // Material Design Buttons and CardViews
     compile('com.github.florent37:materialviewpager:1.1.0@aar') {
         transitive = true
     }
@@ -37,7 +32,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:cardview-v7:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
-    compile 'com.jakewharton:butterknife:6.1.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta1'
     compile 'com.squareup:otto:1.3.8'

@@ -30,14 +30,14 @@
     <dimen name="widget_dimen_X3_large">120dp</dimen>
 
     <!-- Dimensions for Font size : Application wide-->
-    <dimen name="font_X_small">14dp</dimen>
-    <dimen name="font_small">16dp</dimen>
-    <dimen name="font_medium">18dp</dimen>
-    <dimen name="font_large">20dp</dimen>
-    <dimen name="font_X_large">22dp</dimen>
-    <dimen name="font_X1_large">24dp</dimen>
-    <dimen name="font_X2_large">28dp</dimen>
-    <dimen name="font_X3_large">36dp</dimen>
+    <dimen name="font_X_small">14sp</dimen>
+    <dimen name="font_small">16sp</dimen>
+    <dimen name="font_medium">18sp</dimen>
+    <dimen name="font_large">20sp</dimen>
+    <dimen name="font_X_large">22sp</dimen>
+    <dimen name="font_X1_large">24sp</dimen>
+    <dimen name="font_X2_large">28sp</dimen>
+    <dimen name="font_X3_large">36sp</dimen>
 
     <!-- Dimen for Thumbnail MapView and Images Cardview -->
     <dimen name="cardview_default">180dp</dimen>
