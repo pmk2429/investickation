@@ -167,7 +167,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/view_dimen_large"
-                        android:layout_marginTop="@dimen/view_dimen_large"
                         android:background="@drawable/dashboard_card_border"
                         android:gravity="center">
 

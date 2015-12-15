@@ -29,10 +29,13 @@ import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.TickEvent;
+import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,11 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", AppUtils.GET_ALL_METHOD));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,31 +80,9 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         if (mContext != null) {
             recyclerView_tickList.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            Log.d(LOGTAG, "Guide Activity not found");
+            Log.d(LOGTAG, "Failed to load layout manager");
         }
 
-        //TODO: get the data passed by the Activity and pass it to Adapter
-        //tickList = getArguments().getParcelableArrayList(AppUtils.TICK_LIST_KEY);
-
-        tickList = Tick.initializeData();
-
-        ticksListAdapter = new TicksListAdapter(tickList);
-        recyclerView_tickList.setAdapter(ticksListAdapter);
-
-
-        // set on click listener for the item click of recyclerview
-        recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                mInterface.onGuideItemClick();
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        }));
         return v;
     }
 
@@ -257,6 +243,45 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         BusProvider.bus().register(this);
     }
 
+    @Subscribe
+    public void onTicksLoadSuccess(TickEvent.OnLoaded onLoaded) {
+        if (onLoaded.getResponseList() != null) {
+            tickList = onLoaded.getResponseList();
+            displayTickList();
+        } else {
+            // TODO : display error message
+        }
+    }
+
+    @Subscribe
+    public void onTicksLoadSuccess(TickEvent.OnLoadingError onLoadingError) {
+        Log.i(LOGTAG, "failed to load ticks");
+    }
+
+
+    /**
+     * Helper method to display list of Ticks
+     */
+    private void displayTickList() {
+
+        ticksListAdapter = new TicksListAdapter(tickList);
+        recyclerView_tickList.setAdapter(ticksListAdapter);
+
+        // set on click listener for the item click of recyclerview
+        recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                mInterface.onTickListItemClick(tickList.get(position));
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
+    }
+
+
     /**
      * Callback Interface to handle onClick Listeners in {@link TickGuideList} Fragment.
      */
@@ -264,8 +289,10 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
         /**
          * Callback method to provide an interface to listen to data sent or button clicked in {@link TickGuideList} Fragment
+         *
+         * @param tick
          */
-        public void onGuideItemClick();
+        public void onTickListItemClick(Tick mTick);
 
 
     }

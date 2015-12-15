@@ -58,35 +58,26 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
                 return;
             }
 
-            // is the ActivityNew is being called
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) { // if user clicks on Start Activity
                 ActivityNew activityNewFragment = new ActivityNew();
                 FragmentTransaction activityNewTransaction = getSupportFragmentManager().beginTransaction();
                 activityNewTransaction.add(R.id.activity_fragment_container, activityNewFragment);
-//                activityNewTransaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE THE FIRST FRAGMENT IN THE STACK
                 activityNewTransaction.commit();
-            }
-            // if ActivityList is being called.
-            else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) { // if user clicks on ActivityList
+            } else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) { // if user clicks on ActivityList
                 ActivityList activityList = new ActivityList();
                 FragmentTransaction activityListFragment = getSupportFragmentManager().beginTransaction();
-                activityListFragment.replace(R.id.activity_fragment_container, activityList);
-//                activityListFragment.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN THE STACK
+                activityListFragment.add(R.id.activity_fragment_container, activityList);
                 activityListFragment.commit();
             }
             /* if no press, open ActivityList. The first time the UserActivityMasterActivity is opened, the default Fragment
             to be displayed it the ActivityList Fragment.
-
             Since this Fragment displays the List of Activities stored in the Server, we have to pass the List of Activities
             in the Bundle to this Fragment.
              */
-
             else {
-                Log.i(LOGTAG, "its going OK");
                 ActivityList activityListFragment = new ActivityList();
                 // add Fragment to 'activity_fragment_container'
-                getSupportFragmentManager().beginTransaction().replace(R.id.activity_fragment_container, activityListFragment)
-                        .commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.activity_fragment_container, activityListFragment).commit();
             }
         }
     }
@@ -132,7 +123,7 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     public void onItemClickListener(Activities mActivity) {
         ActivityDetails mActivityDetailsFragment = ActivityDetails.newInstance(KEY_ACTIVITY_DETAILS, mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_fragment_container, mActivityDetailsFragment);
+        transaction.add(R.id.activity_fragment_container, mActivityDetailsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

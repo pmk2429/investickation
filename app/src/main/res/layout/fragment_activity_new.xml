@@ -200,19 +200,19 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignStart="@+id/icon_activity"
-        android:layout_alignTop="@+id/spinner_reminder"
+        android:layout_alignTop="@+id/textView_reminder"
         android:padding="@dimen/view_dimen_medium"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_add_alarm_black_36dp"/>
 
     <TextView
-        android:id="@+id/spinner_reminder"
+        android:id="@+id/textView_reminder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/layout_bars"
-        android:layout_marginRight="@dimen/view_dimen_large"
+        android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_large"
-        android:layout_toRightOf="@id/icon_reminder"
+        android:layout_toEndOf="@id/icon_reminder"
         android:paddingTop="@dimen/view_dimen_small"
         android:text="Set Reminder"
         android:textColor="@color/colorBlack"
@@ -226,7 +226,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="@dimen/view_dimen_small"
+        android:layout_marginEnd="@dimen/view_dimen_small"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
         fab:fab_icon="@drawable/ic_play_arrow_white_36dp"/>

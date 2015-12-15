@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideList.IGuideIndexCallBacks {
 
     private final String LOGTAG = "~!@#$TickGuideMasterActivity :";
+    private final String KEY_TICK_DETAIL = "tick_object_detail";
     private ArrayList<Tick> tickList;
     private ArrayList<Entity> entityList;
 
@@ -89,10 +90,9 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         return super.onOptionsItemSelected(item);
     }
 
-    // callback interface to listen to onClick event in GuideIndex Fragment
     @Override
-    public void onGuideItemClick() {
-        TickGuideDetail guideDetailFragment = new TickGuideDetail();
+    public void onTickListItemClick(Tick tick) {
+        TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, tick);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
         transaction.addToBackStack(null);

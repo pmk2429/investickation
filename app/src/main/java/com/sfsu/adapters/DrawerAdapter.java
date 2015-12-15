@@ -14,14 +14,14 @@ import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.investickation.UserProfileActivity;
 
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
@@ -136,9 +136,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         protected int viewType;
         Context context;
 
-        @InjectView(R.id.drawer_row_icon)
+        @Bind(R.id.drawer_row_icon)
         ImageView imageView;
-        @InjectView(R.id.drawer_row_text)
+        @Bind(R.id.drawer_row_text)
         TextView textView;
 
         public ViewHolder(View itemView, int viewType, Context context) {
@@ -150,7 +150,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
             itemView.setOnClickListener(this);
 
             if (viewType == ROW_TYPE) {
-                ButterKnife.inject(this, itemView);
+                ButterKnife.bind(this, itemView);
             }
         }
 

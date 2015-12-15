@@ -41,7 +41,7 @@ public class Tick implements Parcelable, Entity {
     @SerializedName("image_url")
     private String imageUrl;
     private Bitmap image;
-    private long created_at, updated_at;
+    private long created_at1, updated_at1;
 
     public Tick() {
     }
@@ -70,8 +70,8 @@ public class Tick implements Parcelable, Entity {
         this.known_for = known_for;
         this.description = description;
         this.image = image;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.created_at1 = created_at;
+        this.updated_at1 = updated_at;
     }
 
 
@@ -99,8 +99,8 @@ public class Tick implements Parcelable, Entity {
         known_for = in.readString();
         description = in.readString();
         imageUrl = in.readString();
-        created_at = in.readLong();
-        updated_at = in.readLong();
+        created_at1 = in.readLong();
+        updated_at1 = in.readLong();
     }
 
     /**
@@ -166,25 +166,25 @@ public class Tick implements Parcelable, Entity {
     }
 
     public long getCreated_at() {
-        return created_at;
+        return created_at1;
     }
 
     public void setCreated_at(long created_at) {
-        this.created_at = created_at;
+        this.created_at1 = created_at;
     }
 
     public long getUpdated_at() {
-        return updated_at;
+        return updated_at1;
     }
 
     public void setUpdated_at(long updated_at) {
-        this.updated_at = updated_at;
+        this.updated_at1 = updated_at;
     }
 
     @Override
     public String toString() {
         return id + " : " + tickName + " : " + species + " : " + known_for + " : " + description + " : " + imageUrl +
-                " : " + created_at + " : " + updated_at;
+                " : " + created_at1 + " : " + updated_at1;
     }
 
     @Override
@@ -208,8 +208,8 @@ public class Tick implements Parcelable, Entity {
         parcel.writeString(known_for);
         parcel.writeString(description);
         parcel.writeString(imageUrl);
-        parcel.writeLong(created_at);
-        parcel.writeLong(updated_at);
+        parcel.writeLong(created_at1);
+        parcel.writeLong(updated_at1);
     }
 
     @Override

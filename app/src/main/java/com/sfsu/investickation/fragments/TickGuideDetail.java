@@ -9,10 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 
 /**
- * Represents the detailed information about each Tick in the InvesTICKations project.
+ * Displays the detailed information about each Tick in the InvesTICKations project.
  */
 public class TickGuideDetail extends Fragment {
 
@@ -20,6 +21,21 @@ public class TickGuideDetail extends Fragment {
 
     public TickGuideDetail() {
         // Required empty public constructor
+    }
+
+    /**
+     * Method to create {@link TickGuideDetail} instance.
+     *
+     * @param key
+     * @param tickObj
+     * @return
+     */
+    public static TickGuideDetail newInstance(String key, Tick tickObj) {
+        TickGuideDetail tickGuideDetailFragment = new TickGuideDetail();
+        Bundle args = new Bundle();
+        args.putParcelable(key, tickObj);
+        tickGuideDetailFragment.setArguments(args);
+        return tickGuideDetailFragment;
     }
 
 

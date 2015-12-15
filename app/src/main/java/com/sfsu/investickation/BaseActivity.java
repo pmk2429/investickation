@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by Pavitra on 7/8/2015.
  */
@@ -27,11 +24,8 @@ public class BaseActivity extends ActionBarActivity {
 
     private final String LOGTAG = "~!@#$BaseActivity:";
     // InjectView is used to inject the UI controls using ButterKnife library.
-    @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @Bind(R.id.toolbar_base)
     Toolbar toolbar;
-    @Bind(R.id.drawer_recyclerView)
     RecyclerView drawer_recyclerView;
 
     //Context context;
@@ -40,7 +34,6 @@ public class BaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
     }
 
 
@@ -48,6 +41,10 @@ public class BaseActivity extends ActionBarActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_base);
+        drawer_recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerView);
+        
         // set the toolbar_master injected using ButterKnife library.
         setSupportActionBar(toolbar);
 

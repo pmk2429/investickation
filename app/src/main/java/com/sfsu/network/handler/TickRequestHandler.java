@@ -1,12 +1,16 @@
 package com.sfsu.network.handler;
 
+import android.util.Log;
+
 import com.sfsu.entities.Tick;
 import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.TickApiService;
+import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit.Call;
@@ -27,7 +31,9 @@ import retrofit.Response;
  */
 public class TickRequestHandler extends ApiRequestHandler {
 
+    private final String LOGTAG = "~!@#$TickReqHdlr: ";
     private TickApiService mApiService;
+    private Bus mBus;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -35,7 +41,8 @@ public class TickRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public TickRequestHandler(Bus bus) {
-        mApiService = RetrofitApiClient.createService(TickApiService.class);
+        mApiService = RetrofitApiClient.createService(TickApiService.class, "vEr7lrb9Q56egAc9LRgI11cY3VQ5lXbmCinRTZCdLS21XkAZhYnpqWFY1m4nuemI");
+        this.mBus = bus;
     }
 
 
@@ -83,12 +90,30 @@ public class TickRequestHandler extends ApiRequestHandler {
         tickCall.enqueue(new Callback<Tick>() {
             @Override
             public void onResponse(Response<Tick> response) {
-
+                Log.i(LOGTAG, "inside onResponse");
+                if (response.isSuccess()) {
+                    Log.i(LOGTAG, "Response Success");
+                    mBus.post(new TickEvent.OnLoaded(response.body()));
+                } else {
+                    Log.i(LOGTAG, "Response Failure");
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new TickEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(TickEvent.FAILED);
+                    }
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                Log.i(LOGTAG, "inside onFailure");
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new TickEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(TickEvent.FAILED);
+                }
             }
         });
     }
@@ -103,12 +128,30 @@ public class TickRequestHandler extends ApiRequestHandler {
         listTickCall.enqueue(new Callback<List<Tick>>() {
             @Override
             public void onResponse(Response<List<Tick>> response) {
-
+                Log.i(LOGTAG, "inside onResponse");
+                if (response.isSuccess()) {
+                    Log.i(LOGTAG, "Response Success");
+                    mBus.post(new TickEvent.OnLoaded(response.body()));
+                } else {
+                    Log.i(LOGTAG, "Response Failure");
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new TickEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(TickEvent.FAILED);
+                    }
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                Log.i(LOGTAG, "inside onFailure");
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new TickEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(TickEvent.FAILED);
+                }
             }
         });
     }

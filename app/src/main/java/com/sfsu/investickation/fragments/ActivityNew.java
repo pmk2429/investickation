@@ -32,6 +32,7 @@ import com.sfsu.utils.AppUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * ActivityNew Fragment provides User the capability to add new Activity. The ActivityNew fragment passes the newly created
@@ -43,20 +44,16 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private final String LOGTAG = "~!@#$ActivityNew :";
 
     @Bind(R.id.editText_ActivityName)
-    private EditText et_activityName;
+    EditText et_activityName;
     @Bind(R.id.editText_numOfPeople)
-    private EditText et_totalPeople;
+    EditText et_totalPeople;
     @Bind(R.id.editText_totalPets)
-    private EditText et_totalPets;
-    @Bind(R.id.editText_alertDialog_manualInput)
-    private EditText et_manualInput;
-    @Bind(R.id.spinner_reminder)
-    private TextView txtView_setReminder;
-    @Bind(R.id.button_alertDialog_30)
-    private Button btnHalfHour;
-    @Bind(R.id.button_alertDialog_60)
-    private Button btnHour;
+    EditText et_totalPets;
+    @Bind(R.id.textView_reminder)
+    TextView txtView_setReminder;
 
+    private EditText et_manualInput;
+    private Button btnHalfHour, btnHour;
     private GoogleMap googleMap;
     private MapView mapView;
     private SupportMapFragment fragment;
@@ -87,6 +84,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activity_new, container, false);
+
+        ButterKnife.bind(this, rootView);
 
         // reference for setting up the Activities Object.
         newActivityObj = new Activities();
@@ -153,7 +152,11 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
         View convertView = inflater.inflate(R.layout.alertdialog_reminder, null);
         alertDialog.setTitle("Set Reminder");
+
         // set the onClickListener for each buttons defined in the custom layout.
+        et_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_manualInput);
+        btnHalfHour = (Button) convertView.findViewById(R.id.button_alertDialog_30);
+        btnHour = (Button) convertView.findViewById(R.id.button_alertDialog_60);
 
         btnHalfHour.setOnClickListener(new View.OnClickListener() {
             @Override

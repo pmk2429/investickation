@@ -41,7 +41,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     public ActivityRequestHandler(Bus bus) {
         this.mBus = bus;
-        mApiService = RetrofitApiClient.createService(ActivityApiService.class, "OzpNsYIbIi2jVxfJOecQk08YAg7CnINRdiBAiQ1QpyHBXljv7CGyASpCTiHNhSy4");
+        mApiService = RetrofitApiClient.createService(ActivityApiService.class, "vEr7lrb9Q56egAc9LRgI11cY3VQ5lXbmCinRTZCdLS21XkAZhYnpqWFY1m4nuemI");
     }
 
     /**

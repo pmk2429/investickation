@@ -20,6 +20,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Displays the details of a specific {@link Activities}. Allows {@link com.sfsu.entities.User} to see all the observations
+ * that belongs to this specific activity.
  */
 public class ActivityDetails extends Fragment {
 
@@ -51,7 +53,7 @@ public class ActivityDetails extends Fragment {
     }
 
     /**
-     * Method to create Fragment instance.
+     * Method to create {@link ActivityDetails} instance.
      *
      * @param key
      * @param mActivity
@@ -89,14 +91,19 @@ public class ActivityDetails extends Fragment {
         // once the object is collected, display it in the respective controls.
         String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
         txtView_name.setText(activityName);
+
         String observationCount = mActivity.getNum_of_ticks() + " Obs.";
         txtView_observationCount.setText(observationCount);
-        txtView_totalLocation.setText(0);
+
+        txtView_totalLocation.setText("00");
+
         String people = mActivity.getNum_of_people() + " people";
         txtView_totalPeople.setText(people);
+
         String pets = mActivity.getNum_of_pets() + " pets";
         txtView_totalPets.setText(pets);
-        txtView_totalDistance.setText(mActivity.getDistance());
+
+        txtView_totalDistance.setText("00");
 
         return rootView;
     }

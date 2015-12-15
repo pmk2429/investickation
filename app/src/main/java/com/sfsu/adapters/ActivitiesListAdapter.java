@@ -49,11 +49,11 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             String activityName = activityList.get(position).getActivityName() + " @ " + activityList.get(position)
                     .getLocation_area();
             holder.txtViewActivityName.setText(activityName);
-            String pets = activityList.get(position).getNum_people() + " pets";
+            String pets = activityList.get(position).getNum_of_pets() + " pets";
             holder.txtViewDistance.setText(pets);
             String observations = activityList.get(position).getNum_of_ticks() + " Observations";
             holder.txtViewObservations.setText(observations);
-            String people = activityList.get(position).getNum_people() + " people";
+            String people = activityList.get(position).getNum_of_people() + " people";
             holder.txtViewPeople.setText(people);
         }
     }

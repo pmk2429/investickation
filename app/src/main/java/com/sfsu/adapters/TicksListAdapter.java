@@ -45,7 +45,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
             if (tickList != null) {
                 Tick mTick = tickList.get(position);
                 holder.txtTickName.setText(mTick.getTickName());
-                holder.imageViewTick.setImageBitmap(null);
+                holder.imageViewTick.setImageResource(R.mipmap.placeholder_tick);
                 holder.txtTickDetail.setText(R.string.tick_click_here_for_details);
             }
         }
