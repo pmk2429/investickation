@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
-import com.sfsu.network.bus.BusProvider;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +34,11 @@ public class ActivityDetails extends Fragment {
     TextView txtView_totalPeople;
     @Bind(R.id.textView_actDet_totalPets)
     TextView txtView_totalPets;
+    @Bind(R.id.textView_actDet_totalDistance)
+    TextView txtView_totalDistance;
+
+    @Bind(R.id.button_actDet_viewAllObservation)
+    Button button_viewObservations;
 
     private IActivityDetailsCallBacks mListener;
     private Context mContext;
@@ -75,11 +80,23 @@ public class ActivityDetails extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
+
         // if args not null, retrieve the Activities object.
         if (args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS) != null) {
             mActivity = args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS);
         }
 
+        // once the object is collected, display it in the respective controls.
+        String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
+        txtView_name.setText(activityName);
+        String observationCount = mActivity.getNum_of_ticks() + " Obs.";
+        txtView_observationCount.setText(observationCount);
+        txtView_totalLocation.setText(0);
+        String people = mActivity.getNum_of_people() + " people";
+        txtView_totalPeople.setText(people);
+        String pets = mActivity.getNum_of_pets() + " pets";
+        txtView_totalPets.setText(pets);
+        txtView_totalDistance.setText(mActivity.getDistance());
 
         return rootView;
     }
@@ -105,13 +122,11 @@ public class ActivityDetails extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        BusProvider.bus().unregister(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        BusProvider.bus().register(this);
     }
 
 

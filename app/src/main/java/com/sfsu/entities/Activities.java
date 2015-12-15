@@ -37,16 +37,21 @@ public class Activities implements Parcelable, Entity {
     private String id;
     @SerializedName("name")
     private String activityName;
-    private int num_of_people, num_of_pets, num_of_ticks;
+    private int num_of_people;
+    private int num_of_pets;
+    private int num_of_ticks;
+    private int distance;
     private String location_area;
     private long timestamp1, created_at1, updated_at1;
     private String user_id;
     // Enum identifier for setting State of Object.
     private STATE activityState;
     private String UUID;
+
     // Default constructor -> REQUIRED
     public Activities() {
     }
+
     /**
      * Constructor overloading for creating the Activities Model and sending the object to ActivityRunning fragment.
      *
@@ -64,7 +69,7 @@ public class Activities implements Parcelable, Entity {
     }
 
     /**
-     * Constructor to create the Retrofit Model and pass it over to RetrofitController.
+     * Constructor overloading for creating Activities instance.
      *
      * @param name
      * @param location_area
@@ -75,12 +80,13 @@ public class Activities implements Parcelable, Entity {
      * @param created_at
      * @param update_at
      */
-    public Activities(String name, String location_area, int num_of_people, int num_pets, long timestamp, long created_at, long
-            updated_at) {
+    public Activities(String name, String location_area, int num_of_people, int num_pets, int distance, long timestamp, long
+            created_at, long updated_at) {
         this.activityName = name;
         this.location_area = location_area;
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
+        this.distance = distance;
         this.timestamp1 = timestamp;
         this.created_at1 = created_at;
         this.updated_at1 = updated_at;
@@ -109,6 +115,22 @@ public class Activities implements Parcelable, Entity {
         timestamp1 = in.readLong();
         created_at1 = in.readLong();
         updated_at1 = in.readLong();
+    }
+
+    public int getNum_of_people() {
+        return num_of_people;
+    }
+
+    public void setNum_of_people(int num_of_people) {
+        this.num_of_people = num_of_people;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 
     public int getNum_of_ticks() {
@@ -193,15 +215,6 @@ public class Activities implements Parcelable, Entity {
     public void setLocation_area(String location_area) {
         this.location_area = location_area;
     }
-
-    public int getNum_people() {
-        return num_of_people;
-    }
-
-    public void setNum_people(int num_people) {
-        this.num_of_people = num_people;
-    }
-
 
     public long getTimestamp() {
         return timestamp1;
