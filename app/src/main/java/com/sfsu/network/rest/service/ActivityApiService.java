@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.Observation;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import retrofit.http.Path;
 public interface ActivityApiService {
 
     /**
-     * Returns a specific {@link Activities} matching .
+     * Returns a specific {@link Activities} matching id.
      *
      * @return
      */
@@ -27,7 +28,7 @@ public interface ActivityApiService {
     public Call<Activities> get(@Path("id") String activityId);
 
     /**
-     * Returns the list of all the {@link Activities} in the server database.
+     * Returns the list of all the {@link Activities} from the server.
      *
      * @return
      */
@@ -36,7 +37,7 @@ public interface ActivityApiService {
 
 
     /**
-     * Adds new {@link Activities} record in the Server.
+     * Adds new {@link Activities} record to the Server.
      *
      * @return
      */
@@ -45,7 +46,7 @@ public interface ActivityApiService {
 
 
     /**
-     * Updates {@link Activities} record.
+     * Updates {@link Activities} record on the server.
      *
      * @param activityId
      * @param activity
@@ -56,11 +57,21 @@ public interface ActivityApiService {
 
 
     /**
-     * Deletes the record from database.
+     * Delete and Destroy {@link Activities} from the server.
      *
      * @return
      */
     @GET("activities/{id}")
     public Call<Activities> delete(@Path("id") String activityId);
+
+
+    /**
+     * Get all {@link Observation} of a specific {@link Activities}.
+     *
+     * @param activityId
+     * @return
+     */
+    @GET("activities/{id}/observations")
+    public Call<List<Observation>> getAllObservations(@Path("id") String activityId);
 
 }

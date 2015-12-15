@@ -2,8 +2,11 @@ package com.sfsu.investickation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideList.IGuideIndexCallBacks {
 
     public final static String KEY_TICK_DETAIL = "tick_object_detail";
-    private final String LOGTAG = "~!@#$TickGuideMasterActivity :";
+    private final String LOGTAG = "~!@#$TickGdeMstrAct :";
     private ArrayList<Tick> tickList;
     private ArrayList<Entity> entityList;
 
@@ -38,8 +41,10 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             }
 
             TickGuideList guideIndexFragment = new TickGuideList();
-            // add the Fragment to 'guide_fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.guide_fragment_container, guideIndexFragment).commit();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.guide_fragment_container, guideIndexFragment);
+            transaction.commit();
+//            replaceFragment(guideIndexFragment);
         }
     }
 
@@ -52,7 +57,8 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             finish();
             super.onBackPressed();
         } else if (count > 0) {
-            getSupportFragmentManager().popBackStack();
+            Log.i(LOGTAG, "" + count);
+            getSupportFragmentManager().popBackStackImmediate();
         }
 
     }
@@ -92,10 +98,20 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
     @Override
     public void onTickListItemClickListener(Tick mTick) {
         TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, mTick);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        replaceFragment(guideDetailFragment);
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager manager = getSupportFragmentManager();
+        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
+
+        if (!fragmentPopped) { //fragment not in back stack, create it.
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.guide_fragment_container, fragment);
+            ft.addToBackStack(backStateName);
+            ft.commit();
+        }
     }
 }

@@ -19,7 +19,7 @@ import retrofit.http.Path;
 public interface ObservationApiService {
 
     /**
-     * Returns specific Observation
+     * Returns specific {@link Observation} matching id.
      *
      * @return
      */
@@ -27,7 +27,7 @@ public interface ObservationApiService {
     public Call<Observation> get(@Path("id") String observationId);
 
     /**
-     * Returns list of Observation
+     * Returns list of {@link Observation} from server.
      *
      * @return
      */
@@ -36,7 +36,7 @@ public interface ObservationApiService {
 
 
     /**
-     * Add new Observation.
+     * Adds new {@link Observation} to the server.
      *
      * @return
      */
@@ -45,7 +45,7 @@ public interface ObservationApiService {
 
 
     /**
-     * Update the Observation for specific Id.
+     * Updates the {@link Observation} in the server.
      *
      * @param observationId
      * @param observation
@@ -56,7 +56,7 @@ public interface ObservationApiService {
 
 
     /**
-     * Delete the Observation record.
+     * Deletes the {@link Observation} record from the server.
      *
      * @return
      */

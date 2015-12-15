@@ -19,7 +19,7 @@ import retrofit.http.Path;
 public interface LocationApiService {
 
     /**
-     * This method gets a specific location by using ID of that resource.
+     * Returns a specific {@link EntityLocation} matching the id.
      *
      * @return
      */
@@ -27,7 +27,7 @@ public interface LocationApiService {
     public Call<EntityLocation> get(@Path("id") String locationId);
 
     /**
-     * This method returns the list of all the Entities in resource based on the resourceIdentifier.
+     * Returns the list of {@link EntityLocation} in resource based.
      *
      * @return
      */
@@ -36,7 +36,7 @@ public interface LocationApiService {
 
 
     /**
-     * This method is used to create the specified resource and store in database.
+     * Adds a {@link EntityLocation} to the server.
      *
      * @return
      */
@@ -44,12 +44,21 @@ public interface LocationApiService {
     public Call<EntityLocation> add(@Body EntityLocation entityLocation);
 
 
+    /**
+     * Updates a specific {@link EntityLocation} in the server.
+     *
+     * @param locationId
+     * @param entityLocation
+     * @return
+     */
     @GET("/locations/{id}")
     public Call<EntityLocation> update(@Path("id") String locationId, @Body EntityLocation entityLocation);
 
 
     /**
-     * Deletes the record from database.
+     * <p>
+     * Deletes {@link EntityLocation} from the server.
+     * </p>
      *
      * @return
      */

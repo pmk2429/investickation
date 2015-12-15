@@ -86,6 +86,8 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         return v;
     }
 
+
+
     private void setActionBarAndNavDrawer(View v) {
         toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_guideList);
 

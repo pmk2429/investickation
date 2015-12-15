@@ -17,7 +17,7 @@ import retrofit.http.Path;
 public interface UserApiService {
 
     /**
-     * This method gets a specific user by using ID of that resource.
+     * Returns the current {@link User} from the server
      *
      * @return
      */
@@ -26,7 +26,7 @@ public interface UserApiService {
 
 
     /**
-     * Create the {@link User}
+     * Creates the {@link User} in the server.
      *
      * @return
      */
@@ -35,7 +35,7 @@ public interface UserApiService {
 
 
     /**
-     * Updates the {@link User}.
+     * Updates the {@link User} in the server.
      *
      * @param userId
      * @param user
@@ -46,11 +46,22 @@ public interface UserApiService {
 
 
     /**
-     * destroy() when called, destroys the record from database.
+     * Deletes the {@link User} from server.
      *
      * @return
      */
     @GET("users/{id}")
     public Call<User> delete(@Path("id") String userId);
+
+
+    @GET("")
+    public int getTotalActivities();
+
+    @GET("")
+    public int getTotalObservations();
+
+    @GET("")
+    public int getTotalLocations();
+
 
 }
