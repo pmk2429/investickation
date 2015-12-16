@@ -60,7 +60,7 @@ public class ObservationEvent extends BaseNetworkEvent {
     /**
      * Event Handler when the Observation Events are successfully executed and Response is generated.
      */
-    public static class OnLoaded extends OnDone<Observation> {
+    public static class OnLoaded extends OnDone<Object> {
         public OnLoaded(Observation entity) {
             super(entity);
         }

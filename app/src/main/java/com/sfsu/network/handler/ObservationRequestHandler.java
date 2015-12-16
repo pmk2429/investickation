@@ -50,19 +50,19 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
-            case GET_METHOD:
+            case GET:
                 observationCall = mApiService.get(onLoadingInitialized.getResourceId());
                 makeCRUDCall(observationCall);
                 break;
-            case GET_ALL_METHOD:
+            case GET_ALL:
                 listObservationCall = mApiService.getAll();
                 getAllObservationsCall(listObservationCall);
                 break;
-            case ADD_METHOD:
+            case ADD:
                 observationCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(observationCall);
                 break;
-            case DELETE_METHOD:
+            case DELETE:
                 observationCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(observationCall);
                 break;

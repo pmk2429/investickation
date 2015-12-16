@@ -59,11 +59,11 @@ public class TickRequestHandler extends ApiRequestHandler {
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
-            case GET_METHOD:
+            case GET:
                 tickCall = mApiService.get(onLoadingInitialized.getResourceId());
                 makeCRUDCall(tickCall);
                 break;
-            case GET_ALL_METHOD:
+            case GET_ALL:
                 listTickCall = mApiService.getAll();
                 getAllTicksCall(listTickCall);
                 break;

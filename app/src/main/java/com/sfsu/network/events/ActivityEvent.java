@@ -59,13 +59,17 @@ public class ActivityEvent extends BaseNetworkEvent {
     /**
      * Event Handler when the Activities Events are successfully executed and Response is generated.
      */
-    public static class OnLoaded extends OnDone<Activities> {
+    public static class OnLoaded extends OnDone<Object> {
         public OnLoaded(Activities entity) {
             super(entity);
         }
 
         public OnLoaded(List<Activities> activitiesList) {
             super(activitiesList);
+        }
+
+        public OnLoaded(Integer count) {
+            super(count);
         }
     }
 

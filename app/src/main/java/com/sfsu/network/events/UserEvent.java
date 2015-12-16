@@ -40,9 +40,13 @@ public class UserEvent extends BaseNetworkEvent {
     /**
      * Event Handler when the User Events are successfully executed and Response is generated.
      */
-    public static class OnLoaded extends OnDone<User> {
+    public static class OnLoaded extends OnDone<Object> {
         public OnLoaded(User entity) {
             super(entity);
+        }
+
+        public OnLoaded(Integer count) {
+            super(count);
         }
     }
 

@@ -1,7 +1,11 @@
 package com.sfsu.network.handler;
 
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.EntityLocation;
+import com.sfsu.entities.Observation;
 import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.network.events.LocationEvent;
+import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ActivityApiService;
 import com.squareup.okhttp.ResponseBody;
@@ -9,7 +13,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import retrofit.Call;
@@ -32,7 +35,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     private ActivityApiService mApiService;
     private String LOGTAG = "~!@#$ActReqHdlr: ";
     private Bus mBus;
-    private Method[] methods = ActivityApiService.class.getDeclaredMethods();
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -53,25 +55,40 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeActivityEvent(ActivityEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Activities> activitiesCall = null;
+        Call<List<Observation>> observationCall = null;
+        Call<List<EntityLocation>> locationCall = null;
         Call<List<Activities>> listActivitiesCall = null;
+        Call<Integer> countCall = null;
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
-            case GET_METHOD:
+            case GET:
                 activitiesCall = mApiService.get(onLoadingInitialized.getResourceId());
                 makeCRUDCall(activitiesCall);
                 break;
-            case GET_ALL_METHOD:
+            case GET_ALL:
                 listActivitiesCall = mApiService.getAll();
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
-            case ADD_METHOD:
+            case ADD:
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(activitiesCall);
                 break;
-            case DELETE_METHOD:
+            case DELETE:
                 activitiesCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(activitiesCall);
+                break;
+            case TOTAL_LOCATIONS_COUNT:
+                countCall = mApiService.totalLocations(onLoadingInitialized.getResourceId());
+                getCount(countCall);
+                break;
+            case LOCATIONS:
+                locationCall = mApiService.locations(onLoadingInitialized.getResourceId());
+                getAllLocations(locationCall);
+                break;
+            case OBSERVATIONS:
+                observationCall = mApiService.observations(onLoadingInitialized.getResourceId());
+
                 break;
         }
 
@@ -141,6 +158,100 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
                     mBus.post(ActivityEvent.FAILED);
+                }
+            }
+        });
+    }
+
+    public void getCount(Call<Integer> countCall) {
+        countCall.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Response<Integer> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new ActivityEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new ActivityEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ActivityEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ActivityEvent.FAILED);
+                }
+            }
+        });
+    }
+
+    /**
+     * Returns a list of Locations for specific Activities.
+     *
+     * @param locationsCall
+     */
+    public void getAllLocations(Call<List<EntityLocation>> locationsCall) {
+        locationsCall.enqueue(new Callback<List<EntityLocation>>() {
+            @Override
+            public void onResponse(Response<List<EntityLocation>> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new LocationEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new LocationEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(LocationEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new LocationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(LocationEvent.FAILED);
+                }
+            }
+        });
+    }
+
+    /**
+     * Returns a list of Locations for specific Activities.
+     *
+     * @param locationsCall
+     */
+    public void getAllObservations(Call<List<Observation>> observationCall) {
+        observationCall.enqueue(new Callback<List<Observation>>() {
+            @Override
+            public void onResponse(Response<List<Observation>> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new ObservationEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ObservationEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ObservationEvent.FAILED);
                 }
             }
         });

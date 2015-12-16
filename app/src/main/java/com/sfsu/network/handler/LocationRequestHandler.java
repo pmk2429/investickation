@@ -50,19 +50,19 @@ public class LocationRequestHandler extends ApiRequestHandler {
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
-            case GET_METHOD:
+            case GET:
                 locationCall = mApiService.get(onLoadingInitialized.getResourceId());
                 makeCRUDCall(locationCall);
                 break;
-            case GET_ALL_METHOD:
+            case GET_ALL:
                 listLocationCall = mApiService.getAll();
                 getAllLocationsCall(listLocationCall);
                 break;
-            case ADD_METHOD:
+            case ADD:
                 locationCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(locationCall);
                 break;
-            case DELETE_METHOD:
+            case DELETE:
                 locationCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(locationCall);
                 break;

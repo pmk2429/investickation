@@ -93,6 +93,6 @@ public interface ActivityApiService {
      * @return
      */
     @GET("activities/{id}/locations/count")
-    public int totalLocations(@Path("id") String activityId);
+    public Call<Integer> totalLocations(@Path("id") String activityId);
 
 }

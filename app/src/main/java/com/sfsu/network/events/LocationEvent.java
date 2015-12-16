@@ -40,7 +40,7 @@ public class LocationEvent extends BaseNetworkEvent {
     /**
      * Event Handler when the Location Events are successfully executed and Response is generated.
      */
-    public static class OnLoaded extends OnDone<EntityLocation> {
+    public static class OnLoaded extends OnDone<Object> {
         public OnLoaded(EntityLocation entity) {
             super(entity);
         }

@@ -1,7 +1,5 @@
 package com.sfsu.network.handler;
 
-import android.util.Log;
-
 import com.sfsu.entities.User;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
@@ -27,7 +25,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class UserRequestHandler extends ApiRequestHandler {
@@ -55,21 +53,18 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeUserEvent(UserEvent.OnLoadingInitialized onLoadingInitialized) {
-        Log.i(LOGTAG, "inside onInitializeUserEvent");
         Call<User> userCall = null;
-
-        Log.i(LOGTAG, "Created user:" + onLoadingInitialized.getRequest().toString());
-
         // delegating call to specific method.
         switch (onLoadingInitialized.apiRequestMethod) {
-            case GET_METHOD:
+            case GET:
                 userCall = mApiService.get(onLoadingInitialized.getResourceId());
                 makeCRUDCall(userCall);
                 break;
-            case ADD_METHOD:
-                Log.i(LOGTAG, "yayyyy inside the add user method");
+            case ADD:
                 userCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(userCall);
+                break;
+            case TOTAL_LOCATIONS_COUNT:
                 break;
         }
     }
@@ -80,17 +75,13 @@ public class UserRequestHandler extends ApiRequestHandler {
      * @param userCall
      */
     private void makeCRUDCall(Call<User> userCall) {
-        Log.i(LOGTAG, "making CRUD call");
         // makes the Calls to network.
         userCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Response<User> response) {
-                Log.i(LOGTAG, "inside onResponse");
                 if (response.isSuccess()) {
-                    Log.i(LOGTAG, "Response Success");
                     mBus.post(new UserEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(LOGTAG, "Response Failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -103,7 +94,6 @@ public class UserRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(LOGTAG, "inside onFailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new UserEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
