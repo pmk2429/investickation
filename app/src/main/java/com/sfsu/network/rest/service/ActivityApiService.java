@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
 
 import java.util.List;
@@ -18,6 +19,16 @@ import retrofit.http.Path;
  */
 
 public interface ActivityApiService {
+
+    public static final String GET = "get";
+    public static final String GET_ALL = "getAll";
+    public static final String ADD = "add";
+    public static final String UPDATE = "update";
+    public static final String DELETE = "delete";
+    public static final String OBSERVATIONS = "observations";
+    public static final String LOCATIONS = "locations";
+    public static final String TOTAL_LOCATIONS = "totalLocations";
+
 
     /**
      * Returns a specific {@link Activities} matching id.
@@ -72,6 +83,26 @@ public interface ActivityApiService {
      * @return
      */
     @GET("activities/{id}/observations")
-    public Call<List<Observation>> getAllObservations(@Path("id") String activityId);
+    public Call<List<Observation>> observations(@Path("id") String activityId);
+
+
+    /**
+     * Get all {@link EntityLocation} of a specific {@link Activities}.
+     *
+     * @param activityId
+     * @return
+     */
+    @GET("activities/{id}/locations")
+    public Call<List<EntityLocation>> locations(@Path("id") String activityId);
+
+
+    /**
+     * Returns total locations captured for this activity.
+     *
+     * @param activityId
+     * @return
+     */
+    @GET("activities/{id}/locations/count")
+    public int totalLocations(@Path("id") String activityId);
 
 }

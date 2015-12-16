@@ -17,13 +17,13 @@ import retrofit.Retrofit;
 /**
  * Retrofit Service Generator class which initializes the calling Service interface passed as an input param. Depending on the
  * createService method called, this class will return the Service with or without token.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
     public static final String BASE_API_URL = "http://52.25.160.49:3000/api/";
 
-//    // interceptor to cache the Response from server.
+    //    // interceptor to cache the Response from server.
 //    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
 //        @Override
 //        public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -132,5 +132,27 @@ public class RetrofitApiClient {
     private static File getDirectory() {
         return new File("location");
     }
+
+
+
+    /*private static volatile ApiClient instance;
+
+    private ApiClient() {
+
+    }
+
+    public static ApiClient getInstance() {
+        ApiClient localInstance = instance;
+        if (localInstance == null) {
+            synchronized (ApiClient.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new ApiClient();
+                }
+            }
+        }
+        return localInstance;
+
+    }*/
 }
 

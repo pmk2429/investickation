@@ -1,7 +1,5 @@
 package com.sfsu.network.handler;
 
-import android.util.Log;
-
 import com.sfsu.entities.Activities;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
@@ -11,6 +9,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import retrofit.Call;
@@ -25,7 +24,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class ActivityRequestHandler extends ApiRequestHandler {
@@ -33,6 +32,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     private ActivityApiService mApiService;
     private String LOGTAG = "~!@#$ActReqHdlr: ";
     private Bus mBus;
+    private Method[] methods = ActivityApiService.class.getDeclaredMethods();
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -41,7 +41,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     public ActivityRequestHandler(Bus bus) {
         this.mBus = bus;
-        mApiService = RetrofitApiClient.createService(ActivityApiService.class, "vEr7lrb9Q56egAc9LRgI11cY3VQ5lXbmCinRTZCdLS21XkAZhYnpqWFY1m4nuemI");
+        mApiService = RetrofitApiClient.createService(ActivityApiService.class, "PhcKAKLu0pdGHhsCVVWGz0mmF4FDylvuhgK80YvzhxHiziaznmc7uSL9zSCcUHFU");
     }
 
     /**
@@ -62,7 +62,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(activitiesCall);
                 break;
             case GET_ALL_METHOD:
-                Log.i(LOGTAG, "get all called");
                 listActivitiesCall = mApiService.getAll();
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
@@ -85,17 +84,13 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * @param activitiesCall
      */
     public void makeCRUDCall(Call<Activities> activitiesCall) {
-        Log.i(LOGTAG, "making CRUD call");
         // makes the Calls to network.
         activitiesCall.enqueue(new Callback<Activities>() {
             @Override
             public void onResponse(Response<Activities> response) {
-                Log.i(LOGTAG, "inside onResponse");
                 if (response.isSuccess()) {
-                    Log.i(LOGTAG, "Response Success");
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(LOGTAG, "Response Failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -108,7 +103,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(LOGTAG, "inside onFailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -124,17 +118,13 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * @param listActivitiesCall
      */
     public void getAllActivitiesCalls(Call<List<Activities>> listActivitiesCall) {
-        Log.i(LOGTAG, "yup. making get all Activities call");
         // makes the Calls to network.
         listActivitiesCall.enqueue(new Callback<List<Activities>>() {
             @Override
             public void onResponse(Response<List<Activities>> response) {
-                Log.i(LOGTAG, "inside onResponse");
                 if (response.isSuccess()) {
-                    Log.i(LOGTAG, "Response Success");
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(LOGTAG, "Response Failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -147,7 +137,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(LOGTAG, "inside onFailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

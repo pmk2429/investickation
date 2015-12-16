@@ -94,8 +94,6 @@ public class AppUtils {
         return !TextUtils.isEmpty(str) && TextUtils.isDigitsOnly(str);
     }
 
-    // method to check whether there is any network connection or not.
-
     // Method to check if EntityLocation is enabled or disabled.
     public boolean isLocationEnabled() {
         int locationMode = 0;

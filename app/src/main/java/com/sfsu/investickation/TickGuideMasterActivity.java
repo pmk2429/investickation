@@ -109,8 +109,8 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
 
         if (!fragmentPopped) { //fragment not in back stack, create it.
             FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.guide_fragment_container, fragment);
-            ft.addToBackStack(backStateName);
+            ft.add(R.id.guide_fragment_container, fragment);
+            ft.addToBackStack(null);
             ft.commit();
         }
     }

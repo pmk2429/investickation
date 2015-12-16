@@ -75,6 +75,7 @@ public class TickGuideDetail extends Fragment {
         ButterKnife.bind(this, rootView);
 
         final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);
+
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id
                 .collapsing_toolbar_guideDetail);
         collapsingToolbar.setTitle("Tick Details");

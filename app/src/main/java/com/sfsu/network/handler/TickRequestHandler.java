@@ -25,8 +25,8 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class TickRequestHandler extends ApiRequestHandler {
@@ -41,7 +41,7 @@ public class TickRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public TickRequestHandler(Bus bus) {
-        mApiService = RetrofitApiClient.createService(TickApiService.class, "vEr7lrb9Q56egAc9LRgI11cY3VQ5lXbmCinRTZCdLS21XkAZhYnpqWFY1m4nuemI");
+        mApiService = RetrofitApiClient.createService(TickApiService.class, "PhcKAKLu0pdGHhsCVVWGz0mmF4FDylvuhgK80YvzhxHiziaznmc7uSL9zSCcUHFU");
         this.mBus = bus;
     }
 
@@ -66,14 +66,6 @@ public class TickRequestHandler extends ApiRequestHandler {
             case GET_ALL_METHOD:
                 listTickCall = mApiService.getAll();
                 getAllTicksCall(listTickCall);
-                break;
-            case ADD_METHOD:
-                tickCall = mApiService.add(onLoadingInitialized.getRequest());
-                makeCRUDCall(tickCall);
-                break;
-            case DELETE_METHOD:
-                tickCall = mApiService.delete(onLoadingInitialized.getResourceId());
-                makeCRUDCall(tickCall);
                 break;
         }
 
