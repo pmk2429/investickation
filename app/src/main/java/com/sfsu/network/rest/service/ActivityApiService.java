@@ -20,16 +20,6 @@ import retrofit.http.Path;
 
 public interface ActivityApiService {
 
-    public static final String GET = "get";
-    public static final String GET_ALL = "getAll";
-    public static final String ADD = "add";
-    public static final String UPDATE = "update";
-    public static final String DELETE = "delete";
-    public static final String OBSERVATIONS = "observations";
-    public static final String LOCATIONS = "locations";
-    public static final String TOTAL_LOCATIONS = "totalLocations";
-
-
     /**
      * Returns a specific {@link Activities} matching id.
      *

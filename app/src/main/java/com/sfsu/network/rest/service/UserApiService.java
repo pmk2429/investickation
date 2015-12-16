@@ -55,13 +55,13 @@ public interface UserApiService {
 
 
     @GET("")
-    public int getTotalActivities();
+    public int totalActivities();
 
     @GET("")
-    public int getTotalObservations();
+    public int totalObservations();
 
     @GET("")
-    public int getTotalLocations();
+    public int totalLocations();
 
 
 }

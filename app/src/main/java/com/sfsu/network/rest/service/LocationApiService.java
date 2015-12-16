@@ -17,7 +17,7 @@ import retrofit.http.Path;
  */
 
 public interface LocationApiService {
-
+    
     /**
      * Returns a specific {@link EntityLocation} matching the id.
      *
