@@ -23,7 +23,9 @@ import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
@@ -64,6 +66,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         getActivity().setTitle("My Observations");
         args = getArguments();
         dbController = new DatabaseDataController(mContext, new ObservationsDao());
+        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
     @Override
@@ -92,10 +95,8 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         }
 
         // TODO: think of this one.
-        localObservationList = (List<Observation>) dbController.getAll();
+//        localObservationList = (List<Observation>) dbController.getAll();
 
-
-        observationList = Observation.initializeData();
 
         //observationList = new ArrayList<>(remoteObservationList);
         //observationList.addAll(localObservationList);
@@ -194,7 +195,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         remoteObservationList = onLoaded.getResponseList();
 
         if (remoteObservationList.size() > 0 && remoteObservationList != null) {
-            // displayObservationList();
+            displayObservationList();
         } else {
             // TODO: display message that no observations in the List.
         }
@@ -215,7 +216,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      */
     private void displayObservationList() {
         //pass the observationList to the Adapter
-        mObservationsListAdapter = new ObservationsListAdapter(observationList);
+        mObservationsListAdapter = new ObservationsListAdapter(remoteObservationList);
         recyclerView_observations.setAdapter(mObservationsListAdapter);
 
         // implement touch event for the item click in RecyclerView
@@ -223,7 +224,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
             @Override
             public void onItemClick(View view, int position) {
                 //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                mInterface.onObservationListItemClickListener();
+                mInterface.onObservationListItemClickListener(remoteObservationList.get(position));
             }
 
             @Override
@@ -243,12 +244,13 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
          */
         public void onObservationAddListener();
 
-
         /**
          * Callback method to handle the on item click Listener of the Observations List in {@link ObservationsList}
          * Fragment
+         *
+         * @param observation
          */
-        public void onObservationListItemClickListener();
+        public void onObservationListItemClickListener(Observation mObservation);
     }
 
 

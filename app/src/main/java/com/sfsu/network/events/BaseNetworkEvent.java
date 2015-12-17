@@ -14,6 +14,12 @@ public class BaseNetworkEvent {
     public static final int UNHANDLED_CODE = -1;
 
 
+    /**
+     * Event to initialize the Network request call.
+     *
+     * @param <Rq>
+     * @param <S>
+     */
     protected static class OnStart<Rq, S> {
         private Rq mRequest;
         private S resourceId;
@@ -36,6 +42,11 @@ public class BaseNetworkEvent {
         }
     }
 
+    /**
+     * Event which binds the response from the server and posts to the EventBus.
+     *
+     * @param <Rs>
+     */
     protected static class OnDone<Rs> {
 
         private Rs mResponse;
@@ -58,6 +69,9 @@ public class BaseNetworkEvent {
         }
     }
 
+    /**
+     * Displays Failed Event
+     */
     protected static class OnFailed {
 
         private String mErrorMessage;

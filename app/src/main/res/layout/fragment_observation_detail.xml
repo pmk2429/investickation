@@ -14,14 +14,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="wrap_content">
 
             <!--  Tick image -->
             <ImageView
-                android:id="@+id/imageView_userTickDetail"
+                android:id="@+id/imageView_obsDet_tickImage"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/cardview_large"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
@@ -46,16 +45,14 @@
 
 
                     <TextView
-                        android:id="@+id/textView_timestamp"
+                        android:id="@+id/textView_obsDet_timestamp"
                         android:layout_width="@dimen/padding_dimen_X_large"
                         android:layout_height="@dimen/padding_dimen_X_large"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/view_dimen_large"
-                        android:gravity="top|right"
+                        android:layout_alignParentEnd="true"
                         android:paddingTop="@dimen/view_dimen_large"
                         android:text="5 hr"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="16dp"/>
+                        android:textSize="@dimen/font_small"/>
 
                     <!--Line separator-->
                     <View
@@ -65,29 +62,31 @@
                         android:background="@color/divider"/>
 
                     <TextView
-                        android:id="@+id/textView_observation_tickName"
+                        android:id="@+id/textView_obsDet_tickName"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/widget_dimen"
                         android:layout_below="@+id/view_divider"
                         android:gravity="top|start"
-                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_large"
                         android:text="American Dog Tick"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="22dp"/>
+                        android:textSize="@dimen/font_X_large"/>
 
                     <TextView
-                        android:id="@+id/textView_observationDesc"
+                        android:id="@+id/textView_obsDet_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_observation_tickName"
+                        android:layout_below="@id/textView_obsDet_tickName"
                         android:gravity="top|start"
-                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
                         android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
+                        android:textSize="@dimen/font_X_small"/>
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
@@ -117,17 +116,18 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/view_dimen_medium"
                         android:gravity="top|start"
-                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_small"
-                        android:text="Your Observation details:"
+                        android:text="@string/obsDet_details"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18dp"/>
+                        android:textSize="@dimen/font_medium"/>
 
                     <View
                         android:id="@+id/separator_observation_2"
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="@dimen/separator_dimen"
                         android:layout_below="@id/textViewStatic_userObsDetail"
                         android:layout_marginLeft="@dimen/view_dimen_large"
                         android:layout_marginRight="@dimen/view_dimen_large"
@@ -136,82 +136,89 @@
                     <!-- Found Near -->
                     <TextView
                         android:id="@+id/textViewStatic_foundNear"
-                        android:layout_width="140dp"
+                        android:layout_width="@dimen/widget_dimen_X4_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/separator_observation_2"
                         android:gravity="top|start"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:text="Found Near: "
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
+                        android:paddingTop="@dimen/view_dimen_small"
+                        android:text="@string/obsDet_foundNear"
                         android:textAlignment="center"
                         android:textColor="@color/secondaryText"
-                        android:textSize="16dp"/>
+                        android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_foundNear"
+                        android:id="@+id/textView_obsDet_foundNear"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@id/textViewStatic_foundNear"
                         android:layout_below="@id/separator_observation_2"
-                        android:layout_toRightOf="@id/textViewStatic_foundNear"
+                        android:layout_toEndOf="@id/textViewStatic_foundNear"
                         android:paddingBottom="0dp"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
+                        android:paddingTop="@dimen/view_dimen_small"
                         android:text="San Mateo Park"
                         android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
+                        android:textSize="@dimen/font_X_small"/>
 
 
                     <!-- EntityLocation -->
                     <TextView
                         android:id="@+id/textViewStatic_location"
-                        android:layout_width="140dp"
+                        android:layout_width="@dimen/widget_dimen_X4_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_foundNear"
                         android:gravity="top|start"
                         android:paddingBottom="0dp"
-                        android:paddingLeft="16dp"
-                        android:text="Exact location: "
+                        android:paddingStart="@dimen/view_dimen_large"
+                        android:text="@string/obsDet_geoLocation"
                         android:textAlignment="center"
                         android:textColor="@color/secondaryText"
-                        android:textSize="16dp"/>
+                        android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_location"
+                        android:id="@+id/textView_obsDet_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_foundNear"
-                        android:layout_toRightOf="@id/textViewStatic_location"
-                        android:paddingLeft="16dp"
+                        android:layout_alignBaseline="@id/textViewStatic_location"
+                        android:layout_below="@id/textView_obsDet_foundNear"
+                        android:layout_toEndOf="@id/textViewStatic_location"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="35.755815, -121.859291"
                         android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
+                        android:textSize="@dimen/font_X_small"/>
 
                     <!-- Activity -->
                     <TextView
                         android:id="@+id/textViewStatic_activity"
-                        android:layout_width="140dp"
+                        android:layout_width="@dimen/widget_dimen_X4_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_location"
                         android:gravity="top|start"
-                        android:paddingLeft="16dp"
-                        android:text="Activity: "
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
+                        android:text="@string/obsDet_activityName"
                         android:textAlignment="center"
                         android:textColor="@color/secondaryText"
-                        android:textSize="16dp"/>
+                        android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_totalPeople"
+                        android:id="@+id/textView_obsDet_activityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_location"
-                        android:layout_toRightOf="@id/textViewStatic_activity"
-                        android:paddingLeft="16dp"
+                        android:layout_alignBaseline="@id/textViewStatic_activity"
+                        android:layout_below="@id/textView_obsDet_location"
+                        android:layout_toEndOf="@id/textViewStatic_activity"
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="Hiking Trail"
                         android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="14dp"/>
+                        android:textSize="@dimen/font_X_small"/>
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>

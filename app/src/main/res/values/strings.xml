@@ -102,6 +102,11 @@
     <string name="alertDialog_reminder_30">30</string>
     <string name="alertDialog_reminder_60">60</string>
 
+    <!-- ActivityNew-->
+    <string name="actNew_totalPets">Total Pets</string>
+    <string name="actNew_totalPeople">Total People</string>
+    <string name="actNew_setReminder">Set Reminder</string>
+
     <!-- Tick adapter -->
     <string name="tick_click_here_for_details">Click here for more details</string>
 
@@ -112,6 +117,12 @@
     <string name="tick_knownFor">Known For:</string>
     <string name="tick_formalName">Formal Name:</string>
     <string name="tick_location_habitat">Habitat:</string>
+
+    <!-- Observation Details -->
+    <string name="obsDet_geoLocation">Location: </string>
+    <string name="obsDet_activityName">Location: </string>
+    <string name="obsDet_foundNear">Found Near: </string>
+    <string name="obsDet_details">Your Observation details </string>
 
     <!-- Error methods for all the Validations-->
     <string name="error_invalid_string">Enter valid text</string>

@@ -6,21 +6,11 @@
                 android:background="@color/colorWhite"
                 tools:context="com.sfsu.investickation.fragments.ActivityNew">
 
-    <!--<ImageView-->
-    <!--android:id="@+id/image_ActivityImage"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="200dp"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:adjustViewBounds="true"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:src="@mipmap/placeholder_activity"/>-->
-
     <!-- MapView must be wrapped inside a Layout to display Maps.-->
     <LinearLayout
         android:id="@+id/linearLayout_mapViewHolder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_large"
-        android:layout_weight="1.0"
         android:orientation="vertical">
 
         <com.google.android.gms.maps.MapView
@@ -29,34 +19,14 @@
             android:layout_height="match_parent"
             android:enabled="true"/>
 
-        <!--<fragment-->
-        <!--android:id="@+id/mapView_activityMap"-->
-        <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:enabled="true"/>-->
     </LinearLayout>
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_selectImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/linearLayout_mapViewHolder"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="-40dp"
-        android:layout_marginEnd="@dimen/view_dimen_small"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
-
 
     <!--  Activity Name row -->
     <ImageView
         android:id="@+id/icon_activity"
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@id/linearLayout_mapViewHolder"
         android:layout_marginStart="@dimen/view_dimen_small"
         android:layout_marginTop="@dimen/view_dimen_large"
@@ -76,24 +46,24 @@
         android:lines="1"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/font_small"/>
 
     <!--Line separator-->
     <View
         android:id="@+id/separator_activity_1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/separator_dimen"
         android:layout_below="@id/editText_ActivityName"
         android:layout_marginLeft="@dimen/dimen_default"
         android:layout_marginRight="@dimen/dimen_default"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/view_dimen_large"
         android:background="@color/divider"/>
 
 
     <RelativeLayout
         android:id="@+id/layout_bars"
         android:layout_width="match_parent"
-        android:layout_height="84dp"
+        android:layout_height="@dimen/layout_bars"
         android:layout_below="@id/separator_activity_1">
 
         <ImageView
@@ -102,7 +72,7 @@
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/view_dimen_large"
             android:layout_marginStart="@dimen/view_dimen_small"
             android:padding="@dimen/view_dimen_medium"
             android:scaleType="fitCenter"
@@ -115,7 +85,7 @@
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
             android:layout_toEndOf="@+id/icon_people"
-            android:text="Total People"
+            android:text="@string/actNew_totalPeople"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
@@ -133,12 +103,12 @@
             android:paddingTop="@dimen/dimen_default"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/font_small"/>
 
         <!--Line separator-->
         <View
             android:id="@+id/separator_vertical_observation_1"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/separator_dimen"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -151,7 +121,7 @@
             android:layout_width="@dimen/widget_dimen"
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/view_dimen_large"
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_toEndOf="@id/separator_vertical_observation_1"
             android:padding="@dimen/view_dimen_medium"
@@ -162,10 +132,10 @@
             android:id="@+id/textViewStatic_totalPets"
             android:layout_width="@dimen/padding_dimen_X3_large"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/view_dimen_small"
+            android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
             android:layout_toEndOf="@+id/icon_pets"
-            android:text="Total pets"
+            android:text="@string/actNew_totalPets"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
@@ -182,23 +152,22 @@
             android:paddingTop="@dimen/dimen_default"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/font_small"/>
 
     </RelativeLayout>
 
     <!--Line separator-->
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/separator_dimen"
         android:layout_below="@id/layout_bars"
         android:background="@color/divider"/>
-
 
     <!--  Reminder row -->
     <ImageView
         android:id="@+id/icon_reminder"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/widget_dimen"
+        android:layout_height="@dimen/widget_dimen"
         android:layout_alignStart="@+id/icon_activity"
         android:layout_alignTop="@+id/textView_reminder"
         android:padding="@dimen/view_dimen_medium"
@@ -207,16 +176,16 @@
 
     <TextView
         android:id="@+id/textView_reminder"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/layout_bars"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_large"
         android:layout_toEndOf="@id/icon_reminder"
-        android:paddingTop="@dimen/view_dimen_small"
-        android:text="Set Reminder"
+        android:padding="@dimen/view_dimen_medium"
+        android:text="@string/actNew_setReminder"
         android:textColor="@color/colorBlack"
-        android:textSize="16sp"/>
+        android:textSize="@dimen/font_small"/>
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton
@@ -225,7 +194,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/view_dimen_large"
         android:layout_marginEnd="@dimen/view_dimen_small"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"

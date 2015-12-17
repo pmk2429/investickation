@@ -27,6 +27,9 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -336,6 +339,9 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // build on the same newActivity Object.
             newActivityObj.setLocation_area(locationArea);
 
+            // once the play button is clicked, make a network call and create new Activities on the server
+            BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
+
             mInterface.onPlayButtonClick(newActivityObj);
         } else {
             return;
@@ -407,7 +413,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     public interface IActivityNewCallBack {
         /**
-         * Callback method when User clicks on the Play Button defined in the ActivityNew Fragment.
+         * Callback method when User clicks on the Play Button defined in the {@link ActivityNew} Fragment. On clicking the
+         * play button, the {@link Activities} is created on the server and using the create ActivityId, observations are made.
          *
          * @param newActivityDetails
          */

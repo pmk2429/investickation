@@ -6,9 +6,6 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * <p>
  * <tt>Observation</tt> defines tick related data created by the {@link User}. The {@link Observation} specifies the process of
@@ -40,13 +37,14 @@ public class Observation implements Parcelable, Entity {
     private int num_of_ticks;
     private long timestamp, created_at, updated_at;
     private Bitmap tick_image;
+    
     private String user_id;
+    private String activity_id;
 
     @SerializedName("location")
     private EntityLocation locationObj;
     @SerializedName("tick")
     private Tick tickObj;
-
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -71,11 +69,6 @@ public class Observation implements Parcelable, Entity {
         this.user_id = user_id;
     }
 
-    // constructor for demo purposes
-    public Observation(String tickName, String geoLocation, long timestamp) {
-        this.geo_location = geoLocation;
-        this.timestamp = timestamp;
-    }
 
     protected Observation(Parcel in) {
         id = in.readString();
@@ -86,14 +79,6 @@ public class Observation implements Parcelable, Entity {
         updated_at = in.readLong();
         locationObj = in.readParcelable(EntityLocation.class.getClassLoader());
         tickObj = in.readParcelable(Tick.class.getClassLoader());
-    }
-
-    public static List<Observation> initializeData() {
-        List<Observation> observations = new ArrayList<>();
-        observations.add(new Observation("American Dog Tick", "Presidio of San Francisco", System.currentTimeMillis()));
-        observations.add(new Observation("Spotted Red Tick", "Yosemite National Park", System.currentTimeMillis()));
-        observations.add(new Observation("Deer Tick", "Lands End trail", System.currentTimeMillis()));
-        return observations;
     }
 
     public String getImageUrl() {

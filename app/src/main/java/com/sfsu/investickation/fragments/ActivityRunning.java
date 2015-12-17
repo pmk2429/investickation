@@ -9,7 +9,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +25,21 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 /**
- * This fragment provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
+ * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
  * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
  * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
  * Observation for the current ongoing activity.
- * <p/>
+ * <p>
  * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
  * BroadcastReceiver, recording the observations etc.
- * <p/>
+ * <p>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
  * Observation,
  */
@@ -126,9 +126,6 @@ public class ActivityRunning extends Fragment {
         The retrieved object has the running state set. So perform all the operations only when state is RUNNING.
          */
         currentActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
-        Log.i(LOGTAG, currentActivityObj.toString());
-        Log.i(LOGTAG, currentActivityObj.getState() + "");
-
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
@@ -158,7 +155,7 @@ public class ActivityRunning extends Fragment {
                 currentActivityObj.setState(Activities.STATE.CREATED);
 
                 // save the Activity on the server.
-                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(currentActivityObj, AppUtils.ADD_METHOD));
+                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(currentActivityObj, ApiRequestHandler.ADD));
             }
         });
 
@@ -238,7 +235,7 @@ public class ActivityRunning extends Fragment {
 
 
     /**
-     * Subscribes to activity on create success.
+     * Subscribes to success of activity on create .
      *
      * @param onLoaded
      */
@@ -250,6 +247,11 @@ public class ActivityRunning extends Fragment {
         mListener.onActivityStopButtonClicked(mActivityResponse);
     }
 
+    /**
+     * Subscribes to failure of activity on create.
+     *
+     * @param onLoadingError
+     */
     @Subscribe
     public void onActivityCreateFailure(ActivityEvent.OnLoadingError onLoadingError) {
         Toast.makeText(mContext, "Error creating activity", Toast.LENGTH_LONG).show();

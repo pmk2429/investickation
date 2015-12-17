@@ -4,9 +4,11 @@ import com.sfsu.entities.Observation;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ObservationApiService;
+import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit.Call;
@@ -21,12 +23,13 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
 
     private ObservationApiService mApiService;
+    private Bus mBus;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -34,6 +37,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public ObservationRequestHandler(Bus bus) {
+        this.mBus = bus;
         mApiService = RetrofitApiClient.createService(ObservationApiService.class);
     }
 
@@ -81,12 +85,26 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         observationCall.enqueue(new Callback<Observation>() {
             @Override
             public void onResponse(Response<Observation> response) {
-
+                if (response.isSuccess()) {
+                    mBus.post(new ObservationEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ObservationEvent.FAILED);
+                    }
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ObservationEvent.FAILED);
+                }
             }
         });
     }
@@ -101,12 +119,26 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         listObservationCall.enqueue(new Callback<List<Observation>>() {
             @Override
             public void onResponse(Response<List<Observation>> response) {
-
+                if (response.isSuccess()) {
+                    mBus.post(new ObservationEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ObservationEvent.FAILED);
+                    }
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ObservationEvent.FAILED);
+                }
             }
         });
     }

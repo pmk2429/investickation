@@ -24,6 +24,7 @@ public class ApiRequestHandler {
     public static final String TOTAL_ACTIVITIES_COUNT = "totalActivities";
     public static final String TOTAL_OBSERVATIONS_COUNT = "totalObservations";
 
+    public static final int GET_METHOD = 0x03E8;
 
 //    private Bus mBus;
 //

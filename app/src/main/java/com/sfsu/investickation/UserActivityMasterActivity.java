@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.exceptions.NetworkErrorException;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
  * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
-public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, View.OnClickListener, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
+public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
 
     public static final String KEY_USRACT_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_UUID = "ongoing_activity_uuid";
@@ -40,14 +39,11 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
 
-
         try {
             // get the List of Activities from server.
             listSavedActivities = getListOfSavedActivities();
         } catch (NetworkErrorException e) {
-            Log.i(LOGTAG, e.getMessage());
         } catch (Exception e) {
-            Log.i(LOGTAG, e.getMessage());
         }
 
         // if Fragment container is present
@@ -97,27 +93,6 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_user_activity_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
@@ -139,14 +114,6 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         transaction.commit();
     }
 
-    @Override
-    public void onClick(View v) {
-    }
-
-    /*
-     * This method will be called when the user clicks on the Play Button in ActivityNew Fragment. All the Details of the
-     * Activity started by the user will be collected and passed to the ActivityRunning fragment.
-     */
     @Override
     public void onPlayButtonClick(Activities newActivityDetailsObject) {
 
@@ -193,7 +160,6 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
             startActivity(addObservationIntent);
             finish();
         } catch (Exception e) {
-            Log.i(LOGTAG, e.getMessage());
         }
     }
 

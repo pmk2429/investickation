@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,11 +13,13 @@ import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.ObservationsList;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 public class ObservationMasterActivity extends BaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
+    public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     private final String LOGTAG = "~!@#$ObsMasterAct :";
     private Observation newlyCreatedObs, observationResponseObj;
 
@@ -67,7 +68,7 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
      */
     private void setFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.observation_fragment_container, fragment);
+        transaction.add(R.id.observation_fragment_container, fragment);
         // transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
         transaction.commit();
     }
@@ -119,8 +120,8 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
 
 
     @Override
-    public void onObservationListItemClickListener() {
-        ObservationDetail observationDetailFragment = new ObservationDetail();
+    public void onObservationListItemClickListener(Observation observation) {
+        ObservationDetail observationDetailFragment = ObservationDetail.newInstance(KEY_OBSERVATION_DETAIL, observation);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.observation_fragment_container, observationDetailFragment);
         transaction.addToBackStack(null);
@@ -131,21 +132,18 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
     @Override
     public void onPause() {
         super.onPause();
-        BusProvider.bus().unregister(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        BusProvider.bus().register(this);
     }
 
     @Override
     public void postObservationData(Observation newObservation) {
         newlyCreatedObs = newObservation;
-        Log.i(LOGTAG, newlyCreatedObs.toString());
         // pass this object to RetrofitController and get response.
-        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newlyCreatedObs, AppUtils.ADD_METHOD));
+        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newlyCreatedObs, ApiRequestHandler.ADD));
     }
 
 
