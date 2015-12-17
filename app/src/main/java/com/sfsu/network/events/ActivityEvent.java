@@ -15,7 +15,7 @@ public class ActivityEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<Activities, String> {
 
-        public String apiRequestMethod;
+        public int apiRequestMethod;
 
         /**
          * Constructor overloading for HTTP GET, DELETE calls.
@@ -23,7 +23,7 @@ public class ActivityEvent extends BaseNetworkEvent {
          * @param activityId
          * @param apiRequestMethod
          */
-        public OnLoadingInitialized(String activityId, String apiRequestMethod) {
+        public OnLoadingInitialized(String activityId, int apiRequestMethod) {
             super(activityId);
             this.apiRequestMethod = apiRequestMethod;
         }
@@ -35,7 +35,7 @@ public class ActivityEvent extends BaseNetworkEvent {
          * @param activityId
          * @param apiRequestMethod
          */
-        public OnLoadingInitialized(Activities activity, String activityId, String apiRequestMethod) {
+        public OnLoadingInitialized(Activities activity, String activityId, int apiRequestMethod) {
             super(activity, activityId);
             this.apiRequestMethod = apiRequestMethod;
         }
@@ -46,12 +46,12 @@ public class ActivityEvent extends BaseNetworkEvent {
          * @param activity
          * @param apiRequestMethod
          */
-        public OnLoadingInitialized(Activities activity, String apiRequestMethod) {
+        public OnLoadingInitialized(Activities activity, int apiRequestMethod) {
             super(activity, "");
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public String getApiRequestMethod() {
+        public int getApiRequestMethod() {
             return apiRequestMethod;
         }
     }

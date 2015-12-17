@@ -12,21 +12,20 @@ import com.squareup.otto.Bus;
 public class ApiRequestHandler {
 
     // common static method codes for each Retrofit API service interface.
-    public static final String GET = "get";
-    public static final String GET_ALL = "getAll";
-    public static final String ADD = "add";
-    public static final String UPDATE = "update";
-    public static final String DELETE = "delete";
-    public static final String TOTAL_LOCATIONS_COUNT = "totalLocations";
+    public static final int GET = 0x3E8;
+    public static final int GET_ALL = 0x3E9;
+    public static final int ADD = 0x3EA;
+    public static final int UPDATE = 0x3EB;
+    public static final int DELETE = 0x3EC;
+    public static final int TOTAL_LOCATIONS_COUNT = 0x3ED;
     // Activity Api Service related method codes.
-    public static final String OBSERVATIONS = "observations";
-    public static final String LOCATIONS = "locations";
+    public static final int OBSERVATIONS = 0x3EE;
+    public static final int LOCATIONS = 0x3EF;
     // Login Api service method codes
-    public static final String LOGIN = "login";
+    public static final int LOGIN = 0x3F0;
     // User Api service method codes.
-    public static final String TOTAL_ACTIVITIES_COUNT = "totalActivities";
-    public static final String TOTAL_OBSERVATIONS_COUNT = "totalObservations";
-    public static final int GET_METHOD = 0x03E8;
+    public static final int TOTAL_ACTIVITIES_COUNT = 0x3F1;
+    public static final int TOTAL_OBSERVATIONS_COUNT = 0x3F2;
 
     protected static final String ACCESS_TOKEN = "rqBGCbJJ7q0pxbARViZDKmaJJphgR5xFxftwR5qIQYelrfTvfACgq6AiDEUGNoJj";
 

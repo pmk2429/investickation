@@ -15,24 +15,24 @@ public class TickEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<Tick, String> {
 
-        public String apiRequestMethod;
+        public int apiRequestMethod;
 
-        public OnLoadingInitialized(String tickId, String apiRequestMethod) {
+        public OnLoadingInitialized(String tickId, int apiRequestMethod) {
             super(tickId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(Tick tick, String tickId, String apiRequestMethod) {
+        public OnLoadingInitialized(Tick tick, String tickId, int apiRequestMethod) {
             super(tick, tickId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(Tick tick, String apiRequestMethod) {
+        public OnLoadingInitialized(Tick tick, int apiRequestMethod) {
             super(tick, "");
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public String getApiRequestMethod() {
+        public int getApiRequestMethod() {
             return apiRequestMethod;
         }
     }

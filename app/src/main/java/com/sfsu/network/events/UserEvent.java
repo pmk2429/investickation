@@ -15,24 +15,24 @@ public class UserEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<User, String> {
 
-        public String apiRequestMethod;
+        public int apiRequestMethod;
 
-        public OnLoadingInitialized(String userId, String apiRequestMethod) {
+        public OnLoadingInitialized(String userId, int apiRequestMethod) {
             super(userId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(User user, String userId, String apiRequestMethod) {
+        public OnLoadingInitialized(User user, String userId, int apiRequestMethod) {
             super(user, userId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(User user, String apiRequestMethod) {
+        public OnLoadingInitialized(User user, int apiRequestMethod) {
             super(user, "");
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public String getApiRequestMethod() {
+        public int getApiRequestMethod() {
             return apiRequestMethod;
         }
     }

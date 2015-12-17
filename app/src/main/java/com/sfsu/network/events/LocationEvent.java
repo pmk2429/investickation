@@ -15,24 +15,24 @@ public class LocationEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<EntityLocation, String> {
 
-        public String apiRequestMethod;
+        public int apiRequestMethod;
 
-        public OnLoadingInitialized(String locationId, String apiRequestMethod) {
+        public OnLoadingInitialized(String locationId, int apiRequestMethod) {
             super(locationId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(EntityLocation entityLocation, String locationId, String apiRequestMethod) {
+        public OnLoadingInitialized(EntityLocation entityLocation, String locationId, int apiRequestMethod) {
             super(entityLocation, locationId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(EntityLocation entityLocation, String apiRequestMethod) {
+        public OnLoadingInitialized(EntityLocation entityLocation, int apiRequestMethod) {
             super(entityLocation, "");
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public String getApiRequestMethod() {
+        public int getApiRequestMethod() {
             return apiRequestMethod;
         }
     }

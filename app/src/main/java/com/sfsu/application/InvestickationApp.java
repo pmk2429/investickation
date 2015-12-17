@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.handler.ActivityRequestHandler;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.network.handler.LocationRequestHandler;
 import com.sfsu.network.handler.ObservationRequestHandler;
 import com.sfsu.network.handler.TickRequestHandler;
@@ -21,6 +22,7 @@ public class InvestickationApp extends Application {
     // single object of application
     private static InvestickationApp mInstance;
 
+    private static ApiRequestHandler mApiRequestHandler;
     private static UserRequestHandler mUserRequestHandler;
     private static ActivityRequestHandler mActivityRequestHandler;
     private static ObservationRequestHandler mObservationRequestHandler;
@@ -59,5 +61,7 @@ public class InvestickationApp extends Application {
         mTickRequestHandler = new TickRequestHandler(mBus);
         mBus.register(mTickRequestHandler);
 
+
+        // write the logic for getting the AccessToken and UserId from the AuthPreferences
     }
 }

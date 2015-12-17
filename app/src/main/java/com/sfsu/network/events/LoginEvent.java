@@ -15,7 +15,7 @@ public class LoginEvent extends BaseNetworkEvent {
      */
     public static class OnLoadingInitialized extends OnStart<String, String> {
 
-        public String apiRequestMethod;
+        public int apiRequestMethod;
         public String email;
         public String password;
 
@@ -25,7 +25,7 @@ public class LoginEvent extends BaseNetworkEvent {
             this.password = password;
         }
 
-        public String getApiRequestMethod() {
+        public int getApiRequestMethod() {
             return apiRequestMethod;
         }
     }
