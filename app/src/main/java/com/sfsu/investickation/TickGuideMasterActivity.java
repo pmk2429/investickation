@@ -98,7 +98,9 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
     @Override
     public void onTickListItemClickListener(Tick mTick) {
         TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, mTick);
-        replaceFragment(guideDetailFragment);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
+        transaction.commit();
     }
 
     private void replaceFragment(Fragment fragment) {

@@ -9,6 +9,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,10 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
-import com.sfsu.utils.AppUtils;
 
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
@@ -43,7 +44,7 @@ public class ActivityRunning extends Fragment {
 
     private final String LOGTAG = "~!@#$ActivityRunning :";
     private MapView mapView;
-    private Activities currentActivityObj;
+    private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
     private Intent locationIntent;
@@ -119,6 +120,14 @@ public class ActivityRunning extends Fragment {
         getActivity().setTitle("Ongoing Activity");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mAuthPreferences = new AuthPreferences(mContext);
+
+        /* retrieve Activity Object saved in the server. The retrieved object has the running state
+        set. Perform all the operations only when state is RUNNING.
+        */
+        if (getArguments().getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY) != null) {
+            ongoingActivityObj = getArguments().getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY);
+            Log.i(LOGTAG, ongoingActivityObj.toString());
+        }
     }
 
     @Override
@@ -131,11 +140,6 @@ public class ActivityRunning extends Fragment {
 
         // initialize the location intent.
         locationIntent = new Intent(mContext, LocationService.class);
-
-        /* retrieve all the data passed from the ActivityRunning fragment.
-        The retrieved object has the running state set. So perform all the operations only when state is RUNNING.
-         */
-        currentActivityObj = getArguments().getParcelable(AppUtils.ACTIVITY_RESOURCE);
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
@@ -153,7 +157,7 @@ public class ActivityRunning extends Fragment {
 
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
-        textViewData.append(currentActivityObj.getActivityName() + " @ " + currentActivityObj.getLocation_area());
+        textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
         txtView_activityName.setText(textViewData.toString());
 
         // initialize and set onClickListener for FAB
@@ -162,18 +166,18 @@ public class ActivityRunning extends Fragment {
             @Override
             public void onClick(View view) {
                 // onStop button click, change the state of Activity to CREATED.
-                currentActivityObj.setState(Activities.STATE.CREATED);
+                ongoingActivityObj.setState(Activities.STATE.CREATED);
 
                 // pass on the Activities object to the List of activities.
-                mListener.onActivityStopButtonClicked(currentActivityObj);
+                mListener.onActivityStopButtonClicked(ongoingActivityObj);
             }
         });
 
-        // Open the New Observation Fragment in button click.
+        // Open the New Observation Fragment in button click and pass the activityId to make Activity related Observations.
         btn_addObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onAddNewObservationButtonClicked(currentActivityObj.getId());
+                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
             }
         });
 
@@ -186,17 +190,13 @@ public class ActivityRunning extends Fragment {
         mListener = null;
     }
 
-    /* start the Service on onResume and register for broadcast receiver too only if the Activity state is RUNNING.
-    So check for the state of the ActivtyObjet and then perform startService as well as register for Receiver.
-    */
-
     @Override
     public void onResume() {
         mapView.onResume();
         super.onResume();
 
         // perform check for RUNNING state of Activity
-        if (currentActivityObj.getState() == Activities.STATE.RUNNING) {
+        if (ongoingActivityObj.getState() == Activities.STATE.RUNNING) {
 
             // start the service to capture Location updates.
             getActivity().startService(locationIntent);
@@ -229,11 +229,7 @@ public class ActivityRunning extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    /**
-     * Callback Interface for defining the callback methods to the UserActivityMasterActivity Activity.
-     * 1) Unregister the broadcast receiver in the onPause.
-     * 2)
-     */
+
     @Override
     public void onPause() {
         super.onPause();
@@ -261,9 +257,9 @@ public class ActivityRunning extends Fragment {
          * Callback method to handle the new AddObservation button click in <tt>ActivityNew</tt> Fragment. This method takes
          * in the unique UUID of the Activity currently ongoing to determing that the Observation is under a specific activity.
          *
-         * @param currentActivityUUID
+         * @param activityId
          */
-        public void onAddNewObservationButtonClicked(String currentActivityUUID);
+        public void onAddNewObservationClicked(String activityId);
     }
 
 }

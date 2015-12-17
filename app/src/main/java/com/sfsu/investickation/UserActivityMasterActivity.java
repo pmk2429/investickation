@@ -4,6 +4,7 @@ package com.sfsu.investickation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.exceptions.NetworkErrorException;
@@ -12,7 +13,6 @@ import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
 
@@ -25,9 +25,11 @@ import java.util.ArrayList;
  */
 public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
 
-    public static final String KEY_USRACT_ADD_OBS = "add_new_observation_from_activity";
-    public static final String KEY_ACTIVITY_UUID = "ongoing_activity_uuid";
+    public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
+    public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
     public static final String KEY_ACTIVITY_DETAILS = "selected_activity";
+    public static final String KEY_RUNNING_ACTIVITY = "ongoing_activity";
+
     private final String LOGTAG = "~!@#$UserActivity :";
     private ArrayList<Activities> listSavedActivities;
 
@@ -75,6 +77,17 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
+    }
 
     @Override
     public void onBackPressed() {
@@ -113,15 +126,8 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
     @Override
     public void onPlayButtonClick(Activities mActivity) {
-
-        ActivityRunning mActivityRunning = new ActivityRunning();
-        // set the data to Bundle to pass it to ActivityRunning Fragment
-        Bundle newActivityBundle = new Bundle();
-        if (mActivity != null) {
-            newActivityBundle.putParcelable(AppUtils.ACTIVITY_RESOURCE, mActivity);
-            mActivityRunning.setArguments(newActivityBundle);
-        }
-        // initialize the transaction.
+        // passes the Newly created object to the ActivityRunning fragment.
+        ActivityRunning mActivityRunning = ActivityRunning.newInstance(KEY_RUNNING_ACTIVITY, mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mActivityRunning);
         transaction.addToBackStack(null);
@@ -130,47 +136,28 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
 
     @Override
-    public void onActivityDetailsClick() {
-
-    }
-
-
-    /* The newly created Activity object is passed over to Retrofit. The Activity model references the current user who is
-     logged in and hence it is mandatory to pass the current user id along with the Activity Object. */
-    @Override
-    public void onActivityStopButtonClicked(Activities mNewActivityObj) {
-        // get the current User Id.
+    public void onActivityStopButtonClicked(Activities mActivity) {
 
     }
 
     /*
-     *The currentActivityUUID param will help identify that whether the Observation belongs to any {@lin}
+     * The passed activityId will be used to make Observations for current Activity.
      */
     @Override
-    public void onAddNewObservationButtonClicked(String currentActivityUUID) {
+    public void onAddNewObservationClicked(String activityId) {
         try {
             // create and intent and open the AddObservation fragment to add Observation.
             Intent addObservationIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
             // put the extras in addObservationIntent to perform fragment Transaction efficiently.
-            addObservationIntent.putExtra(KEY_USRACT_ADD_OBS, 1);
-            addObservationIntent.putExtra(KEY_ACTIVITY_UUID, currentActivityUUID);
+            addObservationIntent.putExtra(KEY_ACTIVITY_ADD_OBS, 1);
+            addObservationIntent.putExtra(KEY_ACTIVITY_ID, activityId);
             startActivity(addObservationIntent);
             finish();
         } catch (Exception e) {
+            Log.i(LOGTAG, "failed to open Add Observation frag");
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        BusProvider.bus().unregister(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        BusProvider.bus().register(this);
-    }
 
     /**
      * Method to call the RetrofitController and get List of all Activities stored in Server.
@@ -182,6 +169,11 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         ArrayList<Activities> activitiesList = new ArrayList<>();
         //(ArrayList<Activities>) (ArrayList<?>) retrofitController.getAll(AppUtils.ACTIVITY_RESOURCE);
         return activitiesList;
+
+    }
+
+    @Override
+    public void onViewAllObservationsClicked() {
 
     }
 }

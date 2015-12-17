@@ -1,5 +1,7 @@
 package com.sfsu.network.handler;
 
+import com.squareup.otto.Bus;
+
 /**
  * <p>
  * Parent class for all RequestHandlers in the application. It contains the api method identifiers and a constructor to handle
@@ -8,6 +10,7 @@ package com.sfsu.network.handler;
  * Created by Pavitra on 11/27/2015.
  */
 public class ApiRequestHandler {
+
     // common static method codes for each Retrofit API service interface.
     public static final String GET = "get";
     public static final String GET_ALL = "getAll";
@@ -23,19 +26,13 @@ public class ApiRequestHandler {
     // User Api service method codes.
     public static final String TOTAL_ACTIVITIES_COUNT = "totalActivities";
     public static final String TOTAL_OBSERVATIONS_COUNT = "totalObservations";
-
     public static final int GET_METHOD = 0x03E8;
 
-//    private Bus mBus;
-//
-//    /**
-//     * Constructor overloading to initialize the Bus to be used for this Request Handling.
-//     *
-//     * @param bus
-//     */
-//    public ApiRequestHandler(Bus bus) {
-//        mBus = bus;
-//    }
+    protected static final String ACCESS_TOKEN = "rqBGCbJJ7q0pxbARViZDKmaJJphgR5xFxftwR5qIQYelrfTvfACgq6AiDEUGNoJj";
 
+    protected Bus mBus;
 
+    public ApiRequestHandler(Bus bus) {
+        this.mBus = bus;
+    }
 }

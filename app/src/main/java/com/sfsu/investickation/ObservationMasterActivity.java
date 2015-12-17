@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -39,17 +40,16 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
 
             // if Intent is called by clicking on the PostObservation button in Dashboard
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
-                AddObservation addObservationFragment = AddObservation.newInstance("", "");
-                setFragmentTransaction(addObservationFragment);
-            } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_USRACT_ADD_OBS, 0) == 1) {
-                String currentActivityUUID = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
+                AddObservation mAddObservation = AddObservation.newInstance("", "");
+                setFragmentTransaction(mAddObservation);
+            } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
+                String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
+                Log.i(LOGTAG, activityId);
                 // if the intent is called from the UserActivityMasterActivity
-                AddObservation addObservationFragment = AddObservation.newInstance(UserActivityMasterActivity
-                        .KEY_ACTIVITY_UUID, currentActivityUUID);
-                setFragmentTransaction(addObservationFragment);
-            }
-            // if the Intent is called by clicking on View Observations list in Dashboard
-            else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
+                AddObservation mAddObservation = AddObservation.newInstance(UserActivityMasterActivity
+                        .KEY_ACTIVITY_ID, activityId);
+                setFragmentTransaction(mAddObservation);
+            } else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 ObservationsList observationsList = new ObservationsList();
                 setFragmentTransaction(observationsList);
             }

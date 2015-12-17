@@ -46,9 +46,7 @@ public class Activities implements Parcelable, Entity {
     private String user_id;
     // Enum identifier for setting State of Object.
     private STATE activityState;
-    private String UUID;
 
-    // Default constructor -> REQUIRED
     public Activities() {
     }
 
@@ -60,12 +58,12 @@ public class Activities implements Parcelable, Entity {
      * @param num_pets
      * @param timestamp
      */
-    public Activities(String name, int num_of_people, int num_pets, long timestamp, String UUID) {
+    public Activities(String name, int num_of_people, int num_pets, long timestamp, String user_id) {
         this.activityName = name;
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
         this.timestamp1 = timestamp;
-        this.UUID = UUID;
+        this.user_id = user_id;
     }
 
     /**
@@ -173,14 +171,6 @@ public class Activities implements Parcelable, Entity {
         this.updated_at1 = updated_at;
     }
 
-    public String getUUID() {
-        return UUID;
-    }
-
-    public void setUUID(String UUID) {
-        this.UUID = UUID;
-    }
-
     /**
      * Returns the state of the this Activity
      *
@@ -274,6 +264,9 @@ public class Activities implements Parcelable, Entity {
      * A list of constant values assigned to Activities. Started represents the
      */
     public static enum STATE {
-        RUNNING, CREATED;
+        @SerializedName("RUNNING")
+        RUNNING,
+        @SerializedName("CREATED")
+        CREATED;
     }
 }

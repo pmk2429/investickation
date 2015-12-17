@@ -144,7 +144,7 @@ public class ActivityDetails extends Fragment {
         /**
          * Callback method to handle the click event
          */
-        public void onActivityDetailsClick();
+        public void onViewAllObservationsClicked();
     }
 
 }

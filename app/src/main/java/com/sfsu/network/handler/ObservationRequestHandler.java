@@ -29,7 +29,6 @@ import retrofit.Response;
 public class ObservationRequestHandler extends ApiRequestHandler {
 
     private ObservationApiService mApiService;
-    private Bus mBus;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -37,8 +36,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param bus
      */
     public ObservationRequestHandler(Bus bus) {
-        this.mBus = bus;
-        mApiService = RetrofitApiClient.createService(ObservationApiService.class);
+        super(bus);
+        mApiService = RetrofitApiClient.createService(ObservationApiService.class, ACCESS_TOKEN);
     }
 
     /**

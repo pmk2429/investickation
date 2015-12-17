@@ -34,8 +34,7 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.TickEvent;
-import com.sfsu.network.rest.service.ActivityApiService;
-import com.sfsu.utils.AppUtils;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ActivityApiService.GET_ALL));
+        BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
     @Override

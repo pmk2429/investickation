@@ -43,6 +43,7 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
@@ -116,8 +117,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
 
 
-        if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_UUID)) {
-            activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_UUID);
+        if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
+            activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
         } else {
             activityUUID = "";
         }
@@ -180,7 +181,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
                             entityLocation, userId);
 
-                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, AppUtils.ADD_METHOD));
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 }
             }
         });

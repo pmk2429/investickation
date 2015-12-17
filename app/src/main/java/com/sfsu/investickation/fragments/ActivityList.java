@@ -112,8 +112,9 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Subscribe
-    public void onActivitiesLoadedSuccess(ActivityEvent.OnLoadingError onLoadingError) {
+    public void onActivitiesLoadedFailure(ActivityEvent.OnLoadingError onLoadingError) {
         Log.i(LOGTAG, "Activities loaded failure");
+        Log.i(LOGTAG, onLoadingError.getErrorMessage());
     }
 
 

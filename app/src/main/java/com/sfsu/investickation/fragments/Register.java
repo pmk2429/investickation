@@ -21,7 +21,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.UserEvent;
-import com.sfsu.utils.AppUtils;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -33,7 +33,7 @@ import com.squareup.otto.Subscribe;
  * will then after make a network call and save the data on server. Meanwhile, when the server gives back the response, this
  * Fragment passes the {@link User} object to the {@link com.sfsu.investickation.HomeActivity} where the copy of a User object
  * is stored on the local SQLite DB.
- * <p>
+ * <p/>
  * The main reason for storing the User on local DB is to avoid making unwanted network calls when the user wants to log back
  * in.
  */
@@ -150,7 +150,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 mUserObj = User.createUser(fullName, address, city, state, zipcode, email, password);
 
                 // once the user object is created, pass it to Bus to send it over to api via retrofit
-                BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, AppUtils.ADD_METHOD));
+                BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, ApiRequestHandler.ADD));
             }
         }
     }

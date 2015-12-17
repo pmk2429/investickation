@@ -42,13 +42,11 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     @Override
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
         if (holder != null) {
-            if (observationList != null && observationList.size() > 0) {
-                Observation mObservation = observationList.get(position);
-                holder.txtView_observationName.setText(mObservation.getTickName());
-                holder.txtView_location.setText(mObservation.getGeoLocation());
-                String dateAndTime = AppUtils.getCurrentDateAndTime(mObservation.getTimestamp());
-                holder.txtView_timestamp.setText(dateAndTime);
-            }
+            Observation mObservation = observationList.get(position);
+            holder.txtView_observationName.setText(mObservation.getTickName());
+            holder.txtView_location.setText(mObservation.getGeoLocation());
+            String dateAndTime = AppUtils.getCurrentDateAndTime(mObservation.getTimestamp());
+            holder.txtView_timestamp.setText(dateAndTime);
         }
     }
 

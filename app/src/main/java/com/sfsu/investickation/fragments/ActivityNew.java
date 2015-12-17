@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.GoogleMap;
@@ -292,6 +292,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        BusProvider.bus().register(this);
     }
 
     @Override
@@ -304,6 +305,12 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
     }
 
     @Override
@@ -333,7 +340,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
 
             // create a new Activities Object (Model).
-            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), activityUUID);
+            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), "5654fdb3444466ab6589f741");
 
             // set the state of Currently running activity to Running.
             newActivityObj.setState(Activities.STATE.RUNNING);
@@ -341,6 +348,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // build on the same newActivity Object.
             newActivityObj.setLocation_area(locationArea);
 
+            Log.i(LOGTAG, "play clicked");
             // once the play button is clicked, make a network call and create new Activities on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
         } else {
@@ -403,28 +411,30 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         if (locationArea != null || !locationArea.equals("")) {
             this.locationArea = locationArea;
         } else {
-            newActivityObj.setLocation_area("AMIGOE");
+            newActivityObj.setLocation_area(".");
         }
     }
 
 
     /**
-     * Subscribes to the event of successful {@link Activities} creation on the server.
+     * Subscribes to the event of successful in creating {@link Activities} on the server.
      *
      * @param onLoaded
      */
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Activities createdActivity = null;
-        if (onLoaded.getResponse() != null) {
-            createdActivity = onLoaded.getResponse();
-        }
+        Activities createdActivity = onLoaded.getResponse();
         mInterface.onPlayButtonClick(createdActivity);
     }
 
+    /**
+     * Subscribes to the event of failure in creating {@link Activities} on the server.
+     *
+     * @param onLoaded
+     */
     @Subscribe
-    public void onCreateActivitiesSuccess(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, "failed to create Activity", Toast.LENGTH_LONG).show();
+    public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
+        Log.i(LOGTAG, "failed to create Activity");
     }
 
     /**
@@ -433,7 +443,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public interface IActivityNewCallBack {
         /**
          * Callback method when User clicks on the Play Button defined in the {@link ActivityNew} Fragment. On clicking the
-         * play button, the {@link Activities} is created on the server and using the create ActivityId, observations are made.
+         * play button, the {@link Activities} is created on the server and using the created ActivityId, observations are made.
          *
          * @param newActivityDetails
          */
