@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
@@ -24,22 +23,19 @@ import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.events.ActivityEvent;
-import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
-import com.squareup.otto.Subscribe;
 
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
  * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
  * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
  * Observation for the current ongoing activity.
- * <p>
+ * <p/>
  * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
  * BroadcastReceiver, recording the observations etc.
- * <p>
+ * <p/>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
  * Observation,
  */
@@ -77,12 +73,26 @@ public class ActivityRunning extends Fragment {
 
 
     /**
+     * Returns the instance of {@link ActivityRunning} fragment with bundle.
+     *
+     * @param key
+     * @param mActivity
+     * @return
+     */
+    public static ActivityRunning newInstance(String key, Activities mActivity) {
+        ActivityRunning mActivityRunning = new ActivityRunning();
+        Bundle args = new Bundle();
+        args.putParcelable(key, mActivity);
+        mActivityRunning.setArguments(args);
+        return mActivityRunning;
+    }
+
+    /**
      * Method to collect location every specified interval of time.
      *
      * @param locationIntent
      */
     private void collectLocationData(Intent locationIntent) {
-
         if (locationIntent != null) {
             Bundle bundle = locationIntent.getExtras();
             Location locationVal = (Location) bundle.get("locINFO");
@@ -154,8 +164,8 @@ public class ActivityRunning extends Fragment {
                 // onStop button click, change the state of Activity to CREATED.
                 currentActivityObj.setState(Activities.STATE.CREATED);
 
-                // save the Activity on the server.
-                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(currentActivityObj, ApiRequestHandler.ADD));
+                // pass on the Activities object to the List of activities.
+                mListener.onActivityStopButtonClicked(currentActivityObj);
             }
         });
 
@@ -163,7 +173,7 @@ public class ActivityRunning extends Fragment {
         btn_addObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onAddNewObservationButtonClicked(currentActivityObj.getUUID());
+                mListener.onAddNewObservationButtonClicked(currentActivityObj.getId());
             }
         });
 
@@ -235,33 +245,9 @@ public class ActivityRunning extends Fragment {
 
 
     /**
-     * Subscribes to success of activity on create .
-     *
-     * @param onLoaded
-     */
-    @Subscribe
-    public void onActivityCreateSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Activities mActivityResponse = onLoaded.getResponse();
-
-        // pass the activity response to the UserActivityMasterActivity
-        mListener.onActivityStopButtonClicked(mActivityResponse);
-    }
-
-    /**
-     * Subscribes to failure of activity on create.
-     *
-     * @param onLoadingError
-     */
-    @Subscribe
-    public void onActivityCreateFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, "Error creating activity", Toast.LENGTH_LONG).show();
-    }
-
-    /**
      * Callback Interface for handling onClick Listeners in <tt>ActivityRunning</tt> Fragment.
      */
     public interface IActivityRunningCallBacks {
-
         /**
          * Callback method when the user clicks on the Stop button in <tt>ActivityRunning</tt> Fragment. The newly created
          * Activity object is passed  to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.

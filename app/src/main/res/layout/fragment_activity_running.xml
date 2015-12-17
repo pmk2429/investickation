@@ -32,7 +32,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="-40dp"
-        android:layout_marginRight="@dimen/view_dimen_small"
+        android:layout_marginEnd="@dimen/view_dimen_small"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
         />
@@ -60,14 +60,14 @@
         android:text="Hiking @ Golden Gate bridge"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/font_medium"/>
+        android:textSize="@dimen/font_large"/>
 
 
     <!--Line separator-->
     <View
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/separator_dimen"
         android:layout_below="@id/textView_actRun_activityName"
         android:layout_marginTop="@dimen/view_dimen_large"
         android:background="@color/divider"/>
@@ -81,17 +81,17 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/view_dimen_X_large"
         android:layout_weight="1"
-        android:elevation="5dp"
+        android:elevation="@dimen/cardview_elevation"
         android:padding="@dimen/view_dimen_large">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:paddingBottom="8dp"
+            android:paddingBottom="@dimen/view_dimen_small"
             android:paddingLeft="@dimen/view_dimen_large"
             android:paddingRight="@dimen/view_dimen_large"
-            android:paddingTop="8dp">
+            android:paddingTop="@dimen/view_dimen_small">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/view_dimen_large"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
         fab:fab_icon="@drawable/ic_stop_white_36dp"/>

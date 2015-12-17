@@ -4,9 +4,6 @@ package com.sfsu.investickation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.exceptions.NetworkErrorException;
@@ -115,18 +112,18 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     }
 
     @Override
-    public void onPlayButtonClick(Activities newActivityDetailsObject) {
+    public void onPlayButtonClick(Activities mActivity) {
 
-        ActivityRunning mActivityRunningFragment = new ActivityRunning();
+        ActivityRunning mActivityRunning = new ActivityRunning();
         // set the data to Bundle to pass it to ActivityRunning Fragment
         Bundle newActivityBundle = new Bundle();
-        if (newActivityDetailsObject != null) {
-            newActivityBundle.putParcelable(AppUtils.ACTIVITY_RESOURCE, newActivityDetailsObject);
-            mActivityRunningFragment.setArguments(newActivityBundle);
+        if (mActivity != null) {
+            newActivityBundle.putParcelable(AppUtils.ACTIVITY_RESOURCE, mActivity);
+            mActivityRunning.setArguments(newActivityBundle);
         }
         // initialize the transaction.
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_fragment_container, mActivityRunningFragment);
+        transaction.replace(R.id.activity_fragment_container, mActivityRunning);
         transaction.addToBackStack(null);
         transaction.commit();
     }

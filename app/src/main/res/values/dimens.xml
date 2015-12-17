@@ -48,6 +48,7 @@
     <dimen name="font_X3_large">36sp</dimen>
 
     <!-- Dimen for Thumbnail MapView and Images Cardview -->
+    <dimen name="cardview_elevation">8dp</dimen>
     <dimen name="cardview_default">180dp</dimen>
     <dimen name="cardview_large">200dp</dimen>
     <dimen name="cardview_X_large">240dp</dimen>

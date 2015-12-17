@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,6 +32,7 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -341,8 +343,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
             // once the play button is clicked, make a network call and create new Activities on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
-
-            mInterface.onPlayButtonClick(newActivityObj);
         } else {
             return;
         }
@@ -409,6 +409,25 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
 
     /**
+     * Subscribes to the event of successful {@link Activities} creation on the server.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
+        Activities createdActivity = null;
+        if (onLoaded.getResponse() != null) {
+            createdActivity = onLoaded.getResponse();
+        }
+        mInterface.onPlayButtonClick(createdActivity);
+    }
+
+    @Subscribe
+    public void onCreateActivitiesSuccess(ActivityEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, "failed to create Activity", Toast.LENGTH_LONG).show();
+    }
+
+    /**
      * Interface Callback to define the callback methods for ActivityNew fragment
      */
     public interface IActivityNewCallBack {
@@ -418,7 +437,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
          *
          * @param newActivityDetails
          */
-        public void onPlayButtonClick(Activities newActivityDetails);
+        public void onPlayButtonClick(Activities mActivity);
     }
 
     /**
