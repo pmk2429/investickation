@@ -2,6 +2,7 @@ package com.sfsu.application;
 
 import android.app.Application;
 
+import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.handler.ActivityRequestHandler;
 import com.sfsu.network.handler.ApiRequestHandler;
@@ -63,5 +64,6 @@ public class InvestickationApp extends Application {
 
 
         // write the logic for getting the AccessToken and UserId from the AuthPreferences
+        String accessToken = new AuthPreferences(this).getAccessToken();
     }
 }

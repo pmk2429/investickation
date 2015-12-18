@@ -45,6 +45,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
+    public static final String TAG = "ActivityNew";
     private static final int ID_LENGTH = 16;
     private final String LOGTAG = "~!@#$ActivityNew :";
 

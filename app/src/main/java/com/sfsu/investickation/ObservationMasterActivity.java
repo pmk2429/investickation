@@ -12,16 +12,15 @@ import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.ObservationsList;
-import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.events.ObservationEvent;
-import com.sfsu.network.handler.ApiRequestHandler;
-import com.sfsu.utils.AppUtils;
-import com.squareup.otto.Subscribe;
 
 public class ObservationMasterActivity extends BaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
+    public static final String KEY_BACK_TO_RUNNING_ACTIVITY = "back_to_ongoing_activity";
     private final String LOGTAG = "~!@#$ObsMasterAct :";
+    private boolean FLAG_CALLED_FROM_DASHBOARD;
+    private boolean FLAG_CALLED_FROM_ACTIVITY;
+    private boolean FLAG_CALLED_FROM_OBSERVATION;
     private Observation newlyCreatedObs, observationResponseObj;
 
     @Override
@@ -37,12 +36,14 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
             if (savedInstanceState != null) {
                 return;
             }
-
             // if Intent is called by clicking on the PostObservation button in Dashboard
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
+                // set the dashboard flag
+                FLAG_CALLED_FROM_DASHBOARD = true;
                 AddObservation mAddObservation = AddObservation.newInstance("", "");
                 setFragmentTransaction(mAddObservation);
             } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
+                FLAG_CALLED_FROM_ACTIVITY = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 Log.i(LOGTAG, activityId);
                 // if the intent is called from the UserActivityMasterActivity
@@ -78,9 +79,18 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
-            Intent homeIntent = new Intent(ObservationMasterActivity.this, MainActivity.class);
-            startActivity(homeIntent);
-            finish();
+            if (FLAG_CALLED_FROM_DASHBOARD || FLAG_CALLED_FROM_OBSERVATION) {
+                Log.i(LOGTAG, "called from dash, obs");
+                Intent homeIntent = new Intent(ObservationMasterActivity.this, MainActivity.class);
+                startActivity(homeIntent);
+                finish();
+            } else if (FLAG_CALLED_FROM_ACTIVITY) {
+                Log.i(LOGTAG, "called from activity");
+                Intent activityIntent = new Intent(ObservationMasterActivity.this, UserActivityMasterActivity.class);
+                activityIntent.putExtra(KEY_BACK_TO_RUNNING_ACTIVITY, 11);
+                startActivity(activityIntent);
+                finish();
+            }
             super.onBackPressed();
         } else if (count > 0) {
             getSupportFragmentManager().popBackStack();
@@ -111,6 +121,7 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
 
     @Override
     public void onObservationAddListener() {
+        FLAG_CALLED_FROM_OBSERVATION = true;
         AddObservation addObservationFragment = new AddObservation();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.observation_fragment_container, addObservationFragment);
@@ -142,33 +153,6 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
     @Override
     public void postObservationData(Observation newObservation) {
         newlyCreatedObs = newObservation;
-        // pass this object to RetrofitController and get response.
-        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newlyCreatedObs, ApiRequestHandler.ADD));
     }
 
-
-    /**
-     * Subscriber method to get the Response returned via Retrofit and eventually published by {@link com.squareup.otto.Bus}
-     *
-     * @param onLoaded - OnLoaded Observation Response Event
-     */
-    @Subscribe
-    public void getObservationResponse(ObservationEvent.OnLoaded onLoaded) {
-
-        // define the ObservationsList Fragment
-        ObservationsList mObservationsList = new ObservationsList();
-
-        // once you get the response, simply pass it to RemoteObservations Fragment to display
-        Bundle newObservationBundle = new Bundle();
-
-        // TODO: verify the object returned by the Retrofit and send it to RemoteObservationList
-        newObservationBundle.putParcelable(AppUtils.OBSERVATION_RESOURCE, onLoaded.getResponse());
-
-        mObservationsList.setArguments(newObservationBundle);
-        // begin transaction and commit
-        FragmentTransaction mFragmentTransaction = getSupportFragmentManager().beginTransaction();
-        mFragmentTransaction.replace(R.id.observation_fragment_container, mObservationsList);
-        mFragmentTransaction.addToBackStack(null);
-        mFragmentTransaction.commit();
-    }
 }

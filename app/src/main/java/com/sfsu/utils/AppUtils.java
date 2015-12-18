@@ -49,6 +49,8 @@ public class AppUtils {
     public static final String OBSERVATION_LIST_KEY = "key_observation_list";
     public static final String LOCATION_LIST_KEY = "key_location_list";
     public static final String TICK_LIST_KEY = "key_tick_list";
+    public static final String PREF_ONGOING_ACTIVITY = "ongoing_activity_pref";
+    public static final String EDITOR_ONGOING_ACTIVITY = "editore_ongoing_activity";
     // Service Verbs
 //    public static final String GET_METHOD = "get";
 //    public static final String GET_ALL_METHOD = "getAll";

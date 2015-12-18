@@ -7,7 +7,7 @@ import com.sfsu.investickation.R;
 
 /**
  * SharedPreference to store the OAuth 2.0 Access Token when the user successfully logs in.
- * <p>
+ * <p/>
  * Created by Pavitra on 12/5/2015.
  */
 public class AuthPreferences {
@@ -21,6 +21,13 @@ public class AuthPreferences {
         this.mContext = mContext;
     }
 
+    /**
+     * Allows to store <tt>user_id</tt> and <tt>accessToken</tt> for the current logged in {@link com.sfsu.entities.User}.
+     *
+     * @param authToken
+     * @param userId
+     * @return
+     */
     public boolean setCredentials(String authToken, String userId) {
         tokenSharedPreferences = mContext.getSharedPreferences(mContext.getResources().
                 getString(R.string.pref_file_name), Context.MODE_PRIVATE);

@@ -507,19 +507,15 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void validate(View mView, String text) {
-        Log.i(LOGTAG, "method called");
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
             case R.id.editText_addObs_tickName:
-                Log.i(LOGTAG, "name");
                 isTickNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
             case R.id.editText_addObs_tickSpecies:
-                Log.i(LOGTAG, "species");
                 isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
                 break;
             case R.id.editText_addObs_numOfTicks:
-                Log.i(LOGTAG, "number");
                 isTotalTicksNumber = validateNumber(mEditText, text);
                 break;
         }
@@ -527,7 +523,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
 
     /**
-     * Subscribes to the successful observation create event.
+     * Subscribes to the event of successful observation creation.
      *
      * @param onLoaded
      */
@@ -540,8 +536,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Subscribe
     public void onObservationCreateFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, "Observation cannot be posted on server", Toast.LENGTH_LONG).show();
-        // TODO: save the Observation in the SQLite db.
+        Log.i(LOGTAG, onLoadingError.getErrorMessage());
     }
 
     /**
@@ -549,8 +544,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     public static interface IAddObservationCallBack {
         /**
-         * Callback method to post the new {@link Observation} on the Server via
-         * {@link com.sfsu.network.handler.ObservationRequestHandler} and {@link com.squareup.otto.Bus}.
+         * Callback method to post the new {@link Observation} on the SQLite DB after Response is obtained from server.
          *
          * @param newObservation
          */

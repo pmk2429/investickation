@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,30 +19,37 @@ import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
+import com.google.gson.Gson;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
-import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
+import com.sfsu.utils.AppUtils;
 
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
  * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
  * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
  * Observation for the current ongoing activity.
- * <p/>
+ * <p>
  * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
  * BroadcastReceiver, recording the observations etc.
- * <p/>
+ * </p>
+ * <p>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
+ * </p>
+ * <p>In addition, once the user clicks on <tt>'Add Observation'</tt> button, the {@link AddObservation} Fragment is opened and
+ * the control is redirected to new Fragment inside activity. When this happens, the current ongoing activity is stored in
+ * SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
  * Observation,
  */
 public class ActivityRunning extends Fragment {
 
+    public static final String TAG = "~!@#$ActivityRunning :";
     private final String LOGTAG = "~!@#$ActivityRunning :";
     private MapView mapView;
     private Activities ongoingActivityObj;
@@ -52,7 +60,12 @@ public class ActivityRunning extends Fragment {
     private GoogleMapController mGoogleMapController;
     private CardView btn_addObservation;
     private TextView txtView_activityName;
-    private AuthPreferences mAuthPreferences;
+    private Bundle args;
+    private FloatingActionButton stopActivity;
+    private boolean FLAG_RUNNING;
+    private SharedPreferences activityPref;
+    private SharedPreferences.Editor editor;
+    private Gson gson;
 
     private LocationController.ILocationCallBacks mLocationListener;
     /**
@@ -119,16 +132,13 @@ public class ActivityRunning extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Ongoing Activity");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        mAuthPreferences = new AuthPreferences(mContext);
-
-        /* retrieve Activity Object saved in the server. The retrieved object has the running state
-        set. Perform all the operations only when state is RUNNING.
-        */
-        if (getArguments().getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY) != null) {
-            ongoingActivityObj = getArguments().getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY);
-            Log.i(LOGTAG, ongoingActivityObj.toString());
+        if (getArguments() != null) {
+            args = getArguments();
         }
+        gson = new Gson();
+        activityPref = getActivity().getSharedPreferences(AppUtils.PREF_ONGOING_ACTIVITY, Context.MODE_PRIVATE);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -150,18 +160,65 @@ public class ActivityRunning extends Fragment {
         mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-//        mLocationController.connectGoogleApi();
+        // mLocationController.connectGoogleApi();
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);
 
+        // initialize and set onClickListener for FAB
+        stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_actRun_activityStop);
+
+        return v;
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+
+        // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
+        if (args != null) {
+            if (args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY) != null) {
+                ongoingActivityObj = args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY);
+                Log.i(LOGTAG, ongoingActivityObj.toString());
+            }
+        } else { // get data from SharedPref
+            String json = activityPref.getString(AppUtils.EDITOR_ONGOING_ACTIVITY, "");
+            ongoingActivityObj = gson.fromJson(json, Activities.class);
+        }
+
+        // check if Activities object is not null.
+        if (ongoingActivityObj != null) {
+            populateView();
+        }
+
+        // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
+        if (FLAG_RUNNING) {
+            // start the service to capture Location updates.
+            getActivity().startService(locationIntent);
+
+            // register the broadcast receiver to receive the location objects as broadcast data
+            getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+        }
+
+        BusProvider.bus().register(this);
+    }
+
+
+    private void populateView() {
+        Log.i(LOGTAG, "populating views");
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
         textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
         txtView_activityName.setText(textViewData.toString());
 
-        // initialize and set onClickListener for FAB
-        final FloatingActionButton stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_actRun_activityStop);
         stopActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,31 +238,8 @@ public class ActivityRunning extends Fragment {
             }
         });
 
-        return v;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onResume() {
-        mapView.onResume();
-        super.onResume();
-
-        // perform check for RUNNING state of Activity
-        if (ongoingActivityObj.getState() == Activities.STATE.RUNNING) {
-
-            // start the service to capture Location updates.
-            getActivity().startService(locationIntent);
-
-            // register the broadcast receiver to receive the location objects as broadcast data
-            getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
-        }
-
-        BusProvider.bus().register(this);
+        FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING ? true : false;
+        Log.i(LOGTAG, "" + FLAG_RUNNING);
     }
 
 
@@ -223,6 +257,7 @@ public class ActivityRunning extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        // store the information on map.
         final Bundle mapViewSaveState = new Bundle(outState);
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
@@ -233,12 +268,25 @@ public class ActivityRunning extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        // save the Currently running object in SharedPref to retrieve it later using editor.
+        editor = activityPref.edit();
+        String activityJson = gson.toJson(ongoingActivityObj);
+        editor.putString(AppUtils.EDITOR_ONGOING_ACTIVITY, activityJson);
+        editor.apply();
+
         // stop the service and unregister the broadcast receiver.
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
-        BusProvider.bus().unregister(this);
     }
 
+
+    public Activities getOngoingActivityObj() {
+        return ongoingActivityObj;
+    }
+
+    public void setOngoingActivityObj(Activities ongoingActivityObj) {
+        this.ongoingActivityObj = ongoingActivityObj;
+    }
 
     /**
      * Callback Interface for handling onClick Listeners in <tt>ActivityRunning</tt> Fragment.

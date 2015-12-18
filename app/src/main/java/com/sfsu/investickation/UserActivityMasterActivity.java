@@ -3,18 +3,16 @@ package com.sfsu.investickation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.sfsu.entities.Activities;
-import com.sfsu.exceptions.NetworkErrorException;
 import com.sfsu.investickation.fragments.ActivityDetails;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
-
-import java.util.ArrayList;
 
 /**
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
@@ -29,21 +27,15 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
     public static final String KEY_ACTIVITY_DETAILS = "selected_activity";
     public static final String KEY_RUNNING_ACTIVITY = "ongoing_activity";
-
+    public static final String PREF_ONGOING_ACTIVITY = "pref_ongoing_activity";
+    public static final String EDITOR_ONGOING_ACTIVITY = "ongoing_editor";
     private final String LOGTAG = "~!@#$UserActivity :";
-    private ArrayList<Activities> listSavedActivities;
+    private ActivityRunning mActivityRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
-
-        try {
-            // get the List of Activities from server.
-            listSavedActivities = getListOfSavedActivities();
-        } catch (NetworkErrorException e) {
-        } catch (Exception e) {
-        }
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {
@@ -51,35 +43,42 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
             // if we are restored from the previous state, just return
             if (savedInstanceState != null) {
                 return;
-            }
-
-            if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) { // if user clicks on Start Activity
-                ActivityNew activityNewFragment = new ActivityNew();
-                FragmentTransaction activityNewTransaction = getSupportFragmentManager().beginTransaction();
-                activityNewTransaction.add(R.id.activity_fragment_container, activityNewFragment);
-                activityNewTransaction.commit();
-            } else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) { // if user clicks on ActivityList
-                ActivityList activityList = new ActivityList();
-                FragmentTransaction activityListFragment = getSupportFragmentManager().beginTransaction();
-                activityListFragment.add(R.id.activity_fragment_container, activityList);
-                activityListFragment.commit();
-            }
-            /* if no press, open ActivityList. The first time the UserActivityMasterActivity is opened, the default Fragment
-            to be displayed it the ActivityList Fragment.
-            Since this Fragment displays the List of Activities stored in the Server, we have to pass the List of Activities
-            in the Bundle to this Fragment.
-             */
-            else {
-                ActivityList activityListFragment = new ActivityList();
-                // add Fragment to 'activity_fragment_container'
-                getSupportFragmentManager().beginTransaction().add(R.id.activity_fragment_container, activityListFragment).commit();
+            } else {
+                if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) { // if user clicks on Start Activity
+                    ActivityNew activityNewFragment = new ActivityNew();
+                    performFragmentTransaction(activityNewFragment);
+                } else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) { // if user clicks on ActivityList
+                    ActivityList activityList = new ActivityList();
+                    performFragmentTransaction(activityList);
+                } else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_RUNNING_ACTIVITY, 0) == 11) {
+                    Log.i(LOGTAG, "going well");
+                    mActivityRunning = new ActivityRunning();
+                    performFragmentTransaction(mActivityRunning);
+                }
+                // open List of Activities by default.
+                else {
+                    ActivityList activityListFragment = new ActivityList();
+                    performFragmentTransaction(activityListFragment);
+                }
             }
         }
+    }
+
+    /**
+     * Helper method to set the Fragment transaction for current fragment.
+     *
+     * @param mFragment
+     */
+    private void performFragmentTransaction(Fragment mFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.activity_fragment_container, mFragment);
+        transaction.commit();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Bundle args = new Bundle();
         BusProvider.bus().unregister(this);
     }
 
@@ -158,19 +157,6 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
         }
     }
 
-
-    /**
-     * Method to call the RetrofitController and get List of all Activities stored in Server.
-     *
-     * @return
-     */
-    public ArrayList<Activities> getListOfSavedActivities() throws NetworkErrorException {
-        // casting and converting the ArrayList of Entities to ArrayList of Activities.
-        ArrayList<Activities> activitiesList = new ArrayList<>();
-        //(ArrayList<Activities>) (ArrayList<?>) retrofitController.getAll(AppUtils.ACTIVITY_RESOURCE);
-        return activitiesList;
-
-    }
 
     @Override
     public void onViewAllObservationsClicked() {
