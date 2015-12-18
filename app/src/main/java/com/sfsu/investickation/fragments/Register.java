@@ -39,7 +39,7 @@ import com.squareup.otto.Subscribe;
  */
 public class Register extends Fragment implements View.OnClickListener, ITextValidate {
 
-    private final String LOGTAG = "~!@#Register :";
+    private final String TAG = "~!@#Register :";
 
     private Button btnRegisterUser;
     private EditText et_fullName, et_email, et_password, et_zipcode, et_address, et_city, et_state;
@@ -214,8 +214,8 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     @Subscribe
     public void onUserCreateFailure(UserEvent.OnLoadingError onLoadingError) {
         if (BuildConfig.DEBUG)
-            Log.i(LOGTAG, onLoadingError.toString());
-        Log.i(LOGTAG, "failure to create user");
+            Log.i(TAG, onLoadingError.toString());
+        Log.i(TAG, "failure to create user");
     }
 
     /**

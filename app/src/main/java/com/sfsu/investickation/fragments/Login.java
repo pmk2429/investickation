@@ -38,7 +38,7 @@ import com.squareup.otto.Subscribe;
  */
 public class Login extends Fragment implements View.OnClickListener, ITextValidate {
 
-    private final String LOGTAG = "~!@#LOGIN :";
+    private final String TAG = "~!@#LOGIN :";
     private ILoginCallBack mListener;
     private DatabaseDataController dbController;
     private Context mContext;

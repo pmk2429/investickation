@@ -18,6 +18,7 @@ import com.sfsu.investickation.R;
  */
 public class Home extends Fragment {
 
+    public final String TAG = "~!@#$Home";
     private IHomeCallbacks mInterface;
     private Context mContext;
 

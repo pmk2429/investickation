@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  */
 public class TickGuideDetail extends Fragment {
 
-    private final String LOGTAG = "~!@#TickDetail :";
+    private final String TAG = "~!@#TickDetail :";
     @Bind(R.id.textViewStatic_tickDet_knownFor)
     TextView txtView_knownFor;
     @Bind(R.id.textView_tickDet_tickFormalName)

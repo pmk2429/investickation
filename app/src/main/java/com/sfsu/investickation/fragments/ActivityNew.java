@@ -45,9 +45,8 @@ import butterknife.ButterKnife;
  */
 public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
-    public static final String TAG = "ActivityNew";
     private static final int ID_LENGTH = 16;
-    private final String LOGTAG = "~!@#$ActivityNew :";
+    public final String TAG = "~!@#$ActivityNew :";
 
     @Bind(R.id.editText_ActivityName)
     EditText et_activityName;
@@ -349,7 +348,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // build on the same newActivity Object.
             newActivityObj.setLocation_area(locationArea);
 
-            Log.i(LOGTAG, "play clicked");
+            Log.i(TAG, "play clicked");
             // once the play button is clicked, make a network call and create new Activities on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
         } else {
@@ -435,7 +434,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Log.i(LOGTAG, "failed to create Activity");
+        Log.i(TAG, "failed to create Activity");
     }
 
     /**

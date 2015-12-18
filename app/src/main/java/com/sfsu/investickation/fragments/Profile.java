@@ -34,7 +34,7 @@ public class Profile extends Fragment {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
-    private final String LOGTAG = "~!@#Profile :";
+    private final String TAG = "~!@#Profile :";
     Bitmap bitmap;
     ImageView imageView_user;
     String selectedImagePath;
@@ -153,7 +153,7 @@ public class Profile extends Fragment {
                             break;
                     }
                 } catch (Exception e) {
-                    Log.d(LOGTAG, e.getMessage());
+                    Log.d(TAG, e.getMessage());
                 }
 
                 // use to transform coordinates according to orientation.
@@ -167,7 +167,7 @@ public class Profile extends Fragment {
                 imageView_user.setImageBitmap(bitmap);
 
             } catch (Exception e) {
-                Log.d(LOGTAG, e.getMessage());
+                Log.d(TAG, e.getMessage());
             }
 
 

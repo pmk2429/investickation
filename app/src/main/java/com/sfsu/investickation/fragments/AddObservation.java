@@ -57,7 +57,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
     private static String BUNDLE_KEY = "AddObs_Bundle_Key";
-    private final String LOGTAG = "~!@#$AddObservation :";
+    private final String TAG = "~!@#$AddObservation :";
     private Bitmap bitmap;
     private ImageView imageView_tickAddObservation;
     private String selectedImagePath, picturePath;
@@ -352,7 +352,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
                     } catch (Exception e) {
-                        Log.d(LOGTAG, e.getMessage());
+                        Log.d(TAG, e.getMessage());
                     }
 
                     // Picasso.with(mContext).load(imageFile).centerCrop().into(imageView_tickAddObservation);
@@ -361,7 +361,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     //TODO: create BLOB or large Binary representation and send it on server.
 
                 } catch (Exception e) {
-                    Log.d(LOGTAG, e.getMessage());
+                    Log.d(TAG, e.getMessage());
                 }
             }
 
@@ -536,7 +536,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Subscribe
     public void onObservationCreateFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(LOGTAG, onLoadingError.getErrorMessage());
+        Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
     /**

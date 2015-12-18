@@ -27,8 +27,8 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
     public static final String KEY_ACTIVITY_DETAILS = "selected_activity";
     public static final String KEY_RUNNING_ACTIVITY = "ongoing_activity";
+    public static final String EDITOR_ONGOING_ACTIVITY = "editor_ongoing_activity";
     public static final String PREF_ONGOING_ACTIVITY = "pref_ongoing_activity";
-    public static final String EDITOR_ONGOING_ACTIVITY = "ongoing_editor";
     private final String LOGTAG = "~!@#$UserActivity :";
     private ActivityRunning mActivityRunning;
 

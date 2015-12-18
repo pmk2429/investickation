@@ -27,7 +27,6 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
-import com.sfsu.utils.AppUtils;
 
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
@@ -50,7 +49,6 @@ import com.sfsu.utils.AppUtils;
 public class ActivityRunning extends Fragment {
 
     public static final String TAG = "~!@#$ActivityRunning :";
-    private final String LOGTAG = "~!@#$ActivityRunning :";
     private MapView mapView;
     private Activities ongoingActivityObj;
     private Context mContext;
@@ -136,7 +134,7 @@ public class ActivityRunning extends Fragment {
             args = getArguments();
         }
         gson = new Gson();
-        activityPref = getActivity().getSharedPreferences(AppUtils.PREF_ONGOING_ACTIVITY, Context.MODE_PRIVATE);
+        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ONGOING_ACTIVITY, Context.MODE_PRIVATE);
     }
 
 
@@ -187,11 +185,11 @@ public class ActivityRunning extends Fragment {
         if (args != null) {
             if (args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY) != null) {
                 ongoingActivityObj = args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY);
-                Log.i(LOGTAG, ongoingActivityObj.toString());
+                Log.i(TAG, ongoingActivityObj.toString());
             }
         } else { // get data from SharedPref
-            String json = activityPref.getString(AppUtils.EDITOR_ONGOING_ACTIVITY, "");
-            ongoingActivityObj = gson.fromJson(json, Activities.class);
+            String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, "no-data");
+            ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
         }
 
         // check if Activities object is not null.
@@ -212,8 +210,10 @@ public class ActivityRunning extends Fragment {
     }
 
 
+    /**
+     * Helper method to populate the View in this Fragment.
+     */
     private void populateView() {
-        Log.i(LOGTAG, "populating views");
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
         textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
@@ -224,6 +224,10 @@ public class ActivityRunning extends Fragment {
             public void onClick(View view) {
                 // onStop button click, change the state of Activity to CREATED.
                 ongoingActivityObj.setState(Activities.STATE.CREATED);
+
+                // delete the SharedPref data
+                activityPref.edit().remove(UserActivityMasterActivity.PREF_ONGOING_ACTIVITY).apply();
+
 
                 // pass on the Activities object to the List of activities.
                 mListener.onActivityStopButtonClicked(ongoingActivityObj);
@@ -239,7 +243,6 @@ public class ActivityRunning extends Fragment {
         });
 
         FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING ? true : false;
-        Log.i(LOGTAG, "" + FLAG_RUNNING);
     }
 
 
@@ -271,7 +274,7 @@ public class ActivityRunning extends Fragment {
         // save the Currently running object in SharedPref to retrieve it later using editor.
         editor = activityPref.edit();
         String activityJson = gson.toJson(ongoingActivityObj);
-        editor.putString(AppUtils.EDITOR_ONGOING_ACTIVITY, activityJson);
+        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
         editor.apply();
 
         // stop the service and unregister the broadcast receiver.

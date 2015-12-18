@@ -45,7 +45,7 @@ import java.util.List;
  */
 public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
 
-    private final String LOGTAG = "~!@#$TickGuideList :";
+    private final String TAG = "~!@#$TickGuideList :";
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
     private List<Tick> tickList;
@@ -80,13 +80,18 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         if (mContext != null) {
             recyclerView_tickList.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            Log.d(LOGTAG, "Failed to load layout manager");
+            Log.d(TAG, "Failed to load layout manager");
         }
 
         return v;
     }
 
 
+    /**
+     * Helper method to set up Navigation drawer using the View of the Fragment.
+     *
+     * @param v
+     */
     private void setActionBarAndNavDrawer(View v) {
         toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_guideList);
 
@@ -165,7 +170,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                     break;
             }
         } catch (Exception e) {
-            Log.d(LOGTAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
 
         // Hihhlight the selected item and close the drawer
@@ -256,7 +261,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
     @Subscribe
     public void onTicksLoadSuccess(TickEvent.OnLoadingError onLoadingError) {
-        Log.i(LOGTAG, "failed to load ticks");
+        Log.i(TAG, "failed to load ticks");
     }
 
 

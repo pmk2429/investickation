@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
 
-    private final String LOGTAG = "~!@#ActivityList :";
+    public final String TAG = "~!@#ActivityList :";
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)
@@ -79,7 +79,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
 
         } else {
-            Log.d(LOGTAG, " No layout manager supplied");
+            Log.d(TAG, " No layout manager supplied");
         }
 
         // Add new Activity button.
@@ -101,20 +101,18 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     @Subscribe
     public void onActivitiesLoadedSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Log.i(LOGTAG, "Activities loaded successfully");
         serverActivitiesList = onLoaded.getResponseList();
 
         if (serverActivitiesList.size() > 0 && serverActivitiesList != null) {
             displayActivitiesList();
         } else {
-            Log.i(LOGTAG, "success but failed");
+            Log.i(TAG, "activity list size < 0");
         }
     }
 
     @Subscribe
     public void onActivitiesLoadedFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Log.i(LOGTAG, "Activities loaded failure");
-        Log.i(LOGTAG, onLoadingError.getErrorMessage());
+        Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
 

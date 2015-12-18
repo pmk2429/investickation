@@ -40,7 +40,7 @@ import java.util.List;
 
 public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private final String LOGTAG = "~!@#RemoteObs :";
+    private final String TAG = "~!@#RemoteObs :";
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
     private List<Observation> observationList, remoteObservationList, localObservationList;
@@ -83,14 +83,14 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_observations.setLayoutManager(mLinearLayoutManager);
         } else {
-            Log.d(LOGTAG, " No Layout manager supplied");
+            Log.d(TAG, " No Layout manager supplied");
         }
 
         // retrieve the Observation Response Object from the Bundle. This object will be the one returned as Response by Retrofit
         if (args != null) {
             newObservationObject = getArguments().getParcelable(AppUtils.OBSERVATION_RESOURCE);
             if (newObservationObject != null) {
-                Log.i(LOGTAG, newObservationObject.toString());
+                Log.i(TAG, newObservationObject.toString());
             }
         }
 

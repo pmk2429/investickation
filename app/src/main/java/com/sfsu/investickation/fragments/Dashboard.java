@@ -38,7 +38,7 @@ import com.sfsu.utils.AppUtils;
 public class Dashboard extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-    private final String LOGTAG = "~!@#Dashboard :";
+    public final String TAG = "~!@#Dashboard :";
     private IDashboardCallback mListener;
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
@@ -203,7 +203,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
                     break;
             }
         } catch (Exception e) {
-            Log.d(LOGTAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
 
         // Hihhlight the selected item and close the drawer
