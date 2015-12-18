@@ -270,7 +270,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
      */
     private void displayTickList() {
 
-        ticksListAdapter = new TicksListAdapter(tickList);
+        ticksListAdapter = new TicksListAdapter(tickList, mContext);
         recyclerView_tickList.setAdapter(ticksListAdapter);
 
         // set on click listener for the item click of recyclerview

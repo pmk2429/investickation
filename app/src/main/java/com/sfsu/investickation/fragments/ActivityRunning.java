@@ -219,6 +219,7 @@ public class ActivityRunning extends Fragment {
         textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
         txtView_activityName.setText(textViewData.toString());
 
+        // remove the SharedPreferences and set state of the ongoing activity to CREATED.
         stopActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,15 +281,7 @@ public class ActivityRunning extends Fragment {
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
     }
-
-
-    public Activities getOngoingActivityObj() {
-        return ongoingActivityObj;
-    }
-
-    public void setOngoingActivityObj(Activities ongoingActivityObj) {
-        this.ongoingActivityObj = ongoingActivityObj;
-    }
+    
 
     /**
      * Callback Interface for handling onClick Listeners in <tt>ActivityRunning</tt> Fragment.

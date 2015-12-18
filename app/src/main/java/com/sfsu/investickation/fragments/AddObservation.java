@@ -89,6 +89,13 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         // Required empty public constructor
     }
 
+    /**
+     * Returns the instance of {@link AddObservation} Fragment built using key and {@link Observation}.
+     *
+     * @param key
+     * @param value
+     * @return
+     */
     public static AddObservation newInstance(String key, String value) {
         AddObservation addObservation = new AddObservation();
         Bundle args = new Bundle();
@@ -115,7 +122,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
-
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
@@ -454,7 +460,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             throw new ClassCastException(activity.toString()
                     + " must implement IAddObservationCallBack");
         }
-
     }
 
     @Override

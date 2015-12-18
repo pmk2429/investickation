@@ -27,7 +27,7 @@ public class ApiRequestHandler {
     public static final int TOTAL_ACTIVITIES_COUNT = 0x3F1;
     public static final int TOTAL_OBSERVATIONS_COUNT = 0x3F2;
 
-    protected static final String ACCESS_TOKEN = "5oLImjGDi7KlrwRj90paCC04YB90YWlIQvBP58zA6AHFECxwmJx6IiKk5R2f89Xc";
+    protected static final String ACCESS_TOKEN = "bJnpp5FuHj7xMhFbbi8zXG87n8pfS81cUKWtUAmKrOtlPHiE3U8hQtYHSBpdNvPz";
 
     protected Bus mBus;
 

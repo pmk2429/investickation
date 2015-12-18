@@ -1,5 +1,6 @@
 package com.sfsu.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,9 +28,11 @@ import java.util.List;
 public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.TickViewHolder> {
 
     private List<Tick> tickList;
+    private Context mContext;
 
-    public TicksListAdapter(List<Tick> tickList) {
+    public TicksListAdapter(List<Tick> tickList, Context mContext) {
         this.tickList = tickList;
+        this.mContext = mContext;
     }
 
     // this method is used to create the Fragment view
@@ -45,7 +49,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
             if (tickList != null) {
                 Tick mTick = tickList.get(position);
                 holder.txtTickName.setText(mTick.getTickName());
-                holder.imageViewTick.setImageResource(R.mipmap.placeholder_tick);
+                Picasso.with(mContext).load(mTick.getImageUrl()).into(holder.imageViewTick);
                 holder.txtTickDetail.setText(R.string.tick_click_here_for_details);
             }
         }
@@ -128,7 +132,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
         public TickViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cardview_ticks);
-            txtTickName = (TextView) itemView.findViewById(R.id.textView_tickName);
+            txtTickName = (TextView) itemView.findViewById(R.id.textView_recyclerItem_tickName);
             txtTickDetail = (TextView) itemView.findViewById(R.id.textView_tickDetail);
             imageViewTick = (ImageView) itemView.findViewById(R.id.image_tickGuideMain);
         }

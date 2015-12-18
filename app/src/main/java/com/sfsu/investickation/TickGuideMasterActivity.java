@@ -2,8 +2,6 @@ package com.sfsu.investickation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -44,7 +42,6 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.guide_fragment_container, guideIndexFragment);
             transaction.commit();
-//            replaceFragment(guideIndexFragment);
         }
     }
 
@@ -57,8 +54,7 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             finish();
             super.onBackPressed();
         } else if (count > 0) {
-            Log.i(LOGTAG, "" + count);
-            getSupportFragmentManager().popBackStackImmediate();
+            getSupportFragmentManager().popBackStack();
         }
 
     }
@@ -103,17 +99,4 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         transaction.commit();
     }
 
-    private void replaceFragment(Fragment fragment) {
-        String backStateName = fragment.getClass().getName();
-
-        FragmentManager manager = getSupportFragmentManager();
-        boolean fragmentPopped = manager.popBackStackImmediate(backStateName, 0);
-
-        if (!fragmentPopped) { //fragment not in back stack, create it.
-            FragmentTransaction ft = manager.beginTransaction();
-            ft.add(R.id.guide_fragment_container, fragment);
-            ft.addToBackStack(null);
-            ft.commit();
-        }
-    }
 }
