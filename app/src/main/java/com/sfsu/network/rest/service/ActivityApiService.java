@@ -12,6 +12,7 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Activities} related operations to the REST API endpoint.
@@ -34,7 +35,7 @@ public interface ActivityApiService {
      * @return
      */
     @GET("activities")
-    public Call<List<Activities>> getAll();
+    public Call<List<Activities>> getAll(@Query("timestamp") Integer timestamp);
 
 
     /**

@@ -66,7 +66,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(activitiesCall);
                 break;
             case GET_ALL:
-                listActivitiesCall = mApiService.getAll();
+                listActivitiesCall = mApiService.getAll(null);
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
             case ADD:

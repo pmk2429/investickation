@@ -135,8 +135,9 @@ public class UserActivityMasterActivity extends BaseActivity implements Activity
 
 
     @Override
-    public void onActivityStopButtonClicked(Activities mActivity) {
-
+    public void onActivityStopButtonClicked() {
+        ActivityList mActivityList = new ActivityList();
+        performFragmentTransaction(mActivityList);
     }
 
     /*

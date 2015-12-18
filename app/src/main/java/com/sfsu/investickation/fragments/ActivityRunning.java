@@ -228,9 +228,8 @@ public class ActivityRunning extends Fragment {
                 // delete the SharedPref data
                 activityPref.edit().remove(UserActivityMasterActivity.PREF_ONGOING_ACTIVITY).apply();
 
-
                 // pass on the Activities object to the List of activities.
-                mListener.onActivityStopButtonClicked(ongoingActivityObj);
+                mListener.onActivityStopButtonClicked();
             }
         });
 
@@ -296,12 +295,14 @@ public class ActivityRunning extends Fragment {
      */
     public interface IActivityRunningCallBacks {
         /**
-         * Callback method when the user clicks on the Stop button in <tt>ActivityRunning</tt> Fragment. The newly created
-         * Activity object is passed  to the UserActivityMasterActivity where it is sent over to Retrofit for storing on the server.
+         * Callback method when the user clicks on the Stop button in {@link ActivityRunning} Fragment. OnClick of this button
+         * will remove the SharedPreferences file which contains the Activities Object.
+         * <p>The state of {@link Activities} is changed from <tt>RUNNING</tt> to <tt>CREATED</tt> and as a result the the
+         * LocationController is stopped</p>
          *
          * @param currentActivityObj Current Ongoing Activity Object passed from the ActivityNew
          */
-        public void onActivityStopButtonClicked(Activities currentActivityObj);
+        public void onActivityStopButtonClicked();
 
 
         /**
