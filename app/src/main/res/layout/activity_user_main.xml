@@ -23,8 +23,7 @@
             android:id="@+id/activity_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_base"
-            android:layout_weight="1">
+            android:layout_below="@id/toolbar_base">
         </FrameLayout>
 
     </RelativeLayout>

@@ -25,9 +25,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
+import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.investickation.UserProfileActivity;
@@ -188,7 +190,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
                     mCurrentSelectedPosition = 2;
                     break;
 
-                case R.id.navigation_ticksData:
+                case R.id.nav_tickGuide:
                     intent = new Intent(mContext, TickGuideMasterActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
@@ -196,10 +198,25 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
                     break;
 
                 case R.id.nav_settings:
-                    intent = new Intent(mContext, UserProfileActivity.class);
+                    intent = new Intent(mContext, SettingsActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 4;
+                    break;
+
+                case R.id.nav_profile:
+                    intent = new Intent(mContext, UserProfileActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 5;
+                    break;
+
+
+                case R.id.nav_logout:
+                    intent = new Intent(mContext, HomeActivity.class);
+                    startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 6;
                     break;
             }
         } catch (Exception e) {

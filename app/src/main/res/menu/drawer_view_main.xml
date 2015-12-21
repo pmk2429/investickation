@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_main"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@mipmap/ic_home_black_36dp"
@@ -15,17 +17,31 @@
             android:icon="@mipmap/ic_observations_black_36dp"
             android:title="Observations"/>
         <item
-            android:id="@+id/navigation_ticksData"
+            android:id="@+id/nav_tickGuide"
             android:icon="@mipmap/ic_bug_report_black_36dp"
             android:title="Tick Guide"/>
+    </group>
+
+
+    <group
+        android:id="@+id/menu_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@mipmap/ic_person_black_36dp"
+            android:title="Profile"/>
         <item
             android:id="@+id/nav_settings"
             android:icon="@mipmap/ic_settings_black_36dp"
             android:title="Settings"/>
+    </group>
+    <group
+        android:id="@+id/menu_logout"
+        android:checkableBehavior="none">
         <item
-            android:id="@+id/nav_edit"
-            android:icon="@mipmap/ic_edit"
-            android:title="Register"/>
+            android:id="@+id/nav_logout"
+            android:icon="@mipmap/ic_logout_black_36dp"
+            android:title="Log out"/>
     </group>
 
 </menu>

@@ -32,14 +32,19 @@ public class InvestickationApp extends Application {
     // single creation of Event Bus.
     private Bus mBus = BusProvider.bus();
 
+    /**
+     * Returns the singleton instance of the Application context.
+     *
+     * @return
+     */
     public static synchronized InvestickationApp getInstance() {
         return mInstance;
     }
 
     /*
-    Register the Bus,
-    initialize the ApiRequestHandler and
-    initialize the InvestickationApp instance to enforce singleton pattern.
+    1) Register the Otto EventBus,
+    2) Initialize the ApiRequestHandler and Entity specific RequestHandlers
+    3) Initialize the InvestickationApp instance to enforce singleton pattern.
      */
     @Override
     public void onCreate() {

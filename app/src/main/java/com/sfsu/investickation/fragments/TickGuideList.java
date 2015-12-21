@@ -25,10 +25,12 @@ import android.view.ViewGroup;
 
 import com.sfsu.adapters.TicksListAdapter;
 import com.sfsu.entities.Tick;
+import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.investickation.UserProfileActivity;
@@ -41,11 +43,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Guide for each ticks. This fragment displays list of Ticks. Each ticks are displayed on a large thumbnail pic.
+ * Displays list of Ticks present in the InvesTICKations application.
  */
 public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
 
-    private final String TAG = "~!@#$TickGuideList :";
+    private final String TAG = "~!@#$TickGuideList";
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
     private List<Tick> tickList;
@@ -155,7 +157,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                     mCurrentSelectedPosition = 2;
                     break;
 
-                case R.id.navigation_ticksData:
+                case R.id.nav_tickGuide:
                     intent = new Intent(mContext, TickGuideMasterActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
@@ -163,14 +165,28 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                     break;
 
                 case R.id.nav_settings:
-                    intent = new Intent(mContext, UserProfileActivity.class);
+                    intent = new Intent(mContext, SettingsActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 4;
                     break;
+
+                case R.id.nav_profile:
+                    intent = new Intent(mContext, UserProfileActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 5;
+                    break;
+
+
+                case R.id.nav_logout:
+                    intent = new Intent(mContext, HomeActivity.class);
+                    startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 6;
+                    break;
             }
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
         }
 
         // Hihhlight the selected item and close the drawer
@@ -187,7 +203,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
             mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement IGuideIndexListener");
+                    + " must implement IGuideIndexCallBacks");
         }
     }
 
@@ -255,7 +271,6 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
             tickList = onLoaded.getResponseList();
             displayTickList();
         } else {
-            // TODO : display error message
         }
     }
 

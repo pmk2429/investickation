@@ -16,20 +16,10 @@
         <FrameLayout
             android:id="@+id/guide_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
         </FrameLayout>
     </RelativeLayout>
-
-    <!--&lt;!&ndash; Navigation Drawer: Drawer section use to inflate the List in the  &ndash;&gt;-->
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/drawer_recyclerView"-->
-    <!--android:layout_width="304dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--android:background="@color/colorWhite"-->
-    <!--android:scrollbars="vertical"/>-->
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

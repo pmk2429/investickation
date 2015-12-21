@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,19 +19,25 @@ public class MainBaseActivity extends AppCompatActivity {
 
     private final String LOGTAG = "~!@#$BaseActivity:";
     // InjectView is used to inject the UI controls using ButterKnife library.
-    DrawerLayout mDrawerLayout;
-    Toolbar toolbarMain;
-    NavigationView mNavigationView;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar toolbarMain;
+    private NavigationView mNavigationView;
     private int mCurrentSelectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        //toolbarMain = (Toolbar) findViewById(R.id.toolbar_dashboard_scrollable);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        toolbarMain = (Toolbar) findViewById(R.id.toolbar_top_base);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
         if (toolbarMain != null) {
             setSupportActionBar(toolbarMain);
@@ -64,16 +69,7 @@ public class MainBaseActivity extends AppCompatActivity {
             });
         }
 
-    }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-
-//        // set the Title to CollapsingToolbar
-//        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_dashboard);
-//        collapsingToolbar.setTitle("InvesTICKations");
     }
 
     private void selectDrawerItem(MenuItem menuItem) {
@@ -102,7 +98,7 @@ public class MainBaseActivity extends AppCompatActivity {
                     mCurrentSelectedPosition = 2;
                     break;
 
-                case R.id.navigation_ticksData:
+                case R.id.nav_tickGuide:
                     intent = new Intent(this, TickGuideMasterActivity.class);
                     startActivity(intent);
                     finish();
@@ -110,24 +106,36 @@ public class MainBaseActivity extends AppCompatActivity {
                     break;
 
                 case R.id.nav_settings:
-                    intent = new Intent(this, UserProfileActivity.class);
+                    intent = new Intent(this, SettingsActivity.class);
                     startActivity(intent);
                     finish();
                     mCurrentSelectedPosition = 4;
                     break;
+
+                case R.id.nav_profile:
+                    intent = new Intent(this, UserProfileActivity.class);
+                    startActivity(intent);
+                    finish();
+                    mCurrentSelectedPosition = 5;
+                    break;
+
+                case R.id.nav_logout:
+                    intent = new Intent(this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                    mCurrentSelectedPosition = 6;
+                    break;
             }
         } catch (Exception e) {
-            Log.d(LOGTAG, e.getMessage());
         }
 
-        // Hihhlight the selected item and close the drawer
+        // Highlight the selected item and close the drawer
         menuItem.setChecked(true);
         mDrawerLayout.closeDrawers();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 

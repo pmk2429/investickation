@@ -1,16 +1,15 @@
 package com.sfsu.investickation;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sfsu.investickation.fragments.Profile;
 
 
-public class UserProfileActivity extends BaseActivity {
+public class UserProfileActivity extends MainBaseActivity {
 
-    private final String LOGTAG = "~!@#$UserProfileActivity :";
+    private final String TAG = "~!@#UsrProAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +25,9 @@ public class UserProfileActivity extends BaseActivity {
                 return;
             }
 
-            Profile profileFragment = new Profile();
-
-            // if activity was started with special instructions from an Intent, then pass Intent's extras
-            // to fragments as arguments
-            profileFragment.setArguments(getIntent().getExtras());
-
+            Profile mProfile = new Profile();
             // add the Fragment to 'guide_fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, profileFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfile).commit();
         }
     }
 
