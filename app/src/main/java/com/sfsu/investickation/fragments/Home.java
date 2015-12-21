@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.sfsu.investickation.R;
 
 /**
- * Holds the Callbacks for the Login and Register Fragments. This Fragment will be displayed to the user when the User logs in
- * for the first time after Navigating through WelcomeScreen. In addition, when the User logs out of the Application, the same
+ * Holds the Callbacks for the Login and Register Fragments. This Fragment will be displayed to the user opens the app or logs in
+ * for the first time after Navigating through {@link WelcomeScreen}. In addition, when the User logs out of the Application, the same
  * Fragment will be opened.
  */
 public class Home extends Fragment {
@@ -28,14 +28,12 @@ public class Home extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         final TextView txtView_login = (TextView) rootView.findViewById(R.id.textView_home_login);
         final TextView txtView_signUp = (TextView) rootView.findViewById(R.id.textView_home_signUp);
-
 
         txtView_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +72,16 @@ public class Home extends Fragment {
     }
 
     /**
-     * Callback Interface to handle the onClick Listeners for {@link Home} Fragment.
+     * Callback Interface to handle the onClick listeners for {@link Home} Fragment.
      */
     public interface IHomeCallbacks {
         /**
-         * Callback method when the user clicks on the Login button in {@Home} Fragment
+         * Callback method when the user clicks on the <tt>Login</tt> button in {@Home} Fragment
          */
         public void onLoginClicked();
 
         /**
-         * Callback method when the user clicks on the Register button in {@Home} Fragment
+         * Callback method when the user clicks on the <tt>Register</tt> button in {@Home} Fragment
          */
         public void onSignUpClicked();
     }

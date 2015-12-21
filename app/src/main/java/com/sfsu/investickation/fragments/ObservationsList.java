@@ -26,7 +26,6 @@ import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
-import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ import java.util.List;
 
 public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private final String TAG = "~!@#RemoteObs :";
+    private final String TAG = "~!@#ObsList :";
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
     private List<Observation> observationList, remoteObservationList, localObservationList;
@@ -86,14 +85,6 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
             Log.d(TAG, " No Layout manager supplied");
         }
 
-        // retrieve the Observation Response Object from the Bundle. This object will be the one returned as Response by Retrofit
-        if (args != null) {
-            newObservationObject = getArguments().getParcelable(AppUtils.OBSERVATION_RESOURCE);
-            if (newObservationObject != null) {
-                Log.i(TAG, newObservationObject.toString());
-            }
-        }
-
         // TODO: think of this one.
 //        localObservationList = (List<Observation>) dbController.getAll();
 
@@ -102,7 +93,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         //observationList.addAll(localObservationList);
 
         //observationList.add(newObservationObject)
-        displayObservationList();
+//        displayObservationList();
 
         final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_observation_add);
         addProject.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +116,18 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         } catch (Exception e) {
             throw new ClassCastException(activity.toString() + " must implement IObservationCallBacks");
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().register(this);
     }
 
     @Override
@@ -192,9 +195,11 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      */
     @Subscribe
     public void onObservationsLoadSuccess(ObservationEvent.OnLoaded onLoaded) {
+        Log.i(TAG, "loaded successfully");
         remoteObservationList = onLoaded.getResponseList();
 
         if (remoteObservationList.size() > 0 && remoteObservationList != null) {
+            Log.i(TAG, "condition satisfied");
             displayObservationList();
         } else {
             // TODO: display message that no observations in the List.
@@ -208,15 +213,17 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      */
     @Subscribe
     public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-
+        Log.i(TAG, "Error in loading");
+        Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
     /**
      * Helper method to display list of Observations in RecyclerView.
      */
     private void displayObservationList() {
+        Log.i(TAG, "going OK");
         //pass the observationList to the Adapter
-        mObservationsListAdapter = new ObservationsListAdapter(remoteObservationList);
+        mObservationsListAdapter = new ObservationsListAdapter(remoteObservationList, mContext);
         recyclerView_observations.setAdapter(mObservationsListAdapter);
 
         // implement touch event for the item click in RecyclerView

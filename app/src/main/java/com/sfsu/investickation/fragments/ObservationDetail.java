@@ -1,6 +1,7 @@
 package com.sfsu.investickation.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.AppUtils;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,11 +43,12 @@ public class ObservationDetail extends Fragment {
     TextView textView_timestamp;
 
     @Bind(R.id.imageView_obsDet_tickImage)
-    ImageView tickImage;
+    ImageView imageView_tickImage;
 
 
     private Bundle args;
     private Observation mObservation;
+    private Context mContext;
 
     public ObservationDetail() {
         // Required empty public constructor
@@ -63,6 +67,16 @@ public class ObservationDetail extends Fragment {
         args.putParcelable(key, mObservation);
         mObservationDetail.setArguments(args);
         return mObservationDetail;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            this.mContext = mContext;
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -86,7 +100,12 @@ public class ObservationDetail extends Fragment {
             mObservation = args.getParcelable(ObservationMasterActivity.KEY_OBSERVATION_DETAIL);
         }
 
-
+        Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_tickImage);
+        textView_activityName.setText("Hiking");
+        textView_description.setText("Found while hiking near Golden gate park");
+        textView_foundNear.setText(mObservation.getGeoLocation());
+        textView_location.setText("35.755815, -121.859291");
+        textView_timestamp.setText(AppUtils.getCurrentDateAndTime(mObservation.getTimestamp()));
         return rootView;
     }
 

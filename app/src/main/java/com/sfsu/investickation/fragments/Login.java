@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
-import com.sfsu.helper.SessionManager;
+import com.sfsu.network.login.SessionManager;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
@@ -32,7 +32,7 @@ import com.squareup.otto.Subscribe;
  * corresponding entry in the local DB. If the match is found then user will be logged in and a network request will be made to
  * the REST API via {@link com.sfsu.controllers.RetrofitController} to get the <b>request token</b>.
  * <p>
- * This <b>request token</b> will be stored in User's session via a {@link com.sfsu.helper.SessionManager} to authenticate and
+ * This <b>request token</b> will be stored in User's session via a {@link SessionManager} to authenticate and
  * validate User for successive operations.
  * </p>
  */

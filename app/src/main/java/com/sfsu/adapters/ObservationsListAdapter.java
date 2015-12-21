@@ -1,5 +1,6 @@
 package com.sfsu.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.utils.AppUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -27,9 +29,11 @@ import java.util.List;
 public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsListAdapter.ObservationViewHolder> {
 
     List<Observation> observationList;
+    private Context mContext;
 
-    public ObservationsListAdapter(List<Observation> observationList) {
+    public ObservationsListAdapter(List<Observation> observationList, Context mContext) {
         this.observationList = observationList;
+        this.mContext = mContext;
     }
 
     @Override
@@ -43,6 +47,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
         if (holder != null) {
             Observation mObservation = observationList.get(position);
+            Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
             holder.txtView_observationName.setText(mObservation.getTickName());
             holder.txtView_location.setText(mObservation.getGeoLocation());
             String dateAndTime = AppUtils.getCurrentDateAndTime(mObservation.getTimestamp());

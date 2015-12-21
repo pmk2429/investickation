@@ -1,5 +1,8 @@
 package com.sfsu.network.handler;
 
+import android.content.Context;
+
+import com.sfsu.network.auth.AuthPreferences;
 import com.squareup.otto.Bus;
 
 /**
@@ -26,12 +29,21 @@ public class ApiRequestHandler {
     // User Api service method codes.
     public static final int TOTAL_ACTIVITIES_COUNT = 0x3F1;
     public static final int TOTAL_OBSERVATIONS_COUNT = 0x3F2;
-
-    protected static final String ACCESS_TOKEN = "bJnpp5FuHj7xMhFbbi8zXG87n8pfS81cUKWtUAmKrOtlPHiE3U8hQtYHSBpdNvPz";
-
+    protected String ACCESS_TOKEN;// = "oGATGjerFGwbVsTdxmc3HapSdPX6aY23zJ8yTaDg5pumWnTPexeeLfTQaLV2uCsG";
     protected Bus mBus;
+    private Context mContext;
 
     public ApiRequestHandler(Bus bus) {
         this.mBus = bus;
+    }
+
+    /**
+     * initialize the access token for the application context.
+     *
+     * @param mContext
+     */
+    public void init(Context mContext) {
+        this.mContext = mContext;
+        ACCESS_TOKEN = new AuthPreferences(mContext).getAccessToken();
     }
 }

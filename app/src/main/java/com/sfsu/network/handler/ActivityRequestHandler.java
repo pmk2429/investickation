@@ -33,7 +33,7 @@ import retrofit.Response;
 public class ActivityRequestHandler extends ApiRequestHandler {
 
     private ActivityApiService mApiService;
-    private String LOGTAG = "~!@#$ActReqHdlr: ";
+    private String TAG = "~!@#$ActReqHdlr: ";
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.

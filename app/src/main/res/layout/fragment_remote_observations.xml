@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <!-- Recycler View to display the list of Ticks section -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_remote_observations"
@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginBottom="16dp"
-            android:layout_marginRight="@dimen/view_dimen_small"
+            android:layout_marginEnd="@dimen/view_dimen_small"
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_colorPressed="@color/colorPrimaryDark"
             fab:fab_icon="@drawable/ic_add_white_36dp"/>

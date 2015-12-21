@@ -1,6 +1,7 @@
 package com.sfsu.application;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
@@ -18,7 +19,7 @@ import com.squareup.otto.Bus;
  * Created by Pavitra on 11/27/2015.
  */
 public class InvestickationApp extends Application {
-    public static final String LOGTAG = "~!@#$" + InvestickationApp.class.getSimpleName();
+    public static final String TAG = "~!@#$" + InvestickationApp.class.getSimpleName();
 
     // single object of application
     private static InvestickationApp mInstance;
@@ -47,6 +48,10 @@ public class InvestickationApp extends Application {
         super.onCreate();
         mInstance = this;
 
+        // initialize the ApiRequestHandler to get access token.
+        mApiRequestHandler = new ApiRequestHandler(mBus);
+        mApiRequestHandler.init(this);
+
         mUserRequestHandler = new UserRequestHandler(mBus);
         mBus.register(mUserRequestHandler);
 
@@ -62,8 +67,9 @@ public class InvestickationApp extends Application {
         mTickRequestHandler = new TickRequestHandler(mBus);
         mBus.register(mTickRequestHandler);
 
-
-        // write the logic for getting the AccessToken and UserId from the AuthPreferences
         String accessToken = new AuthPreferences(this).getAccessToken();
+        Log.i(TAG, accessToken);
+
+        
     }
 }

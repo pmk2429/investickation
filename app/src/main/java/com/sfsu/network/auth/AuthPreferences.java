@@ -30,7 +30,7 @@ public class AuthPreferences {
      */
     public boolean setCredentials(String authToken, String userId) {
         tokenSharedPreferences = mContext.getSharedPreferences(mContext.getResources().
-                getString(R.string.pref_file_name), Context.MODE_PRIVATE);
+                getString(R.string.auth_pref_file_name), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = tokenSharedPreferences.edit();
         editor.putString(KEY_ACCESS_TOKEN, authToken);
         editor.putString(KEY_USER_ID, userId);

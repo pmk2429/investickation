@@ -137,7 +137,8 @@
     <!-- Exception messages-->
 
     <!-- Preferences -->
-    <string name="pref_file_name">com.sfsu.investickations.TOKEN_FILE</string>
+    <string name="auth_pref_file_name">com.sfsu.investickations.AUTH_FILE</string>
+    <string name="session_pref_file_name">com.sfsu.investickations.SESSION_FILE</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Settings Preferences -->

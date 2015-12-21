@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -25,26 +25,25 @@
                 <!--  user image -->
                 <ImageView
                     android:id="@+id/imageView_userProfile"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_below="@id/toolbar_base"
-                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:adjustViewBounds="true"
+                    android:background="@drawable/header"
+                    android:fitsSystemWindows="true"
                     android:scaleType="fitXY"
                     android:src="@mipmap/placeholder_user"/>
 
-                <com.getbase.floatingactionbutton.FloatingActionButton
+                <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_userProfileImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/imageView_userProfile"
-                    android:layout_alignEnd="@id/imageView_userProfile"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="-36dp"
-                    fab:fab_colorNormal="@color/colorPrimary"
-                    fab:fab_colorPressed="@color/colorPrimaryDark"
-                    fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+                    android:layout_margin="@dimen/fab_margin"
+                    android:clickable="true"
+                    android:src="@mipmap/ic_info_outline_white_36dp"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:layout_anchor="@id/imageView_userProfile"
+                    app:layout_anchorGravity="bottom|right|end"/>
             </RelativeLayout>
 
             <!--  User row -->

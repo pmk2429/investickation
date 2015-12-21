@@ -32,12 +32,14 @@ public class Observation implements Parcelable, Entity {
 
     private String id;
     private String geo_location;
+    @SerializedName("name")
     private String tickName;
+    @SerializedName("tick_image")
     private String imageUrl;
     private int num_of_ticks;
     private long timestamp, created_at, updated_at;
-    private Bitmap tick_image;
-    
+    private Bitmap tick_image1;
+
     private String user_id;
     private String activity_id;
 
