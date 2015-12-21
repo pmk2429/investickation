@@ -1,9 +1,7 @@
 package com.sfsu.application;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.handler.ActivityRequestHandler;
 import com.sfsu.network.handler.ApiRequestHandler;
@@ -66,10 +64,5 @@ public class InvestickationApp extends Application {
 
         mTickRequestHandler = new TickRequestHandler(mBus);
         mBus.register(mTickRequestHandler);
-
-        String accessToken = new AuthPreferences(this).getAccessToken();
-        Log.i(TAG, accessToken);
-
-        
     }
 }

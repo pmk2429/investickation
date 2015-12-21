@@ -30,6 +30,8 @@ public class SessionManager {
 
     public SessionManager(Context context) {
         this.mContext = context;
+        prefSession = mContext.getSharedPreferences(mContext.getResources().getString(R.string.session_pref_file_name), Context.MODE_PRIVATE);
+        editor = prefSession.edit();
     }
 
     /**
@@ -39,11 +41,9 @@ public class SessionManager {
      */
     public void setLogin(boolean isLoggedIn) {
         // open the Session preference file.
-        prefSession = mContext.getSharedPreferences(mContext.getResources().getString(R.string.session_pref_file_name), Context.MODE_PRIVATE);
-        editor = prefSession.edit();
-        editor.apply();
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         // commit changes
+        editor.apply();
         Log.d(TAG, "User Login session modified!");
     }
 

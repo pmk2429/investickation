@@ -2,7 +2,6 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,14 +13,12 @@ import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
-import com.sfsu.network.login.SessionManager;
-import com.sfsu.investickation.HomeActivity;
-import com.sfsu.investickation.MainActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.login.LoginResponse;
+import com.sfsu.network.login.SessionManager;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -43,7 +40,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     private DatabaseDataController dbController;
     private Context mContext;
     private UsersDao usersDao;
-    private SessionManager session;
+    private SessionManager mSessionManager;
     private Button btnLogin;
     private EditText et_email, et_password;
     private boolean isEmailValid, isPasswordValid;
@@ -75,19 +72,9 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         et_password = (EditText) v.findViewById(R.id.editText_login_password);
         et_password.addTextChangedListener(new TextValidator(mContext, Login.this, et_password));
 
-        // Session manager
-        session = new SessionManager(getActivity().getApplicationContext());
-
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
-
-        // Check if user is already logged in or not
-        if (session.isLoggedIn()) {
-            // User is already logged in so redirect to MainActivity
-            Intent intent = new Intent(mContext, MainActivity.class);
-            startActivity(intent);
-            ((HomeActivity) mContext).finish();
-        }
+        mSessionManager = new SessionManager(mContext);
 
         // set onClickListener on this Fragment.
         btnLogin.setOnClickListener(this);
@@ -173,7 +160,12 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
-        mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
+        boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
+
+        // if the Auth preferneces is successfully set in SharedPreferences, then set the Login flag.
+        if (isCredentialsSet) {
+            mSessionManager.setLogin(true);
+        }
 
         // once the token is set successfully, open the dashboard.
         mListener.userLoggedIn();
@@ -190,8 +182,9 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     public interface ILoginCallBack {
 
         /**
-         * Callback method to handle the onclick of Login button in {@link Login} Fragment. On click of Login makes a database
-         * call
+         * Callback method to handle the onclick of Login button in {@link Login} Fragment.
+         * <p>When the user successfully logs in from the server, a User session is created and the credentials are stored in
+         * the SharedPreferences for further future usage.</p>
          */
         public void userLoggedIn();
     }

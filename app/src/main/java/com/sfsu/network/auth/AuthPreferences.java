@@ -11,14 +11,18 @@ import com.sfsu.investickation.R;
  * Created by Pavitra on 12/5/2015.
  */
 public class AuthPreferences {
-    private final String KEY_ACCESS_TOKEN = "access_token_key";
+    private final String KEY_ACCESS_TOKEN = "access_token";
     private final String KEY_USER_ID = "user_id";
 
     private Context mContext;
     private SharedPreferences tokenSharedPreferences;
+    private SharedPreferences.Editor editor;
 
     public AuthPreferences(Context mContext) {
         this.mContext = mContext;
+        tokenSharedPreferences = mContext.getSharedPreferences(mContext.getResources().
+                getString(R.string.auth_pref_file_name), Context.MODE_PRIVATE);
+        editor = tokenSharedPreferences.edit();
     }
 
     /**
@@ -29,9 +33,6 @@ public class AuthPreferences {
      * @return
      */
     public boolean setCredentials(String authToken, String userId) {
-        tokenSharedPreferences = mContext.getSharedPreferences(mContext.getResources().
-                getString(R.string.auth_pref_file_name), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = tokenSharedPreferences.edit();
         editor.putString(KEY_ACCESS_TOKEN, authToken);
         editor.putString(KEY_USER_ID, userId);
         return editor.commit();

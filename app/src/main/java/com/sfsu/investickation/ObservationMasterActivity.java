@@ -124,7 +124,7 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
         FLAG_CALLED_FROM_OBSERVATION = true;
         AddObservation addObservationFragment = new AddObservation();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.observation_fragment_container, addObservationFragment);
+        transaction.add(R.id.observation_fragment_container, addObservationFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -134,7 +134,7 @@ public class ObservationMasterActivity extends BaseActivity implements Observati
     public void onObservationListItemClickListener(Observation observation) {
         ObservationDetail observationDetailFragment = ObservationDetail.newInstance(KEY_OBSERVATION_DETAIL, observation);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.observation_fragment_container, observationDetailFragment);
+        transaction.add(R.id.observation_fragment_container, observationDetailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
