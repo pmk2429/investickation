@@ -441,9 +441,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             final int heightRatio = Math.round((float) height / (float) reqHeight);
             final int widthRatio = Math.round((float) width / (float) reqWidth);
 
-            // Choose the smallest ratio as inSampleSize value, this will
-            // guarantee a final image with both dimensions larger than or equal to the
-            // requested height and width.
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
         return inSampleSize;
@@ -498,17 +495,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     }
 
-    private boolean validateNumber(EditText mEditText, String text) {
-        if (text.isEmpty() || !AppUtils.isNumeric(text)) {
-            mEditText.setError(getString(R.string.error_NAN));
-            mEditText.requestFocus();
-            return false;
-        } else {
-            mEditText.setError(null);
-        }
-        return true;
-    }
-
     @Override
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
@@ -520,7 +506,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
                 break;
             case R.id.editText_addObs_numOfTicks:
-                isTotalTicksNumber = validateNumber(mEditText, text);
+                isTotalTicksNumber = ValidationUtil.validateNumber(mEditText, text);
                 break;
         }
     }
@@ -540,7 +526,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Subscribe
     public void onObservationCreateFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
     /**

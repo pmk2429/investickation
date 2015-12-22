@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--  Tool bar -->
+    <!--  Scrolling Tool bar -->
     <include
         android:id="@+id/toolbar_guideList"
         layout="@layout/toolbar_scroll"
@@ -19,6 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorWhite"
+        android:background="@color/lightText"
         android:scrollbars="vertical"/>
 </LinearLayout>

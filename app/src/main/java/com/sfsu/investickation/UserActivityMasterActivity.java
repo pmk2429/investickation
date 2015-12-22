@@ -21,7 +21,7 @@ import com.sfsu.network.bus.BusProvider;
  * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
-public class UserActivityMasterActivity extends BaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
+public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
 
     public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";

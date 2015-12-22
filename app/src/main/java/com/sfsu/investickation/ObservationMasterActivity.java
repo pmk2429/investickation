@@ -46,7 +46,6 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
             } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
-                Log.i(LOGTAG, activityId);
                 // if the intent is called from the UserActivityMasterActivity
                 AddObservation mAddObservation = AddObservation.newInstance(UserActivityMasterActivity
                         .KEY_ACTIVITY_ID, activityId);
