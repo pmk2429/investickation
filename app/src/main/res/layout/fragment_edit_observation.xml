@@ -13,24 +13,11 @@
         android:id="@+id/imageView_editObs_tickImage"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_default"
-        android:layout_below="@id/toolbar_base"
+        android:layout_below="@id/toolbar_top_base"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_tick"/>
-
-    <!--&lt;!&ndash; Circle button &ndash;&gt;-->
-    <!--<ImageButton-->
-    <!--android:id="@+id/fab_editObs_selectTickImage"-->
-    <!--android:layout_width="70dp"-->
-    <!--android:layout_height="70dp"-->
-    <!--android:layout_alignBottom="@id/imageView_editObs_tickImage"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:layout_marginBottom="-32dp"-->
-    <!--android:layout_marginRight="20dp"-->
-    <!--android:background="@drawable/circle"-->
-    <!--/>-->
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_editObs_selectTickImage"
