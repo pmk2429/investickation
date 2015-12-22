@@ -16,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <!--  tick image -->
             <ImageView
@@ -30,27 +30,16 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/placeholder_tick"/>
 
-            <!--&lt;!&ndash; Circle button &ndash;&gt;-->
-            <!--<ImageButton-->
-            <!--android:id="@+id/imageButton"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="70dp"-->
-            <!--android:layout_alignBottom="@id/image_tick"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:layout_marginBottom="-32dp"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:background="@drawable/circle"/>-->
 
             <com.getbase.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_addObs_addTickImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/imageView_addObs_tickImage"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="-40dp"
-                android:layout_marginRight="@dimen/view_dimen_small"
+                android:layout_marginEnd="@dimen/view_dimen_small"
                 fab:fab_colorNormal="@color/colorPrimary"
                 fab:fab_colorPressed="@color/colorPrimaryDark"
                 fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
@@ -62,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imageView_addObs_tickImage"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:text="@string/text_chooseTickInfo"
                 android:textColor="@color/secondaryText"
@@ -75,8 +64,8 @@
                 android:layout_height="@dimen/widget_dimen_medium"
                 android:layout_below="@id/textViewStatic_chooseFromGuide"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="@dimen/view_dimen_large"
-                android:text="@string/text_chooseTick"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:text="@string/text_referTickGuide"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/font_small"/>
 
@@ -84,7 +73,7 @@
             <View
                 android:id="@+id/view_divider"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/separator_dimen"
                 android:layout_below="@id/button_chooseFromGuide"
                 android:background="@color/divider"/>
 
@@ -93,9 +82,9 @@
                 android:id="@+id/icon_tick"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/view_divider"
-                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
@@ -111,10 +100,10 @@
                 android:layout_toEndOf="@id/icon_tick"
                 android:hint="@string/text_tickName"
                 android:lines="1"
-                android:paddingBottom="16sp"
+                android:paddingBottom="@dimen/view_dimen_large"
                 android:paddingTop="@dimen/view_dimen_large"
                 android:singleLine="true"
-                android:textSize="16dp"/>
+                android:textSize="@dimen/font_small"/>
 
 
             <!--  Species row -->
@@ -122,9 +111,9 @@
                 android:id="@+id/icon_tickSpecies"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/icon_tick"
-                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_temp"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_paw"/>
@@ -138,17 +127,17 @@
                 android:layout_toEndOf="@id/icon_tickSpecies"
                 android:hint="@string/tickSpecies"
                 android:lines="1"
-                android:paddingBottom="16sp"
+                android:paddingBottom="@dimen/view_dimen_large"
                 android:paddingTop="@dimen/view_dimen_large"
                 android:singleLine="true"
-                android:textSize="16dp"/>
+                android:textSize="@dimen/font_small"/>
 
             <!--  Species row -->
             <ImageView
                 android:id="@+id/icon_numOfTicks"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_below="@id/icon_tickSpecies"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_temp"
@@ -167,7 +156,7 @@
                 android:paddingBottom="16sp"
                 android:paddingTop="@dimen/view_dimen_large"
                 android:singleLine="true"
-                android:textSize="16dp"/>
+                android:textSize="@dimen/font_small"/>
 
         </RelativeLayout>
     </ScrollView>
@@ -184,6 +173,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/colorPrimary"
+        android:drawableEnd="@mipmap/ic_send_white_24dp"
+        android:paddingEnd="@dimen/view_dimen_large"
+        android:paddingStart="@dimen/view_dimen_large"
         android:text="@string/button_postObservation"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_small"/>

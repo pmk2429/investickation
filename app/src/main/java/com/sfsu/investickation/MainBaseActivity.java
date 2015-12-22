@@ -27,8 +27,6 @@ public class MainBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -72,6 +70,11 @@ public class MainBaseActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Helper method to select the drawer item and open the Activity based on User's selection.
+     *
+     * @param menuItem
+     */
     private void selectDrawerItem(MenuItem menuItem) {
         Intent intent;
 

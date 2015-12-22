@@ -17,15 +17,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="@dimen/view_dimen_large">
 
             <ImageView
                 android:id="@+id/image_tick_small"
                 android:layout_width="@dimen/padding_dimen_X_large"
                 android:layout_height="@dimen/padding_dimen_X_large"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="@dimen/view_dimen_large"
+                android:layout_marginEnd="@dimen/view_dimen_large"
                 android:src="@mipmap/ic_launcher"/>
 
             <TextView
@@ -33,8 +33,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/image_tick_small"
-                android:text="American Dog Tick"
+                android:layout_toEndOf="@+id/image_tick_small"
+                android:text="@string/tickName"
                 android:textColor="@color/primaryText"
                 android:textSize="@dimen/font_large"/>
 
@@ -43,29 +43,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_observationName"
-                android:layout_toRightOf="@+id/image_tick_small"
+                android:layout_toEndOf="@+id/image_tick_small"
                 android:text="Presidio of San Francisco"
                 android:textColor="@color/secondaryText"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/font_X_small"/>
 
             <TextView
                 android:id="@+id/textView_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:gravity="center_horizontal"
-                android:paddingTop="4dp"
+                android:paddingTop="@dimen/view_dimen_X1_small"
                 android:text="1 Hr"
                 android:textColor="@color/secondaryText"
-                android:textSize="14sp"/>
+                android:textSize="@dimen/font_X_small"/>
 
             <ImageView
                 android:id="@+id/image_status"
                 android:layout_width="@dimen/view_dimen_X_large"
                 android:layout_height="@dimen/view_dimen_X_large"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@id/textView_timestamp"
-                android:src="@mipmap/ic_cloud_success"/>
+                android:src="@mipmap/ic_cloud_done_black_36dp"/>
 
 
         </RelativeLayout>

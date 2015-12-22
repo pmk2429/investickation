@@ -139,16 +139,15 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         // identify all the EditTexts and set Validation on all.
         et_tickName = (EditText) v.findViewById(R.id.editText_addObs_tickName);
-        et_tickName.setKeyListener(null);
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
 
         et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
-        et_tickSpecies.setKeyListener(null);
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
 
         et_numOfTicks = (EditText) v.findViewById(R.id.editText_addObs_numOfTicks);
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
 
+        /*
         et_tickName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +159,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             public void onClick(View v) {
                 openChooseTickDialog(inflater);
             }
-        });
+        });*/
 
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);

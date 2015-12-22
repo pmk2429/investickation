@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -71,6 +73,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private GoogleMapController mGoogleMapController;
     private LocationController.ILocationCallBacks mLocationListener;
     private String locationArea;
+    private boolean isGrownAnim = false;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -328,6 +331,24 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     // collect all the details of an Activity and pass it on to Parent Activity
     @Override
     public void onClick(View v) {
+
+        final Animation animGrow = AnimationUtils.loadAnimation(mContext, R.anim.grow_color);
+
+        animGrow.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                isGrownAnim = true;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         /*
         Validate all the input Strings and once the validation passes, create the activity object and pass it to parent Activity
          */

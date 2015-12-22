@@ -41,24 +41,24 @@
     <string name="text_state">State</string>
     <string name="text_city">City</string>
 
-    <!--TODO: List of all the String resources -->
+    <!-- Random -->
     <string name="text_activityName">Hiking trail</string>
     <string name="text_observationName">American Tick</string>
     <string name="text_locationName">Golden Gate Park</string>
-    <string name="text_tickName">American Dog Tick</string>
+    <string name="text_tickName">Tick Name</string>
     <string name="text_totalDistance">6 Miles</string>
     <string name="text_totalObservations">5 Observations</string>
     <string name="text_totalPeople">4</string>
     <string name="text_totalPets">1</string>
     <string name="text_speciesName">1 pet</string>
-    <string name="text_chooseTick">Choose from Tick Guide</string>
+    <string name="text_referTickGuide">View Tick Guide</string>
     <string name="text_chooseTickInfo">Can\'t recognize tick?</string>
 
     <!-- Add Observation-->
-    <string name="tickSpecies">Dermacentor variabilis</string>
+    <string name="tickSpecies">Tick Species</string>
     <string name="tickName">American Dog Tick</string>
     <string name="tickImagesDesc">Tick Image</string>
-    <string name="tickCount">7</string>
+    <string name="tickCount">Total number of Ticks</string>
     <string name="alert_chooseTick">Choose the desired Tick:</string>
 
     <!-- Activity Details-->
