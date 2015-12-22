@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--  Tool bar -->
+        <!--Non sliding Tool bar-->
         <include
             android:id="@+id/toolbar_top_base"
             layout="@layout/toolbar_master"
@@ -28,7 +28,7 @@
 
         </FrameLayout>
     </RelativeLayout>
-    
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

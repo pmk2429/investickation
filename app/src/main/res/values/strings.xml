@@ -102,6 +102,21 @@
     <string name="alertDialog_reminder_30">30</string>
     <string name="alertDialog_reminder_60">60</string>
 
+
+    <!-- Dashboard-->
+    <string name="dash_stepInfo">Easy to use steps:</string>
+    <string name="dash_step1">1) Start Activity</string>
+    <string name="dash_step2">2) Make Observation</string>
+    <string name="dash_step3">3) Refer to Tick Guide</string>
+    <string name="dash_postObservation">POST\nOBSERVATION</string>
+    <string name="dash_startActivity">START\nACTIVITY</string>
+    <string name="dash_activityCount">0</string>
+    <string name="dash_obsCount">0</string>
+    <string name="dash_myActivities">MY\nACTIVITIES</string>
+    <string name="dash_myObservations">MY\nOBSERVATIONS</string>
+    <string name="dash_tapForDetails">tap here for details</string>
+
+
     <!-- ActivityNew-->
     <string name="actNew_totalPets">Total Pets</string>
     <string name="actNew_totalPeople">Total People</string>

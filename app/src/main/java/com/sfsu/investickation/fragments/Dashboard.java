@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +34,6 @@ import com.sfsu.investickation.TickGuideMasterActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.utils.AppUtils;
 
 
 public class Dashboard extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
@@ -94,8 +93,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_activity);
         relativeLayoutDashboard.setOnClickListener(this);
 
-        if (new AppUtils(getActivity()).isLocationEnabled()) {
-        }
 
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityDashboard);
@@ -121,8 +118,12 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
      * @param v
      */
 
+    /**
+     * Helper method to set up ActionBar and NavigationDrawer in Dashboard.
+     *
+     * @param v
+     */
     private void setActionBarAndNavDrawer(View v) {
-
         toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_dashboard_scrollable);
 
         if (toolbarMain != null) {
@@ -146,6 +147,32 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
             });
         }
 
+        //  handle CollapsingToolbarLayout and AppBarLayout changes.
+        final CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) v.findViewById(R.id
+                .collapsing_toolbar_dashboard);
+        AppBarLayout mAppBarLayout = (AppBarLayout) v.findViewById(R.id.appbar_dashboard);
+
+        if (mAppBarLayout != null) {
+            mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                boolean isShow = false;
+                int scrollRange = -1;
+
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    if (scrollRange == -1) {
+                        scrollRange = appBarLayout.getTotalScrollRange();
+                    }
+                    if (scrollRange + verticalOffset == 0) {
+                        mCollapsingToolbarLayout.setTitle("InvesTICKations");
+                        isShow = true;
+                    } else if (isShow) {
+                        mCollapsingToolbarLayout.setTitle("");
+                        isShow = false;
+                    }
+                }
+            });
+        }
+
         // initialize the NavigationView and also setup OnClickListener for each of the Items in list
         mNavigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         if (mNavigationView != null) {
@@ -157,10 +184,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
                 }
             });
         }
-
-        // set the Title to CollapsingToolbar
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) v.findViewById(R.id.collapsing_toolbar_dashboard);
-        collapsingToolbar.setTitle("InvesTICKations");
     }
 
     // method to setup Navigation Drawer item click Listener
@@ -220,7 +243,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
                     break;
             }
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
         }
 
         // Hihhlight the selected item and close the drawer

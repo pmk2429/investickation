@@ -1,7 +1,6 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sfsu.network.auth.AuthPreferences;
 import com.squareup.otto.Bus;
@@ -47,6 +46,5 @@ public class ApiRequestHandler {
     public void init(Context mContext) {
         this.mContext = mContext;
         ACCESS_TOKEN = new AuthPreferences(mContext).getAccessToken();
-        Log.i(TAG, ACCESS_TOKEN);
     }
 }

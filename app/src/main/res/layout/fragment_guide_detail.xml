@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appbar_dashboard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_X2_large"
         android:fitsSystemWindows="true"
@@ -307,7 +307,7 @@
         android:clickable="true"
         android:src="@mipmap/ic_info_outline_white_36dp"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@id/appbar"
+        app:layout_anchor="@id/appbar_dashboard"
         app:layout_anchorGravity="bottom|right|end"/>
 
 

@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--  Tool bar -->
+        <!--  Non sliding Tool bar -->
         <include
-            android:id="@+id/toolbar_base"
-            layout="@layout/toolbar_scroll"
+            android:id="@+id/toolbar_top_base"
+            layout="@layout/toolbar_master"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -23,7 +23,7 @@
             android:id="@+id/observation_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_base">
+            android:layout_below="@id/toolbar_top_base">
         </FrameLayout>
 
     </RelativeLayout>

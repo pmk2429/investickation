@@ -13,7 +13,8 @@ import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.ObservationsList;
 
-public class ObservationMasterActivity extends BaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation.IAddObservationCallBack {
+public class ObservationMasterActivity extends MainBaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation
+        .IAddObservationCallBack {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_RUNNING_ACTIVITY = "back_to_ongoing_activity";

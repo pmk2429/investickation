@@ -2,6 +2,7 @@ package com.sfsu.network.rest.apiclient;
 
 import android.util.Base64;
 
+import com.sfsu.network.api.ApiDetails;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -21,7 +22,6 @@ import retrofit.Retrofit;
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
-    public static final String BASE_API_URL = "http://52.25.160.49:3000/api/";
 
     //    // interceptor to cache the Response from server.
 //    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
@@ -35,7 +35,7 @@ public class RetrofitApiClient {
 //    };
     protected static OkHttpClient httpClient = new OkHttpClient();
     private static Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(BASE_API_URL)
+            .baseUrl(ApiDetails.BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create());
 
     /**

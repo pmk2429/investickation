@@ -20,8 +20,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginBottom="32dp"
-            app:expandedTitleMarginEnd="@dimen/widget_dimen_X_large"
-            app:expandedTitleMarginStart="@dimen/widget_dimen"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -39,12 +38,55 @@
                 android:padding="@dimen/view_dimen_large">
 
                 <TextView
+                    android:id="@+id/textViewStatic_dash_stepsInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="125dp"
-                    android:text="Welcome to InvesTICKations"
-                    android:textColor="@color/colorWhite"/>
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="@dimen/widget_dimen"
+                    android:layout_marginTop="@dimen/padding_dimen_X_large"
+                    android:text="@string/dash_stepInfo"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_large"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textViewStatic_dash_step1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/textViewStatic_dash_stepsInfo"
+                    android:layout_marginStart="@dimen/widget_dimen"
+                    android:layout_marginTop="@dimen/view_dimen_medium"
+                    android:text="@string/dash_step1"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_medium"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textViewStatic_dash_step2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/textViewStatic_dash_step1"
+                    android:layout_marginStart="@dimen/widget_dimen"
+                    android:layout_marginTop="@dimen/view_dimen_medium"
+                    android:text="@string/dash_step2"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_medium"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textViewStatic_dash_step3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/textViewStatic_dash_step2"
+                    android:layout_marginStart="@dimen/widget_dimen"
+                    android:layout_marginTop="@dimen/view_dimen_medium"
+                    android:text="@string/dash_step3"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_medium"
+                    android:textStyle="bold"/>
 
             </RelativeLayout>
 
@@ -82,7 +124,7 @@
                 android:layout_marginEnd="@dimen/view_dimen_small"
                 android:layout_toStartOf="@id/separator_vertical_observation_1"
                 android:background="@drawable/dashboard_card_border"
-                android:elevation="8dp">
+                android:elevation="@dimen/view_dimen_small">
 
                 <!-- Total Activities made by user-->
                 <RelativeLayout
@@ -98,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="5"
+                        android:text="@string/dash_activityCount"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_X3_large"/>
 
@@ -110,9 +152,10 @@
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal|top"
                         android:layout_marginTop="@dimen/view_dimen_large"
+                        android:gravity="center_horizontal"
                         android:paddingLeft="@dimen/view_dimen_small"
                         android:paddingRight="@dimen/view_dimen_small"
-                        android:text="ACTIVITIES"
+                        android:text="@string/dash_myActivities"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/font_small"/>
 
@@ -123,7 +166,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerInParent="true"
                         android:layout_marginBottom="@dimen/view_dimen_large"
-                        android:text="tap for details"
+                        android:text="@string/dash_tapForDetails"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_X_small"/>
 
@@ -140,24 +183,25 @@
                 android:layout_marginEnd="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:layout_toStartOf="@id/separator_vertical_observation_1"
-                android:layout_weight="1"
-                android:elevation="5dp"
+                android:elevation="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_large">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/view_dimen_small"
                     android:paddingLeft="@dimen/view_dimen_large"
                     android:paddingRight="@dimen/view_dimen_large"
-                    android:paddingTop="8dp">
+                    android:paddingTop="@dimen/view_dimen_small">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="START"
+                        android:gravity="center_horizontal"
+                        android:text="@string/dash_startActivity"
+                        android:textAlignment="center"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_small"/>
 
@@ -168,8 +212,8 @@
             <!--Line separator-->
             <View
                 android:id="@+id/separator_vertical_observation_1"
-                android:layout_width="1dp"
-                android:layout_height="200dp"
+                android:layout_width="@dimen/separator_dimen"
+                android:layout_height="@dimen/cardview_large"
                 android:layout_centerInParent="true"
                 android:textAlignment="center"/>
 
@@ -178,10 +222,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/cardview_default"
                 android:layout_alignParentEnd="true"
-                android:layout_marginLeft="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_toEndOf="@id/separator_vertical_observation_1"
                 android:background="@drawable/dashboard_card_border"
-                android:elevation="8dp">
+                android:elevation="@dimen/view_dimen_small">
 
                 <!-- Total Observations made by user-->
                 <RelativeLayout
@@ -197,7 +241,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="16"
+                        android:text="@string/dash_obsCount"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_X3_large"/>
 
@@ -209,9 +253,10 @@
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal|top"
                         android:layout_marginTop="@dimen/view_dimen_large"
+                        android:gravity="center_horizontal"
                         android:paddingLeft="@dimen/view_dimen_small"
                         android:paddingRight="@dimen/view_dimen_small"
-                        android:text="OBSERVATIONS"
+                        android:text="@string/dash_myObservations"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/font_small"/>
 
@@ -221,7 +266,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerInParent="true"
                         android:layout_marginBottom="@dimen/view_dimen_large"
-                        android:text="tap for details"
+                        android:text="@string/dash_tapForDetails"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_X_small"/>
 
@@ -238,15 +283,14 @@
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/separator_vertical_observation_1"
-                android:layout_weight="1"
-                android:elevation="5dp"
+                android:elevation="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_large">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="@dimen/view_dimen_small"
                     android:paddingLeft="@dimen/view_dimen_large"
                     android:paddingRight="@dimen/view_dimen_large"
                     android:paddingTop="8dp">
@@ -255,7 +299,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="POST"
+                        android:gravity="center_horizontal"
+                        android:text="@string/dash_postObservation"
+                        android:textAlignment="center"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/font_small"/>
 
@@ -271,7 +317,6 @@
                 android:layout_height="@dimen/cardview_large"
                 android:layout_below="@id/btn_observation_post"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:layout_weight="1.0"
                 android:orientation="vertical">
 
                 <com.google.android.gms.maps.MapView
