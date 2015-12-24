@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sfsu.entities.Activities;
@@ -48,13 +49,14 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
         if (holder != null) {
             String activityName = activityList.get(position).getActivityName() + " @ " + activityList.get(position)
                     .getLocation_area();
-            holder.txtViewActivityName.setText(activityName);
+            holder.txtView_activityName.setText(activityName);
             String pets = activityList.get(position).getNum_of_pets() + " pets";
-            holder.txtViewDistance.setText(pets);
+            holder.txtView_distance.setText(pets);
             String observations = activityList.get(position).getNum_of_ticks() + " Observations";
-            holder.txtViewObservations.setText(observations);
+            holder.txtView_observations.setText(observations);
             String people = activityList.get(position).getNum_of_people() + " people";
-            holder.txtViewPeople.setText(people);
+            holder.txtView_people.setText(people);
+            // TODO: get the URL and display it in the imageView.
         }
     }
 
@@ -127,19 +129,20 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
      */
     public static class ActivityViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cardViewActivity;
-        private TextView txtViewActivityName;
-        private TextView txtViewDistance;
-        private TextView txtViewObservations;
-        private TextView txtViewPeople;
+        private CardView cardViewActivity;
+        private ImageView imageView_staticMap;
+        private TextView txtView_activityName;
+        private TextView txtView_distance;
+        private TextView txtView_observations;
+        private TextView txtView_people;
 
         public ActivityViewHolder(View itemView) {
             super(itemView);
             cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_activity);
-            txtViewActivityName = (TextView) itemView.findViewById(R.id.textView_activityNameMain);
-            txtViewDistance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
-            txtViewObservations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);
-            txtViewPeople = (TextView) itemView.findViewById(R.id.textView_totalPeople);
+            txtView_activityName = (TextView) itemView.findViewById(R.id.textView_activityNameMain);
+            txtView_distance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
+            txtView_observations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);
+            txtView_people = (TextView) itemView.findViewById(R.id.textView_totalPeople);
         }
     }
 

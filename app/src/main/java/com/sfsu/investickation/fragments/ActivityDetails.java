@@ -42,6 +42,9 @@ public class ActivityDetails extends Fragment {
     @Bind(R.id.button_actDet_viewAllObservation)
     Button button_viewObservations;
 
+    @Bind(R.id.imageView_actDet_staticMap)
+    ImageView imageView_staticMap;
+
     private IActivityDetailsCallBacks mListener;
     private Context mContext;
     private Bundle args;
@@ -104,6 +107,8 @@ public class ActivityDetails extends Fragment {
         txtView_totalPets.setText(pets);
 
         txtView_totalDistance.setText("00");
+
+        //TODO: load the image into imageview using Picasso.
 
         return rootView;
     }
