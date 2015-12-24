@@ -2,6 +2,7 @@ package com.sfsu.investickation.fragments;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,12 +21,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.sfsu.investickation.R;
+import com.sfsu.network.auth.AuthPreferences;
+import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.UserEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 
 import java.io.File;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,8 +45,19 @@ public class Profile extends Fragment {
     protected static final int GALLERY_PICTURE = 24;
     private final String TAG = "~!@#Profile :";
     Bitmap bitmap;
-    ImageView imageView_user;
     String selectedImagePath;
+    @Bind(R.id.editText_profile_fullName)
+    EditText et_fullName;
+    @Bind(R.id.editText_profile_email)
+    EditText et_email;
+    @Bind(R.id.editText_profile_password)
+    EditText et_password;
+    @Bind(R.id.editText_profile_address)
+    EditText et_address;
+    @Bind(R.id.imageView_profile_userImage)
+    ImageView imageView_userImage;
+    private AuthPreferences mAuthPreferences;
+    private Context mContext;
 
     public Profile() {
         // Required empty public constructor
@@ -49,26 +69,43 @@ public class Profile extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("My Profile");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        mAuthPreferences = new AuthPreferences(mContext);
+
+
+        // TODO: make a network call and get the data?
+        BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mAuthPreferences.getUser_id(), ApiRequestHandler.GET));
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        imageView_user = (ImageView) v.findViewById(R.id.imageView_userProfile);
+        ButterKnife.bind(this, rootView);
 
-        final FloatingActionButton fabUserImage = (FloatingActionButton) v.findViewById(R.id.fab_userProfileImage);
+
+        final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);
         fabUserImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startDialogForChoosingImage();
             }
         });
-        return v;
+
+
+        return rootView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mContext = context;
+        } catch (Exception e) {
+
+        }
     }
 
     /**
@@ -164,7 +201,7 @@ public class Profile extends Fragment {
                 bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
                 // set Tick image to imageView.
-                imageView_user.setImageBitmap(bitmap);
+                imageView_userImage.setImageBitmap(bitmap);
 
             } catch (Exception e) {
                 Log.d(TAG, e.getMessage());
@@ -194,7 +231,7 @@ public class Profile extends Fragment {
                     Log.d("---Exception", e.getMessage());
                 }
                 // set the bitmap in ImageView
-                imageView_user.setImageBitmap(bitmap);
+                imageView_userImage.setImageBitmap(bitmap);
 
             } else {
                 Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
@@ -202,5 +239,15 @@ public class Profile extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().register(this);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.bus().unregister(this);
+    }
 }

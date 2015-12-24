@@ -187,6 +187,18 @@
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/font_small"/>
 
+    <TextView
+        android:id="@+id/textViewStatic_startActDisc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_reminder"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/view_dimen_large"
+        android:padding="@dimen/view_dimen_medium"
+        android:text="@string/actNew_startActivityDisclaimer"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/font_X_small"/>
+
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_activity_start"

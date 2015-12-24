@@ -35,6 +35,12 @@
     <string name="signup">Sign Up</string>
     <string name="textSignUp">Sign Up</string>
 
+    <!-- Profile-->
+    <string name="profile_name">Full name</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_address">Address</string>
+    <string name="profile_save">Save</string>
+
     <!--Login-->
     <string name="login">Login</string>
     <string name="text_zipcode">Zip Code</string>
@@ -121,6 +127,7 @@
     <string name="actNew_totalPets">Total Pets</string>
     <string name="actNew_totalPeople">Total People</string>
     <string name="actNew_setReminder">Set Reminder</string>
+    <string name="actNew_startActivityDisclaimer">Clicking play button will create an Activity</string>
 
     <!-- Tick adapter -->
     <string name="tick_click_here_for_details">Click here for more details</string>

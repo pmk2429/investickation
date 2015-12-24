@@ -45,8 +45,8 @@ public class Observation implements Parcelable, Entity {
 
     @SerializedName("location")
     private EntityLocation locationObj;
-    @SerializedName("tick")
-    private Tick tickObj;
+//    @SerializedName("tick")
+//    private Tick tickObj;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -80,7 +80,7 @@ public class Observation implements Parcelable, Entity {
         created_at = in.readLong();
         updated_at = in.readLong();
         locationObj = in.readParcelable(EntityLocation.class.getClassLoader());
-        tickObj = in.readParcelable(Tick.class.getClassLoader());
+        //tickObj = in.readParcelable(Tick.class.getClassLoader());
     }
 
     public String getImageUrl() {
@@ -97,14 +97,6 @@ public class Observation implements Parcelable, Entity {
 
     public void setLocation(EntityLocation location) {
         this.locationObj = location;
-    }
-
-    public Tick getTickObj() {
-        return tickObj;
-    }
-
-    public void setTickObj(Tick tickObj) {
-        this.tickObj = tickObj;
     }
 
     public String getGeoLocation() {
@@ -194,7 +186,6 @@ public class Observation implements Parcelable, Entity {
         dest.writeLong(created_at);
         dest.writeLong(updated_at);
         dest.writeParcelable(locationObj, flags);
-        dest.writeParcelable(tickObj, flags);
     }
 
 

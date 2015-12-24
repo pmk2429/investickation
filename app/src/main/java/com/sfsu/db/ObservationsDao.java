@@ -19,10 +19,10 @@ import java.util.List;
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
-    private final String LOGTAG = "~!@#$ObsDao :";
+    private final String TAG = "~!@#$ObsDao :";
 
     private SQLiteDatabase db;
-    // Observations's entry array for storing all the column names
+    // Observation's entry array for storing all the column names
     private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT, ObservationsTable
             .COLUMN_FK_TICK_ID, ObservationsTable.COLUMN_FK_LOCATION_ID};
 
@@ -33,7 +33,7 @@ public class ObservationsDao implements EntityDao {
     }
 
     /**
-     * Delete the Observation entry from the Table.
+     * Deletes the {@link Observation} entry from the Table.
      *
      * @param observations
      * @return
@@ -60,7 +60,6 @@ public class ObservationsDao implements EntityDao {
             // once the Observation Item is build from cursor, create Tick object and Location object.
             observationItem = buildFromCursor(c);
             // TODO: create Tick object and Location Object.
-            observationItem.setTickObj(null);
             observationItem.setLocation(null);
             if (!c.isClosed()) {
                 c.close();
@@ -76,7 +75,7 @@ public class ObservationsDao implements EntityDao {
     }
 
     /**
-     * Method to get all the Observations from the DB
+     * Returns all the {@link Observation} from the DB
      *
      * @return
      */
@@ -113,9 +112,9 @@ public class ObservationsDao implements EntityDao {
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
         // get TickId and LocationId
-        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
+//        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
         contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getLocation_id());
-        Log.d(LOGTAG, "Observation : INSERT reached");
+        Log.d(TAG, "Observation : INSERT reached");
         return db.insert(ObservationsTable.TABLENAME, null, contentValues);
     }
 
@@ -134,9 +133,9 @@ public class ObservationsDao implements EntityDao {
         contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
         // get LocationId and TickId
-        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
+//        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
         contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getLocation_id());
-        Log.d(LOGTAG, "Observation : UPDATE reached");
+        Log.d(TAG, "Observation : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(ObservationsTable.TABLENAME, contentValues, ObservationsTable.COLUMN_ID + "=?", new

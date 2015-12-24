@@ -113,7 +113,10 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Add Observation");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        args = getArguments();
+        if (getArguments() != null) {
+            args = getArguments();
+        }
+        dbController = new DatabaseDataController(mContext, new TickDao());
         mAuthPreferences = new AuthPreferences(mContext);
     }
 
@@ -186,6 +189,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
                             entityLocation, userId);
 
+                    dbController.save(newObservationObj);
+
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 }
             }
@@ -256,7 +261,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * @return
      */
     private Tick getTickFromName(String tickName) {
-        dbController = new DatabaseDataController(mContext, new TickDao());
         return (Tick) dbController.get(tickName);
     }
 
