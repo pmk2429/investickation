@@ -25,11 +25,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.UsersDao;
+import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.events.UserEvent;
-import com.sfsu.network.handler.ApiRequestHandler;
 
 import java.io.File;
 
@@ -37,7 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Displays the {@link User} data. Allows users to edit the data.
  */
 public class Profile extends Fragment {
 
@@ -57,7 +58,9 @@ public class Profile extends Fragment {
     @Bind(R.id.imageView_profile_userImage)
     ImageView imageView_userImage;
     private AuthPreferences mAuthPreferences;
+    private DatabaseDataController dbController;
     private Context mContext;
+    private User mUser;
 
     public Profile() {
         // Required empty public constructor
@@ -70,10 +73,7 @@ public class Profile extends Fragment {
         getActivity().setTitle("My Profile");
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mAuthPreferences = new AuthPreferences(mContext);
-
-
-        // TODO: make a network call and get the data?
-        BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mAuthPreferences.getUser_id(), ApiRequestHandler.GET));
+        dbController = new DatabaseDataController(mContext, new UsersDao());
     }
 
 
@@ -85,6 +85,19 @@ public class Profile extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
+        // get the User object from Database
+        if (dbController != null) {
+            mUser = (User) dbController.get(mAuthPreferences.getUser_id());
+        }
+
+        // set the values in the EditText
+        if (mUser != null) {
+            et_fullName.setText(mUser.getFull_name());
+            String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
+            et_address.setText(address);
+            et_email.setText(mUser.getEmail());
+            et_password.setText(mUser.getPassword());
+        }
 
         final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);
         fabUserImage.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +106,6 @@ public class Profile extends Fragment {
                 startDialogForChoosingImage();
             }
         });
-
 
         return rootView;
     }

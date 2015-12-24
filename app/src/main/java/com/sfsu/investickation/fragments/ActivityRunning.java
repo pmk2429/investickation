@@ -30,9 +30,10 @@ import com.sfsu.service.LocationService;
 
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
- * {@link Activities} or to just make an observation without registering for an activity. This fragment contains the action
- * callback to start new <tt>Observation</tt>. Once the Add Observation button is clicked, the user will be redirected to add
- * Observation for the current ongoing activity.
+ * {@link Activities}. At this point in time, the {@link Activities} is created on the server and the state of Activity is
+ * <tt>RUNNING</tt>. So only when the Activity is in RUNNING state, the {@link com.sfsu.entities.User} can make observations
+ * or receive location updates. This fragment the action callback to start new <tt>Observation</tt>.
+ * Once the Add Observation button is clicked, the user will be redirected to add Observation for the current ongoing activity.
  * <p>
  * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
@@ -41,9 +42,9 @@ import com.sfsu.service.LocationService;
  * <p>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
  * </p>
- * <p>In addition, once the user clicks on <tt>'Add Observation'</tt> button, the {@link AddObservation} Fragment is opened and
- * the control is redirected to new Fragment inside activity. When this happens, the current ongoing activity is stored in
- * SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
+ * <p>Once the user clicks on <tt>'Add Observation'</tt> button, the {@link AddObservation} Fragment is opened and
+ * the control is redirected to new Fragment inside {@link com.sfsu.investickation.ObservationMasterActivity}. When this happens,
+ * the current ongoing activity is stored in SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
  * Observation,
  */
 public class ActivityRunning extends Fragment {
@@ -281,7 +282,7 @@ public class ActivityRunning extends Fragment {
         getActivity().unregisterReceiver(locationBroadcastReceiver);
         getActivity().stopService(locationIntent);
     }
-    
+
 
     /**
      * Callback Interface for handling onClick Listeners in <tt>ActivityRunning</tt> Fragment.

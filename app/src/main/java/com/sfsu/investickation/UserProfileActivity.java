@@ -1,5 +1,6 @@
 package com.sfsu.investickation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -7,6 +8,9 @@ import android.view.MenuItem;
 import com.sfsu.investickation.fragments.Profile;
 
 
+/**
+ * Container Activity for displaying {@link User} related data. Holds references to {@link Profile} Fragment.
+ */
 public class UserProfileActivity extends MainBaseActivity {
 
     private final String TAG = "~!@#UsrProAct";
@@ -26,9 +30,22 @@ public class UserProfileActivity extends MainBaseActivity {
             }
 
             Profile mProfile = new Profile();
-            // add the Fragment to 'guide_fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfile).commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            Intent homeIntent = new Intent(UserProfileActivity.this, MainActivity.class);
+            startActivity(homeIntent);
+            finish();
+            super.onBackPressed();
+        } else if (count > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     @Override

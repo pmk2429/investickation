@@ -45,8 +45,7 @@ public class Observation implements Parcelable, Entity {
 
     @SerializedName("location")
     private EntityLocation locationObj;
-//    @SerializedName("tick")
-//    private Tick tickObj;
+
 
     // REQUIRED : Default Constructor
     public Observation() {

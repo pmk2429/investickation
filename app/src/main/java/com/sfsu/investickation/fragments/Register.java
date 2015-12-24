@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
@@ -27,23 +26,41 @@ import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
 
+import butterknife.Bind;
+
 /**
- * Registers the User and sends the User input Data to server and creates a copy in SQLite server for future accesses. The data
- * entered by the User passed a Custom Validation and after that the User object is passed to {@link RetrofitController} which
- * will then after make a network call and save the data on server. Meanwhile, when the server gives back the response, this
- * Fragment passes the {@link User} object to the {@link com.sfsu.investickation.HomeActivity} where the copy of a User object
- * is stored on the local SQLite DB.
- * <p/>
+ * <p>
+ * Registers the {@link User} and sends the User input data to server and on successful creation of a User, creates a copy in
+ * SQLite server for future {@link User} related accesses and operations.
+ * </p>
+ * <p>
+ * Meanwhile, when the server gives back the response, this Fragment passes the {@link User} object to the
+ * {@link com.sfsu.investickation.HomeActivity} where the copy of a User object is stored on the local SQLite DB.
+ * </p>
  * The main reason for storing the User on local DB is to avoid making unwanted network calls when the user wants to log back
  * in.
  */
 public class Register extends Fragment implements View.OnClickListener, ITextValidate {
 
-    private final String TAG = "~!@#Register :";
-
-    private Button btnRegisterUser;
-    private EditText et_fullName, et_email, et_password, et_zipcode, et_address, et_city, et_state;
-    private ImageView imageView_userImage;
+    private final String TAG = "~!@#Register";
+    // EditTexts
+    @Bind(R.id.editText_register_fullName)
+    EditText et_fullName;
+    @Bind(R.id.editText_register_email)
+    EditText et_email;
+    @Bind(R.id.editText_register_password)
+    EditText et_password;
+    @Bind(R.id.editText_register_zip)
+    EditText et_zipcode;
+    @Bind(R.id.editText_register_address)
+    EditText et_address;
+    @Bind(R.id.editText_register_city)
+    EditText et_city;
+    @Bind(R.id.editText_register_state)
+    EditText et_state;
+    //Button
+    @Bind(R.id.button_registerUser)
+    Button btnRegisterUser;
     private IRegisterCallBacks mListener;
     private Context mContext;
     private DatabaseDataController dbController;
@@ -68,32 +85,17 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
 
-        et_fullName = (EditText) v.findViewById(R.id.editText_register_fullName);
         et_fullName.addTextChangedListener(new TextValidator(mContext, Register.this, et_fullName));
-        et_email = (EditText) v.findViewById(R.id.editText_register_email);
         et_email.addTextChangedListener(new TextValidator(mContext, Register.this, et_email));
-        et_password = (EditText) v.findViewById(R.id.editText_register_password);
         et_password.addTextChangedListener(new TextValidator(mContext, Register.this, et_password));
-        et_address = (EditText) v.findViewById(R.id.editText_register_address);
         et_address.addTextChangedListener(new TextValidator(mContext, Register.this, et_address));
-        et_zipcode = (EditText) v.findViewById(R.id.editText_register_zip);
         et_zipcode.addTextChangedListener(new TextValidator(mContext, Register.this, et_zipcode));
-        et_city = (EditText) v.findViewById(R.id.editText_register_city);
         et_city.addTextChangedListener(new TextValidator(mContext, Register.this, et_city));
-        et_state = (EditText) v.findViewById(R.id.editText_register_state);
         et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
-
-//
-//        if (v != null) {
-//            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-//        }
 
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
         dbController = new DatabaseDataController(mContext, new UsersDao());
-
-        btnRegisterUser = (Button) v.findViewById(R.id.button_registerUser);
         // implement the onClick method
         btnRegisterUser.setOnClickListener(this);
         return v;
@@ -193,17 +195,20 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     public void onUserCreateSuccess(UserEvent.OnLoaded onLoaded) {
         // once the user is successfully created, store the response in the SQLite database to store the user info for further
         // requirements.
-        User userResponse = onLoaded.getResponse();
+        User userResponseObj = onLoaded.getResponse();
 
-        // set password to the user response object and save it to DB.
-        userResponse.setPassword(mUserObj.getPassword());
+        // set password to the user response object.
+        userResponseObj.setPassword(mUserObj.getPassword());
 
-        // TODO: store the user response in the database.
-        //dbController.save(userResponse);
+        // finally save the user in DB
+        long resultCode = dbController.save(userResponseObj);
 
-        // once the user has successfully registered, make another call to API for the email and password to get the access
-        // token and follow the same procedure as for the Login.
-        mListener.onRegisterButtonClick(mUserObj);
+        // on successful storage of user, perform further operations.
+        if (resultCode != -1) {
+            // once the user has successfully registered, make another call to API for the email and password to get the access
+            // token and follow the same procedure as for the Login.
+            mListener.onRegisterButtonClick(mUserObj);
+        }
     }
 
     /**

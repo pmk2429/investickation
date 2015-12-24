@@ -4,18 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * <p>
+ * <tt>User</tt> is the main actor of InvesTICKations applications. User is the real world human who uses this application to
+ * carry out {@link Activities} and make {@link Observation}. The User class contains real world information about each User
+ * who are registered for the application.
+ * <p>
  * Created by Pavitra on 5/19/2015.
- */
-
-/**
- * <p>
- * <tt>User</tt> class defines all the attributes of the User entity.
- * This construct makes the main user of the application. The class
- * provides all the getters and setters as well as all tostring() method
- * </p>
- * <p>
- * The User class also provides the Factory pattern to create the user on demand.
- * <p>
  */
 public class User implements Parcelable, Entity {
 
@@ -31,7 +25,6 @@ public class User implements Parcelable, Entity {
     };
 
 
-    // TODO: define how to post Image using Bitmap and Retrofit
     private String id;
     private String full_name, email, password, address, city, state;
     private int zipCode;

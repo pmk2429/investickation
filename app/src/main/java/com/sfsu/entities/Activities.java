@@ -45,7 +45,7 @@ public class Activities implements Parcelable, Entity {
     private long timestamp1, created_at1, updated_at1;
     private String user_id;
     // Enum identifier for setting State of Object.
-    private STATE activityState;
+    private transient STATE activityState;
 
     public Activities() {
     }
@@ -264,9 +264,7 @@ public class Activities implements Parcelable, Entity {
      * A list of constant values assigned to Activities. Started represents the
      */
     public static enum STATE {
-        @SerializedName("RUNNING")
         RUNNING,
-        @SerializedName("CREATED")
         CREATED;
     }
 }

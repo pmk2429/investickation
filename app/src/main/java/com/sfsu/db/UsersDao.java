@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO for {@link User} .
+ * <p>
  * Created by Pavitra on 6/3/2015.
  */
 public class UsersDao implements EntityDao {
-    private final String LOGTAG = "~!@#$UsersDao :";
+    private final String LOGTAG = "~!@#$UsersDao";
     private SQLiteDatabase db;
 
     // User's string array.
@@ -28,7 +30,7 @@ public class UsersDao implements EntityDao {
     }
 
     /**
-     * Method to save the User to DB.
+     * Saves {@link User} to SQLite DB.
      *
      * @param user
      * @return
