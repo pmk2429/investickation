@@ -101,7 +101,7 @@ public class ActivityRunning extends Fragment {
     }
 
     /**
-     * Method to collect location every specified interval of time.
+     * Collects the location every specified interval of time.
      *
      * @param locationIntent
      */

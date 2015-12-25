@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.LocationController;
@@ -491,6 +492,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void setCurrentLocation(Location mLocation) {
         this.entityLocation = new EntityLocation(mLocation.getLatitude(), mLocation.getLongitude());
+
+    }
+
+    @Override
+    public void setLatLng(LatLng mLatLng) {
 
     }
 

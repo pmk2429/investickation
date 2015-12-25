@@ -1,5 +1,7 @@
 package com.sfsu.map;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * <p>
  * Handles creation of url for static google map which displays the polyline for the {@link com.sfsu.entities.User}
@@ -9,11 +11,16 @@ package com.sfsu.map;
  * The StaticMap uses Builder pattern to build a dynamic url for makeing a network request and getting a static google map
  * image with a specific polyline according to the points specified in the Path param.
  * </p>
- * <p>
+ * <p/>
+ * https://developers.google.com/maps/documentation/static-maps/intro
+ * <p/>
  * Created by Pavitra on 12/23/2015.
  */
 public class StaticMap {
 
+    /**
+     * UrlBuilder to build url with locations.
+     */
     public static class UrlBuilder {
 
         private final boolean SENSOR = false;
@@ -31,6 +38,7 @@ public class StaticMap {
         private int image_zoom;
         private int counter;
         private double point_lat, point_long;
+        private LatLng[] mlatLngs;
 
 
         public UrlBuilder init() {
@@ -65,6 +73,19 @@ public class StaticMap {
                 pathBuilder.append(PIPE).append(point_lat).append(COMMA).append(point_long);
             }
             counter++;
+            return this;
+        }
+
+        public UrlBuilder path(LatLng[] latLngs) {
+            this.mlatLngs = latLngs;
+            for (int i = 0; i < mlatLngs.length; i++) {
+                if (counter == 0) {
+                    pathBuilder.append(AMPERSAND).append("path").append(EQUALS).append(mlatLngs[i].latitude).append(COMMA).append
+                            (mlatLngs[i].longitude);
+                } else if (counter > 0) {
+                    pathBuilder.append(PIPE).append(mlatLngs[i].latitude).append(COMMA).append(mlatLngs[i].longitude);
+                }
+            }
             return this;
         }
 

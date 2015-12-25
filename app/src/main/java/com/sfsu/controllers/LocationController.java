@@ -14,6 +14,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.List;
@@ -135,6 +136,9 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             double currentLongitude = location.getLongitude();
 
             // when the handleNewLocation method is handled, call the setCurrentLocation and setLocationArea.
+            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+
             mInterface.setCurrentLocation(location);
             setLocationArea(currentLatitude, currentLongitude);
         } catch (Exception e) {
@@ -198,11 +202,20 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     public interface ILocationCallBacks {
         /**
-         * Callback method to get the Last known location of User using <tt>FusedLocationApi</tt>.
+         * Callback method to get the Last known location of User using <tt>FusedLocationApi</tt>. Receives the Location
+         * periodically.
          *
          * @param mLocation
          */
         public void setCurrentLocation(Location mLocation);
+
+
+        /**
+         * Callback to receive the {@link LatLng} object.
+         *
+         * @param mLatLng
+         */
+        public void setLatLng(LatLng mLatLng);
 
         /**
          * Callback method to get the Location Area depending on the Current Location.

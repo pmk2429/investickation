@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.investickation.HomeActivity;
@@ -332,6 +333,11 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
 
     @Override
     public void setCurrentLocation(Location mLocation) {
+
+    }
+
+    @Override
+    public void setLatLng(LatLng mLatLng) {
 
     }
 
