@@ -6,13 +6,15 @@ import android.content.SharedPreferences;
 import com.sfsu.investickation.R;
 
 /**
- * SharedPreference to store the OAuth 2.0 Access Token when the user successfully logs in.
+ * Stores the OAuth 2.0 Access Token when the user successfully logs in, in the SharedPreferences. This class handles all the
+ * user login related session details such as <tt>user_id</tt> and <tt>accessToken</tt> when the User creates a session after
+ * signing in.
  * <p/>
  * Created by Pavitra on 12/5/2015.
  */
 public class AuthPreferences {
-    private final String KEY_ACCESS_TOKEN = "access_token";
-    private final String KEY_USER_ID = "user_id";
+    private final String KEY_ACCESS_TOKEN = "key_access_token";
+    private final String KEY_USER_ID = "key_user_id";
 
     private Context mContext;
     private SharedPreferences tokenSharedPreferences;
@@ -55,6 +57,18 @@ public class AuthPreferences {
      */
     public String getUser_id() {
         return tokenSharedPreferences != null ? tokenSharedPreferences.getString(KEY_USER_ID, "no-user-id") : "no-user-id";
+    }
+
+    /**
+     * Clears the <tt>user_id</tt> and the <tt>accessToken</tt> from SharedPreferences.
+     *
+     * @return
+     */
+    public boolean clearCredentials() {
+        editor.clear();
+        //editor.apply();
+
+        return editor.commit();
     }
 
 }

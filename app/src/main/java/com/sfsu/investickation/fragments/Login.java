@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,8 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
-import com.sfsu.network.login.LoginResponse;
-import com.sfsu.network.login.SessionManager;
+import com.sfsu.session.LoginResponse;
+import com.sfsu.session.SessionManager;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -75,6 +76,11 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
         mSessionManager = new SessionManager(mContext);
+
+        Log.i(TAG, " reached after logout");
+        Log.i(TAG, "AccTok: " + mAuthPreferences.getAccessToken());
+        Log.i(TAG, "userId: " + mAuthPreferences.getUser_id());
+        Log.i(TAG, "isLoggedIn: " + mSessionManager.isLoggedIn());
 
         // set onClickListener on this Fragment.
         btnLogin.setOnClickListener(this);

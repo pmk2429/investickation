@@ -1,4 +1,4 @@
-package com.sfsu.network.login;
+package com.sfsu.session;
 
 import com.google.gson.annotations.SerializedName;
 

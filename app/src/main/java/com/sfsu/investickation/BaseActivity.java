@@ -42,9 +42,9 @@ public class BaseActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_base);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_top_base);
         drawer_recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerView);
-        
+
         // set the toolbar_master injected using ButterKnife library.
         setSupportActionBar(toolbar);
 

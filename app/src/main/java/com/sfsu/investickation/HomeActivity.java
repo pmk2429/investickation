@@ -7,17 +7,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.sfsu.controllers.DatabaseDataController;
-import com.sfsu.db.UsersDao;
 import com.sfsu.entities.User;
 import com.sfsu.investickation.fragments.Home;
 import com.sfsu.investickation.fragments.Login;
+import com.sfsu.investickation.fragments.Logout;
 import com.sfsu.investickation.fragments.Register;
-import com.sfsu.network.login.SessionManager;
+import com.sfsu.session.SessionManager;
 
 /**
  * <p>
- * Container Activity for {@link Login} and {@link Register} fragments. Opens when the user is done
+ * Container Activity for {@link Login} and {@link Register} Fragments. Opens when the user is done
  * navigating the WelcomeScreenActivity for the first time. Also, when the User logs out, then s/he will be redirected to this
  * Activity to allow the User to Login again.
  * </p>
@@ -26,11 +25,10 @@ import com.sfsu.network.login.SessionManager;
  * redirected to the {@link MainActivity} else the User will be asked to Login or Register.</p>
  */
 public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home
-        .IHomeCallbacks {
+        .IHomeCallbacks, Logout.ILogoutCallBack {
 
     public static final String KEY_SIGNIN_SUCCESS = "signin_success";
-    private final String TAG = "~!@#$HomeActivity :";
-    private DatabaseDataController dbController;
+    private final String TAG = "~!@#$HomeAct";
     private SessionManager mSessionManager;
 
     @Override
@@ -38,7 +36,6 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        dbController = new DatabaseDataController(this, new UsersDao());
         mSessionManager = new SessionManager(this);
 
         // if Fragment container is present
@@ -49,29 +46,34 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
                 return;
             }
 
-            // depending on whether the Session is set for current user or not, open Login or Dashboard respectively.
-
-            if (mSessionManager.isLoggedIn()) {
-                userLoggedIn();
-                Log.i(TAG, " user logged in");
+            // if the user clicked logout, then open Logout fragment
+            if (getIntent().getIntExtra(MainBaseActivity.KEY_LOGOUT, 0) == 1) {
+                Log.i(TAG, " user logout clicked");
+                Logout mLogoutFragment = new Logout();
+                performFragmentTransaction(mLogoutFragment);
             } else {
-                Log.i(TAG, " user not logged in");
-                // else show the ActivityList Fragment in the 'activity_fragment_container'
-                Home homeFragment = new Home();
-                // if activity was started with special instructions from an Intent, pass Intent's extras to fragments as Args
-                homeFragment.setArguments(getIntent().getExtras());
-                // add Fragment to 'activity_fragment_container'
-                getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, homeFragment).commit();
+                // depending on whether the Session is set for current user or not.
+                if (mSessionManager.isLoggedIn()) {
+                    userLoggedIn();
+                    Log.i(TAG, " user logged in");
+                } else {
+                    // use case when the session expires for current user.
+                    Log.i(TAG, " user not logged in");
+                    Home mHomeFragment = new Home();
+                    getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, mHomeFragment).commit();
+
+                }
             }
         }
     }
 
     /**
-     * Helper method to provide Fragment Transaction.
+     * Helper method to perform Fragment Transaction.
      *
      * @param fragment
      */
-    private void switchFragment(Fragment fragment) {
+
+    private void performFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.home_fragment_container, fragment);
         transaction.addToBackStack(null);
@@ -82,13 +84,13 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
     @Override
     public void onLoginClicked() {
         Login loginFragment = new Login();
-        switchFragment(loginFragment);
+        performFragmentTransaction(loginFragment);
     }
 
     @Override
     public void onSignUpClicked() {
         Register registerFragment = new Register();
-        switchFragment(registerFragment);
+        performFragmentTransaction(registerFragment);
     }
 
 
@@ -112,4 +114,9 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
     }
 
 
+    @Override
+    public void userLoggedOut() {
+        Login loginFragment = new Login();
+        performFragmentTransaction(loginFragment);
+    }
 }

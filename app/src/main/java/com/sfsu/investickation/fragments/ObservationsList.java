@@ -39,7 +39,7 @@ import java.util.List;
 
 public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
-    private final String TAG = "~!@#ObsList :";
+    private final String TAG = "~!@#ObsList";
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
     private List<Observation> observationList, remoteObservationList, localObservationList;
@@ -195,11 +195,9 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      */
     @Subscribe
     public void onObservationsLoadSuccess(ObservationEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "loaded successfully");
         remoteObservationList = onLoaded.getResponseList();
 
         if (remoteObservationList.size() > 0 && remoteObservationList != null) {
-            Log.i(TAG, "condition satisfied");
             displayObservationList();
         } else {
             // TODO: display message that no observations in the List.
@@ -213,7 +211,6 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      */
     @Subscribe
     public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, "Error in loading");
         Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
@@ -221,7 +218,6 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      * Helper method to display list of Observations in RecyclerView.
      */
     private void displayObservationList() {
-        Log.i(TAG, "going OK");
         //pass the observationList to the Adapter
         mObservationsListAdapter = new ObservationsListAdapter(remoteObservationList, mContext);
         recyclerView_observations.setAdapter(mObservationsListAdapter);

@@ -1,6 +1,6 @@
 package com.sfsu.network.rest.service;
 
-import com.sfsu.network.login.LoginResponse;
+import com.sfsu.session.LoginResponse;
 
 import retrofit.Call;
 import retrofit.http.Field;

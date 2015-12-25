@@ -1,7 +1,5 @@
 package com.sfsu.network.handler;
 
-import android.util.Log;
-
 import com.sfsu.entities.Observation;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
@@ -61,7 +59,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(observationCall);
                 break;
             case GET_ALL:
-                Log.i(TAG, "getting all...");
                 listObservationCall = mApiService.getAll();
                 getAllObservationsCall(listObservationCall);
                 break;
@@ -118,19 +115,14 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param listObservationCall
      */
     public void getAllObservationsCall(Call<List<Observation>> listObservationCall) {
-        Log.i(TAG, "inside list of obs call");
         // makes the Calls to network.
         listObservationCall.enqueue(new Callback<List<Observation>>() {
             @Override
             public void onResponse(Response<List<Observation>> response) {
-                Log.i(TAG, "inside onResponse");
                 if (response.isSuccess()) {
-                    Log.i(TAG, "response OK");
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(TAG, "response not OK");
                     int statusCode = response.code();
-                    Log.i(TAG, statusCode + "");
                     ResponseBody errorBody = response.errorBody();
                     try {
                         mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
@@ -142,7 +134,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(TAG, "on Failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

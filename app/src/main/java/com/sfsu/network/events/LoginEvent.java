@@ -1,6 +1,6 @@
 package com.sfsu.network.events;
 
-import com.sfsu.network.login.LoginResponse;
+import com.sfsu.session.LoginResponse;
 
 /**
  * LoginEvent when the user enters email and password and clicks on Login button.

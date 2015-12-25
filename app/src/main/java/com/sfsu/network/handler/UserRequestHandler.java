@@ -3,7 +3,7 @@ package com.sfsu.network.handler;
 import com.sfsu.entities.User;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
-import com.sfsu.network.login.LoginResponse;
+import com.sfsu.session.LoginResponse;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.LoginService;
 import com.sfsu.network.rest.service.UserApiService;
@@ -102,7 +102,7 @@ public class UserRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Subscribes to the User Login event and then posts the {@link com.sfsu.network.login.LoginResponse} back to the Bus.
+     * Subscribes to the User Login event and then posts the {@link com.sfsu.session.LoginResponse} back to the Bus.
      *
      * @param onLoadingInitialized
      */
