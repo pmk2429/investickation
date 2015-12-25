@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityDetails extends Fragment {
 
-    public final String TAG = "~!@#ActivityDetails :";
+    public final String TAG = "~!@#ActivityDet";
     @Bind(R.id.textView_actDet_activityName)
     TextView txtView_name;
     @Bind(R.id.textView_actDet_observationCount)

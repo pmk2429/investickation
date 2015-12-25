@@ -25,6 +25,8 @@ import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
 
+import butterknife.Bind;
+
 /**
  * Allows user to Login to InvesTICKations app. The details entered by the user will be validated and compared to the
  * corresponding entry in the local DB. If the match is found then user will be logged in and a network request will be made to
@@ -36,14 +38,22 @@ import com.squareup.otto.Subscribe;
  */
 public class Login extends Fragment implements View.OnClickListener, ITextValidate {
 
-    private final String TAG = "~!@#LOGIN :";
+    private final String TAG = "~!@#LOGIN";
+    // Button
+    @Bind(R.id.button_login_login)
+    Button btnLogin;
+    // EditText
+    @Bind(R.id.editText_login_email)
+    EditText et_email;
+    @Bind(R.id.editText_login_password)
+    EditText et_password;
+
+
     private ILoginCallBack mListener;
     private DatabaseDataController dbController;
     private Context mContext;
     private UsersDao usersDao;
     private SessionManager mSessionManager;
-    private Button btnLogin;
-    private EditText et_email, et_password;
     private boolean isEmailValid, isPasswordValid;
     private AuthPreferences mAuthPreferences;
 
@@ -63,14 +73,10 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_login, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        btnLogin = (Button) v.findViewById(R.id.button_login_login);
-
-        et_email = (EditText) v.findViewById(R.id.editText_login_email);
         et_email.addTextChangedListener(new TextValidator(mContext, Login.this, et_email));
 
-        et_password = (EditText) v.findViewById(R.id.editText_login_password);
         et_password.addTextChangedListener(new TextValidator(mContext, Login.this, et_password));
 
         // preference manager for access token and user_id.
@@ -85,7 +91,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // set onClickListener on this Fragment.
         btnLogin.setOnClickListener(this);
 
-        return v;
+        return rootView;
     }
 
 

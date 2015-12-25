@@ -49,7 +49,7 @@ import butterknife.ButterKnife;
 public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
     private static final int ID_LENGTH = 16;
-    public final String TAG = "~!@#$ActivityNew :";
+    public final String TAG = "~!@#$ActivityNew";
 
     @Bind(R.id.editText_ActivityName)
     EditText et_activityName;

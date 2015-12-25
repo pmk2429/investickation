@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.sfsu.investickation.R;
 
+import butterknife.Bind;
+
 /**
  * Holds the Callbacks for the Login and Register Fragments. This Fragment will be displayed to the user opens the app or logs in
  * for the first time after Navigating through {@link WelcomeScreen}. In addition, when the User logs out of the Application, the same
@@ -19,6 +21,12 @@ import com.sfsu.investickation.R;
 public class Home extends Fragment {
 
     public final String TAG = "~!@#$Home";
+    // TextView
+    @Bind(R.id.textView_home_login)
+    TextView txtView_login;
+    @Bind(R.id.textView_home_signUp)
+    TextView txtView_signUp;
+
     private IHomeCallbacks mInterface;
     private Context mContext;
 
@@ -31,10 +39,7 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
-        final TextView txtView_login = (TextView) rootView.findViewById(R.id.textView_home_login);
-        final TextView txtView_signUp = (TextView) rootView.findViewById(R.id.textView_home_signUp);
-
+        
         txtView_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

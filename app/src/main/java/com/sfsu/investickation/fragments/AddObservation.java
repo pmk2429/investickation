@@ -53,21 +53,36 @@ import com.squareup.otto.Subscribe;
 import java.io.File;
 import java.util.List;
 
+import butterknife.Bind;
+
 public class AddObservation extends Fragment implements LocationController.ILocationCallBacks, TextValidator.ITextValidate {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
     private static String BUNDLE_KEY = "AddObs_Bundle_Key";
     private final String TAG = "~!@#$AddObservation :";
+    // ImageView
+    @Bind(R.id.imageView_addObs_tickImage)
+    ImageView imageView_tickAddObservation;
+    // Button
+    @Bind(R.id.button_addObs_postObservation)
+    Button btn_PostObservation;
+    // EditTexts
+    @Bind(R.id.editText_addObs_tickSpecies)
+    EditText et_tickSpecies;
+    @Bind(R.id.editText_addObs_numOfTicks)
+    EditText et_numOfTicks;
+    @Bind(R.id.editText_addObs_tickName)
+    EditText et_tickName;
+
+    // Others
     private Bitmap bitmap;
-    private ImageView imageView_tickAddObservation;
     private String selectedImagePath, picturePath;
-    private Button btn_PostObservation;
     private Observation newObservationObj;
     private IAddObservationCallBack mInterface;
     private Context mContext;
     private Intent locationIntent;
-    private EditText et_tickName, et_tickSpecies, et_numOfTicks;
+
     private String activityUUID, requestToken, userId;
     private Bundle args;
     private LocationController mLocationController;
@@ -137,18 +152,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         mLocationController = new LocationController(mContext, this);
         mLocationController.connectGoogleApi();
 
-        // identify the Views in this Fragment.
-        btn_PostObservation = (Button) v.findViewById(R.id.button_postObservation);
-        imageView_tickAddObservation = (ImageView) v.findViewById(R.id.imageView_addObs_tickImage);
-
-        // identify all the EditTexts and set Validation on all.
-        et_tickName = (EditText) v.findViewById(R.id.editText_addObs_tickName);
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
-
-        et_tickSpecies = (EditText) v.findViewById(R.id.editText_addObs_tickSpecies);
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
-
-        et_numOfTicks = (EditText) v.findViewById(R.id.editText_addObs_numOfTicks);
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
 
         /*

@@ -27,6 +27,7 @@ import com.sfsu.adapters.TicksListAdapter;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
+import com.sfsu.investickation.MainBaseActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
@@ -181,6 +182,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
                 case R.id.nav_logout:
                     intent = new Intent(mContext, HomeActivity.class);
+                    intent.putExtra(MainBaseActivity.KEY_LOGOUT, 1);
                     startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 6;

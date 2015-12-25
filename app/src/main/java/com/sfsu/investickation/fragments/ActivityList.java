@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
 
-    public final String TAG = "~!@#ActivityList :";
+    public final String TAG = "~!@#ActivityList";
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)

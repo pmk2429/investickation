@@ -164,7 +164,7 @@
 
     <!-- Add Observation Button -->
     <Button
-        android:id="@+id/button_postObservation"
+        android:id="@+id/button_addObs_postObservation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentBottom="true"

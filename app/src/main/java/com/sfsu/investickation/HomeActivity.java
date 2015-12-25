@@ -48,17 +48,14 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
 
             // if the user clicked logout, then open Logout fragment
             if (getIntent().getIntExtra(MainBaseActivity.KEY_LOGOUT, 0) == 1) {
-                Log.i(TAG, " user logout clicked");
                 Logout mLogoutFragment = new Logout();
                 performFragmentTransaction(mLogoutFragment);
             } else {
                 // depending on whether the Session is set for current user or not.
                 if (mSessionManager.isLoggedIn()) {
                     userLoggedIn();
-                    Log.i(TAG, " user logged in");
                 } else {
                     // use case when the session expires for current user.
-                    Log.i(TAG, " user not logged in");
                     Home mHomeFragment = new Home();
                     getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, mHomeFragment).commit();
 

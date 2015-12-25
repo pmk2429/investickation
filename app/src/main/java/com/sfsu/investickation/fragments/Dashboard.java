@@ -28,6 +28,7 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
+import com.sfsu.investickation.MainBaseActivity;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.SettingsActivity;
@@ -238,6 +239,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
 
                 case R.id.nav_logout:
                     intent = new Intent(mContext, HomeActivity.class);
+                    intent.putExtra(MainBaseActivity.KEY_LOGOUT, 1);
                     startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 6;
@@ -246,7 +248,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         } catch (Exception e) {
         }
 
-        // Hihhlight the selected item and close the drawer
+        // Highlight the selected item and close the drawer
         menuItem.setChecked(true);
         mDrawerLayout.closeDrawers();
     }

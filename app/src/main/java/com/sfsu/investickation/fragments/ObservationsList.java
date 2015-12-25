@@ -52,8 +52,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     public ObservationsList() {
         // Required empty public constructor
     }
-
-
+    
     public static ObservationsList newInstance() {
         return new ObservationsList();
     }

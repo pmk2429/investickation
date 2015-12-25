@@ -28,6 +28,9 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
  * {@link Activities}. At this point in time, the {@link Activities} is created on the server and the state of Activity is
@@ -49,18 +52,27 @@ import com.sfsu.service.LocationService;
  */
 public class ActivityRunning extends Fragment {
 
-    public static final String TAG = "~!@#$ActivityRunning :";
-    private MapView mapView;
+    public static final String TAG = "~!@#$ActivityRunning";
+    // FAB
+    @Bind(R.id.fab_actRun_activityStop)
+    FloatingActionButton stopActivity;
+    // Map
+    @Bind(R.id.mapView_activityRunning)
+    MapView mapView;
+    // CardView
+    @Bind(R.id.cardView_activityRunning_addObservation)
+    CardView btn_addObservation;
+    // TextView
+    @Bind(R.id.textView_actRun_activityName)
+    TextView txtView_activityName;
+
     private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
     private Intent locationIntent;
     private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
-    private CardView btn_addObservation;
-    private TextView txtView_activityName;
     private Bundle args;
-    private FloatingActionButton stopActivity;
     private boolean FLAG_RUNNING;
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
@@ -142,16 +154,14 @@ public class ActivityRunning extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_activity_running, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_activity_running, container, false);
 
-        btn_addObservation = (CardView) v.findViewById(R.id.cardView_activityRunning_addObservation);
-        txtView_activityName = (TextView) v.findViewById(R.id.textView_actRun_activityName);
+        // bind the views
+        ButterKnife.bind(this, rootView);
 
         // initialize the location intent.
         locationIntent = new Intent(mContext, LocationService.class);
 
-        // Gets the MapView from the XML layout and creates it
-        mapView = (MapView) v.findViewById(R.id.mapView_activityRunning);
         // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
         final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
         mapView.onCreate(mapViewSavedInstanceState);
@@ -164,10 +174,7 @@ public class ActivityRunning extends Fragment {
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);
 
-        // initialize and set onClickListener for FAB
-        stopActivity = (FloatingActionButton) v.findViewById(R.id.fab_actRun_activityStop);
-
-        return v;
+        return rootView;
     }
 
 
