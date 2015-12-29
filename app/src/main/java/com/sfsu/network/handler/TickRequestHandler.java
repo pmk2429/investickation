@@ -1,8 +1,7 @@
 package com.sfsu.network.handler;
 
-import android.util.Log;
-
 import com.sfsu.entities.Tick;
+import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.TickApiService;
@@ -31,8 +30,9 @@ import retrofit.Response;
  */
 public class TickRequestHandler extends ApiRequestHandler {
 
-    private final String LOGTAG = "~!@#$TickReqHdlr: ";
+    private final String TAG = "~!@#$TickReqHdlr";
     private TickApiService mApiService;
+    private ErrorResponse mErrorResponse;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -81,16 +81,14 @@ public class TickRequestHandler extends ApiRequestHandler {
         tickCall.enqueue(new Callback<Tick>() {
             @Override
             public void onResponse(Response<Tick> response) {
-                Log.i(LOGTAG, "inside onResponse");
                 if (response.isSuccess()) {
-                    Log.i(LOGTAG, "Response Success");
                     mBus.post(new TickEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(LOGTAG, "Response Failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new TickEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new TickEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(TickEvent.FAILED);
                     }
@@ -99,7 +97,6 @@ public class TickRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(LOGTAG, "inside onFailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new TickEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -119,16 +116,14 @@ public class TickRequestHandler extends ApiRequestHandler {
         listTickCall.enqueue(new Callback<List<Tick>>() {
             @Override
             public void onResponse(Response<List<Tick>> response) {
-                Log.i(LOGTAG, "inside onResponse");
                 if (response.isSuccess()) {
-                    Log.i(LOGTAG, "Response Success");
                     mBus.post(new TickEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(LOGTAG, "Response Failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new TickEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new TickEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(TickEvent.FAILED);
                     }
@@ -137,7 +132,6 @@ public class TickRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(LOGTAG, "inside onFailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new TickEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

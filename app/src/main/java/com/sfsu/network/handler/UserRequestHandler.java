@@ -85,7 +85,8 @@ public class UserRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new UserEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new UserEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(UserEvent.FAILED);
                     }

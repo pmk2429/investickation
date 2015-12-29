@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import com.sfsu.entities.EntityLocation;
+import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.LocationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.LocationApiService;
@@ -27,6 +28,7 @@ import retrofit.Response;
 public class LocationRequestHandler extends ApiRequestHandler {
 
     private LocationApiService mApiService;
+    private ErrorResponse mErrorResponse;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.

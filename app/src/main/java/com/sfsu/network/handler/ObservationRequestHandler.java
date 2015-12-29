@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import com.sfsu.entities.Observation;
+import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ObservationApiService;
@@ -30,6 +31,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
     private final String TAG = "~!@#$ObsReqHdlr";
     private ObservationApiService mApiService;
+    private ErrorResponse mErrorResponse;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -91,7 +93,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(ObservationEvent.FAILED);
                     }
@@ -110,7 +113,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Makes a network call for getting List using Retrofit Api interface and posts the response on event bus.
+     * Returns list of {@link Observation}.
      *
      * @param listObservationCall
      */
@@ -125,7 +128,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(ObservationEvent.FAILED);
                     }

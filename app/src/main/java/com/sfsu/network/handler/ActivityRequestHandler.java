@@ -3,6 +3,7 @@ package com.sfsu.network.handler;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
+import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
 import com.sfsu.network.events.ObservationEvent;
@@ -36,6 +37,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
     private ActivityApiService mApiService;
     private String TAG = "~!@#$ActReqHdlr";
+    private ErrorResponse mErrorResponse;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -111,7 +113,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new ActivityEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ActivityEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(ActivityEvent.FAILED);
                     }
@@ -145,7 +148,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new ActivityEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ActivityEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(ActivityEvent.FAILED);
                     }
@@ -163,6 +167,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         });
     }
 
+    /**
+     * Calculates the count of {@link Activities}
+     *
+     * @param countCall
+     */
     public void getCount(Call<Integer> countCall) {
         countCall.enqueue(new Callback<Integer>() {
             @Override
@@ -173,7 +182,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new ActivityEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ActivityEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(ActivityEvent.FAILED);
                     }
@@ -206,7 +216,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new LocationEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new LocationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(LocationEvent.FAILED);
                     }
@@ -239,7 +250,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new ObservationEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(ObservationEvent.FAILED);
                     }
