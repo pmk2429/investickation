@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.sfsu.investickation.R;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Holds the Callbacks for the Login and Register Fragments. This Fragment will be displayed to the user opens the app or logs in
@@ -39,7 +40,9 @@ public class Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        
+
+        ButterKnife.bind(this, rootView);
+
         txtView_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

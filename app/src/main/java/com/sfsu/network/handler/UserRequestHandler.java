@@ -1,12 +1,13 @@
 package com.sfsu.network.handler;
 
 import com.sfsu.entities.User;
+import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
-import com.sfsu.session.LoginResponse;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.LoginService;
 import com.sfsu.network.rest.service.UserApiService;
+import com.sfsu.session.LoginResponse;
 import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -30,8 +31,9 @@ import retrofit.Response;
  */
 public class UserRequestHandler extends ApiRequestHandler {
 
-    private final String LOGTAG = "~!@#$UserReqHdlr :";
+    private final String TAG = "~!@#$UserReqHdlr";
     private UserApiService mApiService;
+    private ErrorResponse mErrorResponse;
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -107,7 +109,7 @@ public class UserRequestHandler extends ApiRequestHandler {
      * @param onLoadingInitialized
      */
     @Subscribe
-    public void onIntitalizeUserLoginEvent(LoginEvent.OnLoadingInitialized onLoadingInitialized) {
+    public void onInitializeUserLoginEvent(LoginEvent.OnLoadingInitialized onLoadingInitialized) {
         LoginService loginApiService = RetrofitApiClient.createService(LoginService.class);
         // make login call using LoginServiceApi
         Call<LoginResponse> userLoginCall = loginApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
@@ -120,7 +122,8 @@ public class UserRequestHandler extends ApiRequestHandler {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
-                        mBus.post(new LoginEvent.OnLoadingError(errorBody.string(), statusCode));
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new LoginEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                     } catch (IOException e) {
                         mBus.post(LoginEvent.FAILED);
                     }

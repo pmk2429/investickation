@@ -26,6 +26,7 @@ import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Allows user to Login to InvesTICKations app. The details entered by the user will be validated and compared to the
@@ -74,6 +75,8 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+
+        ButterKnife.bind(this, rootView);
 
         et_email.addTextChangedListener(new TextValidator(mContext, Login.this, et_email));
 
@@ -170,6 +173,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
+        Log.i(TAG, "login success");
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
@@ -185,6 +189,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
     @Subscribe
     public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
+        Log.i(TAG, "login failed");
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 

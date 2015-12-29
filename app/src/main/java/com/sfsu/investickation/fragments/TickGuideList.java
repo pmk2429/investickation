@@ -183,6 +183,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                 case R.id.nav_logout:
                     intent = new Intent(mContext, HomeActivity.class);
                     intent.putExtra(MainBaseActivity.KEY_LOGOUT, 1);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
                     startActivity(intent);
                     ((Activity) mContext).finish();
                     mCurrentSelectedPosition = 6;

@@ -126,6 +126,7 @@ public class MainBaseActivity extends AppCompatActivity {
                 case R.id.nav_logout:
                     intent = new Intent(this, HomeActivity.class);
                     intent.putExtra(KEY_LOGOUT, 1);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
                     startActivity(intent);
                     finish();
                     mCurrentSelectedPosition = 6;

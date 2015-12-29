@@ -2,6 +2,7 @@ package com.sfsu.network.handler;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.sfsu.network.auth.AuthPreferences;
 import com.squareup.otto.Bus;
 
@@ -32,10 +33,12 @@ public class ApiRequestHandler {
     private final String TAG = "~!@#$ApiReqHdlr";
     protected String ACCESS_TOKEN;// = "oGATGjerFGwbVsTdxmc3HapSdPX6aY23zJ8yTaDg5pumWnTPexeeLfTQaLV2uCsG";
     protected Bus mBus;
+    protected Gson mGson;
     private Context mContext;
 
     public ApiRequestHandler(Bus bus) {
         this.mBus = bus;
+        mGson = new Gson();
     }
 
     /**

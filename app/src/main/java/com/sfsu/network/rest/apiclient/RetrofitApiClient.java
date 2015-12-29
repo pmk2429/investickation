@@ -18,7 +18,7 @@ import retrofit.Retrofit;
 /**
  * Retrofit Service Generator class which initializes the calling Service interface passed as an input param. Depending on the
  * createService method called, this class will return the Service with or without token.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
@@ -33,7 +33,12 @@ public class RetrofitApiClient {
 //                    .build();
 //        }
 //    };
+    // main client
     protected static OkHttpClient httpClient = new OkHttpClient();
+
+    private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
+
+    // Retrofit
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(ApiDetails.BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create());
@@ -60,6 +65,7 @@ public class RetrofitApiClient {
      * @return
      */
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
+
         if (authToken != null) {
             httpClient.interceptors().clear();
             httpClient.interceptors().add(new Interceptor() {

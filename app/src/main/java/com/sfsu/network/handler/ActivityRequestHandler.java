@@ -27,13 +27,15 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
+ * Each handler delegates a network call and depending on the status code of response, raises an error/success flag.
+ * </p>
  * Created by Pavitra on 11/28/2015.
  */
 public class ActivityRequestHandler extends ApiRequestHandler {
 
     private ActivityApiService mApiService;
-    private String TAG = "~!@#$ActReqHdlr: ";
+    private String TAG = "~!@#$ActReqHdlr";
 
     /**
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
@@ -87,7 +89,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 break;
             case OBSERVATIONS:
                 observationCall = mApiService.observations(onLoadingInitialized.getResourceId());
-
                 break;
         }
 
