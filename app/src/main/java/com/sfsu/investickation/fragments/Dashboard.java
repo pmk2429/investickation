@@ -66,15 +66,16 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // TODO: make a network call and get Activity as well as Observation count
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        // lot of code for setting up NavDrawer so calling a method inssted for keeping onCreate free from clutter
+        // lot of code for setting up NavDrawer so calling a method instead for keeping onCreate free from clutter
         // setup the Toolbar for this Fragment.
         setActionBarAndNavDrawer(v);
 
@@ -92,10 +93,10 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         mGoogleMapController = new GoogleMapController(mContext, this);
 
         // when the use clicks the entire relativeLayout, redirect to the appropriate call action
-        relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_observation);
+        relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_dashboard_observationCount);
         relativeLayoutDashboard.setOnClickListener(this);
 
-        relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_activity);
+        relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_dashboard_activityCount);
         relativeLayoutDashboard.setOnClickListener(this);
 
         // Gets the MapView from the XML layout and creates it
@@ -114,12 +115,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         return v;
     }
 
-
-    /**
-     * Method to setup ActionBar, NavigationDrawer.
-     *
-     * @param v
-     */
 
     /**
      * Helper method to set up ActionBar and NavigationDrawer in Dashboard.
@@ -328,9 +323,9 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
             mListener.onActivityButtonClicked();
         } else if (v.getId() == R.id.btn_observation_post) {
             mListener.onObservationButtonClicked();
-        } else if (v.getId() == R.id.relativeLayout_observation) {
+        } else if (v.getId() == R.id.relativeLayout_dashboard_observationCount) {
             mListener.onViewObservationsClicked();
-        } else if (v.getId() == R.id.relativeLayout_activity) {
+        } else if (v.getId() == R.id.relativeLayout_dashboard_activityCount) {
             mListener.onViewActivitiesClicked();
         }
     }

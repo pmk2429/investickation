@@ -127,7 +127,7 @@
 
                 <!-- Total Activities made by user-->
                 <RelativeLayout
-                    android:id="@+id/relativeLayout_activity"
+                    android:id="@+id/relativeLayout_dashboard_activityCount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/view_dimen_small"
@@ -228,7 +228,7 @@
 
                 <!-- Total Observations made by user-->
                 <RelativeLayout
-                    android:id="@+id/relativeLayout_observation"
+                    android:id="@+id/relativeLayout_dashboard_observationCount"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/view_dimen_small"
@@ -333,7 +333,7 @@
                 android:layout_marginTop="@dimen/dimen_default"
                 android:background="@color/colorWhite"
                 android:padding="@dimen/view_dimen_small"
-                android:text="Your observations"
+                android:text="@string/dash_recentActivity"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/font_medium"/>
 

@@ -31,6 +31,8 @@ import com.sfsu.entities.User;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.UserEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 
 import java.io.File;
 
@@ -44,7 +46,7 @@ public class Profile extends Fragment {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
-    private final String TAG = "~!@#Profile :";
+    private final String TAG = "~!@#Profile";
     Bitmap bitmap;
     String selectedImagePath;
     @Bind(R.id.editText_profile_fullName)
@@ -74,13 +76,13 @@ public class Profile extends Fragment {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mAuthPreferences = new AuthPreferences(mContext);
         dbController = new DatabaseDataController(mContext, new UsersDao());
+        BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mAuthPreferences.getUser_id(), ApiRequestHandler.GET));
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         ButterKnife.bind(this, rootView);
@@ -119,6 +121,7 @@ public class Profile extends Fragment {
 
         }
     }
+
 
     /**
      * This method is used to popup a dialog box for allowing user to select

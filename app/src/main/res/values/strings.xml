@@ -127,6 +127,7 @@
     <string name="dash_myActivities">MY\nACTIVITIES</string>
     <string name="dash_myObservations">MY\nOBSERVATIONS</string>
     <string name="dash_tapForDetails">tap here for details</string>
+    <string name="dash_recentActivity">Your recent Activity</string>
 
 
     <!-- ActivityNew-->

@@ -30,7 +30,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String PREF_ONGOING_ACTIVITY = "pref_ongoing_activity";
     //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
-    private final String LOGTAG = "~!@#$UserActivity";
+    private final String TAG = "~!@#$UserActivity";
     private ActivityRunning mActivityRunning;
 
     @Override

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements Dashboard.IDashbo
     public static final String KEY_ADD_OBSERVATION = "add_new_observation_from_dashboard";
     public static final String KEY_VIEW_ACTIVITY_LIST = "view_activityList_from_dashboard";
     public static final String KEY_VIEW_OBSERVATION_LIST = "view_observationList_from_dashboard";
-    private final String LOGTAG = "~!@#$MainActivity :";
+    private final String TAG = "~!@#$MainActivity";
     ImageButton btnActivityAdd;
 
     @Override

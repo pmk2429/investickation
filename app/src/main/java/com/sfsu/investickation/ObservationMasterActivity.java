@@ -18,7 +18,7 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_RUNNING_ACTIVITY = "back_to_ongoing_activity";
-    private final String LOGTAG = "~!@#$ObsMasterAct :";
+    private final String LOGTAG = "~!@#$ObsMasterAct";
     private boolean FLAG_CALLED_FROM_DASHBOARD;
     private boolean FLAG_CALLED_FROM_ACTIVITY;
     private boolean FLAG_CALLED_FROM_OBSERVATION;
@@ -42,22 +42,27 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
                 // set the dashboard flag
                 FLAG_CALLED_FROM_DASHBOARD = true;
                 AddObservation mAddObservation = AddObservation.newInstance("", "");
-                setFragmentTransaction(mAddObservation);
-            } else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
+                performFragmentTransaction(mAddObservation);
+            }
+            // if the Intent is called from ActivityRunning fragment to by clicking on AddObservation button
+            else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 // if the intent is called from the UserActivityMasterActivity
                 AddObservation mAddObservation = AddObservation.newInstance(UserActivityMasterActivity
                         .KEY_ACTIVITY_ID, activityId);
-                setFragmentTransaction(mAddObservation);
-            } else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
+                performFragmentTransaction(mAddObservation);
+            }
+            // if the Intent is called from Dashboard by clicking on View Observations button.
+            else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
+                FLAG_CALLED_FROM_DASHBOARD = true;
                 ObservationsList observationsList = new ObservationsList();
-                setFragmentTransaction(observationsList);
+                performFragmentTransaction(observationsList);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
                 ObservationsList remoteObservationsFragment = new ObservationsList();
-                setFragmentTransaction(remoteObservationsFragment);
+                performFragmentTransaction(remoteObservationsFragment);
             }
         }
     }
@@ -67,10 +72,9 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
      *
      * @param fragment
      */
-    private void setFragmentTransaction(Fragment fragment) {
+    private void performFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.observation_fragment_container, fragment);
-        // transaction.addToBackStack(null); NOT REQUIRED SINCE IT WILL BE FIRST FRAGMENT IN STACK
         transaction.commit();
     }
 
@@ -80,7 +84,6 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             if (FLAG_CALLED_FROM_DASHBOARD || FLAG_CALLED_FROM_OBSERVATION) {
-                Log.i(LOGTAG, "called from dash, obs");
                 Intent homeIntent = new Intent(ObservationMasterActivity.this, MainActivity.class);
                 startActivity(homeIntent);
                 finish();
