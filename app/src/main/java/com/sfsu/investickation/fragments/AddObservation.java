@@ -54,13 +54,13 @@ import java.io.File;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class AddObservation extends Fragment implements LocationController.ILocationCallBacks, TextValidator.ITextValidate {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
-    private static String BUNDLE_KEY = "AddObs_Bundle_Key";
-    private final String TAG = "~!@#$AddObservation :";
+    private final String TAG = "~!@#$AddObservation";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
     ImageView imageView_tickAddObservation;
@@ -74,7 +74,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     EditText et_numOfTicks;
     @Bind(R.id.editText_addObs_tickName)
     EditText et_tickName;
-
     // Others
     private Bitmap bitmap;
     private String selectedImagePath, picturePath;
@@ -141,6 +140,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
+
+        ButterKnife.bind(this, v);
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);

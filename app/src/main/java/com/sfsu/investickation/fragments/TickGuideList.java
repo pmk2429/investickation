@@ -44,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Displays list of Ticks present in the InvesTICKations application.
+ * Displays list of {@link Tick} present in the InvesTICKations application.
  */
 public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -192,7 +192,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         } catch (Exception e) {
         }
 
-        // Hihhlight the selected item and close the drawer
+        // Highlight the selected item and close the drawer
         menuItem.setChecked(true);
         mDrawerLayout.closeDrawers();
     }

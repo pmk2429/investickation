@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class BaseActivity extends ActionBarActivity {
 
-    private final String LOGTAG = "~!@#$BaseActivity:";
+    private final String TAG = "~!@#$BaseActivity";
     // InjectView is used to inject the UI controls using ButterKnife library.
     DrawerLayout drawerLayout;
     Toolbar toolbar;

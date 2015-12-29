@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.fragments.ActivityDetails;
@@ -29,7 +28,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String KEY_RUNNING_ACTIVITY = "ongoing_activity";
     public static final String EDITOR_ONGOING_ACTIVITY = "editor_ongoing_activity";
     public static final String PREF_ONGOING_ACTIVITY = "pref_ongoing_activity";
-    private final String LOGTAG = "~!@#$UserActivity :";
+    //
+    public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
+    private final String LOGTAG = "~!@#$UserActivity";
     private ActivityRunning mActivityRunning;
 
     @Override
@@ -51,7 +52,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                     ActivityList activityList = new ActivityList();
                     performFragmentTransaction(activityList);
                 } else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_RUNNING_ACTIVITY, 0) == 11) {
-                    Log.i(LOGTAG, "going well");
                     mActivityRunning = new ActivityRunning();
                     performFragmentTransaction(mActivityRunning);
                 }
@@ -99,7 +99,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         } else if (count > 0) {
             getSupportFragmentManager().popBackStack();
         }
-
     }
 
 
@@ -154,13 +153,20 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             startActivity(addObservationIntent);
             finish();
         } catch (Exception e) {
-            Log.i(LOGTAG, "failed to open Add Observation frag");
         }
     }
 
 
     @Override
-    public void onViewAllObservationsClicked() {
-
+    public void onViewAllObservationsClicked(String activityId) {
+        try {
+            // open ObservationList Fragment.
+            Intent observationListIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
+            observationListIntent.putExtra(KEY_VIEW_OBSERVATIONS, 1);
+            observationListIntent.putExtra(KEY_ACTIVITY_ID, activityId);
+            startActivity(observationListIntent);
+            finish();
+        } catch (Exception e) {
+        }
     }
 }

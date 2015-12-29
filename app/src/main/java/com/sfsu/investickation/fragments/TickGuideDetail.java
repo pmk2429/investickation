@@ -88,6 +88,7 @@ public class TickGuideDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_guide_detail, container, false);
+
         ButterKnife.bind(this, rootView);
 
         final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);

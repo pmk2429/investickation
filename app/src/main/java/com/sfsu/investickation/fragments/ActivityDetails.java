@@ -110,6 +110,13 @@ public class ActivityDetails extends Fragment {
 
         //TODO: load the image into imageview using Picasso.
 
+        button_viewObservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onViewAllObservationsClicked(mActivity.getId());
+            }
+        });
+
         return rootView;
     }
 
@@ -149,7 +156,7 @@ public class ActivityDetails extends Fragment {
         /**
          * Callback method to handle the click event
          */
-        public void onViewAllObservationsClicked();
+        public void onViewAllObservationsClicked(String activityId);
     }
 
 }

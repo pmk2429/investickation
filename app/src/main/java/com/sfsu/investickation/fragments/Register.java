@@ -27,6 +27,7 @@ import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * <p>
@@ -84,6 +85,8 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
+
+        ButterKnife.bind(this, v);
 
         et_fullName.addTextChangedListener(new TextValidator(mContext, Register.this, et_fullName));
         et_email.addTextChangedListener(new TextValidator(mContext, Register.this, et_email));

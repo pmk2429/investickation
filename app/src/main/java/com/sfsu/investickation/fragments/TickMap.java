@@ -2,7 +2,6 @@ package com.sfsu.investickation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.sfsu.investickation.R;
 
 public class TickMap extends Fragment {
 
-    private static final String LOGTAG = "`!@#$TickMap ";
+    private static final String TAG = "`!@#$TickMap";
     GoogleMap googleMap;
 
     public TickMap() {
@@ -36,7 +35,6 @@ public class TickMap extends Fragment {
                 googleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.mapView_tick)).getMap();
             }
         } catch (NullPointerException exception) {
-            Log.e(LOGTAG, exception.toString());
         }
 
         return v;

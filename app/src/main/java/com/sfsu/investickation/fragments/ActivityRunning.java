@@ -195,7 +195,8 @@ public class ActivityRunning extends Fragment {
                 ongoingActivityObj = args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY);
                 Log.i(TAG, ongoingActivityObj.toString());
             }
-        } else { // get data from SharedPref
+        } else {
+            // get data from SharedPref
             String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, "no-data");
             ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
         }
