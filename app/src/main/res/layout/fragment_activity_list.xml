@@ -1,34 +1,44 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:fab="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/lightText"
-             tools:context="com.sfsu.investickation.fragments.ActivityList">
+<RelativeLayout android:id="@+id/relativeLayout_actList_main"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/lightText"
+                tools:context="com.sfsu.investickation.fragments.ActivityList">
 
-    <RelativeLayout
+    <!--Recycler View to display lit of activities-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_activity_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!--Recycler View to display lit of activities-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_activity_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:scrollbars="vertical"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:scrollbars="vertical"/>
 
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_activity_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="@dimen/view_dimen_small"
-            fab:fab_colorNormal="@color/colorPrimary"
-            fab:fab_colorPressed="@color/colorPrimaryDark"
-            fab:fab_icon="@drawable/ic_add_white_36dp"/>
-    </RelativeLayout>
-</FrameLayout>
+    <TextView
+        android:id="@+id/textViewStatic_actList_listInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingLeft="@dimen/view_dimen_large"
+        android:paddingRight="@dimen/view_dimen_large"
+        android:text="@string/activityList_info"
+        android:textColor="@color/ultraLightText"
+        android:textSize="@dimen/font_small"/>
+
+
+    <!-- FAB to add new Activity-->
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_activity_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/view_dimen_large"
+        android:layout_marginEnd="@dimen/view_dimen_small"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorPrimaryDark"
+        fab:fab_icon="@drawable/ic_add_white_36dp"/>
+</RelativeLayout>

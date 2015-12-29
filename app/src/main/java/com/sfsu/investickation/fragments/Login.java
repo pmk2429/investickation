@@ -178,7 +178,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
 
-        // if the Auth preferneces is successfully set in SharedPreferences, then set the Login flag.
+        // if the Auth preferences is successfully set in SharedPreferences, then set the Login flag.
         if (isCredentialsSet) {
             mSessionManager.setLogin(true);
         }
@@ -189,7 +189,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
     @Subscribe
     public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, "login failed");
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 

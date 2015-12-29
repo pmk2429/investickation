@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ObservationsListAdapter;
@@ -31,20 +35,30 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
- * Displays List of {@link Observation}s made by the User. The Observation are combined to that store on the Local SQLite DB
- * and also those which are retrieved from the Server. Depending on the the where the Observation is stored, the RecyclerView
- * item displays an icon
+ * Displays List of {@link Observation}s made by the User. The observations which are retrieved from the Server are combined to
+ * that stored on the Local SQLite DB. Depending on the the where the Observation is stored, the RecyclerView item displays an
+ * icon
  */
 
 public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
     private final String TAG = "~!@#ObsList";
+    @Bind(R.id.recyclerview_remote_observations)
+    RecyclerView recyclerView_observations;
+    @Bind(R.id.relativeLayout_obsList_main)
+    RelativeLayout mRelativeLayout;
+    @Bind(R.id.textViewStatic_obsList_listInfo)
+    TextView txtView_observationList_info;
+    @Bind(R.id.fab_observation_add)
+    FloatingActionButton addProject;
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
     private List<Observation> observationList, remoteObservationList, localObservationList;
     private Observation newObservationObject;
-    private RecyclerView recyclerView_observations;
     private Bundle args;
     private ObservationsListAdapter mObservationsListAdapter;
     private DatabaseDataController dbController;
@@ -52,7 +66,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     public ObservationsList() {
         // Required empty public constructor
     }
-    
+
     public static ObservationsList newInstance() {
         return new ObservationsList();
     }
@@ -71,11 +85,13 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_remote_observations, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_remote_observations, container, false);
 
-        recyclerView_observations = (RecyclerView) v.findViewById(R.id.recyclerview_remote_observations);
+        ButterKnife.bind(this, rootView);
+
+        txtView_observationList_info.setVisibility(View.GONE);
+
         recyclerView_observations.setHasFixedSize(true);
-
 
         if (mContext != null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -94,7 +110,6 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         //observationList.add(newObservationObject)
 //        displayObservationList();
 
-        final FloatingActionButton addProject = (FloatingActionButton) v.findViewById(R.id.fab_observation_add);
         addProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +117,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
             }
         });
 
-        return v;
+        return rootView;
     }
 
     @Override
@@ -188,7 +203,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
 
 
     /**
-     * Subscribes to the success loading of all the {@link Observation} from server.
+     * Subscribes to the event of success in loading of all the {@link Observation} from server.
      *
      * @param onLoaded
      */
@@ -198,8 +213,12 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
 
         if (remoteObservationList.size() > 0 && remoteObservationList != null) {
             displayObservationList();
+        } else if (remoteObservationList.size() == 0) {
+            txtView_observationList_info.setVisibility(View.VISIBLE);
+            recyclerView_observations.setVisibility(View.GONE);
+            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
         } else {
-            // TODO: display message that no observations in the List.
+
         }
     }
 
@@ -210,7 +229,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
      */
     @Subscribe
     public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

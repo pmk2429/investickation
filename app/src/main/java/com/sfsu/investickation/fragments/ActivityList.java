@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ActivitiesListAdapter;
@@ -44,6 +48,10 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)
     FloatingActionButton addProject;
+    @Bind(R.id.relativeLayout_actList_main)
+    RelativeLayout mRelativeLayout;
+    @Bind(R.id.textViewStatic_actList_listInfo)
+    TextView txtView_activityListInfo;
 
     private IActivityCallBacks mInterface;
     private Context mContext;
@@ -65,19 +73,20 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activity_list, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        // by default the TextView is invisible
+        txtView_activityListInfo.setVisibility(View.GONE);
 
         recyclerView_activity.setHasFixedSize(true);
 
         if (mContext != null) {
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
-
         } else {
             Log.d(TAG, " No layout manager supplied");
         }
@@ -95,7 +104,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
 
     /**
-     * Subscribes to loading list of Activities from Server. This builds the list and is us
+     * Subscribes to event of success in loading list of {@link Activities} from Server.
      *
      * @param onLoaded
      */
@@ -105,14 +114,24 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         if (serverActivitiesList.size() > 0 && serverActivitiesList != null) {
             displayActivitiesList();
+        } else if (serverActivitiesList.size() == 0) {
+            // display text message
+            txtView_activityListInfo.setVisibility(View.VISIBLE);
+            recyclerView_activity.setVisibility(View.GONE);
+            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
         } else {
             Log.i(TAG, "activity list size < 0");
         }
     }
 
+    /**
+     * Subscribes to event of failure of loading list of {@link Activities} from server.
+     *
+     * @param onLoadingError
+     */
     @Subscribe
     public void onActivitiesLoadedFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 

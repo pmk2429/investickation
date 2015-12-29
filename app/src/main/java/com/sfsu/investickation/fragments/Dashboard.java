@@ -37,11 +37,14 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
 
-
+/**
+ * The dashboard of the application. Displays total number of {@link com.sfsu.entities.Activities} and {@link com.sfsu.entities
+ * .Observation}. Also, provides a starting point for the user to post an Observation or to start an Activity.
+ */
 public class Dashboard extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-    public final String TAG = "~!@#Dashboard :";
+    public final String TAG = "~!@#Dashboard";
     private IDashboardCallback mListener;
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
@@ -95,7 +98,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_activity);
         relativeLayoutDashboard.setOnClickListener(this);
 
-
         // Gets the MapView from the XML layout and creates it
         mapView = (MapView) v.findViewById(R.id.mapView_activityDashboard);
 
@@ -108,7 +110,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
 
         // setup the Google Maps in MapView.
         mGoogleMapController.setupGoogleMap(mapView);
-
 
         return v;
     }
