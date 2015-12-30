@@ -67,8 +67,12 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         // Required empty public constructor
     }
 
-    public static ObservationsList newInstance() {
-        return new ObservationsList();
+    public static ObservationsList newInstance(String key, String activityId) {
+        ObservationsList mObservationsList = new ObservationsList();
+        Bundle args = new Bundle();
+        args.putString(key, activityId);
+        mObservationsList.setArguments(args);
+        return mObservationsList;
     }
 
 

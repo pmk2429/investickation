@@ -29,9 +29,8 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_observation_main);
 
-        // if Fragment container is present,
+        // if Fragment container is present
         if (findViewById(R.id.observation_fragment_container) != null) {
-
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
@@ -41,7 +40,7 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
                 // set the dashboard flag
                 FLAG_CALLED_FROM_DASHBOARD = true;
-                AddObservation mAddObservation = AddObservation.newInstance("", "");
+                AddObservation mAddObservation = new AddObservation();
                 performFragmentTransaction(mAddObservation);
             }
             // if the Intent is called from ActivityRunning fragment to by clicking on AddObservation button
@@ -59,10 +58,18 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
                 ObservationsList observationsList = new ObservationsList();
                 performFragmentTransaction(observationsList);
             }
+            // if the Intent is called from ActivityDetails by clicking on View Observations button.
+            else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
+                FLAG_CALLED_FROM_ACTIVITY = true;
+                String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
+                ObservationsList mObservationsList = ObservationsList.newInstance(UserActivityMasterActivity.KEY_ACTIVITY_ID,
+                        activityId);
+                performFragmentTransaction(mObservationsList);
+            }
             // else if the Observations is clicked in the NavDrawer
             else {
-                ObservationsList remoteObservationsFragment = new ObservationsList();
-                performFragmentTransaction(remoteObservationsFragment);
+                ObservationsList mObservationsList = new ObservationsList();
+                performFragmentTransaction(mObservationsList);
             }
         }
     }

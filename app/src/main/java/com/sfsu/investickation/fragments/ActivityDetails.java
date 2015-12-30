@@ -154,7 +154,8 @@ public class ActivityDetails extends Fragment {
      */
     public interface IActivityDetailsCallBacks {
         /**
-         * Callback method to handle the click event
+         * Callback method to handle the click event when user clicks <tt>View Observation</tt> button in {@link
+         * ActivityDetails} fragment.
          */
         public void onViewAllObservationsClicked(String activityId);
     }
