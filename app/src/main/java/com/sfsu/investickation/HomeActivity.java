@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.sfsu.entities.User;
 import com.sfsu.investickation.fragments.Home;
@@ -62,6 +61,18 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            finish();
+            super.onBackPressed();
+        } else if (count > 0) {
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     /**

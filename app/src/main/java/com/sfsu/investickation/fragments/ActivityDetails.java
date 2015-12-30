@@ -108,7 +108,7 @@ public class ActivityDetails extends Fragment {
 
         txtView_totalDistance.setText("00");
 
-        //TODO: load the image into imageview using Picasso.
+        //TODO: load the image into imageView using Picasso.
 
         button_viewObservations.setOnClickListener(new View.OnClickListener() {
             @Override

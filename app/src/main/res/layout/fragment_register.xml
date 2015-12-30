@@ -149,6 +149,7 @@
 
 
             <CheckBox
+                android:id="@+id/checkbox_privacyAgreement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_dimen_small"

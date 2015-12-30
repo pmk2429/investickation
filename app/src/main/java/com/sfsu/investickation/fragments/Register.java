@@ -1,21 +1,25 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
 import com.sfsu.entities.User;
-import com.sfsu.investickation.BuildConfig;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
@@ -62,12 +66,16 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     //Button
     @Bind(R.id.button_registerUser)
     Button btnRegisterUser;
+    // Checkbox
+    @Bind(R.id.checkbox_privacyAgreement)
+    CheckBox checkbox_privacyAgreement;
     private IRegisterCallBacks mListener;
     private Context mContext;
     private DatabaseDataController dbController;
     private AuthPreferences mAuthPreferences;
     private User mUserObj;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
+    private boolean isPrivacyAgreementRead;
 
     public Register() {
         // IMP - Don't delete
@@ -81,11 +89,12 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
 
+        // bind the widgets
         ButterKnife.bind(this, v);
 
         et_fullName.addTextChangedListener(new TextValidator(mContext, Register.this, et_fullName));
@@ -96,12 +105,59 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         et_city.addTextChangedListener(new TextValidator(mContext, Register.this, et_city));
         et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
 
+        checkbox_privacyAgreement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                displayPrivacyDialog(inflater);
+            }
+        });
+
+        // when the user opens the Register fragment for the first time, fade out the color of Register Button.
+        btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
+        btnRegisterUser.setEnabled(false);
+
+        isPrivacyAgreementRead = false;
+
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
         dbController = new DatabaseDataController(mContext, new UsersDao());
         // implement the onClick method
         btnRegisterUser.setOnClickListener(this);
         return v;
+    }
+
+    /**
+     * Helper method to display the custom Alert dialog for showing privacy agreement.
+     */
+    private void displayPrivacyDialog(LayoutInflater inflater) {
+        AlertDialog.Builder privacyDialog = new AlertDialog.Builder(mContext);
+        View convertView = inflater.inflate(R.layout.alertdialog_privacy_agreement, null);
+        privacyDialog.setTitle("InvesTICKations Privacy Agreement");
+
+        // enable the button on Agree click and allow user to register .
+        privacyDialog.setPositiveButton(R.string.alertDialog_OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                isPrivacyAgreementRead = true;
+                btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSecondary));
+                btnRegisterUser.setEnabled(true);
+                checkbox_privacyAgreement.setChecked(true);
+            }
+        });
+
+        // on cancel clicked, disable the button.
+        privacyDialog.setNegativeButton(R.string.alertDialog_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                isPrivacyAgreementRead = false;
+                btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
+                btnRegisterUser.setEnabled(false);
+                checkbox_privacyAgreement.setChecked(false);
+            }
+        });
+
+        privacyDialog.setView(convertView);
+        privacyDialog.show();
     }
 
     // This makes sure that the container activity has implemented the callback interface. If not, it throws an exception.
@@ -140,7 +196,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         if (v.getId() == btnRegisterUser.getId()) {
 
             // verify all the users input data.
-            if (isFullNameValid && isEmailValid && isPasswordValid && isAddressValid) {
+            if (isFullNameValid && isEmailValid && isPasswordValid && isAddressValid && isPrivacyAgreementRead) {
 
                 // get all the values from the Registration form
                 String fullName = et_fullName.getText().toString();
@@ -221,9 +277,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
      */
     @Subscribe
     public void onUserCreateFailure(UserEvent.OnLoadingError onLoadingError) {
-        if (BuildConfig.DEBUG)
-            Log.i(TAG, onLoadingError.toString());
-        Log.i(TAG, "failure to create user");
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

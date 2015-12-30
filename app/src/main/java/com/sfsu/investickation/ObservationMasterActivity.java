@@ -12,6 +12,7 @@ import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.ObservationsList;
 
+
 public class ObservationMasterActivity extends MainBaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation
         .IAddObservationCallBack {
 
