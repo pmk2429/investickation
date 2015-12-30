@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -17,10 +16,12 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
         .IAddObservationCallBack {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
-    public static final String KEY_BACK_TO_RUNNING_ACTIVITY = "back_to_ongoing_activity";
+    public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
+    public static final String KEY_BACK_TO_ACTIVITY_DETAILS = "back_to_activity_details";
     private final String LOGTAG = "~!@#$ObsMasterAct";
     private boolean FLAG_CALLED_FROM_DASHBOARD;
-    private boolean FLAG_CALLED_FROM_ACTIVITY;
+    private boolean FLAG_CALLED_FROM_ACTIVITY_RUNNING;
+    private boolean FLAG_CALLED_FROM_ACTIVITY_DETAILS;
     private boolean FLAG_CALLED_FROM_OBSERVATION;
     private Observation newlyCreatedObs, observationResponseObj;
 
@@ -45,7 +46,7 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
             }
             // if the Intent is called from ActivityRunning fragment to by clicking on AddObservation button
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
-                FLAG_CALLED_FROM_ACTIVITY = true;
+                FLAG_CALLED_FROM_ACTIVITY_RUNNING = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 // if the intent is called from the UserActivityMasterActivity
                 AddObservation mAddObservation = AddObservation.newInstance(UserActivityMasterActivity
@@ -60,7 +61,7 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
             }
             // if the Intent is called from ActivityDetails by clicking on View Observations button.
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
-                FLAG_CALLED_FROM_ACTIVITY = true;
+                FLAG_CALLED_FROM_ACTIVITY_DETAILS = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 ObservationsList mObservationsList = ObservationsList.newInstance(UserActivityMasterActivity.KEY_ACTIVITY_ID,
                         activityId);
@@ -94,10 +95,14 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
                 Intent homeIntent = new Intent(ObservationMasterActivity.this, MainActivity.class);
                 startActivity(homeIntent);
                 finish();
-            } else if (FLAG_CALLED_FROM_ACTIVITY) {
-                Log.i(LOGTAG, "called from activity");
+            } else if (FLAG_CALLED_FROM_ACTIVITY_RUNNING) {
                 Intent activityIntent = new Intent(ObservationMasterActivity.this, UserActivityMasterActivity.class);
-                activityIntent.putExtra(KEY_BACK_TO_RUNNING_ACTIVITY, 11);
+                activityIntent.putExtra(KEY_BACK_TO_ACTIVITY_RUNNING, 11);
+                startActivity(activityIntent);
+                finish();
+            } else if (FLAG_CALLED_FROM_ACTIVITY_DETAILS) {
+                Intent activityIntent = new Intent(ObservationMasterActivity.this, UserActivityMasterActivity.class);
+                activityIntent.putExtra(KEY_BACK_TO_ACTIVITY_DETAILS, 11);
                 startActivity(activityIntent);
                 finish();
             }

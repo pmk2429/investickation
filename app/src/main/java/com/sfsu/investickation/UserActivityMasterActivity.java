@@ -30,7 +30,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String PREF_ONGOING_ACTIVITY = "pref_ongoing_activity";
     //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
-    private final String LOGTAG = "~!@#$UserActivity";
+    private final String TAG = "~!@#$UserActivity";
     private ActivityRunning mActivityRunning;
 
     @Override
@@ -45,15 +45,25 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             if (savedInstanceState != null) {
                 return;
             } else {
-                if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) { // if user clicks on Start Activity
+                // if user clicks on Start Activity
+                if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
                     ActivityNew activityNewFragment = new ActivityNew();
                     performFragmentTransaction(activityNewFragment);
-                } else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) { // if user clicks on ActivityList
+                }
+                // if user clicks on ActivityList
+                else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
                     ActivityList activityList = new ActivityList();
                     performFragmentTransaction(activityList);
-                } else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_RUNNING_ACTIVITY, 0) == 11) {
+                }
+                // if user navigates back to ActivityRunning fragment.
+                else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
                     mActivityRunning = new ActivityRunning();
                     performFragmentTransaction(mActivityRunning);
+                }
+                // if user navigates back to ActivityDetails fragment.
+                else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
+                    ActivityDetails mActivityDetails = new ActivityDetails();
+                    performFragmentTransaction(mActivityDetails);
                 }
                 // open List of Activities by default.
                 else {
