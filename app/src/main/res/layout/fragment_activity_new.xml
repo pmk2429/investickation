@@ -29,7 +29,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/linearLayout_mapViewHolder"
         android:layout_marginStart="@dimen/view_dimen_small"
-        android:layout_marginTop="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_small"
         android:padding="@dimen/view_dimen_medium"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_run"/>
@@ -40,7 +40,7 @@
         android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/linearLayout_mapViewHolder"
         android:layout_marginEnd="@dimen/view_dimen_large"
-        android:layout_marginTop="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_small"
         android:layout_toEndOf="@id/icon_activity"
         android:hint="@string/text_activityName"
         android:lines="1"
@@ -56,7 +56,7 @@
         android:layout_below="@id/editText_ActivityName"
         android:layout_marginLeft="@dimen/dimen_default"
         android:layout_marginRight="@dimen/dimen_default"
-        android:layout_marginTop="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_small"
         android:background="@color/divider"/>
 
 
@@ -180,24 +180,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_bars"
         android:layout_marginEnd="@dimen/view_dimen_large"
-        android:layout_marginTop="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_small"
         android:layout_toEndOf="@id/icon_reminder"
         android:padding="@dimen/view_dimen_medium"
         android:text="@string/actNew_setReminder"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/font_small"/>
-
-    <TextView
-        android:id="@+id/textViewStatic_startActDisc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView_reminder"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/view_dimen_large"
-        android:padding="@dimen/view_dimen_medium"
-        android:text="@string/actNew_startActivityDisclaimer"
-        android:textColor="@color/secondaryText"
-        android:textSize="@dimen/font_X_small"/>
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton
@@ -211,5 +199,17 @@
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
         fab:fab_icon="@drawable/ic_play_arrow_white_36dp"/>
+
+    <TextView
+        android:id="@+id/textViewStatic_startActDisc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fab_activity_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/dimen_default"
+        android:padding="@dimen/view_dimen_medium"
+        android:text="@string/actNew_startActivityDisclaimer"
+        android:textColor="@color/secondaryText"
+        android:textSize="@dimen/font_X1_small"/>
 
 </RelativeLayout>

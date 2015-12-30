@@ -429,7 +429,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
     @Override
     public void setLatLng(LatLng mLatLng) {
-        
+
     }
 
 
