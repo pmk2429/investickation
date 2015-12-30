@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -84,7 +83,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Register");
+        getActivity().setTitle(R.string.title_fragment_register);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
@@ -105,9 +104,9 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         et_city.addTextChangedListener(new TextValidator(mContext, Register.this, et_city));
         et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
 
-        checkbox_privacyAgreement.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        checkbox_privacyAgreement.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 displayPrivacyDialog(inflater);
             }
         });
@@ -130,18 +129,18 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
      * Helper method to display the custom Alert dialog for showing privacy agreement.
      */
     private void displayPrivacyDialog(LayoutInflater inflater) {
-        AlertDialog.Builder privacyDialog = new AlertDialog.Builder(mContext);
+        final AlertDialog.Builder privacyDialog = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
         View convertView = inflater.inflate(R.layout.alertdialog_privacy_agreement, null);
-        privacyDialog.setTitle("InvesTICKations Privacy Agreement");
 
         // enable the button on Agree click and allow user to register .
-        privacyDialog.setPositiveButton(R.string.alertDialog_OK, new DialogInterface.OnClickListener() {
+        privacyDialog.setPositiveButton(R.string.alertDialog_agree, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 isPrivacyAgreementRead = true;
                 btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorSecondary));
                 btnRegisterUser.setEnabled(true);
                 checkbox_privacyAgreement.setChecked(true);
+                dialog.dismiss();
             }
         });
 
@@ -153,6 +152,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
                 btnRegisterUser.setEnabled(false);
                 checkbox_privacyAgreement.setChecked(false);
+                dialog.dismiss();
             }
         });
 

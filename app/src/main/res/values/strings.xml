@@ -1,17 +1,28 @@
 <resources>
     <string name="app_name">InvesTICKations</string>
 
-    <!--TODO: Verify names of all the Activities -->
-    <string name="hello_world">Hello world!</string>
+    <!-- Activity Titles-->
     <string name="title_activity_personal_info">My Info</string>
     <string name="title_activity_guide_master">Tick Guide</string>
     <string name="title_activity_user_activity_main">My Activities</string>
-    <string name="title_activity_activity_detail">Activity Details</string>
-    <!--<string name="title_activity_observations">Observations</string>-->
     <string name="title_activity_observation_main">My Observations</string>
-    <string name="title_activity_observation_detail">Observation Details</string>
     <string name="title_activity_home">InvesTICKations</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- Fragment Titles-->
+    <string name="title_fragment_activity_detail">Activity Details</string>
+    <string name="title_fragment_activity_new">Add Activity</string>
+    <string name="title_fragment_activity_running">Ongoing Activity</string>
+    <string name="title_fragment_activity_list">My Activities</string>
+    <string name="title_fragment_observation_detail">Observation Details</string>
+    <string name="title_fragment_observation_add">Add Observation</string>
+    <string name="title_fragment_observation_list">My Observations</string>
+    <string name="title_fragment_login">Login</string>
+    <string name="title_fragment_register">Sign Up</string>
+    <string name="title_fragment_home">Home</string>
+    <string name="title_fragment_dashboard">Dashboard</string>
+    <string name="title_fragment_tick_list">Ticks</string>
+    <string name="title_fragment_tick_detail">Tick Details</string>
 
     <!-- Navigation Drawer String array -->
     <string-array name="navdrawer">
@@ -35,9 +46,10 @@
     <string name="signup">Sign Up</string>
     <string name="textSignUp">Sign Up</string>
     <!--privacy agreement-->
-    <string name="privacyAgreement">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+    <string name="title_privacy_agreement">InvesTICKations Privacy Agreement</string>
+    <string name="privacyAgreement"><![CDATA[Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &#8220; de Finibus Bonorum et Malorum &#8221; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &#8220;Lorem ipsum dolor sit amet..&#8221;, comes from a line in section 1.10.32.
 
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</string>
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.]]></string>
 
 
     <!-- Profile-->
@@ -116,7 +128,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_inputManual_hint">28 mins</string>
     <string name="alertDialog_cancel">Cancel</string>
     <string name="alertDialog_apply">Apply</string>
-    <string name="alertDialog_OK">Apply</string>
+    <string name="alertDialog_OK">OK</string>
+    <string name="alertDialog_agree">Agree</string>
     <string name="alertDialog_reminder_30">30</string>
     <string name="alertDialog_reminder_60">60</string>
 

@@ -164,8 +164,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/view_dimen_small"
-                android:layout_marginLeft="@dimen/view_dimen_large"
-                android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:background="@color/colorSecondary"
                 android:text="@string/button_register"

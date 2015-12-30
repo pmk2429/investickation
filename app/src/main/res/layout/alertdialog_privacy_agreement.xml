@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-    <LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+    
+    <TextView
+        android:id="@+id/textView_titlePrivacy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/view_dimen_large"
+        android:text="@string/title_privacy_agreement"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/font_large"
+        android:typeface="sans"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="@dimen/view_dimen_large"
             android:text="@string/privacyAgreement"
-            android:textColor="@color/colorSecondary"
-            android:textSize="@dimen/font_large"/>
-    </LinearLayout>
+            android:textSize="@dimen/font_medium"
+            android:typeface="sans"/>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>
