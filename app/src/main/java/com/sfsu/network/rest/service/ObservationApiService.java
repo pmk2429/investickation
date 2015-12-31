@@ -37,7 +37,7 @@ public interface ObservationApiService {
 
 
     /**
-     * Get all {@link Observation} of a specific {@link Activities}.
+     * Gets all {@link Observation} of a specific {@link Activities}.
      *
      * @param activityId
      * @return

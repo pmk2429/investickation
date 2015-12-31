@@ -19,7 +19,7 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
     public static final String KEY_BACK_TO_ACTIVITY_DETAILS = "back_to_activity_details";
-    private final String LOGTAG = "~!@#$ObsMasterAct";
+    private final String TAG = "~!@#$ObsMasterAct";
     private boolean FLAG_CALLED_FROM_DASHBOARD;
     private boolean FLAG_CALLED_FROM_ACTIVITY_RUNNING;
     private boolean FLAG_CALLED_FROM_ACTIVITY_DETAILS;

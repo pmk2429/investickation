@@ -42,7 +42,7 @@ public class Activities implements Parcelable, Entity {
     private int num_of_ticks;
     private int distance;
     private String location_area;
-    private long timestamp1, created_at1, updated_at1;
+    private long timestamp, created_at, updated_at;
     private String user_id;
     // Enum identifier for setting State of Object.
     private transient STATE activityState;
@@ -62,7 +62,7 @@ public class Activities implements Parcelable, Entity {
         this.activityName = name;
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
-        this.timestamp1 = timestamp;
+        this.timestamp = timestamp;
         this.user_id = user_id;
     }
 
@@ -85,9 +85,9 @@ public class Activities implements Parcelable, Entity {
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
         this.distance = distance;
-        this.timestamp1 = timestamp;
-        this.created_at1 = created_at;
-        this.updated_at1 = updated_at;
+        this.timestamp = timestamp;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
     /**
@@ -110,9 +110,9 @@ public class Activities implements Parcelable, Entity {
         location_area = in.readString();
         num_of_people = in.readInt();
         num_of_pets = in.readInt();
-        timestamp1 = in.readLong();
-        created_at1 = in.readLong();
-        updated_at1 = in.readLong();
+        timestamp = in.readLong();
+        created_at = in.readLong();
+        updated_at = in.readLong();
     }
 
     public int getNum_of_people() {
@@ -164,11 +164,11 @@ public class Activities implements Parcelable, Entity {
     }
 
     public long getUpdated_at() {
-        return updated_at1;
+        return updated_at;
     }
 
     public void setUpdated_at(long updated_at) {
-        this.updated_at1 = updated_at;
+        this.updated_at = updated_at;
     }
 
     /**
@@ -207,19 +207,19 @@ public class Activities implements Parcelable, Entity {
     }
 
     public long getTimestamp() {
-        return timestamp1;
+        return timestamp;
     }
 
     public void setTimestamp(long timestamp) {
-        this.timestamp1 = timestamp;
+        this.timestamp = timestamp;
     }
 
     public long getCreated_at() {
-        return created_at1;
+        return created_at;
     }
 
     public void setCreated_at(long created_at) {
-        this.created_at1 = created_at;
+        this.created_at = created_at;
     }
 
     @Override
@@ -234,9 +234,9 @@ public class Activities implements Parcelable, Entity {
         parcel.writeString(location_area);
         parcel.writeInt(num_of_people);
         parcel.writeInt(num_of_pets);
-        parcel.writeLong(timestamp1);
-        parcel.writeLong(created_at1);
-        parcel.writeLong(updated_at1);
+        parcel.writeLong(timestamp);
+        parcel.writeLong(created_at);
+        parcel.writeLong(updated_at);
     }
 
     @Override
@@ -257,7 +257,7 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + " : " + activityName + " : " + location_area + " : " + num_of_people + " : " + num_of_pets + " : " +
-                num_of_ticks + " : " + timestamp1 + " : " + created_at1 + " : " + updated_at1 + " : " + user_id;
+                num_of_ticks + " : " + timestamp + " : " + created_at + " : " + updated_at + " : " + user_id;
     }
 
     /**
