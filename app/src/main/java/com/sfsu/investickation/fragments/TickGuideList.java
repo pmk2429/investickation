@@ -44,7 +44,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Displays list of {@link Tick} present in the InvesTICKations application.
+ * <p>
+ * Displays list of {@link Tick} present in the InvesTICKations application. Fetches the list from server when the user first
+ * opens the application. Then after it stores the Tick list in the Local DB for further references.
+ * </p>
  */
 public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -66,6 +69,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.title_fragment_tick_list);
         BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
@@ -291,7 +295,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         ticksListAdapter = new TicksListAdapter(tickList, mContext);
         recyclerView_tickList.setAdapter(ticksListAdapter);
 
-        // set on click listener for the item click of recyclerview
+        // set on click listener for the item click of recyclerView
         recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

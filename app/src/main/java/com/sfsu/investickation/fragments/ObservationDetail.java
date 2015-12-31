@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  */
 public class ObservationDetail extends Fragment {
 
-    private final String TAG = "~!@#ObservationDetail :";
+    private final String TAG = "~!@#ObservationDetail";
     @Bind(R.id.textView_obsDet_activityName)
     TextView textView_activityName;
     @Bind(R.id.textView_obsDet_description)
@@ -82,7 +82,7 @@ public class ObservationDetail extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Observation Details");
+        getActivity().setTitle(R.string.title_fragment_observation_detail);
         if (getArguments() != null) {
             args = getArguments();
         }

@@ -63,6 +63,7 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     TextView txtView_observationList_info;
     @Bind(R.id.fab_observation_add)
     FloatingActionButton addProject;
+    
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
     private List<Observation> observationList, remoteObservationList, localObservationList;

@@ -126,7 +126,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Add Observation");
+        getActivity().setTitle(R.string.title_fragment_observation_add);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         if (getArguments() != null) {
             args = getArguments();
