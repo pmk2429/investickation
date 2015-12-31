@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_person_black_36dp"/>
+                android:src="@mipmap/ic_person_black_24dp"/>
 
             <EditText
                 android:id="@+id/editText_profile_fullName"
@@ -97,7 +97,7 @@
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_vpn_key_black_36dp"/>
+                android:src="@mipmap/ic_cloud_done_black_36dp"/>
 
             <EditText
                 android:id="@+id/editText_profile_password"

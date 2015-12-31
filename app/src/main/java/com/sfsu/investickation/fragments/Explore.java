@@ -12,7 +12,7 @@ import com.sfsu.investickation.R;
 
 public class Explore extends Fragment {
 
-    private final String LOGTAG = "~!@#Explore :";
+    private final String LOGTAG = "~!@#Explore";
 
     private IExploreCallBacks mListener;
 

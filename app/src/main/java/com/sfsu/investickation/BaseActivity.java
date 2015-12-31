@@ -52,7 +52,7 @@ public class BaseActivity extends ActionBarActivity {
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        int ICONS[] = {R.mipmap.ic_home_black_36dp, R.mipmap.ic_walk_black_36dp, R.mipmap.ic_observations_black_36dp, R.mipmap.ic_bug_report_black_36dp, R.mipmap.ic_settings_black_36dp, R.mipmap.ic_edit};
+        int ICONS[] = {};
 
 
         List<String> rows = new ArrayList<String>();

@@ -6,20 +6,24 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@mipmap/ic_home_black_36dp"
-            android:title="Home"/>
+            android:icon="@mipmap/ic_home_black_24dp"
+            android:title="@string/nav_home"/>
         <item
             android:id="@+id/nav_activities"
-            android:icon="@mipmap/ic_walk_black_36dp"
-            android:title="Activities"/>
+            android:icon="@mipmap/ic_directions_walk_black_24dp"
+            android:title="@string/nav_activities"/>
         <item
             android:id="@+id/nav_observations"
-            android:icon="@mipmap/ic_observations_black_36dp"
-            android:title="Observations"/>
+            android:icon="@mipmap/ic_event_note_black_24dp"
+            android:title="@string/nav_observations"/>
         <item
             android:id="@+id/nav_tickGuide"
-            android:icon="@mipmap/ic_bug_report_black_36dp"
-            android:title="Tick Guide"/>
+            android:icon="@mipmap/ic_bug_report_black_24dp"
+            android:title="@string/nav_guide"/>
+        <item
+            android:id="@+id/nav_tickMap"
+            android:icon="@mipmap/ic_map_black_24dp"
+            android:title="@string/nav_map"/>
     </group>
 
 
@@ -28,12 +32,12 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_profile"
-            android:icon="@mipmap/ic_person_black_36dp"
-            android:title="Profile"/>
+            android:icon="@mipmap/ic_person_black_24dp"
+            android:title="@string/nav_profile"/>
         <item
             android:id="@+id/nav_settings"
-            android:icon="@mipmap/ic_settings_black_36dp"
-            android:title="Settings"/>
+            android:icon="@mipmap/ic_settings_black_24dp"
+            android:title="@string/nav_settings"/>
     </group>
     <group
         android:id="@+id/menu_logout"
@@ -41,7 +45,7 @@
         <item
             android:id="@+id/nav_logout"
             android:icon="@mipmap/ic_logout_black_36dp"
-            android:title="Log out"/>
+            android:title="@string/nav_logout"/>
     </group>
 
 </menu>
