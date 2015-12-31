@@ -24,7 +24,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
@@ -72,9 +72,10 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 observationCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(observationCall);
                 break;
+            case OBSERVATIONS:
+                listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId);
+                getAllObservationsCall(listObservationCall);
         }
-
-
     }
 
     /**
@@ -147,4 +148,38 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         });
     }
 
+
+//    /**
+//     * Returns a list of {@link Observation} for specific {@link com.sfsu.entities.Activities}.
+//     *
+//     * @param locationsCall
+//     */
+//    public void getAllObservationsOfActivity(Call<List<Observation>> observationCall) {
+//        observationCall.enqueue(new Callback<List<Observation>>() {
+//            @Override
+//            public void onResponse(Response<List<Observation>> response) {
+//                if (response.isSuccess()) {
+//                    mBus.post(new ObservationEvent.OnLoaded(response.body()));
+//                } else {
+//                    int statusCode = response.code();
+//                    ResponseBody errorBody = response.errorBody();
+//                    try {
+//                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+//                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
+//                    } catch (IOException e) {
+//                        mBus.post(ObservationEvent.FAILED);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                if (t != null && t.getMessage() != null) {
+//                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+//                } else {
+//                    mBus.post(ObservationEvent.FAILED);
+//                }
+//            }
+//        });
+//    }
 }

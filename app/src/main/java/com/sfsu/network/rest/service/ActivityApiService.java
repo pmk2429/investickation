@@ -2,8 +2,6 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
-import com.sfsu.entities.EntityLocation;
-import com.sfsu.entities.Observation;
 
 import java.util.List;
 
@@ -65,27 +63,7 @@ public interface ActivityApiService {
      */
     @GET("activities/{id}")
     public Call<Activities> delete(@Path("id") String activityId);
-
-
-    /**
-     * Get all {@link Observation} of a specific {@link Activities}.
-     *
-     * @param activityId
-     * @return
-     */
-    @GET("activities/{id}/observations")
-    public Call<List<Observation>> observations(@Path("id") String activityId);
-
-
-    /**
-     * Get all {@link EntityLocation} of a specific {@link Activities}.
-     *
-     * @param activityId
-     * @return
-     */
-    @GET("activities/{id}/locations")
-    public Call<List<EntityLocation>> locations(@Path("id") String activityId);
-
+    
 
     /**
      * Returns total locations captured for this activity.

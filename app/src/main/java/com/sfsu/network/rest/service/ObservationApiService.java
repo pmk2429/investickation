@@ -1,6 +1,7 @@
 package com.sfsu.network.rest.service;
 
 
+import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
 
 import java.util.List;
@@ -33,6 +34,16 @@ public interface ObservationApiService {
      */
     @GET("observations")
     public Call<List<Observation>> getAll();
+
+
+    /**
+     * Get all {@link Observation} of a specific {@link Activities}.
+     *
+     * @param activityId
+     * @return
+     */
+    @GET("activities/{id}/observations")
+    public Call<List<Observation>> observationsOfActivity(@Path("id") String activityId);
 
 
     /**

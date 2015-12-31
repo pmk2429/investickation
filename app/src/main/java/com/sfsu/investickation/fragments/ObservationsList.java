@@ -27,6 +27,7 @@ import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
+import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
@@ -39,9 +40,16 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Displays List of {@link Observation}s made by the User. The observations which are retrieved from the Server are combined to
- * that stored on the Local SQLite DB. Depending on the the where the Observation is stored, the RecyclerView item displays an
- * icon
+ * <p>
+ * Displays the list of {@link Observation}s made by the User. The observations which are retrieved from the Server are
+ * combined to that stored on the Local SQLite DB. Depending on the the where the Observation is stored, the RecyclerView item
+ * displays an icon representing cloud or database.
+ * </p>
+ * <p>
+ * <p>
+ * Also displays the observations made for a specific {@link com.sfsu.entities.Activities}. Using the <tt>activityId</tt>, the
+ * network call is made for list of observations corresponding to a specific activity.
+ * </p>
  */
 
 public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
@@ -62,11 +70,19 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     private Bundle args;
     private ObservationsListAdapter mObservationsListAdapter;
     private DatabaseDataController dbController;
+    private String activityId;
 
     public ObservationsList() {
         // Required empty public constructor
     }
 
+    /**
+     * Helper method to create instance of an {@link ObservationsList} fragment initialzed with <tt>activityId</tt>
+     *
+     * @param key
+     * @param activityId
+     * @return
+     */
     public static ObservationsList newInstance(String key, String activityId) {
         ObservationsList mObservationsList = new ObservationsList();
         Bundle args = new Bundle();
@@ -79,9 +95,20 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("My Observations");
-        args = getArguments();
+        getActivity().setTitle(R.string.title_fragment_observation_list);
+
         dbController = new DatabaseDataController(mContext, new ObservationsDao());
+        // get the ActivityId from the Bundle.
+        if (getArguments() != null) {
+            args = getArguments();
+        }
+        if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
+            activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
+        } else {
+            activityId = "";
+        }
+
+        // call to network depending on the type of call to be made. i.e. all Observations or Observations specific to Activity
         BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 

@@ -16,6 +16,7 @@ public class ObservationEvent extends BaseNetworkEvent {
     public static class OnLoadingInitialized extends OnStart<Observation, String> {
 
         public int apiRequestMethod;
+        public String activityId;
 
         /**
          * Constructor overloading for HTTP UPDATE calls.
@@ -39,6 +40,19 @@ public class ObservationEvent extends BaseNetworkEvent {
             super(observationId);
             this.apiRequestMethod = apiRequestMethod;
         }
+
+        /**
+         * Constructor overlaoding for HTTP GET, DELETE calls.
+         *
+         * @param observationId
+         * @param apiRequestMethod
+         */
+        public OnLoadingInitialized(String observationId, String activityId, int apiRequestMethod) {
+            super(observationId);
+            this.apiRequestMethod = apiRequestMethod;
+            this.activityId = activityId;
+        }
+
 
         /**
          * Constructor overloading for HTTP POST calls.

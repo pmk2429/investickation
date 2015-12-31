@@ -85,13 +85,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 countCall = mApiService.totalLocations(onLoadingInitialized.getResourceId());
                 getCount(countCall);
                 break;
-            case LOCATIONS:
-                locationCall = mApiService.locations(onLoadingInitialized.getResourceId());
-                getAllLocations(locationCall);
-                break;
-            case OBSERVATIONS:
-                observationCall = mApiService.observations(onLoadingInitialized.getResourceId());
-                break;
         }
 
 
@@ -230,40 +223,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     mBus.post(new LocationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
                     mBus.post(LocationEvent.FAILED);
-                }
-            }
-        });
-    }
-
-    /**
-     * Returns a list of Locations for specific Activities.
-     *
-     * @param locationsCall
-     */
-    public void getAllObservations(Call<List<Observation>> observationCall) {
-        observationCall.enqueue(new Callback<List<Observation>>() {
-            @Override
-            public void onResponse(Response<List<Observation>> response) {
-                if (response.isSuccess()) {
-                    mBus.post(new ObservationEvent.OnLoaded(response.body()));
-                } else {
-                    int statusCode = response.code();
-                    ResponseBody errorBody = response.errorBody();
-                    try {
-                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
-                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
-                    } catch (IOException e) {
-                        mBus.post(ObservationEvent.FAILED);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                if (t != null && t.getMessage() != null) {
-                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
-                } else {
-                    mBus.post(ObservationEvent.FAILED);
                 }
             }
         });
