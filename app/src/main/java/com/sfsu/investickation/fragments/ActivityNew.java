@@ -83,7 +83,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Start New Activity");
+        getActivity().setTitle(R.string.title_fragment_activity_new);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 

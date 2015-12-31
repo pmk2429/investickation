@@ -141,7 +141,7 @@ public class ActivityRunning extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Ongoing Activity");
+        getActivity().setTitle(R.string.title_fragment_activity_running);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         if (getArguments() != null) {
             args = getArguments();

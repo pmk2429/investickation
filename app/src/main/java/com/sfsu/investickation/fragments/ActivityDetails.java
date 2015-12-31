@@ -73,7 +73,7 @@ public class ActivityDetails extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Activity Details");
+        getActivity().setTitle(R.string.title_fragment_activity_detail);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         if (getArguments() != null) {
             args = getArguments();
@@ -98,6 +98,7 @@ public class ActivityDetails extends Fragment {
         String observationCount = mActivity.getNum_of_ticks() + " Obs.";
         txtView_observationCount.setText(observationCount);
 
+        // TODO: think about this one
         txtView_totalLocation.setText("00");
 
         String people = mActivity.getNum_of_people() + " people";
@@ -106,6 +107,7 @@ public class ActivityDetails extends Fragment {
         String pets = mActivity.getNum_of_pets() + " pets";
         txtView_totalPets.setText(pets);
 
+        // TODO: think about this one.
         txtView_totalDistance.setText("00");
 
         //TODO: load the image into imageView using Picasso.

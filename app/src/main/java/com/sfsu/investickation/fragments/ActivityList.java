@@ -65,7 +65,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Activities");
+        getActivity().setTitle(R.string.title_fragment_activity_list);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         // initialize the Bus to get list of Activities from server.
         // must be cached for frequent accesses.
