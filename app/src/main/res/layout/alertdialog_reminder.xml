@@ -5,41 +5,33 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/view_dimen_large">
 
-    <!--<ImageView-->
-    <!--android:id="@+id/imageView_alertDialog_logo"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:scaleType="fitCenter"-->
-    <!--android:src="@drawable/logo"/>-->
-
     <Button
         android:id="@+id/button_alertDialog_30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/view_dimen_X1_large"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/view_dimen_X1_large"
         android:layout_marginTop="@dimen/view_dimen_X1_large"
-        android:layout_weight="1.0"
         android:background="@color/colorPrimary"
-        android:text="30 mins"
+        android:text="@string/alertDialog_reminder_30_mins"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_medium"
         />
 
-    <Button
-        android:id="@+id/button_alertDialog_60"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/view_dimen_X1_large"
-        android:layout_marginTop="@dimen/view_dimen_X1_large"
-        android:layout_weight="1.0"
-        android:background="@color/colorPrimary"
-        android:text="60 mins"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_medium"
-        />
+
+    <!--<Button-->
+    <!--android:id="@+id/button_alertDialog_60"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginRight="@dimen/view_dimen_X1_large"-->
+    <!--android:layout_marginTop="@dimen/view_dimen_X1_large"-->
+    <!--android:layout_weight="1.0"-->
+    <!--android:background="@color/colorPrimary"-->
+    <!--android:text="60 mins"-->
+    <!--android:textColor="@color/colorWhite"-->
+    <!--android:textSize="@dimen/font_medium"-->
+    <!--/>-->
 
     <!--<RadioGroup-->
     <!--android:id="@+id/radioSelectReminder"-->

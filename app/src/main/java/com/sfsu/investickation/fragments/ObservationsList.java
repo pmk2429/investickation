@@ -105,11 +105,17 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
         } else {
-            activityId = "";
+            activityId = null;
         }
 
-        // call to network depending on the type of call to be made. i.e. all Observations or Observations specific to Activity
-        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        // call to network depending on the type of call to be made.
+        if (activityId != null) {
+            // Observations specific to Activity
+            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
+        } else {
+            // get all the observations
+            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        }
     }
 
     @Override

@@ -23,8 +23,8 @@ public class ApiRequestHandler {
     public static final int DELETE = 0x3EC;
     public static final int TOTAL_LOCATIONS_COUNT = 0x3ED;
     // Activity Api Service related method codes.
-    public static final int OBSERVATIONS = 0x3EE;
-    public static final int LOCATIONS = 0x3EF;
+    public static final int ACT_OBSERVATIONS = 0x3EE;
+    public static final int ACT_LOCATIONS = 0x3EF;
     // Login Api service method codes
     public static final int LOGIN = 0x3F0;
     // User Api service method codes.

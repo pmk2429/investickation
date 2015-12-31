@@ -131,6 +131,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_OK">OK</string>
     <string name="alertDialog_agree">Agree</string>
     <string name="alertDialog_reminder_30">30</string>
+    <string name="alertDialog_reminder_30_mins">30 mins</string>
     <string name="alertDialog_reminder_60">60</string>
 
     <!-- Dashboard-->

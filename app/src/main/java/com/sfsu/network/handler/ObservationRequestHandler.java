@@ -72,7 +72,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 observationCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(observationCall);
                 break;
-            case OBSERVATIONS:
+            case ACT_OBSERVATIONS:
                 listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId);
                 getAllObservationsCall(listObservationCall);
         }

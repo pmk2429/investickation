@@ -165,7 +165,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         // set the onClickListener for each buttons defined in the custom layout.
         et_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_manualInput);
         btnHalfHour = (Button) convertView.findViewById(R.id.button_alertDialog_30);
-        btnHour = (Button) convertView.findViewById(R.id.button_alertDialog_60);
+        //btnHour = (Button) convertView.findViewById(R.id.button_alertDialog_60);
 
         btnHalfHour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,12 +174,15 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             }
         });
 
+        /*
         btnHour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 enableView(btnHour);
             }
         });
+        */
+
         // initialize and set et_manualInput.
         et_manualInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -207,8 +210,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 // when the flags are set,
                 if (isHalfHourButtonClicked) {
                     txtView_setReminder.setText(getActivity().getResources().getString(R.string.alertDialog_reminder_30));
-                } else if (isHourButtonClicked) {
-                    txtView_setReminder.setText(getActivity().getResources().getString(R.string.alertDialog_reminder_60));
                 } else if (isManualInputSet) {
                     txtView_setReminder.setText(et_manualInput.getText().toString());
                 }
@@ -246,15 +247,20 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         }
     }
 
+    /**
+     * Helper method to clear the focus of the View.
+     *
+     * @param v
+     */
     private void clearFocusView(View v) {
         switch (v.getId()) {
             case R.id.button_alertDialog_30:
                 btnHalfHour.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
                 break;
 
-            case R.id.button_alertDialog_60:
-                btnHour.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
-                break;
+//            case R.id.button_alertDialog_60:
+//                btnHour.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
+//                break;
 
             case R.id.editText_alertDialog_manualInput:
                 et_manualInput.clearFocus();
@@ -262,31 +268,36 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         }
     }
 
+    /**
+     * Helper method to enable the view for reminder option
+     *
+     * @param v
+     */
     private void enableView(View v) {
         switch (v.getId()) {
             case R.id.button_alertDialog_30:
                 isHalfHourButtonClicked = true;
-                isHourButtonClicked = false;
+                //isHourButtonClicked = false;
                 isManualInputSet = false;
                 toggleBackground(btnHalfHour);
-                clearFocusView(btnHour);
+                //clearFocusView(btnHour);
                 clearFocusView(et_manualInput);
                 break;
 
-            case R.id.button_alertDialog_60:
-                isHourButtonClicked = true;
-                isHalfHourButtonClicked = false;
-                isManualInputSet = false;
-                toggleBackground(btnHour);
-                clearFocusView(btnHalfHour);
-                clearFocusView(et_manualInput);
-                break;
+//            case R.id.button_alertDialog_60:
+//                isHourButtonClicked = true;
+//                isHalfHourButtonClicked = false;
+//                isManualInputSet = false;
+//                toggleBackground(btnHour);
+//                clearFocusView(btnHalfHour);
+//                clearFocusView(et_manualInput);
+//                break;
 
             case R.id.editText_alertDialog_manualInput:
                 isManualInputSet = true;
                 isHalfHourButtonClicked = false;
-                isHourButtonClicked = false;
-                clearFocusView(btnHour);
+                //isHourButtonClicked = false;
+                //clearFocusView(btnHour);
                 clearFocusView(btnHalfHour);
                 break;
         }
