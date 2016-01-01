@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Pavitra on 12/6/2015.
@@ -28,10 +29,10 @@ public class ImageManager extends Activity {
 
     private static final int ACTION_TAKE_PHOTO_S = 2;
 
-    private static final String BITMAP_STORAGE_KEY = "viewbitmap";
-    private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewvisibility";
+    private static final String BITMAP_STORAGE_KEY = "viewBitmap";
+    private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewVisibility";
     //
-    private static final String JPEG_FILE_PREFIX = "USER_TICK_";
+    private static final String JPEG_FILE_PREFIX = "TICK_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
 
     private ImageView mImageView;
@@ -72,7 +73,7 @@ public class ImageManager extends Activity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
         File albumF = getAlbumDir();
         File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
