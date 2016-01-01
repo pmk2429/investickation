@@ -204,4 +204,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- Settings Preferences -->
 
 
+    <!-- ImageManager -->
+    <string name="album_name">InvesTICKations</string>
+
 </resources>
