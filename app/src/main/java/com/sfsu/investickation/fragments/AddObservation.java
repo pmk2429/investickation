@@ -76,13 +76,13 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     EditText et_tickName;
     // Others
     private Bitmap bitmap;
-    private String selectedImagePath, picturePath;
+    private String selectedImagePath, picturePath, geoLocation;
     private Observation newObservationObj;
     private IAddObservationCallBack mInterface;
     private Context mContext;
     private Intent locationIntent;
 
-    private String activityUUID, requestToken, userId;
+    private String activityId, requestToken, userId;
     private Bundle args;
     private LocationController mLocationController;
     private EntityLocation entityLocation;
@@ -144,9 +144,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         ButterKnife.bind(this, v);
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
-            activityUUID = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
+            activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
         } else {
-            activityUUID = "";
+            activityId = "";
         }
 
         // initialize the LocationController
@@ -192,9 +192,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     userId = mAuthPreferences.getUser_id();
 
                     // finally when all values are collected, create a new Observation object.
-                    // TODO: change the Observation POJO to match as per the Api
-                    newObservationObj = new Observation(selectedImagePath, tickName, numOfTicks, AppUtils.getCurrentTimeStamp(),
-                            entityLocation, userId);
+                    newObservationObj = new Observation(tickName, numOfTicks, geoLocation, AppUtils.getCurrentTimeStamp(),
+                            entityLocation, activityId, userId);
 
                     dbController.save(newObservationObj);
 
@@ -508,7 +507,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setLocationArea(String locationArea) {
-
+        this.geoLocation = locationArea;
     }
 
     @Override
@@ -529,7 +528,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
 
     /**
-     * Subscribes to the event of successful observation creation.
+     * Subscribes to the event of successful observation creation. Once the Observation is created successfully, the User
+     * captured image of tick inside the Observation is posted on server.
      *
      * @param onLoaded
      */

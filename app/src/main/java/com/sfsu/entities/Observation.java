@@ -12,7 +12,8 @@ import com.google.gson.annotations.SerializedName;
  * capturing the tick and posting the data on the central server. Each observation contains tick image and specifying the
  * details(if known) and then posting the data on the server.
  * </p>
- * Observation holds reference to the {@link Tick} and {@link EntityLocation} for a each Observation captured by the User.
+ * Observation holds reference to the {@link EntityLocation} for a each Observation captured by the User. When the user makes an
+ * observation, the it also sends the <tt>latitude, longitude</tt> with each observation.
  * Created by Pavitra on 5/19/2015.
  */
 
@@ -38,8 +39,8 @@ public class Observation implements Parcelable, Entity {
     private String imageUrl;
     private int num_of_ticks;
     private long timestamp, created_at, updated_at;
-    private Bitmap tick_image1;
-
+    private Bitmap tick_image;
+    // references
     private String user_id;
     private String activity_id;
 
@@ -51,18 +52,9 @@ public class Observation implements Parcelable, Entity {
     public Observation() {
     }
 
-    /**
-     * IMP : Constructor overloading to create the Observation object for sending it over to Server via Retrofit.
-     *
-     * @param imageUrl    - Image of Tick captured by the User for this Observation
-     * @param tickName    -  Name of the Tick captured by the User
-     * @param num_ticks   - Total number of Ticks found in this  Observation
-     * @param timestamp   - Current Timestamp of the Observation.
-     * @param locationObj - Location captured by the Android Device for the Observation
-     */
-    public Observation(String imageUrl, String tickName, int num_ticks, long timestamp, EntityLocation locationObj,
-                       String user_id) {
-        this.imageUrl = imageUrl;
+    //lConstructor overloading to create the Observation object for sending it over to Server via Retrofit.
+    public Observation(String tickName, int num_ticks, String geo_location, long timestamp, EntityLocation locationObj, String
+            activity_id, String user_id) {
         this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;

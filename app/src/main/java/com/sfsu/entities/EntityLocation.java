@@ -14,7 +14,6 @@ import android.os.Parcelable;
  * <p>
  * This way {@link EntityLocation} helps to detect the presence of {@link Tick} and also determine {@link User}'s path.
  * </p>
- * <p>
  * Created by Pavitra on 5/19/2015.
  */
 public class EntityLocation implements Parcelable, Entity {
@@ -30,7 +29,6 @@ public class EntityLocation implements Parcelable, Entity {
             return new EntityLocation[size];
         }
     };
-
 
     private int id;
     private int user_id;

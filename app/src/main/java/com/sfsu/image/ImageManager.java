@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.VideoView;
 
 import com.sfsu.investickation.R;
 
@@ -27,7 +26,7 @@ public class ImageManager extends Activity {
 
     private static final String TAG = "~!@#$ImageMgr";
 
-    private static final int ACTION_TAKE_PHOTO_S = 2;
+    private static final int ACTION_TAKE_PHOTO = 2;
 
     private static final String BITMAP_STORAGE_KEY = "viewBitmap";
     private static final String IMAGEVIEW_VISIBILITY_STORAGE_KEY = "imageviewVisibility";
@@ -37,7 +36,6 @@ public class ImageManager extends Activity {
 
     private ImageView mImageView;
     private Bitmap mImageBitmap;
-    private VideoView mVideoView;
     private Uri mVideoUri;
     private String mCurrentPhotoPath;
 
@@ -58,7 +56,7 @@ public class ImageManager extends Activity {
             if (storageDir != null) {
                 if (!storageDir.mkdirs()) {
                     if (!storageDir.exists()) {
-                        Log.d(TAG, "failed to create directory");
+                        Log.i(TAG, "failed to create directory");
                         return null;
                     }
                 }
@@ -73,7 +71,7 @@ public class ImageManager extends Activity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String timeStamp = new SimpleDateFormat("MM/dd/yyyy;HH:mm:ss", Locale.US).format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
         File albumF = getAlbumDir();
         File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
@@ -121,7 +119,6 @@ public class ImageManager extends Activity {
         mImageView.setImageBitmap(bitmap);
         mVideoUri = null;
         mImageView.setVisibility(View.VISIBLE);
-        mVideoView.setVisibility(View.INVISIBLE);
     }
 
     private void galleryAddPic() {
@@ -137,29 +134,25 @@ public class ImageManager extends Activity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         switch (actionCode) {
-            case ACTION_TAKE_PHOTO_S:
-                File f = null;
-
+            case ACTION_TAKE_PHOTO:
+                File imageFile = null;
                 try {
-                    f = setUpPhotoFile();
-                    mCurrentPhotoPath = f.getAbsolutePath();
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                    imageFile = setUpPhotoFile();
+                    mCurrentPhotoPath = imageFile.getAbsolutePath();
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
                 } catch (IOException e) {
-                    e.printStackTrace();
-                    f = null;
+                    imageFile = null;
                     mCurrentPhotoPath = null;
                 }
                 break;
-
             default:
                 break;
-        } // switch
-
+        }
         startActivityForResult(takePictureIntent, actionCode);
     }
 
 
-    private void handleBigCameraPhoto() {
+    private void handleCameraPhoto() {
         if (mCurrentPhotoPath != null) {
             setPic();
             galleryAddPic();

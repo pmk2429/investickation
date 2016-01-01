@@ -6,7 +6,7 @@ import java.util.List;
  * The base events class that provides Generic definition of events performed/ carried out/ controller/ occurred in the entire
  * Application. This class provides the base type of Events which contains all the base characteristics exhibited by all types
  * of implementing events.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class BaseNetworkEvent {

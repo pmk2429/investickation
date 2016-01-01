@@ -3,13 +3,16 @@ package com.sfsu.network.rest.service;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
+import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.Part;
 import retrofit.http.Path;
 
 /**
@@ -73,5 +76,10 @@ public interface ObservationApiService {
      */
     @GET("observations/{id}")
     public Call<Observation> delete(@Path("id") String observationId);
+
+    @Multipart
+    @POST("observations/upload_tick_pic")
+    Call<String> upload_tick_image(@Part("myfile\"; filename=\"image.png\" ") RequestBody file,
+                                   @Part("description") String description);
 
 }
