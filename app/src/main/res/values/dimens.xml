@@ -7,7 +7,7 @@
     <dimen name="separator_dimen">1dp</dimen>
 
     <!-- Widget and View dimensions, -->
-    <dimen name="view_dimen_X1_small">4dp</dimen>
+    <dimen name="view_dimen_X1_small">2dp</dimen>
     <dimen name="view_dimen_X_small">4dp</dimen>
     <dimen name="view_dimen_small">8dp</dimen>
     <dimen name="view_dimen_medium">12dp</dimen>

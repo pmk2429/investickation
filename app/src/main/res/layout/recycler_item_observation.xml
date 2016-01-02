@@ -11,48 +11,49 @@
         android:id="@+id/cardview_observation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:padding="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/view_dimen_large">
+            android:padding="@dimen/view_dimen_small">
 
             <ImageView
-                android:id="@+id/image_tick_small"
-                android:layout_width="@dimen/padding_dimen_X_large"
-                android:layout_height="@dimen/padding_dimen_X_large"
+                android:id="@+id/imageView_obsList_tickImage"
+                android:layout_width="@dimen/widget_dimen_X_large"
+                android:layout_height="@dimen/widget_dimen_X_large"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
                 android:src="@mipmap/ic_launcher"/>
 
             <TextView
-                android:id="@+id/textView_observationName"
+                android:id="@+id/textView_obsList_observationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/image_tick_small"
+                android:layout_toEndOf="@+id/imageView_obsList_tickImage"
                 android:text="@string/tickName"
                 android:textColor="@color/primaryText"
                 android:textSize="@dimen/font_large"/>
 
             <TextView
-                android:id="@+id/textView_location"
+                android:id="@+id/textView_obsList_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView_observationName"
-                android:layout_toEndOf="@+id/image_tick_small"
+                android:layout_below="@+id/textView_obsList_observationName"
+                android:layout_toEndOf="@+id/imageView_obsList_tickImage"
                 android:text="Presidio of San Francisco"
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X_small"/>
 
             <TextView
-                android:id="@+id/textView_timestamp"
+                android:id="@+id/textView_obsList_timestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/view_dimen_small"
                 android:gravity="center_horizontal"
                 android:paddingTop="@dimen/view_dimen_X1_small"
                 android:text="1 Hr"
@@ -60,12 +61,24 @@
                 android:textSize="@dimen/font_X_small"/>
 
             <ImageView
-                android:id="@+id/image_status"
-                android:layout_width="@dimen/view_dimen_X_large"
-                android:layout_height="@dimen/view_dimen_X_large"
+                android:id="@+id/icon_status"
+                android:layout_width="@dimen/view_dimen_default"
+                android:layout_height="@dimen/view_dimen_default"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/textView_timestamp"
+                android:layout_below="@id/textView_obsList_timestamp"
+                android:layout_marginEnd="@dimen/view_dimen_small"
                 android:src="@mipmap/ic_cloud_done_black_36dp"/>
+
+
+            <ImageView
+                android:id="@+id/icon_verified"
+                android:layout_width="@dimen/view_dimen_default"
+                android:layout_height="@dimen/view_dimen_default"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/textView_obsList_location"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_X1_small"
+                android:src="@mipmap/ic_verified_gray_24dp"/>
 
 
         </RelativeLayout>

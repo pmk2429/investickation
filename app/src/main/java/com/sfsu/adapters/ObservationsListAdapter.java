@@ -133,11 +133,11 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
             super(itemView);
 
             cv = (CardView) itemView.findViewById(R.id.cardview_observation);
-            imageView_tickImage = (ImageView) itemView.findViewById(R.id.image_tick_small);
-            imageView_imageStatus = (ImageView) itemView.findViewById(R.id.image_status);
-            txtView_observationName = (TextView) itemView.findViewById(R.id.textView_observationName);
-            txtView_location = (TextView) itemView.findViewById(R.id.textView_location);
-            txtView_timestamp = (TextView) itemView.findViewById(R.id.textView_timestamp);
+            imageView_tickImage = (ImageView) itemView.findViewById(R.id.imageView_obsList_tickImage);
+            imageView_imageStatus = (ImageView) itemView.findViewById(R.id.icon_status);
+            txtView_observationName = (TextView) itemView.findViewById(R.id.textView_obsList_observationName);
+            txtView_location = (TextView) itemView.findViewById(R.id.textView_obsList_location);
+            txtView_timestamp = (TextView) itemView.findViewById(R.id.textView_obsList_timestamp);
         }
     }
 

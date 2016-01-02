@@ -61,10 +61,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        // lot of code for setting up NavDrawer so calling a method instead for keeping onCreate free from clutter
-        // setup the Toolbar for this Fragment.
-        //setActionBarAndNavDrawer(v);
-
         // set the button in Dashboard to the corresponding action
         btn_action = (CardView) v.findViewById(R.id.btn_activity_start);
         btn_action.setOnClickListener(this);

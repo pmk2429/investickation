@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/cardview_default"
                 android:background="@color/colorSecondary">
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/widget_dimen_large"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="@dimen/view_dimen_small"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="@dimen/view_dimen_large"
             android:text="Pavitra Kansara"
             android:textColor="#ffffff"
-            android:textSize="14sp"
+            android:textSize="@dimen/font_X_small"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="@dimen/view_dimen_large"
             android:layout_marginTop="5dp"
             android:text="pmk@mail.sfsu.edu"
             android:textColor="#ffffff"
-            android:textSize="14sp"
+            android:textSize="@dimen/font_X_small"
             android:textStyle="normal"/>
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/circleView"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="38dp"
+        android:layout_width="@dimen/dimen_material_large"
+        android:layout_height="@dimen/dimen_material_large"
+        android:layout_marginStart="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_X1_large"
         android:src="@mipmap/ic_launcher"/>
 
 </RelativeLayout>

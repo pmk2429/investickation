@@ -109,8 +109,8 @@ public class MainBaseActivity extends AppCompatActivity {
                     mCurrentSelectedPosition = 3;
                     break;
 
-                case R.id.nav_settings:
-                    intent = new Intent(this, SettingsActivity.class);
+                case R.id.nav_tickMap:
+                    intent = new Intent(this, TickGuideMasterActivity.class);
                     startActivity(intent);
                     finish();
                     mCurrentSelectedPosition = 4;
@@ -123,13 +123,20 @@ public class MainBaseActivity extends AppCompatActivity {
                     mCurrentSelectedPosition = 5;
                     break;
 
+                case R.id.nav_settings:
+                    intent = new Intent(this, SettingsActivity.class);
+                    startActivity(intent);
+                    finish();
+                    mCurrentSelectedPosition = 6;
+                    break;
+
                 case R.id.nav_logout:
                     intent = new Intent(this, HomeActivity.class);
                     intent.putExtra(KEY_LOGOUT, 1);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
                     startActivity(intent);
                     finish();
-                    mCurrentSelectedPosition = 6;
+                    mCurrentSelectedPosition = 7;
                     break;
             }
         } catch (Exception e) {
