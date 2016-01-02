@@ -287,8 +287,8 @@ public class ActivityRunning extends Fragment {
         editor.apply();
 
         // stop the service and unregister the broadcast receiver.
-        getActivity().unregisterReceiver(locationBroadcastReceiver);
-        getActivity().stopService(locationIntent);
+        //getActivity().unregisterReceiver(locationBroadcastReceiver);
+        //getActivity().stopService(locationIntent);
     }
 
 

@@ -35,6 +35,7 @@ public class Observation implements Parcelable, Entity {
     private String geo_location;
     @SerializedName("name")
     private String tickName;
+    private String species;
     @SerializedName("tick_image")
     private String imageUrl;
     private int num_of_ticks;
@@ -43,22 +44,22 @@ public class Observation implements Parcelable, Entity {
     // references
     private String user_id;
     private String activity_id;
-
     @SerializedName("location")
     private EntityLocation locationObj;
-
 
     // REQUIRED : Default Constructor
     public Observation() {
     }
 
     //lConstructor overloading to create the Observation object for sending it over to Server via Retrofit.
-    public Observation(String tickName, int num_ticks, String geo_location, long timestamp, EntityLocation locationObj, String
-            activity_id, String user_id) {
+    public Observation(String tickName, String species, int num_ticks, long timestamp, EntityLocation
+            locationObj, String activity_id, String user_id) {
         this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
         this.locationObj = locationObj;
         this.tickName = tickName;
+        this.species = species;
+        this.activity_id = activity_id;
         this.user_id = user_id;
     }
 
@@ -72,6 +73,14 @@ public class Observation implements Parcelable, Entity {
         updated_at = in.readLong();
         locationObj = in.readParcelable(EntityLocation.class.getClassLoader());
         //tickObj = in.readParcelable(Tick.class.getClassLoader());
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
     }
 
     public String getImageUrl() {
@@ -193,5 +202,16 @@ public class Observation implements Parcelable, Entity {
     @Override
     public String getResourceType() {
         return "observations";
+    }
+
+    @Override
+    public String toString() {
+        return id + ":" + geo_location + ":" + tickName + ":" + imageUrl + ":" + num_of_ticks + ":" + timestamp +
+                ":" + created_at +
+                ":" + updated_at +
+                ":" + tick_image +
+                ":" + user_id +
+                ":" + activity_id +
+                ":" + locationObj;
     }
 }

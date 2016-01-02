@@ -30,8 +30,10 @@ public class EntityLocation implements Parcelable, Entity {
         }
     };
 
-    private int id;
-    private int user_id;
+    private String id;
+    private String user_id;
+    private String activity_id;
+    private String observation_id;
     private double latitude, longitude;
     private long timestamp;
 
@@ -58,9 +60,11 @@ public class EntityLocation implements Parcelable, Entity {
      * @param latitude
      * @param longitude
      */
-    public EntityLocation(double latitude, double longitude) {
+    public EntityLocation(double latitude, double longitude, String activity_id, String user_id) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.activity_id = activity_id;
+        this.user_id = user_id;
     }
 
     /**
@@ -72,17 +76,22 @@ public class EntityLocation implements Parcelable, Entity {
      * @param longitude
      * @param timestamp
      */
-    public EntityLocation(int location_id, int user_id, double latitude, double longitude, long timestamp) {
-        this.id = location_id;
+    public EntityLocation(String id, double latitude, double longitude, String observation_id, String activity_id, String user_id, long
+            timestamp) {
+        this.id = id;
         this.user_id = user_id;
+        this.activity_id = activity_id;
+        this.observation_id = observation_id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
     }
 
     protected EntityLocation(Parcel in) {
-        id = in.readInt();
-        user_id = in.readInt();
+        id = in.readString();
+        user_id = in.readString();
+        activity_id = in.readString();
+        observation_id = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
         timestamp = in.readLong();
@@ -97,12 +106,12 @@ public class EntityLocation implements Parcelable, Entity {
         return new EntityLocation(latitude, longitude, timestamp);
     }
 
-    public int getLocation_id() {
+    public String getId() {
         return id;
     }
 
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
@@ -140,8 +149,10 @@ public class EntityLocation implements Parcelable, Entity {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeInt(user_id);
+        parcel.writeString(id);
+        parcel.writeString(user_id);
+        parcel.writeString(activity_id);
+        parcel.writeString(observation_id);
         parcel.writeDouble(latitude);
         parcel.writeDouble(longitude);
         parcel.writeLong(timestamp);

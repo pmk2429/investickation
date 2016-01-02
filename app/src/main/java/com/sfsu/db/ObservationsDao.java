@@ -15,7 +15,7 @@ import java.util.List;
  * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
  * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
  * Database and then build up the Observation object.
- * <p/>
+ * <p>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
@@ -113,7 +113,7 @@ public class ObservationsDao implements EntityDao {
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
         // get TickId and LocationId
 //        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
-        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getLocation_id());
+        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
         Log.d(TAG, "Observation : INSERT reached");
         return db.insert(ObservationsTable.TABLENAME, null, contentValues);
     }
@@ -134,7 +134,7 @@ public class ObservationsDao implements EntityDao {
         contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
         // get LocationId and TickId
 //        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
-        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getLocation_id());
+        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
         Log.d(TAG, "Observation : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.

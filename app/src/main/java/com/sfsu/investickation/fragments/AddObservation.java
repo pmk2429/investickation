@@ -32,10 +32,8 @@ import android.widget.Toast;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.adapters.TickDialogAdapter;
-import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.ImageController;
 import com.sfsu.controllers.LocationController;
-import com.sfsu.db.TickDao;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
@@ -46,10 +44,10 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.events.ObservationEvent;
-import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.otto.Subscribe;
 
@@ -89,7 +87,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private Bundle args;
     private LocationController mLocationController;
     private EntityLocation entityLocation;
-    private DatabaseDataController dbController;
+    //    private DatabaseDataController dbController;
     private ImageController mImageController;
     private List<Tick> tickList;
     private boolean isTotalTicksNumber, isTickNameValid, isTickSpeciesValid;
@@ -135,7 +133,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         if (getArguments() != null) {
             args = getArguments();
         }
-        dbController = new DatabaseDataController(mContext, new TickDao());
+//        dbController = new DatabaseDataController(mContext, new TickDao());
         mAuthPreferences = new AuthPreferences(mContext);
     }
 
@@ -152,6 +150,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         } else {
             activityId = "";
         }
+
+        // get user_id.
+        userId = mAuthPreferences.getUser_id();
 
         // initialize the LocationController
         mLocationController = new LocationController(mContext, this);
@@ -193,15 +194,19 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     String tickSpecies = et_tickSpecies.getText().toString();
                     int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
 
-                    userId = mAuthPreferences.getUser_id();
-
                     // finally when all values are collected, create a new Observation object.
-                    newObservationObj = new Observation(tickName, numOfTicks, geoLocation, AppUtils.getCurrentTimeStamp(),
-                            entityLocation, activityId, userId);
+                    newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils
+                            .getCurrentTimeStamp(), entityLocation, activityId, userId);
 
-                    dbController.save(newObservationObj);
+                    // set GeoLocation
+                    newObservationObj.setGeoLocation(geoLocation);
 
-                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+//                    dbController.save(newObservationObj);
+
+                    Log.i(TAG, newObservationObj.toString());
+                    Log.i(TAG, selectedImagePath);
+
+                    //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 }
             }
         });
@@ -263,17 +268,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         et_tickName.setText(tickData.getTickName());
         et_tickSpecies.setText(tickData.getSpecies());
     }
-
-    /**
-     * Helper method to get the Tick object from the TickName;
-     *
-     * @param tickName
-     * @return
-     */
-    private Tick getTickFromName(String tickName) {
-        return (Tick) dbController.get(tickName);
-    }
-
 
     /**
      * This method is used to popup a dialog box for allowing user to select
@@ -500,7 +494,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setCurrentLocation(Location mLocation) {
-        this.entityLocation = new EntityLocation(mLocation.getLatitude(), mLocation.getLongitude());
+        this.entityLocation = new EntityLocation(mLocation.getLatitude(), mLocation.getLongitude(), activityId, userId);
 
     }
 
@@ -511,7 +505,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setLocationArea(String locationArea) {
-        this.geoLocation = locationArea;
+        if (locationArea != null || !locationArea.equals("")) {
+            this.geoLocation = locationArea;
+        } else {
+            newObservationObj.setGeoLocation(".");
+        }
     }
 
     @Override
@@ -541,12 +539,17 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
         Observation observationResponse = onLoaded.getResponse();
 
-        // get RequestBody from the User captured tick image using ImageController;
-        RequestBody requestBody = mImageController.getImageRequestBody();
+        File file = new File(selectedImagePath);
 
-        // once done, post the File to the Bus for posting it on server.
-        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(requestBody, observationResponse.getId(),
-                ApiRequestHandler.UPLOAD_TICK_IMAGE));
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // get RequestBody from the User captured tick image using ImageController;
+        //RequestBody requestBody = mImageController.getImageRequestBody();
+
+//        // once done, post the File to the Bus for posting it on server.
+//        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(requestBody, observationResponse.getId(),
+//                ApiRequestHandler.UPLOAD_TICK_IMAGE));
+
 
     }
 
