@@ -2,7 +2,6 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,9 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.controllers.GoogleMapController;
-import com.sfsu.controllers.LocationController;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 
@@ -28,7 +25,7 @@ import com.sfsu.network.bus.BusProvider;
  * The dashboard of the application. Displays total number of {@link com.sfsu.entities.Activities} and {@link com.sfsu.entities
  * .Observation}. Also, provides a starting point for the user to post an Observation or to start an Activity.
  */
-public class Dashboard extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
+public class Dashboard extends Fragment implements View.OnClickListener {
 
     public final String TAG = "~!@#Dashboard";
     private IDashboardCallback mListener;
@@ -41,9 +38,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
     private int mCurrentSelectedPosition;
     private NavigationView mNavigationView;
     private Context mContext;
-    private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
-    private LocationController.ILocationCallBacks mLocationListener;
 
     public Dashboard() {
         // Required empty public constructor
@@ -52,8 +47,8 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // TODO: make a network call and get Activity as well as Observation count
+
     }
 
     @Override
@@ -69,7 +64,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
 
-        mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
 
         // when the use clicks the entire relativeLayout, redirect to the appropriate call action
@@ -87,7 +81,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         mapView.onCreate(mapViewSavedInstanceState);
 
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-        mLocationController.connectGoogleApi();
 
         // setup the Google Maps in MapView.
         mGoogleMapController.setupGoogleMap(mapView);
@@ -172,21 +165,6 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
         } else if (v.getId() == R.id.relativeLayout_dashboard_activityCount) {
             mListener.onViewActivitiesClicked();
         }
-    }
-
-    @Override
-    public void setCurrentLocation(Location mLocation) {
-
-    }
-
-    @Override
-    public void setLatLng(LatLng mLatLng) {
-
-    }
-
-    @Override
-    public void setLocationArea(String locationArea) {
-
     }
 
 

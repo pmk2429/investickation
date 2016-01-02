@@ -5,32 +5,29 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.investickation.fragments.Profile;
-
 
 /**
- * Container Activity for displaying {@link User} related data. Holds references to {@link Profile} Fragment.
+ * Tutorial for the InvesTICKations applications. Provides a basic tutorial guide for the user to use the application. The
+ * tutorial contains all the features that are built into this app displayed using a small graphics and annotated text
+ * describing how to use that feature.
  */
-public class UserProfileActivity extends MainBaseActivity {
+public class TutorialActivity extends MainBaseActivity {
 
-    private final String TAG = "~!@#UsrProAct";
+    private final String TAG = "~!@#Tutorial";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.activity_tutorial);
 
         // if Fragment container is present,
-        if (findViewById(R.id.profile_fragment_container) != null) {
+        if (findViewById(R.id.tutorial_fragment_container) != null) {
 
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
                 return;
             }
-
-            Profile mProfile = new Profile();
-            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfile).commit();
         }
     }
 
@@ -38,7 +35,7 @@ public class UserProfileActivity extends MainBaseActivity {
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
-            Intent homeIntent = new Intent(UserProfileActivity.this, MainActivity.class);
+            Intent homeIntent = new Intent(TutorialActivity.this, MainActivity.class);
             startActivity(homeIntent);
             finish();
             super.onBackPressed();

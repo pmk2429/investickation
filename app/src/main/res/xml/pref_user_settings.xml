@@ -14,6 +14,11 @@
             android:summary="pmk.2429@gmail.com"
             android:title="Email"/>
 
+        <EditTextPreference
+            android:key="recentActivitiesCount"
+            android:summary="5"
+            android:title="Show total recent Activities"/>
+
     </PreferenceCategory>
 
     <!-- Notifications -->

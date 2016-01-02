@@ -33,6 +33,7 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 
@@ -87,19 +88,10 @@ public class Profile extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        // get the User object from Database
-        if (dbController != null) {
-            mUser = (User) dbController.get(mAuthPreferences.getUser_id());
-        }
-
-        // set the values in the EditText
-        if (mUser != null) {
-            et_fullName.setText(mUser.getFull_name());
-            String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
-            et_address.setText(address);
-            et_email.setText(mUser.getEmail());
-            et_password.setText(mUser.getPassword());
-        }
+//            // get the User object from Database
+//            if (dbController != null) {
+//                mUser = (User) dbController.get(mAuthPreferences.getUser_id());
+//            }
 
         final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);
         fabUserImage.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +100,7 @@ public class Profile extends Fragment {
                 startDialogForChoosingImage();
             }
         });
+
 
         return rootView;
     }
@@ -122,6 +115,32 @@ public class Profile extends Fragment {
         }
     }
 
+
+    @Subscribe
+    public void onGetUserDetailsSuccess(UserEvent.OnLoaded onLoaded) {
+        mUser = onLoaded.getResponse();
+
+        // set the values in the EditText
+        if (mUser != null) {
+            et_fullName.setText(mUser.getFull_name());
+            String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
+            et_address.setText(address);
+            et_email.setText(mUser.getEmail());
+            et_password.setText(mUser.getPassword());
+        } else {
+            et_fullName.setText("");
+            String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
+            et_address.setText("");
+            et_email.setText("");
+            et_password.setText("");
+        }
+    }
+
+
+    @Subscribe
+    public void onGetUserDetailsFailure(UserEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
 
     /**
      * This method is used to popup a dialog box for allowing user to select
