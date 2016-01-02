@@ -12,12 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--  Non sliding Tool bar -->
+        <include
+            android:id="@+id/toolbar_top_base"
+            layout="@layout/toolbar_master"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <!-- container for all the fragments -->
         <FrameLayout
             android:id="@+id/mainActivity_fragmentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_below="@id/toolbar_top_base">
         </FrameLayout>
 
 

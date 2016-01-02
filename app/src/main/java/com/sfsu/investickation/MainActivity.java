@@ -2,7 +2,6 @@ package com.sfsu.investickation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -10,7 +9,7 @@ import android.widget.ImageButton;
 import com.sfsu.investickation.fragments.Dashboard;
 
 
-public class MainActivity extends AppCompatActivity implements Dashboard.IDashboardCallback {
+public class MainActivity extends MainBaseActivity implements Dashboard.IDashboardCallback {
 
     public static final String KEY_ADD_ACTIVITY = "add_new_activity_from_dashboard";
     public static final String KEY_ADD_OBSERVATION = "add_new_observation_from_dashboard";

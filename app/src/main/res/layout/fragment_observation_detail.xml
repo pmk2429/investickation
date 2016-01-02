@@ -97,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardview_observation_detail_heading"
+                android:layout_marginBottom="@dimen/view_dimen_large"
                 android:layout_marginLeft="@dimen/view_dimen_large"
                 android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"

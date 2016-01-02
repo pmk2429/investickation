@@ -2,23 +2,18 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -26,15 +21,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
-import com.sfsu.investickation.HomeActivity;
-import com.sfsu.investickation.MainActivity;
-import com.sfsu.investickation.MainBaseActivity;
-import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.investickation.SettingsActivity;
-import com.sfsu.investickation.TickGuideMasterActivity;
-import com.sfsu.investickation.UserActivityMasterActivity;
-import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
 
 /**
@@ -43,7 +30,6 @@ import com.sfsu.network.bus.BusProvider;
  */
 public class Dashboard extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
 
-    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     public final String TAG = "~!@#Dashboard";
     private IDashboardCallback mListener;
     private CardView btn_action;
@@ -77,9 +63,7 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
 
         // lot of code for setting up NavDrawer so calling a method instead for keeping onCreate free from clutter
         // setup the Toolbar for this Fragment.
-        setActionBarAndNavDrawer(v);
-
-        final ImageView imageView = (ImageView) v.findViewById(R.id.imageView_dashboardHeader);
+        //setActionBarAndNavDrawer(v);
 
         // set the button in Dashboard to the corresponding action
         btn_action = (CardView) v.findViewById(R.id.btn_activity_start);
@@ -116,148 +100,12 @@ public class Dashboard extends Fragment implements View.OnClickListener, Locatio
     }
 
 
-    /**
-     * Helper method to set up ActionBar and NavigationDrawer in Dashboard.
-     *
-     * @param v
-     */
-    private void setActionBarAndNavDrawer(View v) {
-        toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_dashboard_scrollable);
-
-        if (toolbarMain != null) {
-            ((MainActivity) getActivity()).setSupportActionBar(toolbarMain);
-
-            // get the ActionBar and set the Menu icon.
-            final ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-
-            // initialize the DrawerLayout
-            mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-
-            // set the onClick Listener for the Drawer click event
-            toolbarMain.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
-            });
-        }
-
-        //  handle CollapsingToolbarLayout and AppBarLayout changes.
-        final CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) v.findViewById(R.id
-                .collapsing_toolbar_dashboard);
-        AppBarLayout mAppBarLayout = (AppBarLayout) v.findViewById(R.id.appbar_dashboard);
-
-        if (mAppBarLayout != null) {
-            mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                boolean isShow = false;
-                int scrollRange = -1;
-
-                @Override
-                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                    if (scrollRange == -1) {
-                        scrollRange = appBarLayout.getTotalScrollRange();
-                    }
-                    if (scrollRange + verticalOffset == 0) {
-                        mCollapsingToolbarLayout.setTitle("InvesTICKations");
-                        isShow = true;
-                    } else if (isShow) {
-                        mCollapsingToolbarLayout.setTitle("");
-                        isShow = false;
-                    }
-                }
-            });
-        }
-
-        // initialize the NavigationView and also setup OnClickListener for each of the Items in list
-        mNavigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-        if (mNavigationView != null) {
-            mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(MenuItem menuItem) {
-                    selectDrawerItem(menuItem);
-                    return true;
-                }
-            });
-        }
-    }
-
-    // method to setup Navigation Drawer item click Listener
-    private void selectDrawerItem(MenuItem menuItem) {
-        Intent intent;
-
-        try {
-            switch (menuItem.getItemId()) {
-                case R.id.nav_home:
-                    intent = new Intent(mContext, MainActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 0;
-                    break;
-
-                case R.id.nav_activities:
-                    intent = new Intent(mContext, UserActivityMasterActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 1;
-                    break;
-
-                case R.id.nav_observations:
-                    intent = new Intent(mContext, ObservationMasterActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 2;
-                    break;
-
-                case R.id.nav_tickGuide:
-                    intent = new Intent(mContext, TickGuideMasterActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 3;
-                    break;
-
-                case R.id.nav_settings:
-                    intent = new Intent(mContext, SettingsActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 4;
-                    break;
-
-                case R.id.nav_profile:
-                    intent = new Intent(mContext, UserProfileActivity.class);
-                    mContext.startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 5;
-                    break;
-
-
-                case R.id.nav_logout:
-                    intent = new Intent(mContext, HomeActivity.class);
-                    intent.putExtra(MainBaseActivity.KEY_LOGOUT, 1);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
-                    startActivity(intent);
-                    ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 6;
-                    break;
-            }
-        } catch (Exception e) {
-        }
-
-        // Highlight the selected item and close the drawer
-        menuItem.setChecked(true);
-        mDrawerLayout.closeDrawers();
-    }
-
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //This MUST be done before saving any of your own or your base class's variables
         final Bundle mapViewSaveState = new Bundle(outState);
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
-        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
         super.onSaveInstanceState(outState);
     }
 
