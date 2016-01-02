@@ -8,16 +8,15 @@ import com.google.android.gms.maps.model.LatLng;
  * travelled {@link com.sfsu.entities.Activities}.
  * </p>
  * <p>
- * The StaticMap uses Builder pattern to build a dynamic url for makeing a network request and getting a static google map
+ * The StaticMap uses Builder pattern to build a dynamic url for making a network request and getting a static google map
  * image with a specific polyline according to the points specified in the Path param.
  * </p>
- * <p/>
+ * <p>
  * https://developers.google.com/maps/documentation/static-maps/intro
- * <p/>
+ * <p>
  * Created by Pavitra on 12/23/2015.
  */
 public class StaticMap {
-
     /**
      * UrlBuilder to build url with locations.
      */
