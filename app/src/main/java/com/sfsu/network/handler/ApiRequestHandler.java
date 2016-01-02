@@ -30,6 +30,9 @@ public class ApiRequestHandler {
     // User Api service method codes.
     public static final int TOTAL_ACTIVITIES_COUNT = 0x3F1;
     public static final int TOTAL_OBSERVATIONS_COUNT = 0x3F2;
+    // File upload
+    public static final int UPLOAD_TICK_IMAGE = 0x3F3;
+
     private final String TAG = "~!@#$ApiReqHdlr";
     protected String ACCESS_TOKEN;// = "oGATGjerFGwbVsTdxmc3HapSdPX6aY23zJ8yTaDg5pumWnTPexeeLfTQaLV2uCsG";
     protected Bus mBus;

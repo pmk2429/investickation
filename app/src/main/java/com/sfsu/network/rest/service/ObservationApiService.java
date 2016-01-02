@@ -77,9 +77,14 @@ public interface ObservationApiService {
     @GET("observations/{id}")
     public Call<Observation> delete(@Path("id") String observationId);
 
+    /**
+     * Uploads the Observation image to the server.
+     *
+     * @param file
+     * @return
+     */
     @Multipart
     @POST("observations/upload_tick_pic")
-    Call<String> upload_tick_image(@Part("myfile\"; filename=\"image.png\" ") RequestBody file,
-                                   @Part("description") String description);
+    Call<Observation> upload(@Part("myfile\"; filename=\"image.png\" ") RequestBody file);
 
 }

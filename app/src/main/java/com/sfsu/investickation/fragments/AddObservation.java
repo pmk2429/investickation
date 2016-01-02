@@ -33,6 +33,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.controllers.ImageController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.db.TickDao;
 import com.sfsu.entities.EntityLocation;
@@ -43,11 +44,13 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
@@ -87,6 +90,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private LocationController mLocationController;
     private EntityLocation entityLocation;
     private DatabaseDataController dbController;
+    private ImageController mImageController;
     private List<Tick> tickList;
     private boolean isTotalTicksNumber, isTickNameValid, isTickSpeciesValid;
     private TextValidator mTextValidator;
@@ -534,14 +538,46 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * @param onLoaded
      */
     @Subscribe
-    public void onObservationCreateSuccess(ObservationEvent.OnLoaded onLoaded) {
+    public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
         Observation observationResponse = onLoaded.getResponse();
-        // pass the object to the ObservationActivity.
-        mInterface.postObservationData(observationResponse);
+
+        // get RequestBody from the User captured tick image using ImageController;
+        RequestBody requestBody = mImageController.getImageRequestBody();
+
+        // once done, post the File to the Bus for posting it on server.
+        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(requestBody, observationResponse.getId(),
+                ApiRequestHandler.UPLOAD_TICK_IMAGE));
+
     }
 
+    /**
+     * Subscribes to the event of Failure in posting the Observation data on the server.
+     *
+     * @param onLoadingError
+     */
     @Subscribe
-    public void onObservationCreateFailure(ObservationEvent.OnLoadingError onLoadingError) {
+    public void onObservationDataPostFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+
+    /**
+     * Subscribes to event of successful Observation Image upload to the server. The <tt>OnLoaded</tt> will return the {@link
+     * Observation} as a response after successful network post request.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
+
+        // pass the Observation response object to the ObservationActivity.
+        mInterface.postObservationData(onLoaded.getResponse());
+    }
+
+
+    @Subscribe
+    public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

@@ -69,7 +69,7 @@ public class ImageManager extends Activity {
         return storageDir;
     }
 
-    private File createImageFile() throws IOException {
+    public File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("MM/dd/yyyy;HH:mm:ss", Locale.US).format(new Date());
         String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
@@ -85,7 +85,7 @@ public class ImageManager extends Activity {
         return f;
     }
 
-    private void setPic() {
+    public void setPic() {
 
 		/* There isn't enough memory to open up more than a couple camera photos */
         /* So pre-scale the target bitmap into which the file is decoded */
@@ -114,8 +114,7 @@ public class ImageManager extends Activity {
 
 		/* Decode the JPEG file into a Bitmap */
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-
-		/* Associate the Bitmap to the ImageView */
+        /* Associate the Bitmap to the ImageView */
         mImageView.setImageBitmap(bitmap);
         mVideoUri = null;
         mImageView.setVisibility(View.VISIBLE);

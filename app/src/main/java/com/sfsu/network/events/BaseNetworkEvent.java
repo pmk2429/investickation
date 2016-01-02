@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Pavitra on 11/27/2015.
  */
 public class BaseNetworkEvent {
-    public static final String UNHANDLED_MSG = "UNHANDLED_MSG";
+    public static final String UNHANDLED_MSG = "Unexpected Error";
     public static final int UNHANDLED_CODE = -1;
 
 
