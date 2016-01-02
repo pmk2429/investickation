@@ -1,6 +1,5 @@
 package com.sfsu.entities;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -40,7 +39,6 @@ public class Observation implements Parcelable, Entity {
     private String imageUrl;
     private int num_of_ticks;
     private long timestamp, created_at, updated_at;
-    private Bitmap tick_image;
     // references
     private String user_id;
     private String activity_id;
@@ -206,10 +204,9 @@ public class Observation implements Parcelable, Entity {
 
     @Override
     public String toString() {
-        return id + ":" + geo_location + ":" + tickName + ":" + imageUrl + ":" + num_of_ticks + ":" + timestamp +
+        return id + ":" + tickName + ":" + imageUrl + ":" + num_of_ticks + ":" + timestamp + geo_location + ":" +
                 ":" + created_at +
                 ":" + updated_at +
-                ":" + tick_image +
                 ":" + user_id +
                 ":" + activity_id +
                 ":" + locationObj;

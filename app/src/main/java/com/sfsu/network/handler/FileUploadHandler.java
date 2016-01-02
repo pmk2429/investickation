@@ -1,5 +1,7 @@
 package com.sfsu.network.handler;
 
+import android.util.Log;
+
 import com.sfsu.entities.Observation;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.FileUploadEvent;
@@ -30,20 +32,23 @@ public class FileUploadHandler extends ApiRequestHandler {
     }
 
     @Subscribe
-    public void onInitializeObservationEvent(FileUploadEvent.OnLoadingInitialized onLoadingInitialized) {
+    public void onInitializeFileUploadEvent(FileUploadEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Observation> imageUploadCall = null;
+        Log.i(TAG, "3) reached desired point");
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
             case UPLOAD_TICK_IMAGE:
-                imageUploadCall = mApiService.upload(onLoadingInitialized.getRequest());
+                imageUploadCall = mApiService.upload(onLoadingInitialized.observationId, onLoadingInitialized.getRequest());
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override
                     public void onResponse(Response<Observation> response) {
                         if (response.isSuccess()) {
+                            Log.i(TAG, "4a) Response success");
                             mBus.post(new FileUploadEvent.OnLoaded(response.body()));
                         } else {
+                            Log.i(TAG, "4b) response failure");
                             int statusCode = response.code();
                             ResponseBody errorBody = response.errorBody();
                             try {
@@ -57,6 +62,7 @@ public class FileUploadHandler extends ApiRequestHandler {
 
                     @Override
                     public void onFailure(Throwable t) {
+                        Log.i(TAG, "4c) FAILURE");
                         if (t != null && t.getMessage() != null) {
                             mBus.post(new FileUploadEvent.OnLoadingError(t.getMessage(), -1));
                         } else {

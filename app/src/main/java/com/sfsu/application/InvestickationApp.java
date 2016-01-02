@@ -5,6 +5,7 @@ import android.app.Application;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.handler.ActivityRequestHandler;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.network.handler.FileUploadHandler;
 import com.sfsu.network.handler.LocationRequestHandler;
 import com.sfsu.network.handler.ObservationRequestHandler;
 import com.sfsu.network.handler.TickRequestHandler;
@@ -13,7 +14,7 @@ import com.squareup.otto.Bus;
 
 /**
  * Contains all the application level components which are needed to be initialized during the run time of app
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class InvestickationApp extends Application {
@@ -28,6 +29,7 @@ public class InvestickationApp extends Application {
     private static ObservationRequestHandler mObservationRequestHandler;
     private static LocationRequestHandler mLocationRequestHandler;
     private static TickRequestHandler mTickRequestHandler;
+    private static FileUploadHandler mFileUploadHandler;
 
     // single creation of Event Bus.
     private Bus mBus = BusProvider.bus();
@@ -69,5 +71,8 @@ public class InvestickationApp extends Application {
 
         mTickRequestHandler = new TickRequestHandler(mBus);
         mBus.register(mTickRequestHandler);
+
+        mFileUploadHandler = new FileUploadHandler(mBus);
+        mBus.register(mFileUploadHandler);
     }
 }

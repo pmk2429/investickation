@@ -14,6 +14,7 @@ import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Observation} related operations to the REST API endpoint.
@@ -85,6 +86,6 @@ public interface ObservationApiService {
      */
     @Multipart
     @POST("observations/upload_tick_pic")
-    Call<Observation> upload(@Part("myfile\"; filename=\"image.png\" ") RequestBody file);
+    Call<Observation> upload(@Query("id") String observationId, @Part("file\"; filename=\"tick.jpg\" ") RequestBody file);
 
 }

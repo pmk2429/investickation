@@ -44,6 +44,7 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
@@ -206,7 +207,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     Log.i(TAG, newObservationObj.toString());
                     Log.i(TAG, selectedImagePath);
 
-                    //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 }
             }
         });
@@ -539,6 +540,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
         Observation observationResponse = onLoaded.getResponse();
 
+        Log.i(TAG, "1) observation posted successfully");
+
         File file = new File(selectedImagePath);
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
@@ -546,11 +549,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         // get RequestBody from the User captured tick image using ImageController;
         //RequestBody requestBody = mImageController.getImageRequestBody();
 
-//        // once done, post the File to the Bus for posting it on server.
-//        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(requestBody, observationResponse.getId(),
-//                ApiRequestHandler.UPLOAD_TICK_IMAGE));
+        Log.i(TAG, "2) " + observationResponse.getId());
 
-
+        // once done, post the File to the Bus for posting it on server.
+        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(requestBody, observationResponse.getId(),
+                ApiRequestHandler.UPLOAD_TICK_IMAGE));
     }
 
     /**
@@ -560,6 +563,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     @Subscribe
     public void onObservationDataPostFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Log.i(TAG, "E: observation failure");
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
@@ -572,7 +576,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     @Subscribe
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
-
+        Log.i(TAG, "5) image uploaded successfully");
         // pass the Observation response object to the ObservationActivity.
         mInterface.postObservationData(onLoaded.getResponse());
     }
@@ -580,6 +584,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Subscribe
     public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
+        Log.i(TAG, "5a) image upload failure");
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
