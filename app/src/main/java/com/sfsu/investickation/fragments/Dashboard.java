@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -13,13 +12,20 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.sfsu.controllers.GoogleMapController;
+import com.sfsu.adapters.RecentActivitiesAdapter;
+import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
+import com.squareup.otto.Subscribe;
+
+import java.util.List;
 
 /**
  * The dashboard of the application. Displays total number of {@link com.sfsu.entities.Activities} and {@link com.sfsu.entities
@@ -31,14 +37,14 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private IDashboardCallback mListener;
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
-    private MapView mapView;
-    private GoogleMap googleMap;
     private DrawerLayout mDrawerLayout;
     private Toolbar toolbarMain;
     private int mCurrentSelectedPosition;
     private NavigationView mNavigationView;
     private Context mContext;
-    private GoogleMapController mGoogleMapController;
+    private List<Activities> mActivitiesList;
+    private RecentActivitiesAdapter mActivitiesAdapter;
+    private ListView mListViewActivities;
 
     public Dashboard() {
         // Required empty public constructor
@@ -48,6 +54,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: make a network call and get Activity as well as Observation count
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
 
     }
 
@@ -55,6 +62,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        mListViewActivities = (ListView) v.findViewById(R.id.listView_dashboard_recentActivities);
 
         // set the button in Dashboard to the corresponding action
         btn_action = (CardView) v.findViewById(R.id.btn_activity_start);
@@ -64,8 +73,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         btn_action = (CardView) v.findViewById(R.id.btn_observation_post);
         btn_action.setOnClickListener(this);
 
-        mGoogleMapController = new GoogleMapController(mContext, this);
-
         // when the use clicks the entire relativeLayout, redirect to the appropriate call action
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_dashboard_observationCount);
         relativeLayoutDashboard.setOnClickListener(this);
@@ -73,28 +80,51 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_dashboard_activityCount);
         relativeLayoutDashboard.setOnClickListener(this);
 
-        // Gets the MapView from the XML layout and creates it
-        mapView = (MapView) v.findViewById(R.id.mapView_activityDashboard);
-
-        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
-        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
-        mapView.onCreate(mapViewSavedInstanceState);
-
-        // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-
-        // setup the Google Maps in MapView.
-        mGoogleMapController.setupGoogleMap(mapView);
-
         return v;
     }
 
+
+    /**
+     * Subscribes to the event of successful loading of Activities. Initializes Adapter and sets the data to Adapter.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onActivitiesLoadSuccess(ActivityEvent.OnLoaded onLoaded) {
+        mActivitiesList = onLoaded.getResponseList();
+
+        mActivitiesAdapter = new RecentActivitiesAdapter(mContext, mActivitiesList);
+
+        mListViewActivities.setAdapter(mActivitiesAdapter);
+        mActivitiesAdapter.setNotifyOnChange(true);
+        mActivitiesAdapter.notifyDataSetChanged();
+
+
+        // get the selected Activity and open ActivityDetails page.
+        mListViewActivities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Activities mActivity = (Activities) mListViewActivities.getItemAtPosition(position);
+
+            }
+        });
+
+    }
+
+    /**
+     * Subscribes to event of failure in loading Activities.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onActivitiesLoadFailure(ActivityEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //This MUST be done before saving any of your own or your base class's variables
         final Bundle mapViewSaveState = new Bundle(outState);
-        mapView.onSaveInstanceState(mapViewSaveState);
-        outState.putBundle("mapViewSaveState", mapViewSaveState);
         super.onSaveInstanceState(outState);
     }
 
@@ -102,10 +132,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            default:
+
         }
         return super.onOptionsItemSelected(item);
 
@@ -113,7 +140,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
     @Override
     public void onResume() {
-        mapView.onResume();
         super.onResume();
         BusProvider.bus().register(this);
     }
@@ -127,14 +153,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
     }
 
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -192,6 +212,13 @@ public class Dashboard extends Fragment implements View.OnClickListener {
          * Callback method when the <tt>'VIEW OBSERVATIONS'</tt> button is clicked in {@link Dashboard}.
          */
         public void onViewObservationsClicked();
+
+        /**
+         * Callback method when the user clicks item in Activities ListView in {@link Dashboard}.
+         *
+         * @param mActivity
+         */
+        public void onActivityItemClicked(Activities mActivity);
     }
 
 }

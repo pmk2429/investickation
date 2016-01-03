@@ -105,6 +105,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- Activity Details-->
     <string name="activityDetails">Your activity Details</string>
 
+    <!-- Dashboard : Activity List Item-->
+    <string name="actListItem_name">Hiking @ Golden Gate Presidio</string>
+    <string name="actListItem_date">Jan 1st 2016</string>
+    <string name="actListItem_click">Click for details</string>
+
     <!-- Call to action controls-->
     <string name="button_startActivity">Start Activity</string>
     <string name="button_register">Register</string>
@@ -158,7 +163,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="dash_myActivities">MY\nACTIVITIES</string>
     <string name="dash_myObservations">MY\nOBSERVATIONS</string>
     <string name="dash_tapForDetails">tap here for details</string>
-    <string name="dash_recentActivity">Your recent Activity</string>
+    <string name="dash_recentActivity">Your most recent Activities</string>
 
 
     <!-- ActivityNew-->

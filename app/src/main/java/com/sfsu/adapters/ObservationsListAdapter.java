@@ -50,7 +50,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
             Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
             holder.txtView_observationName.setText(mObservation.getTickName());
             holder.txtView_location.setText(mObservation.getGeoLocation());
-            String dateAndTime = AppUtils.getCurrentDateAndTime(mObservation.getTimestamp());
+            String dateAndTime = AppUtils.getDateAndTime(mObservation.getTimestamp());
             holder.txtView_timestamp.setText(dateAndTime);
         }
     }

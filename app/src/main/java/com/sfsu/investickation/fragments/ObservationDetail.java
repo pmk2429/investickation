@@ -105,7 +105,7 @@ public class ObservationDetail extends Fragment {
         textView_description.setText("Found while hiking near Golden gate park");
         textView_foundNear.setText(mObservation.getGeoLocation());
         textView_location.setText("35.755815, -121.859291");
-        textView_timestamp.setText(AppUtils.getCurrentDateAndTime(mObservation.getTimestamp()));
+        textView_timestamp.setText(AppUtils.getDateAndTime(mObservation.getTimestamp()));
         return rootView;
     }
 

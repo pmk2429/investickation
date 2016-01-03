@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView_actListItem"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_dimen_X_large"
+        android:layout_marginBottom="@dimen/view_dimen_small"
+        android:layout_marginLeft="@dimen/view_dimen_small"
+        android:layout_marginRight="@dimen/view_dimen_small"
+        android:layout_marginTop="@dimen/cardMarginVertical"
+        android:padding="@dimen/view_dimen_large"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_actListItem_actName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/actListItem_name"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/font_large"
+                />
+
+            <TextView
+                android:id="@+id/textView_actListItem_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/textView_actListItem_actName"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/actListItem_date"
+                android:textColor="@color/colorSecondary"
+                android:textSize="@dimen/font_X1_small"
+                />
+
+            <TextView
+                android:id="@+id/textViewStatic_actListItem_click"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/textView_actListItem_date"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:text="@string/actListItem_click"
+                android:textColor="@color/colorSecondary"
+                android:textSize="@dimen/font_X1_small"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</FrameLayout>

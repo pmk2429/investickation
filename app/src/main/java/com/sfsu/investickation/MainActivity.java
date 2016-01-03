@@ -6,11 +6,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 
+import com.sfsu.entities.Activities;
 import com.sfsu.investickation.fragments.Dashboard;
 
 
 public class MainActivity extends MainBaseActivity implements Dashboard.IDashboardCallback {
 
+    public static final String KEY_ACTIVITY_DETAIL = "view_selected_activity";
     public static final String KEY_ADD_ACTIVITY = "add_new_activity_from_dashboard";
     public static final String KEY_ADD_OBSERVATION = "add_new_observation_from_dashboard";
     public static final String KEY_VIEW_ACTIVITY_LIST = "view_activityList_from_dashboard";
@@ -96,6 +98,15 @@ public class MainActivity extends MainBaseActivity implements Dashboard.IDashboa
         Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
         observationIntent.putExtra(KEY_VIEW_OBSERVATION_LIST, 2);
         startActivity(observationIntent);
+        finish();
+    }
+
+    @Override
+    public void onActivityItemClicked(Activities mActivity) {
+        Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
+        activityIntent.putExtra(KEY_ACTIVITY_DETAIL, 1);
+        activityIntent.putExtra(KEY_ACTIVITY_DETAIL, mActivity);
+        startActivity(activityIntent);
         finish();
     }
 }
