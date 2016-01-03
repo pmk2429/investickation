@@ -8,6 +8,7 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +36,6 @@ public class RetrofitApiClient {
 //    };
     // main client
     protected static OkHttpClient httpClient = new OkHttpClient();
-
 
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
 
@@ -68,6 +68,9 @@ public class RetrofitApiClient {
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
 
         if (authToken != null) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
             httpClient.interceptors().clear();
             httpClient.interceptors().add(new Interceptor() {
                 @Override
@@ -83,6 +86,7 @@ public class RetrofitApiClient {
                     return chain.proceed(request);
                 }
             });
+            httpClient.interceptors().add(loggingInterceptor);
         }
 
         // build the Retrofit instance with the Token Authorization OkHttpClient.

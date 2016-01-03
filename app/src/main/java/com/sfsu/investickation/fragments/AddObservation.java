@@ -317,7 +317,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 try {
                     int imageHeight = imageView_tickAddObservation.getHeight();
                     int imageWidth = imageView_tickAddObservation.getWidth();
-
                     // set the selectedImagePath
                     selectedImagePath = imageFile.getAbsolutePath();
 
@@ -365,8 +364,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             if (data != null) {
                 // get the data from the Intent
                 Uri selectedImage = data.getData();
-
-
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 // get the cursor to the selectedImage
                 Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -375,15 +372,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 // get the path to the selectedImage using cursor's methods
                 selectedImagePath = c.getString(columnIndex);
-
                 c.close();
 
-                try {
-                    //bitmap = BitmapFactory.decodeFile(selectedImagePath);
-                    //bitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, false);
-                } catch (Exception e) {
-                    Log.d("---Exception", e.getMessage());
-                }
                 // set the bitmap in ImageView
                 imageView_tickAddObservation.setImageBitmap(getScaledBitmap(selectedImagePath, 600, 600));
             } else {

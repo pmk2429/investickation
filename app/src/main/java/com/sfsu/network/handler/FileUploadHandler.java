@@ -54,14 +54,6 @@ public class FileUploadHandler extends ApiRequestHandler {
 
                 requestBodyMap.put(fileName, onLoadingInitialized.getRequest().getRequestBody());
                 imageUploadCall = mApiService.upload(requestBodyMap);
-                try {
-                    Log.i(TAG, onLoadingInitialized.observationId);
-                    Log.i(TAG, fileName);
-                    Log.i(TAG, onLoadingInitialized.getRequest().getRequestBody().contentLength() + "");
-                    Log.i(TAG, onLoadingInitialized.getRequest().getRequestBody().contentType() + "");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override

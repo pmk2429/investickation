@@ -37,6 +37,9 @@ public class ImageController {
         return null;
     }
 
+    public String getImageName() {
+        return "";
+    }
 
     public RequestBody getImageRequestBody() {
         return null;

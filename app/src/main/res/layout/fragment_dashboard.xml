@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/lightText"
-                tools:context="com.sfsu.investickation.fragments.Dashboard">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/lightText"
+              tools:context="com.sfsu.investickation.fragments.Dashboard">
 
     <!--<android.support.design.widget.AppBarLayout-->
     <!--android:id="@+id/appbar"-->
@@ -102,7 +102,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -323,7 +323,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout_mapViewHolder"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_large"
+                android:layout_height="@dimen/cardview_default"
                 android:layout_below="@id/textViewStatic_dashboard_recentActivities"
                 android:orientation="vertical">
 
@@ -347,4 +347,4 @@
 
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>
