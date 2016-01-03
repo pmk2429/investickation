@@ -34,9 +34,6 @@ public class RecentActivitiesAdapter extends ArrayAdapter<Activities> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_activities, parent, false);
         }
-//        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        rowView = inflater.inflate(R.layout.list_item_activities, parent, false);
-
         TextView textView_activityName = (TextView) convertView.findViewById(R.id.textView_actListItem_actName);
         TextView textView_activityDate = (TextView) convertView.findViewById(R.id.textView_actListItem_date);
 

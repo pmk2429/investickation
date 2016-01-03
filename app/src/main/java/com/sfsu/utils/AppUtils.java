@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * <p>
@@ -76,14 +75,15 @@ public class AppUtils {
     }
 
     /**
-     * Helper method to get the date and time from timestamp
+     * Helper method to get the date and time from timestamp. Converts the Timestamp in Milliseconds to Date and Time and then
+     * formats the Date object with {@link Format} and returns the String of Date and Time.
      *
      * @return
      */
     public static String getDateAndTime(long timestamp) {
         Date date = new Date(timestamp);
-        Format format = new SimpleDateFormat("MM-dd-yy HH:mm:ss", Locale.ENGLISH);
-        String dateTime = format.format(date);
+        Format dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
+        String dateTime = dateFormat.format(date);
         return dateTime;
     }
 
