@@ -1,11 +1,11 @@
 package com.sfsu.network.events;
 
+import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
-import com.squareup.okhttp.RequestBody;
 
 /**
  * Event handler for uploading Tick related Observation Images to the server.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class FileUploadEvent extends BaseNetworkEvent {
@@ -14,7 +14,7 @@ public class FileUploadEvent extends BaseNetworkEvent {
     /**
      * Event Handler When the Loading for the FileUpload Events is initialized and Request is initiated.
      */
-    public static class OnLoadingInitialized extends OnStart<RequestBody, String> {
+    public static class OnLoadingInitialized extends OnStart<ImageData, String> {
 
         public int apiRequestMethod;
         public String observationId;
@@ -25,8 +25,8 @@ public class FileUploadEvent extends BaseNetworkEvent {
          * @param observation
          * @param apiRequestMethod
          */
-        public OnLoadingInitialized(RequestBody tickRequestBody, String observationId, int apiRequestMethod) {
-            super(tickRequestBody, "");
+        public OnLoadingInitialized(ImageData mImageData, String observationId, int apiRequestMethod) {
+            super(mImageData, "");
             this.apiRequestMethod = apiRequestMethod;
             this.observationId = observationId;
         }

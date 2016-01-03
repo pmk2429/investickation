@@ -36,6 +36,7 @@ public class RetrofitApiClient {
     // main client
     protected static OkHttpClient httpClient = new OkHttpClient();
 
+
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
 
     // Retrofit

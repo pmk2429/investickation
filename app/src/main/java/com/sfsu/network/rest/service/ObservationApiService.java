@@ -6,15 +6,15 @@ import com.sfsu.entities.Observation;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
-import retrofit.http.Part;
+import retrofit.http.PartMap;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Observation} related operations to the REST API endpoint.
@@ -86,6 +86,6 @@ public interface ObservationApiService {
      */
     @Multipart
     @POST("observations/upload_tick_pic")
-    Call<Observation> upload(@Query("id") String observationId, @Part("file\"; filename=\"tick.jpg\" ") RequestBody file);
+    Call<Observation> upload(@PartMap Map<String, RequestBody> params);
 
 }

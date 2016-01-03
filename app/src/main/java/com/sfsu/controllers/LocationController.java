@@ -57,7 +57,6 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             // build GoogleApiClient
             buildGoogleApiClient();
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -75,7 +74,6 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             // build GoogleApiClient
             buildGoogleApiClient();
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -142,7 +140,6 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             mInterface.setCurrentLocation(location);
             setLocationArea(currentLatitude, currentLongitude);
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
         }
     }
 

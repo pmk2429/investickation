@@ -134,7 +134,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         // if user clicked the Add Button, replace with AddObservation Fragment
         ActivityNew addActivityFragment = new ActivityNew();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_fragment_container, addActivityFragment);
+        transaction.add(R.id.activity_fragment_container, addActivityFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -144,7 +144,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         // passes the Newly created object to the ActivityRunning fragment.
         ActivityRunning mActivityRunning = ActivityRunning.newInstance(KEY_RUNNING_ACTIVITY, mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_fragment_container, mActivityRunning);
+        transaction.add(R.id.activity_fragment_container, mActivityRunning);
         transaction.addToBackStack(null);
         transaction.commit();
     }

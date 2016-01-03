@@ -7,11 +7,15 @@ import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ObservationApiService;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -39,7 +43,25 @@ public class FileUploadHandler extends ApiRequestHandler {
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
             case UPLOAD_TICK_IMAGE:
-                imageUploadCall = mApiService.upload(onLoadingInitialized.observationId, onLoadingInitialized.getRequest());
+
+                // build a map of RequestBody.
+
+                Map<String, RequestBody> requestBodyMap = new HashMap<>();
+                RequestBody id = RequestBody.create(MediaType.parse("text/plain"), onLoadingInitialized.observationId);
+                requestBodyMap.put("id", id);
+
+                String fileName = "file\"; filename=\"" + onLoadingInitialized.getRequest().getImage_name();
+
+                requestBodyMap.put(fileName, onLoadingInitialized.getRequest().getRequestBody());
+                imageUploadCall = mApiService.upload(requestBodyMap);
+                try {
+                    Log.i(TAG, onLoadingInitialized.observationId);
+                    Log.i(TAG, fileName);
+                    Log.i(TAG, onLoadingInitialized.getRequest().getRequestBody().contentLength() + "");
+                    Log.i(TAG, onLoadingInitialized.getRequest().getRequestBody().contentType() + "");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override
@@ -64,8 +86,10 @@ public class FileUploadHandler extends ApiRequestHandler {
                     public void onFailure(Throwable t) {
                         Log.i(TAG, "4c) FAILURE");
                         if (t != null && t.getMessage() != null) {
+                            Log.i(TAG, "4ci) message not null");
                             mBus.post(new FileUploadEvent.OnLoadingError(t.getMessage(), -1));
                         } else {
+                            Log.i(TAG, "4cii) message null");
                             mBus.post(FileUploadEvent.FAILED);
                         }
                     }

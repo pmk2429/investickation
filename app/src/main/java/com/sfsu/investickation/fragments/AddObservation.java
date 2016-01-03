@@ -35,6 +35,7 @@ import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.ImageController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.EntityLocation;
+import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
 import com.sfsu.helper.TickHelper;
@@ -84,7 +85,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private Context mContext;
     private Intent locationIntent;
 
-    private String activityId, requestToken, userId;
+    private String activityId, requestToken, userId, image_name;
     private Bundle args;
     private LocationController mLocationController;
     private EntityLocation entityLocation;
@@ -160,22 +161,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         mLocationController.connectGoogleApi();
 
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
-        et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
+        et_tickSpecies.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
 
-        /*
-        et_tickName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openChooseTickDialog(inflater);
-            }
-        });
-        et_tickSpecies.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openChooseTickDialog(inflater);
-            }
-        });*/
 
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
@@ -201,11 +189,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                     // set GeoLocation
                     newObservationObj.setGeoLocation(geoLocation);
-
-//                    dbController.save(newObservationObj);
-
-                    Log.i(TAG, newObservationObj.toString());
-                    Log.i(TAG, selectedImagePath);
 
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 }
@@ -315,8 +298,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         bitmap = null;
         selectedImagePath = null;
 
-        // TODO: write logic for making FileName and Directory.
-
         // if the Image was selected from the Camera
         if (resultCode == getActivity().RESULT_OK && requestCode == CAMERA_PICTURE) {
             if (null != data) {
@@ -372,7 +353,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     // Picasso.with(mContext).load(imageFile).centerCrop().into(imageView_tickAddObservation);
 
                     imageView_tickAddObservation.setImageBitmap(bitmap);
-                    //TODO: create BLOB or large Binary representation and send it on server.
 
                 } catch (Exception e) {
                     Log.d(TAG, e.getMessage());
@@ -385,6 +365,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             if (data != null) {
                 // get the data from the Intent
                 Uri selectedImage = data.getData();
+
+
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 // get the cursor to the selectedImage
                 Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null);
@@ -393,6 +375,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 // get the path to the selectedImage using cursor's methods
                 selectedImagePath = c.getString(columnIndex);
+
                 c.close();
 
                 try {
@@ -544,7 +527,13 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         File file = new File(selectedImagePath);
 
+        image_name = file.getName();
+
+        Log.i(TAG, image_name);
+
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        ImageData mImageData = new ImageData(requestBody, image_name, "");
 
         // get RequestBody from the User captured tick image using ImageController;
         //RequestBody requestBody = mImageController.getImageRequestBody();
@@ -552,7 +541,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         Log.i(TAG, "2) " + observationResponse.getId());
 
         // once done, post the File to the Bus for posting it on server.
-        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(requestBody, observationResponse.getId(),
+        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));
     }
 
@@ -585,7 +574,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Subscribe
     public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
         Log.i(TAG, "5a) image upload failure");
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
     /**

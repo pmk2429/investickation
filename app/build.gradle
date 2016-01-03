@@ -42,4 +42,5 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'de.greenrobot:greendao:2.0.0'
+    compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
 }
