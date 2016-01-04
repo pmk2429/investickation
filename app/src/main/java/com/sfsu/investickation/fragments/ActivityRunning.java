@@ -147,7 +147,7 @@ public class ActivityRunning extends Fragment {
             args = getArguments();
         }
         gson = new Gson();
-        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ONGOING_ACTIVITY, Context.MODE_PRIVATE);
+        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
     }
 
 
@@ -236,7 +236,7 @@ public class ActivityRunning extends Fragment {
                 ongoingActivityObj.setState(Activities.STATE.CREATED);
 
                 // delete the SharedPref data
-                activityPref.edit().remove(UserActivityMasterActivity.PREF_ONGOING_ACTIVITY).apply();
+                activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
 
                 // pass on the Activities object to the List of activities.
                 mListener.onActivityStopButtonClicked();
