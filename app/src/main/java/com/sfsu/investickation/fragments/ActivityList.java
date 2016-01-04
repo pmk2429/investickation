@@ -38,7 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Shows list of Activities created by User. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
+ * Displays list of {@link Activities} created by User. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
  * user's choice.
  */
 public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
@@ -52,10 +52,10 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     RelativeLayout mRelativeLayout;
     @Bind(R.id.textViewStatic_actList_listInfo)
     TextView txtView_activityListInfo;
-
+    int count = 0;
     private IActivityCallBacks mInterface;
     private Context mContext;
-    private List<Activities> serverActivitiesList;
+    private List<Activities> responseActivitiesList, mActivitiesList;
     private ActivitiesListAdapter mActivitiesListAdapter;
 
     public ActivityList() {
@@ -67,6 +67,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_list);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setHasOptionsMenu(true);
         // initialize the Bus to get list of Activities from server.
         // must be cached for frequent accesses.
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
@@ -102,12 +103,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     /**
      * Subscribes to event of success in loading list of {@link Activities} from Server.
      *
@@ -115,11 +110,13 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     @Subscribe
     public void onActivitiesLoadedSuccess(ActivityEvent.OnLoaded onLoaded) {
-        serverActivitiesList = onLoaded.getResponseList();
+        Log.i(TAG, " on Activities Load Success called");
+        responseActivitiesList = onLoaded.getResponseList();
+        mActivitiesList = responseActivitiesList;
 
-        if (serverActivitiesList.size() > 0 && serverActivitiesList != null) {
+        if (mActivitiesList.size() > 0) {
             displayActivitiesList();
-        } else if (serverActivitiesList.size() == 0) {
+        } else if (mActivitiesList.size() == 0) {
             // display text message
             txtView_activityListInfo.setVisibility(View.VISIBLE);
             recyclerView_activity.setVisibility(View.GONE);
@@ -139,13 +136,13 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
-
     /**
      * Helper method to display list of activities in RecyclerView.
      */
     private void displayActivitiesList() {
+        Log.i(TAG, " display activities called");
         // set the List of Activities to Adapter.
-        mActivitiesListAdapter = new ActivitiesListAdapter(serverActivitiesList);
+        mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList);
         recyclerView_activity.setAdapter(mActivitiesListAdapter);
 
         // touch listener when the user clicks on the Activity in the List.
@@ -154,7 +151,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
                     @Override
                     public void onItemClick(View view, int position) {
                         // call the interface callback to listen to the item click event
-                        mInterface.onActivitiesListItemClickListener(serverActivitiesList.get(position));
+                        mInterface.onActivitiesListItemClickListener(mActivitiesList.get(position));
                     }
 
                     @Override
@@ -184,25 +181,20 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_activity_list, menu);
-
         final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
         } else {
             Log.i(TAG, "search is null");
         }
+//        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        final List<Activities> filteredActivitiesList = filter(serverActivitiesList, query);
-        mActivitiesListAdapter.animateTo(filteredActivitiesList);
-        recyclerView_activity.scrollToPosition(0);
-        return true;
+        return false;
     }
 
     /**
@@ -212,11 +204,12 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      * @param query
      * @return
      */
-    private List<Activities> filter(List<Activities> serverActivitiesList, String query) {
+    private List<Activities> filter(List<Activities> activitiesList, String query) {
         query = query.toLowerCase();
+
         final List<Activities> filteredActivitiesList = new ArrayList<>();
-        for (Activities activity : serverActivitiesList) {
-            // perform the search on TickName since it will be visible to user.
+        for (Activities activity : activitiesList) {
+            // perform the search on Activity name
             final String text = activity.getActivityName().toLowerCase();
             if (text.contains(query)) {
                 filteredActivitiesList.add(activity);
@@ -226,8 +219,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
+    public boolean onQueryTextChange(String query) {
+        final List<Activities> filteredActivitiesList = filter(mActivitiesList, query);
+        mActivitiesListAdapter.animateTo(filteredActivitiesList);
+        recyclerView_activity.scrollToPosition(0);
+        return true;
     }
 
     @Override

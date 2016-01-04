@@ -63,10 +63,10 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     TextView txtView_observationList_info;
     @Bind(R.id.fab_observation_add)
     FloatingActionButton addProject;
-    
+
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
-    private List<Observation> observationList, remoteObservationList, localObservationList;
+    private List<Observation> mObservationList, responseObservationList, localObservationList;
     private Observation newObservationObject;
     private Bundle args;
     private ObservationsListAdapter mObservationsListAdapter;
@@ -97,6 +97,8 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_observation_list);
+
+        setHasOptionsMenu(true);
 
         dbController = new DatabaseDataController(mContext, new ObservationsDao());
         // get the ActivityId from the Bundle.
@@ -142,10 +144,10 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
 //        localObservationList = (List<Observation>) dbController.getAll();
 
 
-        //observationList = new ArrayList<>(remoteObservationList);
-        //observationList.addAll(localObservationList);
+        //mObservationList = new ArrayList<>(responseObservationList);
+        //mObservationList.addAll(localObservationList);
 
-        //observationList.add(newObservationObject)
+        //mObservationList.add(newObservationObject)
 //        displayObservationList();
 
         addProject.setOnClickListener(new View.OnClickListener() {
@@ -188,16 +190,79 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     }
 
 
+    /**
+     * Subscribes to the event of success in loading of all the {@link Observation} from server.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationsLoadSuccess(ObservationEvent.OnLoaded onLoaded) {
+        responseObservationList = onLoaded.getResponseList();
+
+        mObservationList = responseObservationList;
+
+        if (mObservationList.size() > 0 && mObservationList != null) {
+            displayObservationList();
+        } else if (mObservationList.size() == 0) {
+            txtView_observationList_info.setVisibility(View.VISIBLE);
+            recyclerView_observations.setVisibility(View.GONE);
+            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+        } else {
+
+        }
+    }
+
+    /**
+     * Subscribes to the failure event of getting all {@link Observation} from server.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Helper method to display list of Observations in RecyclerView.
+     */
+    private void displayObservationList() {
+        //pass the mObservationList to the Adapter
+        mObservationsListAdapter = new ObservationsListAdapter(mObservationList, mContext);
+        recyclerView_observations.setAdapter(mObservationsListAdapter);
+
+        // implement touch event for the item click in RecyclerView
+        recyclerView_observations.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_observations, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
+                mInterface.onObservationListItemClickListener(mObservationList.get(position));
+            }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+
+            }
+        }));
+    }
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_observation_list, menu);
-
         final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+        } else {
+            Log.i(TAG, "search is null");
+        }
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     /*
@@ -205,17 +270,11 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     name of each element present in the list.
      */
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        final List<Observation> filteredModelList = filter(observationList, query);
+    public boolean onQueryTextChange(String query) {
+        final List<Observation> filteredModelList = filter(mObservationList, query);
         mObservationsListAdapter.animateTo(filteredModelList);
         recyclerView_observations.scrollToPosition(0);
         return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        // don't matter
-        return false;
     }
 
     /**
@@ -239,59 +298,6 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
         return filteredObservationList;
     }
 
-
-    /**
-     * Subscribes to the event of success in loading of all the {@link Observation} from server.
-     *
-     * @param onLoaded
-     */
-    @Subscribe
-    public void onObservationsLoadSuccess(ObservationEvent.OnLoaded onLoaded) {
-        remoteObservationList = onLoaded.getResponseList();
-
-        if (remoteObservationList.size() > 0 && remoteObservationList != null) {
-            displayObservationList();
-        } else if (remoteObservationList.size() == 0) {
-            txtView_observationList_info.setVisibility(View.VISIBLE);
-            recyclerView_observations.setVisibility(View.GONE);
-            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
-        } else {
-
-        }
-    }
-
-    /**
-     * Subscribes to the failure event of getting all {@link Observation} from server.
-     *
-     * @param onLoadingError
-     */
-    @Subscribe
-    public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
-    }
-
-    /**
-     * Helper method to display list of Observations in RecyclerView.
-     */
-    private void displayObservationList() {
-        //pass the observationList to the Adapter
-        mObservationsListAdapter = new ObservationsListAdapter(remoteObservationList, mContext);
-        recyclerView_observations.setAdapter(mObservationsListAdapter);
-
-        // implement touch event for the item click in RecyclerView
-        recyclerView_observations.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_observations, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
-                mInterface.onObservationListItemClickListener(remoteObservationList.get(position));
-            }
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-
-            }
-        }));
-    }
 
     /**
      * Callback Interface to handle onClick Listeners in {@link ObservationsList} Fragment.

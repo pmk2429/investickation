@@ -2,6 +2,7 @@ package com.sfsu.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,20 +30,14 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     private List<Activities> activityList;
 
     public ActivitiesListAdapter(List<Activities> activityList) {
-        this.activityList = activityList;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
+        this.activityList = new ArrayList<>(activityList);
     }
 
     // creates a ViewHolder
     @Override
     public ActivitiesListAdapter.ActivityViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_activities, null);
-        ActivityViewHolder activityViewHolder = new ActivityViewHolder(v);
-        return activityViewHolder;
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_item_activities, viewGroup, false);
+        return new ActivityViewHolder(itemView);
     }
 
     @Override
@@ -60,11 +56,6 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
         }
     }
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
     // returns the size of item data MUST return the size of the Data
     @Override
     public int getItemCount() {
@@ -79,6 +70,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
     private void applyAndAnimateRemovals(List<Activities> newActivities) {
+        Log.i("~!@#$Adptr", "removal called");
         for (int i = activityList.size() - 1; i >= 0; i--) {
             final Activities activity = activityList.get(i);
             if (!newActivities.contains(activity)) {
@@ -88,6 +80,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
     private void applyAndAnimateAdditions(List<Activities> newActivities) {
+        Log.i("~!@#$Adptr", "addition called");
         for (int i = 0, count = newActivities.size(); i < count; i++) {
             final Activities activity = newActivities.get(i);
             if (!activityList.contains(activity)) {
@@ -95,6 +88,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             }
         }
     }
+
 
     private void applyAndAnimateMovedItems(List<Activities> newActivities) {
         for (int toPosition = newActivities.size() - 1; toPosition >= 0; toPosition--) {
