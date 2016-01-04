@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.sfsu.adapters.TicksListAdapter;
 import com.sfsu.entities.Tick;
@@ -54,7 +55,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     private final String TAG = "~!@#$TickGuideList";
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
-    private List<Tick> tickList;
+    private List<Tick> mTickList, responseTickList;
     private Toolbar toolbarMain;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -216,18 +217,25 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_tick_list, menu);
-
         final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+        } else {
+            Log.i(TAG, "search is null");
+        }
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
 
-        final List<Tick> filteredModelList = filter(tickList, query);
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        final List<Tick> filteredModelList = filter(mTickList, query);
         ticksListAdapter.animateTo(filteredModelList);
         recyclerView_tickList.scrollToPosition(0);
         return true;
@@ -254,11 +262,6 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         return filteredTickList;
     }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        // don't matter
-        return false;
-    }
 
     @Override
     public void onPause() {
@@ -272,18 +275,30 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         BusProvider.bus().register(this);
     }
 
+    /**
+     * Subscribes to the event of successful loading of {@link Tick} from server.
+     *
+     * @param onLoaded
+     */
     @Subscribe
     public void onTicksLoadSuccess(TickEvent.OnLoaded onLoaded) {
         if (onLoaded.getResponseList() != null) {
-            tickList = onLoaded.getResponseList();
+            responseTickList = onLoaded.getResponseList();
+            mTickList = responseTickList;
+            // display the ticks in list
             displayTickList();
         } else {
         }
     }
 
+    /**
+     * Subscribes to the event of failure in loading of {@link Tick} from server.
+     *
+     * @param onLoaded
+     */
     @Subscribe
     public void onTicksLoadSuccess(TickEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, "failed to load ticks");
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -292,19 +307,19 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
      */
     private void displayTickList() {
 
-        ticksListAdapter = new TicksListAdapter(tickList, mContext);
+        ticksListAdapter = new TicksListAdapter(mTickList, mContext);
         recyclerView_tickList.setAdapter(ticksListAdapter);
 
         // set on click listener for the item click of recyclerView
         recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                mInterface.onTickListItemClickListener(tickList.get(position));
+                mInterface.onTickListItemClickListener(mTickList.get(position));
             }
 
             @Override
             public void onItemLongClick(View view, int position) {
-
+                
             }
         }));
     }
