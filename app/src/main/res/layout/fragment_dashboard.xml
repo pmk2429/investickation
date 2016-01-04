@@ -331,7 +331,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/cardview_X_small"
                     android:layout_marginBottom="@dimen/view_dimen_small"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingEnd="@dimen/view_dimen_small"
+                    android:paddingStart="@dimen/view_dimen_small">
 
                     <ListView
                         android:id="@+id/listView_dashboard_recentActivities"

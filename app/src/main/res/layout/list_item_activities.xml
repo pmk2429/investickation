@@ -8,8 +8,6 @@
         android:id="@+id/cardView_actListItem"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen_X_large"
-        android:layout_marginLeft="@dimen/view_dimen_small"
-        android:layout_marginRight="@dimen/view_dimen_small"
         android:layout_marginTop="@dimen/cardMarginVertical"
         android:padding="@dimen/view_dimen_large"
         app:cardCornerRadius="2dp"

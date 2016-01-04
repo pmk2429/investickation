@@ -276,12 +276,12 @@ public class Profile extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        BusProvider.bus().register(this);
+        BusProvider.bus().unregister(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        BusProvider.bus().unregister(this);
+        BusProvider.bus().register(this);
     }
 }
