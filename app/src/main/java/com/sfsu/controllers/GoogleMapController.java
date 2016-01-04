@@ -11,6 +11,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
@@ -23,7 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class GoogleMapController {
     private Context mContext;
-    private String LOGTAG = "~!@#$GMapCtrl :";
+    private String TAG = "~!@#$GMapCtrl :";
     private GoogleMap mGoogleMap;
 
     /**
@@ -33,8 +35,11 @@ public class GoogleMapController {
         @Override
         public void onMyLocationChange(Location location) {
             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-//                        mMarker = mMap.addMarker(new MarkerOptions().position(loc));
-            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                    .position(loc)
+                    .title("Right Now")
+                    .snippet("Population: 20,000"));
 
         }
     };
@@ -50,7 +55,7 @@ public class GoogleMapController {
             this.mContext = mContext;
             // build GoogleApiClient
         } catch (Exception e) {
-            Log.i(LOGTAG, e.getMessage());
+            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -65,7 +70,7 @@ public class GoogleMapController {
         try {
             this.mContext = mContext;
         } catch (Exception e) {
-            Log.i(LOGTAG, e.getMessage());
+            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -78,8 +83,17 @@ public class GoogleMapController {
             mGoogleMap = mapView.getMap();
             if (mGoogleMap != null) {
 
+                // enabled all the settings
                 mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+                mGoogleMap.getUiSettings().setCompassEnabled(true);
+
+                mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
+                mGoogleMap.getUiSettings().setScrollGesturesEnabled(true);
+                mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
+                mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
+
                 // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
                 try {
                     MapsInitializer.initialize(mContext);
@@ -93,7 +107,7 @@ public class GoogleMapController {
                 mGoogleMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
             } else {
-                Log.d(LOGTAG, "MapView is NULL");
+                Log.d(TAG, "MapView is NULL");
             }
         }
     }

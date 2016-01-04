@@ -39,6 +39,7 @@
     <dimen name="layout_bars">84dp</dimen>
 
     <!-- Dimensions for Font size : Application wide-->
+    <dimen name="font_X2_small">10sp</dimen>
     <dimen name="font_X1_small">12sp</dimen>
     <dimen name="font_X_small">14sp</dimen>
     <dimen name="font_small">16sp</dimen>
