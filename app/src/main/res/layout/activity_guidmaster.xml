@@ -28,6 +28,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
+        app:theme="@style/NavigationViewStyle"
         app:menu="@menu/drawer_view_main"/>
 
 

@@ -111,6 +111,7 @@ public class MainBaseActivity extends AppCompatActivity {
 
                 case R.id.nav_tickMap:
                     intent = new Intent(this, TickGuideMasterActivity.class);
+                    intent.putExtra(TickGuideMasterActivity.KEY_TICK_MAP, 1);
                     startActivity(intent);
                     finish();
                     mCurrentSelectedPosition = 4;

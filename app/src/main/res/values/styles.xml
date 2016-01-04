@@ -53,4 +53,11 @@
         <item name="android:textSize">0sp</item>
     </style>
 
+    <style name="NavigationViewStyle">
+        <!-- menu item text size-->
+        <item name="android:textSize">@dimen/font_X_small</item>
+        <!-- menu item height-->
+        <item name="android:listPreferredItemHeightSmall">@dimen/view_dimen_X3_large</item>
+    </style>
+
 </resources>

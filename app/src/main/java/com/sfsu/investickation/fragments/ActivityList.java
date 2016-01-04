@@ -102,6 +102,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     /**
      * Subscribes to event of success in loading list of {@link Activities} from Server.
@@ -185,7 +190,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         final MenuItem item = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(this);
+        } else {
+            Log.i(TAG, "search is null");
+        }
     }
 
     @Override

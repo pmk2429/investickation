@@ -24,7 +24,6 @@
         app:viewpager_pagerTitleStrip="@layout/material_view_pager_pagertitlestrip_newstand"
         app:viewpager_parallaxHeaderFactor="1.5"
         app:viewpager_transparentToolbar="true"
-
         />
 
     <include layout="@layout/drawer"/>
