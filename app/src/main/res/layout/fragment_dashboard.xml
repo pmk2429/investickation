@@ -306,43 +306,43 @@
             </android.support.v7.widget.CardView>
 
 
-            <TextView
-                android:id="@+id/textViewStatic_dashboard_recentActivities"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/btn_observation_post"
                 android:layout_marginTop="@dimen/view_dimen_X_large"
-                android:background="@color/colorWhite"
-                android:gravity="center"
-                android:padding="@dimen/view_dimen_small"
-                android:text="@string/dash_recentActivity"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/font_medium"/>
-
-            <!-- MapView must be wrapped inside a Layout to display Maps.-->
-            <LinearLayout
-                android:id="@+id/linearLayout_mapViewHolder"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_default"
-                android:layout_below="@id/textViewStatic_dashboard_recentActivities"
+                android:background="@drawable/dashboard_linearrlayout_border"
                 android:orientation="vertical">
 
-                <!--<com.google.android.gms.maps.MapView-->
-                <!--android:id="@+id/mapView_activityDashboard"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:enabled="true"/>-->
-
-                <ListView
-                    android:id="@+id/listView_dashboard_recentActivities"
+                <TextView
+                    android:id="@+id/textViewStatic_dashboard_recentActivities"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:divider="@null"
-                    android:dividerHeight="0dp"/>
+                    android:layout_height="@dimen/widget_dimen"
+                    android:background="@color/colorSecondary"
+                    android:gravity="center"
+                    android:padding="@dimen/view_dimen_small"
+                    android:text="@string/dash_recentActivity"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_medium"/>
+
+                <!-- MapView must be wrapped inside a Layout to display Maps.-->
+                <LinearLayout
+                    android:id="@+id/linearLayout_mapViewHolder"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/cardview_X_small"
+                    android:layout_marginBottom="@dimen/view_dimen_small"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/listView_dashboard_recentActivities"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@null"
+                        android:dividerHeight="0dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
-
         </RelativeLayout>
 
     </ScrollView>
