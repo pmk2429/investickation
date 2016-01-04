@@ -12,9 +12,11 @@ import com.sfsu.network.handler.TickRequestHandler;
 import com.sfsu.network.handler.UserRequestHandler;
 import com.squareup.otto.Bus;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 /**
  * Contains all the application level components which are needed to be initialized during the run time of app
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class InvestickationApp extends Application {
@@ -74,5 +76,7 @@ public class InvestickationApp extends Application {
 
         mFileUploadHandler = new FileUploadHandler(mBus);
         mBus.register(mFileUploadHandler);
+
+        JodaTimeAndroid.init(this);
     }
 }

@@ -86,9 +86,11 @@ public class ActivityDetails extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
 
-        // if args not null, retrieve the Activities object.
-        if (args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS) != null) {
-            mActivity = args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS);
+        if (args != null) {
+            // if args not null, retrieve the Activities object.
+            if (args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS) != null) {
+                mActivity = args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS);
+            }
         }
 
         // once the object is collected, display it in the respective controls.

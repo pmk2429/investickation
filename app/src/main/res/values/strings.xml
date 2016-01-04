@@ -185,7 +185,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!-- Observation Details -->
     <string name="obsDet_geoLocation">Location: </string>
-    <string name="obsDet_activityName">Location: </string>
+    <string name="obsDet_activityName">Activity: </string>
     <string name="obsDet_foundNear">Found Near: </string>
     <string name="obsDet_details">Your Observation details </string>
 

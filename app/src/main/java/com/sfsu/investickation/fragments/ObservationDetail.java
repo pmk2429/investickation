@@ -4,6 +4,7 @@ package com.sfsu.investickation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
-import com.sfsu.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -30,11 +30,11 @@ public class ObservationDetail extends Fragment {
     @Bind(R.id.textView_obsDet_description)
     TextView textView_description;
 
-    @Bind(R.id.textView_obsDet_foundNear)
-    TextView textView_foundNear;
+    @Bind(R.id.textView_obsDet_geoLocation)
+    TextView textView_geoLocation;
 
-    @Bind(R.id.textView_obsDet_location)
-    TextView textView_location;
+    @Bind(R.id.textView_obsDet_latLng)
+    TextView textView_latLng;
 
     @Bind(R.id.textView_obsDet_tickName)
     TextView textView_tickName;
@@ -101,11 +101,16 @@ public class ObservationDetail extends Fragment {
         }
 
         Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_tickImage);
+        // set all the details
         textView_activityName.setText("Hiking");
         textView_description.setText("Found while hiking near Golden gate park");
-        textView_foundNear.setText(mObservation.getGeoLocation());
-        textView_location.setText("35.755815, -121.859291");
-        textView_timestamp.setText(AppUtils.getDateAndTime(mObservation.getTimestamp()));
+        textView_geoLocation.setText(mObservation.getGeoLocation());
+        textView_latLng.setText("35.755815, -121.859291");
+        long now = System.currentTimeMillis();
+        CharSequence charSequence = DateUtils.getRelativeTimeSpanString(mObservation.getTimestamp(), now, DateUtils
+                .DAY_IN_MILLIS);
+//        textView_timestamp.setText(AppUtils.getDateAndTime(mObservation.getTimestamp()));
+        textView_timestamp.setText(charSequence);
         return rootView;
     }
 

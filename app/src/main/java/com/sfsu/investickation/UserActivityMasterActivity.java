@@ -17,7 +17,7 @@ import com.sfsu.network.bus.BusProvider;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p/>
+ * <p>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
@@ -65,7 +65,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                     ActivityDetails mActivityDetails = new ActivityDetails();
                     performFragmentTransaction(mActivityDetails);
                 }
-                // if user opens Activity by clicking on the ListView item from Dashboard..
+                // if user opens Activity by clicking on the ListView item from Dashboard.
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {
                     Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
                     ActivityDetails mActivityDetails = ActivityDetails.newInstance(KEY_ACTIVITY_DETAILS, mActivities);
