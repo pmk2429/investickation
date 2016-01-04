@@ -135,6 +135,7 @@ public class ActivityDetails extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // depending on the args, populate view based on the Activity restored.
         if (args != null) {
             // if args not null, retrieve the Activities object.
             if (args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS) != null) {

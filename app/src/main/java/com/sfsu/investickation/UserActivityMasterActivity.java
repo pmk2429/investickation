@@ -132,12 +132,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     @Override
     public void onActivityAddListener() {
+        BusProvider.bus().unregister(ActivityList.class);
         // if user clicked the Add Button, replace with AddObservation Fragment
         ActivityNew addActivityFragment = new ActivityNew();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.activity_fragment_container, addActivityFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        performFragmentTransaction(addActivityFragment);
     }
 
     @Override

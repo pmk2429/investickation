@@ -14,7 +14,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import retrofit.Call;
@@ -46,13 +46,15 @@ public class FileUploadHandler extends ApiRequestHandler {
 
                 // build a map of RequestBody.
 
-                Map<String, RequestBody> requestBodyMap = new HashMap<>();
+                Map<String, RequestBody> requestBodyMap = new LinkedHashMap<>();
                 RequestBody id = RequestBody.create(MediaType.parse("text/plain"), onLoadingInitialized.observationId);
                 requestBodyMap.put("id", id);
 
                 String fileName = "file\"; filename=\"" + onLoadingInitialized.getRequest().getImage_name();
 
                 requestBodyMap.put(fileName, onLoadingInitialized.getRequest().getRequestBody());
+
+                // finally make a call to ApiService
                 imageUploadCall = mApiService.upload(requestBodyMap);
 
                 imageUploadCall.enqueue(new Callback<Observation>() {

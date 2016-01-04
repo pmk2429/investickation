@@ -85,6 +85,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_new);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        BusProvider.bus().unregister(ActivityList.class);
     }
 
 
@@ -307,7 +308,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public void onResume() {
         mapView.onResume();
         super.onResume();
-        BusProvider.bus().register(this);
     }
 
     @Override
@@ -322,10 +322,17 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         mapView.onLowMemory();
     }
 
+
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         BusProvider.bus().unregister(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        BusProvider.bus().register(this);
     }
 
     @Override
@@ -461,6 +468,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
+        Log.i(TAG, "Activity created success");
         Activities createdActivity = onLoaded.getResponse();
         mInterface.onPlayButtonClick(createdActivity);
     }

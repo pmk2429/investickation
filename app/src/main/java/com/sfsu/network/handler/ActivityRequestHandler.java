@@ -1,12 +1,13 @@
 package com.sfsu.network.handler;
 
+import android.util.Log;
+
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.Observation;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
-import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ActivityApiService;
 import com.squareup.okhttp.ResponseBody;
@@ -131,12 +132,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * @param listActivitiesCall
      */
     public void getAllActivitiesCalls(Call<List<Activities>> listActivitiesCall) {
-        // makes the Calls to network.
         listActivitiesCall.enqueue(new Callback<List<Activities>>() {
             @Override
             public void onResponse(Response<List<Activities>> response) {
                 if (response.isSuccess()) {
-                    mBus.post(new ActivityEvent.OnLoaded(response.body()));
+                    mBus.post(new ActivityEvent.OnListLoaded(response.body()));
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();

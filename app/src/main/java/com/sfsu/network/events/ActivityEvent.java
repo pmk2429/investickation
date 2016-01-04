@@ -68,13 +68,17 @@ public class ActivityEvent extends BaseNetworkEvent {
             super(entity);
         }
 
-        public OnLoaded(List<Activities> activitiesList) {
-            super(activitiesList);
-        }
 
         public OnLoaded(Integer count) {
             super(new Activities());
             this.count = count;
+        }
+
+    }
+
+    public static class OnListLoaded extends OnDone<Activities> {
+        public OnListLoaded(List<Activities> activitiesList) {
+            super(activitiesList);
         }
     }
 

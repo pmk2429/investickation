@@ -311,7 +311,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btn_observation_post"
                 android:layout_marginTop="@dimen/view_dimen_X_large"
-                android:background="@drawable/dashboard_linearrlayout_border"
                 android:orientation="vertical">
 
                 <TextView

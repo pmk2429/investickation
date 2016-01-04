@@ -31,19 +31,20 @@ public class Observation implements Parcelable, Entity {
     };
 
     private String id;
-    private String geo_location;
     @SerializedName("name")
     private String tickName;
     private String species;
     @SerializedName("tick_image")
     private String imageUrl;
+    private String geo_location;
     private int num_of_ticks;
     private long timestamp, created_at, updated_at;
     // references
     private String user_id;
     private String activity_id;
-    @SerializedName("location")
-    private EntityLocation locationObj;
+    private String tick_id;
+    //@SerializedName("location")
+    private transient EntityLocation locationObj;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -54,7 +55,7 @@ public class Observation implements Parcelable, Entity {
             locationObj, String activity_id, String user_id) {
         this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
-        this.locationObj = locationObj;
+//        this.locationObj = locationObj;
         this.tickName = tickName;
         this.species = species;
         this.activity_id = activity_id;

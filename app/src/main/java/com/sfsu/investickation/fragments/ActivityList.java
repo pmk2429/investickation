@@ -47,7 +47,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)
-    FloatingActionButton addProject;
+    FloatingActionButton addActivity;
     @Bind(R.id.relativeLayout_actList_main)
     RelativeLayout mRelativeLayout;
     @Bind(R.id.textViewStatic_actList_listInfo)
@@ -70,6 +70,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         setHasOptionsMenu(true);
         // initialize the Bus to get list of Activities from server.
         // must be cached for frequent accesses.
+        Log.i(TAG, "on create called");
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
@@ -92,14 +93,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             Log.d(TAG, " No layout manager supplied");
         }
 
-        // Add new Activity button.
-        addProject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mInterface.onActivityAddListener();
-            }
-        });
-
         return rootView;
     }
 
@@ -109,12 +102,14 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      * @param onLoaded
      */
     @Subscribe
-    public void onActivitiesLoadedSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Log.i(TAG, " on Activities Load Success called");
+    public void onActivitiesLoadedSuccess(ActivityEvent.OnListLoaded onLoaded) {
         responseActivitiesList = onLoaded.getResponseList();
+
         mActivitiesList = responseActivitiesList;
 
-        if (mActivitiesList.size() > 0) {
+        if (mActivitiesList.size() > 0 && mActivitiesList != null) {
+//            Log.i(TAG, responseActivitiesList.size() + "");
+            Log.i(TAG, mActivitiesList.size() + "");
             displayActivitiesList();
         } else if (mActivitiesList.size() == 0) {
             // display text message
@@ -124,6 +119,8 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         } else {
             Log.i(TAG, "activity list size < 0");
         }
+
+
     }
 
     /**
@@ -140,7 +137,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      * Helper method to display list of activities in RecyclerView.
      */
     private void displayActivitiesList() {
-        Log.i(TAG, " display activities called");
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList);
         recyclerView_activity.setAdapter(mActivitiesListAdapter);
@@ -159,6 +155,14 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
                     }
                 }));
+
+        // Add new Activity button.
+        addActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mInterface.onActivityAddListener();
+            }
+        });
     }
 
     @Override
@@ -226,15 +230,16 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         return true;
     }
 
+
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         BusProvider.bus().unregister(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         BusProvider.bus().register(this);
     }
 

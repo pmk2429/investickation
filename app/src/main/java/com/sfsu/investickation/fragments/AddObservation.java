@@ -521,7 +521,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         Log.i(TAG, image_name);
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
 
         ImageData mImageData = new ImageData(requestBody, image_name, "");
 

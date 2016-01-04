@@ -6,7 +6,7 @@ import java.util.List;
  * The base events class that provides Generic definition of events performed/ carried out/ controller/ occurred in the entire
  * Application. This class provides the base type of Events which contains all the base characteristics exhibited by all types
  * of implementing events.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class BaseNetworkEvent {
@@ -62,6 +62,25 @@ public class BaseNetworkEvent {
 
         public Rs getResponse() {
             return mResponse;
+        }
+
+        public List<Rs> getResponseList() {
+            return mResponseList;
+        }
+    }
+
+    /**
+     * Event which binds the response from the server and posts to the EventBus.
+     *
+     * @param <Rs>
+     */
+    protected static class OnDoneList<Rs> {
+
+        private List<Rs> mResponseList;
+
+
+        public OnDoneList(List<Rs> responseList) {
+            mResponseList = responseList;
         }
 
         public List<Rs> getResponseList() {
