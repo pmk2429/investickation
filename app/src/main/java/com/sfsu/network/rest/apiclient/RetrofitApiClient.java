@@ -58,14 +58,20 @@ public class RetrofitApiClient {
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
 
         if (authToken != null) {
-            httpClient.interceptors().add(new Interceptor() {
+
+            httpClient.interceptors().clear();
+
+            httpClient.networkInterceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Request request = chain.request();
+                    Request original = chain.request();
 
                     // Request customization: add request headers
-                    request = request.newBuilder()
-                            .header("Authorization", authToken).build();
+                    Request.Builder requestBuilder = original.newBuilder()
+                            .header("Authorization", authToken)
+                            .method(original.method(), original.body());
+
+                    Request request = requestBuilder.build();
 
                     return chain.proceed(request);
                 }
