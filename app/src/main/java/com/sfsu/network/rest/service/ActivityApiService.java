@@ -10,7 +10,6 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Activities} related operations to the REST API endpoint.
@@ -33,7 +32,7 @@ public interface ActivityApiService {
      * @return
      */
     @GET("accounts/{id}/activities")
-    public Call<List<Activities>> getAll(@Path("id") String user_id);
+    public Call<List<Activities>> getAll(@Path("id") String user_id);//, @Query("access_token") String accessToken);
 
 
     /**
@@ -41,8 +40,8 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("accounts/{id}/activities")
-    public Call<List<Activities>> getAll(@Path("id") String user_id, @Query("sort") String sortOrder);
+//    @GET("accounts/{id}/activities")
+//    public Call<List<Activities>> getAll(@Path("id") String user_id, @Query("sort") String sortOrder);
 
 
     /**

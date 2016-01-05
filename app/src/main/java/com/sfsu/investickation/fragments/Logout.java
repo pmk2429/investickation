@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.sfsu.application.InvestickationApp;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.session.SessionManager;
 
@@ -36,8 +37,8 @@ public class Logout extends Fragment {
         super.onCreate(savedInstanceState);
 
         // clear the AuthPreferences SharedPreferences
-        mAuthPreferences = new AuthPreferences(mContext);
-        mSessionManager = new SessionManager(mContext);
+        mAuthPreferences = new AuthPreferences(InvestickationApp.getInstance());
+        mSessionManager = new SessionManager(InvestickationApp.getInstance());
 
         boolean isLoggedOut = mAuthPreferences.clearCredentials();
         if (isLoggedOut) {

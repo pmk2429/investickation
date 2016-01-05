@@ -15,6 +15,7 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * <p>
@@ -85,7 +86,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         locationCall.enqueue(new Callback<EntityLocation>() {
             @Override
-            public void onResponse(Response<EntityLocation> response) {
+            public void onResponse(Response<EntityLocation> response, Retrofit retrofit) {
 
             }
 
@@ -105,7 +106,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listLocationCall.enqueue(new Callback<List<EntityLocation>>() {
             @Override
-            public void onResponse(Response<List<EntityLocation>> response) {
+            public void onResponse(Response<List<EntityLocation>> response, Retrofit retrofit) {
 
             }
 

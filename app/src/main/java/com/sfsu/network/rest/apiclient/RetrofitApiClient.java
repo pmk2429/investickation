@@ -24,16 +24,6 @@ import retrofit.Retrofit;
  */
 public class RetrofitApiClient {
 
-    //    // interceptor to cache the Response from server.
-//    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
-//        @Override
-//        public Response intercept(Interceptor.Chain chain) throws IOException {
-//            Response originalResponse = chain.proceed(chain.request());
-//            return originalResponse.newBuilder()
-//                    .header("Cache-Control", String.format("max-age=%d, only-if-cached, max-stale=%d", 120, 0))
-//                    .build();
-//        }
-//    };
     // main client
     protected static OkHttpClient httpClient = new OkHttpClient();
 
@@ -68,25 +58,18 @@ public class RetrofitApiClient {
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
 
         if (authToken != null) {
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-
-            httpClient.interceptors().clear();
             httpClient.interceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Request original = chain.request();
+                    Request request = chain.request();
 
                     // Request customization: add request headers
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", authToken)
-                            .method(original.method(), original.body());
+                    request = request.newBuilder()
+                            .header("Authorization", authToken).build();
 
-                    Request request = requestBuilder.build();
                     return chain.proceed(request);
                 }
             });
-            httpClient.interceptors().add(loggingInterceptor);
         }
 
         // build the Retrofit instance with the Token Authorization OkHttpClient.

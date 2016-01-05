@@ -21,6 +21,7 @@ import java.util.Map;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by Pavitra on 1/1/2016.
@@ -63,7 +64,7 @@ public class FileUploadHandler extends ApiRequestHandler {
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override
-                    public void onResponse(Response<Observation> response) {
+                    public void onResponse(Response<Observation> response, Retrofit retrofit) {
                         if (response.isSuccess()) {
                             Log.i(TAG, "4a) Response success");
                             mBus.post(new FileUploadEvent.OnLoaded(response.body()));

@@ -17,6 +17,7 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * <p>
@@ -89,7 +90,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         observationCall.enqueue(new Callback<Observation>() {
             @Override
-            public void onResponse(Response<Observation> response) {
+            public void onResponse(Response<Observation> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {
@@ -124,7 +125,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listObservationCall.enqueue(new Callback<List<Observation>>() {
             @Override
-            public void onResponse(Response<List<Observation>> response) {
+            public void onResponse(Response<List<Observation>> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {

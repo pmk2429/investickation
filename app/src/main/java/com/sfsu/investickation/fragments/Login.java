@@ -119,7 +119,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
     @Override
     public void onClick(View v) {
-
         final String email = et_email.getText().toString().trim();
         final String password = et_password.getText().toString().trim();
 
