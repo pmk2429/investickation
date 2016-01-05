@@ -3,7 +3,7 @@ package com.sfsu.session;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Login Response when the User successfully logs in the system. Holds reference to userId of the User and the Access Token to
+ * Login Response when the Account successfully logs in the system. Holds reference to userId of the Account and the Access Token to
  * make successive calls to the server.
  * <p/>
  * Created by Pavitra on 12/7/2015.

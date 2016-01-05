@@ -1,5 +1,7 @@
 package com.sfsu.network.handler;
 
+import android.content.Context;
+
 import com.sfsu.entities.Observation;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ObservationEvent;
@@ -24,7 +26,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
@@ -38,8 +40,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      *
      * @param bus
      */
-    public ObservationRequestHandler(Bus bus) {
-        super(bus);
+    public ObservationRequestHandler(Bus bus, Context mContext) {
+        super(bus, mContext);
         mApiService = RetrofitApiClient.createService(ObservationApiService.class, ACCESS_TOKEN);
     }
 

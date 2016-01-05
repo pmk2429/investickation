@@ -1,5 +1,7 @@
 package com.sfsu.network.handler;
 
+import android.content.Context;
+
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.LocationEvent;
@@ -35,9 +37,9 @@ public class LocationRequestHandler extends ApiRequestHandler {
      *
      * @param bus
      */
-    public LocationRequestHandler(Bus bus) {
-        super(bus);
-        mApiService = RetrofitApiClient.createService(LocationApiService.class);
+    public LocationRequestHandler(Bus bus, Context mContext) {
+        super(bus, mContext);
+        mApiService = RetrofitApiClient.createService(LocationApiService.class, ACCESS_TOKEN);
     }
 
     /**

@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
-import com.sfsu.entities.User;
+import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
@@ -34,14 +34,14 @@ import butterknife.ButterKnife;
 
 /**
  * <p>
- * Registers the {@link User} and sends the User input data to server and on successful creation of a User, creates a copy in
- * SQLite server for future {@link User} related accesses and operations.
+ * Registers the {@link Account} and sends the Account input data to server and on successful creation of a Account, creates a copy in
+ * SQLite server for future {@link Account} related accesses and operations.
  * </p>
  * <p>
- * Meanwhile, when the server gives back the response, this Fragment passes the {@link User} object to the
- * {@link com.sfsu.investickation.HomeActivity} where the copy of a User object is stored on the local SQLite DB.
+ * Meanwhile, when the server gives back the response, this Fragment passes the {@link Account} object to the
+ * {@link com.sfsu.investickation.HomeActivity} where the copy of a Account object is stored on the local SQLite DB.
  * </p>
- * The main reason for storing the User on local DB is to avoid making unwanted network calls when the user wants to log back
+ * The main reason for storing the Account on local DB is to avoid making unwanted network calls when the user wants to log back
  * in.
  */
 public class Register extends Fragment implements View.OnClickListener, ITextValidate {
@@ -72,7 +72,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     private Context mContext;
     private DatabaseDataController dbController;
     private AuthPreferences mAuthPreferences;
-    private User mUserObj;
+    private Account mUserObj;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
     private boolean isPrivacyAgreementRead;
 
@@ -207,8 +207,8 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 String city = et_city.getText().toString();
                 String state = et_state.getText().toString();
 
-                // make a new User object.
-                mUserObj = User.createUser(fullName, address, city, state, zipcode, email, password);
+                // make a new Account object.
+                mUserObj = Account.createUser(fullName, address, city, state, zipcode, email, password);
 
                 // once the user object is created, pass it to Bus to send it over to api via retrofit
                 BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, ApiRequestHandler.ADD));
@@ -254,7 +254,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     public void onUserCreateSuccess(UserEvent.OnLoaded onLoaded) {
         // once the user is successfully created, store the response in the SQLite database to store the user info for further
         // requirements.
-        User userResponseObj = onLoaded.getResponse();
+        Account userResponseObj = onLoaded.getResponse();
 
         // set password to the user response object.
         userResponseObj.setPassword(mUserObj.getPassword());
@@ -287,11 +287,11 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         /**
          * Callback listener when the user clicks on the Register button in {@link Register} fragment. This method
          * will handle the calls for Registration and delegates the control to Login fragment to make another call to the
-         * server in order to get Access Token and User id.
+         * server in order to get Access Token and Account id.
          *
          * @param userResponse
          */
-        public void onRegisterButtonClick(User mUserObj);
+        public void onRegisterButtonClick(Account mUserObj);
 
     }
 

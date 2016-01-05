@@ -1,5 +1,6 @@
 package com.sfsu.network.handler;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.sfsu.entities.Observation;
@@ -30,9 +31,9 @@ public class FileUploadHandler extends ApiRequestHandler {
     private ObservationApiService mApiService;
     private ErrorResponse mErrorResponse;
 
-    public FileUploadHandler(Bus bus) {
-        super(bus);
-        mApiService = RetrofitApiClient.createService(ObservationApiService.class, ACCESS_TOKEN);
+    public FileUploadHandler(Bus bus, Context mContext) {
+        super(bus, mContext);
+        mApiService = RetrofitApiClient.createServiceForUpload(ObservationApiService.class);
     }
 
     @Subscribe
@@ -55,7 +56,10 @@ public class FileUploadHandler extends ApiRequestHandler {
                 requestBodyMap.put(fileName, onLoadingInitialized.getRequest().getRequestBody());
 
                 // finally make a call to ApiService
-                imageUploadCall = mApiService.upload(requestBodyMap);
+                imageUploadCall = mApiService.upload(onLoadingInitialized.getRequest().getRequestBody(), onLoadingInitialized
+                        .observationId, ACCESS_TOKEN);
+
+                //imageUploadCall = mApiService.uploadTick(requestBodyMap);
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override

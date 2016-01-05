@@ -8,7 +8,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
 /**
- * The <b>Service</b> interface to manage http network calls for Login/Logout of User Session.
+ * The <b>Service</b> interface to manage http network calls for Login/Logout of Account Session.
  */
 public interface LoginService {
 
@@ -20,6 +20,6 @@ public interface LoginService {
      * @return
      */
     @FormUrlEncoded
-    @POST("users/login")
+    @POST("accounts/login")
     Call<LoginResponse> login(@Field("email") String email, @Field("password") String password);
 }

@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 /**
  * <p>
- * <tt>EntityLocation </tt> consists of the current latitude and longitude of the Entity(User, Tick) whenever the user
- * has an ongoing {@link Activities}. It is used to determine the Location of User for its ongoing Activity as well
- * as the Location of the Tick when the Observation is made by the User.
- * By making use of EntityLocation, a trajectory of each {@link Activities} of User is developed. It also helps to possibly
+ * <tt>EntityLocation </tt> consists of the current latitude and longitude of the Entity(Account, Tick) whenever the user
+ * has an ongoing {@link Activities}. It is used to determine the Location of Account for its ongoing Activity as well
+ * as the Location of the Tick when the Observation is made by the Account.
+ * By making use of EntityLocation, a trajectory of each {@link Activities} of Account is developed. It also helps to possibly
  * determine the existence of the ticks in the proximity of user's activity.
  * </p>
  * <p>
- * This way {@link EntityLocation} helps to detect the presence of {@link Tick} and also determine {@link User}'s path.
+ * This way {@link EntityLocation} helps to detect the presence of {@link Tick} and also determine {@link Account}'s path.
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
@@ -54,7 +54,7 @@ public class EntityLocation implements Parcelable, Entity {
     }
 
     /**
-     * Constructor overloading to set User's Location and display it on Google Maps as well as build a Composite Observation
+     * Constructor overloading to set Account's Location and display it on Google Maps as well as build a Composite Observation
      * Object to parse it to JSON and send it over to Server.
      *
      * @param latitude

@@ -1,5 +1,7 @@
 package com.sfsu.network.handler;
 
+import android.content.Context;
+
 import com.sfsu.entities.Tick;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.TickEvent;
@@ -38,9 +40,10 @@ public class TickRequestHandler extends ApiRequestHandler {
      * Constructor overloading to initialize the Bus to be used for this Request Handling.
      *
      * @param bus
+     * @param investickationApp
      */
-    public TickRequestHandler(Bus bus) {
-        super(bus);
+    public TickRequestHandler(Bus bus, Context mContext) {
+        super(bus, mContext);
         mApiService = RetrofitApiClient.createService(TickApiService.class, ACCESS_TOKEN);
     }
 

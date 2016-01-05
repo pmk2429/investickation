@@ -14,7 +14,7 @@ public class SettingsActivity extends MainBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Display the fragment as the main content for User Settings
+        // Display the fragment as the main content for Account Settings
         getFragmentManager().beginTransaction().replace(R.id.settings_fragment_container, new SettingsFragment()).commit();
         // getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
 
@@ -35,7 +35,7 @@ public class SettingsActivity extends MainBaseActivity {
     }
 
     /**
-     * User Settings Fragment that allows users to tweak some app related settings.
+     * Account Settings Fragment that allows users to tweak some app related settings.
      */
     public static class SettingsFragment extends PreferenceFragment {
         @Override

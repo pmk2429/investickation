@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 
 /**
  * <p>
- * Displays the list of {@link Observation}s made by the User. The observations which are retrieved from the Server are
+ * Displays the list of {@link Observation}s made by the Account. The observations which are retrieved from the Server are
  * combined to that stored on the Local SQLite DB. Depending on the the where the Observation is stored, the RecyclerView item
  * displays an icon representing cloud or database.
  * </p>

@@ -75,7 +75,7 @@ public class GoogleMapController {
     }
 
     /**
-     * Sets up the Google Map and locates the current User Location.
+     * Sets up the Google Map and locates the current Account Location.
      */
     public void setupGoogleMap(MapView mapView) {
         if (mapView != null) {

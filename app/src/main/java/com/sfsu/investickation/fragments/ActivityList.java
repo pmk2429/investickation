@@ -38,7 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Displays list of {@link Activities} created by User. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
+ * Displays list of {@link Activities} created by Account. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
  * user's choice.
  */
 public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {

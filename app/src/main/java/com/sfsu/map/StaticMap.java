@@ -1,10 +1,11 @@
 package com.sfsu.map;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.entities.Account;
 
 /**
  * <p>
- * Handles creation of url for static google map which displays the polyline for the {@link com.sfsu.entities.User}
+ * Handles creation of url for static google map which displays the polyline for the {@link Account}
  * travelled {@link com.sfsu.entities.Activities}.
  * </p>
  * <p>

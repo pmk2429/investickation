@@ -1,5 +1,6 @@
 package com.sfsu.network.handler;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.sfsu.entities.Activities;
@@ -45,9 +46,10 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      *
      * @param bus
      */
-    public ActivityRequestHandler(Bus bus) {
-        super(bus);
+    public ActivityRequestHandler(Bus bus, Context mContext) {
+        super(bus, mContext);
         mApiService = RetrofitApiClient.createService(ActivityApiService.class, ACCESS_TOKEN);
+//        USER_ID = new AuthPreferences(mContext).getUser_id();
     }
 
     /**
@@ -71,7 +73,9 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(activitiesCall);
                 break;
             case GET_ALL:
-                listActivitiesCall = mApiService.getAll(null);
+                Log.i(TAG, "u:" + USER_ID);
+                Log.i(TAG, "a:" + ACCESS_TOKEN);
+                listActivitiesCall = mApiService.getAll(USER_ID);
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
             case ADD:

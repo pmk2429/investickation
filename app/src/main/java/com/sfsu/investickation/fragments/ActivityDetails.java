@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
@@ -21,7 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Displays the details of a specific {@link Activities}. Allows {@link com.sfsu.entities.User} to see all the observations
+ * Displays the details of a specific {@link Activities}. Allows {@link Account} to see all the observations
  * that belongs to this specific activity.
  */
 public class ActivityDetails extends Fragment {

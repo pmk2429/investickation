@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sfsu.application.InvestickationApp;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
 import com.sfsu.investickation.R;
@@ -33,8 +34,8 @@ import butterknife.ButterKnife;
  * corresponding entry in the local DB. If the match is found then user will be logged in and a network request will be made to
  * the REST API via {@link com.sfsu.controllers.RetrofitController} to get the <b>request token</b>.
  * <p>
- * This <b>request token</b> will be stored in User's session via a {@link SessionManager} to authenticate and
- * validate User for successive operations.
+ * This <b>request token</b> will be stored in Account's session via a {@link SessionManager} to authenticate and
+ * validate Account for successive operations.
  * </p>
  */
 public class Login extends Fragment implements View.OnClickListener, ITextValidate {
@@ -131,7 +132,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     }
 
     /**
-     * Helper method to login the User by making a network call to api using retrofit.
+     * Helper method to login the Account by making a network call to api using retrofit.
      *
      * @param email
      * @param password
@@ -181,6 +182,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // if the Auth preferences is successfully set in SharedPreferences, then set the Login flag.
         if (isCredentialsSet) {
             mSessionManager.setLogin(true);
+            InvestickationApp.getInstance().onCreate();
         }
 
         // once the token is set successfully, open the dashboard.
@@ -199,7 +201,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
         /**
          * Callback method to handle the onclick of Login button in {@link Login} Fragment.
-         * <p>When the user successfully logs in from the server, a User session is created and the credentials are stored in
+         * <p>When the user successfully logs in from the server, a Account session is created and the credentials are stored in
          * the SharedPreferences for further future usage.</p>
          */
         public void userLoggedIn();

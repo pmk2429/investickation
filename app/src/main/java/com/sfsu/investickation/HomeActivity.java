@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sfsu.entities.User;
+import com.sfsu.entities.Account;
 import com.sfsu.investickation.fragments.Home;
 import com.sfsu.investickation.fragments.Login;
 import com.sfsu.investickation.fragments.Logout;
@@ -16,12 +16,12 @@ import com.sfsu.session.SessionManager;
 /**
  * <p>
  * Container Activity for {@link Login} and {@link Register} Fragments. Opens when the user is done
- * navigating the WelcomeScreenActivity for the first time. Also, when the User logs out, then s/he will be redirected to this
- * Activity to allow the User to Login again.
+ * navigating the WelcomeScreenActivity for the first time. Also, when the Account logs out, then s/he will be redirected to this
+ * Activity to allow the Account to Login again.
  * </p>
  * <p>
- * The Home activity will take care of all user User related Sessions. If the User is logged in then s/he will be
- * redirected to the {@link MainActivity} else the User will be asked to Login or Register.</p>
+ * The Home activity will take care of all user Account related Sessions. If the Account is logged in then s/he will be
+ * redirected to the {@link MainActivity} else the Account will be asked to Login or Register.</p>
  */
 public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home
         .IHomeCallbacks, Logout.ILogoutCallBack {
@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
 
 
     @Override
-    public void onRegisterButtonClick(User mUserObj) {
+    public void onRegisterButtonClick(Account mUserObj) {
         // pass this user obj to Login and make a call to Login
         Login mLoginFragment = new Login();
 

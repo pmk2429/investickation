@@ -56,27 +56,27 @@ public class InvestickationApp extends Application {
         mInstance = this;
 
         // initialize the ApiRequestHandler to get access token.
-        mApiRequestHandler = new ApiRequestHandler(mBus);
-        mApiRequestHandler.init(this);
+        mApiRequestHandler = new ApiRequestHandler(mBus, this);
 
-        mUserRequestHandler = new UserRequestHandler(mBus);
+        mUserRequestHandler = new UserRequestHandler(mBus, this);
         mBus.register(mUserRequestHandler);
 
-        mActivityRequestHandler = new ActivityRequestHandler(mBus);
+        mActivityRequestHandler = new ActivityRequestHandler(mBus, this);
         mBus.register(mActivityRequestHandler);
 
-        mObservationRequestHandler = new ObservationRequestHandler(mBus);
+        mObservationRequestHandler = new ObservationRequestHandler(mBus, this);
         mBus.register(mObservationRequestHandler);
 
-        mLocationRequestHandler = new LocationRequestHandler(mBus);
+        mLocationRequestHandler = new LocationRequestHandler(mBus, this);
         mBus.register(mLocationRequestHandler);
 
-        mTickRequestHandler = new TickRequestHandler(mBus);
+        mTickRequestHandler = new TickRequestHandler(mBus, this);
         mBus.register(mTickRequestHandler);
 
-        mFileUploadHandler = new FileUploadHandler(mBus);
+        mFileUploadHandler = new FileUploadHandler(mBus, this);
         mBus.register(mFileUploadHandler);
 
         JodaTimeAndroid.init(this);
     }
+
 }

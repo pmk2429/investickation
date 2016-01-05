@@ -504,7 +504,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
 
     /**
-     * Subscribes to the event of successful observation creation. Once the Observation is created successfully, the User
+     * Subscribes to the event of successful observation creation. Once the Observation is created successfully, the Account
      * captured image of tick inside the Observation is posted on server.
      *
      * @param onLoaded
@@ -521,11 +521,20 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         Log.i(TAG, image_name);
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+//        MediaType MEDIA_TYPE = MediaType.parse("image/*");
+//
+//        RequestBody requestBody1 = RequestBody.create(MEDIA_TYPE, file);
+//        Log.d(TAG, "requestBody: " + requestBody1.toString());
+//        RequestBody requestBody2 = new MultipartBuilder()
+//                .type(MultipartBuilder.FORM)
+//                .addFormDataPart("file", "testing.jpg", requestBody1)
+//                .build();
 
         ImageData mImageData = new ImageData(requestBody, image_name, "");
 
-        // get RequestBody from the User captured tick image using ImageController;
+        // get RequestBody from the Account captured tick image using ImageController;
         //RequestBody requestBody = mImageController.getImageRequestBody();
 
         Log.i(TAG, "2) " + observationResponse.getId());

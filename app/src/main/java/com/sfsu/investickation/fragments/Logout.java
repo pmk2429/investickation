@@ -53,7 +53,7 @@ public class Logout extends Fragment {
      */
     public interface ILogoutCallBack {
         /**
-         * Callback method to logout the User and display {@link Login} Fragment.
+         * Callback method to logout the Account and display {@link Login} Fragment.
          */
         public void userLoggedOut();
     }

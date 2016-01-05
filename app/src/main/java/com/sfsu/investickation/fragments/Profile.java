@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
-import com.sfsu.entities.User;
+import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
@@ -41,7 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Displays the {@link User} data. Allows users to edit the data.
+ * Displays the {@link Account} data. Allows users to edit the data.
  */
 public class Profile extends Fragment {
 
@@ -63,7 +63,7 @@ public class Profile extends Fragment {
     private AuthPreferences mAuthPreferences;
     private DatabaseDataController dbController;
     private Context mContext;
-    private User mUser;
+    private Account mUser;
 
     public Profile() {
         // Required empty public constructor
@@ -88,9 +88,9 @@ public class Profile extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-//            // get the User object from Database
+//            // get the Account object from Database
 //            if (dbController != null) {
-//                mUser = (User) dbController.get(mAuthPreferences.getUser_id());
+//                mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
 //            }
 
         final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);
@@ -144,7 +144,7 @@ public class Profile extends Fragment {
 
     /**
      * This method is used to popup a dialog box for allowing user to select
-     * the User image from Camera or Gallery.
+     * the Account image from Camera or Gallery.
      */
     private void startDialogForChoosingImage() {
         AlertDialog.Builder chooseImageAlertDialog = new AlertDialog.Builder(getActivity());

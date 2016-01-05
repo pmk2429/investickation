@@ -43,7 +43,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * ActivityNew Fragment provides User the capability to add new Activity. The ActivityNew fragment passes the newly created
+ * ActivityNew Fragment provides Account the capability to add new Activity. The ActivityNew fragment passes the newly created
  * Activities object to the ActivityRunning fragment.
  */
 public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
@@ -488,7 +488,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     public interface IActivityNewCallBack {
         /**
-         * Callback method when User clicks on the Play Button defined in the {@link ActivityNew} Fragment. On clicking the
+         * Callback method when Account clicks on the Play Button defined in the {@link ActivityNew} Fragment. On clicking the
          * play button, the {@link Activities} is created on the server and using the created ActivityId, observations are made.
          *
          * @param newActivityDetails

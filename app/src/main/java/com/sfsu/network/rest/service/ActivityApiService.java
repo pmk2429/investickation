@@ -32,8 +32,17 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("activities")
-    public Call<List<Activities>> getAll(@Query("timestamp") Integer timestamp);
+    @GET("accounts/{id}/activities")
+    public Call<List<Activities>> getAll(@Path("id") String user_id);
+
+
+    /**
+     * Returns the list of all the {@link Activities} from the server sorted by the order specified.
+     *
+     * @return
+     */
+    @GET("accounts/{id}/activities")
+    public Call<List<Activities>> getAll(@Path("id") String user_id, @Query("sort") String sortOrder);
 
 
     /**
@@ -63,7 +72,7 @@ public interface ActivityApiService {
      */
     @GET("activities/{id}")
     public Call<Activities> delete(@Path("id") String activityId);
-    
+
 
     /**
      * Returns total locations captured for this activity.

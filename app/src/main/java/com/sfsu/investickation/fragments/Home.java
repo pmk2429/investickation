@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 
 /**
  * Holds the {@link Login} and {@link Register} Fragments. Home fragment will be displayed when the user will open the app or
- * logs in for the first time after Navigating through {@link WelcomeScreen}. In addition, when the User logs out of the
+ * logs in for the first time after Navigating through {@link WelcomeScreen}. In addition, when the Account logs out of the
  * Application, the same Fragment will be opened.
  */
 public class Home extends Fragment {

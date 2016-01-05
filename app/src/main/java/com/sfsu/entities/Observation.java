@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * <p>
- * <tt>Observation</tt> defines tick related data created by the {@link User}. The {@link Observation} specifies the process of
+ * <tt>Observation</tt> defines tick related data created by the {@link Account}. The {@link Observation} specifies the process of
  * capturing the tick and posting the data on the central server. Each observation contains tick image and specifying the
  * details(if known) and then posting the data on the server.
  * </p>
- * Observation holds reference to the {@link EntityLocation} for a each Observation captured by the User. When the user makes an
+ * Observation holds reference to the {@link EntityLocation} for a each Observation captured by the Account. When the user makes an
  * observation, the it also sends the <tt>latitude, longitude</tt> with each observation.
  * Created by Pavitra on 5/19/2015.
  */

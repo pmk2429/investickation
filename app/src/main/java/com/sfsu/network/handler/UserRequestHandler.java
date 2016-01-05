@@ -1,6 +1,8 @@
 package com.sfsu.network.handler;
 
-import com.sfsu.entities.User;
+import android.content.Context;
+
+import com.sfsu.entities.Account;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
@@ -20,7 +22,7 @@ import retrofit.Response;
 
 /**
  * <p>
- * RequestHandler to handle network requests for {@link User}. It Subscribes to the User events published by the all User related
+ * RequestHandler to handle network requests for {@link Account}. It Subscribes to the Account events published by the all Account related
  * operations through out the application and makes successive network calls depending on the type of request made such as get,
  * add, delete etc.
  * </p>
@@ -40,20 +42,20 @@ public class UserRequestHandler extends ApiRequestHandler {
      *
      * @param bus
      */
-    public UserRequestHandler(Bus bus) {
-        super(bus);
+    public UserRequestHandler(Bus bus, Context mContext) {
+        super(bus, mContext);
         mApiService = RetrofitApiClient.createService(UserApiService.class);
     }
 
     /**
-     * Subscribes to the event when {@link com.sfsu.entities.User} is Loaded. Receives the User object and make network calls to
+     * Subscribes to the event when {@link Account} is Loaded. Receives the Account object and make network calls to
      * Retrofit depending on the type of request made.
      *
      * @param onLoadingInitialized
      */
     @Subscribe
     public void onInitializeUserEvent(UserEvent.OnLoadingInitialized onLoadingInitialized) {
-        Call<User> userCall = null;
+        Call<Account> userCall = null;
         // delegating call to specific method.
         switch (onLoadingInitialized.apiRequestMethod) {
             case GET:
@@ -70,15 +72,15 @@ public class UserRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Helper method for dealing with CRUD operations for {@link User} entity.
+     * Helper method for dealing with CRUD operations for {@link Account} entity.
      *
      * @param userCall
      */
-    private void makeCRUDCall(Call<User> userCall) {
+    private void makeCRUDCall(Call<Account> userCall) {
         // makes the Calls to network.
-        userCall.enqueue(new Callback<User>() {
+        userCall.enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Response<User> response) {
+            public void onResponse(Response<Account> response) {
                 if (response.isSuccess()) {
                     mBus.post(new UserEvent.OnLoaded(response.body()));
                 } else {
@@ -105,7 +107,7 @@ public class UserRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Subscribes to the User Login event and then posts the {@link com.sfsu.session.LoginResponse} back to the Bus.
+     * Subscribes to the Account Login event and then posts the {@link com.sfsu.session.LoginResponse} back to the Bus.
      *
      * @param onLoadingInitialized
      */

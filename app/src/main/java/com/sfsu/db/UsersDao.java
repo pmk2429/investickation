@@ -5,14 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.sfsu.entities.Account;
 import com.sfsu.entities.Entity;
-import com.sfsu.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DAO for {@link User} .
+ * DAO for {@link Account} .
  * <p>
  * Created by Pavitra on 6/3/2015.
  */
@@ -20,7 +20,7 @@ public class UsersDao implements EntityDao {
     private final String LOGTAG = "~!@#$UsersDao";
     private SQLiteDatabase db;
 
-    // User's string array.
+    // Account's string array.
     private String[] usersEntryArray = new String[]{UsersTable.COLUMN_ID, UsersTable.COLUMN_FULLNAME, UsersTable.COLUMN_EMAIL, UsersTable.COLUMN_PASSWORD, UsersTable.COLUMN_ADDRESS, UsersTable.COLUMN_CITY, UsersTable.COLUMN_STATE, UsersTable.COLUMN_ZIPCODE, UsersTable.COLUMN_CREATEDAT, UsersTable.COLUMN_UPDATEDAT};
 
 
@@ -30,13 +30,13 @@ public class UsersDao implements EntityDao {
     }
 
     /**
-     * Saves {@link User} to SQLite DB.
+     * Saves {@link Account} to SQLite DB.
      *
      * @param user
      * @return
      */
     public long save(Entity entity) {
-        User user = (User) entity;
+        Account user = (Account) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(UsersTable.COLUMN_ID, user.getId());
         contentValues.put(UsersTable.COLUMN_FULLNAME, user.getFull_name());
@@ -48,18 +48,18 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
         contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(LOGTAG, "User : INSERT reached");
+        Log.d(LOGTAG, "Account : INSERT reached");
         return db.insert(UsersTable.TABLENAME, null, contentValues);
     }
 
     /**
-     * Method to update the User.
+     * Method to update the Account.
      *
      * @param user
      * @return
      */
     public boolean update(Entity entity) {
-        User user = (User) entity;
+        Account user = (Account) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(UsersTable.COLUMN_ID, user.getId());
         contentValues.put(UsersTable.COLUMN_FULLNAME, user.getFull_name());
@@ -71,7 +71,7 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
         contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(LOGTAG, "User : INSERT reached");
+        Log.d(LOGTAG, "Account : INSERT reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(UsersTable.TABLENAME, contentValues, UsersTable.COLUMN_ID + "=?", new String[]{user.getId() + ""}) > 0;
@@ -84,18 +84,18 @@ public class UsersDao implements EntityDao {
      * @return
      */
     public boolean delete(Entity entity) {
-        User user = (User) entity;
+        Account user = (Account) entity;
         return db.delete(UsersTable.TABLENAME, UsersTable.COLUMN_ID + "=?", new String[]{user.getId() + ""}) > 0;
     }
 
     /**
-     * Method to get User using Userid
+     * Method to get Account using Userid
      *
      * @param id
      * @return
      */
     public Entity get(String id) {
-        User userItem = null;
+        Account userItem = null;
         Cursor c = db.query(true, UsersTable.TABLENAME, usersEntryArray, UsersTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
 
         if (c != null && c.moveToFirst()) {
@@ -108,13 +108,13 @@ public class UsersDao implements EntityDao {
     }
 
     /**
-     * Method to get User from username
+     * Method to get Account from username
      *
      * @param username
      * @return
      */
-    public User getByName(String username) {
-        User userItem = null;
+    public Account getByName(String username) {
+        Account userItem = null;
         Cursor c = db.query(true, UsersTable.TABLENAME, usersEntryArray, UsersTable.COLUMN_FULLNAME + "=?", new String[]{username + ""}, null, null, null, null);
 
         if (c != null && c.moveToFirst()) {
@@ -139,7 +139,7 @@ public class UsersDao implements EntityDao {
         if (c != null && c.moveToFirst()) {
             // loop until the end of Cursor and add each entry to Observations ArrayList.
             do {
-                User userItem = buildFromCursor(c);
+                Account userItem = buildFromCursor(c);
                 if (userItem != null) {
                     usersList.add(userItem);
                 }
@@ -149,11 +149,11 @@ public class UsersDao implements EntityDao {
         return usersList;
     }
 
-    // build the User Object using Cursor.
-    public User buildFromCursor(Cursor c) {
-        User userItem = null;
+    // build the Account Object using Cursor.
+    public Account buildFromCursor(Cursor c) {
+        Account userItem = null;
         if (c != null) {
-            userItem = new User();
+            userItem = new Account();
             userItem.setId(c.getString(0));
             userItem.setFull_name(c.getString(1));
             userItem.setEmail(c.getString(2));

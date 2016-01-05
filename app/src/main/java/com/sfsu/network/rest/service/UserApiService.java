@@ -1,7 +1,7 @@
 package com.sfsu.network.rest.service;
 
 
-import com.sfsu.entities.User;
+import com.sfsu.entities.Account;
 
 import retrofit.Call;
 import retrofit.http.Body;
@@ -10,48 +10,48 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 
 /**
- * The <b>Service</b> interface to manage http network calls for {@link User} related operations to the REST API endpoint.
+ * The <b>Service</b> interface to manage http network calls for {@link Account} related operations to the REST API endpoint.
  * Created by Pavitra on 10/6/2015.
  */
 
 public interface UserApiService {
 
     /**
-     * Returns the current {@link User} from the server
+     * Returns the current {@link Account} from the server
      *
      * @return
      */
-    @GET("users/{id}")
-    public Call<User> get(@Path("id") String userId);
+    @GET("accounts/{id}")
+    public Call<Account> get(@Path("id") String userId);
 
 
     /**
-     * Creates the {@link User} in the server.
+     * Creates the {@link Account} in the server.
      *
      * @return
      */
-    @POST("users")
-    public Call<User> add(@Body User user);
+    @POST("accounts")
+    public Call<Account> add(@Body Account user);
 
 
     /**
-     * Updates the {@link User} in the server.
+     * Updates the {@link Account} in the server.
      *
      * @param userId
      * @param user
      * @return
      */
-    @GET("users/{id}")
-    public Call<User> update(@Path("id") String userId, @Body User user);
+    @GET("accounts/{id}")
+    public Call<Account> update(@Path("id") String userId, @Body Account user);
 
 
     /**
-     * Deletes the {@link User} from server.
+     * Deletes the {@link Account} from server.
      *
      * @return
      */
-    @GET("users/{id}")
-    public Call<User> delete(@Path("id") String userId);
+    @GET("accounts/{id}")
+    public Call<Account> delete(@Path("id") String userId);
 
 
     @GET("")

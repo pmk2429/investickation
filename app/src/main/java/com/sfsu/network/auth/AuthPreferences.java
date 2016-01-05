@@ -3,11 +3,12 @@ package com.sfsu.network.auth;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 
 /**
  * Stores the OAuth 2.0 Access Token when the user successfully logs in, in the SharedPreferences. This class handles all the
- * user login related session details such as <tt>user_id</tt> and <tt>accessToken</tt> when the User creates a session after
+ * user login related session details such as <tt>user_id</tt> and <tt>accessToken</tt> when the Account creates a session after
  * signing in.
  * <p/>
  * Created by Pavitra on 12/5/2015.
@@ -28,7 +29,7 @@ public class AuthPreferences {
     }
 
     /**
-     * Allows to store <tt>user_id</tt> and <tt>accessToken</tt> for the current logged in {@link com.sfsu.entities.User}.
+     * Allows to store <tt>user_id</tt> and <tt>accessToken</tt> for the current logged in {@link Account}.
      *
      * @param authToken
      * @param userId

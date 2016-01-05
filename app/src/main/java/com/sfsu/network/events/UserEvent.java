@@ -1,9 +1,9 @@
 package com.sfsu.network.events;
 
-import com.sfsu.entities.User;
+import com.sfsu.entities.Account;
 
 /**
- * Defines all the User events performed under {@link User} Entity such as CRUD, searching user etc.
+ * Defines all the Account events performed under {@link Account} Entity such as CRUD, searching user etc.
  * <p>
  * Created by Pavitra on 11/27/2015.
  */
@@ -11,9 +11,9 @@ public class UserEvent extends BaseNetworkEvent {
     public static final OnLoadingError FAILED = new OnLoadingError(UNHANDLED_MSG, UNHANDLED_CODE);
 
     /**
-     * Event Handler When the Loading for the User Events is initialized and Request is initiated.
+     * Event Handler When the Loading for the Account Events is initialized and Request is initiated.
      */
-    public static class OnLoadingInitialized extends OnStart<User, String> {
+    public static class OnLoadingInitialized extends OnStart<Account, String> {
 
         public int apiRequestMethod;
 
@@ -22,12 +22,12 @@ public class UserEvent extends BaseNetworkEvent {
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(User user, String userId, int apiRequestMethod) {
+        public OnLoadingInitialized(Account user, String userId, int apiRequestMethod) {
             super(user, userId);
             this.apiRequestMethod = apiRequestMethod;
         }
 
-        public OnLoadingInitialized(User user, int apiRequestMethod) {
+        public OnLoadingInitialized(Account user, int apiRequestMethod) {
             super(user, "");
             this.apiRequestMethod = apiRequestMethod;
         }
@@ -38,23 +38,23 @@ public class UserEvent extends BaseNetworkEvent {
     }
 
     /**
-     * Event Handler when the User Events are successfully executed and Response is generated.
+     * Event Handler when the Account Events are successfully executed and Response is generated.
      */
-    public static class OnLoaded extends OnDone<User> {
+    public static class OnLoaded extends OnDone<Account> {
         public Integer count;
 
-        public OnLoaded(User entity) {
+        public OnLoaded(Account entity) {
             super(entity);
         }
 
         public OnLoaded(Integer count) {
-            super(new User());
+            super(new Account());
             this.count = count;
         }
     }
 
     /**
-     * Event Handler When loading of User Events throws errors.
+     * Event Handler When loading of Account Events throws errors.
      */
     public static class OnLoadingError extends OnFailed {
         public OnLoadingError(String errorMessage, int code) {

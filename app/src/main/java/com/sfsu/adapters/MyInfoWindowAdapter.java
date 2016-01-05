@@ -6,10 +6,11 @@ import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 
 /**
- * Custom InfoWindow for displaying {@link com.sfsu.entities.Tick} in GoogleMap when {@link com.sfsu.entities.User} clicks on the {@link Marker}.
+ * Custom InfoWindow for displaying {@link com.sfsu.entities.Tick} in GoogleMap when {@link Account} clicks on the {@link Marker}.
  * <p>
  * Created by Pavitra on 1/4/2016.
  */

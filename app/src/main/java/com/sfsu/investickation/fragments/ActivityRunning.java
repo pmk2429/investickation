@@ -22,6 +22,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.gson.Gson;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
+import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 /**
  * Provides interface to user to add {@link com.sfsu.entities.Observation} for the current ongoing
  * {@link Activities}. At this point in time, the {@link Activities} is created on the server and the state of Activity is
- * <tt>RUNNING</tt>. So only when the Activity is in RUNNING state, the {@link com.sfsu.entities.User} can make observations
+ * <tt>RUNNING</tt>. So only when the Activity is in RUNNING state, the {@link Account} can make observations
  * or receive location updates. This fragment the action callback to start new <tt>Observation</tt>.
  * Once the Add Observation button is clicked, the user will be redirected to add Observation for the current ongoing activity.
  * <p>

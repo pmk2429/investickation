@@ -19,7 +19,7 @@ import com.sfsu.entities.EntityLocation;
 import com.sfsu.utils.AppUtils;
 
 /**
- * Service to get the periodic EntityLocation updates while the User performed Activity is still Running. This service runs in tandem
+ * Service to get the periodic EntityLocation updates while the Account performed Activity is still Running. This service runs in tandem
  * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
  * is created the {@link LocationService } starts and when the <tt>ActivityRunning</tt> is paused/stopped, the
  * {@link LocationService } is stopped too.

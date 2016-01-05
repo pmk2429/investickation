@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * <p>
- * <tt>Activity</tt> refers to the state of the user where the User is performing
+ * <tt>Activity</tt> refers to the state of the user where the Account is performing
  * an action in progress. The example of such activities can be walking, running,
  * dog walking, hiking etc. The Activity class provides all the basic behaviors and
  * methods to define an activity.
@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
  * Activity also defines the Factory design pattern to create activities using
  * creational design pattern by abstracting the logic from user.
  * <p/>
- * In addition to the properties possessed by the Activities, it also references the current User to know which User is logged in
+ * In addition to the properties possessed by the Activities, it also references the current Account to know which Account is logged in
  * </p>
  * Created by Pavitra on 5/19/2015.
  */

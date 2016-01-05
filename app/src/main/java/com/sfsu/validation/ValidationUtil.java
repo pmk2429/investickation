@@ -52,7 +52,7 @@ public class ValidationUtil {
     }
 
     /**
-     * Validates the input Email text entered by User.
+     * Validates the input Email text entered by Account.
      *
      * @param mEditText
      * @param email

@@ -61,7 +61,7 @@ public class RetrofitApiClient {
      * requests.
      *
      * @param serviceClass -  The Retrofit Service Interface class.
-     * @param authToken    -  Access token retrieved after Successful login by the User.
+     * @param authToken    -  Access token retrieved after Successful login by the Account.
      * @param <S>
      * @return
      */
@@ -96,8 +96,50 @@ public class RetrofitApiClient {
         return retrofit.create(serviceClass);
     }
 
+
     /**
-     * Generates the Service to to login the User. Wraps the Email and Password fields in the Header and requests the call.
+     * Generates the Service to to add OAuth 2.0 Access token as the Header to the HTTP call made by Retrofit. The Header is
+     * added using an OkHttpClient Http Client and it contains the Interceptor to add the Header for incoming and outgoing
+     * requests.
+     *
+     * @param serviceClass -  The Retrofit Service Interface class.
+     * @param authToken    -  Access token retrieved after Successful login by the Account.
+     * @param <S>
+     * @return
+     */
+    public static <S> S createServiceForUpload(Class<S> serviceClass) {
+
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+        httpClient.interceptors().clear();
+        httpClient.interceptors().add(new Interceptor() {
+            @Override
+            public Response intercept(Interceptor.Chain chain) throws IOException {
+                Request original = chain.request();
+
+                // Request customization: add request headers
+                Request.Builder requestBuilder = original.newBuilder()
+                        .addHeader("Content-Type", "multipart/form-data")
+                        .method(original.method(), original.body());
+
+                Request request = requestBuilder.build();
+                return chain.proceed(request);
+            }
+        });
+        httpClient.interceptors().add(loggingInterceptor);
+
+
+        // build the Retrofit instance with the Token Authorization OkHttpClient.
+        Retrofit retrofit = builder.client(httpClient).build();
+
+        // return the ServiceClass passed.
+        return retrofit.create(serviceClass);
+    }
+
+    /**
+     * Generates the Service to to login the Account. Wraps the Email and Password fields in the Header and requests the call.
      *
      * @param serviceClass
      * @param email
@@ -144,26 +186,5 @@ public class RetrofitApiClient {
         return new File("location");
     }
 
-
-
-    /*private static volatile ApiClient instance;
-
-    private ApiClient() {
-
-    }
-
-    public static ApiClient getInstance() {
-        ApiClient localInstance = instance;
-        if (localInstance == null) {
-            synchronized (ApiClient.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new ApiClient();
-                }
-            }
-        }
-        return localInstance;
-
-    }*/
 }
 

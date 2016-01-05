@@ -11,7 +11,7 @@ public class LoginEvent extends BaseNetworkEvent {
     public static final OnLoadingError FAILED = new OnLoadingError(UNHANDLED_MSG, UNHANDLED_CODE);
 
     /**
-     * Event Handler When the Loading for the User Events is initialized and Request is initiated.
+     * Event Handler When the Loading for the Account Events is initialized and Request is initiated.
      */
     public static class OnLoadingInitialized extends OnStart<String, String> {
 
@@ -31,7 +31,7 @@ public class LoginEvent extends BaseNetworkEvent {
     }
 
     /**
-     * Event Handler when the User Events are successfully executed and Response is generated.
+     * Event Handler when the Account Events are successfully executed and Response is generated.
      */
     public static class OnLoaded extends OnDone<LoginResponse> {
         public OnLoaded(LoginResponse responseBody) {
@@ -40,7 +40,7 @@ public class LoginEvent extends BaseNetworkEvent {
     }
 
     /**
-     * Event Handler When loading of User Events throws errors.
+     * Event Handler When loading of Account Events throws errors.
      */
     public static class OnLoadingError extends OnFailed {
         public OnLoadingError(String errorMessage, int code) {

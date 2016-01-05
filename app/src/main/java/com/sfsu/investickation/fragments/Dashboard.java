@@ -90,7 +90,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
      * @param onLoaded
      */
     @Subscribe
-    public void onActivitiesLoadSuccess(ActivityEvent.OnLoaded onLoaded) {
+    public void onActivitiesLoadSuccess(ActivityEvent.OnListLoaded onLoaded) {
         mActivitiesList = onLoaded.getResponseList();
 
         mActivitiesAdapter = new RecentActivitiesAdapter(mContext, mActivitiesList);

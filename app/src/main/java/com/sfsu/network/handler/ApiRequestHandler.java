@@ -27,30 +27,27 @@ public class ApiRequestHandler {
     public static final int ACT_LOCATIONS = 0x3EF;
     // Login Api service method codes
     public static final int LOGIN = 0x3F0;
-    // User Api service method codes.
+    // Account Api service method codes.
     public static final int TOTAL_ACTIVITIES_COUNT = 0x3F1;
     public static final int TOTAL_OBSERVATIONS_COUNT = 0x3F2;
     // File upload
     public static final int UPLOAD_TICK_IMAGE = 0x3F3;
 
     private final String TAG = "~!@#$ApiReqHdlr";
-    protected String ACCESS_TOKEN;// = "oGATGjerFGwbVsTdxmc3HapSdPX6aY23zJ8yTaDg5pumWnTPexeeLfTQaLV2uCsG";
+    protected String ACCESS_TOKEN;
+    protected String USER_ID;
     protected Bus mBus;
     protected Gson mGson;
     private Context mContext;
+    private AuthPreferences mAuthPreferences;
 
-    public ApiRequestHandler(Bus bus) {
+    public ApiRequestHandler(Bus bus, Context mContext) {
         this.mBus = bus;
         mGson = new Gson();
+        this.mContext = mContext;
+        mAuthPreferences = new AuthPreferences(mContext);
+        ACCESS_TOKEN = mAuthPreferences.getAccessToken();
+        USER_ID = mAuthPreferences.getUser_id();
     }
 
-    /**
-     * initialize the access token for the application context.
-     *
-     * @param mContext
-     */
-    public void init(Context mContext) {
-        this.mContext = mContext;
-        ACCESS_TOKEN = new AuthPreferences(mContext).getAccessToken();
-    }
 }

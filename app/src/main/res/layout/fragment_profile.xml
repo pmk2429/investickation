@@ -28,7 +28,7 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_user"/>
 
-            <!--  User row -->
+            <!--  Account row -->
             <ImageView
                 android:id="@+id/icon_user"
                 android:layout_width="@dimen/widget_dimen"
@@ -115,7 +115,7 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
-            <!--  User row -->
+            <!--  Account row -->
             <ImageView
                 android:id="@+id/icon_address"
                 android:layout_width="@dimen/widget_dimen"

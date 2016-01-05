@@ -5,22 +5,22 @@ import android.os.Parcelable;
 
 /**
  * <p>
- * <tt>User</tt> is the main actor of InvesTICKations applications. User is the real world human who uses this application to
- * carry out {@link Activities} and make {@link Observation}. The User class contains real world information about each User
+ * <tt>Account</tt> is the main actor of InvesTICKations applications. Account is the real world human who uses this application to
+ * carry out {@link Activities} and make {@link Observation}. The Account class contains real world information about each Account
  * who are registered for the application.
  * <p>
  * Created by Pavitra on 5/19/2015.
  */
-public class User implements Parcelable, Entity {
+public class Account implements Parcelable, Entity {
 
-    public static final Parcelable.Creator<User> CREATOR
-            = new Parcelable.Creator<User>() {
-        public User createFromParcel(Parcel in) {
-            return new User(in);
+    public static final Parcelable.Creator<Account> CREATOR
+            = new Parcelable.Creator<Account>() {
+        public Account createFromParcel(Parcel in) {
+            return new Account(in);
         }
 
-        public User[] newArray(int size) {
-            return new User[size];
+        public Account[] newArray(int size) {
+            return new Account[size];
         }
     };
 
@@ -30,11 +30,11 @@ public class User implements Parcelable, Entity {
     private int zipCode;
     private long created_at, updated_at;
 
-    private User(Parcel in) {
+    private Account(Parcel in) {
         // mData = in.readInt();
     }
 
-    public User() {
+    public Account() {
     }
 
     /**
@@ -51,7 +51,7 @@ public class User implements Parcelable, Entity {
      * @param created_at
      * @param updated_at
      */
-    public User(String id, String full_name, String email, String password, String address, String city, String state, int zipCode, long created_at, long updated_at) {
+    public Account(String id, String full_name, String email, String password, String address, String city, String state, int zipCode, long created_at, long updated_at) {
         this.id = id;
         this.full_name = full_name;
         this.email = email;
@@ -65,7 +65,7 @@ public class User implements Parcelable, Entity {
     }
 
     /**
-     * Constructor overloading to build a {@link User} object to send it over to server via Retrofit.
+     * Constructor overloading to build a {@link Account} object to send it over to server via Retrofit.
      *
      * @param full_name
      * @param address
@@ -75,7 +75,7 @@ public class User implements Parcelable, Entity {
      * @param email
      * @param password
      */
-    public User(String full_name, String address, String city, String state, int zipCode, String email, String password) {
+    public Account(String full_name, String address, String city, String state, int zipCode, String email, String password) {
         this.full_name = full_name;
         this.email = email;
         this.password = password;
@@ -85,11 +85,11 @@ public class User implements Parcelable, Entity {
         this.zipCode = zipCode;
     }
 
-    public static User createUser(String fullName, String address, String city, String state, int zipcode, String email, String
+    public static Account createUser(String fullName, String address, String city, String state, int zipcode, String email, String
             password) {
 
         // create and return new user
-        return new User(fullName, address, city, state, zipcode, email, password);
+        return new Account(fullName, address, city, state, zipcode, email, password);
     }
 
     public String getId() {
@@ -196,7 +196,7 @@ public class User implements Parcelable, Entity {
 
     @Override
     public String getGeneralName() {
-        return "User";
+        return "Account";
     }
 
     @Override
