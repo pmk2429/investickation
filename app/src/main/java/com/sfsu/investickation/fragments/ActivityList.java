@@ -70,7 +70,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         setHasOptionsMenu(true);
         // initialize the Bus to get list of Activities from server.
         // must be cached for frequent accesses.
-        Log.i(TAG, "on create called");
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 

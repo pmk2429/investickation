@@ -34,7 +34,7 @@ public class FileUploadHandler extends ApiRequestHandler {
 
     public FileUploadHandler(Bus bus, Context mContext) {
         super(bus, mContext);
-        mApiService = RetrofitApiClient.createServiceForUpload(ObservationApiService.class);
+        mApiService = RetrofitApiClient.createServiceForUpload(ObservationApiService.class, ACCESS_TOKEN);
     }
 
     @Subscribe
@@ -58,7 +58,7 @@ public class FileUploadHandler extends ApiRequestHandler {
 
                 // finally make a call to ApiService
                 imageUploadCall = mApiService.upload(onLoadingInitialized.getRequest().getRequestBody(), onLoadingInitialized
-                        .observationId, ACCESS_TOKEN);
+                        .observationId);
 
                 //imageUploadCall = mApiService.uploadTick(requestBodyMap);
 

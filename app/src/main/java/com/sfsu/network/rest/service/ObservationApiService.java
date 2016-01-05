@@ -88,8 +88,7 @@ public interface ObservationApiService {
      */
     @Multipart
     @POST("observations/upload_tick_pic")
-    Call<Observation> upload(@Part("file\"; filename=\"image2.png ") RequestBody imageFile, @Query("id") String observationId,
-                             @Query("access_token") String accessToken);
+    Call<Observation> upload(@Part("file\"; filename=\"image2.png ") RequestBody imageFile, @Query("id") String observationId);
 
     @Multipart
     @POST("observations/upload_tick_pic")

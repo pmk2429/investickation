@@ -45,7 +45,7 @@ public interface ActivityApiService {
 
 
     /**
-     * Adds new {@link Activities} record to the Server.
+     * Creates new {@link Activities} record on the Server.
      *
      * @return
      */

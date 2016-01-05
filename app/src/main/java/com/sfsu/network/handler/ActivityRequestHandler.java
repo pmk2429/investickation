@@ -1,7 +1,6 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
@@ -50,9 +49,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     public ActivityRequestHandler(Bus bus, Context mContext) {
         super(bus, mContext);
         mApiService = RetrofitApiClient.createService(ActivityApiService.class, ACCESS_TOKEN);
-//        USER_ID = new AuthPreferences(mContext).getUser_id();
-        Log.i(TAG, "u:" + USER_ID);
-        Log.i(TAG, "a:" + ACCESS_TOKEN);
     }
 
     /**
@@ -122,7 +118,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure (Throwable t){
+            public void onFailure(Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

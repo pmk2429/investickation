@@ -31,6 +31,7 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
@@ -174,15 +175,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 enableView(btnHalfHour);
             }
         });
-
-        /*
-        btnHour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enableView(btnHour);
-            }
-        });
-        */
 
         // initialize and set et_manualInput.
         et_manualInput.addTextChangedListener(new TextWatcher() {
@@ -379,8 +371,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // create Unique ID for the Running activity.
             String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
 
+            String userId = new AuthPreferences(mContext).getUser_id();
+
             // create a new Activities Object (Model).
-            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), "5654fdb3444466ab6589f741");
+            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), userId);
 
             // set the state of Currently running activity to Running.
             newActivityObj.setState(Activities.STATE.RUNNING);
@@ -388,7 +382,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // build on the same newActivity Object.
             newActivityObj.setLocation_area(locationArea);
 
-            Log.i(TAG, "play clicked");
             // once the play button is clicked, make a network call and create new Activities on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
         } else {
