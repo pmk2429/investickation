@@ -5,6 +5,7 @@
 
     <!-- Separator dimensions-->
     <dimen name="separator_dimen">1dp</dimen>
+    <dimen name="separator_dimen_medium">2dp</dimen>
 
     <!-- Widget and View dimensions, -->
     <dimen name="view_dimen_X1_small">2dp</dimen>

@@ -40,6 +40,7 @@
                     android:layout_alignTop="@id/imageView_actDet_staticMap"
                     android:layout_marginEnd="@dimen/view_dimen_small"
                     android:layout_marginTop="@dimen/view_dimen_small"
+                    android:background="@color/colorWhite"
                     android:src="@mipmap/ic_map_black_24dp"/>
 
                 <TextView
@@ -100,10 +101,11 @@
             </RelativeLayout>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_activity"
+                android:id="@+id/cardview_actDet_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/relativeLayout_activityDetailsHeading"
+                android:layout_marginBottom="@dimen/view_dimen_large"
                 android:layout_marginLeft="@dimen/view_dimen_large"
                 android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
@@ -121,7 +123,8 @@
                     <RelativeLayout
                         android:id="@+id/relativeLayout_activityDetailsDescription"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite">
 
                         <TextView
                             android:id="@+id/textViewStatic_activityDetail"
@@ -147,30 +150,44 @@
                             android:layout_marginTop="@dimen/view_dimen_small"
                             android:background="@color/divider"/>
 
-                        <TextView
-                            android:id="@+id/textView_actDet_totalLocations"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/separator_observation_2"
-                            android:layout_centerInParent="true"
-                            android:layout_marginTop="@dimen/view_dimen_small"
-                            android:text="12 Locations"
-                            android:textAlignment="center"
-                            android:textColor="@color/secondaryText"
-                            android:textSize="@dimen/font_small"/>
+                            android:layout_marginTop="@dimen/view_dimen_large"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/textView_actDet_totalDistance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/textView_actDet_totalLocations"
-                            android:layout_centerInParent="true"
-                            android:layout_marginBottom="@dimen/view_dimen_large"
-                            android:layout_marginTop="@dimen/view_dimen_small"
-                            android:text="5 miles"
-                            android:textAlignment="center"
-                            android:textColor="@color/secondaryText"
-                            android:textSize="@dimen/font_small"/>
+                            <TextView
+                                android:id="@+id/textView_actDet_totalLocations"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:text="12 Locations"
+                                android:textAlignment="center"
+                                android:textColor="@color/secondaryText"
+                                android:textSize="@dimen/font_small"/>
+
+                            <View
+                                android:id="@id/separator_observation_2"
+                                android:layout_width="@dimen/separator_dimen_medium"
+                                android:layout_height="match_parent"
+                                android:background="@color/divider"/>
+
+                            <TextView
+                                android:id="@+id/textView_actDet_totalDistance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:text="5 miles"
+                                android:textAlignment="center"
+                                android:textColor="@color/secondaryText"
+                                android:textSize="@dimen/font_small"/>
+
+                        </LinearLayout>
 
                     </RelativeLayout>
 
@@ -179,6 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="@dimen/view_dimen_large"
+                        android:layout_marginTop="@dimen/view_dimen_X_large"
                         android:background="@drawable/dashboard_card_border"
                         android:gravity="center">
 

@@ -77,6 +77,11 @@ public class ActivityMap extends Fragment {
                 new LatLng(40.755823, -73.986397)};
         mGoogleMapController.setUpPolylineOnMap(latLngs);
 
+        /* now depending on the Activity retrieved from the activityId, get all the Observations for this Activity and display
+         it on Maps.
+         */
+
+
         return rootView;
 
     }

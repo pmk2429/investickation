@@ -91,6 +91,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private void performFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

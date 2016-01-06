@@ -62,20 +62,23 @@ public class ActivityEvent extends BaseNetworkEvent {
      * Event Handler when the Activities Events are successfully executed and Response is generated.
      */
     public static class OnLoaded extends OnDone<Activities> {
+
         public Integer count;
 
         public OnLoaded(Activities entity) {
             super(entity);
         }
 
-
         public OnLoaded(Integer count) {
             super(new Activities());
             this.count = count;
         }
-
     }
 
+    /**
+     * Event Handler for loading List of Activities all together from the Server.
+     * <b>Has to be separate to properly unregister the event from ActivityList</b>
+     */
     public static class OnListLoaded extends OnDone<Activities> {
         public OnListLoaded(List<Activities> activitiesList) {
             super(activitiesList);

@@ -3,7 +3,6 @@ package com.sfsu.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,12 +142,12 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
         public ActivityViewHolder(View itemView) {
             super(itemView);
-            cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_activity);
+            cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_actList_details);
             imageView_staticMap = (ImageView) itemView.findViewById(R.id.imageView_actList_staticMap);
-            txtView_activityName = (TextView) itemView.findViewById(R.id.textView_activityNameMain);
-            txtView_distance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
-            txtView_observations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);
-            txtView_people = (TextView) itemView.findViewById(R.id.textView_totalPeople);
+            txtView_activityName = (TextView) itemView.findViewById(R.id.textView_actList_name);
+            txtView_distance = (TextView) itemView.findViewById(R.id.textView_actList_totalDistance);
+            txtView_observations = (TextView) itemView.findViewById(R.id.textView_actList_totalObservations);
+            txtView_people = (TextView) itemView.findViewById(R.id.textView_actList_totalPeople);
         }
     }
 

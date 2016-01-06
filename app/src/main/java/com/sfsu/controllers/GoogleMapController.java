@@ -15,6 +15,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.sfsu.entities.Observation;
+
+import java.util.List;
 
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
@@ -120,20 +123,27 @@ public class GoogleMapController {
         }
         // Get back the mutable Polyline
         mGoogleMap.addPolyline(drawOptions);
-        showMarker(latLngs);
+//        showMarker(latLngs);
     }
 
     /**
-     * Method to display marker on GoogleMaps for the {@link LatLng} specified.
+     * Method to display marker on GoogleMaps for the {@link LatLng} specified. The show marker is used to display all the
+     * {@link com.sfsu.entities.Observation} of an {@link com.sfsu.entities.Activities}.
      */
-    public void showMarker(LatLng[] latLngs) {
+    public void showMarker(LatLng[] latLngs, List<Observation> mObservationsList) {
         MarkerOptions mMarkerOptions = new MarkerOptions();
         if (latLngs != null || latLngs.length > 0) {
+
             for (int i = 0; i < latLngs.length; i++) {
-                mMarkerOptions.position(latLngs[i]);
+                // get the Observation
+                Observation mObservation = mObservationsList.get(i);
+
+                LatLng mLatLng = new LatLng(mObservation.getLocation().getLatitude(), mObservation.getLocation().getLongitude());
+
+                mMarkerOptions.position(mLatLng);
+
                 // once the Markers are all set, display the title and the snippet.
-                mMarkerOptions.title("Right Now")
-                        .snippet("Population: 20,000");
+                mMarkerOptions.title(mObservation.getTickName()).snippet(mObservation.getSpecies());
 
                 Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
             }

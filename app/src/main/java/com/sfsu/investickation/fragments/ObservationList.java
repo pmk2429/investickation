@@ -196,7 +196,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
      * @param onLoaded
      */
     @Subscribe
-    public void onObservationsLoadSuccess(ObservationEvent.OnLoaded onLoaded) {
+    public void onObservationsLoadSuccess(ObservationEvent.OnListLoaded onLoaded) {
         responseObservationList = onLoaded.getResponseList();
 
         mObservationList = responseObservationList;

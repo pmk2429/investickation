@@ -9,8 +9,8 @@
               android:paddingTop="@dimen/view_dimen_large">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview_activity"
-        android:layout_width="match_parent"
+        android:id="@+id/cardview_actList_details"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorWhite"
@@ -23,12 +23,12 @@
             android:background="@color/colorWhite">
 
             <TextView
-                android:id="@+id/textView_activityNameMain"
+                android:id="@+id/textView_actList_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
                 android:background="@color/colorWhite"
                 android:gravity="top|start"
-                android:paddingBottom="8dp"
+                android:paddingBottom="@dimen/view_dimen_small"
                 android:paddingEnd="@dimen/view_dimen_large"
                 android:paddingStart="@dimen/view_dimen_large"
                 android:paddingTop="@dimen/view_dimen_large"
@@ -41,9 +41,9 @@
                 android:id="@+id/imageView_actList_staticMap"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cardview_large"
-                android:layout_below="@id/textView_activityNameMain"
+                android:layout_below="@id/textView_actList_name"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="@dimen/dimen_default"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_tick"/>
@@ -70,12 +70,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView_totalDistance"
-                    android:layout_width="0dp"
+                    android:id="@+id/textView_actList_totalDistance"
+                    android:layout_width="@dimen/dimen_default"
                     android:layout_height="@dimen/widget_dimen"
                     android:layout_weight="0.4"
                     android:background="@color/colorWhite"
                     android:paddingBottom="@dimen/view_dimen_small"
+                    android:paddingEnd="@dimen/view_dimen_large"
                     android:paddingStart="@dimen/view_dimen_large"
                     android:paddingTop="@dimen/view_dimen_large"
                     android:text="@string/text_totalDistance"
@@ -83,10 +84,9 @@
                     android:textSize="@dimen/font_small"/>
 
                 <TextView
-                    android:id="@+id/textView_numOfObservations"
-                    android:layout_width="0dp"
+                    android:id="@+id/textView_actList_totalObservations"
+                    android:layout_width="@dimen/dimen_default"
                     android:layout_height="@dimen/widget_dimen"
-                    android:layout_toEndOf="@+id/textView_totalDistance"
                     android:layout_weight="0.6"
                     android:background="@color/colorWhite"
                     android:paddingBottom="@dimen/view_dimen_small"
@@ -99,13 +99,14 @@
                     android:typeface="sans"/>
 
                 <TextView
-                    android:id="@+id/textView_totalPeople"
-                    android:layout_width="0dp"
+                    android:id="@+id/textView_actList_totalPeople"
+                    android:layout_width="@dimen/dimen_default"
                     android:layout_height="@dimen/widget_dimen"
                     android:layout_weight="0.4"
                     android:background="@color/colorWhite"
                     android:paddingBottom="@dimen/view_dimen_small"
-                    android:paddingLeft="@dimen/view_dimen_large"
+                    android:paddingEnd="@dimen/view_dimen_large"
+                    android:paddingStart="@dimen/view_dimen_large"
                     android:paddingTop="@dimen/view_dimen_large"
                     android:text="@string/text_totalPeople"
                     android:textColor="@color/colorPrimary"
@@ -116,7 +117,7 @@
             <View
                 android:id="@+id/separator_activity_list"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/separator_dimen"
                 android:layout_alignTop="@id/linearLayout_actList"
                 android:layout_below="@id/imageView_actList_staticMap"
                 android:background="@color/divider"/>

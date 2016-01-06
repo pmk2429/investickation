@@ -11,13 +11,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -60,6 +68,8 @@ public class ActivityDetail extends Fragment {
     private SharedPreferences.Editor editor;
     private Gson gson;
 
+    private List<Observation> mObservationList;
+
     public ActivityDetail() {
         // Required empty public constructor
     }
@@ -88,6 +98,9 @@ public class ActivityDetail extends Fragment {
         }
         gson = new Gson();
         activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
+
+        // since we have the activityId, get all Observations for this Activity and display it on Maps as well as view it in List.
+        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", mActivity.getId(), ApiRequestHandler.ACT_OBSERVATIONS));
     }
 
     @Override
@@ -96,12 +109,6 @@ public class ActivityDetail extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
 
-        button_viewObservations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onViewAllObservationsClicked(mActivity.getId());
-            }
-        });
 
         icon_openMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,11 +133,6 @@ public class ActivityDetail extends Fragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onPause() {
@@ -140,11 +142,15 @@ public class ActivityDetail extends Fragment {
         String activityJson = gson.toJson(mActivity);
         editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
         editor.apply();
+
+        BusProvider.bus().unregister(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        BusProvider.bus().register(this);
 
         // depending on the args, populate view based on the Activity restored.
         if (args != null) {
@@ -163,33 +169,46 @@ public class ActivityDetail extends Fragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
     /**
      * Helper method to populate View in ActivityDetail.
      */
     private void populateView() {
-        // once the object is collected, display it in the respective controls.
-        String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
-        txtView_name.setText(activityName);
 
-        String observationCount = mActivity.getNum_of_ticks() + " Obs.";
-        txtView_observationCount.setText(observationCount);
+        try {
+            // once the object is collected, display it in the respective controls.
+            String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
+            txtView_name.setText(activityName);
 
-        // TODO: think about this one
-        txtView_totalLocation.setText("00");
+            String observationCount = mActivity.getNum_of_ticks() + " Obs.";
+            txtView_observationCount.setText(observationCount);
 
-        String people = mActivity.getNum_of_people() + " people";
-        txtView_totalPeople.setText(people);
+            // TODO: think about this one
+            txtView_totalLocation.setText("00");
 
-        String pets = mActivity.getNum_of_pets() + " pets";
-        txtView_totalPets.setText(pets);
+            String people = mActivity.getNum_of_people() + " people";
+            txtView_totalPeople.setText(people);
 
-        // TODO: think about this one.
-        txtView_totalDistance.setText("00");
+            String pets = mActivity.getNum_of_pets() + " pets";
+            txtView_totalPets.setText(pets);
 
-        if (mActivity.getImage_url().equals("") || mActivity.getImage_url().equals(null)) {
-            imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
-        } else {
-            Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+            // TODO: think about this one.
+            txtView_totalDistance.setText("00");
+
+            String image_url = mActivity.getImage_url();
+
+            if (image_url == "" || image_url == null) {
+                imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+            } else {
+                Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+            }
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -199,6 +218,45 @@ public class ActivityDetail extends Fragment {
         super.onDestroy();
         // delete the SharedPref data
         activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
+
+        // free up all the resources.
+        mActivity = null;
+        mContext = null;
+        gson = null;
+    }
+
+
+    /**
+     * Subscribes to the event of success loading of {@link com.sfsu.entities.Observation} related to this Activity.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationsLoadSuccess(ObservationEvent.OnListLoaded onLoaded) {
+        mObservationList = onLoaded.getResponseList();
+
+        // only if the observations can be retrieved for current Activity, open the List of Observation.
+        if (mObservationList != null && mObservationList.size() > 0) {
+            button_viewObservations.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onViewAllObservationsClicked(mActivity.getId());
+                }
+            });
+        } else {
+            button_viewObservations.setEnabled(false);
+            button_viewObservations.setText(R.string.actDet_noObservationRecorded);
+        }
+    }
+
+    /**
+     * Subscribes to the event of success loading of {@link com.sfsu.entities.Observation} related to this Activity.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

@@ -59,7 +59,6 @@ public class RetrofitApiClient {
         httpClient.interceptors().clear();
         httpClient.networkInterceptors().clear();
         if (authToken != null && !authToken.equals("invalid-auth-token")) {
-            Log.i("~!@#$RetApiCnt", "auth token found");
             httpClient.networkInterceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -76,8 +75,6 @@ public class RetrofitApiClient {
                 }
             });
         }
-
-        Log.i("~!@#$RetApiCnt", "No auth token");
         // build the Retrofit instance with the Token Authorization OkHttpClient.
         Retrofit retrofit = builder.client(httpClient).build();
 

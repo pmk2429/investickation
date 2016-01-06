@@ -79,7 +79,19 @@ public class ObservationEvent extends BaseNetworkEvent {
             super(entity);
         }
 
+        /*
         public OnLoaded(List<Observation> observationList) {
+            super(observationList);
+        }
+        */
+    }
+
+    /**
+     * Event Handler for loading List of Activities all together from the Server.
+     * <b>Has to be separate to properly unregister the event from ActivityList</b>
+     */
+    public static class OnListLoaded extends OnDone<Observation> {
+        public OnListLoaded(List<Observation> observationList) {
             super(observationList);
         }
     }
