@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,10 +86,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         mAuthPreferences = new AuthPreferences(mContext);
         mSessionManager = new SessionManager(mContext);
 
-        Log.i(TAG, " reached after logout");
-        Log.i(TAG, "AccTok: " + mAuthPreferences.getAccessToken());
-        Log.i(TAG, "userId: " + mAuthPreferences.getUser_id());
-        Log.i(TAG, "isLoggedIn: " + mSessionManager.isLoggedIn());
 
         // set onClickListener on this Fragment.
         btnLogin.setOnClickListener(this);
@@ -137,7 +132,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      * @param password
      */
     public void login(final String email, final String password) {
-        Log.i(TAG, "1) login called");
         // verify and validate email and password input fields
         BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
     }
@@ -174,7 +168,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "4) login success");
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
@@ -182,7 +175,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // if the Auth preferences is successfully set in SharedPreferences, then set the Login flag.
         if (isCredentialsSet) {
             mSessionManager.setLogin(true);
-            InvestickationApp.getInstance().onCreate();
+            InvestickationApp.getInstance().initResources();
         }
 
         // once the token is set successfully, open the dashboard.

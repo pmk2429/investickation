@@ -1,7 +1,6 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sfsu.entities.Account;
 import com.sfsu.network.error.ErrorResponse;
@@ -115,7 +114,6 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeUserLoginEvent(LoginEvent.OnLoadingInitialized onLoadingInitialized) {
-        Log.i(TAG, "2) inside onInit");
         LoginService loginApiService = RetrofitApiClient.createService(LoginService.class);
         // make login call using LoginServiceApi
         Call<LoginResponse> userLoginCall = loginApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
@@ -123,10 +121,8 @@ public class UserRequestHandler extends ApiRequestHandler {
             @Override
             public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    Log.i(TAG, "3a) onResponse success");
                     mBus.post(new LoginEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(TAG, "3b) onResponse error");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -140,7 +136,6 @@ public class UserRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(TAG, "3c) onFailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new LoginEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

@@ -55,6 +55,15 @@ public class InvestickationApp extends Application {
         super.onCreate();
         mInstance = this;
 
+        initResources();
+
+    }
+
+    /**
+     * Initializes all the resources for the application with Application Context.
+     */
+    public void initResources() {
+
         // initialize the ApiRequestHandler to get access token.
         mApiRequestHandler = new ApiRequestHandler(mBus, this);
 

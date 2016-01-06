@@ -107,8 +107,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         mActivitiesList = responseActivitiesList;
 
         if (mActivitiesList.size() > 0 && mActivitiesList != null) {
-//            Log.i(TAG, responseActivitiesList.size() + "");
-            Log.i(TAG, mActivitiesList.size() + "");
             displayActivitiesList();
         } else if (mActivitiesList.size() == 0) {
             // display text message
