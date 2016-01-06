@@ -47,17 +47,25 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     @Override
     public void onBindViewHolder(ActivitiesListAdapter.ActivityViewHolder holder, int position) {
         if (holder != null) {
-            String activityName = activityList.get(position).getActivityName() + " @ " + activityList.get(position)
-                    .getLocation_area();
+
+            Activities mActivity = activityList.get(position);
+            // render all the data in the View.
+            String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
             holder.txtView_activityName.setText(activityName);
-            String pets = activityList.get(position).getNum_of_pets() + " pets";
+            String pets = mActivity.getNum_of_pets() + " pets";
             holder.txtView_distance.setText(pets);
-            String observations = activityList.get(position).getNum_of_ticks() + " Observations";
+            String observations = mActivity.getNum_of_ticks() + " Observations";
             holder.txtView_observations.setText(observations);
-            String people = activityList.get(position).getNum_of_people() + " people";
+            String people = mActivity.getNum_of_people() + " people";
             holder.txtView_people.setText(people);
 
-            Picasso.with(mContext).load(activityList.get(position).getImage_url()).into(holder.imageView_staticMap);
+            String image_url = mActivity.getImage_url();
+
+            if (image_url == "" || image_url == null) {
+                holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+            } else {
+                Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+            }
         }
     }
 

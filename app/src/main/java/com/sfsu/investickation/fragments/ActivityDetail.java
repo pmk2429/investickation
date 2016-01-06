@@ -17,6 +17,7 @@ import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +55,6 @@ public class ActivityDetail extends Fragment {
     private Context mContext;
     private Bundle args;
     private Activities mActivity;
-    private ImageView imageView_map;
 
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
@@ -186,7 +186,11 @@ public class ActivityDetail extends Fragment {
         // TODO: think about this one.
         txtView_totalDistance.setText("00");
 
-        //TODO: load the image into imageView using Picasso.
+        if (mActivity.getImage_url().equals("") || mActivity.getImage_url().equals(null)) {
+            imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+        } else {
+            Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+        }
 
     }
 
