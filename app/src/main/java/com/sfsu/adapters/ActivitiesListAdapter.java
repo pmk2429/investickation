@@ -22,7 +22,7 @@ import java.util.List;
  * <tt>ActivitiesListAdapter</tt> is a Custom Adapter for displaying activities in the RecyclerView.
  * This provides a row item for each of the entry in the RecyclerView inflated using custom card view layout
  * ActivitiesListAdapter expects a custom layout as one of the parameter in the constructor.
- * Since the RecyclerView needs LayoutManagaer, this class implements own layout manager for define the data
+ * Since the RecyclerView needs LayoutManager, this class implements own layout manager for define the data
  * in the layout.
  * </p>
  * Created by Pavitra on 5/19/2015.
