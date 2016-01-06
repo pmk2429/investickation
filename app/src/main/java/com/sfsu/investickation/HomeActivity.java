@@ -68,11 +68,10 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             finish();
-            super.onBackPressed();
         } else if (count > 0) {
             getSupportFragmentManager().popBackStack();
         }
-
+        super.onBackPressed();
     }
 
     /**

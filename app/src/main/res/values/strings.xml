@@ -212,4 +212,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- ImageManager -->
     <string name="album_name">InvesTICKations</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

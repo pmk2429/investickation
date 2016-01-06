@@ -47,11 +47,6 @@ public class TickMap extends Fragment {
         // setup google Map using the GoogleMapController.
         mGoogleMapController.setupGoogleMap(mMapView);
 
-        try {
-
-        } catch (NullPointerException exception) {
-        }
-
         return v;
     }
 
