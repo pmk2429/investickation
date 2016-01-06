@@ -52,7 +52,7 @@ import butterknife.ButterKnife;
  * </p>
  */
 
-public class ObservationsList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class ObservationList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
     private final String TAG = "~!@#ObsList";
     @Bind(R.id.recyclerview_remote_observations)
@@ -73,23 +73,23 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
     private DatabaseDataController dbController;
     private String activityId;
 
-    public ObservationsList() {
+    public ObservationList() {
         // Required empty public constructor
     }
 
     /**
-     * Helper method to create instance of an {@link ObservationsList} fragment initialzed with <tt>activityId</tt>
+     * Helper method to create instance of an {@link ObservationList} fragment initialzed with <tt>activityId</tt>
      *
      * @param key
      * @param activityId
      * @return
      */
-    public static ObservationsList newInstance(String key, String activityId) {
-        ObservationsList mObservationsList = new ObservationsList();
+    public static ObservationList newInstance(String key, String activityId) {
+        ObservationList mObservationList = new ObservationList();
         Bundle args = new Bundle();
         args.putString(key, activityId);
-        mObservationsList.setArguments(args);
-        return mObservationsList;
+        mObservationList.setArguments(args);
+        return mObservationList;
     }
 
 
@@ -300,17 +300,17 @@ public class ObservationsList extends Fragment implements View.OnClickListener, 
 
 
     /**
-     * Callback Interface to handle onClick Listeners in {@link ObservationsList} Fragment.
+     * Callback Interface to handle onClick Listeners in {@link ObservationList} Fragment.
      */
     public interface IRemoteObservationCallBacks {
 
         /**
-         * Callback method to handle onClick Listener when user clicks on '+' button in {@link ObservationsList} Fragment.
+         * Callback method to handle onClick Listener when user clicks on '+' button in {@link ObservationList} Fragment.
          */
         public void onObservationAddListener();
 
         /**
-         * Callback method to handle the on item click Listener of the Observations List in {@link ObservationsList}
+         * Callback method to handle the on item click Listener of the Observations List in {@link ObservationList}
          * Fragment
          *
          * @param observation

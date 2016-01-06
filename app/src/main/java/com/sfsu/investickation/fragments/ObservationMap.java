@@ -15,14 +15,7 @@ import com.sfsu.investickation.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ObservationMap.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ObservationMap#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ObservationMap extends Fragment {
 
     private static final String TAG = "`!@#$ObservationMap";
@@ -97,9 +90,6 @@ public class ObservationMap extends Fragment {
      * Callback interface to handle the onClick of the button in {@link ObservationMap} Fragment.
      */
     public interface IObservationMapCallBack {
-        /**
-         * Callback method to handle the click event in the {@link ObservationMap} Fragment.
-         */
-        void onViewListObservationClicked();
+       
     }
 }

@@ -303,12 +303,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
@@ -328,6 +322,12 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -338,6 +338,18 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                     + " must implement IActivityNewCallBack");
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+        mInterface = null;
+        mapView = null;
+        mGoogleMapController = null;
+        mLocationListener = null;
+        googleMap = null;
+    }
+
 
     // collect all the details of an Activity and pass it on to Parent Activity
     @Override

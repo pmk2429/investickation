@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  * Displays the details of a specific {@link Activities}. Allows {@link Account} to see all the observations
  * that belongs to this specific activity.
  */
-public class ActivityDetails extends Fragment {
+public class ActivityDetail extends Fragment {
 
     public final String TAG = "~!@#ActivityDet";
     @Bind(R.id.textView_actDet_activityName)
@@ -47,6 +47,9 @@ public class ActivityDetails extends Fragment {
     @Bind(R.id.imageView_actDet_staticMap)
     ImageView imageView_staticMap;
 
+    @Bind(R.id.icon_actDet_openMap)
+    ImageView icon_openMap;
+
     private IActivityDetailsCallBacks mListener;
     private Context mContext;
     private Bundle args;
@@ -57,19 +60,19 @@ public class ActivityDetails extends Fragment {
     private SharedPreferences.Editor editor;
     private Gson gson;
 
-    public ActivityDetails() {
+    public ActivityDetail() {
         // Required empty public constructor
     }
 
     /**
-     * Method to create {@link ActivityDetails} instance.
+     * Method to create {@link ActivityDetail} instance.
      *
      * @param key
      * @param mActivity
      * @return
      */
-    public static ActivityDetails newInstance(String key, Activities mActivity) {
-        ActivityDetails fragment = new ActivityDetails();
+    public static ActivityDetail newInstance(String key, Activities mActivity) {
+        ActivityDetail fragment = new ActivityDetail();
         Bundle args = new Bundle();
         args.putParcelable(key, mActivity);
         fragment.setArguments(args);
@@ -97,6 +100,13 @@ public class ActivityDetails extends Fragment {
             @Override
             public void onClick(View v) {
                 mListener.onViewAllObservationsClicked(mActivity.getId());
+            }
+        });
+
+        icon_openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onOpenActivitiesMapClicked(mActivity.getId());
             }
         });
 
@@ -154,7 +164,7 @@ public class ActivityDetails extends Fragment {
     }
 
     /**
-     * Helper method to populate View in ActivityDetails.
+     * Helper method to populate View in ActivityDetail.
      */
     private void populateView() {
         // once the object is collected, display it in the respective controls.
@@ -188,14 +198,20 @@ public class ActivityDetails extends Fragment {
     }
 
     /**
-     * Interface callback for handling onClick Listeners in {@link ActivityDetails} Fragment.
+     * Interface callback for handling onClick Listeners in {@link ActivityDetail} Fragment.
      */
     public interface IActivityDetailsCallBacks {
         /**
          * Callback method to handle the click event when user clicks <tt>View Observation</tt> button in {@link
-         * ActivityDetails} fragment.
+         * ActivityDetail} fragment.
          */
         public void onViewAllObservationsClicked(String activityId);
+
+        /**
+         * Callback method to handle the onclick event of the button in {@link ActivityDetail} fragment to open up the {@link
+         * ObservationMap} fragment.
+         */
+        public void onOpenActivitiesMapClicked(String activityId);
     }
 
 }

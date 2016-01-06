@@ -8,11 +8,12 @@ import android.support.v4.app.FragmentTransaction;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
-import com.sfsu.investickation.fragments.ObservationsList;
+import com.sfsu.investickation.fragments.ObservationList;
+import com.sfsu.investickation.fragments.ObservationMap;
 
 
-public class ObservationMasterActivity extends MainBaseActivity implements ObservationsList.IRemoteObservationCallBacks, AddObservation
-        .IAddObservationCallBack {
+public class ObservationMasterActivity extends MainBaseActivity implements ObservationList.IRemoteObservationCallBacks, AddObservation
+        .IAddObservationCallBack, ObservationMap.IObservationMapCallBack {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
@@ -55,21 +56,21 @@ public class ObservationMasterActivity extends MainBaseActivity implements Obser
             // if the Intent is called from Dashboard by clicking on View Observations button.
             else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 FLAG_CALLED_FROM_DASHBOARD = true;
-                ObservationsList observationsList = new ObservationsList();
-                performFragmentTransaction(observationsList);
+                ObservationList observationList = new ObservationList();
+                performFragmentTransaction(observationList);
             }
-            // if the Intent is called from ActivityDetails by clicking on View Observations button.
+            // if the Intent is called from ActivityDetail by clicking on View Observations button.
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY_DETAILS = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
-                ObservationsList mObservationsList = ObservationsList.newInstance(UserActivityMasterActivity.KEY_ACTIVITY_ID,
+                ObservationList mObservationList = ObservationList.newInstance(UserActivityMasterActivity.KEY_ACTIVITY_ID,
                         activityId);
-                performFragmentTransaction(mObservationsList);
+                performFragmentTransaction(mObservationList);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
-                ObservationsList mObservationsList = new ObservationsList();
-                performFragmentTransaction(mObservationsList);
+                ObservationList mObservationList = new ObservationList();
+                performFragmentTransaction(mObservationList);
             }
         }
     }

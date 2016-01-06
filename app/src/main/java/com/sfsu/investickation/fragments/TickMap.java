@@ -84,6 +84,15 @@ public class TickMap extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mInterface = null;
+        mContext = null;
+        mGoogleMapController = null;
+        mMapView = null;
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {

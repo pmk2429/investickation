@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 import com.sfsu.entities.Activities;
-import com.sfsu.investickation.fragments.ActivityDetails;
+import com.sfsu.investickation.fragments.ActivityDetail;
 import com.sfsu.investickation.fragments.ActivityList;
+import com.sfsu.investickation.fragments.ActivityMap;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
@@ -20,7 +22,7 @@ import com.sfsu.network.bus.BusProvider;
  * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
-public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetails.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks {
+public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetail.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityMap.IActivityMapCallBack {
 
     public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
@@ -61,16 +63,16 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                     mActivityRunning = new ActivityRunning();
                     performFragmentTransaction(mActivityRunning);
                 }
-                // if user navigates back to ActivityDetails fragment.
+                // if user navigates back to ActivityDetail fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
-                    ActivityDetails mActivityDetails = new ActivityDetails();
-                    performFragmentTransaction(mActivityDetails);
+                    ActivityDetail mActivityDetail = new ActivityDetail();
+                    performFragmentTransaction(mActivityDetail);
                 }
                 // if user opens Activity by clicking on the ListView item from Dashboard.
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {
                     Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
-                    ActivityDetails mActivityDetails = ActivityDetails.newInstance(KEY_ACTIVITY_DETAILS, mActivities);
-                    performFragmentTransaction(mActivityDetails);
+                    ActivityDetail mActivityDetail = ActivityDetail.newInstance(KEY_ACTIVITY_DETAILS, mActivities);
+                    performFragmentTransaction(mActivityDetail);
                 }
                 // open List of Activities by default.
                 else {
@@ -119,12 +121,22 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
-        ActivityDetails mActivityDetailsFragment = ActivityDetails.newInstance(KEY_ACTIVITY_DETAILS, mActivity);
+        ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(KEY_ACTIVITY_DETAILS, mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.activity_fragment_container, mActivityDetailsFragment);
+        transaction.add(R.id.activity_fragment_container, mActivityDetailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -183,6 +195,17 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             startActivity(observationListIntent);
             finish();
         } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void onOpenActivitiesMapClicked(String activityId) {
+        try {
+            // TODO: pass the activityId to map and display all observations.
+            ActivityMap mActivityMap = new ActivityMap();
+            performFragmentTransaction(mActivityMap);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

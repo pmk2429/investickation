@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * <p>
  * <tt>ObservationsListAdapter</tt> is a Custom Adapter which is used to display a Custom RowView
- * in the ObservationsList in Observations Fragment in the RecyclerView.
+ * in the ObservationList in Observations Fragment in the RecyclerView.
  * This Class extends RecyclerView.Adapter in order to create the custom view.
  * Since the RecyclerView needs LayoutManagaer, this class implements own layout manager for define the data
  * in the layout.

@@ -100,7 +100,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         mActivitiesAdapter.notifyDataSetChanged();
 
 
-        // get the selected Activity and open ActivityDetails page.
+        // get the selected Activity and open ActivityDetail page.
         mListViewActivities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -15,24 +15,24 @@ import com.sfsu.investickation.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ActivitiesMap extends Fragment {
+public class ActivityMap extends Fragment {
 
-    private static final String TAG = "`!@#$ActivitiesMap";
+    private static final String TAG = "`!@#$ActivityMap";
     @Bind(R.id.mapView_activitiesMap_main)
     MapView mMapView;
     @Bind(R.id.button_actMap_viewList)
     Button btn_viewList;
     private GoogleMapController mGoogleMapController;
     private Context mContext;
-    private IObservationMapCallBack mListener;
+    private IActivityMapCallBack mListener;
 
-    public ActivitiesMap() {
+    public ActivityMap() {
         // Required empty public constructor
     }
 
 
-    public static ActivitiesMap newInstance(String param1) {
-        ActivitiesMap fragment = new ActivitiesMap();
+    public static ActivityMap newInstance(String param1) {
+        ActivityMap fragment = new ActivityMap();
         Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -47,7 +47,7 @@ public class ActivitiesMap extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_observation_map, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_activities_map, container, false);
 
         ButterKnife.bind(this, rootView);
 
@@ -65,10 +65,36 @@ public class ActivitiesMap extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        final Bundle mapViewSaveState = new Bundle(outState);
+        mMapView.onSaveInstanceState(mapViewSaveState);
+        outState.putBundle("mapViewSaveState", mapViewSaveState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        mMapView.onResume();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof IObservationMapCallBack) {
-            mListener = (IObservationMapCallBack) context;
+        if (context instanceof IActivityMapCallBack) {
+            mListener = (IActivityMapCallBack) context;
             mContext = context;
         } else {
             throw new RuntimeException(context.toString()
@@ -82,15 +108,13 @@ public class ActivitiesMap extends Fragment {
         mListener = null;
         mContext = null;
         mGoogleMapController = null;
+        mMapView = null;
     }
 
     /**
-     * Callback interface to handle the onClick of the button in {@link ActivitiesMap} Fragment.
+     * Callback interface to handle the onClick of the button in {@link ActivityMap} Fragment.
      */
-    public interface IObservationMapCallBack {
-        /**
-         * Callback method to handle the click event in the {@link ActivitiesMap} Fragment.
-         */
-        void onViewListObservationClicked();
+    public interface IActivityMapCallBack {
+
     }
 }

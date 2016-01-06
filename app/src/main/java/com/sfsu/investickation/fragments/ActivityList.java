@@ -175,9 +175,17 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mInterface = null;
+        mContext = null;
+        BusProvider.bus().unregister(this);
+        mActivitiesListAdapter = null;
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
-        mInterface = null;
     }
 
     @Override
@@ -239,6 +247,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         super.onStart();
         BusProvider.bus().register(this);
     }
+
 
     /**
      * Callback interface to handle callback methods for the ActivityList fragment.

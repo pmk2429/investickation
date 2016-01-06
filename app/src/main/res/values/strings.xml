@@ -104,6 +104,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!-- Activity Details-->
     <string name="activityDetails">Your activity Details</string>
+    <string name="actDet_viewAllObservations">View all Observations</string>
 
     <!-- Dashboard : Activity List Item-->
     <string name="actListItem_name">Hiking @ Golden Gate Presidio</string>
