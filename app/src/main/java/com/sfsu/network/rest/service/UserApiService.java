@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Account;
+import com.sfsu.network.api.ApiResources;
 
 import retrofit.Call;
 import retrofit.http.Body;
@@ -21,7 +22,8 @@ public interface UserApiService {
      *
      * @return
      */
-    @GET("accounts/{id}")
+//    @GET("accounts/{id}")
+    @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> get(@Path("id") String userId);
 
 
@@ -30,7 +32,8 @@ public interface UserApiService {
      *
      * @return
      */
-    @POST("accounts")
+//    @POST("accounts")
+    @POST(ApiResources.AccountBase)
     public Call<Account> add(@Body Account user);
 
 
@@ -41,7 +44,8 @@ public interface UserApiService {
      * @param user
      * @return
      */
-    @GET("accounts/{id}")
+//    @GET("accounts/{id}")
+    @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> update(@Path("id") String userId, @Body Account user);
 
 
@@ -50,7 +54,8 @@ public interface UserApiService {
      *
      * @return
      */
-    @GET("accounts/{id}")
+//    @GET("accounts/{id}")
+    @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> delete(@Path("id") String userId);
 
 

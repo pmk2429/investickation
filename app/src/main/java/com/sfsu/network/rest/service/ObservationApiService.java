@@ -3,6 +3,7 @@ package com.sfsu.network.rest.service;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
+import com.sfsu.network.api.ApiResources;
 import com.squareup.okhttp.RequestBody;
 
 import java.util.List;
@@ -30,7 +31,8 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @GET("observations/{id}")
+    //@GET("observations/{id}")
+    @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<Observation> get(@Path("id") String observationId);
 
     /**
@@ -38,7 +40,8 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @GET("observations")
+//    @GET("observations")
+    @GET(ApiResources.ObservationBase)
     public Call<List<Observation>> getAll();
 
 
@@ -48,7 +51,8 @@ public interface ObservationApiService {
      * @param activityId
      * @return
      */
-    @GET("activities/{id}/observations")
+//    @GET("activities/{id}/observations")
+    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID + "/" + ApiResources.ObservationBase)
     public Call<List<Observation>> observationsOfActivity(@Path("id") String activityId);
 
 
@@ -57,7 +61,8 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @POST("observations")
+//    @POST("observations")
+    @POST(ApiResources.ObservationBase)
     public Call<Observation> add(@Body Observation observation);
 
 
@@ -68,7 +73,8 @@ public interface ObservationApiService {
      * @param observation
      * @return
      */
-    @GET("observations/{id}")
+//    @GET("observations/{id}")
+    @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<Observation> update(@Path("id") String observationId, @Body Observation observation);
 
 
@@ -77,7 +83,8 @@ public interface ObservationApiService {
      *
      * @return
      */
-    @GET("observations/{id}")
+//    @GET("observations/{id}")
+    @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<Observation> delete(@Path("id") String observationId);
 
     /**

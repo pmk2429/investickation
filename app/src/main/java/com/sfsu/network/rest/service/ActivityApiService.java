@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
+import com.sfsu.network.api.ApiResources;
 
 import java.util.List;
 
@@ -19,11 +20,12 @@ import retrofit.http.Path;
 public interface ActivityApiService {
 
     /**
-     * Returns a specific {@link Activities} matching id.
+     * Returns a specific {@link Activities} to corresponding id.
      *
      * @return
      */
-    @GET("activities/{id}")
+//    @GET("activities/{id}")
+    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
     public Call<Activities> get(@Path("id") String activityId);
 
     /**
@@ -31,8 +33,9 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("accounts/{id}/activities")
-    public Call<List<Activities>> getAll(@Path("id") String user_id);//, @Query("access_token") String accessToken);
+//    @GET("accounts/{id}/activities")
+    @GET(ApiResources.AccountBase + "/" + ApiResources.ID + "/" + ApiResources.ActivitiesBase)
+    public Call<List<Activities>> getAll(@Path("id") String user_id);
 
 
     /**
@@ -49,7 +52,8 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @POST("activities")
+//    @POST("activities")
+    @POST(ApiResources.ActivitiesBase)
     public Call<Activities> add(@Body Activities activity);
 
 
@@ -60,7 +64,8 @@ public interface ActivityApiService {
      * @param activity
      * @return
      */
-    @GET("activities/{id}")
+//    @GET("activities/{id}")
+    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
     public Call<Activities> update(@Path("id") String activityId, @Body Activities activity);
 
 
@@ -69,7 +74,8 @@ public interface ActivityApiService {
      *
      * @return
      */
-    @GET("activities/{id}")
+//    @POST("activities/{id}")
+    @POST(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
     public Call<Activities> delete(@Path("id") String activityId);
 
 
@@ -79,7 +85,8 @@ public interface ActivityApiService {
      * @param activityId
      * @return
      */
-    @GET("activities/{id}/locations/count")
+//    @GET("activities/{id}/locations/count")
+    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID + "/" + ApiResources.EntityLocationBase + "/" + "count")
     public Call<Integer> totalLocations(@Path("id") String activityId);
 
 }

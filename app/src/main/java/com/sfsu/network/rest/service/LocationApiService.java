@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.EntityLocation;
+import com.sfsu.network.api.ApiResources;
 
 import java.util.List;
 
@@ -17,13 +18,13 @@ import retrofit.http.Path;
  */
 
 public interface LocationApiService {
-    
+
     /**
      * Returns a specific {@link EntityLocation} matching the id.
      *
      * @return
      */
-    @GET("/locations/{id}")
+    @GET(ApiResources.EntityLocationBase + "/" + ApiResources.ID)
     public Call<EntityLocation> get(@Path("id") String locationId);
 
     /**
@@ -31,8 +32,18 @@ public interface LocationApiService {
      *
      * @return
      */
-    @GET("/locations")
+    @GET(ApiResources.EntityLocationBase)
     public Call<List<EntityLocation>> getAll();
+
+
+    /**
+     * Returns the list of all {@link EntityLocation} for a specific {@link com.sfsu.entities.Activities}.
+     *
+     * @return
+     */
+    // GET /activities/{id}/locations
+    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID + "/" + ApiResources.EntityLocationBase)
+    public Call<List<EntityLocation>> get_Activities_Locations();
 
 
     /**
@@ -40,29 +51,27 @@ public interface LocationApiService {
      *
      * @return
      */
-    @POST("/locations")
+    @POST(ApiResources.EntityLocationBase)
     public Call<EntityLocation> add(@Body EntityLocation entityLocation);
 
 
     /**
      * Updates a specific {@link EntityLocation} in the server.
      *
-     * @param locationId
-     * @param entityLocation
+     * @param locationId     {@link EntityLocation} ID.
+     * @param entityLocation {@link EntityLocation}
      * @return
      */
-    @GET("/locations/{id}")
+    @GET(ApiResources.EntityLocationBase + "/" + ApiResources.ID)
     public Call<EntityLocation> update(@Path("id") String locationId, @Body EntityLocation entityLocation);
 
 
     /**
-     * <p>
      * Deletes {@link EntityLocation} from the server.
-     * </p>
      *
      * @return
      */
-    @GET("/locations/{id}")
+    @GET(ApiResources.EntityLocationBase + "/" + ApiResources.ID)
     public Call<EntityLocation> delete(@Path("id") String locationId);
 
 }

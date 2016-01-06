@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Tick;
+import com.sfsu.network.api.ApiResources;
 
 import java.util.List;
 
@@ -21,7 +22,8 @@ public interface TickApiService {
      *
      * @return
      */
-    @GET("ticks/{id}")
+//    @GET("ticks/{id}")
+    @GET(ApiResources.TickBase + "/" + ApiResources.ID)
     public Call<Tick> get(@Path("id") String tickId);
 
     /**
@@ -29,7 +31,8 @@ public interface TickApiService {
      *
      * @return
      */
-    @GET("ticks")
+//    @GET("ticks")
+    @GET(ApiResources.TickBase)
     public Call<List<Tick>> getAll();
 
 }

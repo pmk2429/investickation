@@ -1,8 +1,9 @@
 package com.sfsu.network.rest.apiclient;
 
 import android.util.Base64;
+import android.util.Log;
 
-import com.sfsu.network.api.ApiDetails;
+import com.sfsu.network.api.ApiResources;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -30,7 +31,7 @@ public class RetrofitApiClient {
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
     // Retrofit
     private static Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(ApiDetails.BASE_API_URL)
+            .baseUrl(ApiResources.BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create());
 
     /**
@@ -55,11 +56,10 @@ public class RetrofitApiClient {
      * @return
      */
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
-
-        if (authToken != null) {
-
-            httpClient.interceptors().clear();
-
+        httpClient.interceptors().clear();
+        httpClient.networkInterceptors().clear();
+        if (authToken != null && !authToken.equals("invalid-auth-token")) {
+            Log.i("~!@#$RetApiCnt", "auth token found");
             httpClient.networkInterceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -77,6 +77,7 @@ public class RetrofitApiClient {
             });
         }
 
+        Log.i("~!@#$RetApiCnt", "No auth token");
         // build the Retrofit instance with the Token Authorization OkHttpClient.
         Retrofit retrofit = builder.client(httpClient).build();
 

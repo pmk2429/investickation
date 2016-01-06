@@ -137,6 +137,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      * @param password
      */
     public void login(final String email, final String password) {
+        Log.i(TAG, "1) login called");
         // verify and validate email and password input fields
         BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
     }
@@ -173,7 +174,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "login success");
+        Log.i(TAG, "4) login success");
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
