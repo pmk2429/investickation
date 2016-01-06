@@ -120,13 +120,32 @@ public class GoogleMapController {
         }
         // Get back the mutable Polyline
         mGoogleMap.addPolyline(drawOptions);
+        showMarker(latLngs);
     }
 
-    public void showMarker() {
-        Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-                .position(mCurrentLatLng)
-                .title("Right Now")
-                .snippet("Population: 20,000"));
+    /**
+     * Method to display marker on GoogleMaps for the {@link LatLng} specified.
+     */
+    public void showMarker(LatLng[] latLngs) {
+        MarkerOptions mMarkerOptions = new MarkerOptions();
+        if (latLngs != null || latLngs.length > 0) {
+            for (int i = 0; i < latLngs.length; i++) {
+                mMarkerOptions.position(latLngs[i]);
+                // once the Markers are all set, display the title and the snippet.
+                mMarkerOptions.title("Right Now")
+                        .snippet("Population: 20,000");
+
+                Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
+            }
+        } else {
+            mMarkerOptions.position(mCurrentLatLng);
+            // once the Markers are all set, display the title and the snippet.
+            mMarkerOptions.title("Right Now")
+                    .snippet("Population: 20,000");
+
+            Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
+        }
+
     }
 
     /**

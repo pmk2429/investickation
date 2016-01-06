@@ -83,7 +83,6 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
     private void applyAndAnimateRemovals(List<Activities> newActivities) {
-        Log.i("~!@#$Adptr", "removal called");
         for (int i = activityList.size() - 1; i >= 0; i--) {
             final Activities activity = activityList.get(i);
             if (!newActivities.contains(activity)) {
@@ -93,7 +92,6 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
     private void applyAndAnimateAdditions(List<Activities> newActivities) {
-        Log.i("~!@#$Adptr", "addition called");
         for (int i = 0, count = newActivities.size(); i < count; i++) {
             final Activities activity = newActivities.get(i);
             if (!activityList.contains(activity)) {

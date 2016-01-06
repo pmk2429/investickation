@@ -3,7 +3,6 @@ package com.sfsu.investickation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +70,12 @@ public class ActivityMap extends Fragment {
         mGoogleMapController.setupGoogleMap(mMapView);
 
         // once the GoogleMap is setup, add polyline to the Maps.
-        LatLng[] latLngs = new LatLng[]{new LatLng(40.737102, -73.990318), new LatLng(40.749825, -73.987963), new LatLng(40.752946, -73.987384),
+        LatLng[] latLngs = new LatLng[]{
+                new LatLng(40.737102, -73.990318),
+                new LatLng(40.749825, -73.987963),
+                new LatLng(40.752946, -73.987384),
                 new LatLng(40.755823, -73.986397)};
         mGoogleMapController.setUpPolylineOnMap(latLngs);
-
-        LatLng mLatLng = mGoogleMapController.getMyCurrentLocation();
-        Log.i(TAG, mLatLng.latitude + " : " + mLatLng.longitude);
 
         return rootView;
 
