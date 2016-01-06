@@ -44,6 +44,7 @@ public class Activities implements Parcelable, Entity {
     private String location_area;
     private long timestamp, created_at, updated_at;
     private String user_id;
+    private String image_url;
     // Enum identifier for setting State of Object.
     private transient STATE activityState;
 
@@ -113,6 +114,14 @@ public class Activities implements Parcelable, Entity {
         timestamp = in.readLong();
         created_at = in.readLong();
         updated_at = in.readLong();
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public int getNum_of_people() {

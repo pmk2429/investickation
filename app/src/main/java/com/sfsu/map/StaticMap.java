@@ -12,9 +12,10 @@ import com.sfsu.entities.Account;
  * The StaticMap uses Builder pattern to build a dynamic url for making a network request and getting a static google map
  * image with a specific polyline according to the points specified in the Path param.
  * </p>
- * <p>
+ * <p/>
  * https://developers.google.com/maps/documentation/static-maps/intro
- * <p>
+ * http://maps.googleapis.com/maps/api/staticmap?sensor=false&maptype=roadmap&zoom=14&size=650x350&path=40.737102,-73.990318%7C40.749825,-73.987963%7C40.752946,-73.987384%7C40.755823,-73.986397
+ * <p/>
  * Created by Pavitra on 12/23/2015.
  */
 public class StaticMap {

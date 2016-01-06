@@ -90,7 +90,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      */
     private void performFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.activity_fragment_container, mFragment);
+        transaction.replace(R.id.activity_fragment_container, mFragment);
         transaction.commit();
     }
 

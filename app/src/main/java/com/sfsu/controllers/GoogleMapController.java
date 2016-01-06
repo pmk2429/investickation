@@ -2,6 +2,7 @@ package com.sfsu.controllers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,20 +14,23 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
  * InfoWindow on the location etc.
- * <p>
+ * <p/>
  * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
  * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/16/2015.
  */
 public class GoogleMapController {
     private Context mContext;
     private String TAG = "~!@#$GMapCtrl :";
     private GoogleMap mGoogleMap;
+    private LatLng mCurrentLatLng;
+    private Location mLocation;
 
     /**
      * Setting the Location change listener for the Maps
@@ -34,13 +38,9 @@ public class GoogleMapController {
     private GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
         @Override
         public void onMyLocationChange(Location location) {
-            LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-            Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-                    .position(loc)
-                    .title("Right Now")
-                    .snippet("Population: 20,000"));
-
+            mLocation = location;
+            mCurrentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            moveCameraToPosition(mCurrentLatLng);
         }
     };
 
@@ -100,15 +100,67 @@ public class GoogleMapController {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                // Updates the location and zoom of the MapView
-//                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(mUserLocation.getLatitude(),
-//                        mUserLocation.getLongitude()), 10);
-//                mGoogleMap.animateCamera(cameraUpdate);
                 mGoogleMap.setOnMyLocationChangeListener(myLocationChangeListener);
-
             } else {
                 Log.d(TAG, "MapView is NULL");
             }
+        }
+    }
+
+    /**
+     * Instantiates a new Polyline object on {@link GoogleMap} and adds points to define a rectangle.
+     *
+     * @param latLngs Array of {@link LatLng}
+     */
+    public void setUpPolylineOnMap(LatLng[] latLngs) {
+        moveCameraToPosition(latLngs[2]);
+        PolylineOptions drawOptions = new PolylineOptions().width(7).color(Color.BLUE).geodesic(true);
+        for (int i = 0; i < latLngs.length; i++) {
+            drawOptions.add(latLngs[i]);
+        }
+        // Get back the mutable Polyline
+        mGoogleMap.addPolyline(drawOptions);
+    }
+
+    public void showMarker() {
+        Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                .position(mCurrentLatLng)
+                .title("Right Now")
+                .snippet("Population: 20,000"));
+    }
+
+    /**
+     * Helper method to move the camera to the position passed as param. When this method is called, OnMyLocationChangeListener
+     * is set to null.
+     *
+     * @param mLatLng
+     */
+    private void moveCameraToPosition(LatLng mLatLng) {
+        mGoogleMap.setMyLocationEnabled(false);
+        mGoogleMap.setOnMyLocationChangeListener(null);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 14.0f));
+    }
+
+    /**
+     * Helper method to clear all the resources; GoogleMap, GoogleMapController and everything.
+     */
+    public void clear() {
+        this.mGoogleMap = null;
+        this.mContext = null;
+        this.myLocationChangeListener = null;
+    }
+
+
+    /**
+     * Returns the current {@link LatLng} based on the current Location.
+     *
+     * @return
+     */
+    public LatLng getMyCurrentLocation() {
+        if (mCurrentLatLng == null) {
+            return new LatLng(1.2, 3.4);
+        } else {
+            return mCurrentLatLng;
         }
     }
 }

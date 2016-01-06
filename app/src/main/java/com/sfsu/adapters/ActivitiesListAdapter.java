@@ -1,5 +1,6 @@
 package com.sfsu.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +30,11 @@ import java.util.List;
 public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAdapter.ActivityViewHolder> {
 
     private List<Activities> activityList;
+    private Context mContext;
 
-    public ActivitiesListAdapter(List<Activities> activityList) {
+    public ActivitiesListAdapter(List<Activities> activityList, Context mContext) {
         this.activityList = new ArrayList<>(activityList);
+        this.mContext = mContext;
     }
 
     // creates a ViewHolder
@@ -52,7 +56,8 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             holder.txtView_observations.setText(observations);
             String people = activityList.get(position).getNum_of_people() + " people";
             holder.txtView_people.setText(people);
-            // TODO: get the URL and display it in the imageView.
+
+            Picasso.with(mContext).load(activityList.get(position).getImage_url()).into(holder.imageView_staticMap);
         }
     }
 
@@ -133,6 +138,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
         public ActivityViewHolder(View itemView) {
             super(itemView);
             cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_activity);
+            imageView_staticMap = (ImageView) itemView.findViewById(R.id.imageView_actList_staticMap);
             txtView_activityName = (TextView) itemView.findViewById(R.id.textView_activityNameMain);
             txtView_distance = (TextView) itemView.findViewById(R.id.textView_totalDistance);
             txtView_observations = (TextView) itemView.findViewById(R.id.textView_numOfObservations);

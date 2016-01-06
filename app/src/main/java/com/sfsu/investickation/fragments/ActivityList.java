@@ -135,7 +135,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     private void displayActivitiesList() {
         // set the List of Activities to Adapter.
-        mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList);
+        mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
         recyclerView_activity.setAdapter(mActivitiesListAdapter);
 
         // touch listener when the user clicks on the Activity in the List.
@@ -179,7 +179,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         super.onDestroyView();
         mInterface = null;
         mContext = null;
-        BusProvider.bus().unregister(this);
         mActivitiesListAdapter = null;
     }
 
