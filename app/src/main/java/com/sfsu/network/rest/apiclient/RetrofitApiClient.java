@@ -1,8 +1,11 @@
 package com.sfsu.network.rest.apiclient;
 
+import android.content.Context;
 import android.util.Base64;
 
+import com.sfsu.application.InvestickationApp;
 import com.sfsu.network.api.ApiResources;
+import com.sfsu.utils.AppUtils;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -26,6 +29,28 @@ public class RetrofitApiClient {
     private static final String AUTHORIZATION = "Authorization";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String ACCEPT = "Accept";
+
+    private static final Context mContext = InvestickationApp.getInstance();
+
+    private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Response originalResponse = chain.proceed(chain.request());
+            if (AppUtils.isConnectedOnline(mContext)) {
+                int maxAge = 60; // read from cache for 1 minute
+                return originalResponse.newBuilder()
+                        .header("Cache-Control", "public, max-age=" + maxAge)
+                        .build();
+            } else {
+                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
+                return originalResponse.newBuilder()
+                        .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
+                        .build();
+            }
+        }
+    };
+
+
     // main client
     protected static OkHttpClient httpClient = new OkHttpClient();
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
@@ -78,6 +103,12 @@ public class RetrofitApiClient {
                 }
             });
         }
+
+        File httpCacheDirectory = new File(mContext.getCacheDir(), "responses");
+
+        Cache cache = new Cache(httpCacheDirectory, SIZE_OF_CACHE);
+        httpClient.setCache(cache);
+
         // build the Retrofit instance with the Token Authorization OkHttpClient.
         Retrofit retrofit = builder.client(httpClient).build();
 

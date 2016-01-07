@@ -97,6 +97,20 @@ public class AppUtils {
         return !TextUtils.isEmpty(str) && TextUtils.isDigitsOnly(str);
     }
 
+    /**
+     * Returns <tt>true</tt> if the Connections is available. Else returns <tt>false</tt>.
+     *
+     * @return
+     */
+    public static boolean isConnectedOnline(Context myContext) {
+        ConnectivityManager cmObj = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfoObj = cmObj.getActiveNetworkInfo();
+        if (networkInfoObj != null && networkInfoObj.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+
     // Method to check if EntityLocation is enabled or disabled.
     public boolean isLocationEnabled() {
         int locationMode = 0;
@@ -121,17 +135,4 @@ public class AppUtils {
         }
     }
 
-    /**
-     * Returns <tt>true</tt> if the Connections is available. Else returns <tt>false</tt>.
-     *
-     * @return
-     */
-    public boolean isConnectedOnline() {
-        ConnectivityManager cmObj = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfoObj = cmObj.getActiveNetworkInfo();
-        if (networkInfoObj != null && networkInfoObj.isConnected()) {
-            return true;
-        }
-        return false;
-    }
 }
