@@ -52,7 +52,6 @@ public interface ActivityApiService {
      *
      * @return
      */
-//    @POST("activities")
     @POST(ApiResources.ActivitiesBase)
     public Call<Activities> add(@Body Activities activity);
 

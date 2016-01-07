@@ -300,6 +300,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        BusProvider.bus().register(this);
     }
 
     @Override
@@ -308,17 +309,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         mapView.onLowMemory();
     }
 
-
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         BusProvider.bus().unregister(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        BusProvider.bus().register(this);
     }
 
     @Override
@@ -393,6 +387,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
             // build on the same newActivity Object.
             newActivityObj.setLocation_area(locationArea);
+
+            Log.i(TAG, newActivityObj.toString());
 
             // once the play button is clicked, make a network call and create new Activities on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
@@ -486,6 +482,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
         Log.i(TAG, "failed to create Activity");
+        Log.i(TAG, onLoadingError.getErrorMessage());
+
     }
 
     /**

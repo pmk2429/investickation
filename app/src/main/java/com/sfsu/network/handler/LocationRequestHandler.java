@@ -86,7 +86,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         locationCall.enqueue(new Callback<EntityLocation>() {
             @Override
-            public void onResponse(Response<EntityLocation> response, Retrofit retrofit) {
+            public void onResponse(Response<EntityLocation> response) {
 
             }
 
@@ -106,7 +106,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listLocationCall.enqueue(new Callback<List<EntityLocation>>() {
             @Override
-            public void onResponse(Response<List<EntityLocation>> response, Retrofit retrofit) {
+            public void onResponse(Response<List<EntityLocation>> response) {
 
             }
 

@@ -90,7 +90,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         observationCall.enqueue(new Callback<Observation>() {
             @Override
-            public void onResponse(Response<Observation> response, Retrofit retrofit) {
+            public void onResponse(Response<Observation> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {
@@ -125,7 +125,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listObservationCall.enqueue(new Callback<List<Observation>>() {
             @Override
-            public void onResponse(Response<List<Observation>> response, Retrofit retrofit) {
+            public void onResponse(Response<List<Observation>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
                 } else {
@@ -160,7 +160,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     public void get_Activity_Observations(Call<List<Observation>> observationCall) {
         observationCall.enqueue(new Callback<List<Observation>>() {
             @Override
-            public void onResponse(Response<List<Observation>> response, Retrofit retrofit) {
+            public void onResponse(Response<List<Observation>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
                 } else {

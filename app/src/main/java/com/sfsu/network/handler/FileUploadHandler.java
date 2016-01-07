@@ -64,7 +64,7 @@ public class FileUploadHandler extends ApiRequestHandler {
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override
-                    public void onResponse(Response<Observation> response, Retrofit retrofit) {
+                    public void onResponse(Response<Observation> response) {
                         if (response.isSuccess()) {
                             Log.i(TAG, "4a) Response success");
                             mBus.post(new FileUploadEvent.OnLoaded(response.body()));

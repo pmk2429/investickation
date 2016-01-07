@@ -19,7 +19,6 @@ import java.io.IOException;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * <p>
@@ -81,7 +80,7 @@ public class UserRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         userCall.enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Response<Account> response, Retrofit retrofit) {
+            public void onResponse(Response<Account> response) {
                 if (response.isSuccess()) {
                     mBus.post(new UserEvent.OnLoaded(response.body()));
                 } else {
@@ -119,7 +118,7 @@ public class UserRequestHandler extends ApiRequestHandler {
         Call<LoginResponse> userLoginCall = loginApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
         userLoginCall.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Response<LoginResponse> response, Retrofit retrofit) {
+            public void onResponse(Response<LoginResponse> response) {
                 if (response.isSuccess()) {
                     mBus.post(new LoginEvent.OnLoaded(response.body()));
                 } else {

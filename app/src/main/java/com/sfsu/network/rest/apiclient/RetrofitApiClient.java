@@ -1,7 +1,6 @@
 package com.sfsu.network.rest.apiclient;
 
 import android.util.Base64;
-import android.util.Log;
 
 import com.sfsu.network.api.ApiResources;
 import com.squareup.okhttp.Cache;
@@ -26,6 +25,7 @@ public class RetrofitApiClient {
 
     private static final String AUTHORIZATION = "Authorization";
     private static final String CONTENT_TYPE = "Content-Type";
+    private static final String ACCEPT = "Accept";
     // main client
     protected static OkHttpClient httpClient = new OkHttpClient();
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
@@ -56,10 +56,11 @@ public class RetrofitApiClient {
      * @return
      */
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
+        // IMP: always clear the interceptors.
         httpClient.interceptors().clear();
         httpClient.networkInterceptors().clear();
         if (authToken != null && !authToken.equals("invalid-auth-token")) {
-            httpClient.networkInterceptors().add(new Interceptor() {
+            httpClient.interceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
                     Request original = chain.request();
@@ -67,6 +68,8 @@ public class RetrofitApiClient {
                     // Request customization: add request headers
                     Request.Builder requestBuilder = original.newBuilder()
                             .header(AUTHORIZATION, authToken)
+                            .header(ACCEPT, "application/json")
+                            .removeHeader(CONTENT_TYPE)
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
@@ -95,8 +98,11 @@ public class RetrofitApiClient {
      */
     public static <S> S createServiceForUpload(Class<S> serviceClass, final String authToken) {
 
+        // Create a local copy of OkHttpClient to create FileUploadService
+        OkHttpClient httpClient = new OkHttpClient();
+        httpClient.interceptors().clear();
+        httpClient.networkInterceptors().clear();
         if (authToken != null) {
-            httpClient.interceptors().clear();
             httpClient.networkInterceptors().add(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {
@@ -104,8 +110,8 @@ public class RetrofitApiClient {
 
                     // Request customization: add request headers
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header(CONTENT_TYPE, "multipart/form-data")
                             .header(AUTHORIZATION, authToken)
+                            .header(CONTENT_TYPE, "multipart/form-data")
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
@@ -114,6 +120,10 @@ public class RetrofitApiClient {
             });
         }
 
+        // Retrofit
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(ApiResources.BASE_API_URL)
+                .addConverterFactory(GsonConverterFactory.create());
         // build the Retrofit instance with the Token Authorization OkHttpClient.
         Retrofit retrofit = builder.client(httpClient).build();
 
@@ -142,7 +152,7 @@ public class RetrofitApiClient {
                     Request original = chain.request();
 
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", basic).header("Accept", "applicaton/json").method(original.method(),
+                            .header("Authorization", basic).header("Accept", "application/json").method(original.method(),
                                     original.body());
 
                     Request request = requestBuilder.build();

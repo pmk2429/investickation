@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
  * Displays the details of a specific {@link Activities}. Allows {@link Account} to see all the observations
  * that belongs to this specific activity.
  */
-public class ActivityDetail extends Fragment {
+public class ActivityDetail extends Fragment implements View.OnClickListener {
 
     public final String TAG = "~!@#ActivityDet";
     @Bind(R.id.textView_actDet_activityName)
@@ -98,9 +98,6 @@ public class ActivityDetail extends Fragment {
         }
         gson = new Gson();
         activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
-
-        // since we have the activityId, get all Observations for this Activity and display it on Maps as well as view it in List.
-        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", mActivity.getId(), ApiRequestHandler.ACT_OBSERVATIONS));
     }
 
     @Override
@@ -109,13 +106,8 @@ public class ActivityDetail extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
 
-
-        icon_openMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onOpenActivitiesMapClicked(mActivity.getId());
-            }
-        });
+        button_viewObservations.setOnClickListener(this);
+        icon_openMap.setOnClickListener(this);
 
         return rootView;
     }
@@ -166,6 +158,11 @@ public class ActivityDetail extends Fragment {
 
         if (mActivity != null) {
             populateView();
+        }
+
+        if (mActivity.getId() != null) {
+            // since we have the activityId, get all Observations for this Activity and display it on Maps as well as view it in List.
+            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", mActivity.getId(), ApiRequestHandler.ACT_OBSERVATIONS));
         }
     }
 
@@ -233,20 +230,31 @@ public class ActivityDetail extends Fragment {
      */
     @Subscribe
     public void onObservationsLoadSuccess(ObservationEvent.OnListLoaded onLoaded) {
-        mObservationList = onLoaded.getResponseList();
-
-        // only if the observations can be retrieved for current Activity, open the List of Observation.
-        if (mObservationList != null && mObservationList.size() > 0) {
-            button_viewObservations.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mListener.onViewAllObservationsClicked(mActivity.getId());
-                }
-            });
-        } else {
-            button_viewObservations.setEnabled(false);
-            button_viewObservations.setText(R.string.actDet_noObservationRecorded);
+        try {
+            mObservationList = onLoaded.getResponseList();
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * Helper method to handle click events.
+     */
+    private void handleClickEvents() {
+        // only if the list is
+        button_viewObservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onViewAllObservationsClicked(mActivity.getId());
+            }
+        });
+
+        icon_openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onOpenActivitiesMapClicked(mObservationList);
+            }
+        });
     }
 
     /**
@@ -257,6 +265,17 @@ public class ActivityDetail extends Fragment {
     @Subscribe
     public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        // only if the observations can be retrieved for current Activity, open the List of Observation.
+        if (mObservationList != null && mObservationList.size() > 0) {
+            handleClickEvents();
+        } else {
+            button_viewObservations.setEnabled(false);
+            button_viewObservations.setText(R.string.actDet_noObservationRecorded);
+        }
     }
 
     /**
@@ -273,7 +292,7 @@ public class ActivityDetail extends Fragment {
          * Callback method to handle the onclick event of the button in {@link ActivityDetail} fragment to open up the {@link
          * ObservationMap} fragment.
          */
-        public void onOpenActivitiesMapClicked(String activityId);
+        public void onOpenActivitiesMapClicked(List<Observation> mObservationList);
     }
 
 }

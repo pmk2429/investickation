@@ -84,7 +84,7 @@ public class TickRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         tickCall.enqueue(new Callback<Tick>() {
             @Override
-            public void onResponse(Response<Tick> response, Retrofit retrofit) {
+            public void onResponse(Response<Tick> response) {
                 if (response.isSuccess()) {
                     mBus.post(new TickEvent.OnLoaded(response.body()));
                 } else {
@@ -119,7 +119,7 @@ public class TickRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listTickCall.enqueue(new Callback<List<Tick>>() {
             @Override
-            public void onResponse(Response<List<Tick>> response, Retrofit retrofit) {
+            public void onResponse(Response<List<Tick>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new TickEvent.OnLoaded(response.body()));
                 } else {

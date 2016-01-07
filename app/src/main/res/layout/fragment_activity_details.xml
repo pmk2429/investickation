@@ -9,8 +9,7 @@
     <ScrollView
         android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -205,7 +204,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/widget_dimen"
                             android:layout_centerInParent="true"
-                            android:layout_margin="2dp"
+                            android:layout_margin="@dimen/view_dimen_X1_small"
                             android:background="@color/colorWhite"
                             android:paddingLeft="@dimen/view_dimen_large"
                             android:paddingRight="@dimen/view_dimen_large"

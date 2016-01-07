@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+
 /**
  * <p>
  * <tt>Activity</tt> refers to the state of the user where the Account is performing

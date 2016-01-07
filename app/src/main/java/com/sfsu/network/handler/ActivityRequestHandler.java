@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
@@ -76,6 +77,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
             case ADD:
+                Log.i(TAG, onLoadingInitialized.getRequest().toString());
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(activitiesCall);
                 break;
@@ -99,13 +101,15 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     public void makeCRUDCall(Call<Activities> activitiesCall) {
         // makes the Calls to network.
-
+        Log.i(TAG, "making crud call");
         activitiesCall.enqueue(new Callback<Activities>() {
             @Override
-            public void onResponse(Response<Activities> response, Retrofit retrofit) {
+            public void onResponse(Response<Activities> response) {
                 if (response.isSuccess()) {
+                    Log.i(TAG, "onResponse success");
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
                 } else {
+                    Log.i(TAG, "onResponse failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -119,6 +123,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
+                Log.i(TAG, "onfailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -136,7 +141,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     public void getAllActivitiesCalls(Call<List<Activities>> listActivitiesCall) {
         listActivitiesCall.enqueue(new Callback<List<Activities>>() {
             @Override
-            public void onResponse(Response<List<Activities>> response, Retrofit retrofit) {
+            public void onResponse(Response<List<Activities>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnListLoaded(response.body()));
                 } else {
@@ -170,7 +175,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     public void getCount(Call<Integer> countCall) {
         countCall.enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Response<Integer> response, Retrofit retrofit) {
+            public void onResponse(Response<Integer> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
                 } else {
@@ -204,7 +209,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     public void getAllLocations(Call<List<EntityLocation>> locationsCall) {
         locationsCall.enqueue(new Callback<List<EntityLocation>>() {
             @Override
-            public void onResponse(Response<List<EntityLocation>> response, Retrofit retrofit) {
+            public void onResponse(Response<List<EntityLocation>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new LocationEvent.OnLoaded(response.body()));
                 } else {

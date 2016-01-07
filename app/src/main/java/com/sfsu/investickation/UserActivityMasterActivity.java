@@ -8,12 +8,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.ActivityDetail;
 import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityMap;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
+
+import java.util.List;
 
 /**
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
@@ -55,8 +58,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 }
                 // if user clicks on ActivityList
                 else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
-                    ActivityList activityList = new ActivityList();
-                    performFragmentTransaction(activityList);
+                    ActivityList activityListFragment = new ActivityList();
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, activityListFragment);
+                    transaction.commit();
                 }
                 // if user navigates back to ActivityRunning fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
@@ -77,7 +82,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 // open List of Activities by default.
                 else {
                     ActivityList activityListFragment = new ActivityList();
-                    performFragmentTransaction(activityListFragment);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, activityListFragment);
+                    transaction.commit();
                 }
             }
         }
@@ -200,7 +207,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     }
 
     @Override
-    public void onOpenActivitiesMapClicked(String activityId) {
+    public void onOpenActivitiesMapClicked(List<Observation> mObservationList) {
         try {
             // TODO: pass the activityId to map and display all observations.
             ActivityMap mActivityMap = new ActivityMap();
@@ -209,4 +216,5 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
 }
