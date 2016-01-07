@@ -77,7 +77,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
             case ADD:
-                Log.i(TAG, onLoadingInitialized.getRequest().toString());
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(activitiesCall);
                 break;
@@ -101,15 +100,12 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     public void makeCRUDCall(Call<Activities> activitiesCall) {
         // makes the Calls to network.
-        Log.i(TAG, "making crud call");
         activitiesCall.enqueue(new Callback<Activities>() {
             @Override
             public void onResponse(Response<Activities> response) {
                 if (response.isSuccess()) {
-                    Log.i(TAG, "onResponse success");
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(TAG, "onResponse failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -123,7 +119,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.i(TAG, "onfailure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

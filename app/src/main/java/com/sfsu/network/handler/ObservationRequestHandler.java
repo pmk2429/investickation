@@ -17,7 +17,6 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * <p>
@@ -64,7 +63,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(observationCall);
                 break;
             case GET_ALL:
-                listObservationCall = mApiService.getAll();
+                listObservationCall = mApiService.getAll(USER_ID);
                 getAllObservationsCall(listObservationCall);
                 break;
             case ADD:

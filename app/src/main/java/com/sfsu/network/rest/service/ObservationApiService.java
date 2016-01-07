@@ -40,9 +40,9 @@ public interface ObservationApiService {
      *
      * @return
      */
-//    @GET("observations")
-    @GET(ApiResources.ObservationBase)
-    public Call<List<Observation>> getAll();
+//    @GET("accounts/{id}/observations")
+    @GET(ApiResources.AccountBase + "/" + ApiResources.ID + "/" + ApiResources.ObservationBase)
+    public Call<List<Observation>> getAll(@Path("id") String user_id);
 
 
     /**
