@@ -25,6 +25,7 @@ import com.sfsu.network.handler.ApiRequestHandler;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -238,26 +239,6 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Helper method to handle click events.
-     */
-    private void handleClickEvents() {
-        // only if the list is
-        button_viewObservations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onViewAllObservationsClicked(mActivity.getId());
-            }
-        });
-
-        icon_openMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onOpenActivitiesMapClicked(mObservationList);
-            }
-        });
-    }
-
-    /**
      * Subscribes to the event of success loading of {@link com.sfsu.entities.Observation} related to this Activity.
      *
      * @param onLoadingError
@@ -279,6 +260,28 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     }
 
     /**
+     * Helper method to handle click events.
+     */
+    private void handleClickEvents() {
+        // only if the list is
+        button_viewObservations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onViewAllObservationsClicked(mActivity.getId());
+            }
+        });
+
+        icon_openMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
+                mListener.onOpenActivitiesMapClicked(mObservationArrayList);
+            }
+        });
+    }
+
+
+    /**
      * Interface callback for handling onClick Listeners in {@link ActivityDetail} Fragment.
      */
     public interface IActivityDetailsCallBacks {
@@ -292,7 +295,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
          * Callback method to handle the onclick event of the button in {@link ActivityDetail} fragment to open up the {@link
          * ObservationMap} fragment.
          */
-        public void onOpenActivitiesMapClicked(List<Observation> mObservationList);
+        public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList);
     }
 
 }

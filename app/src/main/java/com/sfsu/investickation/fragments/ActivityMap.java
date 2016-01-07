@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.sfsu.controllers.GoogleMapController;
+import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,13 +22,14 @@ import butterknife.ButterKnife;
 public class ActivityMap extends Fragment {
 
     private static final String TAG = "`!@#$ActivityMap";
-    private static String KEY_ARGS_ACTIVITY_ID = "activity_id";
+    private static String KEY_OBSERVATIONS_LIST = "activity_id";
     @Bind(R.id.mapView_activitiesMap_main)
     MapView mMapView;
     private GoogleMapController mGoogleMapController;
     private Context mContext;
     private IActivityMapCallBack mListener;
     private String activityId;
+    private List<Observation> mObservationList;
 
     public ActivityMap() {
         // Required empty public constructor
@@ -37,10 +42,10 @@ public class ActivityMap extends Fragment {
      * @param activityId
      * @return
      */
-    public static ActivityMap newInstance(String activityId) {
+    public static ActivityMap newInstance(ArrayList<Observation> mObservationList) {
         ActivityMap fragment = new ActivityMap();
         Bundle args = new Bundle();
-        args.putString(KEY_ARGS_ACTIVITY_ID, activityId);
+        args.putParcelableArrayList(KEY_OBSERVATIONS_LIST, mObservationList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +54,9 @@ public class ActivityMap extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            activityId = getArguments().getString(KEY_ARGS_ACTIVITY_ID);
+            if (getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST) != null) {
+                mObservationList = getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST);
+            }
         }
     }
 

@@ -16,6 +16,7 @@ import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -207,10 +208,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     }
 
     @Override
-    public void onOpenActivitiesMapClicked(List<Observation> mObservationList) {
+    public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList) {
         try {
             // TODO: pass the activityId to map and display all observations.
-            ActivityMap mActivityMap = new ActivityMap();
+            ActivityMap mActivityMap = ActivityMap.newInstance(mObservationList);
             performFragmentTransaction(mActivityMap);
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
