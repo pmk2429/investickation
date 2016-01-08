@@ -3,7 +3,6 @@ package com.sfsu.network.rest.apiclient;
 import android.content.Context;
 import android.util.Base64;
 
-import com.sfsu.application.InvestickationApp;
 import com.sfsu.network.api.ApiResources;
 import com.sfsu.utils.AppUtils;
 import com.squareup.okhttp.Cache;
@@ -14,6 +13,9 @@ import com.squareup.okhttp.Response;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -21,7 +23,7 @@ import retrofit.Retrofit;
 /**
  * Retrofit Service Generator class which initializes the calling Service interface passed as an input param. Depending on the
  * createService method called, this class will return the Service with or without token.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
@@ -29,9 +31,11 @@ public class RetrofitApiClient {
     private static final String AUTHORIZATION = "Authorization";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String ACCEPT = "Accept";
-
-    private static final Context mContext = InvestickationApp.getInstance();
-
+    private static final String TAG = "~!@#$RetrApiClient";
+    // main client
+    protected static OkHttpClient httpClient = new OkHttpClient();
+    //    private static final Context mContext = InvestickationApp.getInstance();
+    private static Context mContext;
     private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
@@ -49,15 +53,38 @@ public class RetrofitApiClient {
             }
         }
     };
-
-
-    // main client
-    protected static OkHttpClient httpClient = new OkHttpClient();
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
     // Retrofit
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(ApiResources.BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create());
+
+
+    /**
+     * Method to initialize the RetrofitApiClient.
+     *
+     * @param context
+     * @param baseAPIUrl
+     */
+    public static void init(final Context context, String baseAPIUrl) {
+        mContext = context;
+
+        // Create Cache
+        Cache cache = null;
+        cache = new Cache(new File(mContext.getCacheDir(), "http"), SIZE_OF_CACHE);
+
+        // Create OkHttpClient
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.setCache(cache);
+        okHttpClient.setConnectTimeout(30, TimeUnit.SECONDS);
+        okHttpClient.setReadTimeout(30, TimeUnit.SECONDS);
+
+        // Add Cache-Control Interceptor
+        okHttpClient.networkInterceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+
+        // Create Executor
+        Executor executor = Executors.newCachedThreadPool();
+    }
 
     /**
      * Generates the Retrofit Service interface for the type of Service class passed as an input param.
