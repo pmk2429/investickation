@@ -3,12 +3,18 @@ package com.sfsu.investickation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
@@ -19,7 +25,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ActivityMap extends Fragment {
+public class ActivityMap extends Fragment implements GoogleMapController.IMarkerClickCallBack {
 
     private static final String TAG = "`!@#$ActivityMap";
     private static String KEY_OBSERVATIONS_LIST = "activity_id";
@@ -30,6 +36,8 @@ public class ActivityMap extends Fragment {
     private IActivityMapCallBack mListener;
     private String activityId;
     private List<Observation> mObservationList;
+    private LinearLayout infowindow_linearLayout;
+    private TextView txtView_tickTitle;
 
     public ActivityMap() {
         // Required empty public constructor
@@ -82,15 +90,40 @@ public class ActivityMap extends Fragment {
                 new LatLng(40.749825, -73.987963),
                 new LatLng(40.752946, -73.987384),
                 new LatLng(40.755823, -73.986397)};
+
         mGoogleMapController.setUpPolylineOnMap(latLngs);
 
-        /* now depending on the Activity retrieved from the activityId, get all the Observations for this Activity and display
-         it on Maps.
-         */
+//        mGoogleMapController.showMarker(mObservationList);
 
+
+        // inflate the View from infowindow_panel.xml layout
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        View info_rootView = layoutInflater.inflate(R.layout.infowindow_panel, null, false);
+        infowindow_linearLayout = (LinearLayout) info_rootView.findViewById(R.id.hidden_panel);
+        txtView_tickTitle = (TextView) info_rootView.findViewById(R.id.textView_observationTitle);
 
         return rootView;
 
+    }
+
+    public void slideUpDown() {
+        if (!isPanelShown()) {
+            // Show the panel
+            Animation bottomUp = AnimationUtils.loadAnimation(mContext, R.anim.bottom_up);
+
+            infowindow_linearLayout.startAnimation(bottomUp);
+            infowindow_linearLayout.setVisibility(View.VISIBLE);
+        } else {
+            // Hide the Panel
+            Animation bottomDown = AnimationUtils.loadAnimation(mContext, R.anim.bottom_down);
+
+            infowindow_linearLayout.startAnimation(bottomDown);
+            infowindow_linearLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean isPanelShown() {
+        return infowindow_linearLayout.getVisibility() == View.VISIBLE;
     }
 
     @Override
@@ -138,6 +171,13 @@ public class ActivityMap extends Fragment {
         mContext = null;
         mGoogleMapController = null;
         mMapView = null;
+    }
+
+    @Override
+    public void onMarkerClickListener(Marker marker) {
+        Log.i(TAG, "inside onMarkerClick");
+        txtView_tickTitle.setText(marker.getTitle());
+        slideUpDown();
     }
 
     /**

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
@@ -17,7 +16,6 @@ import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
@@ -77,7 +75,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 // if user opens Activity by clicking on the ListView item from Dashboard.
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {
                     Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
-                    ActivityDetail mActivityDetail = ActivityDetail.newInstance(KEY_ACTIVITY_DETAILS, mActivities);
+                    ActivityDetail mActivityDetail = ActivityDetail.newInstance(mActivities);
                     performFragmentTransaction(mActivityDetail);
                 }
                 // open List of Activities by default.
@@ -143,7 +141,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
-        ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(KEY_ACTIVITY_DETAILS, mActivity);
+        ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.activity_fragment_container, mActivityDetailFragment);
         transaction.addToBackStack(null);
@@ -210,11 +208,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList) {
         try {
-            // TODO: pass the activityId to map and display all observations.
             ActivityMap mActivityMap = ActivityMap.newInstance(mObservationList);
             performFragmentTransaction(mActivityMap);
         } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

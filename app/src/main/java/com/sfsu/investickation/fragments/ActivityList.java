@@ -71,9 +71,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         getActivity().setTitle(R.string.title_fragment_activity_list);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setHasOptionsMenu(true);
-        // initialize the Bus to get list of Activities from server.
-        // must be cached for frequent accesses.
-        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
     @Override
@@ -83,19 +80,30 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         ButterKnife.bind(this, rootView);
 
+        // initialize the Bus to get list of Activities from server.
+        // must be cached for frequent accesses.
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+
+        mLinearLayoutManager = new LinearLayoutManager(mContext);
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         // by default the TextView is invisible
         txtView_activityListInfo.setVisibility(View.GONE);
 
         recyclerView_activity.setHasFixedSize(true);
 
         if (mContext != null) {
-            mLinearLayoutManager = new LinearLayoutManager(mContext);
+            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
         } else {
             Log.d(TAG, " No layout manager supplied");
         }
-
-        return rootView;
     }
 
     /**
@@ -140,52 +148,55 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private void populateRecyclerView() {
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
-        recyclerView_activity.setAdapter(mActivitiesListAdapter);
 
-        // touch listener when the user clicks on the Activity in the List.
-        recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_activity,
-                new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        // call the interface callback to listen to the item click event
-                        mInterface.onActivitiesListItemClickListener(mActivitiesList.get(position));
-                    }
+        if (recyclerView_activity != null) {
+            recyclerView_activity.setAdapter(mActivitiesListAdapter);
 
-                    @Override
-                    public void onItemLongClick(View view, int position) {
+            // touch listener when the user clicks on the Activity in the List.
+            recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_activity,
+                    new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            // call the interface callback to listen to the item click event
+                            mInterface.onActivitiesListItemClickListener(mActivitiesList.get(position));
+                        }
 
-                    }
-                }));
+                        @Override
+                        public void onItemLongClick(View view, int position) {
 
-        // Add new Activity button.
-        addActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mInterface.onActivityAddListener();
-            }
-        });
+                        }
+                    }));
+
+            // Add new Activity button.
+            addActivity.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mInterface.onActivityAddListener();
+                }
+            });
 
 
-        // lazy loading of recycler view.
-        recyclerView_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) //check for scroll down
-                {
-                    visibleItemCount = mLinearLayoutManager.getChildCount();
-                    totalItemCount = mLinearLayoutManager.getItemCount();
-                    pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
+            // lazy loading of recycler view.
+            recyclerView_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (dy > 0) //check for scroll down
+                    {
+                        visibleItemCount = mLinearLayoutManager.getChildCount();
+                        totalItemCount = mLinearLayoutManager.getItemCount();
+                        pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
 
-                    if (loading) {
-                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                            loading = false;
-                            Log.i("...", "Last Item Wow !");
-                            //TODO Do pagination.. i.e. fetch new data
+                        if (loading) {
+                            if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                                loading = false;
+                                Log.i("...", "Last Item Wow !");
+                                //TODO Do pagination.. i.e. fetch new data
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override

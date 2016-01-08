@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityDetail extends Fragment implements View.OnClickListener {
 
+    private static String KEY_ARGS = "acitvity_object";
     public final String TAG = "~!@#ActivityDet";
     @Bind(R.id.textView_actDet_activityName)
     TextView txtView_name;
@@ -50,21 +51,16 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     TextView txtView_totalPets;
     @Bind(R.id.textView_actDet_totalDistance)
     TextView txtView_totalDistance;
-
     @Bind(R.id.button_actDet_viewAllObservation)
     Button button_viewObservations;
-
     @Bind(R.id.imageView_actDet_staticMap)
     ImageView imageView_staticMap;
-
     @Bind(R.id.icon_actDet_openMap)
     ImageView icon_openMap;
-
     private IActivityDetailsCallBacks mListener;
     private Context mContext;
     private Bundle args;
     private Activities mActivity;
-
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
     private Gson gson;
@@ -82,10 +78,10 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
      * @param mActivity
      * @return
      */
-    public static ActivityDetail newInstance(String key, Activities mActivity) {
+    public static ActivityDetail newInstance(Activities mActivity) {
         ActivityDetail fragment = new ActivityDetail();
         Bundle args = new Bundle();
-        args.putParcelable(key, mActivity);
+        args.putParcelable(KEY_ARGS, mActivity);
         fragment.setArguments(args);
         return fragment;
     }
@@ -148,8 +144,8 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         // depending on the args, populate view based on the Activity restored.
         if (args != null) {
             // if args not null, retrieve the Activities object.
-            if (args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS) != null) {
-                mActivity = args.getParcelable(UserActivityMasterActivity.KEY_ACTIVITY_DETAILS);
+            if (args.getParcelable(KEY_ARGS) != null) {
+                mActivity = args.getParcelable(KEY_ARGS);
             }
         } else {
             // get data from SharedPref
@@ -187,7 +183,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             txtView_observationCount.setText(observationCount);
 
             // TODO: think about this one
-            txtView_totalLocation.setText("00");
+            txtView_totalLocation.setText("00 Locations");
 
             String people = mActivity.getNum_of_people() + " people";
             txtView_totalPeople.setText(people);
@@ -196,7 +192,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             txtView_totalPets.setText(pets);
 
             // TODO: think about this one.
-            txtView_totalDistance.setText("00");
+            txtView_totalDistance.setText("00 Distance");
 
             String image_url = mActivity.getImage_url();
 
@@ -233,6 +229,11 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     public void onObservationsLoadSuccess(ObservationEvent.OnListLoaded onLoaded) {
         try {
             mObservationList = onLoaded.getResponseList();
+            // only if the observations can be retrieved for current Activity, open the List of Observation.
+            if (mObservationList == null || mObservationList.size() <= 0) {
+                button_viewObservations.setEnabled(false);
+                button_viewObservations.setText(R.string.actDet_noObservationRecorded);
+            }
         } catch (Exception e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -250,34 +251,15 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        // only if the observations can be retrieved for current Activity, open the List of Observation.
-        if (mObservationList != null && mObservationList.size() > 0) {
-            handleClickEvents();
-        } else {
-            button_viewObservations.setEnabled(false);
-            button_viewObservations.setText(R.string.actDet_noObservationRecorded);
-        }
-    }
-
-    /**
-     * Helper method to handle click events.
-     */
-    private void handleClickEvents() {
-        // only if the list is
-        button_viewObservations.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_actDet_viewAllObservation:
                 mListener.onViewAllObservationsClicked(mActivity.getId());
-            }
-        });
-
-        icon_openMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.icon_actDet_openMap:
                 ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
                 mListener.onOpenActivitiesMapClicked(mObservationArrayList);
-            }
-        });
+                break;
+        }
     }
 
 

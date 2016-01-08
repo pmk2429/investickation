@@ -22,18 +22,19 @@ import java.util.List;
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
  * InfoWindow on the location etc.
- * <p>
+ * <p/>
  * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
  * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/16/2015.
  */
-public class GoogleMapController {
+public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
     private Context mContext;
     private String TAG = "~!@#$GMapCtrl :";
     private GoogleMap mGoogleMap;
     private LatLng mCurrentLatLng;
     private Location mLocation;
+    private IMarkerClickCallBack mInterface;
 
     /**
      * Setting the Location change listener for the Maps
@@ -56,6 +57,7 @@ public class GoogleMapController {
     public GoogleMapController(Context mContext, Fragment fragment) {
         try {
             this.mContext = mContext;
+            mInterface = (IMarkerClickCallBack) fragment;
             // build GoogleApiClient
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());
@@ -97,6 +99,8 @@ public class GoogleMapController {
                 mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
                 mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
 
+                mGoogleMap.setOnMarkerClickListener(this);
+
                 // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
                 try {
                     MapsInitializer.initialize(mContext);
@@ -123,7 +127,7 @@ public class GoogleMapController {
         }
         // Get back the mutable Polyline
         mGoogleMap.addPolyline(drawOptions);
-//        showMarker(latLngs);
+        showMarker(latLngs);
     }
 
     /**
@@ -136,14 +140,14 @@ public class GoogleMapController {
             for (int i = 0; i < latLngs.length; i++) {
                 mMarkerOptions.position(latLngs[i]);
                 // once the Markers are all set, display the title and the snippet.
-                mMarkerOptions.title("").snippet("");
+                mMarkerOptions.title(i + "Random Text").snippet("");
 
                 Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
             }
         } else {
             mMarkerOptions.position(mCurrentLatLng);
             // once the Markers are all set, display the title and the snippet.
-            mMarkerOptions.title("Right Now")
+            mMarkerOptions.title("It works")
                     .snippet("Population: 20,000");
 
             Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
@@ -172,16 +176,16 @@ public class GoogleMapController {
                 mMarkerOptions.title(mObservation.getTickName()).snippet(mObservation.getSpecies());
 
                 Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
+
+
             }
         } else {
             mMarkerOptions.position(mCurrentLatLng);
             // once the Markers are all set, display the title and the snippet.
-            mMarkerOptions.title("Right Now")
-                    .snippet("Population: 20,000");
+            mMarkerOptions.title("You are here").snippet("");
 
             Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
         }
-
     }
 
     /**
@@ -217,5 +221,22 @@ public class GoogleMapController {
         } else {
             return mCurrentLatLng;
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+//        Toast.makeText(mContext, marker.getTitle(), Toast.LENGTH_LONG).show();
+
+        mInterface.onMarkerClickListener(marker);
+
+        return false;
+    }
+
+    /**
+     * Callback interface for {@link Marker} onClick Listener.
+     */
+    public interface IMarkerClickCallBack {
+        void onMarkerClickListener(Marker marker);
     }
 }
