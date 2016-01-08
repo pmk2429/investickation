@@ -22,10 +22,10 @@ import java.util.List;
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
  * InfoWindow on the location etc.
- * <p/>
+ * <p>
  * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
  * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/16/2015.
  */
 public class GoogleMapController {
@@ -127,14 +127,40 @@ public class GoogleMapController {
     }
 
     /**
-     * Method to display marker on GoogleMaps for the {@link LatLng} specified. The show marker is used to display all the
-     * {@link com.sfsu.entities.Observation} of an {@link com.sfsu.entities.Activities}.
+     * Method to display marker on GoogleMaps for the {@link LatLng} specified.
      */
-    public void showMarker(LatLng[] latLngs, List<Observation> mObservationsList) {
+    public void showMarker(LatLng[] latLngs) {
         MarkerOptions mMarkerOptions = new MarkerOptions();
         if (latLngs != null || latLngs.length > 0) {
 
             for (int i = 0; i < latLngs.length; i++) {
+                mMarkerOptions.position(latLngs[i]);
+                // once the Markers are all set, display the title and the snippet.
+                mMarkerOptions.title("").snippet("");
+
+                Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
+            }
+        } else {
+            mMarkerOptions.position(mCurrentLatLng);
+            // once the Markers are all set, display the title and the snippet.
+            mMarkerOptions.title("Right Now")
+                    .snippet("Population: 20,000");
+
+            Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
+        }
+
+    }
+
+
+    /**
+     * Method to display marker on GoogleMaps for all the {@link Observation}. It is used to display all the
+     * {@link com.sfsu.entities.Observation} of an {@link com.sfsu.entities.Activities}.
+     */
+    public void showMarker(List<Observation> mObservationsList) {
+        MarkerOptions mMarkerOptions = new MarkerOptions();
+        if (mObservationsList != null || mObservationsList.size() > 0) {
+
+            for (int i = 0; i < mObservationsList.size(); i++) {
                 // get the Observation
                 Observation mObservation = mObservationsList.get(i);
 

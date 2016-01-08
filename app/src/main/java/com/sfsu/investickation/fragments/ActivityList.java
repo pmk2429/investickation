@@ -53,10 +53,13 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Bind(R.id.textViewStatic_actList_listInfo)
     TextView txtView_activityListInfo;
     int count = 0;
+    int pastVisibleItems, visibleItemCount, totalItemCount;
     private IActivityCallBacks mInterface;
     private Context mContext;
     private List<Activities> responseActivitiesList, mActivitiesList;
     private ActivitiesListAdapter mActivitiesListAdapter;
+    private boolean loading = true;
+    private LinearLayoutManager mLinearLayoutManager;
 
     public ActivityList() {
         // Required empty public constructor
@@ -86,7 +89,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         recyclerView_activity.setHasFixedSize(true);
 
         if (mContext != null) {
-            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            mLinearLayoutManager = new LinearLayoutManager(mContext);
             recyclerView_activity.setLayoutManager(mLinearLayoutManager);
         } else {
             Log.d(TAG, " No layout manager supplied");
@@ -107,7 +110,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         mActivitiesList = responseActivitiesList;
 
         if (mActivitiesList.size() > 0 && mActivitiesList != null) {
-            displayActivitiesList();
+            populateRecyclerView();
         } else if (mActivitiesList.size() == 0) {
             // display text message
             txtView_activityListInfo.setVisibility(View.VISIBLE);
@@ -131,9 +134,10 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     /**
-     * Helper method to display list of activities in RecyclerView.
+     * Helper method to initialize and display list of activities in RecyclerView. In addition, this method provides lazy loading
+     * of data for better performance and interface.
      */
-    private void displayActivitiesList() {
+    private void populateRecyclerView() {
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
         recyclerView_activity.setAdapter(mActivitiesListAdapter);
@@ -158,6 +162,28 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             @Override
             public void onClick(View view) {
                 mInterface.onActivityAddListener();
+            }
+        });
+
+
+        // lazy loading of recycler view.
+        recyclerView_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) //check for scroll down
+                {
+                    visibleItemCount = mLinearLayoutManager.getChildCount();
+                    totalItemCount = mLinearLayoutManager.getItemCount();
+                    pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
+
+                    if (loading) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            loading = false;
+                            Log.i("...", "Last Item Wow !");
+                            //TODO Do pagination.. i.e. fetch new data
+                        }
+                    }
+                }
             }
         });
     }
