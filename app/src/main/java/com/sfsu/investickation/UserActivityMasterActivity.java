@@ -53,30 +53,28 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 // if user clicks on Start Activity
                 if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
                     ActivityNew activityNewFragment = new ActivityNew();
-                    performFragmentTransaction(activityNewFragment);
+                    performReplaceFragmentTransaction(activityNewFragment);
                 }
                 // if user clicks on ActivityList
                 else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
                     ActivityList activityListFragment = new ActivityList();
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.activity_fragment_container, activityListFragment);
-                    transaction.commit();
+                    performAddFragmentTransaction(activityListFragment);
                 }
                 // if user navigates back to ActivityRunning fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
                     mActivityRunning = new ActivityRunning();
-                    performFragmentTransaction(mActivityRunning);
+                    performReplaceFragmentTransaction(mActivityRunning);
                 }
                 // if user navigates back to ActivityDetail fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
                     ActivityDetail mActivityDetail = new ActivityDetail();
-                    performFragmentTransaction(mActivityDetail);
+                    performAddFragmentTransaction(mActivityDetail);
                 }
                 // if user opens Activity by clicking on the ListView item from Dashboard.
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {
                     Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
                     ActivityDetail mActivityDetail = ActivityDetail.newInstance(mActivities);
-                    performFragmentTransaction(mActivityDetail);
+                    performAddFragmentTransaction(mActivityDetail);
                 }
                 // open List of Activities by default.
                 else {
@@ -94,9 +92,21 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      *
      * @param mFragment
      */
-    private void performFragmentTransaction(Fragment mFragment) {
+    private void performReplaceFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    /**
+     * Helper method to set the Fragment transaction for current fragment.
+     *
+     * @param mFragment
+     */
+    private void performAddFragmentTransaction(Fragment mFragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.activity_fragment_container, mFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -154,7 +164,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         BusProvider.bus().unregister(ActivityList.class);
         // if user clicked the Add Button, replace with AddObservation Fragment
         ActivityNew addActivityFragment = new ActivityNew();
-        performFragmentTransaction(addActivityFragment);
+        performReplaceFragmentTransaction(addActivityFragment);
     }
 
     @Override
@@ -171,7 +181,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onActivityStopButtonClicked() {
         ActivityList mActivityList = new ActivityList();
-        performFragmentTransaction(mActivityList);
+        performReplaceFragmentTransaction(mActivityList);
     }
 
     /*
@@ -209,7 +219,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList) {
         try {
             ActivityMap mActivityMap = ActivityMap.newInstance(mObservationList);
-            performFragmentTransaction(mActivityMap);
+            performAddFragmentTransaction(mActivityMap);
         } catch (Exception e) {
         }
     }
