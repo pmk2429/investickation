@@ -213,10 +213,16 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
         if (marker != null) {
             txtView_obsName.setText(marker.getTitle());
         }
+        toggleSlidingPanelLayout();
+    }
 
+    /**
+     * Toggle to show-hide the SlidingPanelLayout
+     */
+    private void toggleSlidingPanelLayout() {
         if (mSlidingUpPanelLayout != null) {
             if (mSlidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
-                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
             } else {
                 mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }

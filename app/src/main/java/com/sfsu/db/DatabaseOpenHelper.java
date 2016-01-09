@@ -3,32 +3,45 @@ package com.sfsu.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * DatabaseHelper class to create and update the database table.
- * <p/>
+ * <p>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     // specify the name and version of DB.
     protected static final String DB_NAME = "Investickations.db";
-    protected static final int DB_VERSION = 1;
+    protected static final String TAG = "~!@#$DBOpenHelper";
+    protected static final int DB_VERSION = 2;
 
     // the default constructor
     public DatabaseOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    // onCreate method to create the Table in Database
+    /**
+     * {@inheritDoc}
+     *
+     * @param sqLiteDatabase
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
+        Log.i(TAG, "onCreate called");
+        UsersTable.onCreate(sqLiteDatabase);
     }
 
-    // to update the database table after making changes to it.
+    /**
+     * {@inheritDoc}
+     *
+     * @param sqLiteDatabase
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        UsersTable.onUpgrade(sqLiteDatabase, i, i1);
     }
 }

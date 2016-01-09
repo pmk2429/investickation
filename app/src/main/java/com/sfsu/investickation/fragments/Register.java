@@ -24,6 +24,7 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -116,10 +117,6 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         btnRegisterUser.setEnabled(false);
 
         isPrivacyAgreementRead = false;
-
-        // preference manager for access token and user_id.
-        mAuthPreferences = new AuthPreferences(mContext);
-        dbController = new DatabaseDataController(mContext, new UsersDao());
         // implement the onClick method
         btnRegisterUser.setOnClickListener(this);
         return v;
@@ -210,8 +207,13 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
                 // make a new Account object.
                 mUserObj = Account.createUser(fullName, address, city, state, zipcode, email, password);
 
-                // once the user object is created, pass it to Bus to send it over to api via retrofit
-                BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, ApiRequestHandler.ADD));
+
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    // once the user object is created, pass it to Bus to send it over to api via retrofit
+                    BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, ApiRequestHandler.ADD));
+                } else {
+                    Toast.makeText(mContext, "Internet connection not available", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
@@ -246,12 +248,15 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
 
 
     /**
-     * Subscribes to successful user creation on server.
+     * Subscribes to event of successful creation of {@link Account} on server.
      *
      * @param onLoaded
      */
     @Subscribe
     public void onUserCreateSuccess(UserEvent.OnLoaded onLoaded) {
+        // preference manager for access token and user_id.
+        mAuthPreferences = new AuthPreferences(mContext);
+        dbController = new DatabaseDataController(mContext, new UsersDao());
         // once the user is successfully created, store the response in the SQLite database to store the user info for further
         // requirements.
         Account userResponseObj = onLoaded.getResponse();
@@ -259,7 +264,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // set password to the user response object.
         userResponseObj.setPassword(mUserObj.getPassword());
 
-        // finally save the user in DB
+        // save the response user object in DB for further references.
         long resultCode = dbController.save(userResponseObj);
 
         // on successful storage of user, perform further operations.

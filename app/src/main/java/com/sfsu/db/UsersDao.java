@@ -17,15 +17,30 @@ import java.util.List;
  * Created by Pavitra on 6/3/2015.
  */
 public class UsersDao implements EntityDao {
-    private final String LOGTAG = "~!@#$UsersDao";
+    private final String TAG = "~!@#$UsersDao";
     private SQLiteDatabase db;
-
     // Account's string array.
-    private String[] usersEntryArray = new String[]{UsersTable.COLUMN_ID, UsersTable.COLUMN_FULLNAME, UsersTable.COLUMN_EMAIL, UsersTable.COLUMN_PASSWORD, UsersTable.COLUMN_ADDRESS, UsersTable.COLUMN_CITY, UsersTable.COLUMN_STATE, UsersTable.COLUMN_ZIPCODE, UsersTable.COLUMN_CREATEDAT, UsersTable.COLUMN_UPDATEDAT};
+    private String[] usersEntryArray = new String[]{
+            UsersTable.COLUMN_ID,
+            UsersTable.COLUMN_FULLNAME,
+            UsersTable.COLUMN_EMAIL,
+            UsersTable.COLUMN_PASSWORD,
+            UsersTable.COLUMN_ADDRESS,
+            UsersTable.COLUMN_CITY,
+            UsersTable.COLUMN_STATE,
+            UsersTable.COLUMN_ZIPCODE,
+            UsersTable.COLUMN_CREATEDAT
+    };
 
+    /**
+     * IMP : Required
+     */
+    public UsersDao() {
+    }
 
     @Override
     public void setDatabase(SQLiteDatabase db) {
+        Log.i(TAG, "setting db");
         this.db = db;
     }
 
@@ -36,24 +51,28 @@ public class UsersDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
-        Account user = (Account) entity;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(UsersTable.COLUMN_ID, user.getId());
-        contentValues.put(UsersTable.COLUMN_FULLNAME, user.getFull_name());
-        contentValues.put(UsersTable.COLUMN_EMAIL, user.getEmail());
-        contentValues.put(UsersTable.COLUMN_PASSWORD, user.getPassword());
-        contentValues.put(UsersTable.COLUMN_ADDRESS, user.getAddress());
-        contentValues.put(UsersTable.COLUMN_CITY, user.getCity());
-        contentValues.put(UsersTable.COLUMN_STATE, user.getState());
-        contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
-        contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
-        contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(LOGTAG, "Account : INSERT reached");
+        try {
+            Log.d(TAG, "INSERT reached");
+            Account user = (Account) entity;
+            contentValues.put(UsersTable.COLUMN_ID, user.getId());
+            contentValues.put(UsersTable.COLUMN_FULLNAME, user.getFull_name());
+            contentValues.put(UsersTable.COLUMN_EMAIL, user.getEmail());
+            contentValues.put(UsersTable.COLUMN_PASSWORD, user.getPassword());
+            contentValues.put(UsersTable.COLUMN_ADDRESS, user.getAddress());
+            contentValues.put(UsersTable.COLUMN_CITY, user.getCity());
+            contentValues.put(UsersTable.COLUMN_STATE, user.getState());
+            contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
+            contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
+            Log.i(TAG, "saving users");
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+        }
         return db.insert(UsersTable.TABLENAME, null, contentValues);
     }
 
     /**
-     * Method to update the Account.
+     * Method to update the {@link Account}.
      *
      * @param user
      * @return
@@ -70,8 +89,7 @@ public class UsersDao implements EntityDao {
         contentValues.put(UsersTable.COLUMN_STATE, user.getState());
         contentValues.put(UsersTable.COLUMN_ZIPCODE, user.getZipCode());
         contentValues.put(UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
-        contentValues.put(UsersTable.COLUMN_UPDATEDAT, user.getUpdated_at());
-        Log.d(LOGTAG, "Account : INSERT reached");
+        Log.d(TAG, "UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(UsersTable.TABLENAME, contentValues, UsersTable.COLUMN_ID + "=?", new String[]{user.getId() + ""}) > 0;
@@ -163,7 +181,6 @@ public class UsersDao implements EntityDao {
             userItem.setState(c.getString(6));
             userItem.setZipCode(c.getInt(7));
             userItem.setCreated_at(c.getLong(8));
-            userItem.setUpdated_at(c.getLong(9));
         }
         return userItem;
     }

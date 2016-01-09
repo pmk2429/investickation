@@ -2,6 +2,7 @@ package com.sfsu.controllers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.sfsu.db.DatabaseOpenHelper;
 import com.sfsu.db.EntityDao;
@@ -15,22 +16,24 @@ import java.util.List;
  * <br/>
  * This class provides abstraction on top of the DAO (Entity DAOs) layer for efficient error handling and modularity
  * of data retrieval.
- * <p/>
+ * <p>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseDataController {
+    private final String TAG = "~!@#$DBDataCtrl";
     private Context myContext;
     private DatabaseOpenHelper dbOpenHelper;
     private SQLiteDatabase sqLiteDatabase;
     private EntityDao entityDao;
 
 
-    public DatabaseDataController(Context myContext, EntityDao entityDao) {
+    public DatabaseDataController(Context context, EntityDao entityDao1) {
+        Log.i(TAG, "inside DatabaseDataController Constructor");
         // set the Helpers and Managers in Constructor
-        this.myContext = myContext;
-        dbOpenHelper = new DatabaseOpenHelper(this.myContext);
+        myContext = context;
+        dbOpenHelper = new DatabaseOpenHelper(myContext);
         sqLiteDatabase = dbOpenHelper.getWritableDatabase();
-        this.entityDao = entityDao;
+        entityDao = entityDao1;
         // IMP: finally initialize the calling class type Entity
         entityDao.setDatabase(sqLiteDatabase);
     }
@@ -43,6 +46,7 @@ public class DatabaseDataController {
 
     // Basic helper methods for DB transaction
     public long save(Entity entity) {
+        Log.i(TAG, "inside save");
         return this.entityDao.save(entity);
     }
 

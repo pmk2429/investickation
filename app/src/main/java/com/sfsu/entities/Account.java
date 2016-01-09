@@ -28,7 +28,7 @@ public class Account implements Parcelable, Entity {
     private String id;
     private String full_name, email, password, address, city, state;
     private int zipCode;
-    private long created_at, updated_at;
+    private long created_at;
 
     private Account(Parcel in) {
         // mData = in.readInt();
@@ -51,7 +51,7 @@ public class Account implements Parcelable, Entity {
      * @param created_at
      * @param updated_at
      */
-    public Account(String id, String full_name, String email, String password, String address, String city, String state, int zipCode, long created_at, long updated_at) {
+    public Account(String id, String full_name, String email, String password, String address, String city, String state, int zipCode, long created_at) {
         this.id = id;
         this.full_name = full_name;
         this.email = email;
@@ -61,7 +61,6 @@ public class Account implements Parcelable, Entity {
         this.state = state;
         this.zipCode = zipCode;
         this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
     /**
@@ -164,14 +163,6 @@ public class Account implements Parcelable, Entity {
         this.created_at = created_at;
     }
 
-    public long getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(long updated_at) {
-        this.updated_at = updated_at;
-    }
-
 
     @Override
     public int describeContents() {
@@ -186,7 +177,7 @@ public class Account implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + ", " + full_name + ", " + email + ", " + password + ", " + address + ", " + city + ", " + state + ", " +
-                zipCode + ", " + +created_at + ", " + updated_at + ", ";
+                zipCode + ", " + +created_at;
     }
 
     @Override

@@ -10,9 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoDragView="@+id/linearLayout_contentView"
         sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="68dp"
+        sothree:umanoPanelHeight="100dp"
         sothree:umanoParallaxOffset="100dp"
         sothree:umanoShadowHeight="4dp">
 
@@ -40,14 +39,14 @@
             android:focusable="false"
             android:orientation="vertical">
 
+
             <TextView
                 android:id="@+id/textView_infoWndw_obsName"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/widget_dimen"
                 android:layout_marginStart="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="@string/action_edit"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/font_small"/>

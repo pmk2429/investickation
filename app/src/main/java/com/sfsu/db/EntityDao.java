@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * EntityDao is the interface to provide the implementing classes get access to the DAO layer. Every Entity has a default behavior
  * which can be implemented using EntityDao interface;
- * <p/>
+ * <p>
  * Created by Pavitra on 10/19/2015.
  */
 public interface EntityDao {

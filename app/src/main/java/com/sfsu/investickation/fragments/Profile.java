@@ -31,9 +31,6 @@ import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.events.UserEvent;
-import com.sfsu.network.handler.ApiRequestHandler;
-import com.squareup.otto.Subscribe;
 
 import java.io.File;
 
@@ -77,7 +74,7 @@ public class Profile extends Fragment {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mAuthPreferences = new AuthPreferences(mContext);
         dbController = new DatabaseDataController(mContext, new UsersDao());
-        BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mAuthPreferences.getUser_id(), ApiRequestHandler.GET));
+        //BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mAuthPreferences.getUser_id(), ApiRequestHandler.GET));
     }
 
 
@@ -88,38 +85,10 @@ public class Profile extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-//            // get the Account object from Database
-//            if (dbController != null) {
-//                mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
-//            }
-
-        final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);
-        fabUserImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDialogForChoosingImage();
-            }
-        });
-
-
-        return rootView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mContext = context;
-        } catch (Exception e) {
-
+        // get the Account object from Database
+        if (dbController != null) {
+            mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
         }
-    }
-
-
-    @Subscribe
-    public void onGetUserDetailsSuccess(UserEvent.OnLoaded onLoaded) {
-        mUser = onLoaded.getResponse();
-
         // set the values in the EditText
         if (mUser != null) {
             et_fullName.setText(mUser.getFull_name());
@@ -134,12 +103,26 @@ public class Profile extends Fragment {
             et_email.setText("");
             et_password.setText("");
         }
+
+        final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);
+        fabUserImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startDialogForChoosingImage();
+            }
+        });
+
+        return rootView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mContext = context;
+        } catch (Exception e) {
 
-    @Subscribe
-    public void onGetUserDetailsFailure(UserEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
