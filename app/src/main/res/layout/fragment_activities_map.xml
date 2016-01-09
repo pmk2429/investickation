@@ -4,10 +4,55 @@
                 android:layout_height="match_parent"
                 tools:context="com.sfsu.investickation.fragments.ObservationMap">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView_activitiesMap_main"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/slidingLayout_infoWindow"
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:enabled="true"/>
+        android:gravity="bottom"
+        sothree:umanoDragView="@+id/linearLayout_contentView"
+        sothree:umanoOverlay="true"
+        sothree:umanoPanelHeight="68dp"
+        sothree:umanoParallaxOffset="100dp"
+        sothree:umanoShadowHeight="4dp">
 
+        <!-- MAIN CONTENT -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView_activitiesMap_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="true"/>
+
+        </FrameLayout>
+
+        <!-- SLIDING LAYOUT -->
+        <LinearLayout
+            android:id="@+id/linearLayout_contentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_infoWndw_obsName"
+                android:layout_width="@dimen/widget_dimen"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/action_edit"
+                android:textColor="@color/colorSecondary"
+                android:textSize="@dimen/font_small"/>
+
+        </LinearLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

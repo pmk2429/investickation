@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +32,16 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     private static String KEY_OBSERVATIONS_LIST = "activity_id";
     @Bind(R.id.mapView_activitiesMap_main)
     MapView mMapView;
+    @Bind(R.id.slidingLayout_infoWindow)
+    SlidingUpPanelLayout mSlidingUpPanelLayout;
+    @Bind(R.id.textView_infoWndw_obsName)
+    TextView txtView_obsName;
     private GoogleMapController mGoogleMapController;
     private Context mContext;
     private IActivityMapCallBack mListener;
     private String activityId;
     private List<Observation> mObservationList;
     private LinearLayout infowindow_linearLayout;
-    private TextView txtView_tickTitle;
 
     public ActivityMap() {
         // Required empty public constructor
@@ -96,15 +100,45 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
 //        mGoogleMapController.showMarker(mObservationList);
 
 
-        // inflate the View from infowindow_panel.xml layout
-        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View info_rootView = layoutInflater.inflate(R.layout.infowindow_panel, null, false);
-        infowindow_linearLayout = (LinearLayout) info_rootView.findViewById(R.id.hidden_panel);
-        txtView_tickTitle = (TextView) info_rootView.findViewById(R.id.textView_observationTitle);
+//        // inflate the View from infowindow_panel.xml layout
+//        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+//        View info_rootView = layoutInflater.inflate(R.layout.infowindow_panel, null, false);
+//        infowindow_linearLayout = (LinearLayout) info_rootView.findViewById(R.id.hidden_panel);
+//        txtView_tickTitle = (TextView) info_rootView.findViewById(R.id.textView_observationTitle);
+
+        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+
+        mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.i(TAG, "onPanelCollapsed");
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                Log.i(TAG, "onPanelExpanded");
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+                Log.i(TAG, "onPanelAnchored");
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+                Log.i(TAG, "onPanelHidden");
+            }
+        });
 
         return rootView;
 
     }
+
 
     public void slideUpDown() {
         if (!isPanelShown()) {
@@ -176,8 +210,17 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     @Override
     public void onMarkerClickListener(Marker marker) {
         Log.i(TAG, "inside onMarkerClick");
-        txtView_tickTitle.setText(marker.getTitle());
-        slideUpDown();
+        if (marker != null) {
+            txtView_obsName.setText(marker.getTitle());
+        }
+
+        if (mSlidingUpPanelLayout != null) {
+            if (mSlidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            } else {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        }
     }
 
     /**

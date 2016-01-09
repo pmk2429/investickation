@@ -25,7 +25,7 @@
         android:paddingLeft="@dimen/view_dimen_large"
         android:paddingRight="@dimen/view_dimen_large"
         android:text="@string/activityList_info"
-        android:textColor="@color/ultraLightText"
+        android:textColor="@color/colorSecondary"
         android:textSize="@dimen/font_small"/>
 
 

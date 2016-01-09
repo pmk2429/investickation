@@ -35,6 +35,8 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String PREF_ACTIVITY_DATA = "pref_ongoing_activity";
     //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
+    // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
+    private static int STACK_COUNT = 0;
     private final String TAG = "~!@#$UserActivity";
     private ActivityRunning mActivityRunning;
 
@@ -53,12 +55,16 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 // if user clicks on Start Activity
                 if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
                     ActivityNew activityNewFragment = new ActivityNew();
-                    performReplaceFragmentTransaction(activityNewFragment);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, activityNewFragment);
+                    transaction.commit();
                 }
                 // if user clicks on ActivityList
                 else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
                     ActivityList activityListFragment = new ActivityList();
-                    performAddFragmentTransaction(activityListFragment);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, activityListFragment);
+                    transaction.commit();
                 }
                 // if user navigates back to ActivityRunning fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
@@ -74,7 +80,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {
                     Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
                     ActivityDetail mActivityDetail = ActivityDetail.newInstance(mActivities);
-                    performAddFragmentTransaction(mActivityDetail);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, mActivityDetail);
+                    transaction.commit();
                 }
                 // open List of Activities by default.
                 else {
@@ -135,7 +143,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         } else if (count > 0) {
             getSupportFragmentManager().popBackStack();
         }
-
     }
 
     @Override
@@ -153,7 +160,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onActivitiesListItemClickListener(Activities mActivity) {
         ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivity);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.activity_fragment_container, mActivityDetailFragment);
+        transaction.replace(R.id.activity_fragment_container, mActivityDetailFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

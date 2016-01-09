@@ -69,24 +69,27 @@ public class Activities implements Parcelable, Entity {
     }
 
     /**
-     * Constructor overloading for creating Activities instance.
+     * Constructor overloading for creating {@link Activities} instance. This instance will hold all the attributes of an
+     * Activity.
      *
      * @param name
      * @param location_area
-     * @param num_people
+     * @param num_of_people
      * @param num_pets
-     * @param num_ticks
+     * @param image_url
+     * @param distance
      * @param timestamp
      * @param created_at
-     * @param update_at
+     * @param updated_at
      */
-    public Activities(String name, String location_area, int num_of_people, int num_pets, int distance, long timestamp, long
-            created_at, long updated_at) {
+    public Activities(String name, String location_area, int num_of_people, int num_pets, String image_url, int distance, long
+            timestamp, long created_at, long updated_at) {
         this.activityName = name;
         this.location_area = location_area;
         this.num_of_people = num_of_people;
         this.num_of_pets = num_pets;
         this.distance = distance;
+        this.image_url = image_url;
         this.timestamp = timestamp;
         this.created_at = created_at;
         this.updated_at = updated_at;
