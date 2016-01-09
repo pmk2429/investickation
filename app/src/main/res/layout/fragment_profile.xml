@@ -20,7 +20,7 @@
             <ImageView
                 android:id="@+id/imageView_profile_userImage"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_X_large"
+                android:layout_height="@dimen/cardview_large"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:background="@drawable/header"
@@ -97,7 +97,7 @@
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_cloud_done_black_36dp"/>
+                android:src="@mipmap/ic_password_black_24dp"/>
 
             <EditText
                 android:id="@+id/editText_profile_password"
@@ -115,7 +115,7 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
-            <!--  Account row -->
+            <!--  Address row -->
             <ImageView
                 android:id="@+id/icon_address"
                 android:layout_width="@dimen/widget_dimen"
@@ -141,32 +141,32 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
-            <!--  Phone row -->
-            <ImageView
-                android:id="@+id/icon_city"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/icon_address"
-                android:layout_marginStart="@dimen/view_dimen_small"
-                android:padding="@dimen/view_dimen_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_phone_black_36dp"/>
+            <!--&lt;!&ndash;  Phone row &ndash;&gt;-->
+            <!--<ImageView-->
+            <!--android:id="@+id/icon_city"-->
+            <!--android:layout_width="@dimen/widget_dimen"-->
+            <!--android:layout_height="@dimen/widget_dimen"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@id/icon_address"-->
+            <!--android:layout_marginStart="@dimen/view_dimen_small"-->
+            <!--android:padding="@dimen/view_dimen_medium"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:src="@mipmap/ic_phone_black_36dp"/>-->
 
-            <EditText
-                android:id="@+id/editText_phone"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_address"
-                android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_toEndOf="@id/icon_city"
-                android:ellipsize="end"
-                android:hint="@string/profile_address"
-                android:inputType="phone"
-                android:lines="1"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
+            <!--<EditText-->
+            <!--android:id="@+id/editText_phone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/widget_dimen"-->
+            <!--android:layout_below="@id/editText_profile_address"-->
+            <!--android:layout_marginEnd="@dimen/view_dimen_large"-->
+            <!--android:layout_toEndOf="@id/icon_city"-->
+            <!--android:ellipsize="end"-->
+            <!--android:hint="@string/profile_address"-->
+            <!--android:inputType="phone"-->
+            <!--android:lines="1"-->
+            <!--android:scrollHorizontally="true"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="@dimen/font_small"/>-->
 
 
         </RelativeLayout>

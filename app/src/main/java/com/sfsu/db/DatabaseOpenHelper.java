@@ -29,19 +29,20 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        Log.i(TAG, "onCreate called");
-        UsersTable.onCreate(sqLiteDatabase);
+        Log.i(TAG, "creating tables");
+        DaoMaster.createAllTables(sqLiteDatabase, true);
     }
+
 
     /**
      * {@inheritDoc}
      *
      * @param sqLiteDatabase
-     * @param i
-     * @param i1
+     * @param oldVersion
+     * @param newVersion
      */
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        UsersTable.onUpgrade(sqLiteDatabase, i, i1);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        DaoMaster.upgradeAllTables(sqLiteDatabase, oldVersion, newVersion);
     }
 }

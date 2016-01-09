@@ -97,11 +97,11 @@ public class Profile extends Fragment {
             et_email.setText(mUser.getEmail());
             et_password.setText(mUser.getPassword());
         } else {
-            et_fullName.setText("");
+            et_fullName.setText("Full Name");
             String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
-            et_address.setText("");
-            et_email.setText("");
-            et_password.setText("");
+            et_address.setText("Address");
+            et_email.setText("Email");
+            et_password.setText("Password");
         }
 
         final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);

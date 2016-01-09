@@ -23,8 +23,8 @@ public class ObservationsDao implements EntityDao {
 
     private SQLiteDatabase db;
     // Observation's entry array for storing all the column names
-    private String[] observationEntryArray = new String[]{ObservationsTable.COLUMN_ID, ObservationsTable.COLUMN_NUMOFTICKS, ObservationsTable.COLUMN_TIMESTAMP, ObservationsTable.COLUMN_CREATEDAT, ObservationsTable.COLUMN_UPDATEDAT, ObservationsTable
-            .COLUMN_FK_TICK_ID, ObservationsTable.COLUMN_FK_LOCATION_ID};
+    private String[] observationEntryArray = new String[]{EntityTable.ObservationsTable.COLUMN_ID, EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, EntityTable.ObservationsTable.COLUMN_TIMESTAMP, EntityTable.ObservationsTable.COLUMN_CREATEDAT, EntityTable.ObservationsTable
+            .COLUMN_FK_TICK_ID, EntityTable.ObservationsTable.COLUMN_FK_LOCATION_ID};
 
 
     @Override
@@ -41,7 +41,7 @@ public class ObservationsDao implements EntityDao {
     public boolean delete(Entity entity) {
         Observation observations = (Observation) entity;
 
-        return db.delete(ObservationsTable.TABLENAME, ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getId() + ""})
+        return db.delete(EntityTable.ObservationsTable.TABLENAME, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getId() + ""})
                 > 0;
     }
 
@@ -54,7 +54,7 @@ public class ObservationsDao implements EntityDao {
     public Entity get(String id) {
 
         Observation observationItem = null;
-        Cursor c = db.query(true, ObservationsTable.TABLENAME, observationEntryArray, ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+        Cursor c = db.query(true, EntityTable.ObservationsTable.TABLENAME, observationEntryArray, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
 
         if (c != null && c.moveToFirst()) {
             // once the Observation Item is build from cursor, create Tick object and Location object.
@@ -83,7 +83,7 @@ public class ObservationsDao implements EntityDao {
         List<Observation> observationsList = new ArrayList<Observation>();
 
         // Query the Database to get all the records.
-        Cursor c = db.query(ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
+        Cursor c = db.query(EntityTable.ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
 
         if (c != null && c.moveToFirst()) {
             // loop until the end of Cursor and add each entry to Observations ArrayList.
@@ -106,16 +106,15 @@ public class ObservationsDao implements EntityDao {
     public long save(Entity entity) {
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ObservationsTable.COLUMN_ID, observations.getId());
-        contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
-        contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         // get TickId and LocationId
-//        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
-        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
+//        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
         Log.d(TAG, "Observation : INSERT reached");
-        return db.insert(ObservationsTable.TABLENAME, null, contentValues);
+        return db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
     }
 
     /**
@@ -127,18 +126,17 @@ public class ObservationsDao implements EntityDao {
     public boolean update(Entity entity) {
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ObservationsTable.COLUMN_ID, observations.getId());
-        contentValues.put(ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
-        contentValues.put(ObservationsTable.COLUMN_UPDATEDAT, observations.getUpdated_at());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
         // get LocationId and TickId
-//        contentValues.put(ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
-        contentValues.put(ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
+//        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
         Log.d(TAG, "Observation : UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
-        return db.update(ObservationsTable.TABLENAME, contentValues, ObservationsTable.COLUMN_ID + "=?", new
+        return db.update(EntityTable.ObservationsTable.TABLENAME, contentValues, EntityTable.ObservationsTable.COLUMN_ID + "=?", new
                 String[]{observations.getId() + ""}) > 0;
     }
 
