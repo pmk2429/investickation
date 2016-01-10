@@ -31,11 +31,11 @@ public class EntityLocation implements Parcelable, Entity {
     };
 
     private String id;
-    private String user_id;
-    private String activity_id;
-    private String observation_id;
     private double latitude, longitude;
     private long timestamp;
+    private String observation_id;
+    private String activity_id;
+    private String user_id;
 
     public EntityLocation() {
     }
@@ -68,23 +68,24 @@ public class EntityLocation implements Parcelable, Entity {
     }
 
     /**
-     * IMP : Constructor to create the Location object while retrieving the data from the Server.
+     * Constructor overloading for building the {@link EntityLocation} object from Response.
      *
-     * @param location_id
-     * @param user_id
+     * @param id
      * @param latitude
      * @param longitude
      * @param timestamp
+     * @param observation_id
+     * @param activity_id
+     * @param user_id
      */
-    public EntityLocation(String id, double latitude, double longitude, String observation_id, String activity_id, String user_id, long
-            timestamp) {
+    public EntityLocation(String id, double latitude, double longitude, long timestamp, String observation_id, String activity_id, String user_id) {
         this.id = id;
-        this.user_id = user_id;
-        this.activity_id = activity_id;
-        this.observation_id = observation_id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
+        this.observation_id = observation_id;
+        this.activity_id = activity_id;
+        this.user_id = user_id;
     }
 
     protected EntityLocation(Parcel in) {
@@ -106,40 +107,72 @@ public class EntityLocation implements Parcelable, Entity {
         return new EntityLocation(latitude, longitude, timestamp);
     }
 
+    public String getActivity_id() {
+        return activity_id;
+    }
+
+    public void setActivity_id(String activity_id) {
+        this.activity_id = activity_id;
+    }
+
+    public String getObservation_id() {
+        return observation_id;
+    }
+
+    public void setObservation_id(String observation_id) {
+        this.observation_id = observation_id;
+    }
+
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUser_id() {
         return user_id;
     }
 
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     public double getLatitude() {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     public double getLongitude() {
         return longitude;
     }
 
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     public long getTimestamp() {
         return timestamp;
     }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public String toString() {
-        return "EntityLocation{" +
-                "location_id=" + id +
-                ", user_id=" + user_id +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", timestamp=" + timestamp +
-                '}';
+        return id +
+                ":" + latitude +
+                ":" + longitude +
+                ":" + timestamp +
+                ":" + observation_id +
+                ":" + activity_id +
+                ":" + user_id;
+
     }
 
     @Override

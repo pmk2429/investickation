@@ -171,6 +171,8 @@ public class EntityTable {
         static final String COLUMN_LONGITUDE = "longitude";
         static final String COLUMN_TIMESTAMP = "timestamp";
         static final String COLUMN_FK_USER_ID = "user_id";
+        static final String COLUMN_FK_ACTIVITY_ID = "activity_id";
+        static final String COLUMN_FK_OBSERVATION_ID = "observation_id";
         //TAG
         static final String TAG = "~!@#$LocationsTable";
 
@@ -183,7 +185,20 @@ public class EntityTable {
                 sb.append(COLUMN_LATITUDE + " real not null, ");
                 sb.append(COLUMN_LONGITUDE + " real not null, ");
                 sb.append(COLUMN_TIMESTAMP + " long not null, ");
-                sb.append(COLUMN_FK_USER_ID + " text not null); ");
+                sb.append(COLUMN_FK_OBSERVATION_ID + " text not null, ");
+                sb.append(COLUMN_FK_ACTIVITY_ID + " text not null, ");
+                sb.append(COLUMN_FK_USER_ID + " text not null, ");
+
+                sb.append("FOREIGN KEY (" + COLUMN_FK_OBSERVATION_ID + ") REFERENCES " + ObservationsTable.TABLENAME +
+                        " (" + ObservationsTable.COLUMN_ID + "), ");
+
+                sb.append("FOREIGN KEY (" + COLUMN_FK_ACTIVITY_ID + ") REFERENCES " + ActivitiesTable.TABLENAME +
+                        " (" + ActivitiesTable.COLUMN_ID + "), ");
+
+                sb.append("FOREIGN KEY (" + COLUMN_FK_USER_ID + ") REFERENCES " + UsersTable.TABLENAME +
+                        " (" + UsersTable.COLUMN_ID + ") ");
+
+                sb.append(" );");
 
                 db.execSQL(sb.toString());
             } catch (android.database.SQLException se) {
