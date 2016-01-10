@@ -27,8 +27,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
+import com.sfsu.db.ActivitiesDao;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
@@ -76,6 +78,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private LocationController.ILocationCallBacks mLocationListener;
     private String locationArea;
     private boolean isGrownAnim = false;
+    private DatabaseDataController dbController;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -86,7 +89,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_new);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        BusProvider.bus().unregister(ActivityList.class);
     }
 
 
@@ -113,6 +115,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
         locationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
+        // Database controller.
 
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
         locationController.connectGoogleApi();
@@ -470,8 +473,23 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
         Log.i(TAG, "Activity created success");
+        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
+
         Activities createdActivity = onLoaded.getResponse();
-        mInterface.onPlayButtonClick(createdActivity);
+
+        Log.i(TAG, createdActivity.toString());
+
+        long result = dbController.save(createdActivity);
+
+        if (result != -1) {
+            Activities mActivity = (Activities) dbController.get(createdActivity.getId());
+            Log.i(TAG, "store in DB success");
+            Log.i(TAG, mActivity.toString());
+        } else {
+            Log.i(TAG, "not saved");
+        }
+
+        //mInterface.onPlayButtonClick(createdActivity);
     }
 
     /**

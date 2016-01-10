@@ -64,12 +64,14 @@ public class EntityTable {
         static final String COLUMN_TICK_SCIENTIFIC_NAME = "scientific_name";
         static final String COLUMN_TICK_SPECIES = "species";
         static final String COLUMN_KNOWN_FOR = "known_for";
-        static final String COLUMN_FOUND_NEAR = "description";
+        static final String COLUMN_FOUND_NEAR = "found_near_habitat";
         static final String COLUMN_DESCRIPTION = "description";
         static final String COLUMN_IMAGE = "image_url";
+        private static final String TAG = "~!@#$TicksTable";
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
+                Log.i(TAG, "onCreate of TicksTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
@@ -117,6 +119,7 @@ public class EntityTable {
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
+                Log.i(TAG, "onCreate of ObservationTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
@@ -155,7 +158,7 @@ public class EntityTable {
         }
 
         static public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + ObservationsTable.TABLENAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLENAME);
             ObservationsTable.createTable(db, false);
         }
     }
@@ -178,6 +181,7 @@ public class EntityTable {
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
+                Log.i(TAG, "onCreate of LocationsTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
@@ -217,6 +221,8 @@ public class EntityTable {
      * Schema definition for {@link com.sfsu.entities.Activities}
      */
     static class ActivitiesTable {
+
+
         //TAG
         static final String TAG = "~!@#ActivitiesTable";
         // columns
@@ -233,24 +239,28 @@ public class EntityTable {
         static final String COLUMN_FK_USER_ID = "user_id";
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("CREATE TABLE " + TABLENAME + " (");
-            sb.append(COLUMN_ID + " text unique primary key, ");
-            sb.append(COLUMN_NAME + " text not null, ");
-            sb.append(COLUMN_NUM_OF_PEOPLE + " integer not null, ");
-            sb.append(COLUMN_NUM_OF_PETS + " integer not null, ");
-            sb.append(COLUMN_NUM_OF_TICKS + " integer not null, ");
-            sb.append(COLUMN_LOCATION_AREA + " text not null, ");
-            sb.append(COLUMN_IMAGE_URL + " text not null, ");
-            sb.append(COLUMN_TIMESTAMP + " long not null, ");
-            sb.append(COLUMN_UPDATED_AT + " long not null, ");
-
-            sb.append("FOREIGN KEY (" + COLUMN_FK_USER_ID + ") REFERENCES " + UsersTable.TABLENAME +
-                    " (" + UsersTable.COLUMN_ID + ")");
-
-            sb.append(" );");
-
             try {
+                Log.i(TAG, "onCreate of ActivitiesTable");
+                String constraint = ifNotExists ? "IF NOT EXISTS " : "";
+                StringBuilder sb = new StringBuilder();
+                sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
+                sb.append(COLUMN_ID + " text unique primary key, ");
+                sb.append(COLUMN_NAME + " text not null, ");
+                sb.append(COLUMN_NUM_OF_PEOPLE + " integer not null, ");
+                sb.append(COLUMN_NUM_OF_PETS + " integer not null, ");
+                sb.append(COLUMN_NUM_OF_TICKS + " integer, ");
+                sb.append(COLUMN_LOCATION_AREA + " text not null, ");
+                sb.append(COLUMN_IMAGE_URL + " text, ");
+                sb.append(COLUMN_TIMESTAMP + " long not null, ");
+                sb.append(COLUMN_UPDATED_AT + " long, ");
+                sb.append(COLUMN_FK_USER_ID + " text not null, ");
+
+                sb.append("FOREIGN KEY (" + COLUMN_FK_USER_ID + ") REFERENCES " + UsersTable.TABLENAME +
+                        " (" + UsersTable.COLUMN_ID + ")");
+
+                sb.append(" );");
+
+
                 db.execSQL(sb.toString());
             } catch (android.database.SQLException se) {
                 se.printStackTrace();

@@ -1,6 +1,7 @@
 package com.sfsu.db;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Manager for all DAOs in the application.
@@ -16,12 +17,12 @@ public class DaoMaster {
      * Creates underlying database table using DAOs.
      */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
+        Log.i("~!@#$", "creating tables");
         EntityTable.UsersTable.createTable(db, ifNotExists);
+        EntityTable.ActivitiesTable.createTable(db, ifNotExists);
         EntityTable.LocationsTable.createTable(db, ifNotExists);
         EntityTable.TicksTable.createTable(db, ifNotExists);
         EntityTable.ObservationsTable.createTable(db, ifNotExists);
-        EntityTable.ActivitiesTable.createTable(db, ifNotExists);
-
     }
 
 

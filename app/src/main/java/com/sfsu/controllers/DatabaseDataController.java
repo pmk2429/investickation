@@ -27,13 +27,13 @@ public class DatabaseDataController {
     private EntityDao entityDao;
 
 
-    public DatabaseDataController(Context context, EntityDao entityDao1) {
+    public DatabaseDataController(Context context, EntityDao dao) {
         Log.i(TAG, "inside DatabaseDataController Constructor");
         // set the Helpers and Managers in Constructor
         myContext = context;
-        dbOpenHelper = new DatabaseOpenHelper(myContext);
+        dbOpenHelper = new DatabaseOpenHelper(this.myContext);
         sqLiteDatabase = dbOpenHelper.getWritableDatabase();
-        entityDao = entityDao1;
+        entityDao = dao;
         // IMP: finally initialize the calling class type Entity
         entityDao.setDatabase(sqLiteDatabase);
     }

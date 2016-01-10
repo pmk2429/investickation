@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * DatabaseHelper class to create and update the database table.
- * <p>
+ * <p/>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
@@ -15,7 +15,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // specify the name and version of DB.
     protected static final String DB_NAME = "Investickations.db";
     protected static final String TAG = "~!@#$DBOpenHelper";
-    protected static final int DB_VERSION = 2;
+    protected static final int DB_VERSION = 3;
 
     // the default constructor
     public DatabaseOpenHelper(Context context) {
@@ -30,7 +30,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         Log.i(TAG, "creating tables");
-        DaoMaster.createAllTables(sqLiteDatabase, false);
+        boolean ifNotExists = true;
+        EntityTable.UsersTable.createTable(sqLiteDatabase, ifNotExists);
+        EntityTable.ActivitiesTable.createTable(sqLiteDatabase, ifNotExists);
+        EntityTable.LocationsTable.createTable(sqLiteDatabase, ifNotExists);
+        EntityTable.TicksTable.createTable(sqLiteDatabase, ifNotExists);
+        EntityTable.ObservationsTable.createTable(sqLiteDatabase, ifNotExists);
     }
 
 

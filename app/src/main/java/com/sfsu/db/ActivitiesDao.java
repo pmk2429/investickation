@@ -17,7 +17,6 @@ public class ActivitiesDao implements EntityDao {
 
     private SQLiteDatabase db;
     private String TAG = "~!@#$ActivitiesDao";
-
     private String[] activityEntryArray = new String[]{
             EntityTable.ActivitiesTable.COLUMN_ID,
             EntityTable.ActivitiesTable.COLUMN_NAME,
@@ -29,6 +28,9 @@ public class ActivitiesDao implements EntityDao {
             EntityTable.ActivitiesTable.COLUMN_LOCATION_AREA,
             EntityTable.ActivitiesTable.COLUMN_UPDATED_AT,
             EntityTable.ActivitiesTable.COLUMN_FK_USER_ID};
+
+    public ActivitiesDao() {
+    }
 
     @Override
     public void setDatabase(SQLiteDatabase db) {
