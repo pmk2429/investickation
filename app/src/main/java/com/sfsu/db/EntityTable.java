@@ -226,10 +226,11 @@ public class EntityTable {
         static final String COLUMN_NUM_OF_PEOPLE = "num_of_people";
         static final String COLUMN_NUM_OF_TICKS = "num_of_pets";
         static final String COLUMN_NUM_OF_PETS = "num_of_ticks";
+        static final String COLUMN_LOCATION_AREA = "location_area";
+        static final String COLUMN_IMAGE_URL = "image_url";
         static final String COLUMN_TIMESTAMP = "timestamp";
-        static final String COLUMN_CREATEDAT = "created_at";
+        static final String COLUMN_UPDATED_AT = "updated_at";
         static final String COLUMN_FK_USER_ID = "user_id";
-        static final String COLUMN_FK_LOCATION_ID = "location_id";
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             StringBuilder sb = new StringBuilder();
@@ -239,12 +240,14 @@ public class EntityTable {
             sb.append(COLUMN_NUM_OF_PEOPLE + " integer not null, ");
             sb.append(COLUMN_NUM_OF_PETS + " integer not null, ");
             sb.append(COLUMN_NUM_OF_TICKS + " integer not null, ");
+            sb.append(COLUMN_LOCATION_AREA + " text not null, ");
+            sb.append(COLUMN_IMAGE_URL + " text not null, ");
             sb.append(COLUMN_TIMESTAMP + " long not null, ");
-            sb.append(COLUMN_CREATEDAT + " long not null, ");
+            sb.append(COLUMN_UPDATED_AT + " long not null, ");
+
             sb.append("FOREIGN KEY (" + COLUMN_FK_USER_ID + ") REFERENCES " + UsersTable.TABLENAME +
-                    " (" + UsersTable.COLUMN_ID + "),");
-            sb.append("FOREIGN KEY (" + COLUMN_FK_LOCATION_ID + ") REFERENCES " + LocationsTable.TABLENAME +
-                    " (" + LocationsTable.COLUMN_ID + ") ");
+                    " (" + UsersTable.COLUMN_ID + ")");
+
             sb.append(" );");
 
             try {
@@ -255,7 +258,7 @@ public class EntityTable {
         }
 
         static public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + ObservationsTable.TABLENAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLENAME);
             ActivitiesTable.createTable(db, false);
         }
     }

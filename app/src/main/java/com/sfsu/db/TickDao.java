@@ -178,7 +178,10 @@ public class TickDao implements EntityDao {
     public Tick getByName(String name) {
 
         Tick tickItem = null;
-        Cursor c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?", new String[]{name + ""},
+        Cursor c = db.query(true,
+                EntityTable.TicksTable.TABLENAME,
+                tickEntryArray,
+                EntityTable.TicksTable.COLUMN_TICK_NAME + "=?", new String[]{name + ""},
                 null, null, null, null);
 
         if (c != null && c.moveToFirst()) {

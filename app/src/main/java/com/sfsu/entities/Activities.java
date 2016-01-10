@@ -43,7 +43,7 @@ public class Activities implements Parcelable, Entity {
     private int num_of_ticks;
     private int distance;
     private String location_area;
-    private long timestamp, created_at, updated_at;
+    private long timestamp, updated_at;
     private String user_id;
     private String image_url;
     // Enum identifier for setting State of Object.
@@ -83,7 +83,7 @@ public class Activities implements Parcelable, Entity {
      * @param updated_at
      */
     public Activities(String name, String location_area, int num_of_people, int num_pets, String image_url, int distance, long
-            timestamp, long created_at, long updated_at) {
+            timestamp, long updated_at) {
         this.activityName = name;
         this.location_area = location_area;
         this.num_of_people = num_of_people;
@@ -91,7 +91,6 @@ public class Activities implements Parcelable, Entity {
         this.distance = distance;
         this.image_url = image_url;
         this.timestamp = timestamp;
-        this.created_at = created_at;
         this.updated_at = updated_at;
     }
 
@@ -116,7 +115,6 @@ public class Activities implements Parcelable, Entity {
         num_of_people = in.readInt();
         num_of_pets = in.readInt();
         timestamp = in.readLong();
-        created_at = in.readLong();
         updated_at = in.readLong();
     }
 
@@ -227,14 +225,6 @@ public class Activities implements Parcelable, Entity {
         this.timestamp = timestamp;
     }
 
-    public long getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(long created_at) {
-        this.created_at = created_at;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -248,7 +238,6 @@ public class Activities implements Parcelable, Entity {
         parcel.writeInt(num_of_people);
         parcel.writeInt(num_of_pets);
         parcel.writeLong(timestamp);
-        parcel.writeLong(created_at);
         parcel.writeLong(updated_at);
     }
 
@@ -270,7 +259,7 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + " : " + activityName + " : " + location_area + " : " + num_of_people + " : " + num_of_pets + " : " +
-                num_of_ticks + " : " + timestamp + " : " + created_at + " : " + updated_at + " : " + user_id;
+                num_of_ticks + " : " + timestamp + " : " + updated_at + " : " + user_id;
     }
 
     /**
