@@ -1,6 +1,5 @@
 package com.sfsu.entities;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -41,9 +40,7 @@ public class Tick implements Parcelable, Entity {
     private String description;
     @SerializedName("image_url")
     private String imageUrl;
-    private Bitmap image;
     private String found_near_habitat;
-    private long created_at1, updated_at1;
 
     public Tick() {
     }
@@ -66,17 +63,15 @@ public class Tick implements Parcelable, Entity {
      * @param updated_at
      */
     public Tick(String id, String commonName, String scientific_name, String species, String known_for, String description,
-                Bitmap image, String found_near_habitat, long created_at, long updated_at) {
+                String found_near_habitat, String image_url) {
         this.id = id;
         this.tickName = commonName;
         this.species = species;
         this.known_for = known_for;
         this.scientific_name = scientific_name;
         this.description = description;
-        this.image = image;
-        this.created_at1 = created_at;
-        this.updated_at1 = updated_at;
         this.found_near_habitat = found_near_habitat;
+        this.imageUrl = image_url;
     }
 
     /**
@@ -88,38 +83,24 @@ public class Tick implements Parcelable, Entity {
      * @param description
      * @param image
      */
-    public Tick(String name, String species, String known_for, String description, Bitmap image) {
+    public Tick(String name, String species, String known_for, String description) {
         this.tickName = name;
         this.species = species;
         this.known_for = known_for;
         this.description = description;
-        this.image = image;
     }
 
     protected Tick(Parcel in) {
         id = in.readString();
         tickName = in.readString();
+        scientific_name = in.readString();
         species = in.readString();
         known_for = in.readString();
         description = in.readString();
         imageUrl = in.readString();
-        created_at1 = in.readLong();
-        updated_at1 = in.readLong();
+        found_near_habitat = in.readString();
     }
 
-    /**
-     * Static method for creating {@link Tick} instance.
-     *
-     * @param name
-     * @param species
-     * @param known_for
-     * @param description
-     * @param image
-     * @return
-     */
-    public static Tick createTick(String name, String species, String known_for, String description, Bitmap image) {
-        return new Tick(name, species, known_for, description, image);
-    }
 
     public static List<Tick> initializeData() {
         List<Tick> ticks = new ArrayList<>();
@@ -143,14 +124,6 @@ public class Tick implements Parcelable, Entity {
 
     public void setScientific_name(String scientific_name) {
         this.scientific_name = scientific_name;
-    }
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
     }
 
     public String getTickName() {
@@ -193,26 +166,10 @@ public class Tick implements Parcelable, Entity {
         this.imageUrl = imageUrl;
     }
 
-    public long getCreated_at() {
-        return created_at1;
-    }
-
-    public void setCreated_at(long created_at) {
-        this.created_at1 = created_at;
-    }
-
-    public long getUpdated_at() {
-        return updated_at1;
-    }
-
-    public void setUpdated_at(long updated_at) {
-        this.updated_at1 = updated_at;
-    }
-
     @Override
     public String toString() {
-        return id + " : " + tickName + " : " + species + " : " + known_for + " : " + description + " : " + imageUrl +
-                " : " + created_at1 + " : " + updated_at1;
+        return id + " : " + tickName + " : " + scientific_name + " : " + species + " : " + known_for + " : " + found_near_habitat
+                + " : " + description + " : " + imageUrl;
     }
 
     @Override
@@ -232,12 +189,12 @@ public class Tick implements Parcelable, Entity {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(id);
         parcel.writeString(tickName);
+        parcel.writeString(scientific_name);
         parcel.writeString(species);
         parcel.writeString(known_for);
         parcel.writeString(description);
+        parcel.writeString(found_near_habitat);
         parcel.writeString(imageUrl);
-        parcel.writeLong(created_at1);
-        parcel.writeLong(updated_at1);
     }
 
     @Override

@@ -18,7 +18,15 @@ import java.util.List;
 public class TickDao implements EntityDao {
     private final String LOGTAG = "~!@#$TickDao: ";
     private SQLiteDatabase db;
-    private String[] tickEntryArray = new String[]{EntityTable.TicksTable.COLUMN_ID, EntityTable.TicksTable.COLUMN_TICK_NAME, EntityTable.TicksTable.COLUMN_TICK_SPECIES, EntityTable.TicksTable.COLUMN_KNOWN_FOR, EntityTable.TicksTable.COLUMN_DESCRIPTION, EntityTable.TicksTable.COLUMN_IMAGE};
+    private String[] tickEntryArray = new String[]{
+            EntityTable.TicksTable.COLUMN_ID,
+            EntityTable.TicksTable.COLUMN_TICK_NAME,
+            EntityTable.TicksTable.COLUMN_TICK_SCIENTIFIC_NAME,
+            EntityTable.TicksTable.COLUMN_TICK_SPECIES,
+            EntityTable.TicksTable.COLUMN_KNOWN_FOR,
+            EntityTable.TicksTable.COLUMN_DESCRIPTION,
+            EntityTable.TicksTable.COLUMN_FOUND_NEAR,
+            EntityTable.TicksTable.COLUMN_IMAGE};
 
     @Override
     public void setDatabase(SQLiteDatabase db) {
@@ -32,16 +40,56 @@ public class TickDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
-        Tick tick = (Tick) entity;
+
+        try {
+            Log.d(LOGTAG, "TICK : INSERT reached");
+            Tick tick = (Tick) entity;
+            ContentValues contentValues = getContentValues(tick);
+            // save the entity
+            return db.insert(EntityTable.TicksTable.TABLENAME, null, contentValues);
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    /**
+     * save(Tick) method is used to save the entries (field values) in to Tick Database table
+     *
+     * @param ticks
+     * @return
+     */
+    public long save(List<Tick> tickList) {
+        Log.d(LOGTAG, "TICK : insert List");
+        try {
+            for (int i = 0; i < tickList.size(); i++) {
+                Tick tick = tickList.get(i);
+                ContentValues contentValues = getContentValues(tick);
+                db.insert(EntityTable.TicksTable.TABLENAME, null, contentValues);
+            }
+            return tickList.size();
+        } catch (Exception e) {
+            // save the entity
+            return -1;
+        }
+
+    }
+
+    private ContentValues getContentValues(Tick tick) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(EntityTable.TicksTable.COLUMN_ID, tick.getId());
-        contentValues.put(EntityTable.TicksTable.COLUMN_TICK_NAME, tick.getTickName());
-        contentValues.put(EntityTable.TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
-        contentValues.put(EntityTable.TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
-        contentValues.put(EntityTable.TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
-        contentValues.put(EntityTable.TicksTable.COLUMN_IMAGE, tick.getImageUrl());
-        Log.d(LOGTAG, "TICK : INSERT reached");
-        return db.insert(EntityTable.TicksTable.TABLENAME, null, contentValues);
+        try {
+            contentValues.put(EntityTable.TicksTable.COLUMN_ID, tick.getId());
+            contentValues.put(EntityTable.TicksTable.COLUMN_TICK_NAME, tick.getTickName());
+            contentValues.put(EntityTable.TicksTable.COLUMN_TICK_SCIENTIFIC_NAME, tick.getScientific_name());
+            contentValues.put(EntityTable.TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
+            contentValues.put(EntityTable.TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
+            contentValues.put(EntityTable.TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
+            contentValues.put(EntityTable.TicksTable.COLUMN_FOUND_NEAR, tick.getFound_near_habitat());
+            contentValues.put(EntityTable.TicksTable.COLUMN_IMAGE, tick.getImageUrl());
+
+            return contentValues;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     /**
@@ -51,31 +99,38 @@ public class TickDao implements EntityDao {
      * @return
      */
     public boolean update(Entity entity) {
-        Tick tick = (Tick) entity;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(EntityTable.TicksTable.COLUMN_ID, tick.getId());
-        contentValues.put(EntityTable.TicksTable.COLUMN_TICK_NAME, tick.getTickName());
-        contentValues.put(EntityTable.TicksTable.COLUMN_TICK_SPECIES, tick.getSpecies());
-        contentValues.put(EntityTable.TicksTable.COLUMN_KNOWN_FOR, tick.getKnown_for());
-        contentValues.put(EntityTable.TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
-        contentValues.put(EntityTable.TicksTable.COLUMN_IMAGE, tick.getImageUrl());
-        Log.d(LOGTAG, "Tick : UPDATE reached");
-        // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
-        // for whether its true or false.
-        return db.update(EntityTable.TicksTable.TABLENAME, contentValues, EntityTable.TicksTable.COLUMN_ID + "=?", new String[]{tick.getId() + ""}) > 0;
+
+        try {
+            Log.d(LOGTAG, "Tick : UPDATE reached");
+            Tick tick = (Tick) entity;
+            ContentValues contentValues = getContentValues(tick);
+            // update the record.
+            return db.update(EntityTable.TicksTable.TABLENAME, contentValues, EntityTable.TicksTable.COLUMN_ID + "=?",
+                    new String[]{tick.getId() + ""}) > 0;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
-    // build the Tick Object using Cursor.
+    /**
+     * Build the {@link Tick} object from Cursor.
+     *
+     * @param c
+     * @return
+     */
     public Tick buildFromCursor(Cursor c) {
         Tick tickItem = null;
         if (c != null) {
             tickItem = new Tick();
             tickItem.setId(c.getString(0));
             tickItem.setTickName(c.getString(1));
-            tickItem.setSpecies(c.getString(2));
-            tickItem.setKnown_for(c.getString(3));
-            tickItem.setDescription(c.getString(4));
-            tickItem.setImageUrl(c.getString(5));
+            tickItem.setScientific_name(c.getString(2));
+            tickItem.setSpecies(c.getString(3));
+            tickItem.setKnown_for(c.getString(4));
+            tickItem.setDescription(c.getString(5));
+            tickItem.setFound_near_habitat(c.getString(6));
+            tickItem.setImageUrl(c.getString(7));
         }
         return tickItem;
     }
@@ -101,7 +156,8 @@ public class TickDao implements EntityDao {
     public Tick get(String id) {
 
         Tick tickItem = null;
-        Cursor c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+        Cursor c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?",
+                new String[]{id + ""}, null, null, null, null);
 
         if (c != null && c.moveToFirst()) {
             tickItem = buildFromCursor(c);
@@ -136,7 +192,7 @@ public class TickDao implements EntityDao {
 
 
     /**
-     * Get list of all the ticks stored in DB
+     * Returns list of {@link Tick} stored in database.
      *
      * @return
      */

@@ -23,8 +23,19 @@ public class ObservationsDao implements EntityDao {
 
     private SQLiteDatabase db;
     // Observation's entry array for storing all the column names
-    private String[] observationEntryArray = new String[]{EntityTable.ObservationsTable.COLUMN_ID, EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, EntityTable.ObservationsTable.COLUMN_TIMESTAMP, EntityTable.ObservationsTable.COLUMN_CREATEDAT, EntityTable.ObservationsTable
-            .COLUMN_FK_TICK_ID, EntityTable.ObservationsTable.COLUMN_FK_LOCATION_ID};
+    private String[] observationEntryArray = new String[]{
+            EntityTable.ObservationsTable.COLUMN_ID,
+            EntityTable.ObservationsTable.COLUMN_NAME,
+            EntityTable.ObservationsTable.COLUMN_SPECIES,
+            EntityTable.ObservationsTable.COLUMN_NUMOFTICKS,
+            EntityTable.ObservationsTable.COLUMN_TIMESTAMP,
+            EntityTable.ObservationsTable.COLUMN_IMAGE_URL,
+            EntityTable.ObservationsTable.COLUMN_LATITUDE,
+            EntityTable.ObservationsTable.COLUMN_LONGITUDE,
+            EntityTable.ObservationsTable.COLUMN_FK_TICK_ID,
+            EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID,
+            EntityTable.ObservationsTable.COLUMN_FK_USER_ID
+    };
 
 
     @Override
@@ -41,8 +52,8 @@ public class ObservationsDao implements EntityDao {
     public boolean delete(Entity entity) {
         Observation observations = (Observation) entity;
 
-        return db.delete(EntityTable.ObservationsTable.TABLENAME, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{observations.getId() + ""})
-                > 0;
+        return db.delete(EntityTable.ObservationsTable.TABLENAME, EntityTable.ObservationsTable.COLUMN_ID + "=?",
+                new String[]{observations.getId() + ""}) > 0;
     }
 
     /**
@@ -59,8 +70,6 @@ public class ObservationsDao implements EntityDao {
         if (c != null && c.moveToFirst()) {
             // once the Observation Item is build from cursor, create Tick object and Location object.
             observationItem = buildFromCursor(c);
-            // TODO: create Tick object and Location Object.
-            observationItem.setLocation(null);
             if (!c.isClosed()) {
                 c.close();
             }
@@ -104,16 +113,21 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
+        Log.i(TAG, "Observation : INSERT reached");
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_SPECIES, observations.getSpecies());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
-        // get TickId and LocationId
-//        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
-        Log.d(TAG, "Observation : INSERT reached");
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
+        // insert entry into Table.
         return db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
     }
 
@@ -127,15 +141,17 @@ public class ObservationsDao implements EntityDao {
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_SPECIES, observations.getSpecies());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_CREATEDAT, observations.getCreated_at());
-        // get LocationId and TickId
-//        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTickObj().getId());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_LOCATION_ID, observations.getLocation().getId());
-        Log.d(TAG, "Observation : UPDATE reached");
-        // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
-        // for whether its true or false.
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
+        // update the entry.
         return db.update(EntityTable.ObservationsTable.TABLENAME, contentValues, EntityTable.ObservationsTable.COLUMN_ID + "=?", new
                 String[]{observations.getId() + ""}) > 0;
     }
@@ -146,12 +162,12 @@ public class ObservationsDao implements EntityDao {
         if (c != null) {
             observationItem = new Observation();
             observationItem.setId(c.getString(0));
-//            observationItem.setNum_ticks(c.getInt(1));
-//            observationItem.setTickObj(c.getExtras(2));
-//            observationItem.setLatitude(c.getDouble(3));
-//            observationItem.setLongitude(c.getDouble(4));
+            observationItem.setTickName(c.getString(0));
+            observationItem.setSpecies(c.getString(0));
+            observationItem.setNum_ticks(c.getInt(1));
             observationItem.setTimestamp(c.getLong(5));
-            observationItem.setCreated_at(c.getLong(6));
+            observationItem.setLatitude(c.getDouble(3));
+            observationItem.setLongitude(c.getDouble(4));
             observationItem.setUpdated_at(c.getLong(7));
         }
         return observationItem;

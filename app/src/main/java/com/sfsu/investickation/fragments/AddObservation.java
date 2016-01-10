@@ -89,6 +89,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private Bundle args;
     private LocationController mLocationController;
     private EntityLocation entityLocation;
+    private double latitude, longitude;
     //    private DatabaseDataController dbController;
     private ImageController mImageController;
     private List<Tick> tickList;
@@ -184,11 +185,13 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
 
                     // finally when all values are collected, create a new Observation object.
-                    newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils
-                            .getCurrentTimeStamp(), entityLocation, activityId, userId);
+                    newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils.getCurrentTimeStamp(),
+                            activityId, userId);
 
-                    // set GeoLocation
+                    // set Location params separately.
                     newObservationObj.setGeoLocation(geoLocation);
+                    newObservationObj.setLatitude(latitude);
+                    newObservationObj.setLongitude(longitude);
 
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 }
@@ -468,13 +471,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setCurrentLocation(Location mLocation) {
-        this.entityLocation = new EntityLocation(mLocation.getLatitude(), mLocation.getLongitude(), activityId, userId);
-
     }
 
     @Override
     public void setLatLng(LatLng mLatLng) {
-
+        this.latitude = mLatLng.latitude;
+        this.longitude = mLatLng.longitude;
     }
 
     @Override
