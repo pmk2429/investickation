@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.GoogleMap;
@@ -89,6 +90,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_new);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
     }
 
 
@@ -377,9 +379,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             int totalPeople = Integer.parseInt(et_totalPeople.getText().toString());
             int totalPets = Integer.parseInt(et_totalPets.getText().toString());
 
-            // create Unique ID for the Running activity.
-            String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
-
             String userId = new AuthPreferences(mContext).getUser_id();
 
             // create a new Activities Object (Model).
@@ -394,7 +393,23 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             Log.i(TAG, newActivityObj.toString());
 
             // once the play button is clicked, make a network call and create new Activities on the server
-            BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
+            if (AppUtils.isConnectedOnline(mContext)) {
+                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
+            } else {
+                // create Unique ID for the Running activity of length 32.
+                String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
+
+                newActivityObj.setId(activityUUID);
+                newActivityObj.setLocation_area("not found");
+
+                // save the Activity on local database
+                long resultCode = dbController.save(newActivityObj);
+
+                // finally when the result Code is not -1, open Activity running Fragment.
+                if (resultCode != -1) {
+                    mInterface.onPlayButtonClick(newActivityObj);
+                }
+            }
         } else {
             return;
         }
@@ -460,7 +475,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         if (locationArea != null || !locationArea.equals("")) {
             this.locationArea = locationArea;
         } else {
-            newActivityObj.setLocation_area(".");
+            this.locationArea = "undefined";
         }
     }
 
@@ -472,24 +487,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "Activity created success");
-        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
-
         Activities createdActivity = onLoaded.getResponse();
-
-        Log.i(TAG, createdActivity.toString());
-
-        long result = dbController.save(createdActivity);
-
-        if (result != -1) {
-            Activities mActivity = (Activities) dbController.get(createdActivity.getId());
-            Log.i(TAG, "store in DB success");
-            Log.i(TAG, mActivity.toString());
-        } else {
-            Log.i(TAG, "not saved");
-        }
-
-        //mInterface.onPlayButtonClick(createdActivity);
+        mInterface.onPlayButtonClick(createdActivity);
     }
 
     /**
@@ -499,8 +498,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, "failed to create Activity");
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
 
     }
 

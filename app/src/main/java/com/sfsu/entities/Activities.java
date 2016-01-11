@@ -48,6 +48,7 @@ public class Activities implements Parcelable, Entity {
     private String image_url;
     // Enum identifier for setting State of Object.
     private transient STATE activityState;
+    private transient boolean isOnCloud;
 
     public Activities() {
     }
@@ -116,6 +117,14 @@ public class Activities implements Parcelable, Entity {
         num_of_pets = in.readInt();
         timestamp = in.readLong();
         updated_at = in.readLong();
+    }
+
+    public boolean isOnCloud() {
+        return isOnCloud;
+    }
+
+    public void setIsOnCloud(boolean isOnCloud) {
+        this.isOnCloud = isOnCloud;
     }
 
     public String getImage_url() {

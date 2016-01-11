@@ -122,7 +122,7 @@ public class ActivityRunning extends Fragment {
         if (locationIntent != null) {
             Bundle bundle = locationIntent.getExtras();
             Location locationVal = (Location) bundle.get("locINFO");
-            // TODO: get the EntityLocation object from the BroadcastReceiver
+            // TODO: get the LatLng object from the BroadcastReceiver
         }
     }
 
@@ -144,11 +144,6 @@ public class ActivityRunning extends Fragment {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_running);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        if (getArguments() != null) {
-            args = getArguments();
-        }
-        gson = new Gson();
-        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
     }
 
 
@@ -163,14 +158,22 @@ public class ActivityRunning extends Fragment {
         // initialize the location intent.
         locationIntent = new Intent(mContext, LocationService.class);
 
+        if (getArguments() != null) {
+            args = getArguments();
+        }
+        gson = new Gson();
+        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
+
         // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
         final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
         mapView.onCreate(mapViewSavedInstanceState);
 
         mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
+
+
         // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-        // mLocationController.connectGoogleApi();
+        //mLocationController.connectGoogleApi();
 
         // setup google Map.
         mGoogleMapController.setupGoogleMap(mapView);

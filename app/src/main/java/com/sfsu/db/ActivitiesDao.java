@@ -8,6 +8,7 @@ import android.util.Log;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +53,10 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public boolean update(Entity entityItem) {
+        return false;
+    }
+
+    public boolean update(Entity entity, String imageUrl) {
         return false;
     }
 
@@ -142,6 +147,21 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public List<? extends Entity> getAll() {
-        return null;
+        List<Activities> activitiesList = new ArrayList<Activities>();
+
+        // Query the Database to get all the records.
+        Cursor c = db.query(EntityTable.ActivitiesTable.TABLENAME,
+                activityEntryArray, null, null, null, null, null);
+
+        if (c != null && c.moveToFirst()) {
+            // loop until the end of Cursor and add each entry to Ticks ArrayList.
+            do {
+                Activities mActivity = buildFromCursor(c);
+                if (mActivity != null) {
+                    activitiesList.add(mActivity);
+                }
+            } while (c.moveToNext());
+        }
+        return activitiesList;
     }
 }

@@ -23,12 +23,15 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ActivitiesListAdapter;
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.ActivitiesDao;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -38,8 +41,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Displays list of {@link Activities} created by Account. Each Activity might contains {@link com.sfsu.entities.Observation} depending on
- * user's choice.
+ * <p>
+ * Displays list of {@link Activities} created by Account. Each Activity might contain {@link com.sfsu.entities.Observation}
+ * depending on user's choice.
+ * </p>
+ * <p>
+ * The Activities diplayed are combination of that stored on the local storage as well as that stored on cloud. Each Activity
+ * List item contains an icon which displays whether the Activity is stored on the local SD card or the Cloud.
+ * </p>
+ * <p>
+ * In addition to that, each item displays the brief intro about each activity i.e. number of people in Activity, number of Pets
+ * as well as total observations made in each Activity.
+ * </p>
  */
 public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
 
@@ -56,10 +69,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     int pastVisibleItems, visibleItemCount, totalItemCount;
     private IActivityCallBacks mInterface;
     private Context mContext;
-    private List<Activities> responseActivitiesList, mActivitiesList;
+    private List<Activities> responseActivitiesList, mActivitiesList, localActivitiesList;
     private ActivitiesListAdapter mActivitiesListAdapter;
     private boolean loading = true;
     private LinearLayoutManager mLinearLayoutManager;
+    private DatabaseDataController dbController;
 
     public ActivityList() {
         // Required empty public constructor
@@ -71,6 +85,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         getActivity().setTitle(R.string.title_fragment_activity_list);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setHasOptionsMenu(true);
+        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
     }
 
     @Override
@@ -80,9 +95,27 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         ButterKnife.bind(this, rootView);
 
-        // initialize the Bus to get list of Activities from server.
-        // must be cached for frequent accesses.
-        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        if (AppUtils.isConnectedOnline(mContext)) {
+            // initialize the Bus to get list of Activities from server.
+            // must be cached for frequent accesses.
+            BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        } else {
+            // get List of Activities from Database
+            localActivitiesList = (List<Activities>) (List<?>) dbController.getAll();
+
+            mActivitiesList = localActivitiesList;
+
+            if (mActivitiesList.size() > 0 && mActivitiesList != null) {
+                populateRecyclerView();
+            } else if (mActivitiesList.size() == 0) {
+                // display text message
+                txtView_activityListInfo.setVisibility(View.VISIBLE);
+                recyclerView_activity.setVisibility(View.GONE);
+                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+            } else {
+                Log.i(TAG, "activity list size < 0");
+            }
+        }
 
         mLinearLayoutManager = new LinearLayoutManager(mContext);
 
@@ -107,13 +140,28 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     /**
-     * Subscribes to event of success in loading list of {@link Activities} from Server.
+     * Subscribes to event of success in loading list of {@link Activities} from Server. Combines all the Activities on the
+     * server as well as those stored locally.
      *
      * @param onLoaded
      */
     @Subscribe
     public void onActivitiesLoadedSuccess(ActivityEvent.OnListLoaded onLoaded) {
+        // get all Response Activities from server
         responseActivitiesList = onLoaded.getResponseList();
+        localActivitiesList = (List<Activities>) dbController.getAll();
+
+        for (int i = 0; i < responseActivitiesList.size(); i++) {
+            responseActivitiesList.get(i).setIsOnCloud(true);
+        }
+
+        for (int i = 0; i < localActivitiesList.size(); i++) {
+            localActivitiesList.get(i).setIsOnCloud(false);
+        }
+
+//        mActivitiesList = responseActivitiesList;
+
+        responseActivitiesList.addAll(localActivitiesList);
 
         mActivitiesList = responseActivitiesList;
 
@@ -212,11 +260,18 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         mInterface = null;
         mContext = null;
         mActivitiesListAdapter = null;
+        mActivitiesList = null;
+        responseActivitiesList = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override

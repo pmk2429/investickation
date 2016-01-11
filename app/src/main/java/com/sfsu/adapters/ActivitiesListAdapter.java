@@ -52,7 +52,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
             holder.txtView_activityName.setText(activityName);
             String pets = mActivity.getNum_of_pets() + " pets";
-            holder.txtView_distance.setText(pets);
+            holder.txtView_pets.setText(pets);
             String observations = mActivity.getNum_of_ticks() + " Observations";
             holder.txtView_observations.setText(observations);
             String people = mActivity.getNum_of_people() + " people";
@@ -64,6 +64,12 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
                 holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
             } else {
                 Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+            }
+
+            if (mActivity.isOnCloud()) {
+                holder.icon_storage.setImageResource(R.mipmap.ic_cloud_black_24dp);
+            } else {
+                holder.icon_storage.setImageResource(R.mipmap.ic_sd_storage_black_24dp);
             }
         }
     }
@@ -135,8 +141,9 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
         private CardView cardViewActivity;
         private ImageView imageView_staticMap;
+        private ImageView icon_storage;
         private TextView txtView_activityName;
-        private TextView txtView_distance;
+        private TextView txtView_pets;
         private TextView txtView_observations;
         private TextView txtView_people;
 
@@ -144,8 +151,9 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             super(itemView);
             cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_actList_details);
             imageView_staticMap = (ImageView) itemView.findViewById(R.id.imageView_actList_staticMap);
+            icon_storage = (ImageView) itemView.findViewById(R.id.icon_actList_storage);
             txtView_activityName = (TextView) itemView.findViewById(R.id.textView_actList_name);
-            txtView_distance = (TextView) itemView.findViewById(R.id.textView_actList_totalDistance);
+            txtView_pets = (TextView) itemView.findViewById(R.id.textView_actList_totalPets);
             txtView_observations = (TextView) itemView.findViewById(R.id.textView_actList_totalObservations);
             txtView_people = (TextView) itemView.findViewById(R.id.textView_actList_totalPeople);
         }
