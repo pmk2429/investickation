@@ -26,6 +26,7 @@ import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.squareup.otto.Subscribe;
@@ -260,6 +261,28 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
+
+    /**
+     * Subscribes to the event of successful deletion of {@link Activities}.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onDeleteActivitySuccess(ActivityEvent.OnLoaded onLoaded) {
+        Toast.makeText(mContext, "Activity deleted", Toast.LENGTH_LONG).show();
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    /**
+     * Subscribes to the event of failure in deletion of {@link Activities}.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onDeleteActivitySuccess(ActivityEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -302,8 +325,9 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         } else {
             Log.i(TAG, "database activity");
             //dbController.delete(mActivity.getId());
+            getActivity().getSupportFragmentManager().popBackStack();
         }
-        getActivity().getSupportFragmentManager().popBackStack();
+
     }
 
     /**

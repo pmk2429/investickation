@@ -72,6 +72,6 @@ public interface LocationApiService {
      * @return
      */
     @GET(ApiResources.EntityLocationBase + "/" + ApiResources.ID)
-    public Call<EntityLocation> delete(@Path("id") String locationId);
+    public Call<Integer> delete(@Path("id") String locationId);
 
 }

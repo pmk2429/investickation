@@ -2,7 +2,6 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,23 +21,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.model.LatLng;
-import com.sfsu.adapters.TickDialogAdapter;
+import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.ImageController;
 import com.sfsu.controllers.LocationController;
+import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
-import com.sfsu.helper.TickHelper;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
@@ -96,14 +93,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private boolean isTotalTicksNumber, isTickNameValid, isTickSpeciesValid;
     private TextValidator mTextValidator;
     private AuthPreferences mAuthPreferences;
+    private DatabaseDataController dbController;
 
-    // the BroadcastReceiver is used to get the data from the Service and send it to Retrofit
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getLocationDataFromService(intent);
-        }
-    };
 
     public AddObservation() {
         // Required empty public constructor
@@ -124,10 +115,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         return addObservation;
     }
 
-    private void getLocationDataFromService(Intent intent) {
-        // TODO: add the Lat Long into the Observation and send it to Retrofit API
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +123,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         if (getArguments() != null) {
             args = getArguments();
         }
-//        dbController = new DatabaseDataController(mContext, new TickDao());
+        dbController = new DatabaseDataController(mContext, new ObservationsDao());
         mAuthPreferences = new AuthPreferences(mContext);
     }
 
@@ -193,7 +180,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj.setLatitude(latitude);
                     newObservationObj.setLongitude(longitude);
 
-                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                    if (AppUtils.isConnectedOnline(mContext)) {
+                        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                    } else {
+
+                    }
                 }
             }
         });
@@ -205,45 +196,46 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      *
      * @param inflater
      */
-    private void openChooseTickDialog(LayoutInflater inflater) {
-        final AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
-        View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
 
-        // identify the ListView
-        ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
-
-        tickList = TickHelper.getAllTicks();
-
-        // Build an ArrayAdapter
-        final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
-        listViewTicks.setAdapter(dialogAdapter);
-
-        // make the divider invisible
-        listViewTicks.setDivider(null);
-        listViewTicks.setDividerHeight(0);
-
-        dialogAdapter.setNotifyOnChange(true);
-        dialogAdapter.notifyDataSetChanged();
-
-        // set the characteristics of AlertDialog.
-        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
-        alertDialogChooseTick.setView(customView);
-
-        // create a dialog to get the reference to when dismissing the Dialog.
-        final AlertDialog dialog = alertDialogChooseTick.create();
-        dialog.show();
-
-        // when the user simply presses the news item, then the DetailedNewsActivity will get started.
-        listViewTicks.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        // set Texts in EditTexts.
-                        setTickData(tickList.get(position));
-                        dialog.dismiss();
-                    }
-                });
-    }
+//    private void openChooseTickDialog(LayoutInflater inflater) {
+//        final AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
+//        View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
+//
+//        // identify the ListView
+//        ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
+//
+//        tickList = TickHelper.getAllTicks();
+//
+//        // Build an ArrayAdapter
+//        final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
+//        listViewTicks.setAdapter(dialogAdapter);
+//
+//        // make the divider invisible
+//        listViewTicks.setDivider(null);
+//        listViewTicks.setDividerHeight(0);
+//
+//        dialogAdapter.setNotifyOnChange(true);
+//        dialogAdapter.notifyDataSetChanged();
+//
+//        // set the characteristics of AlertDialog.
+//        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
+//        alertDialogChooseTick.setView(customView);
+//
+//        // create a dialog to get the reference to when dismissing the Dialog.
+//        final AlertDialog dialog = alertDialogChooseTick.create();
+//        dialog.show();
+//
+//        // when the user simply presses the news item, then the DetailedNewsActivity will get started.
+//        listViewTicks.setOnItemClickListener(
+//                new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        // set Texts in EditTexts.
+//                        setTickData(tickList.get(position));
+//                        dialog.dismiss();
+//                    }
+//                });
+//    }
 
 
     /**
@@ -484,7 +476,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         if (locationArea != null || !locationArea.equals("")) {
             this.geoLocation = locationArea;
         } else {
-            newObservationObj.setGeoLocation(".");
+            this.geoLocation = "not found";
         }
     }
 
@@ -525,19 +517,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-//        MediaType MEDIA_TYPE = MediaType.parse("image/*");
-//
-//        RequestBody requestBody1 = RequestBody.create(MEDIA_TYPE, file);
-//        Log.d(TAG, "requestBody: " + requestBody1.toString());
-//        RequestBody requestBody2 = new MultipartBuilder()
-//                .type(MultipartBuilder.FORM)
-//                .addFormDataPart("file", "testing.jpg", requestBody1)
-//                .build();
-
         ImageData mImageData = new ImageData(requestBody, image_name, "");
-
-        // get RequestBody from the Account captured tick image using ImageController;
-        //RequestBody requestBody = mImageController.getImageRequestBody();
 
         Log.i(TAG, "2) " + observationResponse.getId());
 

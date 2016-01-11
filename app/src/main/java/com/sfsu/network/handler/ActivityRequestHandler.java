@@ -1,11 +1,9 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
-import com.sfsu.entities.Observation;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
@@ -21,7 +19,6 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * <p>
@@ -61,8 +58,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeActivityEvent(ActivityEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Activities> activitiesCall = null;
-        Call<List<Observation>> observationCall = null;
-        Call<List<EntityLocation>> locationCall = null;
+        Call<Integer> deleteActivityCall = null;
         Call<List<Activities>> listActivitiesCall = null;
         Call<Integer> countCall = null;
 
@@ -81,7 +77,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(activitiesCall);
                 break;
             case DELETE:
-                activitiesCall = mApiService.delete(onLoadingInitialized.getResourceId());
+                deleteActivityCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(activitiesCall);
                 break;
             case TOTAL_LOCATIONS_COUNT:

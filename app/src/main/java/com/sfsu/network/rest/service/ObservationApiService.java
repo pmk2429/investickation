@@ -85,7 +85,7 @@ public interface ObservationApiService {
      */
 //    @GET("observations/{id}")
     @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
-    public Call<Observation> delete(@Path("id") String observationId);
+    public Call<Integer> delete(@Path("id") String observationId);
 
     /**
      * Uploads the Observation image to the server.

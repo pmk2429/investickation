@@ -75,7 +75,7 @@ public interface ActivityApiService {
      */
 //    @POST("activities/{id}")
     @POST(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
-    public Call<Activities> delete(@Path("id") String activityId);
+    public Call<Integer> delete(@Path("id") String activityId);
 
 
     /**
