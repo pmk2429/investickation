@@ -82,10 +82,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_activity_list);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setHasOptionsMenu(true);
-        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
     }
 
     @Override
@@ -94,6 +90,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         View rootView = inflater.inflate(R.layout.fragment_activity_list, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        getActivity().setTitle(R.string.title_fragment_activity_list);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setHasOptionsMenu(true);
+        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
 
         if (AppUtils.isConnectedOnline(mContext)) {
             // initialize the Bus to get list of Activities from server.

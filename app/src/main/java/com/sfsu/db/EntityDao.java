@@ -20,7 +20,7 @@ public interface EntityDao {
 
     boolean update(Entity entityItem);
 
-    boolean delete(Entity entityItem);
+    boolean delete(String id);
 
     <T extends Entity> T get(String id);
 

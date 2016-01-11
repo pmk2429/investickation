@@ -80,16 +80,20 @@ public class LocationsDao implements EntityDao {
     }
 
     @Override
-    public boolean delete(Entity entityItem) {
-        return false;
+    public boolean delete(String id) {
+        return db.delete(EntityTable.LocationsTable.TABLENAME, EntityTable.LocationsTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
     }
 
     @Override
     public EntityLocation get(String id) {
         try {
             EntityLocation location = null;
-            Cursor c = db.query(true, EntityTable.LocationsTable.TABLENAME, locationEntryArray, EntityTable.LocationsTable.COLUMN_ID + "=?",
-                    new String[]{id + ""}, null, null, null, null);
+            Cursor c = db.query(true,
+                    EntityTable.LocationsTable.TABLENAME,
+                    locationEntryArray,
+                    EntityTable.LocationsTable.COLUMN_ID + "=?",
+                    new String[]{id + ""},
+                    null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 location = buildFromCursor(c);

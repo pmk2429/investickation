@@ -4,7 +4,9 @@ package com.sfsu.investickation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
@@ -16,12 +18,13 @@ import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p/>
+ * <p>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetail.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityMap.IActivityMapCallBack {
@@ -35,10 +38,13 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String PREF_ACTIVITY_DATA = "pref_ongoing_activity";
     //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
-    // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private static int STACK_COUNT = 0;
+    // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private final String TAG = "~!@#$UserActivity";
+    // for performing better navigation on back press.
     private ActivityRunning mActivityRunning;
+    private Stack<Fragment> fragmentStack;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
                     ActivityList activityListFragment = new ActivityList();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.activity_fragment_container, activityListFragment);
+                    transaction.replace(R.id.activity_fragment_container, activityListFragment);
                     transaction.commit();
                 }
                 // if user navigates back to ActivityRunning fragment.
@@ -88,7 +94,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 else {
                     ActivityList activityListFragment = new ActivityList();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.add(R.id.activity_fragment_container, activityListFragment);
+                    transaction.replace(R.id.activity_fragment_container, activityListFragment);
                     transaction.commit();
                 }
             }
@@ -103,7 +109,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private void performReplaceFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -136,12 +141,14 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
+            Log.i(TAG, "" + count);
             Intent homeIntent = new Intent(UserActivityMasterActivity.this, MainActivity.class);
             startActivity(homeIntent);
             finish();
-            super.onBackPressed();
         } else if (count > 0) {
-            getSupportFragmentManager().popBackStack();
+            super.onBackPressed();
+            Log.i(TAG, "popped up back stack: " + count);
+            getSupportFragmentManager().popBackStackImmediate();
         }
     }
 
@@ -159,19 +166,15 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
         ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivity);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_fragment_container, mActivityDetailFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        performAddFragmentTransaction(mActivityDetailFragment);
     }
 
 
     @Override
     public void onActivityAddListener() {
-        BusProvider.bus().unregister(ActivityList.class);
-        // if user clicked the Add Button, replace with AddObservation Fragment
+        // if user clicked the Add Button, replace with ActivityNew Fragment
         ActivityNew addActivityFragment = new ActivityNew();
-        performReplaceFragmentTransaction(addActivityFragment);
+        performAddFragmentTransaction(addActivityFragment);
     }
 
     @Override

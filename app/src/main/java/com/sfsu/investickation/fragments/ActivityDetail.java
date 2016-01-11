@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.ActivitiesDao;
 import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
@@ -65,6 +71,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     private SharedPreferences.Editor editor;
     private Gson gson;
 
+    private DatabaseDataController dbController;
     private List<Observation> mObservationList;
 
     public ActivityDetail() {
@@ -89,12 +96,6 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_activity_detail);
-        if (getArguments() != null) {
-            args = getArguments();
-        }
-        gson = new Gson();
-        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -102,6 +103,14 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
+
+        getActivity().setTitle(R.string.title_fragment_activity_detail);
+        if (getArguments() != null) {
+            args = getArguments();
+        }
+        gson = new Gson();
+        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
+        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
 
         button_viewObservations.setOnClickListener(this);
         icon_openMap.setOnClickListener(this);
@@ -217,6 +226,8 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         mActivity = null;
         mContext = null;
         gson = null;
+        dbController = null;
+        mObservationList = null;
     }
 
 
@@ -262,6 +273,38 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         }
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_activity_list, menu);
+        final MenuItem item = menu.findItem(R.id.action_delete);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                deleteActivity();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Helper method to delete the {@link Activities} from Local Storage or Cloud Server depending on where its stored.
+     */
+    private void deleteActivity() {
+        if (mActivity.isOnCloud()) {
+            Log.i(TAG, "cloud activity");
+            //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mActivity.getId(), ApiRequestHandler.DELETE));
+        } else {
+            Log.i(TAG, "database activity");
+            //dbController.delete(mActivity.getId());
+        }
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
 
     /**
      * Interface callback for handling onClick Listeners in {@link ActivityDetail} Fragment.

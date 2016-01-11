@@ -87,8 +87,8 @@ public class ActivitiesDao implements EntityDao {
     }
 
     @Override
-    public boolean delete(Entity entityItem) {
-        return false;
+    public boolean delete(String id) {
+        return db.delete(EntityTable.ActivitiesTable.TABLENAME, EntityTable.ActivitiesTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
     }
 
     @Override

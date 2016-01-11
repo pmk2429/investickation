@@ -49,11 +49,11 @@ public class ObservationsDao implements EntityDao {
      * @param observations
      * @return
      */
-    public boolean delete(Entity entity) {
-        Observation observations = (Observation) entity;
-
-        return db.delete(EntityTable.ObservationsTable.TABLENAME, EntityTable.ObservationsTable.COLUMN_ID + "=?",
-                new String[]{observations.getId() + ""}) > 0;
+    @Override
+    public boolean delete(String id) {
+        return db.delete(EntityTable.ObservationsTable.TABLENAME,
+                EntityTable.ObservationsTable.COLUMN_ID + "=?",
+                new String[]{id + ""}) > 0;
     }
 
     /**

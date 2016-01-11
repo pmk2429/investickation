@@ -101,9 +101,9 @@ public class UsersDao implements EntityDao {
      * @param user
      * @return
      */
-    public boolean delete(Entity entity) {
-        Account user = (Account) entity;
-        return db.delete(EntityTable.UsersTable.TABLENAME, EntityTable.UsersTable.COLUMN_ID + "=?", new String[]{user.getId() + ""}) > 0;
+    @Override
+    public boolean delete(String id) {
+        return db.delete(EntityTable.UsersTable.TABLENAME, EntityTable.UsersTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
     }
 
     /**

@@ -141,9 +141,9 @@ public class TickDao implements EntityDao {
      * @param Ticks
      * @return
      */
-    public boolean delete(Entity entity) {
-        Tick ticks = (Tick) entity;
-        return db.delete(EntityTable.TicksTable.TABLENAME, EntityTable.TicksTable.COLUMN_ID + "=?", new String[]{ticks.getId() + ""}) > 0;
+    @Override
+    public boolean delete(String id) {
+        return db.delete(EntityTable.TicksTable.TABLENAME, EntityTable.TicksTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
     }
 
     /**
