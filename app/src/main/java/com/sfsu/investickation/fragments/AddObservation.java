@@ -50,6 +50,8 @@ import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.otto.Subscribe;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.io.File;
 import java.util.List;
 
@@ -60,6 +62,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
+    protected static final int ID_LENGTH = 23;
     private final String TAG = "~!@#$AddObservation";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
@@ -183,6 +186,21 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     if (AppUtils.isConnectedOnline(mContext)) {
                         BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                     } else {
+                        // create Unique ID for the Running activity of length 32.
+                        String observationUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
+
+                        // set the remaining params.
+                        newObservationObj.setId(observationUUID);
+
+                        newObservationObj.setLatitude(latitude);
+                        newObservationObj.setLongitude(longitude);
+                        newObservationObj.setGeoLocation(geoLocation);
+
+                        newObservationObj.setImageUrl(selectedImagePath);
+
+                        Log.i(TAG, newObservationObj.toString());
+
+//                        dbController.save(newObservationObj);
 
                     }
                 }
@@ -455,7 +473,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onResume() {
         super.onResume();
 //        getActivity().startService(locationIntent);
-//        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
 
         BusProvider.bus().register(this);
 

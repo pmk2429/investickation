@@ -15,7 +15,6 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * <p>
@@ -25,7 +24,7 @@ import retrofit.Retrofit;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class LocationRequestHandler extends ApiRequestHandler {
@@ -52,6 +51,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeLocationEvent(LocationEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<EntityLocation> locationCall = null;
+        Call<Integer> deleteLocation = null;
         Call<List<EntityLocation>> listLocationCall = null;
 
         // separate the Method logic
@@ -69,7 +69,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(locationCall);
                 break;
             case DELETE:
-                locationCall = mApiService.delete(onLoadingInitialized.getResourceId());
+                deleteLocation = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(locationCall);
                 break;
         }

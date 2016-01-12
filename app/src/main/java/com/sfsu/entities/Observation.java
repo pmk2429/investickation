@@ -66,8 +66,6 @@ public class Observation implements Parcelable, Entity {
         this.species = species;
         this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.activity_id = activity_id;
         this.user_id = user_id;
     }

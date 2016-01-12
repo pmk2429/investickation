@@ -7,6 +7,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,7 +24,7 @@ import java.util.Locale;
 /**
  * Controller used to handle all the Location related operations and tasks such as finding the Last Know Location, getting
  * Location updates etc. The LocationController uses FusedLocation service provided by Google to get the Location updates.
- * <p/>
+ * <p>
  * <tt>LocationController</tt> also provides Callback Interface to get the Account's current Location and Featured name of the Location if
  * present.
  * Created by Pavitra on 11/14/2015.
@@ -115,8 +117,10 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location == null) {
+            Log.i(TAG, "location is null");
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         } else {
+            Log.i(TAG, "location not null");
             handleNewLocation(location);
         }
     }
@@ -135,10 +139,15 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             // when the handleNewLocation method is handled, call the setCurrentLocation and setLocationArea.
             LatLng latLng = new LatLng(currentLatitude, currentLongitude);
 
+            // pass the LatLng to interface
+            mInterface.setLatLng(latLng);
 
             mInterface.setCurrentLocation(location);
+
+            // handle the Geo Location.
             setLocationArea(currentLatitude, currentLongitude);
         } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -147,6 +156,9 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
 
     }
 
+    /*
+    Will be called when the Location is changed for the user depending on the update time.
+     */
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
@@ -176,19 +188,25 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
         try {
             // Here 1 represent max location result to returned, by documents it recommended 1 to 5
             addressesList = mGeocoder.getFromLocation(latitude, longitude, 1);
-            String city = addressesList.get(0).getLocality();
-//        String state = addressesList.get(0).getAdminArea();
-//        String country = addressesList.get(0).getCountryName();
-//        String postalCode = addressesList.get(0).getPostalCode();
+            String neighborhood = addressesList.get(0).getSubLocality();
+            String locality = addressesList.get(0).getSubLocality();
             String knownName = addressesList.get(0).getFeatureName();
 
-            if (knownName.equals(null)) {
-                // if the area/feature name cannot be found, then pass the City name.
-                mInterface.setLocationArea(city);
+            StringBuilder sb = new StringBuilder();
+            if (knownName != null) {
+                sb.append(knownName);
             }
-            mInterface.setLocationArea(knownName);
+            if (neighborhood != null) {
+                if (sb.length() > 0)
+                    sb.append(", " + neighborhood);
+                else
+                    sb.append(neighborhood);
+            }
+
+            // finally pass it to the callback interface.
+            mInterface.setLocationArea(sb.toString());
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }

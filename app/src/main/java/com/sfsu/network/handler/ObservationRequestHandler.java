@@ -26,7 +26,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
@@ -54,6 +54,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeObservationEvent(ObservationEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Observation> observationCall = null;
+        Call<Integer> deleteObservation = null;
         Call<List<Observation>> listObservationCall = null;
 
         // separate the Method logic
@@ -71,7 +72,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(observationCall);
                 break;
             case DELETE:
-                observationCall = mApiService.delete(onLoadingInitialized.getResourceId());
+                deleteObservation = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(observationCall);
                 break;
             case ACT_OBSERVATIONS:

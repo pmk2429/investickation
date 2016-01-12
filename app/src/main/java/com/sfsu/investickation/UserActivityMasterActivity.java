@@ -45,7 +45,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private ActivityRunning mActivityRunning;
     private Stack<Fragment> fragmentStack;
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
         // initialize the FragmentManager and FragmentTransaction.
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {
@@ -66,14 +64,16 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 // if user clicks on Start Activity
                 if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
                     ActivityNew activityNewFragment = new ActivityNew();
-                    fragmentTransaction.add(R.id.activity_fragment_container, activityNewFragment);
-                    fragmentTransaction.commit();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, activityNewFragment);
+                    transaction.commit();
                 }
                 // if user clicks on ActivityList
                 else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
                     ActivityList activityListFragment = new ActivityList();
-                    fragmentTransaction.replace(R.id.activity_fragment_container, activityListFragment);
-                    fragmentTransaction.commit();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.activity_fragment_container, activityListFragment);
+                    transaction.commit();
                 }
                 // if user navigates back to ActivityRunning fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
@@ -106,8 +106,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      * @param mFragment
      */
     private void performReplaceFragmentTransaction(Fragment mFragment) {
-        fragmentTransaction.replace(R.id.activity_fragment_container, mFragment);
-        fragmentTransaction.commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.activity_fragment_container, mFragment);
+        transaction.commit();
     }
 
     /**
@@ -116,9 +117,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      * @param mFragment
      */
     private void performAddFragmentTransaction(Fragment mFragment) {
-        fragmentTransaction.add(R.id.activity_fragment_container, mFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.activity_fragment_container, mFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

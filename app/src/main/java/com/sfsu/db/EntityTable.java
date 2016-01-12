@@ -113,7 +113,6 @@ public class EntityTable {
         static final String COLUMN_LATITUDE = "latitude";
         static final String COLUMN_LONGITUDE = "longitude";
         static final String COLUMN_FK_TICK_ID = "tick_id";
-        //static final String COLUMN_FK_LOCATION_ID = "location_id";
         static final String COLUMN_FK_ACTIVITY_ID = "activity_id";
         static final String COLUMN_FK_USER_ID = "user_id";
 
@@ -131,8 +130,7 @@ public class EntityTable {
                 sb.append(COLUMN_TIMESTAMP + " long not null, ");
                 sb.append(COLUMN_LATITUDE + " real not null, ");
                 sb.append(COLUMN_LONGITUDE + " real not null, ");
-                sb.append(COLUMN_FK_TICK_ID + " text not null, ");
-                //sb.append(COLUMN_FK_LOCATION_ID + " text not null, ");
+                sb.append(COLUMN_FK_TICK_ID + " text, ");
                 sb.append(COLUMN_FK_ACTIVITY_ID + " text not null, ");
                 sb.append(COLUMN_FK_USER_ID + " text not null, ");
 
