@@ -17,11 +17,17 @@ public class NotificationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.notification_template_icon_bg, "Notify Alarm strart", System.currentTimeMillis());
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notification = new Notification(R.drawable.notification_template_icon_bg, "Notify Alarm start",
+                System.currentTimeMillis());
         Intent myIntent = new Intent(this, ActivityNew.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, myIntent, 0);
-        mNM.notify(1, notification);
+        mNotificationManager.notify(1, notification);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
  * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
  * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
  * Database and then build up the Observation object.
- * <p>
+ * <p/>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
@@ -113,7 +113,7 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
-        Log.i(TAG, "Observation : INSERT reached");
+        Log.i(TAG, "INSERT reached");
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
@@ -162,14 +162,18 @@ public class ObservationsDao implements EntityDao {
         if (c != null) {
             observationItem = new Observation();
             observationItem.setId(c.getString(0));
-            observationItem.setTickName(c.getString(0));
-            observationItem.setSpecies(c.getString(0));
-            observationItem.setNum_ticks(c.getInt(1));
-            observationItem.setTimestamp(c.getLong(5));
-            observationItem.setLatitude(c.getDouble(3));
-            observationItem.setLongitude(c.getDouble(4));
-            observationItem.setUpdated_at(c.getLong(7));
+            observationItem.setTickName(c.getString(1));
+            observationItem.setSpecies(c.getString(2));
+            observationItem.setNum_ticks(c.getInt(3));
+            observationItem.setTimestamp(c.getLong(4));
+            observationItem.setImageUrl(c.getString(5));
+            observationItem.setLatitude(c.getDouble(6));
+            observationItem.setLongitude(c.getDouble(7));
+            observationItem.setTick_id(c.getString(8));
+            observationItem.setActivity_id(c.getString(9));
+            observationItem.setUser_id(c.getString(10));
         }
+        
         return observationItem;
     }
 

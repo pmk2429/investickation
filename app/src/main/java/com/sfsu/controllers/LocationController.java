@@ -7,7 +7,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,7 +23,7 @@ import java.util.Locale;
 /**
  * Controller used to handle all the Location related operations and tasks such as finding the Last Know Location, getting
  * Location updates etc. The LocationController uses FusedLocation service provided by Google to get the Location updates.
- * <p>
+ * <p/>
  * <tt>LocationController</tt> also provides Callback Interface to get the Account's current Location and Featured name of the Location if
  * present.
  * Created by Pavitra on 11/14/2015.
@@ -117,10 +116,8 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
     public void onConnected(Bundle bundle) {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location == null) {
-            Log.i(TAG, "location is null");
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         } else {
-            Log.i(TAG, "location not null");
             handleNewLocation(location);
         }
     }
@@ -176,8 +173,11 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
 
 
     /**
+     * <p>
      * Sets the Feature Location name from the <tt>latitude</tt> and <tt>longitude</tt>. Returns <tt>null</tt> if Location is
-     * not present
+     * not present.
+     * </p>
+     * <b>Requires network connection</b>
      *
      * @param latitude
      * @param longitude
@@ -212,7 +212,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
     }
 
     /**
-     * Callback interface to get the current Location
+     * Callback interface to get the current {@link Location}, {@link LatLng} and the {@link Geocoder} feature name/ Locality
      */
     public interface ILocationCallBacks {
         /**

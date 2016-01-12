@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
@@ -216,7 +215,7 @@ public class ActivityRunning extends Fragment {
             getActivity().startService(locationIntent);
 
             // register the broadcast receiver to receive the location objects as broadcast data
-            getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+            //getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
         }
 
         BusProvider.bus().register(this);

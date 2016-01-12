@@ -132,7 +132,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
 
@@ -183,6 +183,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj.setLatitude(latitude);
                     newObservationObj.setLongitude(longitude);
 
+                    // depending on network connection, save the Observation on storage or server
                     if (AppUtils.isConnectedOnline(mContext)) {
                         BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                     } else {
@@ -192,15 +193,19 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                         // set the remaining params.
                         newObservationObj.setId(observationUUID);
 
-                        newObservationObj.setLatitude(latitude);
-                        newObservationObj.setLongitude(longitude);
-                        newObservationObj.setGeoLocation(geoLocation);
-
                         newObservationObj.setImageUrl(selectedImagePath);
 
                         Log.i(TAG, newObservationObj.toString());
 
-//                        dbController.save(newObservationObj);
+                        long resultCode = dbController.save(newObservationObj);
+
+                        if (resultCode != -1) {
+                            Log.i(TAG, "saved to DB success");
+                            Observation savedObservation = (Observation) dbController.get(newObservationObj.getId());
+                            Log.i(TAG, savedObservation.toString());
+                        } else {
+                            Log.i(TAG, "not saved to DB");
+                        }
 
                     }
                 }
@@ -493,7 +498,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         if (locationArea != null || !locationArea.equals("")) {
             this.geoLocation = locationArea;
         } else {
-            this.geoLocation = "not found";
+            this.geoLocation = getString(R.string.message_location_not_found);
         }
     }
 

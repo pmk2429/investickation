@@ -400,7 +400,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
 
                 newActivityObj.setId(activityUUID);
-                newActivityObj.setLocation_area("not found");
+                newActivityObj.setLocation_area("");
 
                 // save the Activity on local database
                 long resultCode = dbController.save(newActivityObj);
@@ -475,7 +475,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         if (locationArea != null || !locationArea.equals("")) {
             this.locationArea = locationArea;
         } else {
-            this.locationArea = "undefined";
+            this.locationArea = getString(R.string.message_location_not_found);
         }
     }
 

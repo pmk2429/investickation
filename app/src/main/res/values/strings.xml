@@ -96,6 +96,9 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="tickCount">Total number of Ticks</string>
     <string name="alert_chooseTick">Choose the desired Tick:</string>
 
+    <!-- Location related messages-->
+    <string name="message_location_not_found">not found</string>
+
     <!-- Activity List-->
     <string name="activityList_info">Bummer! No Activity yet. Click &#8216;+&#8217; to start an Activity</string>
 
@@ -185,6 +188,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="tick_knownFor">Known For:</string>
     <string name="tick_formalName">Formal Name:</string>
     <string name="tick_location_habitat">Habitat:</string>
+
 
     <!-- Observation Details -->
     <string name="obsDet_geoLocation">Location: </string>
