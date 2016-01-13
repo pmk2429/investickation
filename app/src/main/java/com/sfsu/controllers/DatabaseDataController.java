@@ -15,7 +15,7 @@ import java.util.List;
  * <br/>
  * This class provides abstraction on top of the DAO (Entity DAOs) layer for efficient error handling and modularity
  * of data retrieval.
- * <p>
+ * <p/>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseDataController {
@@ -34,12 +34,6 @@ public class DatabaseDataController {
         entityDao = dao;
         // IMP: finally initialize the calling class type Entity
         entityDao.setDatabase(sqLiteDatabase);
-    }
-
-    public void close() {
-        if (sqLiteDatabase != null) {
-            sqLiteDatabase.close();
-        }
     }
 
     // Basic helper methods for DB transaction
@@ -66,5 +60,15 @@ public class DatabaseDataController {
     public List<? extends Entity> getAll() {
         return this.entityDao.getAll();
     }
+
+    /**
+     * Method to close the database connection
+     */
+    public void closeConnection() {
+        if (sqLiteDatabase != null) {
+            sqLiteDatabase.close();
+        }
+    }
+
 
 }

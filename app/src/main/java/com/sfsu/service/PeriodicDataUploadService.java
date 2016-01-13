@@ -9,6 +9,14 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.ActivitiesDao;
+import com.sfsu.db.ObservationsDao;
+import com.sfsu.entities.Activities;
+import com.sfsu.entities.Observation;
+
+import java.util.List;
+
 /**
  * <p>
  * PeriodicService to check for the <tt>isOnCloud</tt> flags for each {@link com.sfsu.entities.Activities} and {@link com.sfsu
@@ -18,21 +26,22 @@ import android.widget.Toast;
  * <p>
  * This service also checks for the network connection and updates the adapters.
  * </p>
- * <p>
+ * <p/>
  * In addition, the services uploads a large chunk of data altogether instead of several small uploads for efficiency and
  * better battery life.
- * <p>
+ * <p/>
  * Created by Pavitra on 12/11/2015.
  */
 public class PeriodicDataUploadService extends Service {
-    private static final long TIME_INTERVAL = 10000 * 60;// 10 minutes
-
-    public static String LOG = "Log";
-
+    public static final String TAG = "~!@#$PeriodicService";
+    private static final long TIME_INTERVAL = 1000 * 3 * 60;// 30 minutes
     private final Context mContext;
+    private DatabaseDataController dbControllerActivities, dbControllerObservations;
 
     public PeriodicDataUploadService(Context context) {
         this.mContext = context;
+        dbControllerActivities = new DatabaseDataController(mContext, new ActivitiesDao());
+        dbControllerObservations = new DatabaseDataController(mContext, new ObservationsDao());
     }
 
     public PeriodicDataUploadService() {
@@ -48,10 +57,25 @@ public class PeriodicDataUploadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-        Log.i(LOG, "Service started");
+        Log.i(TAG, "Service started");
         // save in sqlite after 10 mints
+        List<Activities> activitiesList = (List<Activities>) dbControllerActivities.getAll();
+        List<Observation> observationList = (List<Observation>) dbControllerObservations.getAll();
 
-        // upload data to server
+        // check for activitiesList
+        if (activitiesList != null && activitiesList.size() > 0) {
+            // TODO upload Activities to server
+        } else {
+            Log.i(TAG, "no activities");
+        }
+
+        // check for observationList
+        if (observationList != null || observationList.size() > 0) {
+            // TODO upload Activities to server
+        } else {
+            Log.i(TAG, "no observations");
+        }
+
 
         return START_NOT_STICKY;
     }
@@ -73,6 +97,9 @@ public class PeriodicDataUploadService extends Service {
         PendingIntent mPendingIntent = PendingIntent.getService(this, 0, uploadIntent, 0);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(mPendingIntent);
+        dbControllerObservations.closeConnection();
+        dbControllerActivities = null;
+        dbControllerObservations = null;
         Toast.makeText(this, "service stoped", Toast.LENGTH_SHORT).show();
     }
 }

@@ -23,7 +23,7 @@ import com.sfsu.utils.AppUtils;
  * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
  * is created the {@link LocationService } starts and when the <tt>ActivityRunning</tt> is paused/stopped, the
  * {@link LocationService } is stopped too.
- * <p>
+ * <p/>
  * The LocationService service creates a EntityLocation object and sends it over to the currently running activity which will
  * post the data on the server. This way after every 10 minutes, a EntityLocation will be captured and sent over to the server
  * for getting user's location and finally these locations will be used to depict the probable trajectory of the user.

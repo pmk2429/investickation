@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
@@ -26,7 +28,10 @@ import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.service.LocationService;
+import com.sfsu.utils.AppUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,7 +55,7 @@ import butterknife.ButterKnife;
  * the current ongoing activity is stored in SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
  * Observation,
  */
-public class ActivityRunning extends Fragment {
+public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks {
 
     public static final String TAG = "~!@#$ActivityRunning";
     // FAB
@@ -77,6 +82,8 @@ public class ActivityRunning extends Fragment {
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
     private Gson gson;
+    private List<LatLng> mLatLngList = new ArrayList<>();
+    ;
 
     private LocationController.ILocationCallBacks mLocationListener;
     /**
@@ -95,7 +102,6 @@ public class ActivityRunning extends Fragment {
     public ActivityRunning() {
         // Required empty public constructor
     }
-
 
     /**
      * Returns the instance of {@link ActivityRunning} fragment with bundle.
@@ -155,27 +161,34 @@ public class ActivityRunning extends Fragment {
         ButterKnife.bind(this, rootView);
 
         // initialize the location intent.
-        locationIntent = new Intent(mContext, LocationService.class);
-
-        if (getArguments() != null) {
-            args = getArguments();
-        }
-        gson = new Gson();
-        activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
-
-        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
-        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
-        mapView.onCreate(mapViewSavedInstanceState);
-
         mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
 
+        try {
+            if (getArguments() != null) {
+                args = getArguments();
+            }
+            gson = new Gson();
+            activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
 
-        // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-        //mLocationController.connectGoogleApi();
+            // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
+            final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
+            mapView.onCreate(mapViewSavedInstanceState);
 
-        // setup google Map.
-        mGoogleMapController.setupGoogleMap(mapView);
+
+            // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
+            if (AppUtils.isConnectedOnline(mContext)) {
+                mLocationController.connectGoogleApi();
+            }
+
+            mLocationController.startLocationUpdates();
+
+
+            // setup google Map.
+            mGoogleMapController.setupGoogleMap(mapView);
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
 
         return rootView;
     }
@@ -259,18 +272,6 @@ public class ActivityRunning extends Fragment {
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         // store the information on map.
         final Bundle mapViewSaveState = new Bundle(outState);
@@ -288,10 +289,41 @@ public class ActivityRunning extends Fragment {
         String activityJson = gson.toJson(ongoingActivityObj);
         editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
         editor.apply();
+    }
 
-        // stop the service and unregister the broadcast receiver.
-        //getActivity().unregisterReceiver(locationBroadcastReceiver);
-        //getActivity().stopService(locationIntent);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+        mLocationController.stopLocationUpdates();
+        mGoogleMapController.clear();
+        mLatLngList = null;
+        mListener = null;
+        mLocationListener = null;
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void setCurrentLocation(Location mLocation) {
+
+    }
+
+    @Override
+    public void setLatLng(LatLng mLatLng) {
+        if (mLatLng != null) {
+            mLatLngList.add(mLatLng);
+        }
+        
+    }
+
+    @Override
+    public void setLocationArea(String locationArea) {
+
     }
 
 
