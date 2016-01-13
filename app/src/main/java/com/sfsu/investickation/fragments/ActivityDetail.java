@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -97,6 +96,8 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.title_fragment_activity_detail);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -105,9 +106,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
 
-        setHasOptionsMenu(true);
 
-        getActivity().setTitle(R.string.title_fragment_activity_detail);
         if (getArguments() != null) {
             args = getArguments();
         }
@@ -301,8 +300,10 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_activity_list, menu);
+        inflater.inflate(R.menu.menu_activity_detail, menu);
         final MenuItem item = menu.findItem(R.id.action_delete);
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -314,7 +315,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
                 return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     /**
@@ -322,10 +323,8 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
      */
     private void deleteActivity() {
         if (mActivity.isOnCloud()) {
-            Log.i(TAG, "cloud activity");
             //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mActivity.getId(), ApiRequestHandler.DELETE));
         } else {
-            Log.i(TAG, "database activity");
             //dbController.delete(mActivity.getId());
             getActivity().getSupportFragmentManager().popBackStack();
         }

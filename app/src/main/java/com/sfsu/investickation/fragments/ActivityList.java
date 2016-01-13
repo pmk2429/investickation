@@ -82,6 +82,9 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle(R.string.title_fragment_activity_list);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -91,9 +94,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         ButterKnife.bind(this, rootView);
 
-        getActivity().setTitle(R.string.title_fragment_activity_list);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setHasOptionsMenu(true);
+
         dbController = new DatabaseDataController(mContext, new ActivitiesDao());
 
         if (AppUtils.isConnectedOnline(mContext)) {
@@ -263,7 +264,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mInterface = null;
         mContext = null;
         mActivitiesListAdapter = null;
         mActivitiesList = null;
@@ -271,17 +271,14 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
+        mInterface = null;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_activity_list, menu);
         final MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
@@ -290,7 +287,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         } else {
             Log.i(TAG, "search is null");
         }
-//        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

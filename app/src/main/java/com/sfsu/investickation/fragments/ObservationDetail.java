@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -115,4 +118,34 @@ public class ObservationDetail extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_activity_detail, menu);
+        final MenuItem item = menu.findItem(R.id.action_delete);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                deleteObservation();
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper method to delete the current {@link Observation} from the server/database.
+     */
+    private void deleteObservation() {
+        if (mObservation.isOnCloud()) {
+            //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mActivity.getId(), ApiRequestHandler.DELETE));
+        } else {
+            //dbController.delete(mObservation.getId());
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
 }
