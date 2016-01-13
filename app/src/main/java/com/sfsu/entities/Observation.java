@@ -44,6 +44,8 @@ public class Observation implements Parcelable, Entity {
     private String user_id;
     private String activity_id;
     private String tick_id;
+    // flag for storage
+    private transient boolean isOnCloud;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -70,7 +72,6 @@ public class Observation implements Parcelable, Entity {
         this.user_id = user_id;
     }
 
-
     protected Observation(Parcel in) {
         id = in.readString();
         tickName = in.readString();
@@ -81,6 +82,14 @@ public class Observation implements Parcelable, Entity {
         updated_at = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
+    }
+
+    public boolean isOnCloud() {
+        return isOnCloud;
+    }
+
+    public void setIsOnCloud(boolean isOnCloud) {
+        this.isOnCloud = isOnCloud;
     }
 
     public String getGeo_location() {

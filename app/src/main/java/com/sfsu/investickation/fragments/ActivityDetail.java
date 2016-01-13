@@ -105,6 +105,8 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_activity_details, container, false);
         ButterKnife.bind(this, rootView);
 
+        setHasOptionsMenu(true);
+
         getActivity().setTitle(R.string.title_fragment_activity_detail);
         if (getArguments() != null) {
             args = getArguments();

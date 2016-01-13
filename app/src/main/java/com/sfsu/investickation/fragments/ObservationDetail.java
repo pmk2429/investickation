@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sfsu.entities.Observation;
-import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +23,7 @@ import butterknife.ButterKnife;
  */
 public class ObservationDetail extends Fragment {
 
+    private static final String KEY_OBSERVATION = "observation_object_detail";
     private final String TAG = "~!@#ObservationDetail";
     @Bind(R.id.textView_obsDet_activityName)
     TextView textView_activityName;
@@ -61,10 +61,10 @@ public class ObservationDetail extends Fragment {
      * @param mObservation
      * @return
      */
-    public static ObservationDetail newInstance(String key, Observation mObservation) {
+    public static ObservationDetail newInstance(Observation mObservation) {
         ObservationDetail mObservationDetail = new ObservationDetail();
         Bundle args = new Bundle();
-        args.putParcelable(key, mObservation);
+        args.putParcelable(KEY_OBSERVATION, mObservation);
         mObservationDetail.setArguments(args);
         return mObservationDetail;
     }
@@ -96,8 +96,8 @@ public class ObservationDetail extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        if (args.getParcelable(ObservationMasterActivity.KEY_OBSERVATION_DETAIL) != null) {
-            mObservation = args.getParcelable(ObservationMasterActivity.KEY_OBSERVATION_DETAIL);
+        if (args.getParcelable(KEY_OBSERVATION) != null) {
+            mObservation = args.getParcelable(KEY_OBSERVATION);
         }
 
         Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_tickImage);

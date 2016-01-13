@@ -24,7 +24,7 @@ import java.util.Stack;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p>
+ * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetail.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityMap.IActivityMapCallBack {
@@ -41,18 +41,15 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private static int STACK_COUNT = 0;
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private final String TAG = "~!@#$UserActivity";
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
     // for performing better navigation on back press.
     private ActivityRunning mActivityRunning;
     private Stack<Fragment> fragmentStack;
-    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
-
-        // initialize the FragmentManager and FragmentTransaction.
-        fragmentManager = getSupportFragmentManager();
 
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {

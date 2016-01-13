@@ -58,7 +58,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddObservation extends Fragment implements LocationController.ILocationCallBacks, TextValidator.ITextValidate {
+public class AddObservation extends Fragment implements LocationController.ILocationCallBacks, TextValidator.ITextValidate, View.OnClickListener {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
@@ -123,11 +123,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_observation_add);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        if (getArguments() != null) {
-            args = getArguments();
-        }
-        dbController = new DatabaseDataController(mContext, new ObservationsDao());
-        mAuthPreferences = new AuthPreferences(mContext);
     }
 
     @Override
@@ -138,6 +133,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         ButterKnife.bind(this, v);
 
+        if (getArguments() != null) {
+            args = getArguments();
+        }
+        dbController = new DatabaseDataController(mContext, new ObservationsDao());
+        mAuthPreferences = new AuthPreferences(mContext);
+
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
         } else {
@@ -146,10 +147,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         // get user_id.
         userId = mAuthPreferences.getUser_id();
-
-        // initialize the LocationController
-        mLocationController = new LocationController(mContext, this);
-        mLocationController.connectGoogleApi();
 
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
         et_tickSpecies.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
@@ -165,53 +162,83 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             }
         });
 
-        btn_PostObservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_PostObservation.setOnClickListener(this);
 
-                if (isTickNameValid && isTickSpeciesValid && isTotalTicksNumber) {
-                    String tickName = et_tickName.getText().toString();
-                    String tickSpecies = et_tickSpecies.getText().toString();
-                    int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
+        return v;
+    }
 
-                    // finally when all values are collected, create a new Observation object.
-                    newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils.getCurrentTimeStamp(),
-                            activityId, userId);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_addObs_postObservation:
+                postObservation();
+                break;
+        }
+    }
 
-                    // set Location params separately.
-                    newObservationObj.setGeoLocation(geoLocation);
-                    newObservationObj.setLatitude(latitude);
-                    newObservationObj.setLongitude(longitude);
+    /**
+     * Helper method to post Observation on server or store in local storage
+     */
+    private void postObservation() {
+        try {
+            if (isTickNameValid && isTickSpeciesValid && isTotalTicksNumber) {
+                String tickName = et_tickName.getText().toString();
+                String tickSpecies = et_tickSpecies.getText().toString();
+                int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
 
-                    // depending on network connection, save the Observation on storage or server
-                    if (AppUtils.isConnectedOnline(mContext)) {
-                        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                // finally when all values are collected, create a new Observation object.
+                newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils.getCurrentTimeStamp(),
+                        activityId, userId);
+
+                // set Location params separately.
+                newObservationObj.setGeoLocation(geoLocation);
+                newObservationObj.setLatitude(latitude);
+                newObservationObj.setLongitude(longitude);
+
+                // depending on network connection, save the Observation on storage or server
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                } else {
+                    // create Unique ID for the Running activity of length 32.
+                    String observationUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
+
+                    // set the remaining params.
+                    newObservationObj.setId(observationUUID);
+
+                    newObservationObj.setImageUrl(selectedImagePath);
+
+                    Log.i(TAG, newObservationObj.toString());
+
+                    long resultCode = dbController.save(newObservationObj);
+
+                    if (resultCode != -1) {
+
+                        // if saved to DB successfully, open ObservationsList
+                        mInterface.postObservationData(newObservationObj);
+
                     } else {
-                        // create Unique ID for the Running activity of length 32.
-                        String observationUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
-
-                        // set the remaining params.
-                        newObservationObj.setId(observationUUID);
-
-                        newObservationObj.setImageUrl(selectedImagePath);
-
-                        Log.i(TAG, newObservationObj.toString());
-
-                        long resultCode = dbController.save(newObservationObj);
-
-                        if (resultCode != -1) {
-                            Log.i(TAG, "saved to DB success");
-                            Observation savedObservation = (Observation) dbController.get(newObservationObj.getId());
-                            Log.i(TAG, savedObservation.toString());
-                        } else {
-                            Log.i(TAG, "not saved to DB");
-                        }
-
+                        Toast.makeText(mContext, "Fail to store Observation", Toast.LENGTH_LONG).show();
                     }
+
                 }
             }
-        });
-        return v;
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // initialize the LocationController
+        mLocationController = new LocationController(mContext, this);
+
+        // connect to GoogleApi only if the Network is available.
+        if (AppUtils.isConnectedOnline(mContext)) {
+            mLocationController.connectGoogleApi();
+        }
     }
 
     /**
@@ -458,18 +485,10 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-    }
 
     @Override
     public void onPause() {
         super.onPause();
-//        getActivity().unregisterReceiver(broadcastReceiver);
-//        getActivity().stopService(locationIntent);
-
         BusProvider.bus().unregister(this);
     }
 
@@ -477,8 +496,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onResume() {
         super.onResume();
-//        getActivity().startService(locationIntent);
-
         BusProvider.bus().register(this);
 
     }
@@ -580,6 +597,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 //        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
         Log.i(TAG, onLoadingError.getErrorMessage());
     }
+
 
     /**
      * Callback interface to handle the onClick Listeners in {@link AddObservation} Fragment.

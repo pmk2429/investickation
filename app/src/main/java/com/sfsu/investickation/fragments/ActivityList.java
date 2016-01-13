@@ -107,7 +107,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             mActivitiesList = localActivitiesList;
 
             if (mActivitiesList.size() > 0 && mActivitiesList != null) {
-                populateRecyclerView();
+                displayActivityList();
             } else if (mActivitiesList.size() == 0) {
                 // display text message
                 txtView_activityListInfo.setVisibility(View.VISIBLE);
@@ -167,7 +167,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         mActivitiesList = responseActivitiesList;
 
         if (mActivitiesList.size() > 0 && mActivitiesList != null) {
-            populateRecyclerView();
+            displayActivityList();
         } else if (mActivitiesList.size() == 0) {
             // display text message
             txtView_activityListInfo.setVisibility(View.VISIBLE);
@@ -194,7 +194,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      * Helper method to initialize and display list of activities in RecyclerView. In addition, this method provides lazy loading
      * of data for better performance and interface.
      */
-    private void populateRecyclerView() {
+    private void displayActivityList() {
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
 

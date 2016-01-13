@@ -27,10 +27,10 @@ import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
-import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -54,6 +54,7 @@ import butterknife.ButterKnife;
 
 public class ObservationList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
 
+    private static final String KEY_ACTIVITY_ID = "activity_id";
     private final String TAG = "~!@#ObsList";
     @Bind(R.id.recyclerview_remote_observations)
     RecyclerView recyclerView_observations;
@@ -84,10 +85,10 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
      * @param activityId
      * @return
      */
-    public static ObservationList newInstance(String key, String activityId) {
+    public static ObservationList newInstance(String activityId) {
         ObservationList mObservationList = new ObservationList();
         Bundle args = new Bundle();
-        args.putString(key, activityId);
+        args.putString(KEY_ACTIVITY_ID, activityId);
         mObservationList.setArguments(args);
         return mObservationList;
     }
@@ -97,28 +98,6 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_observation_list);
-
-        setHasOptionsMenu(true);
-
-        dbController = new DatabaseDataController(mContext, new ObservationsDao());
-        // get the ActivityId from the Bundle.
-        if (getArguments() != null) {
-            args = getArguments();
-        }
-        if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
-            activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
-        } else {
-            activityId = null;
-        }
-
-        // call to network depending on the type of call to be made.
-        if (activityId != null) {
-            // Observations specific to Activity
-            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
-        } else {
-            // get all the observations
-            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-        }
     }
 
     @Override
@@ -131,6 +110,48 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
 
         txtView_observationList_info.setVisibility(View.GONE);
 
+        setHasOptionsMenu(true);
+
+        dbController = new DatabaseDataController(mContext, new ObservationsDao());
+        // get the ActivityId from the Bundle.
+        if (getArguments() != null) {
+            args = getArguments();
+        }
+        if (args != null && args.containsKey(KEY_ACTIVITY_ID)) {
+            activityId = args.getString(KEY_ACTIVITY_ID);
+        } else {
+            activityId = null;
+        }
+
+
+        // get all Observations depending on network connection available.
+        if (AppUtils.isConnectedOnline(mContext)) {
+            // call to network depending on the type of call to be made.
+            if (activityId != null) {
+                // Observations specific to Activity
+                BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
+            } else {
+                // get all the observations
+                BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+            }
+        } else {
+            // network not available.
+            localObservationList = (List<Observation>) (List<?>) dbController.getAll();
+
+            mObservationList = localObservationList;
+
+            if (mObservationList.size() > 0 && mObservationList != null) {
+                displayObservationList();
+            } else if (mObservationList.size() == 0) {
+                // display text message
+                txtView_observationList_info.setVisibility(View.VISIBLE);
+                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                recyclerView_observations.setVisibility(View.GONE);
+            } else {
+                Log.i(TAG, "activity list size < 0");
+            }
+        }
+
         recyclerView_observations.setHasFixedSize(true);
 
         if (mContext != null) {
@@ -140,16 +161,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
             Log.d(TAG, " No Layout manager supplied");
         }
 
-        // TODO: think of this one.
-//        localObservationList = (List<Observation>) dbController.getAll();
-
-
-        //mObservationList = new ArrayList<>(responseObservationList);
-        //mObservationList.addAll(localObservationList);
-
-        //mObservationList.add(newObservationObject)
-//        displayObservationList();
-
+        // onclick of Add Observation FAB.
         addProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,10 +209,25 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
      */
     @Subscribe
     public void onObservationsLoadSuccess(ObservationEvent.OnListLoaded onLoaded) {
+        // list of Observations from server
         responseObservationList = onLoaded.getResponseList();
+        localObservationList = (List<Observation>) dbController.getAll();
 
+        for (int i = 0; i < responseObservationList.size(); i++) {
+            responseObservationList.get(i).setIsOnCloud(true);
+        }
+
+        for (int i = 0; i < localObservationList.size(); i++) {
+            localObservationList.get(i).setIsOnCloud(false);
+        }
+
+        // add all local Observations to Remote observations.
+        responseObservationList.addAll(localObservationList);
+
+        // finally make a list of All Observations from local and server.
         mObservationList = responseObservationList;
 
+        // depending on size, display list of Observations.
         if (mObservationList.size() > 0 && mObservationList != null) {
             displayObservationList();
         } else if (mObservationList.size() == 0) {
