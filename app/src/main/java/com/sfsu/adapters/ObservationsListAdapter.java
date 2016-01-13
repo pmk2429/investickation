@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
@@ -45,13 +46,23 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
 
     @Override
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
-        if (holder != null) {
-            Observation mObservation = observationList.get(position);
-            Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
-            holder.txtView_observationName.setText(mObservation.getTickName());
-            holder.txtView_location.setText(mObservation.getGeoLocation());
-            String dateAndTime = AppUtils.getDateAndTime(mObservation.getTimestamp());
-            holder.txtView_timestamp.setText(dateAndTime);
+        try {
+            if (holder != null) {
+                Observation mObservation = observationList.get(position);
+                Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
+                holder.txtView_observationName.setText(mObservation.getTickName());
+                holder.txtView_location.setText(mObservation.getGeoLocation());
+                String dateAndTime = AppUtils.getDateAndTime(mObservation.getTimestamp());
+                holder.txtView_timestamp.setText(dateAndTime);
+
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    holder.icon_storageStatus.setImageResource(R.mipmap.ic_cloud_done_black_36dp);
+                } else {
+                    holder.icon_storageStatus.setImageResource(R.mipmap.ic_sd_storage_black_24dp);
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -126,7 +137,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     public static class ObservationViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
-        ImageView imageView_tickImage, imageView_imageStatus;
+        ImageView imageView_tickImage, icon_storageStatus, icon_verified;
         TextView txtView_observationName, txtView_location, txtView_timestamp;
 
         public ObservationViewHolder(View itemView) {
@@ -134,7 +145,8 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
 
             cv = (CardView) itemView.findViewById(R.id.cardview_observation);
             imageView_tickImage = (ImageView) itemView.findViewById(R.id.imageView_obsList_tickImage);
-            imageView_imageStatus = (ImageView) itemView.findViewById(R.id.icon_status);
+            icon_storageStatus = (ImageView) itemView.findViewById(R.id.icon_obsList_storage);
+            icon_verified = (ImageView) itemView.findViewById(R.id.icon_obsList_verified);
             txtView_observationName = (TextView) itemView.findViewById(R.id.textView_obsList_observationName);
             txtView_location = (TextView) itemView.findViewById(R.id.textView_obsList_location);
             txtView_timestamp = (TextView) itemView.findViewById(R.id.textView_obsList_timestamp);

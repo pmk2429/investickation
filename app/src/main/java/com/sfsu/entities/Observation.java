@@ -46,6 +46,7 @@ public class Observation implements Parcelable, Entity {
     private String tick_id;
     // flag for storage
     private transient boolean isOnCloud;
+    private transient boolean isVerified;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -82,6 +83,14 @@ public class Observation implements Parcelable, Entity {
         updated_at = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setIsVerified(boolean isVerified) {
+        this.isVerified = isVerified;
     }
 
     public boolean isOnCloud() {

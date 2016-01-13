@@ -61,7 +61,7 @@
                 android:textSize="@dimen/font_X_small"/>
 
             <ImageView
-                android:id="@+id/icon_status"
+                android:id="@+id/icon_obsList_storage"
                 android:layout_width="@dimen/view_dimen_default"
                 android:layout_height="@dimen/view_dimen_default"
                 android:layout_alignParentEnd="true"
@@ -71,7 +71,7 @@
 
 
             <ImageView
-                android:id="@+id/icon_verified"
+                android:id="@+id/icon_obsList_verified"
                 android:layout_width="@dimen/view_dimen_default"
                 android:layout_height="@dimen/view_dimen_default"
                 android:layout_alignParentEnd="true"
