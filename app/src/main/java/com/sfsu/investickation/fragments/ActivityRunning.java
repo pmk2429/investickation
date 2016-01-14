@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ import butterknife.ButterKnife;
  * the current ongoing activity is stored in SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
  * Observation,
  */
-public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks {
+public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks, View.OnClickListener {
 
     public static final String TAG = "~!@#$ActivityRunning";
     // FAB
@@ -74,7 +76,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
-    private Intent locationIntent;
     private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
     private Bundle args;
@@ -83,19 +84,13 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private SharedPreferences.Editor editor;
     private Gson gson;
     private List<LatLng> mLatLngList = new ArrayList<>();
-    ;
+    private Intent locationIntent;
 
-    private LocationController.ILocationCallBacks mLocationListener;
-    /**
-     * BroadcastReceiver to receive the broadcast send by the FusedLocationService.
-     * This receiver receives the EntityLocation every specified interval of time.
-     */
-    private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
-
-        // simply call the method to collect the location
+    private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            collectLocationData(intent);
+            Log.i("~!@#$LocTestAct", "receiving updates");
+            updateUi(intent);
         }
     };
 
@@ -118,6 +113,15 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         return mActivityRunning;
     }
 
+    private void updateUi(Intent intent) {
+        Log.i(TAG, "updating UI");
+        Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
+        if (mLocation != null) {
+            LatLng mLatLng = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
+            mLatLngList.add(mLatLng);
+        }
+    }
+
     /**
      * Collects the location every specified interval of time.
      *
@@ -125,9 +129,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      */
     private void collectLocationData(Intent locationIntent) {
         if (locationIntent != null) {
-            Bundle bundle = locationIntent.getExtras();
-            Location locationVal = (Location) bundle.get("locINFO");
-            // TODO: get the LatLng object from the BroadcastReceiver
+            Location location = (Location) locationIntent.getExtras().get(LocationService.KEY_LOCATION_CHANGED);
         }
     }
 
@@ -195,12 +197,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onResume() {
         mapView.onResume();
         super.onResume();
@@ -224,13 +220,15 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
         // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
         if (FLAG_RUNNING) {
+            locationIntent = new Intent(mContext, LocationService.class);
             // start the service to capture Location updates.
-            getActivity().startService(locationIntent);
+            mContext.startService(locationIntent);
 
-            // register the broadcast receiver to receive the location objects as broadcast data
-            //getActivity().registerReceiver(locationBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+            // register for BroadcastReceiver
+            mContext.registerReceiver(locationReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+
         }
-
+        // register for Event Bus
         BusProvider.bus().register(this);
     }
 
@@ -244,28 +242,11 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
         txtView_activityName.setText(textViewData.toString());
 
-        // remove the SharedPreferences and set state of the ongoing activity to CREATED.
-        stopActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // onStop button click, change the state of Activity to CREATED.
-                ongoingActivityObj.setState(Activities.STATE.CREATED);
-
-                // delete the SharedPref data
-                activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
-
-                // pass on the Activities object to the List of activities.
-                mListener.onActivityStopButtonClicked();
-            }
-        });
-
         // Open the New Observation Fragment in button click and pass the activityId to make Activity related Observations.
-        btn_addObservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
-            }
-        });
+        btn_addObservation.setOnClickListener(this);
+
+        // remove the SharedPreferences and set state of the ongoing activity to CREATED.
+        stopActivity.setOnClickListener(this);
 
         FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING ? true : false;
     }
@@ -298,14 +279,20 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mLocationController.stopLocationUpdates();
         mGoogleMapController.clear();
         mLatLngList = null;
-        mListener = null;
-        mLocationListener = null;
+        mContext.unregisterReceiver(locationReceiver);
+        mContext.stopService(locationIntent);
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
@@ -318,12 +305,34 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         if (mLatLng != null) {
             mLatLngList.add(mLatLng);
         }
-        
+
     }
 
     @Override
     public void setLocationArea(String locationArea) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cardView_activityRunning_addObservation:
+                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
+                break;
+
+            case R.id.fab_actRun_activityStop:
+                // onStop button click, change the state of Activity to CREATED.
+                ongoingActivityObj.setState(Activities.STATE.CREATED);
+
+                // delete the SharedPref data
+                activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
+
+                mContext.stopService(locationIntent);
+
+                // pass on the Activities object to the List of activities.
+                mListener.onActivityStopButtonClicked();
+                break;
+        }
     }
 
 

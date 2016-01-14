@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -15,15 +16,13 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.sfsu.entities.EntityLocation;
-import com.sfsu.utils.AppUtils;
 
 /**
  * Service to get the periodic EntityLocation updates while the Account performed Activity is still Running. This service runs in tandem
  * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
  * is created the {@link LocationService } starts and when the <tt>ActivityRunning</tt> is paused/stopped, the
  * {@link LocationService } is stopped too.
- * <p/>
+ * <p>
  * The LocationService service creates a EntityLocation object and sends it over to the currently running activity which will
  * post the data on the server. This way after every 10 minutes, a EntityLocation will be captured and sent over to the server
  * for getting user's location and finally these locations will be used to depict the probable trajectory of the user.
@@ -31,29 +30,25 @@ import com.sfsu.utils.AppUtils;
 public class LocationService extends Service implements LocationListener, GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks {
 
-    public static final String BROADCAST_ACTION = "com.sfsu.investickation";
+    public static final String KEY_LOCATION_CHANGED = "location_changes";
+    public static final String BROADCAST_ACTION = "com.sfsu.investickation.fragments";
+    private static final String TAG = "~!@#$LocServ";
     // EntityLocation updates intervals in sec
-    private static int _SECOND = 1000;
-    private static int _MIN = 60 * _SECOND;
-    private static int UPDATE_INTERVAL = 5 * _MIN; // 5 mins
-    private static int FATEST_INTERVAL = 5000; // 5 sec
-    private static int DISPLACEMENT = 10; // 10 meters
+    private final static int _SECOND = 1000;
+    private final static int _MIN = 60 * _SECOND;
+    private final static int UPDATE_INTERVAL = 10000; // 5 mins
+    private final static int FASTEST_INTERVAL = 5000; // 5 sec
+    private final static int DISPLACEMENT = 10; // 10 meters
     // delay in broadcasting the location
-    private static int DELAY_BROADCAST = 10 * _MIN;
-    private final String TAG = "~!@#$LocServ";
+    private final static int DELAY_BROADCAST = 5 * _SECOND;
     // Handler communicate between this Thread and UI thread.
     private final Handler handler = new Handler();
-    // captured EntityLocation object.
-    private EntityLocation capturedLocation;
     // getting the LocationObject.
     private Location mLastLocation;
-
     // Google client to interact with Google API
     private GoogleApiClient mGoogleApiClient;
-
     // boolean flag to toggle periodic location updates
-    private boolean mRequestingLocationUpdates = false;
-
+    private boolean mRequestingLocationUpdates;
     // getting the EntityLocation requests
     private LocationRequest mLocationRequest;
     private Intent intent;
@@ -63,14 +58,27 @@ public class LocationService extends Service implements LocationListener, Google
      */
     private Runnable sendUpdatesToUI = new Runnable() {
         public void run() {
-            handler.postDelayed(this, DELAY_BROADCAST); // 5 seconds
             broadcastLocationInfo();
+            handler.postDelayed(this, DELAY_BROADCAST); // 5 seconds
         }
     };
+
+    /**
+     * send the location broadcast to the Activity
+     */
+    private void broadcastLocationInfo() {
+        Log.i(TAG, "entered broadcast logging info method");
+        if (intent != null) {
+            intent.putExtra(KEY_LOCATION_CHANGED, mLastLocation);
+            sendBroadcast(intent);
+        }
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        mRequestingLocationUpdates = false;
 
         /*initialize the Params in the onCreate of the Service. Since building GoogleApiClient and creating LocationRequests
         needs to be done only once,
@@ -81,12 +89,25 @@ public class LocationService extends Service implements LocationListener, Google
             Log.i(TAG, "play services available and so initializing the api, location requests.");
             // Building the GoogleApi client
             buildGoogleApiClient();
-            // initialize the LocationRequest
-            createLocationRequest();
             // finally onConnect, handle the LocationUpdates
             mGoogleApiClient.connect();
         }
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        Log.i(TAG, "onStart called");
+        handler.removeCallbacks(sendUpdatesToUI);
+        handler.postDelayed(sendUpdatesToUI, 5000); // 5 second delay
+        return START_STICKY;
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 
     /**
      * util method to check if GooglePlayServicesAvailable or not.
@@ -132,6 +153,7 @@ public class LocationService extends Service implements LocationListener, Google
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        createLocationRequest();
     }
 
     /**
@@ -141,25 +163,11 @@ public class LocationService extends Service implements LocationListener, Google
         Log.i(TAG, "Creating EntityLocation Requests.");
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FATEST_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setSmallestDisplacement(DISPLACEMENT); // 10 meters
     }
 
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-        Log.i(TAG, "onStart called");
-        handler.removeCallbacks(sendUpdatesToUI);
-        handler.postDelayed(sendUpdatesToUI, 1000); // 1 second delay
-        return START_NOT_STICKY;
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
 
     // Methods to handle the LocationListener for the
     @Override
@@ -180,30 +188,16 @@ public class LocationService extends Service implements LocationListener, Google
     // Callbacks for LocationListener interface. This callback will then create a EntityLocation Object out of new EntityLocation values.
     @Override
     public void onLocationChanged(Location location) {
-        if (location == null) {
-            Log.d(TAG, " Locations is null");
-        } else {
-            handleNewLocation(location);
-        }
-
-    }
-
-    private void handleNewLocation(Location location) {
         // Assign the new location
         mLastLocation = location;
-
-        // create a new EntityLocation object and send it to the ActivityRunning fragment as soon as Location is changed
-        capturedLocation = EntityLocation.createUserLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude(), AppUtils
-                .getCurrentTimeStamp());
-
-        // once the object is created, simply pass the object to broadcast receiver.
-
+        Toast.makeText(this, counter++ + ")" + location.getLatitude() + ":" + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
+
 
     // call back for OnConnectionFailedListener
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Toast.makeText(this, connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -214,19 +208,11 @@ public class LocationService extends Service implements LocationListener, Google
 
     @Override
     public boolean stopService(Intent name) {
-        return super.stopService(name);
+        super.stopService(name);
+        stopLocationUpdates();
+        return true;
     }
 
-    /**
-     * send the location broadcast to the Activity
-     */
-    private void broadcastLocationInfo() {
-        Log.i(TAG, "entered broadcast logging info method");
-        if (intent != null) {
-            intent.putExtra("locINFO", mLastLocation);
-            sendBroadcast(intent);
-        }
-    }
 
     @Override
     public void onDestroy() {

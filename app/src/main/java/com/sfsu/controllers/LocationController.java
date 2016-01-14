@@ -24,7 +24,7 @@ import java.util.Locale;
 /**
  * Controller used to handle all the Location related operations and tasks such as finding the Last Know Location, getting
  * Location updates etc. The LocationController uses FusedLocation service provided by Google to get the Location updates.
- * <p/>
+ * <p>
  * <tt>LocationController</tt> also provides Callback Interface to get the Account's current Location and Featured name of the Location if
  * present.
  * Created by Pavitra on 11/14/2015.
