@@ -31,7 +31,7 @@ public class LocationService extends Service implements LocationListener, Google
         GoogleApiClient.ConnectionCallbacks {
 
     public static final String KEY_LOCATION_CHANGED = "location_changes";
-    public static final String BROADCAST_ACTION = "com.sfsu.investickation.fragments";
+    public static final String BROADCAST_ACTION = "com.sfsu.investickation.fragments.LOCATION";
     private static final String TAG = "~!@#$LocServ";
     // EntityLocation updates intervals in sec
     private final static int _SECOND = 1000;

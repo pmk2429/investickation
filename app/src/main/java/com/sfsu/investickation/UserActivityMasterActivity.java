@@ -1,11 +1,17 @@
 package com.sfsu.investickation;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.sfsu.entities.Activities;
@@ -16,6 +22,7 @@ import com.sfsu.investickation.fragments.ActivityMap;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.service.PeriodicAlarm;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -24,7 +31,7 @@ import java.util.Stack;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p/>
+ * <p>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetail.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityMap.IActivityMapCallBack {
@@ -38,6 +45,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String PREF_ACTIVITY_DATA = "pref_ongoing_activity";
     //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
+
     private static int STACK_COUNT = 0;
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private final String TAG = "~!@#$UserActivity";
@@ -45,6 +53,12 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     // for performing better navigation on back press.
     private ActivityRunning mActivityRunning;
     private Stack<Fragment> fragmentStack;
+
+    private PeriodicAlarm periodicAlarm;
+    private IntentFilter myIntentFilter;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

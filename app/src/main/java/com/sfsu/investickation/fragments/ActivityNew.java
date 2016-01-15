@@ -305,6 +305,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public void onResume() {
         mapView.onResume();
         super.onResume();
+
         BusProvider.bus().register(this);
     }
 

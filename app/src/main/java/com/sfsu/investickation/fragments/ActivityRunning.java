@@ -3,12 +3,15 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +34,7 @@ import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.map.StaticMap;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
+import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -87,11 +91,39 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private List<LatLng> mLatLngList = new ArrayList<>();
     private Intent locationIntent;
 
+    /**
+     * BroadcastReceiver to receive the updates when Location is changed.
+     */
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("~!@#$LocTestAct", "receiving updates");
             updateUi(intent);
+        }
+    };
+
+    /**
+     * BroadcastReceiver to receive the updates when the Alarm goes off
+     */
+    private BroadcastReceiver alarmBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "received");
+            PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WAKING CLOCK");
+            //Acquire the lock
+            mWakeLock.acquire();
+
+            Bundle extras = intent.getExtras();
+
+            if (extras != null && extras.getBoolean(PeriodicAlarm.ONE_TIME, Boolean.FALSE)) {
+                // timer for one time
+            }
+
+            // open alert dialog
+            openAlarmDialog();
+
+            //Release the lock
+            mWakeLock.release();
         }
     };
 
@@ -115,7 +147,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     private void updateUi(Intent intent) {
-        Log.i(TAG, "updating UI");
         Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
         if (mLocation != null) {
             LatLng mLatLng = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
@@ -132,6 +163,39 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         if (locationIntent != null) {
             Location location = (Location) locationIntent.getExtras().get(LocationService.KEY_LOCATION_CHANGED);
         }
+    }
+
+    /**
+     * Open AlertDialog when the Alarm goes off
+     */
+    private void openAlarmDialog() {
+
+        AlertDialog.Builder alarmReminderDialog = new AlertDialog.Builder(mContext);
+        alarmReminderDialog.setTitle("Found any Tick?");
+        alarmReminderDialog.setMessage("Dont forget to add Observation for Tick");
+
+        alarmReminderDialog.setPositiveButton("Open Observation", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("~!@#$NotAct", "Open Observation");
+            }
+        });
+
+        alarmReminderDialog.setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("~!@#$NotAct", "Continue");
+            }
+        });
+
+        alarmReminderDialog.setNeutralButton("Cancel Timer", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("~!@#$NotAct", "Cancel Timer");
+            }
+        });
+
+        alarmReminderDialog.show();
     }
 
     @Override
@@ -229,6 +293,10 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             mContext.registerReceiver(locationReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
 
         }
+
+        // register AlarmReceiver
+        mContext.registerReceiver(alarmBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+
         // register for Event Bus
         BusProvider.bus().register(this);
     }
@@ -271,6 +339,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         String activityJson = gson.toJson(ongoingActivityObj);
         editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
         editor.apply();
+        mContext.unregisterReceiver(alarmBroadcastReceiver);
     }
 
     @Override
