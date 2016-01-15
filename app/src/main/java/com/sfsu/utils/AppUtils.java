@@ -28,36 +28,6 @@ import java.util.Date;
  */
 public class AppUtils {
 
-    // Log message for Application Context
-    // Base url to the endpoint
-    public static final String BASE_URL = "http://investickation.com:3000";
-    // Resource Identifiers
-    public static final String USER_RESOURCE = "users";
-    public static final String ACTIVITY_RESOURCE = "activities";
-    public static final String OBSERVATION_RESOURCE = "observations";
-    public static final String TICK_RESOURCE = "ticks";
-    public static final String LOCATION_RESOURCE = "locations";
-    // Unique Key
-    public static final String USER_KEY = "key_user";
-    public static final String ACTIVITY_KEY = "key_activities";
-    public static final String OBSERVATION_KEY = "key_observation";
-    public static final String LOCATION_KEY = "key_location";
-    public static final String TICK_KEY = "key_tick";
-    // list keys
-    public static final String USER_LIST_KEY = "key_user_list";
-    public static final String ACTIVITY_LIST_KEY = "key_activities_list";
-    public static final String OBSERVATION_LIST_KEY = "key_observation_list";
-    public static final String LOCATION_LIST_KEY = "key_location_list";
-    public static final String TICK_LIST_KEY = "key_tick_list";
-    public static final String PREF_ONGOING_ACTIVITY = "ongoing_activity_pref";
-    public static final String EDITOR_ONGOING_ACTIVITY = "editore_ongoing_activity";
-    // Service Verbs
-//    public static final String GET_METHOD = "get";
-//    public static final String GET_ALL_METHOD = "getAll";
-//    public static final String ADD_METHOD = "add";
-//    public static final String UPDATE_METHOD = "update";
-//    public static final String DELETE_METHOD = "delete";
-    // context passed for each activity
     private Context myContext;
 
     // Constructor
@@ -111,7 +81,11 @@ public class AppUtils {
         return false;
     }
 
-    // Method to check if EntityLocation is enabled or disabled.
+    /**
+     * Returns whether the location is enabled or not
+     *
+     * @return
+     */
     public boolean isLocationEnabled() {
         int locationMode = 0;
         String locationProviders;
@@ -134,5 +108,4 @@ public class AppUtils {
             return !TextUtils.isEmpty(locationProviders);
         }
     }
-
 }

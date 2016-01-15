@@ -38,6 +38,7 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
@@ -72,7 +73,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private Context mContext;
     private IActivityNewCallBack mInterface;
     private Activities newActivityObj;
-    private String reminderTimeValue;
+    private String reminderText;
+    private long REMINDER_INTERVAL;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
     private LocationController locationController;
     private GoogleMapController mGoogleMapController;
@@ -201,15 +203,22 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             }
         });
 
+
         // on click of the Positive Button, set the textView_Reminder value for selected option.
         alertDialog.setPositiveButton(R.string.alertDialog_apply, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // when the flags are set,
                 if (isHalfHourButtonClicked) {
-                    txtView_setReminder.setText(getActivity().getResources().getString(R.string.alertDialog_reminder_30));
+                    // get the total minutes of interval
+                    REMINDER_INTERVAL = 30 * 60 * 1000; // 30 minutes
+                    reminderText = "Reminder set for " + mContext.getResources().getString(R.string.alertDialog_reminder_30);
+                    txtView_setReminder.setText(reminderText);
                 } else if (isManualInputSet) {
-                    txtView_setReminder.setText(et_manualInput.getText().toString());
+                    // get the total minutes of interval
+                    REMINDER_INTERVAL = Long.parseLong(et_manualInput.getText().toString()) * 60 * 1000;
+                    reminderText = "Reminder set for " + et_manualInput.getText().toString();
+                    txtView_setReminder.setText(reminderText);
                 }
                 dialog.dismiss();
             }
@@ -221,9 +230,20 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             }
         });
 
+        startAlarmForReminder();
+
         // finally display the alert dialog.
         alertDialog.setView(convertView);
         alertDialog.show();
+    }
+
+    /**
+     * Helper method to set the reminder depending on User's choice
+     */
+    private void startAlarmForReminder() {
+        if (REMINDER_INTERVAL != 0) {
+            new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
+        }
     }
 
     /**
