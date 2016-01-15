@@ -56,13 +56,13 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private static final int ID_LENGTH = 23;
     public final String TAG = "~!@#$ActivityNew";
 
-    @Bind(R.id.editText_ActivityName)
+    @Bind(R.id.editText_actNew_ActivityName)
     EditText et_activityName;
-    @Bind(R.id.editText_numOfPeople)
+    @Bind(R.id.editText_actNew_numOfPeople)
     EditText et_totalPeople;
-    @Bind(R.id.editText_totalPets)
+    @Bind(R.id.editText_actNew_totalPets)
     EditText et_totalPets;
-    @Bind(R.id.textView_reminder)
+    @Bind(R.id.textView_actNew_reminder)
     TextView txtView_setReminder;
 
     private EditText et_manualInput;

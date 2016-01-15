@@ -67,7 +67,9 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public static final String TAG = "~!@#$ActivityRunning";
     // FAB
     @Bind(R.id.fab_actRun_activityStop)
-    FloatingActionButton stopActivity;
+    FloatingActionButton fab_stopActivity;
+    @Bind(R.id.fab_actRun_reminder)
+    FloatingActionButton fab_reminder;
     // Map
     @Bind(R.id.mapView_activityRunning)
     MapView mapView;
@@ -319,7 +321,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         btn_addObservation.setOnClickListener(this);
 
         // remove the SharedPreferences and set state of the ongoing activity to CREATED.
-        stopActivity.setOnClickListener(this);
+        fab_stopActivity.setOnClickListener(this);
 
         FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING ? true : false;
     }

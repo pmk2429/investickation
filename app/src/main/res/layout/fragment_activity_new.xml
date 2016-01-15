@@ -8,7 +8,7 @@
 
     <!-- MapView must be wrapped inside a Layout to display Maps.-->
     <LinearLayout
-        android:id="@+id/linearLayout_mapViewHolder"
+        android:id="@+id/linearLayout_actNew_mapviewHolder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_large"
         android:orientation="vertical">
@@ -23,11 +23,11 @@
 
     <!--  Activity Name row -->
     <ImageView
-        android:id="@+id/icon_activity"
+        android:id="@+id/icon_actNew_activity"
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/linearLayout_mapViewHolder"
+        android:layout_below="@id/linearLayout_actNew_mapviewHolder"
         android:layout_marginStart="@dimen/view_dimen_small"
         android:layout_marginTop="@dimen/view_dimen_small"
         android:padding="@dimen/view_dimen_medium"
@@ -35,13 +35,13 @@
         android:src="@mipmap/ic_run"/>
 
     <EditText
-        android:id="@+id/editText_ActivityName"
+        android:id="@+id/editText_actNew_ActivityName"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/linearLayout_mapViewHolder"
+        android:layout_below="@id/linearLayout_actNew_mapviewHolder"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_small"
-        android:layout_toEndOf="@id/icon_activity"
+        android:layout_toEndOf="@id/icon_actNew_activity"
         android:hint="@string/text_activityName"
         android:lines="1"
         android:scrollHorizontally="true"
@@ -53,7 +53,7 @@
         android:id="@+id/separator_activity_1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_dimen"
-        android:layout_below="@id/editText_ActivityName"
+        android:layout_below="@id/editText_actNew_ActivityName"
         android:layout_marginLeft="@dimen/dimen_default"
         android:layout_marginRight="@dimen/dimen_default"
         android:layout_marginTop="@dimen/view_dimen_small"
@@ -67,7 +67,7 @@
         android:layout_below="@id/separator_activity_1">
 
         <ImageView
-            android:id="@+id/icon_people"
+            android:id="@+id/icon_actNew_people"
             android:layout_width="@dimen/widget_dimen"
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
@@ -84,19 +84,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
-            android:layout_toEndOf="@+id/icon_people"
+            android:layout_toEndOf="@+id/icon_actNew_people"
             android:text="@string/actNew_totalPeople"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
-            android:id="@+id/editText_numOfPeople"
+            android:id="@+id/editText_actNew_numOfPeople"
             android:layout_width="@dimen/widget_dimen_X1_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPeople"
             android:layout_marginEnd="@dimen/view_dimen_large"
             android:layout_marginStart="@dimen/view_dimen_small"
-            android:layout_toEndOf="@+id/icon_people"
+            android:layout_toEndOf="@+id/icon_actNew_people"
             android:hint="@string/text_totalPeople"
             android:inputType="number"
             android:lines="1"
@@ -117,7 +117,7 @@
 
         <!--  Reminder row -->
         <ImageView
-            android:id="@+id/icon_pets"
+            android:id="@+id/icon_actNew_pets"
             android:layout_width="@dimen/widget_dimen"
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
@@ -134,18 +134,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
-            android:layout_toEndOf="@+id/icon_pets"
+            android:layout_toEndOf="@+id/icon_actNew_pets"
             android:text="@string/actNew_totalPets"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
-            android:id="@+id/editText_totalPets"
+            android:id="@+id/editText_actNew_totalPets"
             android:layout_width="@dimen/widget_dimen_X1_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPets"
             android:layout_marginStart="@dimen/view_dimen_small"
-            android:layout_toEndOf="@+id/icon_pets"
+            android:layout_toEndOf="@+id/icon_actNew_pets"
             android:hint="@string/text_totalPets"
             android:inputType="number"
             android:lines="1"
@@ -165,23 +165,23 @@
 
     <!--  Reminder row -->
     <ImageView
-        android:id="@+id/icon_reminder"
+        android:id="@+id/icon_actNew_reminder"
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_alignStart="@+id/icon_activity"
-        android:layout_alignTop="@+id/textView_reminder"
+        android:layout_alignStart="@+id/icon_actNew_activity"
+        android:layout_alignTop="@+id/textView_actNew_reminder"
         android:padding="@dimen/view_dimen_medium"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_add_alarm_black_36dp"/>
 
     <TextView
-        android:id="@+id/textView_reminder"
+        android:id="@+id/textView_actNew_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_bars"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_small"
-        android:layout_toEndOf="@id/icon_reminder"
+        android:layout_toEndOf="@id/icon_actNew_reminder"
         android:padding="@dimen/view_dimen_medium"
         android:text="@string/actNew_setReminder"
         android:textColor="@color/colorBlack"
