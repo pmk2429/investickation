@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="@dimen/widget_dimen_X_large"
+            app:expandedTitleMarginStart="@dimen/widget_dimen"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -51,14 +51,14 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/lightText"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightText"
             android:orientation="vertical"
-            android:paddingTop="@dimen/view_dimen_X_large">
+            android:paddingTop="@dimen/view_dimen_X1_large">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cardview_tickGuide_detail_heading"
@@ -81,6 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/widget_dimen"
                         android:gravity="top|start"
+                        android:paddingEnd="@dimen/view_dimen_large"
                         android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_large"
                         android:text="American Dog Tick"
@@ -95,7 +96,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textView_tickDet_tickName"
                         android:gravity="top|start"
-                        android:paddingStart="16dp"
+                        android:paddingEnd="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_small"
                         android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
                         android:textAlignment="center"
@@ -109,7 +111,6 @@
                 android:id="@+id/cardview_tickGuide_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cardview_tickGuide_detail_heading"
                 android:layout_margin="@dimen/view_dimen_large"
                 android:padding="@dimen/view_dimen_large"
                 card_view:cardPreventCornerOverlap="false">
@@ -126,6 +127,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="top|start"
                         android:paddingBottom="0dp"
+                        android:paddingEnd="@dimen/view_dimen_large"
                         android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_large"
                         android:text="@string/basicInfo"
@@ -210,7 +212,7 @@
                         android:layout_below="@id/textViewStatic_tickFormalName"
                         android:gravity="top|start"
                         android:paddingBottom="0dp"
-                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="8dp"
                         android:text="Known For: "
                         android:textAlignment="center"
@@ -269,7 +271,6 @@
                 android:id="@+id/cardview_tickGuide_detail_padding"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/cardview_tickGuide_detail_description"
                 android:layout_margin="@dimen/view_dimen_large"
                 android:layout_marginBottom="@dimen/widget_dimen"
                 android:padding="@dimen/view_dimen_large"

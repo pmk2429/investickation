@@ -87,7 +87,7 @@ public class TickGuideDetail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_guide_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tick_guide_detail, container, false);
 
         ButterKnife.bind(this, rootView);
 

@@ -205,7 +205,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
 
         // on click of the Positive Button, set the textView_Reminder value for selected option.
-        alertDialog.setPositiveButton(R.string.alertDialog_apply, new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.alertDialog_reminder_set, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // when the flags are set,
@@ -219,7 +219,14 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                     REMINDER_INTERVAL = Long.parseLong(et_manualInput.getText().toString()) * 60 * 1000;
                     reminderText = "Reminder set for " + et_manualInput.getText().toString();
                     txtView_setReminder.setText(reminderText);
+                } else {
+                    REMINDER_INTERVAL = 0;
                 }
+
+                // start dialog for reminder
+                startAlarmForReminder();
+
+                // close the dialog.
                 dialog.dismiss();
             }
         });
@@ -229,9 +236,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 dialog.dismiss();
             }
         });
-
-        startAlarmForReminder();
-
         // finally display the alert dialog.
         alertDialog.setView(convertView);
         alertDialog.show();
@@ -242,6 +246,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     private void startAlarmForReminder() {
         if (REMINDER_INTERVAL != 0) {
+            Log.d(TAG, "interval: " + REMINDER_INTERVAL);
             new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }
     }
@@ -496,7 +501,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         if (locationArea != null || !locationArea.equals("")) {
             this.locationArea = locationArea;
         } else {
-            this.locationArea = getString(R.string.message_location_not_found);
+            this.locationArea = "";
         }
     }
 

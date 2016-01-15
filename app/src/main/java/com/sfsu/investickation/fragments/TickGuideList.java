@@ -78,7 +78,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_guide_index, container, false);
+        View v = inflater.inflate(R.layout.fragment_tick_guide_list, container, false);
 
         setActionBarAndNavDrawer(v);
 

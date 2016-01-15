@@ -515,7 +515,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         if (locationArea != null || !locationArea.equals("")) {
             this.geoLocation = locationArea;
         } else {
-            this.geoLocation = getString(R.string.message_location_not_found);
+            this.geoLocation = "";
         }
     }
 

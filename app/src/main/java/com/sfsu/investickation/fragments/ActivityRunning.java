@@ -107,15 +107,15 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private BroadcastReceiver alarmBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "received");
+            Log.i(TAG, "alarm ticked");
             PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WAKING CLOCK");
             //Acquire the lock
             mWakeLock.acquire();
 
-            Bundle extras = intent.getExtras();
+            Bundle intentExtras = intent.getExtras();
 
-            if (extras != null && extras.getBoolean(PeriodicAlarm.ONE_TIME, Boolean.FALSE)) {
+            if (intentExtras != null && intentExtras.getBoolean(PeriodicAlarm.ONE_TIME, Boolean.FALSE)) {
                 // timer for one time
             }
 
@@ -308,7 +308,11 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private void populateView() {
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
-        textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
+        if (AppUtils.isConnectedOnline(mContext)) {
+            textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
+        } else {
+            textViewData.append(ongoingActivityObj.getActivityName());
+        }
         txtView_activityName.setText(textViewData.toString());
 
         // Open the New Observation Fragment in button click and pass the activityId to make Activity related Observations.

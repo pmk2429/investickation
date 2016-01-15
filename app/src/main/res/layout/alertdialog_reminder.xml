@@ -82,6 +82,7 @@
         android:layout_below="@id/view_divider"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/view_dimen_large"
+        android:gravity="center"
         android:text="@string/alertDialog_inputManual"
         android:textColor="@color/secondaryText"/>
 

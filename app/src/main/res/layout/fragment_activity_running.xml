@@ -23,18 +23,18 @@
 
     </LinearLayout>
 
+
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_activityImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/linearLayout_mapViewHolder"
-        android:layout_centerInParent="true"
-        android:layout_gravity="bottom"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="-40dp"
-        android:layout_marginEnd="@dimen/view_dimen_small"
+        android:layout_marginEnd="@dimen/view_dimen_large"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
-        />
+        fab:fab_icon="@mipmap/ic_notifications_white_24dp"/>
 
 
     <TextView

@@ -49,12 +49,21 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
             Activities mActivity = activityList.get(position);
             // render all the data in the View.
-            String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
-            holder.txtView_activityName.setText(activityName);
+            // Activity name and location
+            StringBuilder actNameStringBuilder = new StringBuilder();
+            if (mActivity.getLocation_area() != null && !mActivity.getLocation_area().equals("")) {
+                actNameStringBuilder.append(mActivity.getActivityName() + " @ " + mActivity.getLocation_area());
+            } else {
+                actNameStringBuilder.append(mActivity.getActivityName());
+            }
+            holder.txtView_activityName.setText(actNameStringBuilder.toString());
+            // pets
             String pets = mActivity.getNum_of_pets() + " pets";
             holder.txtView_pets.setText(pets);
+            // Observations
             String observations = mActivity.getNum_of_ticks() + " Observations";
             holder.txtView_observations.setText(observations);
+            // total People
             String people = mActivity.getNum_of_people() + " people";
             holder.txtView_people.setText(people);
 
