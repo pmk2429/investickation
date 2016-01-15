@@ -1,7 +1,9 @@
 package com.sfsu.investickation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -80,10 +82,29 @@ public class MainActivity extends MainBaseActivity implements Dashboard.IDashboa
 
     @Override
     public void onObservationButtonClicked() {
-        Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
-        observationIntent.putExtra(KEY_ADD_OBSERVATION, 1);
-        startActivity(observationIntent);
-        finish();
+
+        AlertDialog.Builder promptActivityDialog = new AlertDialog.Builder(this);
+        promptActivityDialog.setTitle(R.string.alertDialog_openActivity_title);
+        promptActivityDialog.setMessage(R.string.alertDialog_openActivity_message);
+
+        promptActivityDialog.setPositiveButton(R.string.alertDialog_OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onActivityButtonClicked();
+            }
+        });
+
+        promptActivityDialog.setNegativeButton(R.string.alertDialog_ignore, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent observationIntent = new Intent(MainActivity.this, ObservationMasterActivity.class);
+                observationIntent.putExtra(KEY_ADD_OBSERVATION, 1);
+                startActivity(observationIntent);
+                finish();
+            }
+        });
+
+        promptActivityDialog.show();
     }
 
     @Override

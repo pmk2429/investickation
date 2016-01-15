@@ -2,13 +2,17 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +60,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         // TODO: make a network call and get Activity as well as Observation count
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
 
     }
 
@@ -81,7 +87,52 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_dashboard_activityCount);
         relativeLayoutDashboard.setOnClickListener(this);
 
+        // enable Location at the start
+        //enableLocation();
+
+
         return v;
+    }
+
+    /**
+     * Helper method to enable GPS at the start of the Dashboard.
+     */
+    private void enableLocation() {
+        LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        if (!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+            dialog.setMessage(mContext.getResources().getString(R.string.gps_network_not_enabled));
+            dialog.setPositiveButton(mContext.getResources().getString(R.string.open_location_settings),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            mContext.startActivity(myIntent);
+                        }
+                    });
+            dialog.setNegativeButton(mContext.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+
+                }
+            });
+            dialog.show();
+        }
     }
 
 
@@ -200,7 +251,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         public void onActivityButtonClicked();
 
         /**
-         * Callback method when the <tt>'POST OBSERVATION'</tt> button is clicked in {@link Dashboard}.
+         * Callback method when the <tt>'POST OBSERVATION'</tt> button is clicked in {@link Dashboard}. Depending on User's
+         * choice, start an {@link ActivityNew} fragment or directly {@link AddObservation} fragment.
          */
         public void onObservationButtonClicked();
 

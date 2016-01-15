@@ -28,6 +28,7 @@ import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
+import com.sfsu.map.StaticMap;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.service.LocationService;
 import com.sfsu.utils.AppUtils;
@@ -72,7 +73,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     // TextView
     @Bind(R.id.textView_actRun_activityName)
     TextView txtView_activityName;
-
+    LatLng[] mLatLngs;
     private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
@@ -321,17 +322,46 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 break;
 
             case R.id.fab_actRun_activityStop:
-                // onStop button click, change the state of Activity to CREATED.
-                ongoingActivityObj.setState(Activities.STATE.CREATED);
-
-                // delete the SharedPref data
-                activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
-
-                mContext.stopService(locationIntent);
-
-                // pass on the Activities object to the List of activities.
-                mListener.onActivityStopButtonClicked();
+                updateRunningActivity();
                 break;
+        }
+    }
+
+    /**
+     * Helper method to UPDATE the ongoing Activity for Location updates and adding LatLng.
+     */
+    private void updateRunningActivity() {
+
+        try {
+            // onStop button click, change the state of Activity to CREATED.
+            ongoingActivityObj.setState(Activities.STATE.CREATED);
+
+            if (mLatLngList != null) {
+                mLatLngs = mLatLngList.toArray(new LatLng[mLatLngList.size()]);
+            }
+
+            // build the imageUrl
+            String imageUrl = new StaticMap
+                    .UrlBuilder()
+                    .init()
+                    .zoom(14)
+                    .size(650, 350)
+                    .path(mLatLngs)
+                    .build();
+
+            ongoingActivityObj.setImage_url(imageUrl);
+
+            Log.i(TAG, ongoingActivityObj.toString());
+
+            // delete the SharedPref data
+            activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
+
+            mContext.stopService(locationIntent);
+
+            // pass on the Activities object to the List of activities.
+            //mListener.onActivityStopButtonClicked();
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
         }
     }
 

@@ -48,7 +48,7 @@ public class Explore extends Fragment {
             mListener = (IExploreCallBacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement IDataReceiverCallbacks");
         }
     }
 

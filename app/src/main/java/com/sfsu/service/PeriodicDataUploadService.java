@@ -26,10 +26,10 @@ import java.util.List;
  * <p>
  * This service also checks for the network connection and updates the adapters.
  * </p>
- * <p/>
+ * <p>
  * In addition, the services uploads a large chunk of data altogether instead of several small uploads for efficiency and
  * better battery life.
- * <p/>
+ * <p>
  * Created by Pavitra on 12/11/2015.
  */
 public class PeriodicDataUploadService extends Service {
@@ -83,8 +83,8 @@ public class PeriodicDataUploadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Intent ishintent = new Intent(this, PeriodicDataUploadService.class);
-        PendingIntent pintent = PendingIntent.getService(this, 0, ishintent, 0);
+        Intent dataCheckIntent = new Intent(this, PeriodicDataUploadService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, dataCheckIntent, 0);
         AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pintent);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), TIME_INTERVAL, pintent);
