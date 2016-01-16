@@ -1,17 +1,12 @@
 package com.sfsu.investickation;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.sfsu.entities.Activities;
@@ -39,12 +34,14 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
     public static final String KEY_ACTIVITY_DETAILS = "selected_activity";
-    public static final String KEY_RUNNING_ACTIVITY = "ongoing_activity";
     public static final String EDITOR_ONGOING_ACTIVITY = "editor_ongoing_activity";
     public static final String EDITOR_ACTIVITY_DETAILS = "editor_activity_details";
     public static final String PREF_ACTIVITY_DATA = "pref_ongoing_activity";
     //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
+
+    public static final String KEY_NEW_ACTIVITY_OBJECT = "new_activity_object";
+    public static final String KEY_REMINDER_SET = "tick_reminder_set";
 
     private static int STACK_COUNT = 0;
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
@@ -56,8 +53,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     private PeriodicAlarm periodicAlarm;
     private IntentFilter myIntentFilter;
-
-
 
 
     @Override
@@ -188,10 +183,13 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     }
 
     @Override
-    public void onPlayButtonClick(Activities mActivity) {
-        // passes the Newly created object to the ActivityRunning fragment.
-        ActivityRunning mActivityRunning = ActivityRunning.newInstance(KEY_RUNNING_ACTIVITY, mActivity);
-        performAddFragmentTransaction(mActivityRunning);
+    public void onPlayButtonClick(Bundle activityBundle) {
+
+        if (activityBundle != null) {
+            // passes the Newly created object to the ActivityRunning fragment.
+            ActivityRunning mActivityRunning = ActivityRunning.newInstance(activityBundle);
+            performAddFragmentTransaction(mActivityRunning);
+        }
     }
 
 

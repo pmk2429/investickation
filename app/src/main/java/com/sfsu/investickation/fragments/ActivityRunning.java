@@ -85,14 +85,13 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private IActivityRunningCallBacks mListener;
     private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
-    private Bundle args;
-    private boolean FLAG_RUNNING;
+    private Bundle activityBundle;
+    private boolean FLAG_RUNNING, FLAG_IS_TIMER_SET;
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
     private Gson gson;
     private List<LatLng> mLatLngList = new ArrayList<>();
     private Intent locationIntent;
-
     /**
      * BroadcastReceiver to receive the updates when Location is changed.
      */
@@ -140,11 +139,11 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * @param mActivity
      * @return
      */
-    public static ActivityRunning newInstance(String key, Activities mActivity) {
+    public static ActivityRunning newInstance(Bundle activityBundle) {
         ActivityRunning mActivityRunning = new ActivityRunning();
-        Bundle args = new Bundle();
-        args.putParcelable(key, mActivity);
-        mActivityRunning.setArguments(args);
+        if (activityBundle != null) {
+            mActivityRunning.setArguments(activityBundle);
+        }
         return mActivityRunning;
     }
 
@@ -235,7 +234,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
         try {
             if (getArguments() != null) {
-                args = getArguments();
+                activityBundle = getArguments();
             }
             gson = new Gson();
             activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
@@ -268,39 +267,53 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mapView.onResume();
         super.onResume();
 
-        // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
-        if (args != null) {
-            if (args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY) != null) {
-                ongoingActivityObj = args.getParcelable(UserActivityMasterActivity.KEY_RUNNING_ACTIVITY);
-                Log.i(TAG, ongoingActivityObj.toString());
+        try {
+
+            // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
+            if (activityBundle != null) {
+                if (activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT) != null) {
+                    ongoingActivityObj = activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT);
+                    FLAG_IS_TIMER_SET = activityBundle.getBoolean(UserActivityMasterActivity.KEY_REMINDER_SET);
+
+                    Log.i(TAG, ongoingActivityObj.toString());
+                    Log.i(TAG, FLAG_IS_TIMER_SET + "");
+
+                }
+            } else {
+                // get data from SharedPref
+                String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, null);
+                ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
             }
-        } else {
-            // get data from SharedPref
-            String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, "no-data");
-            ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
+
+            // check if Activities object is not null.
+            if (ongoingActivityObj != null) {
+                populateView();
+            }
+
+            // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
+            if (FLAG_RUNNING) {
+                locationIntent = new Intent(mContext, LocationService.class);
+                // start the service to capture Location updates.
+                mContext.startService(locationIntent);
+
+                // register for BroadcastReceiver
+                mContext.registerReceiver(locationReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+
+            }
+
+            if (FLAG_IS_TIMER_SET) {
+                fab_reminder.setIcon(R.mipmap.ic_notifications_active_white_24dp);
+            } else {
+                fab_reminder.setIcon(R.mipmap.ic_notifications_white_24dp);
+            }
+
+            // register AlarmReceiver
+            mContext.registerReceiver(alarmBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+
+            // register for Event Bus
+            BusProvider.bus().register(this);
+        } catch (Exception e) {
         }
-
-        // check if Activities object is not null.
-        if (ongoingActivityObj != null) {
-            populateView();
-        }
-
-        // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
-        if (FLAG_RUNNING) {
-            locationIntent = new Intent(mContext, LocationService.class);
-            // start the service to capture Location updates.
-            mContext.startService(locationIntent);
-
-            // register for BroadcastReceiver
-            mContext.registerReceiver(locationReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
-
-        }
-
-        // register AlarmReceiver
-        mContext.registerReceiver(alarmBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
-
-        // register for Event Bus
-        BusProvider.bus().register(this);
     }
 
 
@@ -316,6 +329,9 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             textViewData.append(ongoingActivityObj.getActivityName());
         }
         txtView_activityName.setText(textViewData.toString());
+
+        // open alart dialog for reminder
+        fab_reminder.setOnClickListener(this);
 
         // Open the New Observation Fragment in button click and pass the activityId to make Activity related Observations.
         btn_addObservation.setOnClickListener(this);
@@ -399,7 +415,18 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             case R.id.fab_actRun_activityStop:
                 updateRunningActivity();
                 break;
+
+            case R.id.fab_actRun_reminder:
+                openSetReminderDialog();
+                break;
         }
+    }
+
+    /**
+     * Helper method to open AlertDialog when the user clicks on the reminder.
+     */
+    private void openSetReminderDialog() {
+
     }
 
     /**

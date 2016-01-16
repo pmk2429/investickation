@@ -30,6 +30,8 @@ public class Observation implements Parcelable, Entity {
         }
     };
 
+    public final static transient int ID_LENGTH = 23;
+
     private String id;
     @SerializedName("name")
     private String tickName;

@@ -3,12 +3,9 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,10 +31,12 @@ import com.sfsu.controllers.LocationController;
 import com.sfsu.db.ActivitiesDao;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.reminder.AlertDialogMaster;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
@@ -51,9 +50,9 @@ import butterknife.ButterKnife;
  * ActivityNew Fragment provides Account the capability to add new Activity. The ActivityNew fragment passes the newly created
  * Activities object to the ActivityRunning fragment.
  */
-public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks {
+public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks,
+        AlertDialogMaster.IReminderCallback {
 
-    private static final int ID_LENGTH = 23;
     public final String TAG = "~!@#$ActivityNew";
 
     @Bind(R.id.editText_actNew_ActivityName)
@@ -82,6 +81,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private String locationArea;
     private boolean isGrownAnim = false;
     private DatabaseDataController dbController;
+    private Bundle activityBundle;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -131,20 +131,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         txtView_setReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Calendar mcurrentTime = Calendar.getInstance();
-//                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//                int minute = mcurrentTime.get(Calendar.MINUTE);
-//                TimePickerDialog mTimePicker;
-//                mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//                        txtView_setReminder.setText(selectedHour + ":" + selectedMinute);
-//                    }
-//                }, hour, minute, true);//Yes 24 hour time
-//                mTimePicker.setTitle("Select Time");
-//                mTimePicker.show();
-
-                setupReminderDialog(inflater);
+                setupReminderDialog();
             }
         });
 
@@ -156,175 +143,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         return rootView;
     }
 
-
-    /**
-     * Method to set up the custom Reminder Alert Dialog to notify user for Tick Checks periodically as per time specified.
-     *
-     * @param inflater
-     * @param fragmentView
-     */
-    private void setupReminderDialog(LayoutInflater inflater) {
-        // initialize the value of each flags.
-        isHalfHourButtonClicked = isHourButtonClicked = isManualInputSet = false;
-        // setup Custom AlertDialog builder.
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-        View convertView = inflater.inflate(R.layout.alertdialog_reminder, null);
-        alertDialog.setTitle("Set Reminder");
-
-        // set the onClickListener for each buttons defined in the custom layout.
-        et_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_manualInput);
-        btnHalfHour = (Button) convertView.findViewById(R.id.button_alertDialog_30);
-        //btnHour = (Button) convertView.findViewById(R.id.button_alertDialog_60);
-
-        btnHalfHour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enableView(btnHalfHour);
-            }
-        });
-
-        // initialize and set et_manualInput.
-        et_manualInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!et_manualInput.getText().toString().equals("") && !et_manualInput.getText().toString().equals(null)) {
-                    enableView(et_manualInput);
-                }
-            }
-        });
-
-
-        // on click of the Positive Button, set the textView_Reminder value for selected option.
-        alertDialog.setPositiveButton(R.string.alertDialog_reminder_set, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // when the flags are set,
-                if (isHalfHourButtonClicked) {
-                    // get the total minutes of interval
-                    REMINDER_INTERVAL = 30 * 60 * 1000; // 30 minutes
-                    reminderText = "Reminder set for " + mContext.getResources().getString(R.string.alertDialog_reminder_30);
-                    txtView_setReminder.setText(reminderText);
-                } else if (isManualInputSet) {
-                    // get the total minutes of interval
-                    REMINDER_INTERVAL = Long.parseLong(et_manualInput.getText().toString()) * 60 * 1000;
-                    reminderText = "Reminder set for " + et_manualInput.getText().toString();
-                    txtView_setReminder.setText(reminderText);
-                } else {
-                    REMINDER_INTERVAL = 0;
-                }
-
-                // start dialog for reminder
-                startAlarmForReminder();
-
-                // close the dialog.
-                dialog.dismiss();
-            }
-        });
-        alertDialog.setNegativeButton(R.string.alertDialog_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        // finally display the alert dialog.
-        alertDialog.setView(convertView);
-        alertDialog.show();
-    }
-
-    /**
-     * Helper method to set the reminder depending on User's choice
-     */
-    private void startAlarmForReminder() {
-        if (REMINDER_INTERVAL != 0) {
-            Log.d(TAG, "interval: " + REMINDER_INTERVAL);
-            new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
-        }
-    }
-
-    /**
-     * Method to toggle the color of the clicked button in Alert Dialog.
-     *
-     * @param mButton
-     */
-    private void toggleBackground(Button mButton) {
-        int colorPrimary = getActivity().getResources().getColor(R.color.colorPrimary);
-        int colorSecondary = getActivity().getResources().getColor(R.color.colorSecondary);
-
-        ColorDrawable viewColor = (ColorDrawable) mButton.getBackground();
-        int currentColor = viewColor.getColor();
-
-        if (currentColor == colorPrimary) {
-            mButton.setBackgroundColor(colorSecondary);
-        } else {
-            mButton.setBackgroundColor(colorPrimary);
-        }
-    }
-
-    /**
-     * Helper method to clear the focus of the View.
-     *
-     * @param v
-     */
-    private void clearFocusView(View v) {
-        switch (v.getId()) {
-            case R.id.button_alertDialog_30:
-                btnHalfHour.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
-                break;
-
-//            case R.id.button_alertDialog_60:
-//                btnHour.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
-//                break;
-
-            case R.id.editText_alertDialog_manualInput:
-                et_manualInput.clearFocus();
-                break;
-        }
-    }
-
-    /**
-     * Helper method to enable the view for reminder option
-     *
-     * @param v
-     */
-    private void enableView(View v) {
-        switch (v.getId()) {
-            case R.id.button_alertDialog_30:
-                isHalfHourButtonClicked = true;
-                //isHourButtonClicked = false;
-                isManualInputSet = false;
-                toggleBackground(btnHalfHour);
-                //clearFocusView(btnHour);
-                clearFocusView(et_manualInput);
-                break;
-
-//            case R.id.button_alertDialog_60:
-//                isHourButtonClicked = true;
-//                isHalfHourButtonClicked = false;
-//                isManualInputSet = false;
-//                toggleBackground(btnHour);
-//                clearFocusView(btnHalfHour);
-//                clearFocusView(et_manualInput);
-//                break;
-
-            case R.id.editText_alertDialog_manualInput:
-                isManualInputSet = true;
-                isHalfHourButtonClicked = false;
-                //isHourButtonClicked = false;
-                //clearFocusView(btnHour);
-                clearFocusView(btnHalfHour);
-                break;
-        }
-    }
 
     @Override
     public void onResume() {
@@ -423,7 +241,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
             } else {
                 // create Unique ID for the Running activity of length 32.
-                String activityUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
+                String activityUUID = RandomStringUtils.randomAlphanumeric(Activities.ID_LENGTH);
 
                 newActivityObj.setId(activityUUID);
                 newActivityObj.setLocation_area("");
@@ -433,7 +251,12 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
                 // finally when the result Code is not -1, open Activity running Fragment.
                 if (resultCode != -1) {
-                    mInterface.onPlayButtonClick(newActivityObj);
+
+                    activityBundle = new Bundle();
+                    activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
+                    activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+
+                    mInterface.onPlayButtonClick(activityBundle);
                 }
             }
         } else {
@@ -514,7 +337,12 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
         Activities createdActivity = onLoaded.getResponse();
-        mInterface.onPlayButtonClick(createdActivity);
+
+        activityBundle = new Bundle();
+        activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
+        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+
+        mInterface.onPlayButtonClick(activityBundle);
     }
 
     /**
@@ -528,6 +356,46 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
     }
 
+
+    /**
+     * Helper method to setup Reminder Alert dialog
+     */
+    private void setupReminderDialog() {
+        AlertDialogMaster alertDialogMaster = new AlertDialogMaster(mContext, this);
+        alertDialogMaster.setupReminderDialog();
+    }
+
+
+    @Override
+    public void setReminderValue(long reminderValue) {
+        try {
+            REMINDER_INTERVAL = reminderValue;
+
+            if (REMINDER_INTERVAL != 0) {
+                reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
+                txtView_setReminder.setText(reminderText);
+
+                // start the Alarm Reminder.
+                startAlarmForReminder();
+            }
+
+        } catch (NullPointerException ne) {
+
+        }
+    }
+
+
+    /**
+     * Helper method to set the reminder depending on User's choice
+     */
+    private void startAlarmForReminder() {
+        if (REMINDER_INTERVAL != 0) {
+            Log.d(TAG, "interval: " + REMINDER_INTERVAL);
+            new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
+        }
+    }
+
+
     /**
      * Interface Callback to define the callback methods for ActivityNew fragment
      */
@@ -538,7 +406,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
          *
          * @param newActivityDetails
          */
-        public void onPlayButtonClick(Activities mActivity);
+        public void onPlayButtonClick(Bundle activityBundle);
     }
 
     /**
@@ -565,13 +433,13 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         @Override
         public void afterTextChanged(Editable s) {
             switch (view.getId()) {
-                case R.id.editText_ActivityName:
+                case R.id.editText_actNew_ActivityName:
                     validateString();
                     break;
-                case R.id.editText_numOfPeople:
+                case R.id.editText_actNew_numOfPeople:
                     validateNumber(1);
                     break;
-                case R.id.editText_totalPets:
+                case R.id.editText_actNew_totalPets:
                     validateNumber(2);
                     break;
             }

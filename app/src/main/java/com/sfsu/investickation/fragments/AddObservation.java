@@ -62,7 +62,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
-    protected static final int ID_LENGTH = 23;
     private final String TAG = "~!@#$AddObservation";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
@@ -200,7 +199,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 } else {
                     // create Unique ID for the Running activity of length 32.
-                    String observationUUID = RandomStringUtils.randomAlphanumeric(ID_LENGTH);
+                    String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
 
                     // set the remaining params.
                     newObservationObj.setId(observationUUID);
