@@ -33,6 +33,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.map.StaticMap;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.reminder.AlertDialogMaster;
 import com.sfsu.service.LocationService;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
@@ -62,7 +63,8 @@ import butterknife.ButterKnife;
  * the current ongoing activity is stored in SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
  * Observation,
  */
-public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks, View.OnClickListener {
+public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks, View.OnClickListener,
+        AlertDialogMaster.IReminderCallback {
 
     public static final String TAG = "~!@#$ActivityRunning";
     // FAB
@@ -87,6 +89,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private GoogleMapController mGoogleMapController;
     private Bundle activityBundle;
     private boolean FLAG_RUNNING, FLAG_IS_TIMER_SET;
+    private long REMINDER_INTERVAL;
+    private String reminderText;
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
     private Gson gson;
@@ -417,16 +421,9 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 break;
 
             case R.id.fab_actRun_reminder:
-                openSetReminderDialog();
+                setupReminderDialog();
                 break;
         }
-    }
-
-    /**
-     * Helper method to open AlertDialog when the user clicks on the reminder.
-     */
-    private void openSetReminderDialog() {
-
     }
 
     /**
@@ -464,6 +461,42 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             //mListener.onActivityStopButtonClicked();
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());
+        }
+    }
+
+
+    /**
+     * Helper method to open AlertDialog when the user clicks on the reminder.
+     */
+    private void setupReminderDialog() {
+        AlertDialogMaster alertDialogMaster = new AlertDialogMaster(mContext, this);
+        alertDialogMaster.setupReminderDialog();
+    }
+
+    @Override
+    public void setReminderValue(long reminderValue) {
+        try {
+            REMINDER_INTERVAL = reminderValue;
+
+            if (REMINDER_INTERVAL != 0) {
+                reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
+
+                // start the Alarm Reminder.
+                startAlarmForReminder();
+            }
+
+        } catch (NullPointerException ne) {
+
+        }
+    }
+
+    /**
+     * Helper method to set the reminder depending on User's choice
+     */
+    private void startAlarmForReminder() {
+        if (REMINDER_INTERVAL != 0) {
+            Log.d(TAG, "interval: " + REMINDER_INTERVAL);
+            new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }
     }
 
