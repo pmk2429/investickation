@@ -33,10 +33,13 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.map.StaticMap;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.reminder.AlertDialogMaster;
 import com.sfsu.service.LocationService;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -81,7 +84,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     // TextView
     @Bind(R.id.textView_actRun_activityName)
     TextView txtView_activityName;
-    private LatLng[] mLatLngs;
+    private LatLng[] mLatLngArray;
     private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
@@ -242,18 +245,13 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
         alertDialogMaster = new AlertDialogMaster(mContext, this);
+        mPeriodicAlarm = new PeriodicAlarm(mContext);
+        gson = new Gson();
 
         try {
-            if (getArguments() != null) {
-                activityBundle = getArguments();
-            }
-            gson = new Gson();
-            activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
-
             // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
             final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
             mapView.onCreate(mapViewSavedInstanceState);
-
 
             // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
             if (AppUtils.isConnectedOnline(mContext)) {
@@ -267,7 +265,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         } catch (Exception e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
         return rootView;
     }
 
@@ -278,6 +275,10 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         super.onResume();
 
         try {
+            if (getArguments() != null) {
+                activityBundle = getArguments();
+            }
+            activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
 
             // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
             if (activityBundle != null) {
@@ -411,83 +412,12 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         if (mLatLng != null) {
             mLatLngSet.add(mLatLng);
         }
-
     }
 
     @Override
     public void setLocationArea(String locationArea) {
 
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cardView_activityRunning_addObservation:
-                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
-                break;
-
-            case R.id.fab_actRun_activityStop:
-                stopService();
-                stopAlarmReminder();
-                updateRunningActivity();
-                break;
-
-            case R.id.fab_actRun_reminder:
-                setupReminderDialog();
-                break;
-        }
-    }
-
-
-    /**
-     * Stop the Service on
-     */
-    private void stopService() {
-        // stop the Service
-        mContext.stopService(locationIntent);
-    }
-
-    /**
-     * Stops the alarm Reminder.
-     */
-    private void stopAlarmReminder() {
-
-    }
-
-    /**
-     * Helper method to UPDATE the ongoing Activity for Location updates and adding LatLng.
-     */
-    private void updateRunningActivity() {
-        try {
-            // onStop button click, change the state of Activity to CREATED.
-            ongoingActivityObj.setState(Activities.STATE.CREATED);
-
-            if (mLatLngSet != null) {
-                mLatLngs = mLatLngSet.toArray(new LatLng[mLatLngSet.size()]);
-            }
-
-            // build the imageUrl
-            String imageUrl = new StaticMap
-                    .UrlBuilder()
-                    .init()
-                    .zoom(14)
-                    .size(650, 350)
-                    .path(mLatLngs)
-                    .build();
-
-            ongoingActivityObj.setImage_url(imageUrl);
-
-            Log.i(TAG, ongoingActivityObj.toString());
-
-            // delete the SharedPref data
-            activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
-
-            // pass on the Activities object to the List of activities.
-            //mListener.onActivityStopButtonClicked();
-        } catch (Exception e) {
-        }
-    }
-
 
     /**
      * Helper method to open AlertDialog when the user clicks on the reminder.
@@ -504,8 +434,12 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             if (REMINDER_INTERVAL != 0) {
                 reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
 
+                FLAG_IS_TIMER_SET = true;
+
                 // start the Alarm Reminder.
                 startAlarmForReminder();
+            } else {
+                FLAG_IS_TIMER_SET = false;
             }
         } catch (NullPointerException ne) {
         }
@@ -515,10 +449,99 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Helper method to set the reminder depending on User's choice
      */
     private void startAlarmForReminder() {
-        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
-            Log.d(TAG, "interval: " + REMINDER_INTERVAL);
+        if (FLAG_IS_TIMER_SET) {
             new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cardView_activityRunning_addObservation:
+                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
+                break;
+
+            case R.id.fab_actRun_activityStop:
+                clearResources();
+                updateRunningActivity();
+                break;
+
+            case R.id.fab_actRun_reminder:
+                setupReminderDialog();
+                break;
+        }
+    }
+
+
+    /**
+     * Clear and Free all the resources
+     */
+    private void clearResources() {
+        // stop the Service
+        mContext.stopService(locationIntent);
+
+        // stop timer is the flag is set
+        if (!FLAG_IS_TIMER_SET)
+            mPeriodicAlarm.cancelAlarm();
+
+        // delete the SharedPref data
+        activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
+    }
+
+    /**
+     * Helper method to UPDATE the ongoing Activity for Location updates and adding LatLng.
+     */
+    private void updateRunningActivity() {
+        try {
+            // onStop button click, change the state of Activity to CREATED.
+            ongoingActivityObj.setState(Activities.STATE.CREATED);
+
+            if (mLatLngSet != null) {
+                mLatLngArray = mLatLngSet.toArray(new LatLng[mLatLngSet.size()]);
+            }
+
+            // build the imageUrl
+            String imageUrl = new StaticMap
+                    .UrlBuilder()
+                    .init()
+                    .zoom(14)
+                    .size(650, 350)
+                    .path(mLatLngArray)
+                    .build();
+
+            // set image_url and update the Activity.
+            ongoingActivityObj.setImage_url(imageUrl);
+
+            Log.i(TAG, ongoingActivityObj.toString());
+
+            // depending on whether the Network is available or not, perform onClick operation
+            if (AppUtils.isConnectedOnline(mContext)) {
+                // Update the Activities object on the Server
+                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(ongoingActivityObj.getId(), ApiRequestHandler.UPDATE));
+            } else {
+                // simply open the List
+                mListener.onActivityStopButtonClicked();
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    /**
+     * Subscribes to the event of successful {@link Activities} update
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onActivityUpdateSuccess(ActivityEvent.OnLoaded onLoaded) {
+        mListener.onActivityStopButtonClicked();
+    }
+
+    @Subscribe
+    public void onActivityUpdateFailure(ActivityEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 
