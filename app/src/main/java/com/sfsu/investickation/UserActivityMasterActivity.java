@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
@@ -46,7 +45,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private static int STACK_COUNT = 0;
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private final String TAG = "~!@#$UserActivity";
-    private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private FragmentManager fragmentManager;
     // for performing better navigation on back press.
     private ActivityRunning mActivityRunning;
     private Stack<Fragment> fragmentStack;
@@ -60,6 +59,8 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
 
+        fragmentManager = getSupportFragmentManager();
+
         // if Fragment container is present
         if (findViewById(R.id.activity_fragment_container) != null) {
 
@@ -67,19 +68,15 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             if (savedInstanceState != null) {
                 return;
             } else {
-                // if user clicks on Start Activity
+                // if user clicks on Start Activity in Dashboard
                 if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
                     ActivityNew activityNewFragment = new ActivityNew();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.add(R.id.activity_fragment_container, activityNewFragment);
-                    transaction.commit();
+                    performAddFragmentTransaction(activityNewFragment);
                 }
-                // if user clicks on ActivityList
+                // if user clicks on ActivityList in Dashboard
                 else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
                     ActivityList activityListFragment = new ActivityList();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.replace(R.id.activity_fragment_container, activityListFragment);
-                    transaction.commit();
+                    performAddFragmentTransaction(activityListFragment);
                 }
                 // if user navigates back to ActivityRunning fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
@@ -95,12 +92,12 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {
                     Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
                     ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivities);
-                    performReplaceFragmentTransaction(mActivityDetailFragment);
+                    performAddFragmentTransaction(mActivityDetailFragment);
                 }
                 // open List of Activities by default.
                 else {
                     ActivityList activityListFragment = new ActivityList();
-                    performReplaceFragmentTransaction(activityListFragment);
+                    performAddFragmentTransaction(activityListFragment);
                 }
             }
         }
@@ -126,7 +123,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private void performAddFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.activity_fragment_container, mFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -147,13 +143,11 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onBackPressed() {
         int count = fragmentManager.getBackStackEntryCount();
         if (count == 0) {
-            Log.i(TAG, "" + count);
             Intent homeIntent = new Intent(UserActivityMasterActivity.this, MainActivity.class);
             startActivity(homeIntent);
             finish();
         } else if (count > 0) {
             super.onBackPressed();
-            Log.i(TAG, "popped up back stack: " + count);
             fragmentManager.popBackStackImmediate();
         }
     }
@@ -180,7 +174,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onActivityAddListener() {
         // if user clicked the Add Button, replace with ActivityNew Fragment
         ActivityNew addActivityFragment = new ActivityNew();
-        performAddFragmentTransaction(addActivityFragment);
+        performReplaceFragmentTransaction(addActivityFragment);
     }
 
     @Override
@@ -189,7 +183,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         if (activityBundle != null) {
             // passes the Newly created object to the ActivityRunning fragment.
             ActivityRunning mActivityRunning = ActivityRunning.newInstance(activityBundle);
-            performReplaceFragmentTransaction(mActivityRunning);
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.activity_fragment_container, mActivityRunning);
+            transaction.commit();
         }
     }
 
@@ -197,7 +193,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onActivityStopButtonClicked() {
         ActivityList mActivityList = new ActivityList();
-        performReplaceFragmentTransaction(mActivityList);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.activity_fragment_container, mActivityList);
+        transaction.commit();
     }
 
     /*
