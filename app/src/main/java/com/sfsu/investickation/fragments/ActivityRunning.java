@@ -157,6 +157,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     private void collectLocationData(Intent intent) {
+        Log.i(TAG, "collecting data");
         try {
             Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
             if (mLocation != null) {
@@ -249,6 +250,11 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         gson = new Gson();
 
         try {
+            if (getArguments() != null) {
+                activityBundle = getArguments();
+            }
+            activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
+
             // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
             final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
             mapView.onCreate(mapViewSavedInstanceState);
@@ -257,8 +263,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             if (AppUtils.isConnectedOnline(mContext)) {
                 mLocationController.connectGoogleApi();
             }
-
-            mLocationController.startLocationUpdates();
 
             // setup google Map.
             mGoogleMapController.setupGoogleMap(mapView);
@@ -275,11 +279,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         super.onResume();
 
         try {
-            if (getArguments() != null) {
-                activityBundle = getArguments();
-            }
-            activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
-
             // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
             if (activityBundle != null) {
                 if (activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT) != null) {
@@ -297,9 +296,10 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 populateView();
             }
 
+            Log.i(TAG, ongoingActivityObj.toString());
+
             // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
             if (FLAG_RUNNING) {
-                Log.i(TAG, "FLAG running");
                 locationIntent = new Intent(mContext, LocationService.class);
                 // start the service to capture Location updates.
                 mContext.startService(locationIntent);
@@ -373,21 +373,25 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         editor.apply();
 
         // unregister the Bus.
-        BusProvider.bus().register(this);
+        BusProvider.bus().unregister(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        mLocationController.stopLocationUpdates();
         mGoogleMapController.clear();
+        mLocationController = null;
         mLatLngSet = null;
         // when the fragment is destroyed, kill off Location Service and AlarmManager
         mContext.unregisterReceiver(locationReceiver);
         mContext.stopService(locationIntent);
         mContext.unregisterReceiver(alarmBroadcastReceiver);
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -480,6 +484,11 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private void clearResources() {
         // stop the Service
         mContext.stopService(locationIntent);
+        mContext.unregisterReceiver(locationReceiver);
+
+        // unregister alarm
+        mContext.unregisterReceiver(alarmBroadcastReceiver);
+        mPeriodicAlarm.cancelAlarm();
 
         // stop timer is the flag is set
         if (!FLAG_IS_TIMER_SET)
@@ -496,6 +505,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         try {
             // onStop button click, change the state of Activity to CREATED.
             ongoingActivityObj.setState(Activities.STATE.CREATED);
+
+            FLAG_RUNNING = false;
 
             if (mLatLngSet != null) {
                 mLatLngArray = mLatLngSet.toArray(new LatLng[mLatLngSet.size()]);
@@ -518,7 +529,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             // depending on whether the Network is available or not, perform onClick operation
             if (AppUtils.isConnectedOnline(mContext)) {
                 // Update the Activities object on the Server
-                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(ongoingActivityObj.getId(), ApiRequestHandler.UPDATE));
+                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(ongoingActivityObj, ongoingActivityObj.getId(),
+                        ApiRequestHandler.UPDATE));
             } else {
                 // simply open the List
                 mListener.onActivityStopButtonClicked();
@@ -536,6 +548,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      */
     @Subscribe
     public void onActivityUpdateSuccess(ActivityEvent.OnLoaded onLoaded) {
+        Log.i(TAG, "activity updated");
+        Log.i(TAG, onLoaded.getResponse().toString());
         mListener.onActivityStopButtonClicked();
     }
 

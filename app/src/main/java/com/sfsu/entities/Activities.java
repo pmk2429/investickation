@@ -273,7 +273,8 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + " : " + activityName + " : " + location_area + " : " + num_of_people + " : " + num_of_pets + " : " +
-                num_of_ticks + " : " + image_url + " : " + timestamp + " : " + updated_at + " : " + user_id;
+                num_of_ticks + " : " + image_url + " : " + timestamp + " : " + updated_at + " : " + user_id + " |->" +
+                activityState;
     }
 
     /**

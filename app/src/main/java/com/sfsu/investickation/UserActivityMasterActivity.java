@@ -189,7 +189,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         if (activityBundle != null) {
             // passes the Newly created object to the ActivityRunning fragment.
             ActivityRunning mActivityRunning = ActivityRunning.newInstance(activityBundle);
-            performAddFragmentTransaction(mActivityRunning);
+            performReplaceFragmentTransaction(mActivityRunning);
         }
     }
 

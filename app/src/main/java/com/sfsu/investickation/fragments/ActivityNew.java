@@ -344,9 +344,12 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
         Activities createdActivity = onLoaded.getResponse();
+        Log.i(TAG, createdActivity.toString());
+
+        createdActivity.setState(Activities.STATE.RUNNING);
 
         activityBundle = new Bundle();
-        activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
+        activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, createdActivity);
 
         if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123)
             activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
@@ -365,7 +368,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
-
     }
 
 

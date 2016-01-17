@@ -76,6 +76,10 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(activitiesCall);
                 break;
+            case UPDATE:
+                activitiesCall = mApiService.update(onLoadingInitialized.getResourceId(), onLoadingInitialized.getRequest());
+                makeCRUDCall(activitiesCall);
+                break;
             case DELETE:
                 deleteActivityCall = mApiService.delete(onLoadingInitialized.getResourceId());
                 makeCRUDCall(activitiesCall);
