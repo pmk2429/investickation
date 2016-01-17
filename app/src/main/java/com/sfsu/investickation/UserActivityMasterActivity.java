@@ -114,6 +114,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private void performReplaceFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.activity_fragment_container, mFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -171,7 +172,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
         ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivity);
-        performAddFragmentTransaction(mActivityDetailFragment);
+        performReplaceFragmentTransaction(mActivityDetailFragment);
     }
 
 

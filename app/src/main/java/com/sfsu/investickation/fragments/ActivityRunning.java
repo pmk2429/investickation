@@ -38,8 +38,8 @@ import com.sfsu.service.LocationService;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,7 +81,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     // TextView
     @Bind(R.id.textView_actRun_activityName)
     TextView txtView_activityName;
-    LatLng[] mLatLngs;
+    private LatLng[] mLatLngs;
     private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
@@ -94,15 +94,17 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
     private Gson gson;
-    private List<LatLng> mLatLngList = new ArrayList<>();
+    private Set<LatLng> mLatLngSet = new HashSet<>();
     private Intent locationIntent;
+    private AlertDialogMaster alertDialogMaster;
+    private PeriodicAlarm mPeriodicAlarm;
     /**
      * BroadcastReceiver to receive the updates when Location is changed.
      */
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            updateUi(intent);
+            collectLocationData(intent);
         }
     };
 
@@ -151,28 +153,25 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         return mActivityRunning;
     }
 
-    private void updateUi(Intent intent) {
-        Log.i(TAG, "updateUi");
-        Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
-        if (mLocation != null) {
-            LatLng mLatLng = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
-            mLatLngList.add(mLatLng);
-        }
-        if (mLatLngList != null && mLatLngList.size() > 0) {
-            Log.i(TAG, "" + mLatLngList.size());
-        } else {
-            Log.i(TAG, "array of LatLngs not updated");
-        }
-    }
+    private void collectLocationData(Intent intent) {
+        try {
+            Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
+            if (mLocation != null) {
+                LatLng mLatLng = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
+                mLatLngSet.add(mLatLng);
+            }
+            if (mLatLngSet != null && mLatLngSet.size() > 0) {
+                Log.i(TAG, "" + mLatLngSet.size());
+                if (mLatLngSet.size() > 0) {
+                    for (LatLng latLng : mLatLngSet) {
+                        Log.i(TAG, latLng.latitude + " : " + latLng.longitude);
+                    }
+                }
+            } else {
+                Log.i(TAG, "array of LatLngs not updated");
+            }
+        } catch (Exception e) {
 
-    /**
-     * Collects the location every specified interval of time.
-     *
-     * @param locationIntent
-     */
-    private void collectLocationData(Intent locationIntent) {
-        if (locationIntent != null) {
-            Location location = (Location) locationIntent.getExtras().get(LocationService.KEY_LOCATION_CHANGED);
         }
     }
 
@@ -239,9 +238,10 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         // bind the views
         ButterKnife.bind(this, rootView);
 
-        // initialize the location intent.
+        // initialize all controllers and services.
         mLocationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext, this);
+        alertDialogMaster = new AlertDialogMaster(mContext, this);
 
         try {
             if (getArguments() != null) {
@@ -291,9 +291,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
             }
 
-            Log.i(TAG, "RESUME:" + ongoingActivityObj.toString());
-            Log.i(TAG, "RESUME:" + FLAG_IS_TIMER_SET);
-
             // check if Activities object is not null.
             if (ongoingActivityObj != null) {
                 populateView();
@@ -311,6 +308,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
             }
 
+            // depending on whether the timer is set or not, display the corresponding icon.
             if (FLAG_IS_TIMER_SET) {
                 fab_reminder.setIcon(R.mipmap.ic_notifications_active_white_24dp);
             } else {
@@ -372,7 +370,9 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         String activityJson = gson.toJson(ongoingActivityObj);
         editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
         editor.apply();
-        mContext.unregisterReceiver(alarmBroadcastReceiver);
+
+        // unregister the Bus.
+        BusProvider.bus().register(this);
     }
 
     @Override
@@ -381,9 +381,12 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mapView.onDestroy();
         mLocationController.stopLocationUpdates();
         mGoogleMapController.clear();
-        mLatLngList = null;
+        mLatLngSet = null;
+        // when the fragment is destroyed, kill off Location Service and AlarmManager
         mContext.unregisterReceiver(locationReceiver);
         mContext.stopService(locationIntent);
+        mContext.unregisterReceiver(alarmBroadcastReceiver);
+
     }
 
     @Override
@@ -406,7 +409,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     @Override
     public void setLatLng(LatLng mLatLng) {
         if (mLatLng != null) {
-            mLatLngList.add(mLatLng);
+            mLatLngSet.add(mLatLng);
         }
 
     }
@@ -424,6 +427,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 break;
 
             case R.id.fab_actRun_activityStop:
+                stopService();
+                stopAlarmReminder();
                 updateRunningActivity();
                 break;
 
@@ -433,17 +438,32 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         }
     }
 
+
+    /**
+     * Stop the Service on
+     */
+    private void stopService() {
+        // stop the Service
+        mContext.stopService(locationIntent);
+    }
+
+    /**
+     * Stops the alarm Reminder.
+     */
+    private void stopAlarmReminder() {
+
+    }
+
     /**
      * Helper method to UPDATE the ongoing Activity for Location updates and adding LatLng.
      */
     private void updateRunningActivity() {
-
         try {
             // onStop button click, change the state of Activity to CREATED.
             ongoingActivityObj.setState(Activities.STATE.CREATED);
 
-            if (mLatLngList != null) {
-                mLatLngs = mLatLngList.toArray(new LatLng[mLatLngList.size()]);
+            if (mLatLngSet != null) {
+                mLatLngs = mLatLngSet.toArray(new LatLng[mLatLngSet.size()]);
             }
 
             // build the imageUrl
@@ -462,8 +482,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             // delete the SharedPref data
             activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
 
-            mContext.stopService(locationIntent);
-
             // pass on the Activities object to the List of activities.
             //mListener.onActivityStopButtonClicked();
         } catch (Exception e) {
@@ -475,7 +493,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Helper method to open AlertDialog when the user clicks on the reminder.
      */
     private void setupReminderDialog() {
-        AlertDialogMaster alertDialogMaster = new AlertDialogMaster(mContext, this);
         alertDialogMaster.setupReminderDialog();
     }
 
@@ -490,9 +507,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 // start the Alarm Reminder.
                 startAlarmForReminder();
             }
-
         } catch (NullPointerException ne) {
-
         }
     }
 

@@ -7,9 +7,12 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * <p>
@@ -107,5 +110,9 @@ public class AppUtils {
             locationProviders = Settings.Secure.getString(myContext.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
+    }
+
+    public LatLng[] getUniqueLocationArray(Set<LatLng> latLngSet) {
+
     }
 }
