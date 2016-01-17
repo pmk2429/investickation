@@ -95,7 +95,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         ButterKnife.bind(this, rootView);
 
 
-        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
+        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
 
         if (AppUtils.isConnectedOnline(mContext)) {
             // initialize the Bus to get list of Activities from server.
@@ -104,7 +104,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         } else {
             // get List of Activities from Database
             localActivitiesList = (List<Activities>) (List<?>) dbController.getAll();
-
+            Log.i(TAG, localActivitiesList.size() + "");
             mActivitiesList = localActivitiesList;
 
             if (mActivitiesList.size() > 0 && mActivitiesList != null) {
@@ -302,14 +302,18 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      * @return
      */
     private List<Activities> filter(List<Activities> activitiesList, String query) {
+
         query = query.toLowerCase();
 
         final List<Activities> filteredActivitiesList = new ArrayList<>();
-        for (Activities activity : activitiesList) {
-            // perform the search on Activity name
-            final String text = activity.getActivityName().toLowerCase();
-            if (text.contains(query)) {
-                filteredActivitiesList.add(activity);
+
+        if (activitiesList != null && activitiesList.size() > 0) {
+            for (Activities activity : activitiesList) {
+                // perform the search on Activity name
+                final String text = activity.getActivityName().toLowerCase();
+                if (text.contains(query)) {
+                    filteredActivitiesList.add(activity);
+                }
             }
         }
         return filteredActivitiesList;

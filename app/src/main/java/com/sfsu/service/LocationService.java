@@ -17,6 +17,8 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.security.Policy;
+
 /**
  * Service to get the periodic EntityLocation updates while the Account performed Activity is still Running. This service runs in tandem
  * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
@@ -36,11 +38,11 @@ public class LocationService extends Service implements LocationListener, Google
     // EntityLocation updates intervals in sec
     private final static int _SECOND = 1000;
     private final static int _MIN = 60 * _SECOND;
-    private final static int UPDATE_INTERVAL = 10000; // 5 mins
-    private final static int FASTEST_INTERVAL = 5000; // 5 sec
+    private final static int UPDATE_INTERVAL = 15 * _SECOND; // 5 mins
+    private final static int FASTEST_INTERVAL = 10 * _SECOND; // 5 sec
     private final static int DISPLACEMENT = 10; // 10 meters
     // delay in broadcasting the location
-    private final static int DELAY_BROADCAST = 5 * _SECOND;
+    private final static int DELAY_BROADCAST = 15 * _SECOND;
     // Handler communicate between this Thread and UI thread.
     private final Handler handler = new Handler();
     // getting the LocationObject.
@@ -69,6 +71,8 @@ public class LocationService extends Service implements LocationListener, Google
     private void broadcastLocationInfo() {
         Log.i(TAG, "entered broadcast logging info method");
         if (intent != null) {
+            Log.i(TAG, "intent not null");
+            Log.i(TAG, "" + mLastLocation.getLatitude() + " : " + mLastLocation.getLongitude());
             intent.putExtra(KEY_LOCATION_CHANGED, mLastLocation);
             sendBroadcast(intent);
         }

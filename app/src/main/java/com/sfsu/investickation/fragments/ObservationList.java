@@ -112,7 +112,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
 
         setHasOptionsMenu(true);
 
-        dbController = new DatabaseDataController(mContext, new ObservationsDao());
+        dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         // get the ActivityId from the Bundle.
         if (getArguments() != null) {
             args = getArguments();

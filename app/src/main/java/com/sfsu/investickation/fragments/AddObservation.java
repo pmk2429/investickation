@@ -135,7 +135,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         if (getArguments() != null) {
             args = getArguments();
         }
-        dbController = new DatabaseDataController(mContext, new ObservationsDao());
+        dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         mAuthPreferences = new AuthPreferences(mContext);
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {

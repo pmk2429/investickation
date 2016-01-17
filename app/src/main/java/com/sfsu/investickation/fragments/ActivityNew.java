@@ -92,7 +92,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_new);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
+        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
     }
 
 
@@ -121,8 +121,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         mGoogleMapController = new GoogleMapController(mContext, this);
         // Database controller.
 
-        // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-        locationController.connectGoogleApi();
+        if (AppUtils.isConnectedOnline(mContext)) {
+            // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
+            locationController.connectGoogleApi();
+        }
 
         // setup google Map using the GoogleMapController.
         mGoogleMapController.setupGoogleMap(mapView);
@@ -254,8 +256,13 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
                     activityBundle = new Bundle();
                     activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
-                    activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
 
+                    if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123)
+                        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+                    else
+                        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.FALSE);
+
+                    // click the play button
                     mInterface.onPlayButtonClick(activityBundle);
                 }
             }
@@ -340,8 +347,13 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
         activityBundle = new Bundle();
         activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
-        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
 
+        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123)
+            activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+        else
+            activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.FALSE);
+
+        // click the play button
         mInterface.onPlayButtonClick(activityBundle);
     }
 
@@ -389,10 +401,11 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      * Helper method to set the reminder depending on User's choice
      */
     private void startAlarmForReminder() {
-        if (REMINDER_INTERVAL != 0) {
+        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
             Log.d(TAG, "interval: " + REMINDER_INTERVAL);
             new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }
+
     }
 
 

@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * DatabaseHelper class to create and update the database table.
- * <p/>
+ * <p>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {

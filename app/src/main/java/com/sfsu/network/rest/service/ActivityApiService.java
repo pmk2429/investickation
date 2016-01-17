@@ -8,8 +8,10 @@ import java.util.List;
 
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 
 /**
@@ -63,8 +65,7 @@ public interface ActivityApiService {
      * @param activity
      * @return
      */
-//    @GET("activities/{id}")
-    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
+    @PUT(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
     public Call<Activities> update(@Path("id") String activityId, @Body Activities activity);
 
 
@@ -73,8 +74,7 @@ public interface ActivityApiService {
      *
      * @return
      */
-//    @POST("activities/{id}")
-    @POST(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
+    @DELETE(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
     public Call<Integer> delete(@Path("id") String activityId);
 
 

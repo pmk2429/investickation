@@ -15,12 +15,12 @@ import java.util.List;
  * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
  * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
  * Database and then build up the Observation object.
- * <p/>
+ * <p>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
-    private final String TAG = "~!@#$ObsDao :";
-
+    private static ObservationsDao mInstance = new ObservationsDao();
+    private final String TAG = "~!@#$ObsDao";
     private SQLiteDatabase db;
     // Observation's entry array for storing all the column names
     private String[] observationEntryArray = new String[]{
@@ -37,6 +37,13 @@ public class ObservationsDao implements EntityDao {
             EntityTable.ObservationsTable.COLUMN_FK_USER_ID
     };
 
+
+    private ObservationsDao() {
+    }
+
+    public static ObservationsDao getInstance() {
+        return mInstance;
+    }
 
     @Override
     public void setDatabase(SQLiteDatabase db) {
@@ -173,7 +180,7 @@ public class ObservationsDao implements EntityDao {
             observationItem.setActivity_id(c.getString(9));
             observationItem.setUser_id(c.getString(10));
         }
-        
+
         return observationItem;
     }
 

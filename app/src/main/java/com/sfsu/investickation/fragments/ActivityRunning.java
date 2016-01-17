@@ -152,10 +152,16 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     private void updateUi(Intent intent) {
+        Log.i(TAG, "updateUi");
         Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
         if (mLocation != null) {
             LatLng mLatLng = new LatLng(mLocation.getLatitude(), mLocation.getLongitude());
             mLatLngList.add(mLatLng);
+        }
+        if (mLatLngList != null && mLatLngList.size() > 0) {
+            Log.i(TAG, "" + mLatLngList.size());
+        } else {
+            Log.i(TAG, "array of LatLngs not updated");
         }
     }
 
@@ -171,7 +177,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     /**
-     * Open AlertDialog when the Alarm goes off
+     * Open AlertDialog when the Alarm goes off. Everytime the AlarmManager tikcs, the alarm will be opened. This will allow
+     * user for making Observation depending on the User choice. If User cancels the, then the Activity will continue.
      */
     private void openAlarmDialog() {
 
@@ -255,7 +262,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
             mLocationController.startLocationUpdates();
 
-
             // setup google Map.
             mGoogleMapController.setupGoogleMap(mapView);
         } catch (Exception e) {
@@ -278,16 +284,15 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 if (activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT) != null) {
                     ongoingActivityObj = activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT);
                     FLAG_IS_TIMER_SET = activityBundle.getBoolean(UserActivityMasterActivity.KEY_REMINDER_SET);
-
-                    Log.i(TAG, ongoingActivityObj.toString());
-                    Log.i(TAG, FLAG_IS_TIMER_SET + "");
-
                 }
             } else {
                 // get data from SharedPref
                 String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, null);
                 ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
             }
+
+            Log.i(TAG, "RESUME:" + ongoingActivityObj.toString());
+            Log.i(TAG, "RESUME:" + FLAG_IS_TIMER_SET);
 
             // check if Activities object is not null.
             if (ongoingActivityObj != null) {
@@ -296,6 +301,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
             // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
             if (FLAG_RUNNING) {
+                Log.i(TAG, "FLAG running");
                 locationIntent = new Intent(mContext, LocationService.class);
                 // start the service to capture Location updates.
                 mContext.startService(locationIntent);
@@ -312,11 +318,12 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             }
 
             // register AlarmReceiver
-            mContext.registerReceiver(alarmBroadcastReceiver, new IntentFilter(LocationService.BROADCAST_ACTION));
+            mContext.registerReceiver(alarmBroadcastReceiver, new IntentFilter(PeriodicAlarm.BROADCAST_ACTION));
 
             // register for Event Bus
             BusProvider.bus().register(this);
         } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -460,7 +467,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             // pass on the Activities object to the List of activities.
             //mListener.onActivityStopButtonClicked();
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -494,7 +500,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Helper method to set the reminder depending on User's choice
      */
     private void startAlarmForReminder() {
-        if (REMINDER_INTERVAL != 0) {
+        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
             Log.d(TAG, "interval: " + REMINDER_INTERVAL);
             new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }

@@ -11,9 +11,11 @@ import java.util.Map;
 
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.PartMap;
 import retrofit.http.Path;
@@ -67,14 +69,13 @@ public interface ObservationApiService {
 
 
     /**
-     * Updates the {@link Observation} in the server.
+     * Updates the {@link Observation} in the server for the ID.
      *
      * @param observationId
      * @param observation
      * @return
      */
-//    @GET("observations/{id}")
-    @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
+    @PUT(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<Observation> update(@Path("id") String observationId, @Body Observation observation);
 
 
@@ -83,8 +84,7 @@ public interface ObservationApiService {
      *
      * @return
      */
-//    @GET("observations/{id}")
-    @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
+    @DELETE(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<Integer> delete(@Path("id") String observationId);
 
     /**

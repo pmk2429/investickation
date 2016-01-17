@@ -112,7 +112,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         }
         gson = new Gson();
         activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
-        dbController = new DatabaseDataController(mContext, new ActivitiesDao());
+        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
 
         button_viewObservations.setOnClickListener(this);
         icon_openMap.setOnClickListener(this);

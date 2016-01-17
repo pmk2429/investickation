@@ -12,6 +12,7 @@ import android.util.Log;
 public class PeriodicAlarm {
     public final static String ONE_TIME = "onetime";
     public static final String BROADCAST_ACTION = "com.sfsu.investickation.fragments.ALARM";
+    public final static String TAG = "~!@#$PeriodicAlarm";
     private Context mContext;
 
     public PeriodicAlarm(Context mContext) {
@@ -19,7 +20,7 @@ public class PeriodicAlarm {
     }
 
     public void setAlarm(long interval) {
-        Log.i("~!@#$NotAct", "alarm starting");
+        Log.i(TAG, "alarm starting");
         Intent alarmIntent = new Intent(BROADCAST_ACTION);
         alarmIntent.putExtra(ONE_TIME, Boolean.FALSE);
         PendingIntent mPendingIntent = PendingIntent.getBroadcast(mContext, 0, alarmIntent, 0);
@@ -29,7 +30,7 @@ public class PeriodicAlarm {
     }
 
     public void cancelAlarm() {
-        Log.i("~!@#$NotAct", "alarm stopping");
+        Log.i(TAG, "alarm stopping");
         Intent intent = new Intent(BROADCAST_ACTION);
         PendingIntent mSenderPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);

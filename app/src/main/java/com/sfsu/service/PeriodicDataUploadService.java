@@ -34,14 +34,14 @@ import java.util.List;
  */
 public class PeriodicDataUploadService extends Service {
     public static final String TAG = "~!@#$PeriodicService";
-    private static final long TIME_INTERVAL = 1000 * 3 * 60;// 30 minutes
+    private static final long TIME_INTERVAL = 1000 * 3 * 60;// 30
     private final Context mContext;
     private DatabaseDataController dbControllerActivities, dbControllerObservations;
 
     public PeriodicDataUploadService(Context context) {
         this.mContext = context;
-        dbControllerActivities = new DatabaseDataController(mContext, new ActivitiesDao());
-        dbControllerObservations = new DatabaseDataController(mContext, new ObservationsDao());
+        dbControllerActivities = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
+        dbControllerObservations = new DatabaseDataController(mContext, ObservationsDao.getInstance());
     }
 
     public PeriodicDataUploadService() {

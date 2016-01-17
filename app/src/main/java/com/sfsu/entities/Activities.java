@@ -119,6 +119,7 @@ public class Activities implements Parcelable, Entity {
         num_of_pets = in.readInt();
         timestamp = in.readLong();
         updated_at = in.readLong();
+        image_url = in.readString();
     }
 
     public boolean isOnCloud() {
@@ -246,8 +247,10 @@ public class Activities implements Parcelable, Entity {
         parcel.writeString(id);
         parcel.writeString(activityName);
         parcel.writeString(location_area);
+        parcel.writeString(image_url);
         parcel.writeInt(num_of_people);
         parcel.writeInt(num_of_pets);
+        parcel.writeInt(num_of_ticks);
         parcel.writeLong(timestamp);
         parcel.writeLong(updated_at);
     }
@@ -270,7 +273,7 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + " : " + activityName + " : " + location_area + " : " + num_of_people + " : " + num_of_pets + " : " +
-                num_of_ticks + " : " + timestamp + " : " + updated_at + " : " + user_id;
+                num_of_ticks + " : " + image_url + " : " + timestamp + " : " + updated_at + " : " + user_id;
     }
 
     /**

@@ -41,19 +41,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/view_dimen_large">
-
-
-                    <TextView
-                        android:id="@+id/textView_obsDet_timestamp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/padding_dimen_X_large"
-                        android:layout_alignParentEnd="true"
-                        android:paddingEnd="@dimen/view_dimen_small"
-                        android:paddingTop="@dimen/view_dimen_large"
-                        android:text="365 days"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_small"/>
+                    android:paddingBottom="@dimen/view_dimen_large"
+                    android:paddingEnd="@dimen/view_dimen_large"
+                    android:paddingStart="@dimen/view_dimen_large">
 
                     <!--Line separator-->
                     <View
@@ -68,12 +58,24 @@
                         android:layout_height="@dimen/widget_dimen"
                         android:layout_below="@+id/view_divider"
                         android:gravity="top|start"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_large"
                         android:text="American Dog Tick"
-                        android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_X_large"/>
+
+                    <TextView
+                        android:id="@+id/textView_obsDet_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/textView_obsDet_tickName"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/view_dimen_small"
+                        android:paddingTop="@dimen/view_dimen_large"
+                        android:text="365 days"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/font_small"/>
+
 
                     <TextView
                         android:id="@+id/textView_obsDet_description"
@@ -81,10 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textView_obsDet_tickName"
                         android:gravity="top|start"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="It is a species of tick that is known to carry bacteria responsible for several diseases in humans"
-                        android:textAlignment="center"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_X_small"/>
 
@@ -101,26 +100,26 @@
                 android:layout_marginLeft="@dimen/view_dimen_large"
                 android:layout_marginRight="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:padding="@dimen/view_dimen_large"
                 card_view:cardPreventCornerOverlap="false">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/view_dimen_large">
+                    android:paddingBottom="@dimen/view_dimen_large"
+                    android:paddingEnd="@dimen/view_dimen_large"
+                    android:paddingStart="@dimen/view_dimen_large">
 
 
                     <TextView
                         android:id="@+id/textViewStatic_userObsDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/view_dimen_medium"
                         android:ellipsize="end"
                         android:gravity="top|start"
                         android:maxLines="1"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_small"
                         android:text="@string/obsDet_details"
                         android:textAlignment="center"
@@ -132,23 +131,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separator_dimen"
                         android:layout_below="@id/textViewStatic_userObsDetail"
-                        android:layout_marginLeft="@dimen/view_dimen_large"
-                        android:layout_marginRight="@dimen/view_dimen_large"
                         android:layout_marginTop="@dimen/view_dimen_small"
                         android:background="@color/divider"/>
 
                     <!-- Found Near -->
                     <TextView
                         android:id="@+id/textViewStatic_geoLocation"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/separator_observation_2"
-                        android:gravity="top|start"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_small"
                         android:text="@string/obsDet_foundNear"
-                        android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
@@ -162,27 +155,20 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingBottom="0dp"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:paddingTop="@dimen/view_dimen_small"
                         android:text="San Mateo Park"
                         android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="@dimen/font_X_small"/>
+                        android:textSize="@dimen/font_small"/>
 
 
                     <!-- EntityLocation -->
                     <TextView
                         android:id="@+id/textViewStatic_latLng"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_geoLocation"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="@string/obsDet_geoLocation"
-                        android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
@@ -190,27 +176,21 @@
                         android:id="@+id/textView_obsDet_latLng"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@id/textViewStatic_latLng"
+                        android:layout_alignBottom="@id/textViewStatic_latLng"
                         android:layout_below="@id/textView_obsDet_geoLocation"
                         android:layout_toEndOf="@id/textViewStatic_latLng"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="35.755815, -121.859291"
-                        android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="@dimen/font_X_small"/>
+                        android:textSize="@dimen/font_small"/>
 
                     <!-- Activity -->
                     <TextView
                         android:id="@+id/textViewStatic_activity"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_latLng"
                         android:gravity="top|start"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="@string/obsDet_activityName"
-                        android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
@@ -218,17 +198,14 @@
                         android:id="@+id/textView_obsDet_activityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@id/textViewStatic_activity"
+                        android:layout_alignBottom="@id/textViewStatic_activity"
                         android:layout_below="@id/textView_obsDet_latLng"
                         android:layout_toEndOf="@id/textViewStatic_activity"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
                         android:text="Hiking Trail"
-                        android:textAlignment="center"
                         android:textColor="@color/primaryText"
-                        android:textSize="@dimen/font_X_small"/>
+                        android:textSize="@dimen/font_small"/>
 
                 </RelativeLayout>
             </android.support.v7.widget.CardView>

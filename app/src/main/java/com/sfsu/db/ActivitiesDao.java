@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class ActivitiesDao implements EntityDao {
 
+    private static ActivitiesDao mInstance = new ActivitiesDao();
     private SQLiteDatabase db;
     private String TAG = "~!@#$ActivitiesDao";
     private String[] activityEntryArray = new String[]{
@@ -30,8 +31,14 @@ public class ActivitiesDao implements EntityDao {
             EntityTable.ActivitiesTable.COLUMN_UPDATED_AT,
             EntityTable.ActivitiesTable.COLUMN_FK_USER_ID};
 
-    public ActivitiesDao() {
+
+    private ActivitiesDao() {
     }
+
+    public static ActivitiesDao getInstance() {
+        return mInstance;
+    }
+
 
     @Override
     public void setDatabase(SQLiteDatabase db) {

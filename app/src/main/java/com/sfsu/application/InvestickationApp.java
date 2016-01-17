@@ -15,8 +15,15 @@ import com.squareup.otto.Bus;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
- * Contains all the application level components which are needed to be initialized during the run time of app
- * <p/>
+ * <p>
+ * Contains all the application level components which are needed to be initialized during the run time of app. In addition,
+ * when the application opens, a {@link com.sfsu.service.PeriodicDataUploadService} will start which will collect all the data
+ * form the Database and notify user for any data stored in the {@link android.database.sqlite.SQLiteDatabase}.
+ * </p>
+ * <p>
+ * The application onCreate will initialize
+ * </p>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class InvestickationApp extends Application {
@@ -57,6 +64,8 @@ public class InvestickationApp extends Application {
 
         initResources();
 
+        initDatabaseResources();
+
     }
 
     /**
@@ -86,6 +95,11 @@ public class InvestickationApp extends Application {
         mBus.register(mFileUploadHandler);
 
         JodaTimeAndroid.init(this);
+    }
+
+
+    private void initDatabaseResources() {
+
     }
 
 }

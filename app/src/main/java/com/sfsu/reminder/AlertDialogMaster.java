@@ -90,7 +90,7 @@ public class AlertDialogMaster {
                     // get the total minutes of interval
                     REMINDER_INTERVAL = Long.parseLong(et_manualInput.getText().toString());
                 } else {
-                    REMINDER_INTERVAL = 0;
+                    REMINDER_INTERVAL = -123;
                 }
                 // pass it to callback
                 mInterface.setReminderValue(REMINDER_INTERVAL);
