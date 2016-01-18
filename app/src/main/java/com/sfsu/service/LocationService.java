@@ -22,7 +22,7 @@ import com.google.android.gms.location.LocationServices;
  * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
  * is created the {@link LocationService } starts and when the <tt>ActivityRunning</tt> is paused/stopped, the
  * {@link LocationService } is stopped too.
- * <p>
+ * <p/>
  * The LocationService service creates a EntityLocation object and sends it over to the currently running activity which will
  * post the data on the server. This way after every 10 minutes, a EntityLocation will be captured and sent over to the server
  * for getting user's location and finally these locations will be used to depict the probable trajectory of the user.
@@ -85,7 +85,6 @@ public class LocationService extends Service implements LocationListener, Google
         intent = new Intent(BROADCAST_ACTION);
         // check availability of play services
         if (isGooglePlayServicesAvailable()) {
-            Log.i(TAG, "play services available and so initializing the api, location requests.");
             // Building the GoogleApi client
             buildGoogleApiClient();
             // finally onConnect, handle the LocationUpdates
@@ -117,7 +116,6 @@ public class LocationService extends Service implements LocationListener, Google
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                Log.i(TAG, " Error in resultCode");
             } else {
                 Log.i(TAG, " This device is not supported");
             }
@@ -130,7 +128,6 @@ public class LocationService extends Service implements LocationListener, Google
      * start the Fused location updates
      */
     protected void startLocationUpdates() {
-        Log.i(TAG, "starting location updates");
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
@@ -146,7 +143,6 @@ public class LocationService extends Service implements LocationListener, Google
      * Build the GoogleApi client.
      */
     public synchronized void buildGoogleApiClient() {
-        Log.i(TAG, "Building the Google API Client.");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -159,7 +155,6 @@ public class LocationService extends Service implements LocationListener, Google
      * create the LocationRequest object by specifying all the params needed to initialize the object.
      */
     public void createLocationRequest() {
-        Log.i(TAG, "Creating EntityLocation Requests.");
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
@@ -172,7 +167,6 @@ public class LocationService extends Service implements LocationListener, Google
     @Override
     public void onConnected(Bundle bundle) {
         // Once connected with google api, get the location
-        Log.i(TAG, "onConnected called");
         if (!mRequestingLocationUpdates) {
             startLocationUpdates();
         }
@@ -189,7 +183,7 @@ public class LocationService extends Service implements LocationListener, Google
     public void onLocationChanged(Location location) {
         // Assign the new location
         mLastLocation = location;
-        Toast.makeText(this, counter++ + ")" + location.getLatitude() + ":" + location.getLongitude(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, counter++ + ")" + location.getLatitude() + ":" + location.getLongitude(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -216,7 +210,6 @@ public class LocationService extends Service implements LocationListener, Google
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy");
         handler.removeCallbacks(sendUpdatesToUI);
     }
 }

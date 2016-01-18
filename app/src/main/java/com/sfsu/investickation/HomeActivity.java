@@ -123,7 +123,9 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
 
     @Override
     public void userLoggedOut() {
-        Login loginFragment = new Login();
-        performFragmentTransaction(loginFragment);
+        Home homeFragment = new Home();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.home_fragment_container, homeFragment);
+        transaction.commit();
     }
 }

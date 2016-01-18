@@ -16,6 +16,8 @@ import java.util.List;
  * Created by Pavitra on 10/8/2015.
  */
 public class TickDao implements EntityDao {
+    // Singleton pattern
+    private static final TickDao mInstance = new TickDao();
     private final String LOGTAG = "~!@#$TickDao: ";
     private SQLiteDatabase db;
     private String[] tickEntryArray = new String[]{
@@ -26,7 +28,16 @@ public class TickDao implements EntityDao {
             EntityTable.TicksTable.COLUMN_KNOWN_FOR,
             EntityTable.TicksTable.COLUMN_DESCRIPTION,
             EntityTable.TicksTable.COLUMN_FOUND_NEAR,
-            EntityTable.TicksTable.COLUMN_IMAGE};
+            EntityTable.TicksTable.COLUMN_IMAGE,
+            EntityTable.TicksTable.COLUMN_CREATED_AT,
+            EntityTable.TicksTable.COLUMN_UPDATED_AT};
+
+    private TickDao() {
+    }
+
+    public static TickDao getInstance() {
+        return mInstance;
+    }
 
     @Override
     public void setDatabase(SQLiteDatabase db) {
@@ -85,6 +96,8 @@ public class TickDao implements EntityDao {
             contentValues.put(EntityTable.TicksTable.COLUMN_DESCRIPTION, tick.getDescription());
             contentValues.put(EntityTable.TicksTable.COLUMN_FOUND_NEAR, tick.getFound_near_habitat());
             contentValues.put(EntityTable.TicksTable.COLUMN_IMAGE, tick.getImageUrl());
+            contentValues.put(EntityTable.TicksTable.COLUMN_CREATED_AT, tick.getCreated_at());
+            contentValues.put(EntityTable.TicksTable.COLUMN_UPDATED_AT, tick.getUpdated_at());
 
             return contentValues;
         } catch (Exception e) {
@@ -131,6 +144,8 @@ public class TickDao implements EntityDao {
             tickItem.setDescription(c.getString(5));
             tickItem.setFound_near_habitat(c.getString(6));
             tickItem.setImageUrl(c.getString(7));
+            tickItem.setCreated_at(c.getLong(8));
+            tickItem.setUpdated_at(c.getLong(9));
         }
         return tickItem;
     }
@@ -176,19 +191,24 @@ public class TickDao implements EntityDao {
      */
     @Override
     public Tick getByName(String name) {
-
         Tick tickItem = null;
-        Cursor c = db.query(true,
-                EntityTable.TicksTable.TABLENAME,
-                tickEntryArray,
-                EntityTable.TicksTable.COLUMN_TICK_NAME + "=?", new String[]{name + ""},
-                null, null, null, null);
+        try {
+            Cursor c = db.query(true,
+                    EntityTable.TicksTable.TABLENAME,
+                    tickEntryArray,
+                    EntityTable.TicksTable.COLUMN_TICK_NAME + "=?", new String[]{name + ""},
+                    null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            tickItem = buildFromCursor(c);
-            if (!c.isClosed()) {
-                c.close();
+            if (c != null && c.moveToFirst()) {
+                tickItem = buildFromCursor(c);
+                if (!c.isClosed()) {
+                    c.close();
+                }
             }
+        } catch (Exception e) {
+
+        } finally {
+            db.close();
         }
         return tickItem;
     }

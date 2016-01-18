@@ -44,8 +44,13 @@ public class TickEvent extends BaseNetworkEvent {
         public OnLoaded(Tick entity) {
             super(entity);
         }
+    }
 
-        public OnLoaded(List<Tick> tickList) {
+    /**
+     * Event Handler for loading List of {@link Tick} all together from the Server.
+     */
+    public static class OnListLoaded extends OnDoneList<Tick> {
+        public OnListLoaded(List<Tick> tickList) {
             super(tickList);
         }
     }

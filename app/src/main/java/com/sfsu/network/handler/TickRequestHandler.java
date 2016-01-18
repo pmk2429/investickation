@@ -17,7 +17,6 @@ import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
-import retrofit.Retrofit;
 
 /**
  * <p>
@@ -121,7 +120,7 @@ public class TickRequestHandler extends ApiRequestHandler {
             @Override
             public void onResponse(Response<List<Tick>> response) {
                 if (response.isSuccess()) {
-                    mBus.post(new TickEvent.OnLoaded(response.body()));
+                    mBus.post(new TickEvent.OnListLoaded(response.body()));
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();

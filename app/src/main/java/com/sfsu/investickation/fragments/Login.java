@@ -2,6 +2,7 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
+import com.sfsu.service.DownloadTickService;
 import com.sfsu.session.LoginResponse;
 import com.sfsu.session.SessionManager;
 import com.sfsu.validation.TextValidator;
@@ -48,8 +50,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     EditText et_email;
     @Bind(R.id.editText_login_password)
     EditText et_password;
-
-
+    // properties
     private ILoginCallBack mListener;
     private DatabaseDataController dbController;
     private Context mContext;
@@ -85,7 +86,6 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
         mSessionManager = new SessionManager(mContext);
-
 
         // set onClickListener on this Fragment.
         btnLogin.setOnClickListener(this);
@@ -177,6 +177,9 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
             mSessionManager.setLogin(true);
             InvestickationApp.getInstance().initResources();
         }
+
+        // once the User is logged in, make a request to download all Ticks from the server and store it in DB
+        getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
 
         // once the token is set successfully, open the dashboard.
         mListener.userLoggedIn();

@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.sfsu.adapters.RecentActivitiesAdapter;
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.TickDao;
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
@@ -50,6 +54,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private List<Activities> mActivitiesList;
     private RecentActivitiesAdapter mActivitiesAdapter;
     private ListView mListViewActivities;
+    private DatabaseDataController dbTickController;
 
     public Dashboard() {
         // Required empty public constructor
@@ -60,6 +65,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         // TODO: make a network call and get Activity as well as Observation count
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
         //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
 

@@ -67,6 +67,8 @@ public class EntityTable {
         static final String COLUMN_FOUND_NEAR = "found_near_habitat";
         static final String COLUMN_DESCRIPTION = "description";
         static final String COLUMN_IMAGE = "image_url";
+        static final String COLUMN_CREATED_AT = "created_at";
+        static final String COLUMN_UPDATED_AT = "updated_at";
         private static final String TAG = "~!@#$TicksTable";
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
@@ -75,14 +77,16 @@ public class EntityTable {
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
-                sb.append(COLUMN_ID + " text unique primary key, ");
+                sb.append(COLUMN_ID + " text primary key unique, ");
                 sb.append(COLUMN_TICK_NAME + " text not null, ");
                 sb.append(COLUMN_TICK_SCIENTIFIC_NAME + " text not null, ");
                 sb.append(COLUMN_TICK_SPECIES + " text not null, ");
                 sb.append(COLUMN_KNOWN_FOR + " text not null, ");
                 sb.append(COLUMN_FOUND_NEAR + " text not null, ");
                 sb.append(COLUMN_DESCRIPTION + " text not null, ");
-                sb.append(COLUMN_IMAGE + " text not null); ");
+                sb.append(COLUMN_IMAGE + " text not null, ");
+                sb.append(COLUMN_CREATED_AT + " long, ");
+                sb.append(COLUMN_UPDATED_AT + " long ); ");
 
                 db.execSQL(sb.toString());
             } catch (android.database.SQLException se) {

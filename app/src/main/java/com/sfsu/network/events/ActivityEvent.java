@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Event publisher for {@link Activities}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class ActivityEvent extends BaseNetworkEvent {

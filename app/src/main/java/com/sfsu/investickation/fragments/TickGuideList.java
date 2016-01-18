@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.sfsu.adapters.TicksListAdapter;
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.TickDao;
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.HomeActivity;
 import com.sfsu.investickation.MainActivity;
@@ -39,6 +41,7 @@ import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -55,13 +58,14 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     private final String TAG = "~!@#$TickGuideList";
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
-    private List<Tick> mTickList, responseTickList;
+    private List<Tick> mTickList, responseTickList, localTickList;
     private Toolbar toolbarMain;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private int mCurrentSelectedPosition;
     private TicksListAdapter ticksListAdapter;
     private RecyclerView recyclerView_tickList;
+    private DatabaseDataController dbTickController;
 
     public TickGuideList() {
         // Required empty public constructor
@@ -70,7 +74,11 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        if (AppUtils.isConnectedOnline(mContext)) {
+            BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        } else {
+            dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
+        }
     }
 
     @Override
@@ -81,6 +89,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
         setActionBarAndNavDrawer(v);
 
+
         recyclerView_tickList = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
         recyclerView_tickList.setHasFixedSize(true);
 
@@ -89,6 +98,11 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         } else {
             Log.d(TAG, "Failed to load layout manager");
         }
+
+        // get all the Ticks
+        localTickList = (List<Tick>) dbTickController.getAll();
+        // set the TicksList
+        displayTickList();
 
         return v;
     }
@@ -284,7 +298,6 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     public void onTicksLoadSuccess(TickEvent.OnLoaded onLoaded) {
         if (onLoaded.getResponseList() != null) {
             responseTickList = onLoaded.getResponseList();
-            mTickList = responseTickList;
             // display the ticks in list
             displayTickList();
         } else {
@@ -303,25 +316,32 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
 
     /**
-     * Helper method to display list of Ticks
+     * Helper method to display list of {@link Tick} in the RecyclerView
      */
     private void displayTickList() {
+        if (AppUtils.isConnectedOnline(mContext)) {
+            mTickList = responseTickList;
+        } else {
+            mTickList = localTickList;
+        }
 
+        // set the List to adapter
         ticksListAdapter = new TicksListAdapter(mTickList, mContext);
         recyclerView_tickList.setAdapter(ticksListAdapter);
 
         // set on click listener for the item click of recyclerView
-        recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_tickList, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                mInterface.onTickListItemClickListener(mTickList.get(position));
-            }
+        recyclerView_tickList.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_tickList,
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        mInterface.onTickListItemClickListener(mTickList.get(position));
+                    }
 
-            @Override
-            public void onItemLongClick(View view, int position) {
+                    @Override
+                    public void onItemLongClick(View view, int position) {
 
-            }
-        }));
+                    }
+                }));
     }
 
 

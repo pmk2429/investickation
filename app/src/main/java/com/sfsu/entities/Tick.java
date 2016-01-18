@@ -41,6 +41,8 @@ public class Tick implements Parcelable, Entity {
     @SerializedName("image_url")
     private String imageUrl;
     private String found_near_habitat;
+    private long created_at, updated_at;
+    private transient boolean isStored;
 
     public Tick() {
     }
@@ -51,27 +53,30 @@ public class Tick implements Parcelable, Entity {
     }
 
     /**
-     * Constructor overloading for Tick response.
+     * Constructor for building {@link Tick} object from server response
      *
      * @param id
      * @param tickName
+     * @param scientific_name
      * @param species
      * @param known_for
      * @param description
-     * @param image
+     * @param imageUrl
+     * @param found_near_habitat
      * @param created_at
      * @param updated_at
      */
-    public Tick(String id, String commonName, String scientific_name, String species, String known_for, String description,
-                String found_near_habitat, String image_url) {
+    public Tick(String id, String tickName, String scientific_name, String species, String known_for, String description, String imageUrl, String found_near_habitat, long created_at, long updated_at) {
         this.id = id;
-        this.tickName = commonName;
+        this.tickName = tickName;
+        this.scientific_name = scientific_name;
         this.species = species;
         this.known_for = known_for;
-        this.scientific_name = scientific_name;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.found_near_habitat = found_near_habitat;
-        this.imageUrl = image_url;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
     /**
@@ -101,13 +106,36 @@ public class Tick implements Parcelable, Entity {
         found_near_habitat = in.readString();
     }
 
-
     public static List<Tick> initializeData() {
         List<Tick> ticks = new ArrayList<>();
         ticks.add(new Tick("American Dog tick", "Found on Dogs"));
         ticks.add(new Tick("Spotted Tick", "Red colored with white spots"));
         ticks.add(new Tick("Jungle tick", "Dangerous species"));
         return ticks;
+    }
+
+    public boolean isStored() {
+        return isStored;
+    }
+
+    public void setIsStored(boolean isStored) {
+        this.isStored = isStored;
+    }
+
+    public long getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
+    }
+
+    public long getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(long updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getFound_near_habitat() {
@@ -169,7 +197,7 @@ public class Tick implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + " : " + tickName + " : " + scientific_name + " : " + species + " : " + known_for + " : " + found_near_habitat
-                + " : " + description + " : " + imageUrl;
+                + " : " + description + " : " + imageUrl + " : " + created_at + " : " + updated_at;
     }
 
     @Override
