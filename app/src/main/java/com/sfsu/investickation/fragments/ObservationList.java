@@ -97,6 +97,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -301,7 +302,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     }
 
     private void uploadObservations() {
-        
+
     }
 
     @Override

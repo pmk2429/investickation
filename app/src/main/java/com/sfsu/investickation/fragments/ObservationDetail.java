@@ -2,8 +2,10 @@ package com.sfsu.investickation.fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.ObservationsDao;
@@ -21,6 +24,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -63,6 +67,7 @@ public class ObservationDetail extends Fragment {
         // Required empty public constructor
     }
 
+
     /**
      * Returns the instance of {@link ObservationDetail} Fragment.
      *
@@ -93,6 +98,7 @@ public class ObservationDetail extends Fragment {
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_detail);
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
+        BusProvider.bus().register(this);
     }
 
     @Override
@@ -101,6 +107,7 @@ public class ObservationDetail extends Fragment {
         if (getArguments() != null) {
             args = getArguments();
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -154,10 +161,58 @@ public class ObservationDetail extends Fragment {
      */
     private void deleteObservation() {
         if (mObservation.isOnCloud()) {
-            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(), ApiRequestHandler.DELETE));
+
+            AlertDialog.Builder deleteObservationDialog = new AlertDialog.Builder(mContext);
+            String deleteTitle = "Delete " + mObservation.getTickName() + "?";
+            deleteObservationDialog.setTitle(deleteTitle);
+            deleteObservationDialog.setMessage(R.string.alertDialog_delete_observation_warning);
+            deleteObservationDialog.setIcon(R.mipmap.ic_delete_black_24dp);
+
+            deleteObservationDialog.setPositiveButton(R.string.alertDialog_YES, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(), ApiRequestHandler.DELETE));
+                }
+            });
+
+            deleteObservationDialog.setNegativeButton(R.string.alertDialog_NO, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            deleteObservationDialog.show();
         } else {
             dbController.delete(mObservation.getId());
+            getActivity().getSupportFragmentManager().popBackStack();
         }
-        getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
+    }
+
+    /**
+     * Subscribes to the event of successful deletion of {@link Observation} from the server
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationDeleteSuccess(ObservationEvent.OnLoadedCount onLoaded) {
+        if (onLoaded.getResponse().getCount() == 1) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    /**
+     * Subscribes to the event of failure in deleting {@link Observation} from the server
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onObservationDeleteFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 }

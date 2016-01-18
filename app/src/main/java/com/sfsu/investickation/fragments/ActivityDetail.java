@@ -326,7 +326,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     private void deleteActivity() {
         if (mActivity.isOnCloud()) {
             AlertDialog.Builder deleteActivityDialog = new AlertDialog.Builder(mContext);
-            String deleteTitle = "Delete " + mActivity.getActivityName();
+            String deleteTitle = "Delete " + mActivity.getActivityName() + "?";
             deleteActivityDialog.setTitle(deleteTitle);
             deleteActivityDialog.setMessage(R.string.alertDialog_delete_activity_warning);
             deleteActivityDialog.setIcon(R.mipmap.ic_delete_black_24dp);
@@ -349,12 +349,10 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             dbController.delete(mActivity.getId());
             getActivity().getSupportFragmentManager().popBackStack();
         }
-
-
     }
 
     /**
-     * Subcribes to the event of successful deletion of {@link Activities} from the server
+     * Subscribes to the event of successful deletion of {@link Activities} from the server
      *
      * @param onLoaded
      */
