@@ -288,6 +288,23 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_upload:
+                uploadObservations();
+                return true;
+        }
+
+        return false;
+
+    }
+
+    private void uploadObservations() {
+        
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }

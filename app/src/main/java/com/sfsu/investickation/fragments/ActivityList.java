@@ -290,6 +290,24 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_upload:
+                uploadActivities();
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Upload all the {@link Activities} stored on the local database to the server
+     */
+    private void uploadActivities() {
+        Log.i(TAG, "upload activities: " + localActivitiesList.size());
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }

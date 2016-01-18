@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
+import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
@@ -58,15 +59,15 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeActivityEvent(ActivityEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Activities> activitiesCall = null;
-        Call<Integer> deleteActivityCall = null;
+        Call<ResponseCount> deleteActivityCall = null;
         Call<List<Activities>> listActivitiesCall = null;
-        Call<Integer> countCall = null;
+        Call<ResponseCount> countCall = null;
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
             case GET:
                 activitiesCall = mApiService.get(onLoadingInitialized.getResourceId());
-                makeCRUDCall(activitiesCall);
+                makeCRUCall(activitiesCall);
                 break;
             case GET_ALL:
                 listActivitiesCall = mApiService.getAll(USER_ID);
@@ -74,15 +75,15 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 break;
             case ADD:
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
-                makeCRUDCall(activitiesCall);
+                makeCRUCall(activitiesCall);
                 break;
             case UPDATE:
                 activitiesCall = mApiService.update(onLoadingInitialized.getResourceId(), onLoadingInitialized.getRequest());
-                makeCRUDCall(activitiesCall);
+                makeCRUCall(activitiesCall);
                 break;
             case DELETE:
                 deleteActivityCall = mApiService.delete(onLoadingInitialized.getResourceId());
-                makeCRUDCall(activitiesCall);
+                makeDeleteCall(deleteActivityCall);
                 break;
             case TOTAL_LOCATIONS_COUNT:
                 countCall = mApiService.totalLocations(onLoadingInitialized.getResourceId());
@@ -94,17 +95,53 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Makes CRUD type network call to server using Retrofit Api service and posts the response on the event bus.
+     * Makes CREATE, READ, UPDATE type network call to server using Retrofit Api service and posts the response on the event
+     * bus.
      *
      * @param activitiesCall
      */
-    public void makeCRUDCall(Call<Activities> activitiesCall) {
+    public void makeCRUCall(Call<Activities> activitiesCall) {
         // makes the Calls to network.
         activitiesCall.enqueue(new Callback<Activities>() {
             @Override
             public void onResponse(Response<Activities> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ActivityEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ActivityEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ActivityEvent.FAILED);
+                }
+            }
+        });
+    }
+
+    /**
+     * Makes Delete type network call to server using Retrofit Api service and posts the response on the event bus.
+     *
+     * @param activitiesCall
+     */
+    public void makeDeleteCall(Call<ResponseCount> deleteActivitiesCall) {
+        // makes the Calls to network.
+        deleteActivitiesCall.enqueue(new Callback<ResponseCount>() {
+            @Override
+            public void onResponse(Response<ResponseCount> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new ActivityEvent.OnLoadedCount(response.body()));
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
@@ -167,12 +204,12 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      *
      * @param countCall
      */
-    public void getCount(Call<Integer> countCall) {
-        countCall.enqueue(new Callback<Integer>() {
+    public void getCount(Call<ResponseCount> countCall) {
+        countCall.enqueue(new Callback<ResponseCount>() {
             @Override
-            public void onResponse(Response<Integer> response) {
+            public void onResponse(Response<ResponseCount> response) {
                 if (response.isSuccess()) {
-                    mBus.post(new ActivityEvent.OnLoaded(response.body()));
+                    mBus.post(new ActivityEvent.OnLoadedCount(response.body()));
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();

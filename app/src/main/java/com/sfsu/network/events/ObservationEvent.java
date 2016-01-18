@@ -1,6 +1,7 @@
 package com.sfsu.network.events;
 
 import com.sfsu.entities.Observation;
+import com.sfsu.entities.response.ResponseCount;
 
 import java.util.List;
 
@@ -78,12 +79,15 @@ public class ObservationEvent extends BaseNetworkEvent {
         public OnLoaded(Observation entity) {
             super(entity);
         }
+    }
 
-        /*
-        public OnLoaded(List<Observation> observationList) {
-            super(observationList);
+    /**
+     * Event handler when the response from server is Integer
+     */
+    public static class OnLoadedCount extends OnDone<ResponseCount> {
+        public OnLoadedCount(ResponseCount count) {
+            super(count);
         }
-        */
     }
 
     /**

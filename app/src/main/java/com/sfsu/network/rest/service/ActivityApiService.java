@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.network.api.ApiResources;
 
 import java.util.List;
@@ -75,7 +76,7 @@ public interface ActivityApiService {
      * @return
      */
     @DELETE(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
-    public Call<Integer> delete(@Path("id") String activityId);
+    public Call<ResponseCount> delete(@Path("id") String activityId);
 
 
     /**
@@ -86,6 +87,6 @@ public interface ActivityApiService {
      */
 //    @GET("activities/{id}/locations/count")
     @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID + "/" + ApiResources.EntityLocationBase + "/" + "count")
-    public Call<Integer> totalLocations(@Path("id") String activityId);
+    public Call<ResponseCount> totalLocations(@Path("id") String activityId);
 
 }

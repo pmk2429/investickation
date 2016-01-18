@@ -2,9 +2,11 @@ package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -319,16 +321,58 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Helper method to delete the {@link Activities} from Local Storage or Cloud Server depending on where its stored.
+     * Delete the {@link Activities} from Local Storage or Cloud Server depending on where its stored.
      */
     private void deleteActivity() {
         if (mActivity.isOnCloud()) {
-            //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mActivity.getId(), ApiRequestHandler.DELETE));
+            AlertDialog.Builder deleteActivityDialog = new AlertDialog.Builder(mContext);
+            String deleteTitle = "Delete " + mActivity.getActivityName();
+            deleteActivityDialog.setTitle(deleteTitle);
+            deleteActivityDialog.setMessage(R.string.alertDialog_delete_activity_warning);
+            deleteActivityDialog.setIcon(R.mipmap.ic_delete_black_24dp);
+
+            deleteActivityDialog.setPositiveButton(R.string.alertDialog_YES, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mActivity.getId(), ApiRequestHandler.DELETE));
+                }
+            });
+
+            deleteActivityDialog.setNegativeButton(R.string.alertDialog_NO, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            deleteActivityDialog.show();
         } else {
-            //dbController.delete(mActivity.getId());
+            dbController.delete(mActivity.getId());
             getActivity().getSupportFragmentManager().popBackStack();
         }
 
+
+    }
+
+    /**
+     * Subcribes to the event of successful deletion of {@link Activities} from the server
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onActivityDeleteSuccess(ActivityEvent.OnLoadedCount onLoaded) {
+        if (onLoaded.getResponse().getCount() == 1) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    /**
+     * Subscribes to the event of failure in deleting {@link Activities} from the server
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onActivityDeleteFailure(ActivityEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

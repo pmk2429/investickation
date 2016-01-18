@@ -1,12 +1,13 @@
 package com.sfsu.network.events;
 
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.response.ResponseCount;
 
 import java.util.List;
 
 /**
  * Event publisher for {@link Activities}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class ActivityEvent extends BaseNetworkEvent {
@@ -63,15 +64,19 @@ public class ActivityEvent extends BaseNetworkEvent {
      */
     public static class OnLoaded extends OnDone<Activities> {
 
-        public Integer count;
-
         public OnLoaded(Activities entity) {
             super(entity);
         }
 
-        public OnLoaded(Integer count) {
-            super(new Activities());
-            this.count = count;
+    }
+
+    /**
+     * Event handler when the response from server is Integer
+     */
+    public static class OnLoadedCount extends OnDone<ResponseCount> {
+
+        public OnLoadedCount(ResponseCount count) {
+            super(count);
         }
     }
 

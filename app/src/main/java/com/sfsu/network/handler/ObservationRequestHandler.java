@@ -3,6 +3,7 @@ package com.sfsu.network.handler;
 import android.content.Context;
 
 import com.sfsu.entities.Observation;
+import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
@@ -54,14 +55,14 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     @Subscribe
     public void onInitializeObservationEvent(ObservationEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Observation> observationCall = null;
-        Call<Integer> deleteObservation = null;
+        Call<ResponseCount> deleteObservation = null;
         Call<List<Observation>> listObservationCall = null;
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
             case GET:
                 observationCall = mApiService.get(onLoadingInitialized.getResourceId());
-                makeCRUDCall(observationCall);
+                makeCRUCall(observationCall);
                 break;
             case GET_ALL:
                 listObservationCall = mApiService.getAll(USER_ID);
@@ -69,11 +70,11 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 break;
             case ADD:
                 observationCall = mApiService.add(onLoadingInitialized.getRequest());
-                makeCRUDCall(observationCall);
+                makeCRUCall(observationCall);
                 break;
             case DELETE:
                 deleteObservation = mApiService.delete(onLoadingInitialized.getResourceId());
-                makeCRUDCall(observationCall);
+                makeDeleteCall(deleteObservation);
                 break;
             case ACT_OBSERVATIONS:
                 listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId);
@@ -82,17 +83,53 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Makes CRUD type network call to server using Retrofit Api service and posts the response on the event bus.
+     * Makes CREATE, READ, UPDATE type network call to server using Retrofit Api service and posts the response on the event bus.
      *
      * @param observationCall
      */
-    public void makeCRUDCall(Call<Observation> observationCall) {
+    public void makeCRUCall(Call<Observation> observationCall) {
         // makes the Calls to network.
         observationCall.enqueue(new Callback<Observation>() {
             @Override
             public void onResponse(Response<Observation> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ObservationEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ObservationEvent.FAILED);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Makes DELETE type network call to server using Retrofit Api service and posts the response on the event bus.
+     *
+     * @param observationCall
+     */
+    public void makeDeleteCall(Call<ResponseCount> deleteObservationCall) {
+        // makes the Calls to network.
+        deleteObservationCall.enqueue(new Callback<ResponseCount>() {
+            @Override
+            public void onResponse(Response<ResponseCount> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new ObservationEvent.OnLoadedCount(response.body()));
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();

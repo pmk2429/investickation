@@ -14,8 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -52,6 +57,7 @@ public class ObservationDetail extends Fragment {
     private Bundle args;
     private Observation mObservation;
     private Context mContext;
+    private DatabaseDataController dbController;
 
     public ObservationDetail() {
         // Required empty public constructor
@@ -76,7 +82,7 @@ public class ObservationDetail extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            this.mContext = mContext;
+            mContext = context;
         } catch (Exception e) {
 
         }
@@ -86,6 +92,7 @@ public class ObservationDetail extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_detail);
+        dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
     }
 
     @Override
@@ -147,10 +154,10 @@ public class ObservationDetail extends Fragment {
      */
     private void deleteObservation() {
         if (mObservation.isOnCloud()) {
-            //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mActivity.getId(), ApiRequestHandler.DELETE));
+            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(), ApiRequestHandler.DELETE));
         } else {
-            //dbController.delete(mObservation.getId());
-            getActivity().getSupportFragmentManager().popBackStack();
+            dbController.delete(mObservation.getId());
         }
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

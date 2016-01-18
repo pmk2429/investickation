@@ -215,6 +215,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         alarmReminderDialog.show();
     }
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
