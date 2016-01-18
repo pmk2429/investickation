@@ -3,7 +3,6 @@ package com.sfsu.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Observation;
@@ -58,9 +57,15 @@ public class ObservationsDao implements EntityDao {
      */
     @Override
     public boolean delete(String id) {
-        return db.delete(EntityTable.ObservationsTable.TABLENAME,
-                EntityTable.ObservationsTable.COLUMN_ID + "=?",
-                new String[]{id + ""}) > 0;
+        try {
+            return db.delete(EntityTable.ObservationsTable.TABLENAME,
+                    EntityTable.ObservationsTable.COLUMN_ID + "=?",
+                    new String[]{id + ""}) > 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            db.close();
+        }
     }
 
     /**
@@ -72,14 +77,24 @@ public class ObservationsDao implements EntityDao {
     public Entity get(String id) {
 
         Observation observationItem = null;
-        Cursor c = db.query(true, EntityTable.ObservationsTable.TABLENAME, observationEntryArray, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+        Cursor c = null;
+        try {
+            c = db.query(true, EntityTable.ObservationsTable.TABLENAME, observationEntryArray, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            // once the Observation Item is build from cursor, create Tick object and Location object.
-            observationItem = buildFromCursor(c);
+            if (c != null && c.moveToFirst()) {
+                // once the Observation Item is build from cursor, create Tick object and Location object.
+                observationItem = buildFromCursor(c);
+                if (!c.isClosed()) {
+                    c.close();
+                }
+            }
+        } catch (Exception e) {
+
+        } finally {
             if (!c.isClosed()) {
                 c.close();
             }
+            db.close();
         }
         // the final ObservationItem will contain the Composite Object composed of Location and Tick objects.
         return observationItem;
@@ -97,18 +112,27 @@ public class ObservationsDao implements EntityDao {
      */
     public List<Observation> getAll() {
         List<Observation> observationsList = new ArrayList<Observation>();
+        Cursor c = null;
 
-        // Query the Database to get all the records.
-        Cursor c = db.query(EntityTable.ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
+        try {
+            // Query the Database to get all the records.
+            c = db.query(EntityTable.ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            // loop until the end of Cursor and add each entry to Observations ArrayList.
-            do {
-                Observation observationItem = buildFromCursor(c);
-                if (observationItem != null) {
-                    observationsList.add(observationItem);
-                }
-            } while (c.moveToNext());
+            if (c != null && c.moveToFirst()) {
+                // loop until the end of Cursor and add each entry to Observations ArrayList.
+                do {
+                    Observation observationItem = buildFromCursor(c);
+                    if (observationItem != null) {
+                        observationsList.add(observationItem);
+                    }
+                } while (c.moveToNext());
+            }
+        } catch (Exception e) {
+        } finally {
+            if (!c.isClosed()) {
+                c.close();
+            }
+            db.close();
         }
         return observationsList;
     }
@@ -120,22 +144,27 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
-        Log.i(TAG, "INSERT reached");
-        Observation observations = (Observation) entity;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_SPECIES, observations.getSpecies());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
-        // insert entry into Table.
-        return db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
+        try {
+            Observation observations = (Observation) entity;
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_SPECIES, observations.getSpecies());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
+            // insert entry into Table.
+            return db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
+        } catch (Exception e) {
+            return -1;
+        } finally {
+            db.close();
+        }
     }
 
     /**

@@ -55,6 +55,8 @@ public class ActivitiesDao implements EntityDao {
             return db.insert(EntityTable.ActivitiesTable.TABLENAME, null, contentValues);
         } catch (Exception e) {
             return -1;
+        } finally {
+            db.close();
         }
     }
 
@@ -95,7 +97,14 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public boolean delete(String id) {
-        return db.delete(EntityTable.ActivitiesTable.TABLENAME, EntityTable.ActivitiesTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
+        try {
+            return db.delete(EntityTable.ActivitiesTable.TABLENAME, EntityTable.ActivitiesTable.COLUMN_ID + "=?",
+                    new String[]{id + ""}) > 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            db.close();
+        }
     }
 
     @Override
@@ -112,24 +121,28 @@ public class ActivitiesDao implements EntityDao {
             if (!c.isClosed()) {
                 c.close();
             }
+            db.close();
         }
         return mActivity;
     }
 
     private Activities buildFromCursor(Cursor c) {
         Activities mActivity = null;
-        if (c != null) {
-            mActivity = new Activities();
-            mActivity.setId(c.getString(0));
-            mActivity.setActivityName(c.getString(1));
-            mActivity.setNum_of_people(c.getInt(2));
-            mActivity.setNum_of_pets(c.getInt(3));
-            mActivity.setNum_of_ticks(c.getInt(4));
-            mActivity.setTimestamp(c.getLong(5));
-            mActivity.setImage_url(c.getString(6));
-            mActivity.setLocation_area(c.getString(7));
-            mActivity.setUpdated_at(c.getLong(8));
-            mActivity.setUser_id(c.getString(9));
+        try {
+            if (c != null) {
+                mActivity = new Activities();
+                mActivity.setId(c.getString(0));
+                mActivity.setActivityName(c.getString(1));
+                mActivity.setNum_of_people(c.getInt(2));
+                mActivity.setNum_of_pets(c.getInt(3));
+                mActivity.setNum_of_ticks(c.getInt(4));
+                mActivity.setTimestamp(c.getLong(5));
+                mActivity.setImage_url(c.getString(6));
+                mActivity.setLocation_area(c.getString(7));
+                mActivity.setUpdated_at(c.getLong(8));
+                mActivity.setUser_id(c.getString(9));
+            }
+        } catch (Exception e) {
         }
         return mActivity;
     }
@@ -137,17 +150,27 @@ public class ActivitiesDao implements EntityDao {
     @Override
     public Activities getByName(String entityName) {
         Activities mActivity = null;
-        Cursor c = db.query(true,
-                EntityTable.ActivitiesTable.TABLENAME,
-                activityEntryArray,
-                EntityTable.ActivitiesTable.COLUMN_NAME + "=?",
-                new String[]{entityName + ""}, null, null, null, null);
+        Cursor c = null;
+        try {
+            c = db.query(true,
+                    EntityTable.ActivitiesTable.TABLENAME,
+                    activityEntryArray,
+                    EntityTable.ActivitiesTable.COLUMN_NAME + "=?",
+                    new String[]{entityName + ""}, null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            mActivity = buildFromCursor(c);
+            if (c != null && c.moveToFirst()) {
+                mActivity = buildFromCursor(c);
+                if (!c.isClosed()) {
+                    c.close();
+                }
+            }
+        } catch (Exception e) {
+
+        } finally {
             if (!c.isClosed()) {
                 c.close();
             }
+            db.close();
         }
         return mActivity;
     }
@@ -155,19 +178,28 @@ public class ActivitiesDao implements EntityDao {
     @Override
     public List<? extends Entity> getAll() {
         List<Activities> activitiesList = new ArrayList<Activities>();
+        Cursor c = null;
+        try {
+            // Query the Database to get all the records.
+            c = db.query(EntityTable.ActivitiesTable.TABLENAME,
+                    activityEntryArray, null, null, null, null, null);
 
-        // Query the Database to get all the records.
-        Cursor c = db.query(EntityTable.ActivitiesTable.TABLENAME,
-                activityEntryArray, null, null, null, null, null);
+            if (c != null && c.moveToFirst()) {
+                // loop until the end of Cursor and add each entry to Ticks ArrayList.
+                do {
+                    Activities mActivity = buildFromCursor(c);
+                    if (mActivity != null) {
+                        activitiesList.add(mActivity);
+                    }
+                } while (c.moveToNext());
+            }
+        } catch (Exception e) {
 
-        if (c != null && c.moveToFirst()) {
-            // loop until the end of Cursor and add each entry to Ticks ArrayList.
-            do {
-                Activities mActivity = buildFromCursor(c);
-                if (mActivity != null) {
-                    activitiesList.add(mActivity);
-                }
-            } while (c.moveToNext());
+        } finally {
+            if (!c.isClosed()) {
+                c.close();
+            }
+            db.close();
         }
         return activitiesList;
     }

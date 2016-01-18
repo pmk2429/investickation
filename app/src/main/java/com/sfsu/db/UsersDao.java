@@ -53,7 +53,6 @@ public class UsersDao implements EntityDao {
     public long save(Entity entity) {
         ContentValues contentValues = new ContentValues();
         try {
-            Log.d(TAG, "INSERT reached");
             Account user = (Account) entity;
             contentValues.put(EntityTable.UsersTable.COLUMN_ID, user.getId());
             contentValues.put(EntityTable.UsersTable.COLUMN_FULLNAME, user.getFull_name());
@@ -64,11 +63,10 @@ public class UsersDao implements EntityDao {
             contentValues.put(EntityTable.UsersTable.COLUMN_STATE, user.getState());
             contentValues.put(EntityTable.UsersTable.COLUMN_ZIPCODE, user.getZipCode());
             contentValues.put(EntityTable.UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
-            Log.i(TAG, "saving users");
+            return db.insert(EntityTable.UsersTable.TABLENAME, null, contentValues);
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
+            return -1;
         }
-        return db.insert(EntityTable.UsersTable.TABLENAME, null, contentValues);
     }
 
     /**
@@ -103,7 +101,13 @@ public class UsersDao implements EntityDao {
      */
     @Override
     public boolean delete(String id) {
-        return db.delete(EntityTable.UsersTable.TABLENAME, EntityTable.UsersTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
+        try {
+            return db.delete(EntityTable.UsersTable.TABLENAME, EntityTable.UsersTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
+        } catch (Exception e) {
+            return false;
+        } finally {
+            db.close();
+        }
     }
 
     /**
@@ -114,13 +118,24 @@ public class UsersDao implements EntityDao {
      */
     public Entity get(String id) {
         Account userItem = null;
-        Cursor c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+        Cursor c = null;
+        try {
+            c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_ID + "=?",
+                    new String[]{id + ""}, null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            userItem = buildFromCursor(c);
+            if (c != null && c.moveToFirst()) {
+                userItem = buildFromCursor(c);
+                if (!c.isClosed()) {
+                    c.close();
+                }
+            }
+        } catch (Exception e) {
+
+        } finally {
             if (!c.isClosed()) {
                 c.close();
             }
+            db.close();
         }
         return userItem;
     }
@@ -131,15 +146,26 @@ public class UsersDao implements EntityDao {
      * @param username
      * @return
      */
+
     public Account getByName(String username) {
         Account userItem = null;
-        Cursor c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_FULLNAME + "=?", new String[]{username + ""}, null, null, null, null);
+        Cursor c = null;
+        try {
+            c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_FULLNAME + "=?", new String[]{username + ""}, null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            userItem = buildFromCursor(c);
+            if (c != null && c.moveToFirst()) {
+                userItem = buildFromCursor(c);
+                if (!c.isClosed()) {
+                    c.close();
+                }
+            }
+        } catch (Exception e) {
+
+        } finally {
             if (!c.isClosed()) {
                 c.close();
             }
+            db.close();
         }
         return userItem;
     }
@@ -153,15 +179,24 @@ public class UsersDao implements EntityDao {
     public List<Entity> getAll() {
         List<Entity> usersList = new ArrayList<Entity>();
         // Query the Database to get all the records.
-        Cursor c = db.query(EntityTable.UsersTable.TABLENAME, usersEntryArray, null, null, null, null, null);
-        if (c != null && c.moveToFirst()) {
-            // loop until the end of Cursor and add each entry to Observations ArrayList.
-            do {
-                Account userItem = buildFromCursor(c);
-                if (userItem != null) {
-                    usersList.add(userItem);
-                }
-            } while (c.moveToNext());
+        Cursor c = null;
+        try {
+            c = db.query(EntityTable.UsersTable.TABLENAME, usersEntryArray, null, null, null, null, null);
+            if (c != null && c.moveToFirst()) {
+                // loop until the end of Cursor and add each entry to Observations ArrayList.
+                do {
+                    Account userItem = buildFromCursor(c);
+                    if (userItem != null) {
+                        usersList.add(userItem);
+                    }
+                } while (c.moveToNext());
+            }
+        } catch (Exception e) {
+            
+        } finally {
+            if (!c.isClosed()) {
+                c.close();
+            }
         }
 
         return usersList;
