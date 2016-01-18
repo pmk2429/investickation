@@ -41,6 +41,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     public static final String KEY_NEW_ACTIVITY_OBJECT = "new_activity_object";
     public static final String KEY_REMINDER_SET = "tick_reminder_set";
+    public static final String KEY_REMINDER_INTERVAL = "reminder_interval";
 
     private static int STACK_COUNT = 0;
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.

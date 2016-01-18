@@ -3,8 +3,8 @@ package com.sfsu.investickation;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by Pavitra on 7/8/2015.
  */
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends AppCompatActivity {
 
     private final String TAG = "~!@#$BaseActivity";
     // InjectView is used to inject the UI controls using ButterKnife library.

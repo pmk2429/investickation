@@ -33,38 +33,6 @@
     <!--android:textSize="@dimen/font_medium"-->
     <!--/>-->
 
-    <!--<RadioGroup-->
-    <!--android:id="@+id/radioSelectReminder"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/button_alertDialog_30"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:padding="@dimen/padding_X2_large">-->
-
-    <!--<RadioButton-->
-    <!--android:id="@+id/radioButton30"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:checked="true"-->
-    <!--android:text="30 mins"-->
-    <!--android:textColor="@color/colorPrimary"-->
-    <!--android:textSize="@dimen/font_large"/>-->
-
-    <!--<RadioButton-->
-    <!--android:id="@+id/radioButton60"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginLeft="@dimen/padding_X3_large"-->
-    <!--android:text="60 mins"-->
-    <!--android:textColor="@color/colorPrimary"-->
-    <!--android:textSize="@dimen/font_large"/>-->
-
-    <!--</RadioGroup>-->
-
 
     <View
         android:id="@+id/view_divider"

@@ -67,10 +67,7 @@ public class LocationService extends Service implements LocationListener, Google
      * send the location broadcast to the Activity
      */
     private void broadcastLocationInfo() {
-        Log.i(TAG, "entered broadcast logging info method");
         if (intent != null) {
-            Log.i(TAG, "intent not null");
-            Log.i(TAG, "" + mLastLocation.getLatitude() + " : " + mLastLocation.getLongitude());
             intent.putExtra(KEY_LOCATION_CHANGED, mLastLocation);
             sendBroadcast(intent);
         }

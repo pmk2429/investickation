@@ -285,6 +285,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 if (activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT) != null) {
                     ongoingActivityObj = activityBundle.getParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT);
                     FLAG_IS_TIMER_SET = activityBundle.getBoolean(UserActivityMasterActivity.KEY_REMINDER_SET);
+                    REMINDER_INTERVAL = activityBundle.getLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL);
                 }
             } else {
                 // get data from SharedPref
@@ -388,14 +389,17 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
-        mGoogleMapController.clear();
-        mLocationController = null;
-        mLatLngSet = null;
-//        // when the fragment is destroyed, kill off Location Service and AlarmManager
-//        mContext.unregisterReceiver(locationReceiver);
-//        mContext.stopService(locationIntent);
-//        mContext.unregisterReceiver(alarmBroadcastReceiver);
+        try {
+            mapView.onDestroy();
+            mGoogleMapController.clear();
+            mLocationController = null;
+            mLatLngSet = null;
+            // when the fragment is destroyed, kill off Location Service and AlarmManager
+            mContext.unregisterReceiver(locationReceiver);
+            mContext.stopService(locationIntent);
+            mContext.unregisterReceiver(alarmBroadcastReceiver);
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -456,7 +460,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      */
     private void openReminderDialog() {
         if (FLAG_IS_TIMER_SET) {
-            openReminderStatusDialog();
+            openReminderStatusDialog(REMINDER_INTERVAL);
         } else {
             setupReminderDialog();
         }
@@ -470,8 +474,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
 
-    private void openReminderStatusDialog() {
-        alertDialogMaster.displayOngoingReminderStatusDialog();
+    private void openReminderStatusDialog(long reminderValue) {
+        alertDialogMaster.displayOngoingReminderStatusDialog(reminderValue);
     }
 
     @Override
@@ -480,14 +484,15 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             REMINDER_INTERVAL = reminderValue;
 
             if (REMINDER_INTERVAL != 0) {
-                reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
 
                 FLAG_IS_TIMER_SET = true;
+                fab_reminder.setIcon(R.mipmap.ic_notifications_active_white_24dp);
 
                 // start the Alarm Reminder.
                 startReminder();
             } else {
                 FLAG_IS_TIMER_SET = false;
+                fab_reminder.setIcon(R.mipmap.ic_notifications_white_24dp);
             }
         } catch (NullPointerException ne) {
         }
@@ -498,15 +503,22 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         try {
             REMINDER_INTERVAL = reminderValue;
 
-            if (REMINDER_INTERVAL != 0) {
-                reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
+            if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
 
-                FLAG_IS_TIMER_SET = true;
+                // if user stops the reminder
+                if (REMINDER_INTERVAL == AlertDialogMaster.STOP_REMINDER) {
+                    stopReminder();
+                } else {
 
-                // start the Alarm Reminder.
-                startReminder();
+                    FLAG_IS_TIMER_SET = true;
+                    fab_reminder.setIcon(R.mipmap.ic_notifications_active_white_24dp);
+
+                    // start the Alarm Reminder.
+                    startReminder();
+                }
             } else {
                 FLAG_IS_TIMER_SET = false;
+                fab_reminder.setIcon(R.mipmap.ic_notifications_white_24dp);
             }
         } catch (NullPointerException ne) {
         }
@@ -518,11 +530,22 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Helper method to set the reminder depending on User's choice
      */
     private void startReminder() {
+        // cancel previous timer
         if (FLAG_IS_TIMER_SET) {
             // if reminder is already running, cancel the current reminder
             mPeriodicAlarm.cancelAlarm();
         }
         mPeriodicAlarm.setAlarm(REMINDER_INTERVAL);
+    }
+
+    /**
+     * Stop the reminder
+     */
+    private void stopReminder() {
+        REMINDER_INTERVAL = 0;
+        FLAG_IS_TIMER_SET = false;
+        mPeriodicAlarm.cancelAlarm();
+        fab_reminder.setIcon(R.mipmap.ic_notifications_white_24dp);
     }
 
 

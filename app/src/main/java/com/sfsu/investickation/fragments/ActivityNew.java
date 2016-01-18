@@ -351,10 +351,13 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         activityBundle = new Bundle();
         activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, createdActivity);
 
-        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123)
+        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
             activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
-        else
+            activityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, REMINDER_INTERVAL);
+        } else {
             activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.FALSE);
+            activityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, 0);
+        }
 
         // click the play button
         mInterface.onPlayButtonClick(activityBundle);

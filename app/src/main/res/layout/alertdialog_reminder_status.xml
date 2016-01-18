@@ -3,54 +3,111 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/view_dimen_large">
+    android:paddingBottom="@dimen/view_dimen_large"
+    android:paddingTop="@dimen/view_dimen_large">
 
     <TextView
-        android:id="@+id/textViewStatic_reminder_status"
+        android:id="@+id/textViewStatic_alertDialog_reminderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/view_dimen_large"
         android:text="@string/alertDialog_reminder_status"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorSecondary"
         android:textSize="@dimen/font_large"/>
 
     <TextView
-        android:id="@+id/textView_reminder_status"
+        android:id="@+id/textView_alertDialog_reminderStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewStatic_reminder_status"
+        android:layout_below="@id/textViewStatic_alertDialog_reminderStatus"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/view_dimen_large"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorSecondary"
         android:padding="@dimen/view_dimen_small"
-        android:text="30 mins"
+        android:text="@string/alertDialog_reminder_30_mins"
         android:textColor="@color/colorWhite"
         android:textSize="@dimen/font_medium"/>
 
-    <TextView
-        android:id="@+id/textViewStatic_change_reminder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView_reminder_status"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/view_dimen_X_large"
-        android:gravity="center"
-        android:text="@string/alertDialog_change_reminder"
-        android:textColor="@color/secondaryText"/>
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/textView_alertDialog_reminderStatus"
+        android:layout_marginEnd="@dimen/view_dimen_large"
+        android:layout_marginStart="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_large"
+        android:background="@color/divider"
+        />
 
-    <EditText
-        android:id="@+id/editText_alertDialog_changeReminder"
-        android:layout_width="@dimen/widget_dimen_X1_large"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/textViewStatic_change_reminder"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/view_dimen_small"
-        android:hint="@string/alertDialog_inputManual_hint"
-        android:lines="1"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:textColor="@color/colorSecondary"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_dimen_X2_large"
+        android:layout_below="@id/view_divider"
+        android:layout_marginTop="@dimen/view_dimen_large"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/view_dimen_large"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textViewStatic_alertDialog_changeReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:text="@string/alertDialog_change_reminder"
+                android:textColor="@color/colorSecondary"/>
+
+            <EditText
+                android:id="@+id/editText_alertDialog_changeReminder"
+                android:layout_width="@dimen/widget_dimen_X1_large"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/textViewStatic_alertDialog_changeReminder"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:hint="@string/alertDialog_inputManual_hint"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="@color/colorSecondary"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="@dimen/separator_dimen"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_marginStart="@dimen/view_dimen_large"
+            android:layout_marginTop="@dimen/view_dimen_large"
+            android:background="@color/divider"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView_alertDialog_stopReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/view_dimen_small"
+                android:text="@string/alertDialog_stop_reminder"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_X_small"/>
+
+        </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.sfsu.investickation.R;
 
@@ -20,11 +21,15 @@ import com.sfsu.investickation.R;
  */
 public class AlertDialogMaster {
 
+    public final static long STOP_REMINDER = 0x1111;
     private EditText et_setReminder_manualInput;
     private EditText et_changeReminder_manualInput;
+    private TextView txtView_reminderInterval;
     private Button btnHalfHour;
+    private TextView btnStopReminder;
     private long REMINDER_INTERVAL;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
+    private boolean isReminderStopClicked, isRemindChangedSet;
     private Context mContext;
     private IReminderCallback mInterface;
     private IReminderChangeCallBack mChangeInterface;
@@ -47,7 +52,8 @@ public class AlertDialogMaster {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View convertView = inflater.inflate(R.layout.alertdialog_reminder, null);
-        alertDialog.setTitle("Set Reminder");
+        alertDialog.setTitle(R.string.alertDialog_set_reminder);
+        alertDialog.setIcon(R.mipmap.ic_notifications_black_24dp);
 
         // set the onClickListener for each buttons defined in the custom layout.
         et_setReminder_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_manualInput);
@@ -117,17 +123,17 @@ public class AlertDialogMaster {
      *
      * @param mButton
      */
-    private void toggleBackground(Button mButton) {
+    private void toggleBackground(View v) {
         int colorPrimary = mContext.getResources().getColor(R.color.colorPrimary);
         int colorSecondary = mContext.getResources().getColor(R.color.colorSecondary);
 
-        ColorDrawable viewColor = (ColorDrawable) mButton.getBackground();
+        ColorDrawable viewColor = (ColorDrawable) v.getBackground();
         int currentColor = viewColor.getColor();
 
         if (currentColor == colorPrimary) {
-            mButton.setBackgroundColor(colorSecondary);
+            v.setBackgroundColor(colorSecondary);
         } else {
-            mButton.setBackgroundColor(colorPrimary);
+            v.setBackgroundColor(colorPrimary);
         }
     }
 
@@ -148,6 +154,14 @@ public class AlertDialogMaster {
 
             case R.id.editText_alertDialog_manualInput:
                 et_setReminder_manualInput.clearFocus();
+                break;
+
+            case R.id.editText_alertDialog_changeReminder:
+                et_changeReminder_manualInput.clearFocus();
+                break;
+
+            case R.id.textView_alertDialog_stopReminder:
+                btnStopReminder.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
                 break;
         }
     }
@@ -184,17 +198,45 @@ public class AlertDialogMaster {
                 //clearFocusView(btnHour);
                 clearFocusView(btnHalfHour);
                 break;
+
+            case R.id.editText_alertDialog_changeReminder:
+                isRemindChangedSet = true;
+                isReminderStopClicked = false;
+
+                clearFocusView(btnStopReminder);
+                break;
+
+            case R.id.textView_alertDialog_stopReminder:
+                isReminderStopClicked = true;
+                isRemindChangedSet = false;
+                toggleBackground(btnStopReminder);
+                clearFocusView(et_changeReminder_manualInput);
+                break;
         }
     }
 
-    public void displayOngoingReminderStatusDialog() {
+    public void displayOngoingReminderStatusDialog(long reminderValue) {
+        // initialize the value of each flags.
+        isRemindChangedSet = isReminderStopClicked = false;
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View convertView = inflater.inflate(R.layout.alertdialog_reminder_status, null);
-        alertDialog.setTitle("Current reminder");
+        alertDialog.setTitle(R.string.alertDialog_current_reminder);
         alertDialog.setIcon(R.mipmap.ic_notifications_active_black_24dp);
 
         et_changeReminder_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_changeReminder);
+        txtView_reminderInterval = (TextView) convertView.findViewById(R.id.textView_alertDialog_reminderStatus);
+        btnStopReminder = (TextView) convertView.findViewById(R.id.textView_alertDialog_stopReminder);
+
+        String reminderText = reminderValue + " mins";
+        txtView_reminderInterval.setText(reminderText);
+
+        btnStopReminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableView(btnStopReminder);
+            }
+        });
 
         // initialize and set et_setReminder_manualInput.
         et_changeReminder_manualInput.addTextChangedListener(new TextWatcher() {
@@ -219,11 +261,17 @@ public class AlertDialogMaster {
 
 
         // on click of the Positive Button, set the textView_Reminder value for selected option.
-        alertDialog.setPositiveButton(R.string.alertDialog_reminder_set, new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(R.string.alertDialog_apply, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                REMINDER_INTERVAL = Long.parseLong(et_changeReminder_manualInput.getText().toString());
-
+                if (isRemindChangedSet) {
+                    // get the total minutes of interval
+                    REMINDER_INTERVAL = Long.parseLong(et_changeReminder_manualInput.getText().toString());
+                } else if (isReminderStopClicked) {
+                    REMINDER_INTERVAL = STOP_REMINDER;
+                } else {
+                    REMINDER_INTERVAL = -123;
+                }
                 // pass it to callback
                 mChangeInterface.setReminderChangeValue(REMINDER_INTERVAL);
                 // close the dialog.

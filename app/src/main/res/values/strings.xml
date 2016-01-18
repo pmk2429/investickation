@@ -149,7 +149,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!-- Alert Dialogs widgets and views-->
     <string name="alertDialog_inputManual">Or, enter when you want to get reminded for tick encounters</string>
-    <string name="alertDialog_change_reminder">Change the reminder by entering the value</string>
+    <string name="alertDialog_stop_reminder">Stop Reminder</string>
+    <string name="alertDialog_change_reminder">Change Reminder</string>
     <string name="alertDialog_reminder_status">Reminder set for</string>
     <string name="alertDialog_inputManual_hint">15 mins</string>
     <string name="alertDialog_cancel">Cancel</string>
@@ -164,6 +165,9 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_ignore">Ignore</string>
     <string name="alertDialog_openActivity_title">Open an Activity?</string>
     <string name="alertDialog_openActivity_message">It is advisable to make observations under an Activity.</string>
+    <!-- Reminder title-->
+    <string name="alertDialog_current_reminder">Current Reminder</string>
+    <string name="alertDialog_set_reminder">Set Reminder</string>
 
     <!-- Dashboard-->
     <string name="dash_stepInfo">Easy to use steps:</string>
