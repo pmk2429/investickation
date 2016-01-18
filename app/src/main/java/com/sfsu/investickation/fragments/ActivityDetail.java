@@ -96,7 +96,6 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_activity_detail);
         setHasOptionsMenu(true);
     }
 
@@ -149,6 +148,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_activity_detail);
 
         BusProvider.bus().register(this);
 

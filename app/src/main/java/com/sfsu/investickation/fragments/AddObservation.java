@@ -120,7 +120,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_observation_add);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
@@ -495,6 +494,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_observation_add);
         BusProvider.bus().register(this);
 
     }

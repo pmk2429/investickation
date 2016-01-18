@@ -76,9 +76,14 @@ public class TickGuideDetail extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.title_fragment_tick_detail);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_tick_detail);
         if (getArguments() != null) {
             args = getArguments();
         }

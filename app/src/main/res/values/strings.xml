@@ -149,6 +149,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!-- Alert Dialogs widgets and views-->
     <string name="alertDialog_inputManual">Or, enter when you want to get reminded for tick encounters</string>
+    <string name="alertDialog_change_reminder">Change the reminder by entering the value</string>
+    <string name="alertDialog_reminder_status">Reminder set for</string>
     <string name="alertDialog_inputManual_hint">15 mins</string>
     <string name="alertDialog_cancel">Cancel</string>
     <string name="alertDialog_apply">Apply</string>

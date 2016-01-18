@@ -83,9 +83,14 @@ public class ObservationDetail extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.title_fragment_observation_detail);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_observation_detail);
         if (getArguments() != null) {
             args = getArguments();
         }

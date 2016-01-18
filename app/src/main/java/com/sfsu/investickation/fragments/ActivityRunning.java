@@ -36,6 +36,7 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.reminder.AlertDialogMaster;
+import com.sfsu.reminder.AlertDialogMaster.IReminderChangeCallBack;
 import com.sfsu.service.LocationService;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
@@ -67,7 +68,7 @@ import butterknife.ButterKnife;
  * Observation,
  */
 public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks, View.OnClickListener,
-        AlertDialogMaster.IReminderCallback {
+        AlertDialogMaster.IReminderCallback, IReminderChangeCallBack {
 
     public static final String TAG = "~!@#$ActivityRunning";
     // FAB
@@ -180,7 +181,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     /**
-     * Open AlertDialog when the Alarm goes off. Everytime the AlarmManager tikcs, the alarm will be opened. This will allow
+     * Open AlertDialog when the Alarm goes off. Every time the AlarmManager ticks, the alarm will be opened. This will allow
      * user for making Observation depending on the User choice. If User cancels the, then the Activity will continue.
      */
     private void openAlarmDialog() {
@@ -229,7 +230,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_activity_running);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
@@ -277,6 +277,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onResume() {
         mapView.onResume();
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_activity_running);
 
         try {
             // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
@@ -340,7 +341,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         }
         txtView_activityName.setText(textViewData.toString());
 
-        // open alart dialog for reminder
+        // open alarm dialog for reminder depending on whether its set or not
         fab_reminder.setOnClickListener(this);
 
         // Open the New Observation Fragment in button click and pass the activityId to make Activity related Observations.
@@ -359,6 +360,14 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         final Bundle mapViewSaveState = new Bundle(outState);
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
+
+        // save the current ongoingactivity
+        // save the Currently running object in SharedPref to retrieve it later using editor.
+        editor = activityPref.edit();
+        String activityJson = gson.toJson(ongoingActivityObj);
+        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
+        editor.apply();
+
         super.onSaveInstanceState(outState);
     }
 
@@ -383,10 +392,10 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mGoogleMapController.clear();
         mLocationController = null;
         mLatLngSet = null;
-        // when the fragment is destroyed, kill off Location Service and AlarmManager
-        mContext.unregisterReceiver(locationReceiver);
-        mContext.stopService(locationIntent);
-        mContext.unregisterReceiver(alarmBroadcastReceiver);
+//        // when the fragment is destroyed, kill off Location Service and AlarmManager
+//        mContext.unregisterReceiver(locationReceiver);
+//        mContext.stopService(locationIntent);
+//        mContext.unregisterReceiver(alarmBroadcastReceiver);
     }
 
     @Override
@@ -404,6 +413,25 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cardView_activityRunning_addObservation:
+                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
+                break;
+
+            case R.id.fab_actRun_activityStop:
+                clearResources();
+                updateRunningActivity();
+                break;
+
+            case R.id.fab_actRun_reminder:
+                openReminderDialog();
+                break;
+        }
     }
 
     @Override
@@ -424,10 +452,26 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     /**
+     * If the Alarm is already set, open the status dialog, else open dialog to set Reminder.
+     */
+    private void openReminderDialog() {
+        if (FLAG_IS_TIMER_SET) {
+            openReminderStatusDialog();
+        } else {
+            setupReminderDialog();
+        }
+    }
+
+    /**
      * Helper method to open AlertDialog when the user clicks on the reminder.
      */
     private void setupReminderDialog() {
-        alertDialogMaster.setupReminderDialog();
+        alertDialogMaster.setupNewReminderDialog();
+    }
+
+
+    private void openReminderStatusDialog() {
+        alertDialogMaster.displayOngoingReminderStatusDialog();
     }
 
     @Override
@@ -441,7 +485,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 FLAG_IS_TIMER_SET = true;
 
                 // start the Alarm Reminder.
-                startAlarmForReminder();
+                startReminder();
             } else {
                 FLAG_IS_TIMER_SET = false;
             }
@@ -449,32 +493,36 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         }
     }
 
+    @Override
+    public void setReminderChangeValue(long reminderValue) {
+        try {
+            REMINDER_INTERVAL = reminderValue;
+
+            if (REMINDER_INTERVAL != 0) {
+                reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
+
+                FLAG_IS_TIMER_SET = true;
+
+                // start the Alarm Reminder.
+                startReminder();
+            } else {
+                FLAG_IS_TIMER_SET = false;
+            }
+        } catch (NullPointerException ne) {
+        }
+
+
+    }
+
     /**
      * Helper method to set the reminder depending on User's choice
      */
-    private void startAlarmForReminder() {
+    private void startReminder() {
         if (FLAG_IS_TIMER_SET) {
-            new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
+            // if reminder is already running, cancel the current reminder
+            mPeriodicAlarm.cancelAlarm();
         }
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.cardView_activityRunning_addObservation:
-                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
-                break;
-
-            case R.id.fab_actRun_activityStop:
-                clearResources();
-                updateRunningActivity();
-                break;
-
-            case R.id.fab_actRun_reminder:
-                setupReminderDialog();
-                break;
-        }
+        mPeriodicAlarm.setAlarm(REMINDER_INTERVAL);
     }
 
 

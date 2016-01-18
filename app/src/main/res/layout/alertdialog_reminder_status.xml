@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/view_dimen_large">
+
+    <TextView
+        android:id="@+id/textViewStatic_reminder_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/view_dimen_large"
+        android:text="@string/alertDialog_reminder_status"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/font_large"/>
+
+    <TextView
+        android:id="@+id/textView_reminder_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewStatic_reminder_status"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/view_dimen_large"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/view_dimen_small"
+        android:text="30 mins"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_medium"/>
+
+    <TextView
+        android:id="@+id/textViewStatic_change_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_reminder_status"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/view_dimen_X_large"
+        android:gravity="center"
+        android:text="@string/alertDialog_change_reminder"
+        android:textColor="@color/secondaryText"/>
+
+    <EditText
+        android:id="@+id/editText_alertDialog_changeReminder"
+        android:layout_width="@dimen/widget_dimen_X1_large"
+        android:layout_height="@dimen/widget_dimen"
+        android:layout_below="@id/textViewStatic_change_reminder"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/view_dimen_small"
+        android:hint="@string/alertDialog_inputManual_hint"
+        android:lines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/colorSecondary"/>
+
+
+</RelativeLayout>

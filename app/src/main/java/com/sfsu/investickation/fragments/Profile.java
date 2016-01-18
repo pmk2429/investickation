@@ -70,7 +70,6 @@ public class Profile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_profile);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mAuthPreferences = new AuthPreferences(mContext);
         dbController = new DatabaseDataController(mContext, new UsersDao());
@@ -265,6 +264,7 @@ public class Profile extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_profile);
         BusProvider.bus().register(this);
     }
 }

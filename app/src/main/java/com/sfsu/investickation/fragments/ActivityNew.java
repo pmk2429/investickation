@@ -376,7 +376,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     private void setupReminderDialog() {
         AlertDialogMaster alertDialogMaster = new AlertDialogMaster(mContext, this);
-        alertDialogMaster.setupReminderDialog();
+        alertDialogMaster.setupNewReminderDialog();
     }
 
 

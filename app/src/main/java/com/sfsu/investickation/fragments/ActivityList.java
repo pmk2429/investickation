@@ -82,7 +82,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_activity_list);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setHasOptionsMenu(true);
     }
@@ -127,6 +126,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_activity_list);
 
         // by default the TextView is invisible
         txtView_activityListInfo.setVisibility(View.GONE);

@@ -70,7 +70,6 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_tick_list);
         BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
@@ -272,6 +271,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_tick_list);
         BusProvider.bus().register(this);
     }
 
@@ -319,7 +319,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
             @Override
             public void onItemLongClick(View view, int position) {
-                
+
             }
         }));
     }
