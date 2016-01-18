@@ -161,10 +161,14 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_reminder_30_mins">30 mins</string>
     <string name="alertDialog_reminder_60">60</string>
     <string name="alertDialog_reminder_set">Set Reminder</string>
+    <string name="alertDialog_open_observation">Open Observation</string>
+    <string name="alertDialog_continue">Continue</string>
     <!-- Alert Dialog for Opening an Activity-->
     <string name="alertDialog_ignore">Ignore</string>
     <string name="alertDialog_openActivity_title">Open an Activity?</string>
     <string name="alertDialog_openActivity_message">It is advisable to make observations under an Activity.</string>
+    <string name="alertDialog_alert_title">Found any Tick?</string>
+    <string name="alertDialog_alert_message">Don&#8217;t forget to add Observation for Tick</string>
     <!-- Reminder title-->
     <string name="alertDialog_current_reminder">Current Reminder</string>
     <string name="alertDialog_set_reminder">Set Reminder</string>

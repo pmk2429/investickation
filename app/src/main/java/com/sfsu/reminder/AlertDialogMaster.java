@@ -215,6 +215,11 @@ public class AlertDialogMaster {
         }
     }
 
+    /**
+     * Displays the status of ongoing reminder and allows users to Change as well as Cancel the Reminder
+     *
+     * @param reminderValue
+     */
     public void displayOngoingReminderStatusDialog(long reminderValue) {
         // initialize the value of each flags.
         isRemindChangedSet = isReminderStopClicked = false;

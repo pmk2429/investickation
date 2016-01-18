@@ -85,6 +85,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     // TextView
     @Bind(R.id.textView_actRun_activityName)
     TextView txtView_activityName;
+    // properties
     private LatLng[] mLatLngArray;
     private Activities ongoingActivityObj;
     private Context mContext;
@@ -187,27 +188,27 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private void openAlarmDialog() {
 
         AlertDialog.Builder alarmReminderDialog = new AlertDialog.Builder(mContext);
-        alarmReminderDialog.setTitle("Found any Tick?");
-        alarmReminderDialog.setMessage("Dont forget to add Observation for Tick");
+        alarmReminderDialog.setTitle(R.string.alertDialog_alert_title);
+        alarmReminderDialog.setMessage(R.string.alertDialog_alert_message);
+        alarmReminderDialog.setIcon(R.mipmap.ic_bug_report_black_24dp);
 
-        alarmReminderDialog.setPositiveButton("Open Observation", new DialogInterface.OnClickListener() {
+        alarmReminderDialog.setPositiveButton(R.string.alertDialog_open_observation, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("~!@#$NotAct", "Open Observation");
+                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
             }
         });
 
-        alarmReminderDialog.setNegativeButton("Continue", new DialogInterface.OnClickListener() {
+        alarmReminderDialog.setNegativeButton(R.string.alertDialog_continue, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("~!@#$NotAct", "Continue");
             }
         });
 
-        alarmReminderDialog.setNeutralButton("Cancel Timer", new DialogInterface.OnClickListener() {
+        alarmReminderDialog.setNeutralButton(R.string.alertDialog_stop_reminder, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("~!@#$NotAct", "Cancel Timer");
+                stopReminder();
             }
         });
 
