@@ -122,6 +122,11 @@ public class ObservationMasterActivity extends MainBaseActivity
                 activityIntent.putExtra(KEY_BACK_TO_ACTIVITY_DETAILS, 11);
                 startActivity(activityIntent);
                 finish();
+            } else {
+                // general case where list is called from NavDrawer
+                Intent homeIntent = new Intent(ObservationMasterActivity.this, MainActivity.class);
+                startActivity(homeIntent);
+                finish();
             }
             super.onBackPressed();
         } else if (count > 0) {

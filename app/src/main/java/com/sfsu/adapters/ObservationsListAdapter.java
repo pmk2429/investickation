@@ -52,8 +52,9 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
                 Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
                 holder.txtView_observationName.setText(mObservation.getTickName());
                 holder.txtView_location.setText(mObservation.getGeoLocation());
-                String dateAndTime = AppUtils.getDateAndTime(mObservation.getTimestamp());
-                holder.txtView_timestamp.setText(dateAndTime);
+                String[] dateAndTime = AppUtils.getDateAndTimeSeparate(mObservation.getTimestamp());
+                holder.txtView_date.setText(dateAndTime[0]);// set date
+                holder.txtView_time.setText(dateAndTime[1]); // set time
 
                 if (AppUtils.isConnectedOnline(mContext)) {
                     holder.icon_storageStatus.setImageResource(R.mipmap.ic_cloud_done_black_36dp);
@@ -138,7 +139,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
 
         CardView cv;
         ImageView imageView_tickImage, icon_storageStatus, icon_verified;
-        TextView txtView_observationName, txtView_location, txtView_timestamp;
+        TextView txtView_observationName, txtView_location, txtView_time, txtView_date;
 
         public ObservationViewHolder(View itemView) {
             super(itemView);
@@ -149,7 +150,8 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
             icon_verified = (ImageView) itemView.findViewById(R.id.icon_obsList_verified);
             txtView_observationName = (TextView) itemView.findViewById(R.id.textView_obsList_observationName);
             txtView_location = (TextView) itemView.findViewById(R.id.textView_obsList_location);
-            txtView_timestamp = (TextView) itemView.findViewById(R.id.textView_obsList_timestamp);
+            txtView_date = (TextView) itemView.findViewById(R.id.textView_obsList_date);
+            txtView_time = (TextView) itemView.findViewById(R.id.textView_obsList_time);
         }
     }
 

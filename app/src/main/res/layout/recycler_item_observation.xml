@@ -48,25 +48,14 @@
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X_small"/>
 
-            <TextView
-                android:id="@+id/textView_obsList_timestamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/view_dimen_small"
-                android:gravity="center_horizontal"
-                android:paddingTop="@dimen/view_dimen_X1_small"
-                android:text="1 Hr"
-                android:textColor="@color/secondaryText"
-                android:textSize="@dimen/font_X_small"/>
-
             <ImageView
                 android:id="@+id/icon_obsList_storage"
                 android:layout_width="@dimen/view_dimen_default"
                 android:layout_height="@dimen/view_dimen_default"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/textView_obsList_timestamp"
                 android:layout_marginEnd="@dimen/view_dimen_small"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/view_dimen_X1_small"
                 android:src="@mipmap/ic_cloud_done_black_36dp"/>
 
 
@@ -74,11 +63,63 @@
                 android:id="@+id/icon_obsList_verified"
                 android:layout_width="@dimen/view_dimen_default"
                 android:layout_height="@dimen/view_dimen_default"
+                android:layout_alignEnd="@id/icon_obsList_storage"
                 android:layout_alignParentEnd="true"
+                android:layout_below="@id/icon_obsList_storage"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:src="@mipmap/ic_verified_gray_24dp"/>
+
+            <ImageView
+                android:id="@+id/icon_obsList_date"
+                android:layout_width="@dimen/view_dimen_large"
+                android:layout_height="@dimen/view_dimen_large"
+                android:layout_alignStart="@id/textView_obsList_location"
+                android:layout_below="@id/textView_obsList_location"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:layout_toEndOf="@id/imageView_obsList_tickImage"
+                android:src="@mipmap/ic_today_black_24dp"/>
+
+            <TextView
+                android:id="@+id/textView_obsList_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/icon_obsList_date"
                 android:layout_below="@id/textView_obsList_location"
                 android:layout_marginEnd="@dimen/view_dimen_small"
-                android:layout_marginTop="@dimen/view_dimen_X1_small"
-                android:src="@mipmap/ic_verified_gray_24dp"/>
+                android:layout_marginStart="@dimen/view_dimen_X_small"
+                android:layout_toEndOf="@id/icon_obsList_date"
+                android:gravity="bottom"
+                android:padding="0dp"
+                android:text="Jan 18, 2016"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/font_X_small"/>
+
+
+            <ImageView
+                android:id="@+id/icon_obsList_time"
+                android:layout_width="@dimen/view_dimen_large"
+                android:layout_height="@dimen/view_dimen_large"
+                android:layout_alignBottom="@id/icon_obsList_date"
+                android:layout_below="@id/textView_obsList_location"
+                android:layout_marginStart="@dimen/view_dimen_medium"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:layout_toEndOf="@id/textView_obsList_date"
+                android:src="@mipmap/ic_access_time_black_24dp"/>
+
+            <TextView
+                android:id="@+id/textView_obsList_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/icon_obsList_time"
+                android:layout_below="@id/textView_obsList_location"
+                android:layout_marginStart="@dimen/view_dimen_X_small"
+                android:layout_toEndOf="@id/icon_obsList_time"
+                android:gravity="bottom"
+                android:padding="0dp"
+                android:text="01:13:18"
+                android:textColor="@color/secondaryText"
+                android:textSize="@dimen/font_X_small"/>
 
 
         </RelativeLayout>
