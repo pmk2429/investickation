@@ -23,7 +23,7 @@ public class ObservationMasterActivity extends MainBaseActivity
     public static final String KEY_BACK_TO_ACTIVITY_DETAILS = "back_to_activity_details";
     private final String TAG = "~!@#$ObsMasterAct";
 
-    private final FragmentManager fragmentManager = getSupportFragmentManager();
+    private FragmentManager fragmentManager;
 
     private boolean FLAG_CALLED_FROM_DASHBOARD;
     private boolean FLAG_CALLED_FROM_ACTIVITY_RUNNING;
@@ -34,6 +34,8 @@ public class ObservationMasterActivity extends MainBaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_observation_main);
+
+        fragmentManager = getSupportFragmentManager();
 
         // if Fragment container is present
         if (findViewById(R.id.observation_fragment_container) != null) {
@@ -47,7 +49,7 @@ public class ObservationMasterActivity extends MainBaseActivity
                 // set the dashboard flag
                 FLAG_CALLED_FROM_DASHBOARD = true;
                 AddObservation mAddObservation = new AddObservation();
-                performReplaceFragmentTransaction(mAddObservation);
+                performAddFragmentTransaction(mAddObservation);
             }
             // if the Intent is called from ActivityRunning fragment to by clicking on AddObservation button
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
@@ -56,25 +58,25 @@ public class ObservationMasterActivity extends MainBaseActivity
                 // if the intent is called from the UserActivityMasterActivity
                 AddObservation mAddObservation = AddObservation.newInstance(UserActivityMasterActivity
                         .KEY_ACTIVITY_ID, activityId);
-                performReplaceFragmentTransaction(mAddObservation);
+                performAddFragmentTransaction(mAddObservation);
             }
             // if the Intent is called from Dashboard by clicking on View Observations button.
             else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 FLAG_CALLED_FROM_DASHBOARD = true;
                 ObservationList observationList = new ObservationList();
-                performReplaceFragmentTransaction(observationList);
+                performAddFragmentTransaction(observationList);
             }
             // if the Intent is called from ActivityDetail by clicking on View Observations button.
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY_DETAILS = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 ObservationList mObservationList = ObservationList.newInstance(activityId);
-                performReplaceFragmentTransaction(mObservationList);
+                performAddFragmentTransaction(mObservationList);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
                 ObservationList mObservationList = new ObservationList();
-                performReplaceFragmentTransaction(mObservationList);
+                performAddFragmentTransaction(mObservationList);
             }
         }
     }
@@ -86,7 +88,6 @@ public class ObservationMasterActivity extends MainBaseActivity
     private void performAddFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.observation_fragment_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -98,6 +99,7 @@ public class ObservationMasterActivity extends MainBaseActivity
     private void performReplaceFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.observation_fragment_container, fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -132,14 +134,14 @@ public class ObservationMasterActivity extends MainBaseActivity
     public void onObservationAddListener() {
         FLAG_CALLED_FROM_OBSERVATION = true;
         AddObservation addObservationFragment = new AddObservation();
-        performAddFragmentTransaction(addObservationFragment);
+        performReplaceFragmentTransaction(addObservationFragment);
     }
 
 
     @Override
     public void onObservationListItemClickListener(Observation observation) {
         ObservationDetail observationDetailFragment = ObservationDetail.newInstance(observation);
-        performAddFragmentTransaction(observationDetailFragment);
+        performReplaceFragmentTransaction(observationDetailFragment);
     }
 
 
@@ -155,8 +157,11 @@ public class ObservationMasterActivity extends MainBaseActivity
 
     @Override
     public void postObservationData(Observation newObservation) {
+        // dont add to backstack
         ObservationList observationListFragment = new ObservationList();
-        performReplaceFragmentTransaction(observationListFragment);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.observation_fragment_container, observationListFragment);
+        transaction.commit();
     }
 
 }

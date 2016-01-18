@@ -2,7 +2,6 @@ package com.sfsu.investickation;
 
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,10 +15,8 @@ import com.sfsu.investickation.fragments.ActivityMap;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.service.PeriodicAlarm;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 /**
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
@@ -49,10 +46,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private FragmentManager fragmentManager;
     // for performing better navigation on back press.
     private ActivityRunning mActivityRunning;
-    private Stack<Fragment> fragmentStack;
-
-    private PeriodicAlarm periodicAlarm;
-    private IntentFilter myIntentFilter;
 
 
     @Override
@@ -185,6 +178,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             // passes the Newly created object to the ActivityRunning fragment.
             ActivityRunning mActivityRunning = ActivityRunning.newInstance(activityBundle);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
+            // dont add to backstack
             transaction.replace(R.id.activity_fragment_container, mActivityRunning);
             transaction.commit();
         }
@@ -195,6 +189,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onActivityStopButtonClicked() {
         ActivityList mActivityList = new ActivityList();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // dont add to backstack
         transaction.replace(R.id.activity_fragment_container, mActivityList);
         transaction.commit();
     }
@@ -234,7 +229,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList) {
         try {
             ActivityMap mActivityMap = ActivityMap.newInstance(mObservationList);
-            performAddFragmentTransaction(mActivityMap);
+            performReplaceFragmentTransaction(mActivityMap);
         } catch (Exception e) {
         }
     }
