@@ -150,9 +150,8 @@ public class ActivitiesDao implements EntityDao {
     @Override
     public Activities getByName(String entityName) {
         Activities mActivity = null;
-        Cursor c = null;
         try {
-            c = db.query(true,
+            Cursor c = db.query(true,
                     EntityTable.ActivitiesTable.TABLENAME,
                     activityEntryArray,
                     EntityTable.ActivitiesTable.COLUMN_NAME + "=?",
@@ -167,9 +166,6 @@ public class ActivitiesDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
             db.close();
         }
         return mActivity;
@@ -178,10 +174,9 @@ public class ActivitiesDao implements EntityDao {
     @Override
     public List<? extends Entity> getAll() {
         List<Activities> activitiesList = new ArrayList<Activities>();
-        Cursor c = null;
         try {
             // Query the Database to get all the records.
-            c = db.query(EntityTable.ActivitiesTable.TABLENAME,
+            Cursor c = db.query(EntityTable.ActivitiesTable.TABLENAME,
                     activityEntryArray, null, null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
@@ -196,9 +191,6 @@ public class ActivitiesDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
             db.close();
         }
         return activitiesList;

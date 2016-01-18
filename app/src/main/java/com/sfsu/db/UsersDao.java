@@ -118,9 +118,8 @@ public class UsersDao implements EntityDao {
      */
     public Entity get(String id) {
         Account userItem = null;
-        Cursor c = null;
         try {
-            c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_ID + "=?",
+            Cursor c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_ID + "=?",
                     new String[]{id + ""}, null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
@@ -132,9 +131,6 @@ public class UsersDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
             db.close();
         }
         return userItem;
@@ -149,9 +145,8 @@ public class UsersDao implements EntityDao {
 
     public Account getByName(String username) {
         Account userItem = null;
-        Cursor c = null;
         try {
-            c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_FULLNAME + "=?", new String[]{username + ""}, null, null, null, null);
+            Cursor c = db.query(true, EntityTable.UsersTable.TABLENAME, usersEntryArray, EntityTable.UsersTable.COLUMN_FULLNAME + "=?", new String[]{username + ""}, null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 userItem = buildFromCursor(c);
@@ -162,9 +157,6 @@ public class UsersDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
             db.close();
         }
         return userItem;
@@ -179,9 +171,8 @@ public class UsersDao implements EntityDao {
     public List<Entity> getAll() {
         List<Entity> usersList = new ArrayList<Entity>();
         // Query the Database to get all the records.
-        Cursor c = null;
         try {
-            c = db.query(EntityTable.UsersTable.TABLENAME, usersEntryArray, null, null, null, null, null);
+            Cursor c = db.query(EntityTable.UsersTable.TABLENAME, usersEntryArray, null, null, null, null, null);
             if (c != null && c.moveToFirst()) {
                 // loop until the end of Cursor and add each entry to Observations ArrayList.
                 do {
@@ -192,11 +183,9 @@ public class UsersDao implements EntityDao {
                 } while (c.moveToNext());
             }
         } catch (Exception e) {
-            
+
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
+            db.close();
         }
 
         return usersList;

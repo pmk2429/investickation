@@ -17,6 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,7 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
+import com.sfsu.utils.MyRecyclerScroll;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -60,7 +65,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)
-    FloatingActionButton addActivity;
+    FloatingActionButton fab_addActivity;
     @Bind(R.id.relativeLayout_actList_main)
     RelativeLayout mRelativeLayout;
     @Bind(R.id.textViewStatic_actList_listInfo)
@@ -74,6 +79,8 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private boolean loading = true;
     private LinearLayoutManager mLinearLayoutManager;
     private DatabaseDataController dbController;
+    private int fabMargin;
+    private Animation animation;
 
     public ActivityList() {
         // Required empty public constructor
@@ -93,6 +100,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         ButterKnife.bind(this, rootView);
 
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.simple_grow);
 
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
 
@@ -196,6 +204,8 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      * of data for better performance and interface.
      */
     private void displayActivityList() {
+        //  FAB margin needed for animation
+        fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
 
@@ -218,7 +228,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
                     }));
 
             // Add new Activity button.
-            addActivity.setOnClickListener(new View.OnClickListener() {
+            fab_addActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mInterface.onActivityAddListener();
@@ -226,26 +236,42 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             });
 
 
-            // lazy loading of recycler view.
-            recyclerView_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    if (dy > 0) //check for scroll down
-                    {
-                        visibleItemCount = mLinearLayoutManager.getChildCount();
-                        totalItemCount = mLinearLayoutManager.getItemCount();
-                        pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
+//            // lazy loading of recycler view.
+//            recyclerView_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                @Override
+//                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                    if (dy > 0) //check for scroll down
+//                    {
+//                        visibleItemCount = mLinearLayoutManager.getChildCount();
+//                        totalItemCount = mLinearLayoutManager.getItemCount();
+//                        pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
+//
+//                        if (loading) {
+//                            if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+//                                loading = false;
+//                                Log.i("...", "Last Item Wow !");
+//                            }
+//                        }
+//                    }
+//                }
+//            });
 
-                        if (loading) {
-                            if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                                loading = false;
-                                Log.i("...", "Last Item Wow !");
-                                //TODO Do pagination.. i.e. fetch new data
-                            }
-                        }
-                    }
+            recyclerView_activity.addOnScrollListener(new MyRecyclerScroll() {
+                @Override
+                public void show() {
+                    fab_addActivity.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+                }
+
+                @Override
+                public void hide() {
+                    fab_addActivity.animate().translationY(fab_addActivity.getHeight() + fabMargin).setInterpolator
+                            (new AccelerateInterpolator(2)).start();
                 }
             });
+
+            // finally apply the animation
+            fab_addActivity.startAnimation(animation);
+
         }
     }
 

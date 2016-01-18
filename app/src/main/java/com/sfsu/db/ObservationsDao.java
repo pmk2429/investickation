@@ -77,9 +77,8 @@ public class ObservationsDao implements EntityDao {
     public Entity get(String id) {
 
         Observation observationItem = null;
-        Cursor c = null;
         try {
-            c = db.query(true, EntityTable.ObservationsTable.TABLENAME, observationEntryArray, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+            Cursor c = db.query(true, EntityTable.ObservationsTable.TABLENAME, observationEntryArray, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 // once the Observation Item is build from cursor, create Tick object and Location object.
@@ -91,9 +90,6 @@ public class ObservationsDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
             db.close();
         }
         // the final ObservationItem will contain the Composite Object composed of Location and Tick objects.
@@ -112,11 +108,9 @@ public class ObservationsDao implements EntityDao {
      */
     public List<Observation> getAll() {
         List<Observation> observationsList = new ArrayList<Observation>();
-        Cursor c = null;
-
         try {
             // Query the Database to get all the records.
-            c = db.query(EntityTable.ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
+            Cursor c = db.query(EntityTable.ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 // loop until the end of Cursor and add each entry to Observations ArrayList.
@@ -129,9 +123,6 @@ public class ObservationsDao implements EntityDao {
             }
         } catch (Exception e) {
         } finally {
-            if (!c.isClosed()) {
-                c.close();
-            }
             db.close();
         }
         return observationsList;

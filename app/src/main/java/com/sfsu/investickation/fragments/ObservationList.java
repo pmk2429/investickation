@@ -16,6 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +35,7 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
+import com.sfsu.utils.MyRecyclerScroll;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -63,7 +68,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     @Bind(R.id.textViewStatic_obsList_listInfo)
     TextView txtView_observationList_info;
     @Bind(R.id.fab_observation_add)
-    FloatingActionButton addProject;
+    FloatingActionButton fab_addObservation;
 
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
@@ -73,6 +78,8 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private ObservationsListAdapter mObservationsListAdapter;
     private DatabaseDataController dbController;
     private String activityId;
+    private int fabMargin;
+    private Animation animation;
 
     public ObservationList() {
         // Required empty public constructor
@@ -107,6 +114,8 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         View rootView = inflater.inflate(R.layout.fragment_remote_observations, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.simple_grow);
 
         txtView_observationList_info.setVisibility(View.GONE);
 
@@ -162,7 +171,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         }
 
         // onclick of Add Observation FAB.
-        addProject.setOnClickListener(new View.OnClickListener() {
+        fab_addObservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mInterface.onObservationAddListener();
@@ -254,6 +263,8 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
      * Helper method to display list of Observations in RecyclerView.
      */
     private void displayObservationList() {
+        fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+
         //pass the mObservationList to the Adapter
         mObservationsListAdapter = new ObservationsListAdapter(mObservationList, mContext);
         recyclerView_observations.setAdapter(mObservationsListAdapter);
@@ -271,6 +282,22 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
 
             }
         }));
+
+        recyclerView_observations.addOnScrollListener(new MyRecyclerScroll() {
+            @Override
+            public void show() {
+                fab_addObservation.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
+            }
+
+            @Override
+            public void hide() {
+                fab_addObservation.animate().translationY(fab_addObservation.getHeight() + fabMargin).setInterpolator
+                        (new AccelerateInterpolator(2)).start();
+            }
+        });
+
+        // finally apply the animation
+        fab_addObservation.startAnimation(animation);
     }
 
 
