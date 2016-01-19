@@ -29,6 +29,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ActivitiesListAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.ActivitiesDao;
+import com.sfsu.dialogs.UploadAlertDialog;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
@@ -59,7 +60,7 @@ import butterknife.ButterKnife;
  * as well as total observations made in each Activity.
  * </p>
  */
-public class ActivityList extends Fragment implements SearchView.OnQueryTextListener {
+public class ActivityList extends Fragment implements SearchView.OnQueryTextListener, UploadAlertDialog.IUploadDataCallback {
 
     public final String TAG = "~!@#ActivityList";
     @Bind(R.id.recyclerview_activity_list)
@@ -81,6 +82,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private DatabaseDataController dbController;
     private int fabMargin;
     private Animation animation;
+    private UploadAlertDialog mUploadAlertDialog;
 
     public ActivityList() {
         // Required empty public constructor
@@ -103,6 +105,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         animation = AnimationUtils.loadAnimation(mContext, R.anim.simple_grow);
 
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
+        mUploadAlertDialog = new UploadAlertDialog(mContext, this);
 
         if (AppUtils.isConnectedOnline(mContext)) {
             // initialize the Bus to get list of Activities from server.
@@ -326,12 +329,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         return false;
     }
 
-    /**
-     * Upload all the {@link Activities} stored on the local database to the server
-     */
-    private void uploadActivities() {
-        Log.i(TAG, "upload activities: " + localActivitiesList.size());
-    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -382,6 +379,30 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     public void onStart() {
         super.onStart();
         BusProvider.bus().register(this);
+    }
+
+    /**
+     * Upload all the {@link Activities} stored on the local database to the server
+     */
+    private void uploadActivities() {
+        if (localActivitiesList != null) {
+            Log.i(TAG, "upload activities: " + localActivitiesList.size());
+            mUploadAlertDialog.showUploadAlertDialog(localActivitiesList.size());
+        } else {
+            mUploadAlertDialog.showUploadAlertDialog(-1);
+            Log.i(TAG, "no data to upload");
+        }
+    }
+
+    @Override
+    public void onUploadClick(long resultCode) {
+
+        if (resultCode == UploadAlertDialog.RESULT_OK)
+            Log.i(TAG, "ok upload");
+        else if (resultCode == UploadAlertDialog.RESULT_INVALID)
+            Log.i(TAG, "dont upload");
+        else if (resultCode == UploadAlertDialog.RESULT_NO_DATA)
+            Log.i(TAG, "nothing to upload");
     }
 
 

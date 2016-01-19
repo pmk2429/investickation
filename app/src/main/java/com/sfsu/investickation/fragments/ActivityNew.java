@@ -36,7 +36,7 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
-import com.sfsu.reminder.AlertDialogMaster;
+import com.sfsu.dialogs.AlertDialogMaster;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;

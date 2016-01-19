@@ -1,4 +1,4 @@
-package com.sfsu.reminder;
+package com.sfsu.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +17,7 @@ import com.sfsu.investickation.R;
 
 /**
  * AlertDialog class which provides methods to set up AlertDialog for different scenarios.
- * <p>
+ * <p/>
  */
 public class AlertDialogMaster {
 

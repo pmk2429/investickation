@@ -178,6 +178,13 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- Delete-->
     <string name="alertDialog_delete_activity_warning">Are you sure you want to delete this Activity?</string>
     <string name="alertDialog_delete_observation_warning">Are you sure you want to delete this Observation?</string>
+    <!-- Upload -->
+    <string name="alertDialog_upload">Upload</string>
+    <string name="alertDialog_later">Later</string>
+    <string name="alertDialog_title_upload_activities">Upload Activities?</string>
+    <string name="alertDialog_title_no_upload">Nothing to upload</string>
+    <string name="alertDialog_title_upload_observations">Upload Observations?</string>
+    <string name="alertDialog_upload_message">Do you want to upload the data on server?</string>
 
     <!-- Dashboard-->
     <string name="dash_stepInfo">Easy to use steps:</string>
