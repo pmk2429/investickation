@@ -72,6 +72,52 @@ public class UploadAlertDialog {
 
     }
 
+    /**
+     * Builds an Alert dialog for the total number of Activities, Observations in the local SQL database storage
+     *
+     * @param count
+     * @return
+     */
+    public void showObservationUploadAlertDialog(int count) {
+        AlertDialog.Builder alarmReminderDialog = new AlertDialog.Builder(mContext);
+        StringBuilder sb = new StringBuilder();
+        if (count > 0) {
+            alarmReminderDialog.setTitle(R.string.alertDialog_title_upload_observations);
+            String activityText = count > 0 ? " Observations " : " Observation ";
+            sb.append("Total ").append(count).append(activityText).append("found. Do you want to upload?");
+            alarmReminderDialog.setMessage(sb.toString());
+            alarmReminderDialog.setIcon(R.mipmap.ic_cloud_upload_black_24dp);
+
+            alarmReminderDialog.setPositiveButton(R.string.alertDialog_upload, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mInterface.onUploadClick(RESULT_OK);
+                }
+            });
+
+            alarmReminderDialog.setNegativeButton(R.string.alertDialog_later, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mInterface.onUploadClick(RESULT_INVALID);
+                }
+            });
+        } else {
+            alarmReminderDialog.setTitle(R.string.alertDialog_title_upload_activities);
+            String noUploadText = "Yay! Your data is in sync with server";
+            alarmReminderDialog.setMessage(noUploadText);
+            alarmReminderDialog.setIcon(R.mipmap.ic_cloud_upload_black_24dp);
+
+            alarmReminderDialog.setPositiveButton(R.string.alertDialog_OK, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mInterface.onUploadClick(RESULT_NO_DATA);
+                }
+            });
+        }
+        alarmReminderDialog.show();
+
+    }
+
     public interface IUploadDataCallback {
         void onUploadClick(long resultCode);
     }

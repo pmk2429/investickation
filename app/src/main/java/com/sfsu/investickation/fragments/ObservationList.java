@@ -343,9 +343,9 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
 
     private void uploadObservations() {
         if (localObservationList != null) {
-            mUploadAlertDialog.showUploadAlertDialog(localObservationList.size());
+            mUploadAlertDialog.showObservationUploadAlertDialog(localObservationList.size());
         } else {
-            mUploadAlertDialog.showUploadAlertDialog(-1);
+            mUploadAlertDialog.showObservationUploadAlertDialog(-1);
         }
     }
 
