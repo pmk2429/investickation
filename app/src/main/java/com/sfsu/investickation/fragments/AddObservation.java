@@ -198,10 +198,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                 // depending on network connection, save the Observation on storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
-                    // set Location params separately.
-                    newObservationObj.setGeoLocation(geoLocation);
-                    newObservationObj.setLatitude(latitude);
-                    newObservationObj.setLongitude(longitude);
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 } else {
                     // create Unique ID for the Running activity of length 32.
@@ -213,7 +209,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj.setImageUrl(selectedImagePath);
 
                     // set Location params separately.
-                    newObservationObj.setGeoLocation(geoLocation);
+                    newObservationObj.setGeoLocation("");
                     newObservationObj.setLatitude(latitude);
                     newObservationObj.setLongitude(longitude);
 
@@ -222,14 +218,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     long resultCode = dbController.save(newObservationObj);
 
                     if (resultCode != -1) {
-
                         // if saved to DB successfully, open ObservationsList
                         mInterface.postObservationData(newObservationObj);
-
                     } else {
                         Toast.makeText(mContext, "Fail to store Observation", Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         } catch (Exception e) {

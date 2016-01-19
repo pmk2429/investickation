@@ -300,14 +300,17 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             }
 
             // check if Activities object is not null.
+            // IMP FLAG must always be true in onResume when Activity is RUNNING
             if (ongoingActivityObj != null) {
                 populateView();
+                FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING;
             }
 
-            Log.i(TAG, ongoingActivityObj.toString());
+            Log.i(TAG, "resume:" + ongoingActivityObj.toString());
 
             // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
             if (FLAG_RUNNING) {
+                Log.i(TAG, "resume flag running");
                 locationIntent = new Intent(mContext, LocationService.class);
                 // start the service to capture Location updates.
                 mContext.startService(locationIntent);
@@ -339,6 +342,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Helper method to populate the View in this Fragment.
      */
     private void populateView() {
+        ongoingActivityObj.setState(Activities.STATE.RUNNING);
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
         if (AppUtils.isConnectedOnline(mContext)) {
@@ -356,8 +360,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
         // remove the SharedPreferences and set state of the ongoing activity to CREATED.
         fab_stopActivity.setOnClickListener(this);
-
-        FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING ? true : false;
     }
 
 
@@ -368,7 +370,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
 
-        // save the current ongoingactivity
+        // save the current ongoingActivity
         // save the Currently running object in SharedPref to retrieve it later using editor.
         editor = activityPref.edit();
         String activityJson = gson.toJson(ongoingActivityObj);
@@ -409,11 +411,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
@@ -430,7 +427,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardView_activityRunning_addObservation:
-                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
+                addNewObservation();
                 break;
 
             case R.id.fab_actRun_activityStop:
@@ -442,6 +439,20 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 openReminderDialog();
                 break;
         }
+    }
+
+    /**
+     * Save current activity state and open AddObservation
+     */
+    private void addNewObservation() {
+        Log.i(TAG, "adding observation");
+        Log.i(TAG, ongoingActivityObj.toString());
+        editor = activityPref.edit();
+        String activityJson = gson.toJson(ongoingActivityObj);
+        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
+        editor.apply();
+
+        mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
     }
 
     @Override
@@ -559,6 +570,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Clear and Free all the resources
      */
     private void clearResources() {
+        // delete the SharedPref data
+        activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
         // stop the Service
         mContext.stopService(locationIntent);
         mContext.unregisterReceiver(locationReceiver);
@@ -570,9 +583,11 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         // stop timer is the flag is set
         if (!FLAG_IS_TIMER_SET)
             mPeriodicAlarm.cancelAlarm();
+    }
 
-        // delete the SharedPref data
-        activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     /**
