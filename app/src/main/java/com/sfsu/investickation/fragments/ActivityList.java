@@ -108,9 +108,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
         mUploadAlertDialog = new UploadAlertDialog(mContext, this);
 
-        // clear all items first
-        mActivitiesList.clear();
-
         mLinearLayoutManager = new LinearLayoutManager(mContext);
 
         return rootView;
@@ -178,6 +175,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         responseActivitiesList.addAll(localActivitiesList);
 
+        if (mActivitiesList != null) {
+            mActivitiesList.clear();
+        }
+
+        // create a standard Activities list
         mActivitiesList = responseActivitiesList;
 
         if (mActivitiesList.size() > 0 && mActivitiesList != null) {
@@ -186,7 +188,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             // display text message
             txtView_activityListInfo.setVisibility(View.VISIBLE);
             recyclerView_activity.setVisibility(View.GONE);
-            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
         } else {
             Log.i(TAG, "activity list size < 0");
         }

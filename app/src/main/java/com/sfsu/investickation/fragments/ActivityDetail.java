@@ -30,6 +30,7 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -45,7 +46,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityDetail extends Fragment implements View.OnClickListener {
 
-    private static String KEY_ARGS = "acitvity_object";
+    private static String KEY_ARGS = "activity_object";
     public final String TAG = "~!@#ActivityDet";
     @Bind(R.id.textView_actDet_activityName)
     TextView txtView_name;
@@ -212,10 +213,14 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             if (image_url == "" || image_url == null) {
                 imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
             } else {
-                Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+                } else {
+                    imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+                }
             }
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -250,30 +255,8 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
                 button_viewObservations.setText(R.string.actDet_noObservationRecorded);
             }
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+
         }
-    }
-
-    /**
-     * Subscribes to the event of success loading of {@link com.sfsu.entities.Observation} related to this Activity.
-     *
-     * @param onLoadingError
-     */
-    @Subscribe
-    public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
-    }
-
-
-    /**
-     * Subscribes to the event of successful deletion of {@link Activities}.
-     *
-     * @param onLoaded
-     */
-    @Subscribe
-    public void onDeleteActivitySuccess(ActivityEvent.OnLoaded onLoaded) {
-        Toast.makeText(mContext, "Activity deleted", Toast.LENGTH_LONG).show();
-        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     /**
@@ -282,7 +265,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
      * @param onLoadingError
      */
     @Subscribe
-    public void onDeleteActivitySuccess(ActivityEvent.OnLoadingError onLoadingError) {
+    public void onDeleteActivityFailure(ActivityEvent.OnLoadingError onLoadingError) {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
@@ -359,6 +342,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     @Subscribe
     public void onActivityDeleteSuccess(ActivityEvent.OnLoadedCount onLoaded) {
         if (onLoaded.getResponse().getCount() == 1) {
+            Toast.makeText(mContext, "Activity deleted", Toast.LENGTH_LONG).show();
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }
