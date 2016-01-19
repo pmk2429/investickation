@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.TickDao;
@@ -48,13 +47,11 @@ public class DownloadTickService extends Service {
         BusProvider.bus().register(this);
         dbTicksController = new DatabaseDataController(this, TickDao.getInstance());
         // make a network call and download all the Ticks from the server
-        Log.i(TAG, "onCreate");
         FLAG_DOWNLOAD = false;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG, "onStartCommand");
         BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
         return START_NOT_STICKY;
 
@@ -70,11 +67,9 @@ public class DownloadTickService extends Service {
         // if already downloaded, then set to false
         // Had to do this since the EventHandler was getting called twice
         if (FLAG_DOWNLOAD) {
-            Log.i(TAG, FLAG_DOWNLOAD + " already downloaded");
             FLAG_DOWNLOAD = false;
         } else {
             tickList = onLoaded.getResponseList();
-            Log.i(TAG, FLAG_DOWNLOAD + " not downloaded");
             FLAG_DOWNLOAD = true;
             saveTicksToDatabase();
         }
@@ -88,28 +83,21 @@ public class DownloadTickService extends Service {
     @Subscribe
     public void onTicksDownLoadFailure(TickEvent.OnLoadingError onLoadingError) {
         stopSelf();
-        Log.i(TAG, "ticks download fail");
     }
 
     private void saveTicksToDatabase() {
-        Log.i(TAG, counter++ + " ticks download success");
         try {
             if (FLAG_DOWNLOAD) {
-                Log.i(TAG, "saveToDB: " + FLAG_DOWNLOAD);
                 if (tickList != null && tickList.size() > 0) {
-                    Log.i(TAG, "ticksList not null");
                     // init the array
                     resultCodes = new long[tickList.size()];
                     // save to db
                     for (int i = 0; i < tickList.size(); i++) {
-                        Log.i(TAG, "-> " + i);
                         // get the tick from DB
                         Tick mTick = tickList.get(i);
                         resultCodes[i] = dbTicksController.save(mTick);
-                        Log.i(TAG, "result: " + resultCodes[i]);
                     }
                 } else {
-                    Log.i(TAG, "tickList null");
                 }
             }
         } catch (NullPointerException ne) {
@@ -125,7 +113,6 @@ public class DownloadTickService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy");
         stopSelf();
         BusProvider.bus().unregister(this);
     }

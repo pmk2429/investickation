@@ -111,7 +111,8 @@ public class TickDao implements EntityDao {
      * @param Ticks
      * @return
      */
-    public boolean update(Entity entity) {
+    @Override
+    public boolean update(String id, Entity entity) {
 
         try {
             Log.d(LOGTAG, "Tick : UPDATE reached");

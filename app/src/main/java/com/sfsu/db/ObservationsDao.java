@@ -14,7 +14,7 @@ import java.util.List;
  * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
  * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
  * Database and then build up the Observation object.
- * <p>
+ * <p/>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
@@ -164,7 +164,8 @@ public class ObservationsDao implements EntityDao {
      * @param observations
      * @return
      */
-    public boolean update(Entity entity) {
+    @Override
+    public boolean update(String id, Entity entity) {
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());

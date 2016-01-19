@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * DAO for {@link Account} .
- * <p>
+ * <p/>
  * Created by Pavitra on 6/3/2015.
  */
 public class UsersDao implements EntityDao {
@@ -75,7 +75,8 @@ public class UsersDao implements EntityDao {
      * @param user
      * @return
      */
-    public boolean update(Entity entity) {
+    @Override
+    public boolean update(String id, Entity entity) {
         Account user = (Account) entity;
         ContentValues contentValues = new ContentValues();
         contentValues.put(EntityTable.UsersTable.COLUMN_ID, user.getId());

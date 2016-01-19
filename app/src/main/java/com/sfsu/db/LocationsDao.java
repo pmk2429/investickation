@@ -75,7 +75,7 @@ public class LocationsDao implements EntityDao {
     }
 
     @Override
-    public boolean update(Entity entityItem) {
+    public boolean update(String id, Entity entityItem) {
         return false;
     }
 

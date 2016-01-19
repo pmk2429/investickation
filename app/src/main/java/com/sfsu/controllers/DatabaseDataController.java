@@ -15,7 +15,7 @@ import java.util.List;
  * <br/>
  * This class provides abstraction on top of the DAO (Entity DAOs) layer for efficient error handling and modularity
  * of data retrieval.
- * <p>
+ * <p/>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseDataController {
@@ -41,8 +41,8 @@ public class DatabaseDataController {
         return this.entityDao.save(entity);
     }
 
-    public boolean update(Entity entity) {
-        return this.entityDao.update(entity);
+    public boolean update(String id, Entity entity) {
+        return this.entityDao.update(id, entity);
     }
 
     public boolean delete(String id) {

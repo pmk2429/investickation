@@ -48,7 +48,6 @@ public class ActivitiesDao implements EntityDao {
     @Override
     public long save(Entity entityItem) {
         try {
-            Log.d(TAG, "INSERT reached");
             Activities mActivity = (Activities) entityItem;
             ContentValues contentValues = getContentValues(mActivity);
             // save the entity
@@ -61,8 +60,19 @@ public class ActivitiesDao implements EntityDao {
     }
 
     @Override
-    public boolean update(Entity entityItem) {
-        return false;
+    public boolean update(String id, Entity entityItem) {
+        try {
+            Activities mActivity = (Activities) entityItem;
+            ContentValues contentValues = getContentValues(mActivity);
+            // update the record.
+            return db.update(
+                    EntityTable.ActivitiesTable.TABLENAME,
+                    contentValues,
+                    EntityTable.ActivitiesTable.COLUMN_ID + "=?",
+                    new String[]{id}) > 0;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean update(Entity entity, String imageUrl) {

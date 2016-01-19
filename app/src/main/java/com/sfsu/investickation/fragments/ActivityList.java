@@ -108,6 +108,9 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
         mUploadAlertDialog = new UploadAlertDialog(mContext, this);
 
+        // clear all items first
+        mActivitiesList.clear();
+
         mLinearLayoutManager = new LinearLayoutManager(mContext);
 
         return rootView;
@@ -120,14 +123,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         BusProvider.bus().register(this);
 
         if (AppUtils.isConnectedOnline(mContext)) {
-            Log.i(TAG, "getting activities");
-            // initialize the Bus to get list of Activities from server.
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
         } else {
             // get List of Activities from Database
             localActivitiesList = (List<Activities>) dbController.getAll();
-            Log.i(TAG, localActivitiesList.size() + "");
             mActivitiesList = localActivitiesList;
 
             if (mActivitiesList.size() > 0 && mActivitiesList != null) {
@@ -176,8 +176,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             localActivitiesList.get(i).setIsOnCloud(false);
         }
 
-//        mActivitiesList = responseActivitiesList;
-
         responseActivitiesList.addAll(localActivitiesList);
 
         mActivitiesList = responseActivitiesList;
@@ -213,8 +211,10 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private void displayActivityList() {
         //  FAB margin needed for animation
         fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
+
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
+        mActivitiesListAdapter.notifyDataSetChanged();
 
         if (recyclerView_activity != null) {
             recyclerView_activity.setAdapter(mActivitiesListAdapter);
@@ -386,11 +386,9 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private void uploadActivities() {
 
         if (localActivitiesList != null) {
-            Log.i(TAG, "upload activities: " + localActivitiesList.size());
             mUploadAlertDialog.showUploadAlertDialog(localActivitiesList.size());
         } else {
             mUploadAlertDialog.showUploadAlertDialog(-1);
-            Log.i(TAG, "no data to upload");
         }
     }
 
@@ -398,12 +396,10 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     public void onUploadClick(long resultCode) {
 
         if (resultCode == UploadAlertDialog.RESULT_OK) {
-            Log.i(TAG, "ok upload");
             mInterface.onUploadListOfActivities();
-        } else if (resultCode == UploadAlertDialog.RESULT_INVALID)
-            Log.i(TAG, "dont upload");
-        else if (resultCode == UploadAlertDialog.RESULT_NO_DATA) {
-            Log.i(TAG, "nothing to upload");
+        } else if (resultCode == UploadAlertDialog.RESULT_INVALID) {
+
+        } else if (resultCode == UploadAlertDialog.RESULT_NO_DATA) {
         }
     }
 

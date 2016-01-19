@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
+import com.sfsu.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -72,7 +73,11 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             if (image_url == "" || image_url == null) {
                 holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
             } else {
-                Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+                } else {
+                    holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+                }
             }
 
             if (mActivity.isOnCloud()) {

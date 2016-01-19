@@ -25,8 +25,12 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
+import com.sfsu.db.ActivitiesDao;
+import com.sfsu.dialogs.AlertDialogMaster;
+import com.sfsu.dialogs.AlertDialogMaster.IReminderChangeCallBack;
 import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
@@ -35,8 +39,6 @@ import com.sfsu.map.StaticMap;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
-import com.sfsu.dialogs.AlertDialogMaster;
-import com.sfsu.dialogs.AlertDialogMaster.IReminderChangeCallBack;
 import com.sfsu.service.LocationService;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
@@ -92,6 +94,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private IActivityRunningCallBacks mListener;
     private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
+    private DatabaseDataController dbController;
     private Bundle activityBundle;
     private boolean FLAG_RUNNING, FLAG_IS_TIMER_SET;
     private long REMINDER_INTERVAL;
@@ -249,6 +252,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mGoogleMapController = new GoogleMapController(mContext, this);
         alertDialogMaster = new AlertDialogMaster(mContext, this);
         mPeriodicAlarm = new PeriodicAlarm(mContext);
+        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
         gson = new Gson();
 
         try {
@@ -605,8 +609,16 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(ongoingActivityObj, ongoingActivityObj.getId(),
                         ApiRequestHandler.UPDATE));
             } else {
+                // update the Activity in the Database
+                boolean isUpdated = dbController.update(ongoingActivityObj.getId(), ongoingActivityObj);
                 // simply open the List
-                mListener.onActivityStopButtonClicked();
+                if (isUpdated) {
+                    Activities mActivity = (Activities) dbController.get(ongoingActivityObj.getId());
+                    Log.i(TAG, mActivity.toString());
+                    mListener.onActivityStopButtonClicked();
+                } else {
+                    Log.i(TAG, "record not updated");
+                }
             }
 
         } catch (Exception e) {
