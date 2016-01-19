@@ -97,14 +97,9 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public boolean delete(String id) {
-        try {
-            return db.delete(EntityTable.ActivitiesTable.TABLENAME, EntityTable.ActivitiesTable.COLUMN_ID + "=?",
-                    new String[]{id + ""}) > 0;
-        } catch (Exception e) {
-            return false;
-        } finally {
-            db.close();
-        }
+        String table = EntityTable.ActivitiesTable.TABLENAME;
+        String whereClause = EntityTable.ActivitiesTable.COLUMN_ID + "=?";
+        return db.delete(table, whereClause, new String[]{id}) > 0;
     }
 
     @Override
@@ -190,8 +185,6 @@ public class ActivitiesDao implements EntityDao {
             }
         } catch (Exception e) {
 
-        } finally {
-            db.close();
         }
         return activitiesList;
     }

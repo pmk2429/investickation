@@ -14,6 +14,7 @@ import com.sfsu.investickation.fragments.ActivityList;
 import com.sfsu.investickation.fragments.ActivityMap;
 import com.sfsu.investickation.fragments.ActivityNew;
 import com.sfsu.investickation.fragments.ActivityRunning;
+import com.sfsu.investickation.fragments.PostActivitiesList;
 import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
@@ -22,10 +23,15 @@ import java.util.ArrayList;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p>
+ * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
-public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks, ActivityDetail.IActivityDetailsCallBacks, ActivityNew.IActivityNewCallBack, ActivityRunning.IActivityRunningCallBacks, ActivityMap.IActivityMapCallBack {
+public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks,
+        ActivityDetail.IActivityDetailsCallBacks,
+        ActivityNew.IActivityNewCallBack,
+        ActivityRunning.IActivityRunningCallBacks,
+        ActivityMap.IActivityMapCallBack,
+        PostActivitiesList.IPostActivitiesListCallback {
 
     public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
@@ -172,6 +178,12 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     }
 
     @Override
+    public void onUploadListOfActivities() {
+        PostActivitiesList postActivitiesListFragment = new PostActivitiesList();
+        performReplaceFragmentTransaction(postActivitiesListFragment);
+    }
+
+    @Override
     public void onPlayButtonClick(Bundle activityBundle) {
 
         if (activityBundle != null) {
@@ -183,7 +195,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             transaction.commit();
         }
     }
-
 
     @Override
     public void onActivityStopButtonClicked() {
@@ -234,4 +245,11 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         }
     }
 
+    @Override
+    public void displayActivityList() {
+        ActivityList activityListFragment = new ActivityList();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.activity_fragment_container, activityListFragment);
+        transaction.commit();
+    }
 }

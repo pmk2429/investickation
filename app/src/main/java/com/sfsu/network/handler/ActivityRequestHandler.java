@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
@@ -15,6 +16,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Call;
@@ -36,6 +38,7 @@ import retrofit.Response;
  */
 public class ActivityRequestHandler extends ApiRequestHandler {
 
+    private List<Activities> massUploadResponseList;
     private ActivityApiService mApiService;
     private String TAG = "~!@#$ActReqHdlr";
     private ErrorResponse mErrorResponse;
@@ -91,8 +94,67 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 break;
         }
 
-
     }
+
+    /**
+     * Subscribes to the event of initializing list of Activities to store on server
+     *
+     * @param onListLoadingInitialized
+     */
+    @Subscribe
+    public void onInitializeListActivityEvent(ActivityEvent.OnListLoadingInitialized onListLoadingInitialized) {
+        List<Activities> activitiesList = onListLoadingInitialized.getRequest();
+        massUploadResponseList = new ArrayList<>();
+
+        Call<Activities> activitiesCall = null;
+        // for each Activities in the list, make a call and push data on the server
+        for (int i = 0; i < activitiesList.size(); i++) {
+            Log.i(TAG, "inside forloop");
+            activitiesCall = mApiService.add(onListLoadingInitialized.getRequest().get(i));
+            Log.i(TAG, "making activitiesCall");
+            // makes the Calls to network.
+            activitiesCall.enqueue(new Callback<Activities>() {
+                @Override
+                public void onResponse(Response<Activities> response) {
+                    if (response.isSuccess()) {
+                        Log.i(TAG, "response is success");
+                        massUploadResponseList.add(response.body());
+                    } else {
+                        Log.i(TAG, "response is failure");
+                        int statusCode = response.code();
+                        ResponseBody errorBody = response.errorBody();
+                        try {
+                            mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                            Log.i(TAG, mErrorResponse.getApiError().getMessage());
+                            mBus.post(new ActivityEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
+                        } catch (IOException e) {
+                            mBus.post(ActivityEvent.FAILED);
+                        }
+                    }
+                    Log.i(TAG, "reached-1");
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    Log.i(TAG, "failure");
+                    if (t != null && t.getMessage() != null) {
+                        mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
+                    } else {
+                        mBus.post(ActivityEvent.FAILED);
+                    }
+                }
+            });
+            Log.i(TAG, "reached-2");
+        }
+        Log.i(TAG, "reached-3");
+        if (massUploadResponseList != null) {
+            Log.i(TAG, "responseList not empty");
+            // finally post response list
+            mBus.post(new ActivityEvent.OnMassUploadListLoaded(massUploadResponseList));
+
+        }
+    }
+
 
     /**
      * Makes CREATE, READ, UPDATE type network call to server using Retrofit Api service and posts the response on the event

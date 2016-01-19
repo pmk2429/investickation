@@ -60,6 +60,21 @@ public class ActivityEvent extends BaseNetworkEvent {
     }
 
     /**
+     * Event Handler When the Loading for the Activities Events is initialized and Request is initiated.
+     */
+    public static class OnListLoadingInitialized extends OnStart<List<Activities>, String> {
+
+        public int apiRequestMethod;
+
+        public OnListLoadingInitialized(List<Activities> activitiesList, int apiRequestMethod) {
+            super(activitiesList, "");
+            this.apiRequestMethod = apiRequestMethod;
+        }
+
+
+    }
+
+    /**
      * Event Handler when the Activities Events are successfully executed and Response is generated.
      */
     public static class OnLoaded extends OnDone<Activities> {
@@ -86,6 +101,16 @@ public class ActivityEvent extends BaseNetworkEvent {
      */
     public static class OnListLoaded extends OnDone<Activities> {
         public OnListLoaded(List<Activities> activitiesList) {
+            super(activitiesList);
+        }
+    }
+
+    /**
+     * Event Handler for loading List of Activities all together from the Server.
+     * <b>Has to be separate to properly unregister the event from ActivityList</b>
+     */
+    public static class OnMassUploadListLoaded extends OnDone<Activities> {
+        public OnMassUploadListLoaded(List<Activities> activitiesList) {
             super(activitiesList);
         }
     }

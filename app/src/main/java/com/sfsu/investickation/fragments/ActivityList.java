@@ -83,6 +83,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private int fabMargin;
     private Animation animation;
     private UploadAlertDialog mUploadAlertDialog;
+    private List<Activities> uploadActivities;
 
     public ActivityList() {
         // Required empty public constructor
@@ -107,13 +108,25 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
         mUploadAlertDialog = new UploadAlertDialog(mContext, this);
 
+        mLinearLayoutManager = new LinearLayoutManager(mContext);
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.title_fragment_activity_list);
+        BusProvider.bus().register(this);
+
         if (AppUtils.isConnectedOnline(mContext)) {
+            Log.i(TAG, "getting activities");
             // initialize the Bus to get list of Activities from server.
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
         } else {
             // get List of Activities from Database
-            localActivitiesList = (List<Activities>) (List<?>) dbController.getAll();
+            localActivitiesList = (List<Activities>) dbController.getAll();
             Log.i(TAG, localActivitiesList.size() + "");
             mActivitiesList = localActivitiesList;
 
@@ -129,15 +142,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             }
         }
 
-        mLinearLayoutManager = new LinearLayoutManager(mContext);
-
-        return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(R.string.title_fragment_activity_list);
 
         // by default the TextView is invisible
         txtView_activityListInfo.setVisibility(View.GONE);
@@ -290,13 +294,21 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         }
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BusProvider.bus().unregister(this);
+        localActivitiesList = null;
+        responseActivitiesList = null;
+        mActivitiesList = null;
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         mContext = null;
         mActivitiesListAdapter = null;
-        mActivitiesList = null;
-        responseActivitiesList = null;
     }
 
     @Override
@@ -328,7 +340,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         return false;
     }
-
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -369,22 +380,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        BusProvider.bus().unregister(this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        BusProvider.bus().register(this);
-    }
-
     /**
      * Upload all the {@link Activities} stored on the local database to the server
      */
     private void uploadActivities() {
+
         if (localActivitiesList != null) {
             Log.i(TAG, "upload activities: " + localActivitiesList.size());
             mUploadAlertDialog.showUploadAlertDialog(localActivitiesList.size());
@@ -397,12 +397,14 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onUploadClick(long resultCode) {
 
-        if (resultCode == UploadAlertDialog.RESULT_OK)
+        if (resultCode == UploadAlertDialog.RESULT_OK) {
             Log.i(TAG, "ok upload");
-        else if (resultCode == UploadAlertDialog.RESULT_INVALID)
+            mInterface.onUploadListOfActivities();
+        } else if (resultCode == UploadAlertDialog.RESULT_INVALID)
             Log.i(TAG, "dont upload");
-        else if (resultCode == UploadAlertDialog.RESULT_NO_DATA)
+        else if (resultCode == UploadAlertDialog.RESULT_NO_DATA) {
             Log.i(TAG, "nothing to upload");
+        }
     }
 
 
@@ -419,6 +421,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
          * Callback method to handle the click event of the Add Button in {@link ActivityList} Fragment.
          */
         public void onActivityAddListener();
+
+        /**
+         * Callback to upload list of {@link Activities} on the server
+         */
+        public void onUploadListOfActivities();
     }
 
 }
