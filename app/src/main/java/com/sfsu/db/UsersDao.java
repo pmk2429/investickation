@@ -192,6 +192,11 @@ public class UsersDao implements EntityDao {
         return usersList;
     }
 
+    @Override
+    public List<? extends Entity> getAll(String id) {
+        return null;
+    }
+
     // build the Account Object using Cursor.
     public Account buildFromCursor(Cursor c) {
         Account userItem = null;

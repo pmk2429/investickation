@@ -3,7 +3,6 @@ package com.sfsu.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Entity;
@@ -197,5 +196,10 @@ public class ActivitiesDao implements EntityDao {
 
         }
         return activitiesList;
+    }
+
+    @Override
+    public List<? extends Entity> getAll(String id) {
+        return null;
     }
 }

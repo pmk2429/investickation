@@ -28,4 +28,6 @@ public interface EntityDao {
 
     List<? extends Entity> getAll();
 
+    List<? extends Entity> getAll(String id);
+
 }

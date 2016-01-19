@@ -68,7 +68,7 @@ public class ObservationMasterActivity extends MainBaseActivity
                 ObservationList observationList = new ObservationList();
                 performAddFragmentTransaction(observationList);
             }
-            // if the Intent is called from ActivityDetail by clicking on View Observations button.
+            // if the Intent is called from ActivityDetail by clicking on ViewObservations button.
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY_DETAILS = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);

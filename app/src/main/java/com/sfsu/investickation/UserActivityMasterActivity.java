@@ -86,7 +86,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 // if user navigates back to ActivityDetail fragment.
                 else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
                     ActivityDetail mActivityDetail = new ActivityDetail();
-                    performAddFragmentTransaction(mActivityDetail);
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.add(R.id.activity_fragment_container, mActivityDetail);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
                 // if user opens Activity by clicking on the ListView item from Dashboard.
                 else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 1) {

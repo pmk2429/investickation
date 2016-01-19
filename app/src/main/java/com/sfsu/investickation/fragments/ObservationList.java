@@ -80,6 +80,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private ObservationsListAdapter mObservationsListAdapter;
     private DatabaseDataController dbController;
     private String activityId;
+    private boolean FLAG_GET_ACTIVITY_OBSERVATIONS;
     private int fabMargin;
     private Animation animation;
     private UploadAlertDialog mUploadAlertDialog;
@@ -134,8 +135,10 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         }
         if (args != null && args.containsKey(KEY_ACTIVITY_ID)) {
             activityId = args.getString(KEY_ACTIVITY_ID);
+            FLAG_GET_ACTIVITY_OBSERVATIONS = true;
         } else {
             activityId = null;
+            FLAG_GET_ACTIVITY_OBSERVATIONS = false;
         }
 
 
@@ -151,7 +154,14 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
             }
         } else {
             // network not available.
-            localObservationList = (List<Observation>) (List<?>) dbController.getAll();
+
+            // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
+            if (FLAG_GET_ACTIVITY_OBSERVATIONS) {
+                localObservationList = (List<Observation>) dbController.getAll(activityId);
+            } else {
+                // get all the observations. When the User clicks MyObservations in Nav Drawer or from Dashboard
+                localObservationList = (List<Observation>) dbController.getAll();
+            }
 
             mObservationList = localObservationList;
 

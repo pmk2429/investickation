@@ -78,7 +78,11 @@ public class ObservationsDao implements EntityDao {
 
         Observation observationItem = null;
         try {
-            Cursor c = db.query(true, EntityTable.ObservationsTable.TABLENAME, observationEntryArray, EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id + ""}, null, null, null, null);
+            Cursor c = db.query(true, EntityTable.ObservationsTable.TABLENAME,
+                    observationEntryArray,
+                    EntityTable.ObservationsTable.COLUMN_ID + "=?",
+                    new String[]{id},
+                    null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 // once the Observation Item is build from cursor, create Tick object and Location object.
@@ -111,6 +115,39 @@ public class ObservationsDao implements EntityDao {
         try {
             // Query the Database to get all the records.
             Cursor c = db.query(EntityTable.ObservationsTable.TABLENAME, observationEntryArray, null, null, null, null, null);
+
+            if (c != null && c.moveToFirst()) {
+                // loop until the end of Cursor and add each entry to Observations ArrayList.
+                do {
+                    Observation observationItem = buildFromCursor(c);
+                    if (observationItem != null) {
+                        observationsList.add(observationItem);
+                    }
+                } while (c.moveToNext());
+            }
+        } catch (Exception e) {
+        } finally {
+            db.close();
+        }
+        return observationsList;
+    }
+
+
+    /**
+     * Returns all the {@link Observation} for the ActivityId passed
+     *
+     * @return
+     */
+    public List<Observation> getAll(String activityId) {
+        List<Observation> observationsList = new ArrayList<Observation>();
+        try {
+            // Query the Database to get all the records.
+            Cursor c = db.query(
+                    EntityTable.ObservationsTable.TABLENAME,
+                    observationEntryArray,
+                    EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID + "=?",
+                    new String[]{activityId},
+                    null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 // loop until the end of Cursor and add each entry to Observations ArrayList.

@@ -238,5 +238,10 @@ public class TickDao implements EntityDao {
         return ticksList;
     }
 
+    @Override
+    public List<? extends Entity> getAll(String id) {
+        return null;
+    }
+
 
 }

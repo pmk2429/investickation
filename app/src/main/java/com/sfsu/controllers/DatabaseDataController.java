@@ -61,6 +61,10 @@ public class DatabaseDataController {
         return this.entityDao.getAll();
     }
 
+    public List<? extends Entity> getAll(String id) {
+        return this.entityDao.getAll(id);
+    }
+
     /**
      * Method to close the database connection
      */
