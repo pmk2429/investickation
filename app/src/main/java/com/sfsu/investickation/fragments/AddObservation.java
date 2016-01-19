@@ -58,7 +58,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AddObservation extends Fragment implements LocationController.ILocationCallBacks, TextValidator.ITextValidate, View.OnClickListener {
+public class AddObservation extends Fragment implements LocationController.ILocationCallBacks,
+        TextValidator.ITextValidate, View.OnClickListener {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
@@ -136,6 +137,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         }
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         mAuthPreferences = new AuthPreferences(mContext);
+        // initialize the LocationController
+        mLocationController = new LocationController(mContext, this);
+
+        // connect to GoogleApi only if the Network is available.
+        if (AppUtils.isConnectedOnline(mContext)) {
+            mLocationController.connectGoogleApi();
+        }
+
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
@@ -149,7 +158,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
         et_tickSpecies.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
-
 
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
@@ -188,13 +196,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils.getCurrentTimeStamp(),
                         activityId, userId);
 
-                // set Location params separately.
-                newObservationObj.setGeoLocation(geoLocation);
-                newObservationObj.setLatitude(latitude);
-                newObservationObj.setLongitude(longitude);
-
                 // depending on network connection, save the Observation on storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
+                    // set Location params separately.
+                    newObservationObj.setGeoLocation(geoLocation);
+                    newObservationObj.setLatitude(latitude);
+                    newObservationObj.setLongitude(longitude);
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 } else {
                     // create Unique ID for the Running activity of length 32.
@@ -204,6 +211,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj.setId(observationUUID);
 
                     newObservationObj.setImageUrl(selectedImagePath);
+
+                    // set Location params separately.
+                    newObservationObj.setGeoLocation(geoLocation);
+                    newObservationObj.setLatitude(latitude);
+                    newObservationObj.setLongitude(longitude);
 
                     Log.i(TAG, newObservationObj.toString());
 
@@ -226,18 +238,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        // initialize the LocationController
-        mLocationController = new LocationController(mContext, this);
-
-        // connect to GoogleApi only if the Network is available.
-        if (AppUtils.isConnectedOnline(mContext)) {
-            mLocationController.connectGoogleApi();
-        }
-    }
 
     /**
      * Helper method to setup and display Choose Tick Dialog having Custom Layout
@@ -496,7 +496,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_add);
         BusProvider.bus().register(this);
-
     }
 
     @Override
@@ -505,12 +504,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setLatLng(LatLng mLatLng) {
+        Log.i(TAG, "lat lng changed");
         this.latitude = mLatLng.latitude;
         this.longitude = mLatLng.longitude;
     }
 
     @Override
     public void setLocationArea(String locationArea) {
+        Log.i(TAG, "location area");
         if (locationArea != null || !locationArea.equals("")) {
             this.geoLocation = locationArea;
         } else {

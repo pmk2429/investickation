@@ -11,12 +11,14 @@ import com.sfsu.investickation.fragments.AddObservation;
 import com.sfsu.investickation.fragments.ObservationDetail;
 import com.sfsu.investickation.fragments.ObservationList;
 import com.sfsu.investickation.fragments.ObservationMap;
+import com.sfsu.investickation.fragments.PostObservationList;
 
 
 public class ObservationMasterActivity extends MainBaseActivity
         implements ObservationList.IRemoteObservationCallBacks,
         AddObservation.IAddObservationCallBack,
-        ObservationMap.IObservationMapCallBack {
+        ObservationMap.IObservationMapCallBack,
+        PostObservationList.IPostObservationsListCallback {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
@@ -149,6 +151,14 @@ public class ObservationMasterActivity extends MainBaseActivity
         performReplaceFragmentTransaction(observationDetailFragment);
     }
 
+    @Override
+    public void onUploadListOfObservations() {
+        PostObservationList postObservationListFragment = new PostObservationList();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.observation_fragment_container, postObservationListFragment);
+        transaction.commit();
+    }
+
 
     @Override
     public void onPause() {
@@ -169,4 +179,11 @@ public class ObservationMasterActivity extends MainBaseActivity
         transaction.commit();
     }
 
+    @Override
+    public void displayObservationsList() {
+        ObservationList observationListFragment = new ObservationList();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.observation_fragment_container, observationListFragment);
+        transaction.commit();
+    }
 }

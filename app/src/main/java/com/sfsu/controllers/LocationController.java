@@ -62,6 +62,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     public LocationController(Context mContext, Fragment fragment) {
         try {
+            Log.i(TAG, "constr");
             this.mContext = mContext;
             mInterface = (ILocationCallBacks) fragment;
             mRequestingLocationUpdates = false;
@@ -97,6 +98,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     private synchronized void buildGoogleApiClient() {
         try {
+            Log.i(TAG, "building google api");
             mGoogleApiClient = new GoogleApiClient.Builder(mContext)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -112,6 +114,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      * setup Location Requests
      */
     private synchronized void createLocationRequest() {
+        Log.i(TAG, "building loca req");
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
@@ -138,18 +141,20 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
 
     @Override
     public void onConnected(Bundle bundle) {
+        Log.i(TAG, "onDonnected");
         // get last known location
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
+            Log.i(TAG, "location not null");
             handleNewLocation(location);
+        } else {
+            Log.i(TAG, "location null");
         }
 
         // If the user presses the Start Updates button before GoogleApiClient connects, we set
         // mRequestingLocationUpdates to true. Here, we check the value of mRequestingLocationUpdates and if it is true, we
         // start location updates.
-        if (mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
+        startLocationUpdates();
     }
 
     /**
@@ -180,7 +185,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      * @param location
      */
     private void handleNewLocation(Location location) {
-
+        Log.i(TAG, "location handled");
         try {
             double currentLatitude = location.getLatitude();
             double currentLongitude = location.getLongitude();

@@ -28,6 +28,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ObservationsListAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.ObservationsDao;
+import com.sfsu.dialogs.UploadAlertDialog;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
@@ -57,7 +58,8 @@ import butterknife.ButterKnife;
  * </p>
  */
 
-public class ObservationList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener {
+public class ObservationList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener,
+        UploadAlertDialog.IUploadDataCallback {
 
     private static final String KEY_ACTIVITY_ID = "activity_id";
     private final String TAG = "~!@#ObsList";
@@ -80,6 +82,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private String activityId;
     private int fabMargin;
     private Animation animation;
+    private UploadAlertDialog mUploadAlertDialog;
 
     public ObservationList() {
         // Required empty public constructor
@@ -122,6 +125,9 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         setHasOptionsMenu(true);
 
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
+        mUploadAlertDialog = new UploadAlertDialog(mContext, this);
+
+
         // get the ActivityId from the Bundle.
         if (getArguments() != null) {
             args = getArguments();
@@ -234,6 +240,10 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         // add all local Observations to Remote observations.
         responseObservationList.addAll(localObservationList);
 
+        if (mObservationList != null) {
+            mObservationList.clear();
+        }
+
         // finally make a list of All Observations from local and server.
         mObservationList = responseObservationList;
 
@@ -267,7 +277,10 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
 
         //pass the mObservationList to the Adapter
         mObservationsListAdapter = new ObservationsListAdapter(mObservationList, mContext);
+        mObservationsListAdapter.notifyDataSetChanged();
+
         recyclerView_observations.setAdapter(mObservationsListAdapter);
+
 
         // implement touch event for the item click in RecyclerView
         recyclerView_observations.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_observations, new RecyclerItemClickListener.OnItemClickListener() {
@@ -329,7 +342,11 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     }
 
     private void uploadObservations() {
-
+        if (localObservationList != null) {
+            mUploadAlertDialog.showUploadAlertDialog(localObservationList.size());
+        } else {
+            mUploadAlertDialog.showUploadAlertDialog(-1);
+        }
     }
 
     @Override
@@ -370,6 +387,16 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         return filteredObservationList;
     }
 
+    @Override
+    public void onUploadClick(long resultCode) {
+        if (resultCode == UploadAlertDialog.RESULT_OK) {
+            mInterface.onUploadListOfObservations();
+        } else if (resultCode == UploadAlertDialog.RESULT_INVALID) {
+
+        } else if (resultCode == UploadAlertDialog.RESULT_NO_DATA) {
+        }
+    }
+
 
     /**
      * Callback Interface to handle onClick Listeners in {@link ObservationList} Fragment.
@@ -388,6 +415,11 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
          * @param observation
          */
         public void onObservationListItemClickListener(Observation mObservation);
+
+        /**
+         * Callback to upload list of Observation depending on user's choice
+         */
+        public void onUploadListOfObservations();
     }
 
 

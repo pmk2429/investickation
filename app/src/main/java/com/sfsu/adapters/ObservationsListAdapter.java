@@ -1,6 +1,8 @@
 package com.sfsu.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -49,18 +52,39 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
         try {
             if (holder != null) {
                 Observation mObservation = observationList.get(position);
-                Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
                 holder.txtView_observationName.setText(mObservation.getTickName());
                 holder.txtView_location.setText(mObservation.getGeoLocation());
                 String[] dateAndTime = AppUtils.getDateAndTimeSeparate(mObservation.getTimestamp());
                 holder.txtView_date.setText(dateAndTime[0]);// set date
                 holder.txtView_time.setText(dateAndTime[1]); // set time
 
-                if (AppUtils.isConnectedOnline(mContext)) {
+                // set Image url and also the storage status
+                if (mObservation.isOnCloud()) {
                     holder.icon_storageStatus.setImageResource(R.mipmap.ic_cloud_done_black_36dp);
                 } else {
                     holder.icon_storageStatus.setImageResource(R.mipmap.ic_sd_storage_black_24dp);
                 }
+
+                // imageFile
+                File imgFile = new File(mObservation.getImageUrl());
+
+                // depending on the image url, display ticks
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    if (mObservation.getImageUrl().startsWith("http")) {
+                        Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
+                    } else {
+                        if (imgFile.exists()) {
+                            Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            holder.imageView_tickImage.setImageBitmap(tickBitmap);
+                        }
+                    }
+                } else {
+                    if (imgFile.exists()) {
+                        Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        holder.imageView_tickImage.setImageBitmap(tickBitmap);
+                    }
+                }
+
             }
         } catch (Exception e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();

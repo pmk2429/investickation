@@ -25,6 +25,7 @@ public class ApiRequestHandler {
     // Activity Api Service related method codes.
     public static final int ACT_OBSERVATIONS = 0x3EE;
     public static final int ACT_LOCATIONS = 0x3EF;
+
     // Login Api service method codes
     public static final int LOGIN = 0x3F0;
     // Account Api service method codes.
@@ -32,6 +33,9 @@ public class ApiRequestHandler {
     public static final int TOTAL_OBSERVATIONS_COUNT = 0x3F2;
     // File upload
     public static final int UPLOAD_TICK_IMAGE = 0x3F3;
+    // post list of activities and observations
+    public static final int POST_ACTIVITIES_LIST = 0x3F4;
+    public static final int POST_OBSERVATION_LIST = 0x3F5;
 
     private final String TAG = "~!@#$ApiReqHdlr";
     protected String ACCESS_TOKEN;

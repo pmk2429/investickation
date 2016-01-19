@@ -72,6 +72,20 @@ public class ObservationEvent extends BaseNetworkEvent {
         }
     }
 
+
+    /**
+     * Event Handler When the Loading for the Activities Events is initialized and Request is initiated.
+     */
+    public static class OnListLoadingInitialized extends OnStart<List<Observation>, String> {
+
+        public int apiRequestMethod;
+
+        public OnListLoadingInitialized(List<Observation> observationList, int apiRequestMethod) {
+            super(observationList, "");
+            this.apiRequestMethod = apiRequestMethod;
+        }
+    }
+
     /**
      * Event Handler when the Observation Events are successfully executed and Response is generated.
      */
@@ -96,6 +110,12 @@ public class ObservationEvent extends BaseNetworkEvent {
      */
     public static class OnListLoaded extends OnDone<Observation> {
         public OnListLoaded(List<Observation> observationList) {
+            super(observationList);
+        }
+    }
+
+    public static class OnMassUploadListLoaded extends OnDone<Observation> {
+        public OnMassUploadListLoaded(List<Observation> observationList) {
             super(observationList);
         }
     }

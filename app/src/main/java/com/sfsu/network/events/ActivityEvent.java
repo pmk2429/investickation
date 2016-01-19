@@ -70,8 +70,6 @@ public class ActivityEvent extends BaseNetworkEvent {
             super(activitiesList, "");
             this.apiRequestMethod = apiRequestMethod;
         }
-
-
     }
 
     /**
