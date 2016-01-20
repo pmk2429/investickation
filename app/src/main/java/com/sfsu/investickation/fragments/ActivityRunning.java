@@ -45,6 +45,7 @@ import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -73,6 +74,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         AlertDialogMaster.IReminderCallback, IReminderChangeCallBack {
 
     public static final String TAG = "~!@#$ActivityRunning";
+    private static final String KEY_LAT_LNG = "lat_lng_json";
     // FAB
     @Bind(R.id.fab_actRun_activityStop)
     FloatingActionButton fab_stopActivity;
@@ -170,7 +172,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 mLatLngSet.add(mLatLng);
             }
             if (mLatLngSet != null && mLatLngSet.size() > 0) {
-                Log.i(TAG, "" + mLatLngSet.size());
                 if (mLatLngSet.size() > 0) {
                     for (LatLng latLng : mLatLngSet) {
                         Log.i(TAG, latLng.latitude + " : " + latLng.longitude);
@@ -249,7 +250,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
         // initialize all controllers and services.
         mLocationController = new LocationController(mContext, this);
-        mGoogleMapController = new GoogleMapController(mContext, this);
+        mGoogleMapController = new GoogleMapController(mContext);
         alertDialogMaster = new AlertDialogMaster(mContext, this);
         mPeriodicAlarm = new PeriodicAlarm(mContext);
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
@@ -279,6 +280,27 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
 
+    /**
+     * Persists the Data for the running activity
+     */
+    private void persistCurrentActivity() {
+        editor = activityPref.edit();
+        String activityJson = gson.toJson(ongoingActivityObj);
+        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
+        if (mLatLngSet != null && mLatLngSet.size() > 0) {
+            Set<String> latLngString = new HashSet<>();
+            Iterator<LatLng> iterator = mLatLngSet.iterator();
+            while (iterator.hasNext()) {
+                LatLng temp = iterator.next();
+                String value = Double.toString(temp.latitude) + "," + Double.toString(temp.longitude);
+                latLngString.add(value);
+            }
+            editor.putStringSet(KEY_LAT_LNG, latLngString);
+        }
+        editor.apply();
+    }
+
+
     @Override
     public void onResume() {
         mapView.onResume();
@@ -294,9 +316,31 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                     REMINDER_INTERVAL = activityBundle.getLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL);
                 }
             } else {
-                // get data from SharedPref
+                Log.i(TAG, "getting data from SharedPref");
+                // get data from SharedPref which was persisted before
                 String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, null);
                 ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
+                Set<String> latLngStringSet = activityPref.getStringSet(KEY_LAT_LNG, null);
+                if (latLngStringSet != null) {
+                    Set<String> temp = latLngStringSet;
+                    // build HashSet of LatLng again
+                    Iterator<String> iter = temp.iterator();
+                    while (iter.hasNext()) {
+                        String val = iter.next();
+                        String[] latLngVals = val.split(",");
+                        mLatLngSet.add(new LatLng(Double.parseDouble(latLngVals[0]), Double.parseDouble(latLngVals[1])));
+                    }
+                } else {
+                    Log.i(TAG, "null");
+                }
+
+                // finally add LatLng to Set
+                if (mLatLngSet != null) {
+                    Iterator<LatLng> latLngIterator = mLatLngSet.iterator();
+                    while (latLngIterator.hasNext()) {
+                        LatLng mLatLng = latLngIterator.next();
+                    }
+                }
             }
 
             // check if Activities object is not null.
@@ -370,12 +414,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
 
-        // save the current ongoingActivity
-        // save the Currently running object in SharedPref to retrieve it later using editor.
-        editor = activityPref.edit();
-        String activityJson = gson.toJson(ongoingActivityObj);
-        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
-        editor.apply();
+        persistCurrentActivity();
 
         super.onSaveInstanceState(outState);
     }
@@ -384,11 +423,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     @Override
     public void onPause() {
         super.onPause();
-        // save the Currently running object in SharedPref to retrieve it later using editor.
-        editor = activityPref.edit();
-        String activityJson = gson.toJson(ongoingActivityObj);
-        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
-        editor.apply();
+
+        persistCurrentActivity();
 
         // unregister the Bus.
         BusProvider.bus().unregister(this);
@@ -427,7 +463,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardView_activityRunning_addObservation:
-                addNewObservation();
+                mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
                 break;
 
             case R.id.fab_actRun_activityStop:
@@ -441,19 +477,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         }
     }
 
-    /**
-     * Save current activity state and open AddObservation
-     */
-    private void addNewObservation() {
-        Log.i(TAG, "adding observation");
-        Log.i(TAG, ongoingActivityObj.toString());
-        editor = activityPref.edit();
-        String activityJson = gson.toJson(ongoingActivityObj);
-        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
-        editor.apply();
-
-        mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
-    }
 
     @Override
     public void setCurrentLocation(Location mLocation) {
@@ -572,15 +595,16 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private void clearResources() {
         // delete the SharedPref data
         activityPref.edit().remove(UserActivityMasterActivity.PREF_ACTIVITY_DATA).apply();
+        // stop timer is the flag is set
         // stop the Service
         mContext.stopService(locationIntent);
         mContext.unregisterReceiver(locationReceiver);
-
         // unregister alarm
         mContext.unregisterReceiver(alarmBroadcastReceiver);
         mPeriodicAlarm.cancelAlarm();
 
-        // stop timer is the flag is set
+        FLAG_RUNNING = false;
+
         if (!FLAG_IS_TIMER_SET)
             mPeriodicAlarm.cancelAlarm();
     }
@@ -625,19 +649,12 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                         ApiRequestHandler.UPDATE));
             } else {
                 // update the Activity in the Database
-                boolean isUpdated = dbController.update(ongoingActivityObj.getId(), ongoingActivityObj);
-                // simply open the List
-                if (isUpdated) {
-                    Activities mActivity = (Activities) dbController.get(ongoingActivityObj.getId());
-                    Log.i(TAG, mActivity.toString());
-                    mListener.onActivityStopButtonClicked();
-                } else {
-                    Log.i(TAG, "record not updated");
-                }
+                dbController.update(ongoingActivityObj.getId(), ongoingActivityObj);
+                mListener.onActivityStopButtonClicked();
             }
 
         } catch (Exception e) {
-
+            Log.i(TAG, e.getMessage());
         }
     }
 

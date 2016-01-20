@@ -65,10 +65,13 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     public final String TAG = "~!@#ActivityList";
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
+
     @Bind(R.id.fab_activity_add)
     FloatingActionButton fab_addActivity;
+
     @Bind(R.id.relativeLayout_actList_main)
     RelativeLayout mRelativeLayout;
+
     @Bind(R.id.textViewStatic_actList_listInfo)
     TextView txtView_activityListInfo;
     int count = 0;
@@ -133,7 +136,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
                 // display text message
                 txtView_activityListInfo.setVisibility(View.VISIBLE);
                 recyclerView_activity.setVisibility(View.GONE);
-                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
             } else {
                 Log.i(TAG, "activity list size < 0");
             }

@@ -1,20 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:id="@+id/relativeLayout_actList_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightText"
-    tools:context="com.sfsu.investickation.fragments.ActivityList">
+    android:orientation="vertical">
 
     <!--Recycler View to display lit of activities-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_activity_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"/>
-
+        android:layout_gravity="start"
+        android:scrollbars="vertical"/>
 
     <TextView
         android:id="@+id/textViewStatic_actList_listInfo"

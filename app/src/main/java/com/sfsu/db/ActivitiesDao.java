@@ -60,20 +60,17 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public boolean update(String id, Entity entityItem) {
-        try {
-            Activities mActivity = (Activities) entityItem;
-            ContentValues contentValues = getContentValues(mActivity);
-            // update the record.
-            return db.update(
-                    EntityTable.ActivitiesTable.TABLENAME,
-                    contentValues,
-                    EntityTable.ActivitiesTable.COLUMN_ID + "=?",
-                    new String[]{id}) > 0;
-        } catch (Exception e) {
-            return false;
-        }finally {
-            db.close();
-        }
+        Activities mActivity = (Activities) entityItem;
+        ContentValues contentValues = getContentValues(mActivity);
+        // update the record.
+        boolean check = db.update(
+                EntityTable.ActivitiesTable.TABLENAME,
+                contentValues,
+                EntityTable.ActivitiesTable.COLUMN_ID + "=?",
+                new String[]{id}) > 0;
+
+        db.close();
+        return check;
     }
 
     public boolean update(Entity entity, String imageUrl) {

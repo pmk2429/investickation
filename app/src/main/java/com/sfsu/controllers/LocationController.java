@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -24,7 +25,7 @@ import java.util.Locale;
 /**
  * Controller used to handle all the Location related operations and tasks such as finding the Last Know Location, getting
  * Location updates etc. The LocationController uses FusedLocation service provided by Google to get the Location updates.
- * <p/>
+ * <p>
  * <tt>LocationController</tt> also provides Callback Interface to get the Account's current Location and Featured name of the Location if
  * present.
  * Created by Pavitra on 11/14/2015.
@@ -37,10 +38,10 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
     private static final long UPDATE_INTERVAL = 10000; // 10 sec
     private static final long FASTEST_INTERVAL = 5000; // 5 sec
     private static final long DISPLACEMENT = 10; // 10 meters
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     /**
      * Time when the location was updated represented as a String.
      */
-    protected String mLastUpdateTime;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Context mContext;
@@ -62,13 +63,16 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     public LocationController(Context mContext, Fragment fragment) {
         try {
-            Log.i(TAG, "constr");
+            Log.i(TAG, "constructor");
             this.mContext = mContext;
             mInterface = (ILocationCallBacks) fragment;
-            mRequestingLocationUpdates = false;
-            mLastUpdateTime = "";
-            // build GoogleApiClient
-            buildGoogleApiClient();
+            // build GoogleApiClien
+            // // First we need to check availability of play services
+            if (checkPlayServices()) {
+                // Building the GoogleApi client
+                buildGoogleApiClient();
+
+            }
         } catch (Exception e) {
         }
     }
@@ -84,19 +88,36 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
         try {
             this.mContext = mContext;
             mInterface = (ILocationCallBacks) activity;
-            mRequestingLocationUpdates = false;
-            mLastUpdateTime = "";
             // build GoogleApiClient
-            buildGoogleApiClient();
+            if (checkPlayServices()) {
+                // Building the GoogleApi client
+                buildGoogleApiClient();
+            }
         } catch (Exception e) {
         }
     }
 
+    /**
+     * Method to verify google play services on the device
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(mContext);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+
+            } else {
+                Toast.makeText(mContext, "This device is not supported.", Toast.LENGTH_LONG).show();
+            }
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Method to set up the Google Apis for {@link GoogleApiClient} and {@link LocationRequest}
      */
-    private synchronized void buildGoogleApiClient() {
+    private void buildGoogleApiClient() {
         try {
             Log.i(TAG, "building google api");
             mGoogleApiClient = new GoogleApiClient.Builder(mContext)
@@ -113,13 +134,15 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
     /**
      * setup Location Requests
      */
-    private synchronized void createLocationRequest() {
+    private void createLocationRequest() {
         Log.i(TAG, "building loca req");
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setSmallestDisplacement(DISPLACEMENT); // 10 meters
+
+        startLocationUpdates();
     }
 
     /**
@@ -141,7 +164,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i(TAG, "onDonnected");
+        Log.i(TAG, "onConnected");
         // get last known location
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
@@ -149,12 +172,8 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             handleNewLocation(location);
         } else {
             Log.i(TAG, "location null");
+            startLocationUpdates();
         }
-
-        // If the user presses the Start Updates button before GoogleApiClient connects, we set
-        // mRequestingLocationUpdates to true. Here, we check the value of mRequestingLocationUpdates and if it is true, we
-        // start location updates.
-        startLocationUpdates();
     }
 
     /**
@@ -162,21 +181,15 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     public void startLocationUpdates() {
         Log.i(TAG, "starting location updates");
-        if (!mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = true;
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
     }
 
     /**
      * Helper method to stop Location updates.
      */
     public void stopLocationUpdates() {
-        Log.i(TAG, "stopping location updates");
-        if (mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = false;
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        }
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
     /**
@@ -215,6 +228,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     @Override
     public void onLocationChanged(Location location) {
+        Log.i(TAG, "onLocationChanged:");
         handleNewLocation(location);
     }
 

@@ -118,7 +118,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         mapView.onCreate(mapViewSavedInstanceState);
 
         locationController = new LocationController(mContext, this);
-        mGoogleMapController = new GoogleMapController(mContext, this);
+        mGoogleMapController = new GoogleMapController(mContext);
         // Database controller.
 
         if (AppUtils.isConnectedOnline(mContext)) {

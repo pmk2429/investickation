@@ -22,10 +22,10 @@ import java.util.List;
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
  * InfoWindow on the location etc.
- * <p/>
+ * <p>
  * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
  * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/16/2015.
  */
 public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
@@ -64,6 +64,18 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
         }
     }
 
+    /**
+     * Default constructor
+     *
+     * @param mContext
+     */
+    public GoogleMapController(Context mContext) {
+        try {
+            this.mContext = mContext;
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+        }
+    }
 
     /**
      * Constructor overloading for using LocationController in Activity

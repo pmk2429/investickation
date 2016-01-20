@@ -65,10 +65,13 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private final String TAG = "~!@#ObsList";
     @Bind(R.id.recyclerview_remote_observations)
     RecyclerView recyclerView_observations;
+
     @Bind(R.id.relativeLayout_obsList_main)
     RelativeLayout mRelativeLayout;
+
     @Bind(R.id.textViewStatic_obsList_listInfo)
     TextView txtView_observationList_info;
+
     @Bind(R.id.fab_observation_add)
     FloatingActionButton fab_addObservation;
 
@@ -170,7 +173,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
             } else if (mObservationList.size() == 0) {
                 // display text message
                 txtView_observationList_info.setVisibility(View.VISIBLE);
-                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
                 recyclerView_observations.setVisibility(View.GONE);
             } else {
                 Log.i(TAG, "activity list size < 0");
@@ -263,7 +266,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         } else if (mObservationList.size() == 0) {
             txtView_observationList_info.setVisibility(View.VISIBLE);
             recyclerView_observations.setVisibility(View.GONE);
-            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
         } else {
 
         }
