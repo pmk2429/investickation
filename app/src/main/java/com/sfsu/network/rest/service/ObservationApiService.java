@@ -3,6 +3,7 @@ package com.sfsu.network.rest.service;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
+import com.sfsu.entities.response.ObservationResponse;
 import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.network.api.ApiResources;
 import com.squareup.okhttp.RequestBody;
@@ -87,6 +88,17 @@ public interface ObservationApiService {
      */
     @DELETE(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<ResponseCount> delete(@Path("id") String observationId);
+
+
+    /**
+     * Returns a wrapper {@link ObservationResponse} object which <tt>included</tt> {@link com.sfsu.entities.Tick} and {@link
+     * Activities} for the current Observation
+     *
+     * @param observationId
+     * @return
+     */
+    @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
+    public Call<ObservationResponse> getObservationWrapper(@Part("id") String observationId, @Query("filter") String filter);
 
     /**
      * Uploads the Observation image to the server.

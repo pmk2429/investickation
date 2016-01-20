@@ -94,6 +94,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="tickName">American Dog Tick</string>
     <string name="tickImagesDesc">Tick Image</string>
     <string name="tickCount">Total number of Ticks</string>
+    <string name="tickDescription">Description</string>
     <string name="alert_chooseTick">Choose the desired Tick:</string>
 
     <!-- Location related messages-->

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sfsu.entities.Observation;
+import com.sfsu.entities.response.ObservationResponse;
 import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ObservationEvent;
@@ -29,7 +30,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
@@ -60,6 +61,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         Call<Observation> observationCall = null;
         Call<ResponseCount> deleteObservation = null;
         Call<List<Observation>> listObservationCall = null;
+        Call<ObservationResponse> observationResponseCall = null;
+        final String filter = "{\"include\":[\"activity\", \"tick\"]}";
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
@@ -82,6 +85,10 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             case ACT_OBSERVATIONS:
                 listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId);
                 get_Activity_Observations(listObservationCall);
+                break;
+            case GET_OBSERVATION_WRAPPER:
+                observationResponseCall = mApiService.getObservationWrapper(onLoadingInitialized.getResourceId(), filter);
+                getObservationWrapperResponse(observationResponseCall);
                 break;
 
         }
@@ -263,6 +270,41 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             public void onResponse(Response<List<Observation>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ObservationEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ObservationEvent.FAILED);
+                }
+            }
+        });
+    }
+
+
+    /**
+     * Returns a custom ObservationResponse containing the Observation, Activity and Tick
+     *
+     * @param observationResponseCall
+     */
+    public void getObservationWrapperResponse(Call<ObservationResponse> observationResponseCall) {
+        observationResponseCall.enqueue(new Callback<ObservationResponse>() {
+            @Override
+            public void onResponse(Response<ObservationResponse> response) {
+                if (response.isSuccess()) {
+                    mBus.post(new ObservationEvent.OnObservationWrapperLoaded(response.body()));
                 } else {
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();

@@ -40,6 +40,7 @@ public class Observation implements Parcelable, Entity {
     private String imageUrl;
     private String geo_location;
     private int num_of_ticks;
+    private String description;
     private long timestamp, updated_at;
     private double latitude, longitude;
     // references
@@ -66,13 +67,15 @@ public class Observation implements Parcelable, Entity {
      * @param activity_id
      * @param user_id
      */
-    public Observation(String tickName, String species, int num_ticks, long timestamp, String activity_id, String user_id) {
+    public Observation(String tickName, String species, int num_ticks, String description, long timestamp, String activity_id,
+                       String user_id) {
         this.tickName = tickName;
         this.species = species;
         this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
         this.activity_id = activity_id;
         this.user_id = user_id;
+        this.description = description;
     }
 
     protected Observation(Parcel in) {
@@ -80,11 +83,20 @@ public class Observation implements Parcelable, Entity {
         tickName = in.readString();
         species = in.readString();
         geo_location = in.readString();
+        description = in.readString();
         num_of_ticks = in.readInt();
         timestamp = in.readLong();
         updated_at = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isVerified() {

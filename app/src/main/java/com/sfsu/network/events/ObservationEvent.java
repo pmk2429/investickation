@@ -1,6 +1,7 @@
 package com.sfsu.network.events;
 
 import com.sfsu.entities.Observation;
+import com.sfsu.entities.response.ObservationResponse;
 import com.sfsu.entities.response.ResponseCount;
 
 import java.util.List;
@@ -117,6 +118,16 @@ public class ObservationEvent extends BaseNetworkEvent {
     public static class OnMassUploadListLoaded extends OnDone<Observation> {
         public OnMassUploadListLoaded(List<Observation> observationList) {
             super(observationList);
+        }
+    }
+
+    /**
+     * OnDone event for dispatching {@link ObservationResponse} type object
+     */
+    public static class OnObservationWrapperLoaded extends OnDone<ObservationResponse> {
+
+        public OnObservationWrapperLoaded(ObservationResponse response) {
+            super(response);
         }
     }
 

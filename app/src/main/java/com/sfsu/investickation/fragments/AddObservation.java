@@ -77,6 +77,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     EditText et_numOfTicks;
     @Bind(R.id.editText_addObs_tickName)
     EditText et_tickName;
+    @Bind(R.id.editText_addObs_description)
+    EditText et_description;
     // Others
     private Bitmap bitmap;
     private String selectedImagePath, picturePath, geoLocation;
@@ -125,8 +127,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             final Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
 
@@ -191,9 +192,10 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 String tickName = et_tickName.getText().toString();
                 String tickSpecies = et_tickSpecies.getText().toString();
                 int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
+                String description = et_description.getText().toString() == null ? "" : et_description.getText().toString();
 
                 // finally when all values are collected, create a new Observation object.
-                newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, AppUtils.getCurrentTimeStamp(),
+                newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, description, AppUtils.getCurrentTimeStamp(),
                         activityId, userId);
 
                 // depending on network connection, save the Observation on storage or server
