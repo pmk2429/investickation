@@ -10,8 +10,8 @@
     <ScrollView
         android:id="@+id/scrollViewMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="1">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
 
         <RelativeLayout
@@ -187,27 +187,22 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
+            <!-- Add Observation Button -->
+            <Button
+                android:id="@+id/button_addObs_postObservation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_addObs_description"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/view_dimen_large"
+                android:background="@color/colorPrimary"
+                android:drawableEnd="@mipmap/ic_send_white_24dp"
+                android:paddingEnd="@dimen/view_dimen_large"
+                android:paddingStart="@dimen/view_dimen_large"
+                android:text="@string/button_postObservation"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_small"/>
+
         </RelativeLayout>
     </ScrollView>
-
-
-    <!-- Add Observation Button -->
-    <Button
-        android:id="@+id/button_addObs_postObservation"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/view_dimen_large"
-        android:layout_marginLeft="@dimen/view_dimen_large"
-        android:layout_marginRight="@dimen/view_dimen_large"
-        android:background="@color/colorPrimary"
-        android:drawableEnd="@mipmap/ic_send_white_24dp"
-        android:paddingEnd="@dimen/view_dimen_large"
-        android:paddingStart="@dimen/view_dimen_large"
-        android:text="@string/button_postObservation"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_small"/>
-
-
 </RelativeLayout>
