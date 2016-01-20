@@ -114,6 +114,7 @@ public class EntityTable {
         static final String COLUMN_NUMOFTICKS = "num_of_ticks";
         static final String COLUMN_TIMESTAMP = "timestamp";
         static final String COLUMN_IMAGE_URL = "tick_image";
+        static final String COLUMN_DESCRIPTION = "description";
         static final String COLUMN_LATITUDE = "latitude";
         static final String COLUMN_LONGITUDE = "longitude";
         static final String COLUMN_FK_TICK_ID = "tick_id";
@@ -131,6 +132,7 @@ public class EntityTable {
                 sb.append(COLUMN_SPECIES + " text not null, ");
                 sb.append(COLUMN_NUMOFTICKS + " integer not null, ");
                 sb.append(COLUMN_IMAGE_URL + " text not null, ");
+                sb.append(COLUMN_DESCRIPTION + " text, ");
                 sb.append(COLUMN_TIMESTAMP + " long not null, ");
                 sb.append(COLUMN_LATITUDE + " real not null, ");
                 sb.append(COLUMN_LONGITUDE + " real not null, ");

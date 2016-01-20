@@ -138,14 +138,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         }
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         mAuthPreferences = new AuthPreferences(mContext);
-        // initialize the LocationController
-        mLocationController = new LocationController(mContext, this);
-
-        // connect to GoogleApi only if the Network is available.
-        if (AppUtils.isConnectedOnline(mContext)) {
-            mLocationController.connectGoogleApi();
-        }
-
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
@@ -172,6 +164,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         btn_PostObservation.setOnClickListener(this);
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // initialize the LocationController
+        mLocationController = new LocationController(mContext, this);
+        mLocationController.connectGoogleApi();
     }
 
     @Override

@@ -117,18 +117,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
         mapView.onCreate(mapViewSavedInstanceState);
 
-        locationController = new LocationController(mContext, this);
-        mGoogleMapController = new GoogleMapController(mContext);
-        // Database controller.
-
-        if (AppUtils.isConnectedOnline(mContext)) {
-            // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-            locationController.connectGoogleApi();
-        }
-
-        // setup google Map using the GoogleMapController.
-        mGoogleMapController.setupGoogleMap(mapView);
-
         // setOnclickListener for the TextView.
         txtView_setReminder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +133,19 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         return rootView;
     }
 
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        locationController = new LocationController(mContext, this);
+        mGoogleMapController = new GoogleMapController(mContext);
+        // Database controller.
+
+        locationController.connectGoogleApi();
+
+        // setup google Map using the GoogleMapController.
+        mGoogleMapController.setupGoogleMap(mapView);
+    }
 
     @Override
     public void onResume() {

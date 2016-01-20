@@ -94,7 +94,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private Activities ongoingActivityObj;
     private Context mContext;
     private IActivityRunningCallBacks mListener;
-    private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
     private DatabaseDataController dbController;
     private Bundle activityBundle;
@@ -248,9 +247,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         // bind the views
         ButterKnife.bind(this, rootView);
 
-        // initialize all controllers and services.
-        mLocationController = new LocationController(mContext, this);
-        mGoogleMapController = new GoogleMapController(mContext);
+
         alertDialogMaster = new AlertDialogMaster(mContext, this);
         mPeriodicAlarm = new PeriodicAlarm(mContext);
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
@@ -266,19 +263,22 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
             mapView.onCreate(mapViewSavedInstanceState);
 
-            // connect to GoogleAPI and setup FusedLocationService to get the Location updates.
-            if (AppUtils.isConnectedOnline(mContext)) {
-                mLocationController.connectGoogleApi();
-            }
-
-            // setup google Map.
-            mGoogleMapController.setupGoogleMap(mapView);
         } catch (Exception e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return rootView;
     }
 
+    // initialize the time consuming tasks after View is created
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // initialize all controllers and services.
+        mGoogleMapController = new GoogleMapController(mContext);
+
+        // setup google Map.
+        mGoogleMapController.setupGoogleMap(mapView);
+    }
 
     /**
      * Persists the Data for the running activity
@@ -436,7 +436,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         try {
             mapView.onDestroy();
             mGoogleMapController.clear();
-            mLocationController = null;
             mLatLngSet = null;
             // when the fragment is destroyed, kill off Location Service and AlarmManager
             mContext.unregisterReceiver(locationReceiver);
@@ -625,6 +624,12 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             FLAG_RUNNING = false;
 
             if (mLatLngSet != null) {
+                Iterator<LatLng> latLngs = mLatLngSet.iterator();
+                while (latLngs.hasNext()) {
+                    LatLng temp = latLngs.next();
+                    Log.i(TAG, temp.latitude + " : " + temp.longitude);
+                }
+
                 mLatLngArray = mLatLngSet.toArray(new LatLng[mLatLngSet.size()]);
             }
 

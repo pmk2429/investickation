@@ -2,6 +2,7 @@ package com.sfsu.controllers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.IntentSender;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -25,7 +26,7 @@ import java.util.Locale;
 /**
  * Controller used to handle all the Location related operations and tasks such as finding the Last Know Location, getting
  * Location updates etc. The LocationController uses FusedLocation service provided by Google to get the Location updates.
- * <p>
+ * <p/>
  * <tt>LocationController</tt> also provides Callback Interface to get the Account's current Location and Featured name of the Location if
  * present.
  * Created by Pavitra on 11/14/2015.
@@ -33,12 +34,15 @@ import java.util.Locale;
 public class LocationController implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private static final String TAG = "~!@#LocationCtlr: ";
-    private static final long CONNECTION_FAILURE_RESOLUTION_REQUEST = 5000;
-    private static final long UPDATE_INTERVAL = 10000; // 10 sec
+    /*
+     * Define a request code to send to Google Play services
+     * This code is returned in Activity.onActivityResult
+     */
+    private static final String TAG = "~!@#LocationCtlr";
+    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 2000;
+    private static final int UPDATE_INTERVAL = 10000; // 10 sec
     private static final long FASTEST_INTERVAL = 5000; // 5 sec
     private static final long DISPLACEMENT = 10; // 10 meters
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     /**
      * Time when the location was updated represented as a String.
      */
@@ -66,13 +70,10 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             Log.i(TAG, "constructor");
             this.mContext = mContext;
             mInterface = (ILocationCallBacks) fragment;
-            // build GoogleApiClien
-            // // First we need to check availability of play services
-            if (checkPlayServices()) {
-                // Building the GoogleApi client
-                buildGoogleApiClient();
 
-            }
+            buildGoogleApiClient();
+
+
         } catch (Exception e) {
         }
     }
@@ -126,6 +127,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
                     .addApi(LocationServices.API)
                     .build();
 
+            // create location request
             createLocationRequest();
         } catch (Exception e) {
         }
@@ -141,15 +143,14 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setSmallestDisplacement(DISPLACEMENT); // 10 meters
-
-        startLocationUpdates();
     }
 
     /**
      * Connect to the GoogleApiClient to start receiving Location updates
      */
     public void connectGoogleApi() {
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
     }
 
     /**
@@ -164,15 +165,11 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i(TAG, "onConnected");
-        // get last known location
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            Log.i(TAG, "location not null");
-            handleNewLocation(location);
+        if (location == null) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         } else {
-            Log.i(TAG, "location null");
-            startLocationUpdates();
+            handleNewLocation(location);
         }
     }
 
@@ -234,7 +231,31 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(mContext, connectionResult.getErrorMessage(), Toast.LENGTH_LONG).show();
+         /*
+         * Google Play services can resolve some errors it detects.
+         * If the error has a resolution, try sending an Intent to
+         * start a Google Play services activity that can resolve
+         * error.
+         */
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult((Activity) mContext, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+                /*
+                 * Thrown if Google Play services canceled the original
+                 * PendingIntent
+                 */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+            /*
+             * If no resolution is available, display a dialog to the
+             * user with the error.
+             */
+            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
     }
 
 
