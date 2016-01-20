@@ -98,7 +98,7 @@ public interface ObservationApiService {
      * @return
      */
     @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
-    public Call<ObservationResponse> getObservationWrapper(@Part("id") String observationId, @Query("filter") String filter);
+    public Call<ObservationResponse> getObservationWrapper(@Path("id") String observationId, @Query("filter") String filter);
 
     /**
      * Uploads the Observation image to the server.

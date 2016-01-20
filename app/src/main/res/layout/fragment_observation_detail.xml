@@ -142,7 +142,7 @@
                         android:paddingTop="@dimen/view_dimen_small"
                         android:text="@string/obsDet_details"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_medium"/>
+                        android:textSize="@dimen/font_small"/>
 
                     <View
                         android:id="@+id/separator_observation_2"
@@ -221,7 +221,6 @@
                         android:layout_toEndOf="@id/textViewStatic_activity"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Hiking Trail"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_small"/>
 

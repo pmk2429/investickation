@@ -76,8 +76,6 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         super.onCreate(savedInstanceState);
         if (AppUtils.isConnectedOnline(mContext)) {
             BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-        } else {
-            dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         }
     }
 
@@ -89,6 +87,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
         setActionBarAndNavDrawer(v);
 
+        dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
 
         recyclerView_tickList = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
         recyclerView_tickList.setHasFixedSize(true);

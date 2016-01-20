@@ -87,7 +87,9 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 get_Activity_Observations(listObservationCall);
                 break;
             case GET_OBSERVATION_WRAPPER:
+                Log.i(TAG, "ok ppp");
                 observationResponseCall = mApiService.getObservationWrapper(onLoadingInitialized.getResourceId(), filter);
+                Log.i(TAG, "okay");
                 getObservationWrapperResponse(observationResponseCall);
                 break;
 
@@ -300,12 +302,15 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param observationResponseCall
      */
     public void getObservationWrapperResponse(Call<ObservationResponse> observationResponseCall) {
+        Log.i(TAG, "ok 2");
         observationResponseCall.enqueue(new Callback<ObservationResponse>() {
             @Override
             public void onResponse(Response<ObservationResponse> response) {
                 if (response.isSuccess()) {
+                    Log.i(TAG, "ok success");
                     mBus.post(new ObservationEvent.OnObservationWrapperLoaded(response.body()));
                 } else {
+                    Log.i(TAG, "ok success error");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -319,6 +324,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
+                Log.i(TAG, "ok failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

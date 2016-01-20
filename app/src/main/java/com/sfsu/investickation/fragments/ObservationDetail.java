@@ -77,7 +77,7 @@ public class ObservationDetail extends Fragment {
     private Context mContext;
     private Activities mActivity;
     private DatabaseDataController dbController, dbActivitiesController, dbTicksController;
-    private String description, activityName;
+    private String description;
     private ObservationResponse mObservationResponse;
 
     public ObservationDetail() {
@@ -167,10 +167,11 @@ public class ObservationDetail extends Fragment {
 
             // depending on the availability of network , make a network call and get the data or get data from DB
             if (AppUtils.isConnectedOnline(mContext)) {
-                BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(), ApiRequestHandler.GET));
+                BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(),
+                        ApiRequestHandler.GET_OBSERVATION_WRAPPER));
             } else {
                 mActivity = (Activities) dbActivitiesController.get(mObservation.getActivity_id());
-                activityName = mActivity.getActivityName();
+                String activityName = mActivity.getActivityName() + " at " + mActivity.getLocation_area();
                 textView_activityName.setText(activityName);
             }
 
@@ -186,6 +187,7 @@ public class ObservationDetail extends Fragment {
                 }
             }
         } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
         }
 
 
@@ -194,14 +196,25 @@ public class ObservationDetail extends Fragment {
 
     @Subscribe
     public void onObservationLoadSuccess(ObservationEvent.OnObservationWrapperLoaded onObservationWrapperLoaded) {
+        Log.i(TAG, "observation wrapper loaded");
         mObservationResponse = onObservationWrapperLoaded.getResponse();
-        textView_activityName.setText(mObservationResponse.getActivity().getActivityName());
-    }
 
-    @Subscribe
-    public void onObservationLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        Activities mActivity = mObservationResponse.getActivity();
+        String activityName = "";
+        String locationArea = "";
+        String activityNameFinal = "";
 
+        if (mActivity != null) {
+            activityName = mActivity.getActivityName() == null || mActivity.getActivityName() == "" ? "No Activity" :
+                    mActivity.getActivityName();
+            locationArea = mActivity.getLocation_area() == null || mActivity.getLocation_area() == "" ? "No Activity" :
+                    mActivity.getLocation_area();
+            activityNameFinal = activityName + " at " + locationArea;
+        } else {
+            activityNameFinal = "No activity";
+        }
+        //set activity name
+        textView_activityName.setText(activityNameFinal);
     }
 
 

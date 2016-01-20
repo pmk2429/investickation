@@ -13,6 +13,7 @@ import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     private Context mContext;
 
     public TicksListAdapter(List<Tick> tickList, Context mContext) {
-        this.tickList = tickList;
+        this.tickList = new ArrayList<>(tickList);
         this.mContext = mContext;
     }
 

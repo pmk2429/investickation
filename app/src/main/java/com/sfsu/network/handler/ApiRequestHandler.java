@@ -37,7 +37,7 @@ public class ApiRequestHandler {
     public static final int POST_ACTIVITIES_LIST = 0x3F4;
     public static final int POST_OBSERVATION_LIST = 0x3F5;
     // wrapper class
-    public static final int GET_OBSERVATION_WRAPPER = 0x3F6;
+    public static final int GET_OBSERVATION_WRAPPER = 0x2F2;
 
     private final String TAG = "~!@#$ApiReqHdlr";
     protected String ACCESS_TOKEN;

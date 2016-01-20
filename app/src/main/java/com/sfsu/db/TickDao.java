@@ -172,14 +172,20 @@ public class TickDao implements EntityDao {
     public Tick get(String id) {
 
         Tick tickItem = null;
-        Cursor c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?",
-                new String[]{id + ""}, null, null, null, null);
+        try {
+            Cursor c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?",
+                    new String[]{id + ""}, null, null, null, null);
 
-        if (c != null && c.moveToFirst()) {
-            tickItem = buildFromCursor(c);
-            if (!c.isClosed()) {
-                c.close();
+            if (c != null && c.moveToFirst()) {
+                tickItem = buildFromCursor(c);
+                if (!c.isClosed()) {
+                    c.close();
+                }
             }
+        } catch (Exception e) {
+
+        } finally {
+            db.close();
         }
         return tickItem;
     }
