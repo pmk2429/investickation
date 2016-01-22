@@ -132,6 +132,15 @@ public class ObservationEvent extends BaseNetworkEvent {
     }
 
     /**
+     * Event handler for loading list of ObservationResponse from the server
+     */
+    public static class OnObservationResponseListLoaded extends OnDone<ObservationResponse> {
+        public OnObservationResponseListLoaded(List<ObservationResponse> observationResponseList) {
+            super(observationResponseList);
+        }
+    }
+
+    /**
      * Event Handler When loading of Observation Events throws errors.
      */
     public static class OnLoadingError extends OnFailed {

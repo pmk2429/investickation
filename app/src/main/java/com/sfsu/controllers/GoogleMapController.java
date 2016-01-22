@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.sfsu.entities.Observation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -143,6 +144,46 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
     }
 
     /**
+     * Instantiates a new Polyline object on {@link GoogleMap} and adds points to define a rectangle.
+     *
+     * @param latLngs Array of {@link LatLng}
+     */
+    public void setUpPolylineOnMap(ArrayList<Observation> mObservationsList) {
+        try {
+            // build LatLngs array from ObservationList
+            LatLng[] mLatLngs = getLatLngArray(mObservationsList);
+            moveCameraToPosition(mLatLngs[0]);
+
+            PolylineOptions drawOptions = new PolylineOptions().width(7).color(Color.BLUE).geodesic(true);
+            for (int i = 0; i < mLatLngs.length; i++) {
+                drawOptions.add(mLatLngs[i]);
+            }
+            // Get back the mutable Polyline
+            mGoogleMap.addPolyline(drawOptions);
+            // finally show marker
+            showMarker(mObservationsList);
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    /**
+     * Get LatLng Array from ArrayList of Observations
+     *
+     * @param mObservationsList
+     * @return
+     */
+    private LatLng[] getLatLngArray(ArrayList<Observation> mObservationsList) {
+        LatLng[] mLatLngs = new LatLng[mObservationsList.size()];
+        for (int i = 0; i < mObservationsList.size(); i++) {
+            mLatLngs[i] = new LatLng(mObservationsList.get(i).getLocation().getLatitude(), mObservationsList.get(i)
+                    .getLocation().getLongitude());
+        }
+        return mLatLngs;
+    }
+
+    /**
      * Method to display marker on GoogleMaps for the {@link LatLng} specified.
      */
     public void showMarker(LatLng[] latLngs) {
@@ -180,7 +221,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
                 // get the Observation
                 Observation mObservation = mObservationsList.get(i);
 
-                LatLng mLatLng = new LatLng(mObservation.getLatitude(), mObservation.getLongitude());
+                LatLng mLatLng = new LatLng(mObservation.getLocation().getLatitude(), mObservation.getLocation().getLongitude());
 
                 mMarkerOptions.position(mLatLng);
 
@@ -189,12 +230,11 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
 
                 Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
 
-
             }
         } else {
             mMarkerOptions.position(mCurrentLatLng);
             // once the Markers are all set, display the title and the snippet.
-            mMarkerOptions.title("You are here").snippet("");
+            mMarkerOptions.title("You are here").snippet("No data");
 
             Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
         }
@@ -237,8 +277,6 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
-//        Toast.makeText(mContext, marker.getTitle(), Toast.LENGTH_LONG).show();
 
         mInterface.onMarkerClickListener(marker);
 

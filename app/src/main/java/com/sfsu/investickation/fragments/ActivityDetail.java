@@ -163,7 +163,6 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         if (args != null) {
             // if args not null, retrieve the Activities object.
             if (args.getParcelable(KEY_ARGS) != null) {
-                Log.i(TAG, "retrieving data from args");
                 mActivity = args.getParcelable(KEY_ARGS);
             }
         } else {
@@ -173,7 +172,6 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         }
 
         if (mActivity != null) {
-            Log.i(TAG, mActivity.toString());
             populateView();
         }
 
@@ -296,10 +294,16 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
                 mListener.onViewAllObservationsClicked(mActivity.getId());
                 break;
             case R.id.icon_actDet_openMap:
+                openObservationsOnMap();
                 ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
                 mListener.onOpenActivitiesMapClicked(mObservationArrayList);
                 break;
         }
+    }
+
+    private void openObservationsOnMap() {
+
+
     }
 
 

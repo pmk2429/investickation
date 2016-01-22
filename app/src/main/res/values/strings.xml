@@ -14,6 +14,7 @@
     <string name="title_fragment_activity_new">Add Activity</string>
     <string name="title_fragment_activity_running">Ongoing Activity</string>
     <string name="title_fragment_activity_list">My Activities</string>
+    <string name="title_fragment_activity_map">Activity Map</string>
     <string name="title_fragment_observation_detail">Observation Details</string>
     <string name="title_fragment_observation_add">Add Observation</string>
     <string name="title_fragment_observation_edit">Edit Observation</string>

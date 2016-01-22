@@ -18,6 +18,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Observation implements Parcelable, Entity {
 
+
+    public final static transient int ID_LENGTH = 23;
     public static final Creator<Observation> CREATOR = new Creator<Observation>() {
         @Override
         public Observation createFromParcel(Parcel in) {
@@ -29,9 +31,6 @@ public class Observation implements Parcelable, Entity {
             return new Observation[size];
         }
     };
-
-    public final static transient int ID_LENGTH = 23;
-
     private String id;
     @SerializedName("name")
     private String tickName;
@@ -47,6 +46,8 @@ public class Observation implements Parcelable, Entity {
     private String user_id;
     private String activity_id;
     private String tick_id;
+    //
+    private EntityLocation location;
     // flag for storage
     private transient boolean isOnCloud;
     private transient boolean isVerified;
@@ -54,6 +55,7 @@ public class Observation implements Parcelable, Entity {
     // REQUIRED : Default Constructor
     public Observation() {
     }
+
 
     /**
      * Constructor overloading to create the Observation object for sending it over to Server via Retrofit.
@@ -82,13 +84,26 @@ public class Observation implements Parcelable, Entity {
         id = in.readString();
         tickName = in.readString();
         species = in.readString();
+        imageUrl = in.readString();
         geo_location = in.readString();
-        description = in.readString();
         num_of_ticks = in.readInt();
+        description = in.readString();
         timestamp = in.readLong();
         updated_at = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
+        user_id = in.readString();
+        activity_id = in.readString();
+        tick_id = in.readString();
+        location = in.readParcelable(EntityLocation.class.getClassLoader());
+    }
+
+    public EntityLocation getLocation() {
+        return location;
+    }
+
+    public void setLocation(EntityLocation location) {
+        this.location = location;
     }
 
     public String getDescription() {
@@ -239,26 +254,6 @@ public class Observation implements Parcelable, Entity {
 
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(tickName);
-        dest.writeString(species);
-        dest.writeString(geo_location);
-        dest.writeString(imageUrl);
-        dest.writeInt(num_of_ticks);
-        dest.writeLong(timestamp);
-        dest.writeLong(updated_at);
-        dest.writeDouble(latitude);
-        dest.writeDouble(longitude);
-    }
-
-
-    @Override
     public Entity getEntity() {
         return this;
     }
@@ -288,5 +283,29 @@ public class Observation implements Parcelable, Entity {
                 ":" + updated_at +
                 ":" + user_id +
                 ":" + activity_id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(tickName);
+        dest.writeString(species);
+        dest.writeString(imageUrl);
+        dest.writeString(geo_location);
+        dest.writeInt(num_of_ticks);
+        dest.writeString(description);
+        dest.writeLong(timestamp);
+        dest.writeLong(updated_at);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(user_id);
+        dest.writeString(activity_id);
+        dest.writeString(tick_id);
+        dest.writeParcelable(location, flags);
     }
 }

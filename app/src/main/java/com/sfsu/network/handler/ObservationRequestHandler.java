@@ -62,10 +62,12 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         Call<ResponseCount> deleteObservation = null;
         Call<ResponseCount> countCall = null;
         Call<List<Observation>> listObservationCall = null;
+        Call<List<ObservationResponse>> listObservationResponseCall = null;
         Call<ObservationResponse> observationResponseCall = null;
 
         final String observationWrapperFilter = "{\"include\":[\"activity\", \"tick\"]}";
         final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
+        final String locationIncludeFilter = "{\"include\":\"location\"}";
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
@@ -86,7 +88,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 makeDeleteCall(deleteObservation);
                 break;
             case ACT_OBSERVATIONS:
-                listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId);
+                Log.i(TAG, "1) going good");
+                listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId, locationIncludeFilter);
                 get_Activity_Observations(listObservationCall);
                 break;
             case GET_OBSERVATION_WRAPPER:
@@ -94,7 +97,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 getObservationWrapperResponse(observationResponseCall);
                 break;
             case TOTAL_OBSERVATIONS_COUNT:
-                Log.i(TAG, "yeah reached");
                 countCall = mApiService.count(countWhereClause);
                 getCount(countCall);
 
@@ -303,17 +305,21 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
 
     /**
-     * Returns a list of {@link Observation} for specific {@link com.sfsu.entities.Activities}.
+     * Returns a list of {@link Observation} for specific {@link com.sfsu.entities.Activities} which includes Locations for
+     * each Observations as well
      *
      * @param locationsCall
      */
     public void get_Activity_Observations(Call<List<Observation>> observationCall) {
+        Log.i(TAG, "2) all right");
         observationCall.enqueue(new Callback<List<Observation>>() {
             @Override
             public void onResponse(Response<List<Observation>> response) {
                 if (response.isSuccess()) {
+                    Log.i(TAG, "3a) response success");
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
                 } else {
+                    Log.i(TAG, "3b) response error");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -327,6 +333,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Throwable t) {
+                Log.i(TAG, "3c) failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

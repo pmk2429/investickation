@@ -57,7 +57,8 @@ public interface ObservationApiService {
      */
 //    @GET("activities/{id}/observations")
     @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID + "/" + ApiResources.ObservationBase)
-    public Call<List<Observation>> observationsOfActivity(@Path("id") String activityId);
+    public Call<List<Observation>> observationsOfActivity(@Path("id") String activityId, @Query("filter") String
+            includeFilter);
 
 
     /**

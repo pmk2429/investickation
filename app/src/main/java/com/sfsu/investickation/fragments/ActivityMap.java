@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Observation;
@@ -21,7 +20,6 @@ import com.sfsu.investickation.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,13 +38,12 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     private Context mContext;
     private IActivityMapCallBack mListener;
     private String activityId;
-    private List<Observation> mObservationList;
+    private ArrayList<Observation> mObservationList;
     private LinearLayout infowindow_linearLayout;
 
     public ActivityMap() {
         // Required empty public constructor
     }
-
 
     /**
      * Factory method to create new {@link ActivityMap} instance.
@@ -65,11 +62,6 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            if (getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST) != null) {
-                mObservationList = getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST);
-            }
-        }
     }
 
     @Override
@@ -78,6 +70,12 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
         View rootView = inflater.inflate(R.layout.fragment_activities_map, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        if (getArguments() != null) {
+            if (getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST) != null) {
+                mObservationList = getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST);
+            }
+        }
 
         mGoogleMapController = new GoogleMapController(mContext, this);
 
@@ -88,14 +86,10 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
         // setup google Map using the GoogleMapController.
         mGoogleMapController.setupGoogleMap(mMapView);
 
-        // once the GoogleMap is setup, add polyline to the Maps.
-        LatLng[] latLngs = new LatLng[]{
-                new LatLng(40.737102, -73.990318),
-                new LatLng(40.749825, -73.987963),
-                new LatLng(40.752946, -73.987384),
-                new LatLng(40.755823, -73.986397)};
 
-        mGoogleMapController.setUpPolylineOnMap(latLngs);
+        if (mObservationList != null) {
+            mGoogleMapController.setUpPolylineOnMap(mObservationList);
+        }
 
 //        mGoogleMapController.showMarker(mObservationList);
 
@@ -172,6 +166,7 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     public void onResume() {
         mMapView.onResume();
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_activity_map);
     }
 
     @Override
@@ -209,7 +204,6 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
 
     @Override
     public void onMarkerClickListener(Marker marker) {
-        Log.i(TAG, "inside onMarkerClick");
         if (marker != null) {
             txtView_obsName.setText(marker.getTitle());
         }
@@ -222,7 +216,7 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     private void toggleSlidingPanelLayout() {
         if (mSlidingUpPanelLayout != null) {
             if (mSlidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN) {
-                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             } else {
                 mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
