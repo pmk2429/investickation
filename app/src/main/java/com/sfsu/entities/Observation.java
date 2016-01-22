@@ -279,6 +279,7 @@ public class Observation implements Parcelable, Entity {
                 ":" + tickName +
                 ":" + species +
                 ":" + num_of_ticks +
+                ":" + description +
                 ":" + timestamp +
                 ":" + latitude +
                 ":" + longitude +

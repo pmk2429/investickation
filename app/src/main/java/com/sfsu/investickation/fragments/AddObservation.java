@@ -228,7 +228,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.i(TAG, "error: " + e.getMessage());
         }
 
     }

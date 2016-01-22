@@ -14,6 +14,7 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Activities} related operations to the REST API endpoint.
@@ -85,8 +86,27 @@ public interface ActivityApiService {
      * @param activityId
      * @return
      */
-//    @GET("activities/{id}/locations/count")
     @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID + "/" + ApiResources.EntityLocationBase + "/" + "count")
     public Call<ResponseCount> totalLocations(@Path("id") String activityId);
 
+
+    /**
+     * Returns total Activities recorded by the user.
+     *
+     * @param activityId
+     * @return
+     */
+    @GET(ApiResources.ActivitiesBase + "/" + "count")
+    public Call<ResponseCount> count(@Query("where") String whereClause);
+
+
+    /**
+     * Returns 2 recent Activities made by user depending on the Timestamp
+     *
+     * @param userId
+     * @param filter
+     * @return
+     */
+    @GET(ApiResources.AccountBase + "/" + ApiResources.ID + "/" + ApiResources.ActivitiesBase)
+    public Call<List<Activities>> getRecentActivities(@Path("id") String userId, @Query("filter") String filter);
 }

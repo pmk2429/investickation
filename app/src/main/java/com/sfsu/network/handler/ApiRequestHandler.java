@@ -38,6 +38,8 @@ public class ApiRequestHandler {
     public static final int POST_OBSERVATION_LIST = 0x3F5;
     // wrapper class
     public static final int GET_OBSERVATION_WRAPPER = 0x2F2;
+    // get recent activities
+    public static final int GET_RECENT_ACTIVITIES = 0x2F3;
 
     private final String TAG = "~!@#$ApiReqHdlr";
     protected String ACCESS_TOKEN;

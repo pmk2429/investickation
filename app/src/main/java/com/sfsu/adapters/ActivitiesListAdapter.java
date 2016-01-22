@@ -1,6 +1,8 @@
 package com.sfsu.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,13 +73,27 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
             String image_url = mActivity.getImage_url();
 
-            if (image_url == "" || image_url == null) {
+            // imageFile
+            File imgFile = new File(mActivity.getImage_url());
+
+            // depending on the image url, display the activity image
+            if (image_url == null || image_url.equals("")) {
                 holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
             } else {
                 if (AppUtils.isConnectedOnline(mContext)) {
-                    Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+                    if (mActivity.getImage_url().startsWith("http")) {
+                        Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+                    } else {
+                        if (imgFile.exists()) {
+                            Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            holder.imageView_staticMap.setImageBitmap(tickBitmap);
+                        }
+                    }
                 } else {
-                    holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+                    if (imgFile.exists()) {
+                        Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        holder.imageView_staticMap.setImageBitmap(tickBitmap);
+                    }
                 }
             }
 

@@ -65,6 +65,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         Call<ResponseCount> deleteActivityCall = null;
         Call<List<Activities>> listActivitiesCall = null;
         Call<ResponseCount> countCall = null;
+        final String recentActivitiesFilter = "{\"order\": \"timestamp DESC\", \"limit\": 2}";
+        final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
@@ -92,6 +94,14 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 countCall = mApiService.totalLocations(onLoadingInitialized.getResourceId());
                 getCount(countCall);
                 break;
+            case GET_RECENT_ACTIVITIES:
+                listActivitiesCall = mApiService.getRecentActivities(USER_ID, recentActivitiesFilter);
+                getAllActivitiesCalls(listActivitiesCall);
+                break;
+            case TOTAL_ACTIVITIES_COUNT:
+                Log.i(TAG, "act - yeah");
+                countCall = mApiService.count(countWhereClause);
+                getCount(countCall);
         }
 
     }
@@ -267,6 +277,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * @param countCall
      */
     public void getCount(Call<ResponseCount> countCall) {
+        Log.i(TAG, "act - ok");
         countCall.enqueue(new Callback<ResponseCount>() {
             @Override
             public void onResponse(Response<ResponseCount> response) {

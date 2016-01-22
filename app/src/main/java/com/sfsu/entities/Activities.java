@@ -21,8 +21,9 @@ import com.google.gson.annotations.SerializedName;
  * </p>
  * Created by Pavitra on 5/19/2015.
  */
-public class Activities implements Parcelable, Entity {
+public class Activities implements Entity, Parcelable {
 
+    public final static transient int ID_LENGTH = 23;
     public static final Creator<Activities> CREATOR = new Creator<Activities>() {
         @Override
         public Activities createFromParcel(Parcel in) {
@@ -34,9 +35,6 @@ public class Activities implements Parcelable, Entity {
             return new Activities[size];
         }
     };
-
-    public final static transient int ID_LENGTH = 23;
-
     private String id;
     @SerializedName("name")
     private String activityName;
@@ -97,6 +95,7 @@ public class Activities implements Parcelable, Entity {
         this.updated_at = updated_at;
     }
 
+
     /**
      * Constructor for DEMO purpose.
      *
@@ -114,11 +113,14 @@ public class Activities implements Parcelable, Entity {
     protected Activities(Parcel in) {
         id = in.readString();
         activityName = in.readString();
-        location_area = in.readString();
         num_of_people = in.readInt();
         num_of_pets = in.readInt();
+        num_of_ticks = in.readInt();
+        distance = in.readInt();
+        location_area = in.readString();
         timestamp = in.readLong();
         updated_at = in.readLong();
+        user_id = in.readString();
         image_url = in.readString();
     }
 
@@ -237,23 +239,6 @@ public class Activities implements Parcelable, Entity {
         this.timestamp = timestamp;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(activityName);
-        parcel.writeString(location_area);
-        parcel.writeString(image_url);
-        parcel.writeInt(num_of_people);
-        parcel.writeInt(num_of_pets);
-        parcel.writeInt(num_of_ticks);
-        parcel.writeLong(timestamp);
-        parcel.writeLong(updated_at);
-    }
 
     @Override
     public Entity getEntity() {
@@ -273,8 +258,29 @@ public class Activities implements Parcelable, Entity {
     @Override
     public String toString() {
         return id + " : " + activityName + " : " + location_area + " : " + num_of_people + " : " + num_of_pets + " : " +
-                num_of_ticks + " : " + image_url + " : " + timestamp + " : " + updated_at + " : " + user_id + " |->" +
+                num_of_ticks + " : " + image_url + " : " + timestamp + " : " + updated_at + " : " + user_id + "-> " +
                 activityState;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(id);
+        dest.writeString(activityName);
+        dest.writeInt(num_of_people);
+        dest.writeInt(num_of_pets);
+        dest.writeInt(num_of_ticks);
+        dest.writeInt(distance);
+        dest.writeString(location_area);
+        dest.writeLong(timestamp);
+        dest.writeLong(updated_at);
+        dest.writeString(user_id);
+        dest.writeString(image_url);
     }
 
     /**

@@ -132,7 +132,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView_activityCount"
+                        android:id="@+id/textView_dashboard_activityCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -233,7 +233,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView_observationCount"
+                        android:id="@+id/textView_dashboard_observationCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"

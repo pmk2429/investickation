@@ -21,13 +21,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.sfsu.adapters.RecentActivitiesAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.TickDao;
 import com.sfsu.entities.Activities;
-import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
@@ -47,6 +46,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
     private DrawerLayout mDrawerLayout;
+    private TextView txtView_activitiesCount, txtView_observationCount;
     private Toolbar toolbarMain;
     private int mCurrentSelectedPosition;
     private NavigationView mNavigationView;
@@ -63,12 +63,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: make a network call and get Activity as well as Observation count
-        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
-        //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-        //BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-
     }
 
     @Override
@@ -93,9 +89,11 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         relativeLayoutDashboard = (RelativeLayout) v.findViewById(R.id.relativeLayout_dashboard_activityCount);
         relativeLayoutDashboard.setOnClickListener(this);
 
+
+        txtView_activitiesCount = (TextView) v.findViewById(R.id.textView_dashboard_activityCount);
+        txtView_observationCount = (TextView) v.findViewById(R.id.textView_dashboard_observationCount);
         // enable Location at the start
         //enableLocation();
-
 
         return v;
     }
@@ -141,6 +139,10 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
     /**
      * Subscribes to the event of successful loading of Activities. Initializes Adapter and sets the data to Adapter.
@@ -157,27 +159,19 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         mActivitiesAdapter.setNotifyOnChange(true);
         mActivitiesAdapter.notifyDataSetChanged();
 
-
         // get the selected Activity and open ActivityDetail page.
         mListViewActivities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Activities mActivity = (Activities) mListViewActivities.getItemAtPosition(position);
                 mListener.onActivityItemClicked(mActivity);
+                Log.i(TAG, "clicked");
             }
         });
 
+        //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.TOTAL_OBSERVATIONS_COUNT));
     }
 
-    /**
-     * Subscribes to event of failure in loading Activities.
-     *
-     * @param onLoadingError
-     */
-    @Subscribe
-    public void onActivitiesLoadFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

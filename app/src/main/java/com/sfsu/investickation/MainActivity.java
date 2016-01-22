@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
@@ -125,8 +126,9 @@ public class MainActivity extends MainBaseActivity implements Dashboard.IDashboa
 
     @Override
     public void onActivityItemClicked(Activities mActivity) {
+        Log.i(TAG, "reached in MainAct");
         Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
-        activityIntent.putExtra(KEY_OPEN_SELECTED_ACTIVITY, 1);
+        activityIntent.putExtra(KEY_OPEN_SELECTED_ACTIVITY, 24);
         activityIntent.putExtra(KEY_VIEW_ACTIVITY, mActivity);
         startActivity(activityIntent);
         finish();

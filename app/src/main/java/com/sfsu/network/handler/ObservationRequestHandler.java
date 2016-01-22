@@ -30,7 +30,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
@@ -60,9 +60,12 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     public void onInitializeObservationEvent(ObservationEvent.OnLoadingInitialized onLoadingInitialized) {
         Call<Observation> observationCall = null;
         Call<ResponseCount> deleteObservation = null;
+        Call<ResponseCount> countCall = null;
         Call<List<Observation>> listObservationCall = null;
         Call<ObservationResponse> observationResponseCall = null;
-        final String filter = "{\"include\":[\"activity\", \"tick\"]}";
+
+        final String observationWrapperFilter = "{\"include\":[\"activity\", \"tick\"]}";
+        final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
@@ -87,13 +90,51 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 get_Activity_Observations(listObservationCall);
                 break;
             case GET_OBSERVATION_WRAPPER:
-                Log.i(TAG, "ok ppp");
-                observationResponseCall = mApiService.getObservationWrapper(onLoadingInitialized.getResourceId(), filter);
-                Log.i(TAG, "okay");
+                observationResponseCall = mApiService.getObservationWrapper(onLoadingInitialized.getResourceId(), observationWrapperFilter);
                 getObservationWrapperResponse(observationResponseCall);
                 break;
+            case TOTAL_OBSERVATIONS_COUNT:
+                Log.i(TAG, "yeah reached");
+                countCall = mApiService.count(countWhereClause);
+                getCount(countCall);
 
         }
+    }
+
+    /**
+     * Returns the count for each request made
+     *
+     * @param countCall
+     */
+    public void getCount(Call<ResponseCount> countCall) {
+        Log.i(TAG, "OK");
+        countCall.enqueue(new Callback<ResponseCount>() {
+            @Override
+            public void onResponse(Response<ResponseCount> response) {
+                Log.i(TAG, "response");
+                if (response.isSuccess()) {
+                    mBus.post(new ObservationEvent.OnLoadedCount(response.body()));
+                } else {
+                    int statusCode = response.code();
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
+                        mBus.post(new ObservationEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
+                    } catch (IOException e) {
+                        mBus.post(ObservationEvent.FAILED);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                if (t != null && t.getMessage() != null) {
+                    mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
+                } else {
+                    mBus.post(ObservationEvent.FAILED);
+                }
+            }
+        });
     }
 
     /**

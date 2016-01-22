@@ -100,6 +100,16 @@ public interface ObservationApiService {
     @GET(ApiResources.ObservationBase + "/" + ApiResources.ID)
     public Call<ObservationResponse> getObservationWrapper(@Path("id") String observationId, @Query("filter") String filter);
 
+
+    /**
+     * Returns total Activities recorded by the user.
+     *
+     * @param activityId
+     * @return
+     */
+    @GET(ApiResources.ObservationBase + "/" + "count")
+    public Call<ResponseCount> count(@Query("where") String whereClause);
+
     /**
      * Uploads the Observation image to the server.
      *

@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +37,7 @@ import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,6 +163,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         if (args != null) {
             // if args not null, retrieve the Activities object.
             if (args.getParcelable(KEY_ARGS) != null) {
+                Log.i(TAG, "retrieving data from args");
                 mActivity = args.getParcelable(KEY_ARGS);
             }
         } else {
@@ -168,6 +173,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
         }
 
         if (mActivity != null) {
+            Log.i(TAG, mActivity.toString());
             populateView();
         }
 
@@ -210,13 +216,27 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
 
             String image_url = mActivity.getImage_url();
 
-            if (image_url == "" || image_url == null) {
+            // imageFile
+            File imgFile = new File(mActivity.getImage_url());
+
+            // depending on the image url, display the activity image
+            if (image_url == null || image_url.equals("")) {
                 imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
             } else {
                 if (AppUtils.isConnectedOnline(mContext)) {
-                    Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+                    if (mActivity.getImage_url().startsWith("http")) {
+                        Picasso.with(mContext).load(mActivity.getImage_url()).into(imageView_staticMap);
+                    } else {
+                        if (imgFile.exists()) {
+                            Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            imageView_staticMap.setImageBitmap(tickBitmap);
+                        }
+                    }
                 } else {
-                    imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
+                    if (imgFile.exists()) {
+                        Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        imageView_staticMap.setImageBitmap(tickBitmap);
+                    }
                 }
             }
         } catch (Exception e) {
