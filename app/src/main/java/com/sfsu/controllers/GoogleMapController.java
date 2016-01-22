@@ -18,7 +18,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.sfsu.entities.Observation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
@@ -29,14 +31,14 @@ import java.util.List;
  * <p>
  * Created by Pavitra on 11/16/2015.
  */
-public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
+public class GoogleMapController implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
+    Map<Marker, Observation> markerObservationMap;
     private Context mContext;
     private String TAG = "~!@#$GMapCtrl :";
     private GoogleMap mGoogleMap;
     private LatLng mCurrentLatLng;
     private Location mLocation;
     private IMarkerClickCallBack mInterface;
-
     /**
      * Setting the Location change listener for the Maps
      */
@@ -60,6 +62,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
             this.mContext = mContext;
             mInterface = (IMarkerClickCallBack) fragment;
             // build GoogleApiClient
+            markerObservationMap = new HashMap<>();
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());
         }
@@ -73,6 +76,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
     public GoogleMapController(Context mContext) {
         try {
             this.mContext = mContext;
+            markerObservationMap = new HashMap<>();
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());
         }
@@ -87,6 +91,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
     public GoogleMapController(Context mContext, Activity activity) {
         try {
             this.mContext = mContext;
+            markerObservationMap = new HashMap<>();
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());
         }
@@ -111,8 +116,6 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
                 mGoogleMap.getUiSettings().setScrollGesturesEnabled(true);
                 mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
                 mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-
-                mGoogleMap.setOnMarkerClickListener(this);
 
                 // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
                 try {
@@ -226,10 +229,16 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
                 mMarkerOptions.position(mLatLng);
 
                 // once the Markers are all set, display the title and the snippet.
-                mMarkerOptions.title(mObservation.getTickName()).snippet(mObservation.getSpecies());
+                mMarkerOptions.title(mObservation.getTickName()).snippet(mObservation.getGeoLocation());
 
                 Marker mMarker = mGoogleMap.addMarker(mMarkerOptions);
 
+                // add Marker and Observation to HashMap
+                markerObservationMap.put(mMarker, mObservation);
+                Log.i(TAG, markerObservationMap.size() + "");
+
+                //mGoogleMap.setOnInfoWindowClickListener(this);
+                mGoogleMap.setOnMarkerClickListener(this);
             }
         } else {
             mMarkerOptions.position(mCurrentLatLng);
@@ -278,9 +287,26 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        mInterface.onMarkerClickListener(marker);
+        try {
+            // when the user clicks the Marker, get the Observation and pass it on to Callback
+            //mInterface.onMarkerClickListener(marker);
+
+            Observation mObservation = markerObservationMap.get(marker);
+            Log.i(TAG, mObservation.toString());
+
+            mInterface.onMarkerClickObservationListener(mObservation);
+        } catch (NullPointerException e) {
+            Log.i(TAG, e.getMessage());
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
+        }
 
         return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
     }
 
     /**
@@ -288,5 +314,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener {
      */
     public interface IMarkerClickCallBack {
         void onMarkerClickListener(Marker marker);
+
+        void onMarkerClickObservationListener(Observation mObservation);
     }
 }

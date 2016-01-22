@@ -220,6 +220,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="tick_formalName">Formal Name:</string>
     <string name="tick_location_habitat">Habitat:</string>
 
+    <!-- Activity Map-->
+    <string name="infoWindow_obsName">Observation Name</string>
+    <string name="infoWindow_location">Location</string>
+    <string name="infoWindow_no_observation">No Observation</string>
+    <string name="infoWindow_no_location">No Location</string>
 
     <!-- Observation Details -->
     <string name="obsDet_geoLocation">Location: </string>

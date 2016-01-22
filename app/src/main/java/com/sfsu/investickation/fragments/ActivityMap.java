@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -28,12 +30,21 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
 
     private static final String TAG = "`!@#$ActivityMap";
     private static String KEY_OBSERVATIONS_LIST = "activity_id";
+    //
     @Bind(R.id.mapView_activitiesMap_main)
     MapView mMapView;
+    //
     @Bind(R.id.slidingLayout_infoWindow)
     SlidingUpPanelLayout mSlidingUpPanelLayout;
-    @Bind(R.id.textView_infoWndw_obsName)
+    // TextView
+    @Bind(R.id.textView_infoWindow_obsName)
     TextView txtView_obsName;
+    @Bind(R.id.textView_infoWindow_location)
+    TextView txtView_geoLocation;
+    //ImageView
+    @Bind(R.id.imageView_infoWindow_tickImage)
+    ImageView imageView_obsImage;
+    // properties
     private GoogleMapController mGoogleMapController;
     private Context mContext;
     private IActivityMapCallBack mListener;
@@ -204,10 +215,24 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
 
     @Override
     public void onMarkerClickListener(Marker marker) {
-        if (marker != null) {
-            txtView_obsName.setText(marker.getTitle());
+    }
+
+    @Override
+    public void onMarkerClickObservationListener(Observation mObservation) {
+
+        try {
+            if (mObservation != null) {
+                Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_obsImage);
+                txtView_obsName.setText(mObservation.getTickName());
+                txtView_geoLocation.setText(mObservation.getGeoLocation());
+                // toggle state of Panel
+                toggleSlidingPanelLayout();
+            } else {
+                mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            }
+        } catch (Exception e) {
+            Log.i(TAG, e.getMessage());
         }
-        toggleSlidingPanelLayout();
     }
 
     /**
