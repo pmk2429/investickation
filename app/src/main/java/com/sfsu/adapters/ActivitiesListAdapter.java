@@ -49,59 +49,67 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
     @Override
     public void onBindViewHolder(ActivitiesListAdapter.ActivityViewHolder holder, int position) {
-        if (holder != null) {
+        try {
+            if (holder != null) {
 
-            Activities mActivity = activityList.get(position);
-            // render all the data in the View.
-            // Activity name and location
-            StringBuilder actNameStringBuilder = new StringBuilder();
-            if (mActivity.getLocation_area() != null && !mActivity.getLocation_area().equals("")) {
-                actNameStringBuilder.append(mActivity.getActivityName() + " @ " + mActivity.getLocation_area());
-            } else {
-                actNameStringBuilder.append(mActivity.getActivityName());
-            }
-            holder.txtView_activityName.setText(actNameStringBuilder.toString());
-            // pets
-            String pets = mActivity.getNum_of_pets() + " pets";
-            holder.txtView_pets.setText(pets);
-            // Observations
-            String observations = mActivity.getNum_of_ticks() + " Observations";
-            holder.txtView_observations.setText(observations);
-            // total People
-            String people = mActivity.getNum_of_people() + " people";
-            holder.txtView_people.setText(people);
+                Activities mActivity = activityList.get(position);
+                // render all the data in the View.
+                // Activity name and location
+                StringBuilder actNameStringBuilder = new StringBuilder();
+                if (mActivity.getLocation_area() != null && !mActivity.getLocation_area().equals("")) {
+                    actNameStringBuilder.append(mActivity.getActivityName() + " @ " + mActivity.getLocation_area());
+                } else {
+                    actNameStringBuilder.append(mActivity.getActivityName());
+                }
+                holder.txtView_activityName.setText(actNameStringBuilder.toString());
+                // pets
+                String pets = mActivity.getNum_of_pets() + " pets";
+                holder.txtView_pets.setText(pets);
+                // Observations
+                String observations = mActivity.getNum_of_ticks() + " Observations";
+                holder.txtView_observations.setText(observations);
+                // total People
+                String people = mActivity.getNum_of_people() + " people";
+                holder.txtView_people.setText(people);
 
-            String image_url = mActivity.getImage_url();
+                if (mActivity.getImage_url() != null) {
 
-            // imageFile
-            File imgFile = new File(mActivity.getImage_url());
+                    String image_url = mActivity.getImage_url();
 
-            // depending on the image url, display the activity image
-            if (image_url == null || image_url.equals("")) {
-                holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
-            } else {
-                if (AppUtils.isConnectedOnline(mContext)) {
-                    if (mActivity.getImage_url().startsWith("http")) {
-                        Picasso.with(mContext).load(mActivity.getImage_url()).into(holder.imageView_staticMap);
+                    // depending on the image url, display the activity image
+                    if (image_url == null || image_url.equals("")) {
+                        holder.imageView_staticMap.setImageResource(R.mipmap.placeholder_activity);
                     } else {
-                        if (imgFile.exists()) {
-                            Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                            holder.imageView_staticMap.setImageBitmap(tickBitmap);
+                        // imageFile
+                        File imgFile = new File(image_url);
+                        if (AppUtils.isConnectedOnline(mContext)) {
+                            if (image_url.startsWith("http")) {
+                                Picasso.with(mContext).load(image_url).into(holder.imageView_staticMap);
+                            } else {
+                                if (imgFile.exists()) {
+                                    Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                                    holder.imageView_staticMap.setImageBitmap(tickBitmap);
+                                }
+                            }
+                        } else {
+                            if (imgFile.exists()) {
+                                Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                                holder.imageView_staticMap.setImageBitmap(tickBitmap);
+                            }
                         }
                     }
+                }
+
+                if (mActivity.isOnCloud()) {
+                    holder.txtView_storage.setText(R.string.text_cloud);
                 } else {
-                    if (imgFile.exists()) {
-                        Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        holder.imageView_staticMap.setImageBitmap(tickBitmap);
-                    }
+                    holder.txtView_storage.setText(R.string.text_local);
                 }
             }
+        } catch (NullPointerException ne) {
 
-            if (mActivity.isOnCloud()) {
-                holder.icon_storage.setImageResource(R.mipmap.ic_cloud_black_24dp);
-            } else {
-                holder.icon_storage.setImageResource(R.mipmap.ic_sd_storage_black_24dp);
-            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -172,8 +180,9 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
         private CardView cardViewActivity;
         private ImageView imageView_staticMap;
-        private ImageView icon_storage;
+        //        private ImageView icon_storage;
         private TextView txtView_activityName;
+        private TextView txtView_storage;
         private TextView txtView_pets;
         private TextView txtView_observations;
         private TextView txtView_people;
@@ -182,8 +191,9 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
             super(itemView);
             cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_actList_details);
             imageView_staticMap = (ImageView) itemView.findViewById(R.id.imageView_actList_staticMap);
-            icon_storage = (ImageView) itemView.findViewById(R.id.icon_actList_storage);
+            //icon_storage = (ImageView) itemView.findViewById(R.id.icon_actList_storage);
             txtView_activityName = (TextView) itemView.findViewById(R.id.textView_actList_name);
+            txtView_storage = (TextView) itemView.findViewById(R.id.textView_actList_storageStatus);
             txtView_pets = (TextView) itemView.findViewById(R.id.textView_actList_totalPets);
             txtView_observations = (TextView) itemView.findViewById(R.id.textView_actList_totalObservations);
             txtView_people = (TextView) itemView.findViewById(R.id.textView_actList_totalPeople);

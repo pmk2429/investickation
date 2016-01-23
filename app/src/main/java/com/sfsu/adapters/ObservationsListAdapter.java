@@ -87,7 +87,6 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
                 }
 
                 if (mObservation.isVerified()) {
-                    Log.i("ObsListAdpte", "" + mObservation.isVerified());
                     holder.icon_verified.setImageResource(R.mipmap.ic_verified_black_24dp);
                 }
 

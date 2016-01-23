@@ -48,78 +48,105 @@
                 android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_tick"/>
 
-            <ImageView
-                android:id="@+id/icon_actList_storage"
+            <!--<ImageView-->
+            <!--android:id="@+id/icon_actList_storage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_below="@id/imageView_actList_staticMap"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:layout_marginEnd="@dimen/view_dimen_large"-->
+            <!--android:layout_marginStart="@dimen/view_dimen_small"-->
+            <!--android:layout_marginTop="@dimen/view_dimen_small"-->
+            <!--android:src="@mipmap/ic_sd_storage_black_24dp"/>-->
+
+
+            <TextView
+                android:id="@+id/textView_actList_storageStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@id/imageView_actList_staticMap"
-                android:layout_gravity="bottom"
                 android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:src="@mipmap/ic_sd_storage_black_24dp"/>
-
-            <LinearLayout
-                android:id="@+id/linearLayout_actList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/imageView_actList_staticMap"
-                android:layout_marginTop="36dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView_actList_totalPets"
-                    android:layout_width="@dimen/dimen_default"
-                    android:layout_height="@dimen/widget_dimen"
-                    android:layout_weight="0.4"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/view_dimen_small"
-                    android:paddingEnd="@dimen/view_dimen_large"
-                    android:paddingStart="@dimen/view_dimen_large"
-                    android:paddingTop="@dimen/view_dimen_large"
-                    android:text="@string/text_totalDistance"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_small"/>
-
-                <TextView
-                    android:id="@+id/textView_actList_totalObservations"
-                    android:layout_width="@dimen/dimen_default"
-                    android:layout_height="@dimen/widget_dimen"
-                    android:layout_weight="0.6"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/view_dimen_small"
-                    android:paddingEnd="@dimen/view_dimen_large"
-                    android:paddingStart="@dimen/view_dimen_large"
-                    android:paddingTop="@dimen/view_dimen_large"
-                    android:text="@string/text_totalObservations"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_small"
-                    android:typeface="sans"/>
-
-                <TextView
-                    android:id="@+id/textView_actList_totalPeople"
-                    android:layout_width="@dimen/dimen_default"
-                    android:layout_height="@dimen/widget_dimen"
-                    android:layout_weight="0.4"
-                    android:background="@color/colorWhite"
-                    android:paddingBottom="@dimen/view_dimen_small"
-                    android:paddingEnd="@dimen/view_dimen_large"
-                    android:paddingStart="@dimen/view_dimen_large"
-                    android:paddingTop="@dimen/view_dimen_large"
-                    android:text="@string/text_totalPeople"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/font_small"/>
-            </LinearLayout>
+                android:background="@color/colorSecondary"
+                android:padding="@dimen/view_dimen_X_small"
+                android:text="Local"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_X_small"/>
 
 
             <View
                 android:id="@+id/separator_activity_list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_dimen"
-                android:layout_alignTop="@id/linearLayout_actList"
                 android:layout_below="@id/imageView_actList_staticMap"
+                android:layout_marginTop="@dimen/view_dimen_X3_large"
                 android:background="@color/divider"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_actList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/separator_activity_list"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_actList_totalPets"
+                    android:layout_width="@dimen/dimen_default"
+                    android:layout_height="@dimen/widget_dimen_medium"
+                    android:layout_weight="0.3"
+                    android:background="@color/colorWhite"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/view_dimen_large"
+                    android:paddingStart="@dimen/view_dimen_large"
+                    android:text="@string/text_totalPets"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"/>
+
+                <View
+                    android:layout_width="@dimen/separator_dimen"
+                    android:layout_height="@dimen/widget_dimen_medium"
+                    android:layout_marginBottom="@dimen/view_dimen_small"
+                    android:background="@color/divider"/>
+
+                <TextView
+                    android:id="@+id/textView_actList_totalObservations"
+                    android:layout_width="@dimen/dimen_default"
+                    android:layout_height="@dimen/widget_dimen_medium"
+                    android:layout_weight="0.4"
+                    android:background="@color/colorWhite"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/view_dimen_medium"
+                    android:paddingStart="@dimen/view_dimen_medium"
+                    android:text="@string/text_totalObservations"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"
+                    android:typeface="sans"/>
+
+                <View
+                    android:layout_width="@dimen/separator_dimen"
+                    android:layout_height="@dimen/widget_dimen_medium"
+                    android:layout_marginBottom="@dimen/view_dimen_small"
+                    android:background="@color/divider"/>
+
+                <TextView
+                    android:id="@+id/textView_actList_totalPeople"
+                    android:layout_width="@dimen/dimen_default"
+                    android:layout_height="@dimen/widget_dimen_medium"
+                    android:layout_weight="0.3"
+                    android:background="@color/colorWhite"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="@dimen/view_dimen_large"
+                    android:paddingStart="@dimen/view_dimen_large"
+                    android:text="@string/text_totalPeople"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/font_small"/>
+            </LinearLayout>
 
 
         </RelativeLayout>

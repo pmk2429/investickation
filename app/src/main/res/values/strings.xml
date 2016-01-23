@@ -85,7 +85,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="text_totalDistance">6 Miles</string>
     <string name="text_totalObservations">5 Observations</string>
     <string name="text_totalPeople">4 people</string>
-    <string name="text_totalPets">1</string>
+    <string name="text_totalPets">1 pets</string>
     <string name="text_speciesName">1 pet</string>
     <string name="text_referTickGuide">View Tick Guide</string>
     <string name="text_chooseTickInfo">Can\'t recognize tick?</string>
@@ -248,6 +248,10 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="auth_pref_file_name">com.sfsu.investickations.AUTH_FILE</string>
     <string name="session_pref_file_name">com.sfsu.investickations.SESSION_FILE</string>
     <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Cloud storage-->
+    <string name="text_local">Local</string>
+    <string name="text_cloud">Cloud</string>
 
     <!-- Settings Preferences -->
 

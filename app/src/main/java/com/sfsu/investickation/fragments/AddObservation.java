@@ -198,9 +198,20 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, description, AppUtils.getCurrentTimeStamp(),
                         activityId, userId);
 
+                // set all the location values
+                geoLocation = geoLocation != null ? geoLocation : "";
+                latitude = latitude != 0 ? latitude : 0.0;
+                longitude = longitude != 0 ? longitude : 0.0;
+
+                newObservationObj.setGeoLocation(geoLocation);
+                newObservationObj.setLatitude(latitude);
+                newObservationObj.setLongitude(longitude);
+
+
                 // depending on network connection, save the Observation on storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
-                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                    Log.i(TAG, "cloud:" + newObservationObj.toString());
+                    //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 } else {
                     // create Unique ID for the Running activity of length 32.
                     String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
@@ -210,21 +221,16 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                     newObservationObj.setImageUrl(selectedImagePath);
 
-                    // set Location params separately.
-                    newObservationObj.setGeoLocation("");
-                    newObservationObj.setLatitude(latitude);
-                    newObservationObj.setLongitude(longitude);
+                    Log.i(TAG, "local: " + newObservationObj.toString());
 
-                    Log.i(TAG, newObservationObj.toString());
-
-                    long resultCode = dbController.save(newObservationObj);
-
-                    if (resultCode != -1) {
-                        // if saved to DB successfully, open ObservationsList
-                        mInterface.postObservationData(newObservationObj);
-                    } else {
-                        Toast.makeText(mContext, "Fail to store Observation", Toast.LENGTH_LONG).show();
-                    }
+//                    long resultCode = dbController.save(newObservationObj);
+//
+//                    if (resultCode != -1) {
+//                        // if saved to DB successfully, open ObservationsList
+//                        mInterface.postObservationData(newObservationObj);
+//                    } else {
+//                        Toast.makeText(mContext, "Fail to store Observation", Toast.LENGTH_LONG).show();
+//                    }
                 }
             }
         } catch (Exception e) {
@@ -499,14 +505,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Override
     public void setLatLng(LatLng mLatLng) {
-        Log.i(TAG, "lat lng changed");
         this.latitude = mLatLng.latitude;
         this.longitude = mLatLng.longitude;
     }
 
     @Override
     public void setLocationArea(String locationArea) {
-        Log.i(TAG, "location area");
         if (locationArea != null || !locationArea.equals("")) {
             this.geoLocation = locationArea;
         } else {
