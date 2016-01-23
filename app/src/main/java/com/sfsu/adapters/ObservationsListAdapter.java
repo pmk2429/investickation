@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,11 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
                         Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                         holder.imageView_tickImage.setImageBitmap(tickBitmap);
                     }
+                }
+
+                if (mObservation.isVerified()) {
+                    Log.i("ObsListAdpte", "" + mObservation.isVerified());
+                    holder.icon_verified.setImageResource(R.mipmap.ic_verified_black_24dp);
                 }
 
             }
@@ -178,6 +184,4 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
             txtView_time = (TextView) itemView.findViewById(R.id.textView_obsList_time);
         }
     }
-
-
 }

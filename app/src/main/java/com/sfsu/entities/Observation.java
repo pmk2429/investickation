@@ -50,7 +50,7 @@ public class Observation implements Parcelable, Entity {
     private EntityLocation location;
     // flag for storage
     private transient boolean isOnCloud;
-    private transient boolean isVerified;
+    private boolean verified;
 
     // REQUIRED : Default Constructor
     public Observation() {
@@ -115,11 +115,11 @@ public class Observation implements Parcelable, Entity {
     }
 
     public boolean isVerified() {
-        return isVerified;
+        return verified;
     }
 
     public void setIsVerified(boolean isVerified) {
-        this.isVerified = isVerified;
+        this.verified= isVerified;
     }
 
     public boolean isOnCloud() {
