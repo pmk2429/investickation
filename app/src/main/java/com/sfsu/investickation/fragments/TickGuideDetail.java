@@ -25,8 +25,8 @@ import butterknife.ButterKnife;
  */
 public class TickGuideDetail extends Fragment {
 
-    private final String TAG = "~!@#TickDetail :";
-    @Bind(R.id.textViewStatic_tickDet_knownFor)
+    private final String TAG = "~!@#TickDetail";
+    @Bind(R.id.textView_tickDet_knownFor)
     TextView txtView_knownFor;
     @Bind(R.id.textView_tickDet_tickFormalName)
     TextView txtView_tickFormalName;
@@ -100,13 +100,13 @@ public class TickGuideDetail extends Fragment {
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id
                 .collapsing_toolbar_guideDetail);
-        collapsingToolbar.setTitle("Tick Details");
         String title = getResources().getString(R.string.tickDetails_toolbar_title);
-
+        collapsingToolbar.setTitle(title);
 
         if (args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL) != null) {
             mTick = args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL);
         }
+
 
         txtView_tickName.setText(mTick.getTickName());
         txtView_tickSpecies.setText(mTick.getSpecies());

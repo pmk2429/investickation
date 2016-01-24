@@ -61,6 +61,7 @@
     <dimen name="cardview_X_large">240dp</dimen>
     <dimen name="cardview_X1_large">256dp</dimen>
     <dimen name="cardview_X2_large">272dp</dimen>
+    <dimen name="cardview_X3_large">296dp</dimen>
 
     <!-- FAB dimensions-->
     <dimen name="dimen_material_default">56dp</dimen>

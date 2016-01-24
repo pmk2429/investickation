@@ -165,7 +165,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Activities mActivity = (Activities) mListViewActivities.getItemAtPosition(position);
                 mListener.onActivityItemClicked(mActivity);
-                Log.i(TAG, "clicked");
             }
         });
 

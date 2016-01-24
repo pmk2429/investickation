@@ -225,9 +225,10 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="tickDetails_toolbar_title">Tick Details</string>
     <string name="basicInfo">Basic Information</string>
     <string name="tick_species">Species:</string>
+    <string name="tick_scientific_name">Scientific Name:</string>
     <string name="tick_knownFor">Known For:</string>
     <string name="tick_formalName">Formal Name:</string>
-    <string name="tick_location_habitat">Habitat:</string>
+    <string name="tick_location_habitat">Found Near:</string>
 
     <!-- Activity Map-->
     <string name="infoWindow_obsName">Observation Name</string>

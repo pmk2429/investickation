@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_dashboard"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_X2_large"
+        android:layout_height="@dimen/cardview_X3_large"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -64,9 +64,10 @@
                 android:id="@+id/cardview_tickGuide_detail_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/view_dimen_large"
-                android:layout_marginRight="@dimen/view_dimen_large"
-                android:layout_marginTop="@dimen/view_dimen_X2_large"
+                android:layout_marginBottom="@dimen/view_dimen_small"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_X_large"
                 android:padding="@dimen/view_dimen_large"
                 card_view:cardPreventCornerOverlap="false">
 
@@ -111,7 +112,10 @@
                 android:id="@+id/cardview_tickGuide_detail_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/view_dimen_large"
+                android:layout_marginBottom="@dimen/view_dimen_large"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_large"
                 card_view:cardPreventCornerOverlap="false">
 
@@ -125,11 +129,10 @@
                         android:id="@+id/textViewStatic_tickInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingEnd="@dimen/view_dimen_large"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_large"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/view_dimen_small"
+                        android:paddingTop="@dimen/view_dimen_small"
                         android:text="@string/basicInfo"
                         android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
@@ -145,32 +148,34 @@
                         android:layout_marginTop="@dimen/view_dimen_medium"
                         android:background="@color/divider"/>
 
-                    <!-- Common Name -->
+                    <!-- Species-->
                     <TextView
                         android:id="@+id/textViewStatic_tickSpecies"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
                         android:layout_below="@id/separator_tickDetail"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_small"
+                        android:layout_marginStart="@dimen/view_dimen_large"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:gravity="start"
                         android:text="@string/tick_species"
-                        android:textAlignment="center"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
                         android:id="@+id/textView_tickDet_tickSpecies"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/textViewStatic_tickSpecies"
                         android:layout_below="@id/separator_tickDetail"
+                        android:layout_marginEnd="@dimen/view_dimen_large"
+                        android:layout_marginStart="@dimen/view_dimen_small"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:layout_toEndOf="@id/textViewStatic_tickSpecies"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_small"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
                         android:text="Lone Star Tick"
-                        android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
@@ -178,88 +183,89 @@
                     <!-- Formal Name -->
                     <TextView
                         android:id="@+id/textViewStatic_tickFormalName"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/textView_tickDet_tickSpecies"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_small"
-                        android:text="Formal Name: "
-                        android:textAlignment="center"
+                        android:layout_marginStart="@dimen/view_dimen_large"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:gravity="start"
+                        android:text="@string/tick_scientific_name"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
                         android:id="@+id/textView_tickDet_tickFormalName"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/textView_tickDet_tickSpecies"
+                        android:layout_marginEnd="@dimen/view_dimen_large"
+                        android:layout_marginStart="@dimen/view_dimen_small"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:layout_toEndOf="@id/textViewStatic_tickFormalName"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="16dp"
-                        android:paddingTop="8dp"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
                         android:text="Amblyomma americanum"
                         android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
-                    <!-- Diseases Name -->
+                    <!-- Known For -->
                     <TextView
                         android:id="@+id/textViewStatic_tickDet_knownFor"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_tickFormalName"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="8dp"
-                        android:text="Known For: "
-                        android:textAlignment="center"
+                        android:layout_marginStart="@dimen/view_dimen_large"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:gravity="start"
+                        android:text="@string/tick_knownFor"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_tickDet_tickDisease"
+                        android:id="@+id/textView_tickDet_knownFor"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_tickFormalName"
+                        android:layout_marginEnd="@dimen/view_dimen_large"
+                        android:layout_marginStart="@dimen/view_dimen_small"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:layout_toEndOf="@id/textViewStatic_tickDet_knownFor"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_small"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
                         android:text="Tularemia"
-                        android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
 
-                    <!-- Diseases Name -->
+                    <!-- Location Name -->
                     <TextView
                         android:id="@+id/textViewStatic_tickDet_Location"
-                        android:layout_width="@dimen/widget_dimen_X4_large"
-                        android:layout_height="@dimen/view_dimen_X1_large"
+                        android:layout_width="@dimen/widget_dimen_X3_large"
+                        android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_tickDet_knownFor"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_small"
-                        android:text="Found Near: "
-                        android:textAlignment="center"
+                        android:layout_marginStart="@dimen/view_dimen_large"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:gravity="start"
+                        android:text="@string/tick_location_habitat"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
                         android:id="@+id/textView_tickDet_tickLocation"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/view_dimen_X1_large"
-                        android:layout_below="@id/textViewStatic_tickDet_knownFor"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textView_tickDet_knownFor"
+                        android:layout_marginEnd="@dimen/view_dimen_large"
+                        android:layout_marginStart="@dimen/view_dimen_small"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:layout_toEndOf="@id/textViewStatic_tickDet_Location"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="8dp"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:maxLines="1"
                         android:text="Dry Areas"
-                        android:textAlignment="center"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
 
@@ -267,35 +273,29 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview_tickGuide_detail_padding"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/view_dimen_large"
-                android:layout_marginBottom="@dimen/widget_dimen"
-                android:padding="@dimen/view_dimen_large"
-                card_view:cardPreventCornerOverlap="false">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/cardview_tickGuide_detail_padding"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="@dimen/view_dimen_large"-->
+            <!--android:layout_marginBottom="@dimen/widget_dimen"-->
+            <!--card_view:cardPreventCornerOverlap="false">-->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/lightText"
-                    android:paddingBottom="@dimen/view_dimen_large">
+            <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-                    <TextView
-                        android:id="@+id/textViewStatic_padding"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/widget_dimen_X2_large"
-                        android:gravity="top|start"
-                        android:paddingBottom="0dp"
-                        android:paddingStart="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_large"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_large"/>
+            <!--<TextView-->
+            <!--android:id="@+id/textViewStatic_padding"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/widget_dimen_large"-->
+            <!--android:gravity="top|start"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:textSize="@dimen/font_large"/>-->
 
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            <!--</RelativeLayout>-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -304,7 +304,7 @@
         android:id="@+id/button_tickDet_tickInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:clickable="true"
         android:src="@mipmap/ic_info_outline_white_36dp"
         app:backgroundTint="@color/colorPrimary"
