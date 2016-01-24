@@ -69,10 +69,8 @@ public class Observation implements Parcelable, Entity {
      * @param activity_id
      * @param user_id
      */
-    public Observation(String tickName, String species, int num_ticks, String description, long timestamp, String activity_id,
-                       String user_id) {
+    public Observation(String tickName, int num_ticks, String description, long timestamp, String activity_id, String user_id) {
         this.tickName = tickName;
-        this.species = species;
         this.num_of_ticks = num_ticks;
         this.timestamp = timestamp;
         this.activity_id = activity_id;
@@ -119,7 +117,7 @@ public class Observation implements Parcelable, Entity {
     }
 
     public void setIsVerified(boolean isVerified) {
-        this.verified= isVerified;
+        this.verified = isVerified;
     }
 
     public boolean isOnCloud() {

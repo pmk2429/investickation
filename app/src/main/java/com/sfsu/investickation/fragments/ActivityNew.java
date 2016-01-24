@@ -234,10 +234,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // set the state of Currently running activity to Running.
             newActivityObj.setState(Activities.STATE.RUNNING);
 
-            // build on the same newActivity Object.
-            newActivityObj.setLocation_area(locationArea);
+            // build on the same newActivity Object for geo location
+            locationArea = locationArea != null ? locationArea : "";
 
-            Log.i(TAG, newActivityObj.toString());
+            newActivityObj.setLocation_area(locationArea);
 
             // once the play button is clicked, make a network call and create new Activities on the server
             if (AppUtils.isConnectedOnline(mContext)) {
@@ -247,7 +247,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 String activityUUID = RandomStringUtils.randomAlphanumeric(Activities.ID_LENGTH);
 
                 newActivityObj.setId(activityUUID);
-                newActivityObj.setLocation_area("");
 
                 // save the Activity on local database
                 long resultCode = dbController.save(newActivityObj);

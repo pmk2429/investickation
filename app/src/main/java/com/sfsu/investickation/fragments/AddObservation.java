@@ -71,8 +71,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Bind(R.id.button_addObs_postObservation)
     Button btn_PostObservation;
     // EditTexts
-    @Bind(R.id.editText_addObs_tickSpecies)
-    EditText et_tickSpecies;
+//    @Bind(R.id.editText_addObs_tickSpecies)
+//    EditText et_tickSpecies;
     @Bind(R.id.editText_addObs_numOfTicks)
     EditText et_numOfTicks;
     @Bind(R.id.editText_addObs_tickName)
@@ -149,7 +149,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         userId = mAuthPreferences.getUser_id();
 
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
-        et_tickSpecies.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
+        //et_description.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
 
         // initialize the Floating button.
@@ -190,12 +190,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         try {
             if (isTickNameValid && isTickSpeciesValid && isTotalTicksNumber) {
                 String tickName = et_tickName.getText().toString();
-                String tickSpecies = et_tickSpecies.getText().toString();
+                //String tickSpecies = et_tickSpecies.getText().toString();
                 int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
                 String description = et_description.getText().toString() == null ? "" : et_description.getText().toString();
 
                 // finally when all values are collected, create a new Observation object.
-                newObservationObj = new Observation(tickName, tickSpecies, numOfTicks, description, AppUtils.getCurrentTimeStamp(),
+                newObservationObj = new Observation(tickName, numOfTicks, description, AppUtils.getCurrentTimeStamp(),
                         activityId, userId);
 
                 // set all the location values
@@ -294,7 +294,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     public void setTickData(Tick tickData) {
         et_tickName.setText(tickData.getTickName());
-        et_tickSpecies.setText(tickData.getSpecies());
     }
 
     /**

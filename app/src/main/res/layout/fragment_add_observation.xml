@@ -108,31 +108,31 @@
                 android:textSize="@dimen/font_small"/>
 
 
-            <!--  Species row -->
-            <ImageView
-                android:id="@+id/icon_tickSpecies"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/icon_tick"
-                android:layout_marginStart="@dimen/view_dimen_small"
-                android:padding="@dimen/view_dimen_temp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_paw"/>
+            <!--&lt;!&ndash;  Species row &ndash;&gt;-->
+            <!--<ImageView-->
+            <!--android:id="@+id/icon_tickSpecies"-->
+            <!--android:layout_width="@dimen/widget_dimen"-->
+            <!--android:layout_height="@dimen/widget_dimen"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@id/icon_tick"-->
+            <!--android:layout_marginStart="@dimen/view_dimen_small"-->
+            <!--android:padding="@dimen/view_dimen_temp"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:src="@mipmap/ic_paw"/>-->
 
-            <EditText
-                android:id="@+id/editText_addObs_tickSpecies"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_addObs_tickName"
-                android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_toEndOf="@id/icon_tickSpecies"
-                android:hint="@string/tickSpecies"
-                android:lines="1"
-                android:paddingBottom="@dimen/view_dimen_large"
-                android:paddingTop="@dimen/view_dimen_large"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
+            <!--<EditText-->
+            <!--android:id="@+id/editText_addObs_tickSpecies"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/widget_dimen"-->
+            <!--android:layout_below="@id/editText_addObs_tickName"-->
+            <!--android:layout_marginEnd="@dimen/view_dimen_large"-->
+            <!--android:layout_toEndOf="@id/icon_tickSpecies"-->
+            <!--android:hint="@string/tickSpecies"-->
+            <!--android:lines="1"-->
+            <!--android:paddingBottom="@dimen/view_dimen_large"-->
+            <!--android:paddingTop="@dimen/view_dimen_large"-->
+            <!--android:singleLine="true"-->
+            <!--android:textSize="@dimen/font_small"/>-->
 
             <!--  Species row -->
             <ImageView
@@ -140,7 +140,7 @@
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/icon_tickSpecies"
+                android:layout_below="@id/icon_tick"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_temp"
                 android:scaleType="fitCenter"
@@ -150,7 +150,7 @@
                 android:id="@+id/editText_addObs_numOfTicks"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_addObs_tickSpecies"
+                android:layout_below="@id/editText_addObs_tickName"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_numOfTicks"
                 android:hint="@string/tickCount"
