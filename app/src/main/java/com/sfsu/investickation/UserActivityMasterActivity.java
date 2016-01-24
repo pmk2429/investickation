@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p>
+ * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks,
@@ -47,7 +47,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String KEY_REMINDER_SET = "tick_reminder_set";
     public static final String KEY_REMINDER_INTERVAL = "reminder_interval";
 
-    private static int STACK_COUNT = 0;
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private final String TAG = "~!@#$UserActivity";
     private FragmentManager fragmentManager;
@@ -70,7 +69,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 if (savedInstanceState != null) {
                     return;
                 } else {
-                    Log.i(TAG, "reached in else");
                     // if user clicks on Start Activity in Dashboard
                     if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
                         ActivityNew activityNewFragment = new ActivityNew();
@@ -89,14 +87,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                     // if user navigates back to ActivityDetail fragment.
                     else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
                         ActivityDetail mActivityDetail = new ActivityDetail();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.add(R.id.activity_fragment_container, mActivityDetail);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        performAddFragmentTransaction(mActivityDetail);
                     }
                     // if user opens Activity by clicking on the ListView item from Dashboard.
                     else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 24) {
-                        Log.i(TAG, "inside desired");
                         Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
                         ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivities);
                         performAddFragmentTransaction(mActivityDetailFragment);
@@ -120,6 +114,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      */
     private void performReplaceFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.replace(R.id.activity_fragment_container, mFragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -132,6 +127,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      */
     private void performAddFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.add(R.id.activity_fragment_container, mFragment);
         transaction.commit();
     }

@@ -22,7 +22,6 @@ public interface TickApiService {
      *
      * @return
      */
-//    @GET("ticks/{id}")
     @GET(ApiResources.TickBase + "/" + ApiResources.ID)
     public Call<Tick> get(@Path("id") String tickId);
 
@@ -31,7 +30,6 @@ public interface TickApiService {
      *
      * @return
      */
-//    @GET("ticks")
     @GET(ApiResources.TickBase)
     public Call<List<Tick>> getAll();
 

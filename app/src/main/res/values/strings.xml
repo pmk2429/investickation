@@ -114,6 +114,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!-- Activity Running-->
     <string name="text_add_observation_disclaimer">Click button to record Tick</string>
+    <string name="text_stop_activity">Click button to stop Activity</string>
     <string name="activity_running_status_active">Active  </string>
 
     <!-- Dashboard : Activity List Item-->

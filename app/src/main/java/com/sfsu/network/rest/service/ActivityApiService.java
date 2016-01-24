@@ -39,7 +39,7 @@ public interface ActivityApiService {
      */
 //    @GET("accounts/{id}/activities")
     @GET(ApiResources.AccountBase + "/" + ApiResources.ID + "/" + ApiResources.ActivitiesBase)
-    public Call<List<Activities>> getAll(@Path("id") String user_id);
+    public Call<List<Activities>> getAll(@Path("id") String user_id, @Query("filter") String orderFilter);
 
 
     /**

@@ -89,6 +89,7 @@ public class ObservationMasterActivity extends MainBaseActivity
         */
     private void performAddFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.add(R.id.observation_fragment_container, fragment);
         transaction.commit();
     }
@@ -100,6 +101,7 @@ public class ObservationMasterActivity extends MainBaseActivity
      */
     private void performReplaceFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.replace(R.id.observation_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -175,6 +177,7 @@ public class ObservationMasterActivity extends MainBaseActivity
         // dont add to backstack
         ObservationList observationListFragment = new ObservationList();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.enter_from_right);
         transaction.replace(R.id.observation_fragment_container, observationListFragment);
         transaction.commit();
     }

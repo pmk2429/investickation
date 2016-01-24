@@ -74,9 +74,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (AppUtils.isConnectedOnline(mContext)) {
-            BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-        }
+        BusProvider.bus().post(new TickEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
     }
 
     @Override
@@ -99,9 +97,9 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
         }
 
         // get all the Ticks
-        localTickList = (List<Tick>) dbTickController.getAll();
+        //localTickList = (List<Tick>) dbTickController.getAll();
         // set the TicksList
-        displayTickList();
+        //displayTickList();
 
         return v;
     }
@@ -294,9 +292,9 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
      * @param onLoaded
      */
     @Subscribe
-    public void onTicksLoadSuccess(TickEvent.OnLoaded onLoaded) {
-        if (onLoaded.getResponseList() != null) {
-            responseTickList = onLoaded.getResponseList();
+    public void onTicksLoadSuccess(TickEvent.OnListLoaded onListLoaded) {
+        if (onListLoaded.getResponseList() != null) {
+            responseTickList = onListLoaded.getResponseList();
             // display the ticks in list
             displayTickList();
         } else {
@@ -309,7 +307,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
      * @param onLoaded
      */
     @Subscribe
-    public void onTicksLoadSuccess(TickEvent.OnLoadingError onLoadingError) {
+    public void onTicksLoadFailure(TickEvent.OnLoadingError onLoadingError) {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
@@ -355,7 +353,6 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
          * @param tick
          */
         public void onTickListItemClickListener(Tick mTick);
-
 
     }
 

@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sfsu.entities.Tick;
 import com.sfsu.network.error.ErrorResponse;
@@ -66,6 +67,7 @@ public class TickRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(tickCall);
                 break;
             case GET_ALL:
+                Log.i(TAG, "onInitializeTickEvent: ");
                 listTickCall = mApiService.getAll();
                 getAllTicksCall(listTickCall);
                 break;

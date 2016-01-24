@@ -66,6 +66,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         Call<List<Activities>> listActivitiesCall = null;
         Call<ResponseCount> countCall = null;
         final String recentActivitiesFilter = "{\"order\": \"timestamp DESC\", \"limit\": 2}";
+        final String orderFilter = "{\"order\": \"timestamp DESC\"}";
         final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
 
         // separate the Method logic
@@ -75,7 +76,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUCall(activitiesCall);
                 break;
             case GET_ALL:
-                listActivitiesCall = mApiService.getAll(USER_ID);
+                listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
                 getAllActivitiesCalls(listActivitiesCall);
                 break;
             case ADD:

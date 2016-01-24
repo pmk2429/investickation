@@ -592,7 +592,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Subscribe
     public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
         Log.i(TAG, "5a) image upload failure");
-//        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
         Log.i(TAG, onLoadingError.getErrorMessage());
     }
 
