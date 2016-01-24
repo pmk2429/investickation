@@ -6,15 +6,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
 
         <ImageView
             android:id="@+id/imageView_home_logo"
-            android:layout_width="@dimen/widget_dimen_large"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/widget_dimen_large"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/widget_dimen"/>
+            android:layout_marginEnd="@dimen/view_dimen_large"
+            android:layout_marginStart="@dimen/view_dimen_large"
+            android:layout_marginTop="@dimen/widget_dimen_X3_large"
+            android:src="@drawable/logo_main"/>
 
         <TextView
             android:id="@+id/textView_home_header"
@@ -22,7 +26,7 @@
             android:layout_height="@dimen/widget_dimen"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/padding_dimen_X_large"
-            android:text="Welcome to InvesTICKations"
+            android:text="@string/welcome_text"
             android:textColor="@color/primaryText"
             android:textSize="@dimen/font_X_large"/>
 
@@ -34,7 +38,7 @@
             android:layout_marginLeft="@dimen/view_dimen_large"
             android:layout_marginRight="@dimen/view_dimen_large"
             android:gravity="center"
-            android:text="Record Activities and post observations for Ticks"
+            android:text="@string/welcome_description"
             android:textAlignment="center"
             android:textColor="@color/primaryText"
             android:textSize="@dimen/font_small"/>

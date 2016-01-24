@@ -256,6 +256,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- Settings Preferences -->
 
 
+    <!-- Home screen -->
+    <string name="welcome_description">Record Activities and post observations for Ticks</string>
+    <string name="welcome_text">Welcome to InvesTICKations</string>
+
+
     <!-- ImageManager -->
     <string name="album_name">InvesTICKations</string>
 
