@@ -42,7 +42,7 @@
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_small"
         android:layout_toEndOf="@id/icon_actNew_activity"
-        android:hint="@string/text_activityName"
+        android:hint="@string/hint_activityName"
         android:lines="1"
         android:scrollHorizontally="true"
         android:singleLine="true"
@@ -85,7 +85,7 @@
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
             android:layout_toEndOf="@+id/icon_actNew_people"
-            android:text="@string/actNew_totalPeople"
+            android:text="@string/hint_totalPeople"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
@@ -135,7 +135,7 @@
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
             android:layout_toEndOf="@+id/icon_actNew_pets"
-            android:text="@string/actNew_totalPets"
+            android:text="@string/hint_totalPets"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
@@ -185,7 +185,7 @@
         android:padding="@dimen/view_dimen_medium"
         android:text="@string/actNew_setReminder"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/font_small"/>
+        android:textSize="@dimen/font_medium"/>
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton

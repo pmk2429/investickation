@@ -7,7 +7,7 @@
     <color name="colorSecondaryDark">#1C3949</color>
 
     <!--<color name="colorActionDark">#536DFE</color>-->
-    <color name="colorActionDark">#4CAF50</color>
+    <color name="colorStatus">#21b384</color>
 
     <color name="windowBackgroundColor">#333333</color>
     <color name="black_translucent">#80000000</color>

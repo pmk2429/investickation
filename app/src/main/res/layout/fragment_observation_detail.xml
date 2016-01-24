@@ -54,25 +54,32 @@
 
                     <TextView
                         android:id="@+id/textView_obsDet_tickName"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/widget_dimen"
                         android:layout_below="@+id/view_divider"
-                        android:gravity="top|start"
-                        android:paddingTop="@dimen/view_dimen_large"
+                        android:gravity="center"
                         android:text="American Dog Tick"
+                        android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_large"/>
+
+                    <ImageView
+                        android:id="@+id/icon_obsDet_verified"
+                        android:layout_width="@dimen/view_dimen_large"
+                        android:layout_height="@dimen/view_dimen_large"
+                        android:layout_marginStart="@dimen/view_dimen_small"
+                        android:layout_marginTop="@dimen/view_dimen_large"
+                        android:layout_toEndOf="@id/textView_obsDet_tickName"/>
 
                     <TextView
                         android:id="@+id/textView_obsDet_timestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/textView_obsDet_tickName"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginTop="@dimen/view_dimen_large"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/view_dimen_small"
-                        android:paddingTop="@dimen/view_dimen_large"
                         android:text="365 days"
+                        android:textAlignment="center"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/font_small"/>
 
@@ -136,9 +143,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/view_dimen_medium"
-                        android:ellipsize="end"
                         android:gravity="top|start"
-                        android:maxLines="1"
                         android:paddingTop="@dimen/view_dimen_small"
                         android:text="@string/obsDet_details"
                         android:textColor="@color/colorPrimary"
@@ -186,6 +191,7 @@
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_geoLocation"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:text="@string/obsDet_geoLocation"
                         android:textColor="@color/secondaryText"
                         android:textSize="@dimen/font_small"/>
@@ -196,6 +202,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/textViewStatic_latLng"
                         android:layout_below="@id/textView_obsDet_geoLocation"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:layout_toEndOf="@id/textViewStatic_latLng"
                         android:text="35.755815, -121.859291"
                         android:textColor="@color/primaryText"
@@ -207,6 +214,7 @@
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_latLng"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:gravity="top|start"
                         android:text="@string/obsDet_activityName"
                         android:textColor="@color/secondaryText"
@@ -218,9 +226,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/textViewStatic_activity"
                         android:layout_below="@id/textView_obsDet_latLng"
+                        android:layout_marginTop="@dimen/view_dimen_small"
                         android:layout_toEndOf="@id/textViewStatic_activity"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:text="@string/text_activityName"
                         android:textColor="@color/primaryText"
                         android:textSize="@dimen/font_small"/>
 

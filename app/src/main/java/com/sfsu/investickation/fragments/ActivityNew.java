@@ -390,6 +390,9 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
             if (REMINDER_INTERVAL != 0) {
                 reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
+//                Spannable spanText = Spannable.Factory.getInstance().newSpannable(textString);
+//                spanText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, mContext.getColor(R.color
+//                        .colorPrimary))), 14, 19, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 txtView_setReminder.setText(reminderText);
 
                 // start the Alarm Reminder.

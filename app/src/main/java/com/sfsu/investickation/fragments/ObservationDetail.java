@@ -71,6 +71,9 @@ public class ObservationDetail extends Fragment {
     @Bind(R.id.imageView_obsDet_tickImage)
     ImageView imageView_tickImage;
 
+    @Bind(R.id.icon_obsDet_verified)
+    ImageView icon_verified;
+
 
     private Bundle args;
     private Observation mObservation;
@@ -185,6 +188,10 @@ public class ObservationDetail extends Fragment {
                     Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     imageView_tickImage.setImageBitmap(tickBitmap);
                 }
+            }
+
+            if (mObservation.isVerified()) {
+                icon_verified.setImageResource(R.mipmap.ic_verified_black_24dp);
             }
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());

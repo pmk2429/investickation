@@ -112,6 +112,10 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="actDet_viewAllObservations">View Observations</string>
     <string name="actDet_noObservationRecorded">No Observations recorded</string>
 
+    <!-- Activity Running-->
+    <string name="text_add_observation_disclaimer">Click button to record Tick</string>
+    <string name="activity_running_status_active">Active  </string>
+
     <!-- Dashboard : Activity List Item-->
     <string name="actListItem_name">Hiking @ Golden Gate Presidio</string>
     <string name="actListItem_date">Jan 1st 2016</string>
@@ -148,6 +152,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="Cancel">Cancel</string>
     <string name="title_activity_tick_info">TickInfoActivity</string>
     <string name="activityRunning_activityInfo">Your current ongoing Activity:</string>
+
 
     <!-- Alert Dialogs general-->
     <string name="alertDialog_cancel">Cancel</string>
@@ -197,17 +202,20 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="dash_startActivity">START\nACTIVITY</string>
     <string name="dash_activityCount">0</string>
     <string name="dash_obsCount">0</string>
-    <string name="dash_myActivities">MY\nACTIVITIES</string>
-    <string name="dash_myObservations">MY\nOBSERVATIONS</string>
+    <string name="dash_myActivities">MY PREVIOUS\nACTIVITIES</string>
+    <string name="dash_myObservations">MY PREVIOUS\nOBSERVATIONS</string>
     <string name="dash_tapForDetails">tap here for details</string>
     <string name="dash_recentActivity">Your most recent Activities</string>
 
 
-    <!-- ActivityNew-->
+    <!-- Activity New-->
     <string name="actNew_totalPets">Total Pets</string>
     <string name="actNew_totalPeople">Total People</string>
     <string name="actNew_setReminder">Set Reminder</string>
-    <string name="actNew_startActivityDisclaimer">Clicking play button will create an Activity</string>
+    <string name="hint_totalPeople"># of people</string>
+    <string name="hint_totalPets"># of Pets</string>
+    <string name="hint_activityName">Enter Activity Name. Eg: Hiking</string>
+    <string name="actNew_startActivityDisclaimer">Clicking play button will start an Activity</string>
 
     <!-- Tick adapter -->
     <string name="tick_click_here_for_details">Click here for more details</string>
@@ -230,7 +238,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="obsDet_geoLocation">Location: </string>
     <string name="obsDet_activityName">Activity: </string>
     <string name="obsDet_foundNear">Found Near: </string>
-    <string name="obsDet_details">Your Observation details </string>
+    <string name="obsDet_details">Additional details </string>
 
     <!-- Error methods for all the Validations-->
     <string name="error_invalid_string">Enter valid text</string>
