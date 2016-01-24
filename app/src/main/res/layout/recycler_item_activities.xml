@@ -20,7 +20,7 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite">
+            android:background="@drawable/cardview_card_border">
 
             <TextView
                 android:id="@+id/textView_actList_name"

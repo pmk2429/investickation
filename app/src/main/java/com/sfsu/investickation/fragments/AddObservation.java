@@ -524,9 +524,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             case R.id.editText_addObs_tickName:
                 isTickNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
-            case R.id.editText_addObs_tickSpecies:
-                isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
-                break;
+//            case R.id.editText_addObs_tickSpecies:
+//                isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
+//                break;
             case R.id.editText_addObs_numOfTicks:
                 isTotalTicksNumber = ValidationUtil.validateNumber(mEditText, text);
                 break;
