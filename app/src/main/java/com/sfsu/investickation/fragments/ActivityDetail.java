@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,14 +55,14 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     TextView txtView_name;
     @Bind(R.id.textView_actDet_observationCount)
     TextView txtView_observationCount;
-    @Bind(R.id.textView_actDet_totalLocations)
-    TextView txtView_totalLocation;
+    @Bind(R.id.textView_actDet_date)
+    TextView txtView_date;
     @Bind(R.id.textView_actDet_totalPeople)
     TextView txtView_totalPeople;
     @Bind(R.id.textView_actDet_totalPets)
     TextView txtView_totalPets;
-    @Bind(R.id.textView_actDet_totalDistance)
-    TextView txtView_totalDistance;
+    @Bind(R.id.textView_actDet_time)
+    TextView txtView_time;
     @Bind(R.id.button_actDet_viewAllObservation)
     Button button_viewObservations;
     @Bind(R.id.imageView_actDet_staticMap)
@@ -200,17 +199,17 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             String observationCount = mActivity.getNum_of_ticks() + " Obs.";
             txtView_observationCount.setText(observationCount);
 
-            // TODO: think about this one
-            txtView_totalLocation.setText("00 Locations");
+            String[] dateAndTime = AppUtils.getDateAndTimeSeparate(mActivity.getTimestamp());
+
+            txtView_date.setText(dateAndTime[0]);
+
+            txtView_time.setText(dateAndTime[1]);
 
             String people = mActivity.getNum_of_people() + " people";
             txtView_totalPeople.setText(people);
 
             String pets = mActivity.getNum_of_pets() + " pets";
             txtView_totalPets.setText(pets);
-
-            // TODO: think about this one.
-            txtView_totalDistance.setText("00 Distance");
 
             String image_url = mActivity.getImage_url();
 

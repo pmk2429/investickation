@@ -108,8 +108,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="observationList_info">Bummer! No Observations yet. Click &#8216;+&#8217; to post an Observation</string>
 
     <!-- Activity Details-->
-    <string name="activityDetails">Your activity Details</string>
-    <string name="actDet_viewAllObservations">View all Observations</string>
+    <string name="activityDetails">Additional Information</string>
+    <string name="actDet_viewAllObservations">View Observations</string>
     <string name="actDet_noObservationRecorded">No Observations recorded</string>
 
     <!-- Dashboard : Activity List Item-->

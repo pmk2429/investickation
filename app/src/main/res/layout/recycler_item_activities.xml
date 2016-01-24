@@ -46,7 +46,7 @@
                 android:layout_marginTop="@dimen/dimen_default"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_tick"/>
+                android:src="@mipmap/placeholder_activity"/>
 
             <!--<ImageView-->
             <!--android:id="@+id/icon_actList_storage"-->
@@ -69,8 +69,11 @@
                 android:layout_below="@id/imageView_actList_staticMap"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:background="@color/colorSecondary"
-                android:padding="@dimen/view_dimen_X_small"
+                android:background="@drawable/rounder_corner"
+                android:paddingBottom="@dimen/view_dimen_X1_small"
+                android:paddingEnd="@dimen/view_dimen_medium"
+                android:paddingStart="@dimen/view_dimen_medium"
+                android:paddingTop="@dimen/view_dimen_X1_small"
                 android:text="Local"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/font_X_small"/>
@@ -81,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separator_dimen"
                 android:layout_below="@id/imageView_actList_staticMap"
-                android:layout_marginTop="@dimen/view_dimen_X3_large"
+                android:layout_marginTop="@dimen/view_dimen_X2_large"
                 android:background="@color/divider"/>
 
             <LinearLayout

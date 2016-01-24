@@ -61,9 +61,9 @@ public class AppUtils {
 
     /**
      * Helper method to get the date and time from timestamp. Converts the Timestamp in Milliseconds to Date and Time and then
-     * formats the Date object with {@link Format} and returns the String of Date and Time separately
+     * formats the Date object with {@link Format} and returns the String of Date and Time separately respectively
      *
-     * @return
+     * @return String[] containing Date and Time
      */
     public static String[] getDateAndTimeSeparate(long timestamp) {
         Date date = new Date(timestamp);
