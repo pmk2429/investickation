@@ -11,7 +11,7 @@
 
     <!-- Fragment Titles-->
     <string name="title_fragment_activity_detail">Activity Details</string>
-    <string name="title_fragment_activity_new">Add Activity</string>
+    <string name="title_fragment_activity_new">Start Activity</string>
     <string name="title_fragment_activity_running">Ongoing Activity</string>
     <string name="title_fragment_activity_list">My Activities</string>
     <string name="title_fragment_activity_map">Activity Map</string>

@@ -8,17 +8,16 @@
         android:id="@+id/cardView_actListItem"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen_X_large"
+        android:layout_marginBottom="@dimen/view_dimen_small"
         android:layout_marginTop="@dimen/cardMarginVertical"
-        android:paddingBottom="@dimen/view_dimen_large"
-        android:paddingTop="@dimen/view_dimen_large"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
-        app:cardPreventCornerOverlap="false"
-        app:contentPadding="0dp">
+        app:cardPreventCornerOverlap="false">
 
         <RelativeLayout
+            android:id="@+id/relativeLayout_dashboard_recentActivities"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
@@ -30,20 +29,30 @@
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
                 android:text="@string/actListItem_name"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/font_large"
+                android:textColor="@color/primaryText"
+                android:textSize="@dimen/font_medium"
                 />
+
+            <ImageView
+                android:id="@+id/icon_dashboard_recentAct"
+                android:layout_width="@dimen/view_dimen_medium"
+                android:layout_height="@dimen/view_dimen_medium"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/textView_actListItem_actName"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:src="@mipmap/ic_today_black_24dp"/>
 
             <TextView
                 android:id="@+id/textView_actListItem_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@id/textView_actListItem_actName"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
+                android:layout_toEndOf="@id/icon_dashboard_recentAct"
                 android:text="@string/actListItem_date"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X1_small"
                 />
 
@@ -55,7 +64,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/view_dimen_small"
                 android:text="@string/actListItem_click"
-                android:textColor="@color/colorSecondary"
+                android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X1_small"
                 />
 

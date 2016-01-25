@@ -85,19 +85,19 @@
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
             android:layout_toEndOf="@+id/icon_actNew_people"
-            android:text="@string/hint_totalPeople"
+            android:text="@string/actNew_totalPeople"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
             android:id="@+id/editText_actNew_numOfPeople"
-            android:layout_width="@dimen/widget_dimen_X1_large"
+            android:layout_width="@dimen/widget_dimen_X2_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPeople"
             android:layout_marginEnd="@dimen/view_dimen_large"
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_toEndOf="@+id/icon_actNew_people"
-            android:hint="@string/text_totalPeople"
+            android:hint="@string/hint_totalPeople"
             android:inputType="number"
             android:lines="1"
             android:paddingTop="@dimen/dimen_default"
@@ -135,18 +135,19 @@
             android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginTop="@dimen/view_dimen_large"
             android:layout_toEndOf="@+id/icon_actNew_pets"
-            android:text="@string/hint_totalPets"
+            android:text="@string/actNew_totalPets"
             android:textColor="@color/secondaryText"
             android:textSize="@dimen/font_X_small"/>
 
         <EditText
             android:id="@+id/editText_actNew_totalPets"
-            android:layout_width="@dimen/widget_dimen_X1_large"
+            android:layout_width="@dimen/widget_dimen_X2_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPets"
             android:layout_marginStart="@dimen/view_dimen_small"
+            android:layout_marginEnd="@dimen/view_dimen_small"
             android:layout_toEndOf="@+id/icon_actNew_pets"
-            android:hint="@string/text_totalPets"
+            android:hint="@string/hint_totalPets"
             android:inputType="number"
             android:lines="1"
             android:paddingTop="@dimen/dimen_default"
@@ -207,7 +208,6 @@
         android:layout_above="@id/fab_activity_start"
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/dimen_default"
-        android:padding="@dimen/view_dimen_medium"
         android:text="@string/actNew_startActivityDisclaimer"
         android:textColor="@color/secondaryText"
         android:textSize="@dimen/font_X1_small"/>

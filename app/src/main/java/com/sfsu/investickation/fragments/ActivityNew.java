@@ -388,7 +388,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         try {
             REMINDER_INTERVAL = reminderValue;
 
-            if (REMINDER_INTERVAL != 0) {
+            if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
                 reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
 //                Spannable spanText = Spannable.Factory.getInstance().newSpannable(textString);
 //                spanText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, mContext.getColor(R.color
@@ -397,6 +397,9 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
                 // start the Alarm Reminder.
                 startAlarmForReminder();
+            } else {
+                reminderText = "Reminder not set";
+                txtView_setReminder.setText(reminderText);
             }
 
         } catch (NullPointerException ne) {
