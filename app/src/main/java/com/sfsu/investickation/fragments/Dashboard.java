@@ -9,11 +9,14 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +44,10 @@ import java.util.List;
  */
 public class Dashboard extends Fragment implements View.OnClickListener {
 
+    /**
+     * The number of pages (wizard steps) to show in this demo.
+     */
+    private static final int NUM_PAGES = 4;
     public final String TAG = "~!@#Dashboard";
     private IDashboardCallback mListener;
     private CardView btn_action;
@@ -55,6 +62,16 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private RecentActivitiesAdapter mActivitiesAdapter;
     private ListView mListViewActivities;
     private DatabaseDataController dbTickController;
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
+    private ViewPager mPager;
+
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
+    private PagerAdapter mPagerAdapter;
 
     public Dashboard() {
         // Required empty public constructor
@@ -94,6 +111,11 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         txtView_observationCount = (TextView) v.findViewById(R.id.textView_dashboard_observationCount);
         // enable Location at the start
         //enableLocation();
+
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) v.findViewById(R.id.viewPager_dashboard_info);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
 
         return v;
     }
@@ -171,14 +193,12 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.TOTAL_OBSERVATIONS_COUNT));
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         //This MUST be done before saving any of your own or your base class's variables
         final Bundle mapViewSaveState = new Bundle(outState);
         super.onSaveInstanceState(outState);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -205,7 +225,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     public void onDestroy() {
         super.onDestroy();
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -237,7 +256,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
             mListener.onViewActivitiesClicked();
         }
     }
-
 
     /**
      * Callback Interface to get the callbacks from the Dashboard fragment.
@@ -271,6 +289,25 @@ public class Dashboard extends Fragment implements View.OnClickListener {
          * @param mActivity
          */
         public void onActivityItemClicked(Activities mActivity);
+    }
+
+    /**
+     * Pager adapter that represents 4 {@link ScreenSlidePageFragment} objects, in sequence.
+     */
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return ScreenSlidePageFragment.create(position);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
     }
 
 }

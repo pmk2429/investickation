@@ -11,250 +11,272 @@
         android:layout_height="wrap_content">
 
 
-        <!-- Layout for Observation card, Activity card and Observation button, Activity button-->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/view_dimen_large"
-            android:paddingLeft="@dimen/view_dimen_large"
-            android:paddingRight="@dimen/view_dimen_large"
-            android:paddingTop="@dimen/view_dimen_X_large">
+            android:orientation="vertical">
 
-            <!-- Start Activity Button-->
-            <android.support.v7.widget.CardView
-                android:id="@+id/btn_activity_start"
+            <!-- Cancellable Intro text -->
+            <RelativeLayout
+                android:id="@+id/relativeLayout_dashboard_introText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="@dimen/view_dimen_small"
-                android:layout_toStartOf="@id/separator_vertical_observation_1"
-                android:elevation="@dimen/view_dimen_small"
-                android:padding="@dimen/view_dimen_large">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingBottom="@dimen/view_dimen_small"
-                    android:paddingLeft="@dimen/view_dimen_large"
-                    android:paddingRight="@dimen/view_dimen_large"
-                    android:paddingTop="@dimen/view_dimen_small">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center_horizontal"
-                        android:text="@string/dash_startActivity"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_small"/>
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <!-- Layout for Activity-->
-            <LinearLayout
-                android:id="@+id/linearLayout_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/cardview_default"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/btn_activity_start"
-                android:layout_marginEnd="@dimen/view_dimen_small"
-                android:layout_marginTop="@dimen/view_dimen_X_large"
-                android:layout_toStartOf="@id/separator_vertical_observation_1"
-                android:background="@drawable/dashboard_card_border"
-                android:elevation="@dimen/view_dimen_small">
-
-                <!-- Total Activities made by user-->
-                <RelativeLayout
-                    android:id="@+id/relativeLayout_dashboard_activityCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/view_dimen_small"
-                    android:background="@color/colorWhite"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView_dashboard_activityCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="@string/dash_activityCount"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_X3_large"/>
-
-                    <TextView
-                        android:id="@+id/textViewStatic_activityCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center_horizontal|top"
-                        android:layout_marginTop="@dimen/view_dimen_large"
-                        android:gravity="center_horizontal"
-                        android:paddingLeft="@dimen/view_dimen_small"
-                        android:paddingRight="@dimen/view_dimen_small"
-                        android:text="@string/dash_myActivities"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/font_X_small"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="@dimen/view_dimen_large"
-                        android:text="@string/dash_tapForDetails"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="@dimen/font_X_small"/>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <!--Line separator-->
-            <View
-                android:id="@+id/separator_vertical_observation_1"
-                android:layout_width="@dimen/separator_dimen"
                 android:layout_height="@dimen/cardview_large"
-                android:layout_centerInParent="true"
-                android:textAlignment="center"/>
+                android:background="@color/colorPrimaryDark">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/btn_observation_post"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager_dashboard_info"
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+            <!-- Layout for Observation card, Activity card and Observation button, Activity button-->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/separator_vertical_observation_1"
-                android:elevation="@dimen/view_dimen_small"
-                android:padding="@dimen/view_dimen_large">
+                android:paddingBottom="@dimen/view_dimen_large"
+                android:paddingLeft="@dimen/view_dimen_large"
+                android:paddingRight="@dimen/view_dimen_large"
+                android:paddingTop="@dimen/view_dimen_X_large">
 
-                <RelativeLayout
+                <!-- Start Activity Button-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_activity_start"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingBottom="@dimen/view_dimen_small"
-                    android:paddingLeft="@dimen/view_dimen_large"
-                    android:paddingRight="@dimen/view_dimen_large"
-                    android:paddingTop="8dp">
+                    android:layout_alignParentStart="true"
+                    android:layout_marginEnd="@dimen/view_dimen_small"
+                    android:layout_toStartOf="@id/separator_vertical_observation_1"
+                    android:elevation="@dimen/view_dimen_small"
+                    android:padding="@dimen/view_dimen_large">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:gravity="center_horizontal"
-                        android:text="@string/dash_postObservation"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/font_small"/>
-
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <!-- Observation Card-->
-            <LinearLayout
-                android:id="@+id/linearLayout_observation"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/cardview_default"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/btn_observation_post"
-                android:layout_marginStart="@dimen/view_dimen_small"
-                android:layout_marginTop="@dimen/view_dimen_X_large"
-                android:layout_toEndOf="@id/separator_vertical_observation_1"
-                android:background="@drawable/dashboard_card_border"
-                android:elevation="@dimen/view_dimen_small">
-
-                <!-- Total Observations made by user-->
-                <RelativeLayout
-                    android:id="@+id/relativeLayout_dashboard_observationCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/view_dimen_small"
-                    android:background="@color/colorWhite"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView_dashboard_observationCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="@string/dash_obsCount"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/font_X3_large"/>
-
-                    <TextView
-                        android:id="@+id/textViewStatic_observationCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center_horizontal|top"
-                        android:layout_marginTop="@dimen/view_dimen_large"
-                        android:gravity="center_horizontal"
-                        android:paddingLeft="@dimen/view_dimen_small"
-                        android:paddingRight="@dimen/view_dimen_small"
-                        android:text="@string/dash_myObservations"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/font_X_small"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginBottom="@dimen/view_dimen_large"
-                        android:text="@string/dash_tapForDetails"
-                        android:textColor="@color/secondaryText"
-                        android:textSize="@dimen/font_X_small"/>
-
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <!-- Recent Activities-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/linearLayout_observation"
-                android:layout_marginTop="@dimen/view_dimen_X_large"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textViewStatic_dashboard_recentActivities"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/widget_dimen"
-                    android:background="@color/colorSecondary"
-                    android:gravity="center"
-                    android:padding="@dimen/view_dimen_small"
-                    android:text="@string/dash_recentActivity"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/font_medium"/>
-
-                <!-- MapView must be wrapped inside a Layout to display Maps.-->
-                <LinearLayout
-                    android:id="@+id/linearLayout_mapViewHolder"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/cardview_X_small"
-                    android:layout_marginBottom="@dimen/view_dimen_small"
-                    android:orientation="vertical">
-
-                    <ListView
-                        android:id="@+id/listView_dashboard_recentActivities"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:divider="@null"
-                        android:dividerHeight="0dp"/>
+                        android:background="@color/colorPrimary"
+                        android:paddingBottom="@dimen/view_dimen_small"
+                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingRight="@dimen/view_dimen_large"
+                        android:paddingTop="@dimen/view_dimen_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_horizontal"
+                            android:text="@string/dash_startActivity"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/font_small"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Layout for Activity-->
+                <LinearLayout
+                    android:id="@+id/linearLayout_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/cardview_default"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/btn_activity_start"
+                    android:layout_marginEnd="@dimen/view_dimen_small"
+                    android:layout_marginTop="@dimen/view_dimen_X_large"
+                    android:layout_toStartOf="@id/separator_vertical_observation_1"
+                    android:background="@drawable/dashboard_card_border"
+                    android:elevation="@dimen/view_dimen_small">
+
+                    <!-- Total Activities made by user-->
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_dashboard_activityCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView_dashboard_activityCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dash_activityCount"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_X3_large"/>
+
+                        <TextView
+                            android:id="@+id/textViewStatic_activityCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center_horizontal|top"
+                            android:layout_marginTop="@dimen/view_dimen_large"
+                            android:gravity="center_horizontal"
+                            android:paddingLeft="@dimen/view_dimen_small"
+                            android:paddingRight="@dimen/view_dimen_small"
+                            android:text="@string/dash_myActivities"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/font_X_small"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="@dimen/view_dimen_large"
+                            android:text="@string/dash_tapForDetails"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_X_small"/>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+                <!--Line separator-->
+                <View
+                    android:id="@+id/separator_vertical_observation_1"
+                    android:layout_width="@dimen/separator_dimen"
+                    android:layout_height="@dimen/cardview_large"
+                    android:layout_centerInParent="true"
+                    android:textAlignment="center"/>
 
-        </RelativeLayout>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/btn_observation_post"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/view_dimen_small"
+                    android:layout_toEndOf="@id/separator_vertical_observation_1"
+                    android:elevation="@dimen/view_dimen_small"
+                    android:padding="@dimen/view_dimen_large">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:paddingBottom="@dimen/view_dimen_small"
+                        android:paddingLeft="@dimen/view_dimen_large"
+                        android:paddingRight="@dimen/view_dimen_large"
+                        android:paddingTop="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_horizontal"
+                            android:text="@string/dash_postObservation"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/font_small"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!-- Observation Card-->
+                <LinearLayout
+                    android:id="@+id/linearLayout_observation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/cardview_default"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/btn_observation_post"
+                    android:layout_marginStart="@dimen/view_dimen_small"
+                    android:layout_marginTop="@dimen/view_dimen_X_large"
+                    android:layout_toEndOf="@id/separator_vertical_observation_1"
+                    android:background="@drawable/dashboard_card_border"
+                    android:elevation="@dimen/view_dimen_small">
+
+                    <!-- Total Observations made by user-->
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_dashboard_observationCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:background="@color/colorWhite"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView_dashboard_observationCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/dash_obsCount"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/font_X3_large"/>
+
+                        <TextView
+                            android:id="@+id/textViewStatic_observationCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center_horizontal|top"
+                            android:layout_marginTop="@dimen/view_dimen_large"
+                            android:gravity="center_horizontal"
+                            android:paddingLeft="@dimen/view_dimen_small"
+                            android:paddingRight="@dimen/view_dimen_small"
+                            android:text="@string/dash_myObservations"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/font_X_small"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginBottom="@dimen/view_dimen_large"
+                            android:text="@string/dash_tapForDetails"
+                            android:textColor="@color/secondaryText"
+                            android:textSize="@dimen/font_X_small"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <!-- Recent Activities-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayout_observation"
+                    android:layout_marginTop="@dimen/view_dimen_X_large"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textViewStatic_dashboard_recentActivities"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/widget_dimen"
+                        android:background="@color/colorSecondary"
+                        android:gravity="center"
+                        android:padding="@dimen/view_dimen_small"
+                        android:text="@string/dash_recentActivity"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/font_medium"/>
+
+                    <!-- MapView must be wrapped inside a Layout to display Maps.-->
+                    <LinearLayout
+                        android:id="@+id/linearLayout_mapViewHolder"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/cardview_X_small"
+                        android:layout_marginBottom="@dimen/view_dimen_small"
+                        android:orientation="vertical">
+
+                        <ListView
+                            android:id="@+id/listView_dashboard_recentActivities"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </ScrollView>
 

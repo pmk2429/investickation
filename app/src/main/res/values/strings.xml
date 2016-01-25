@@ -266,6 +266,12 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- Settings Preferences -->
 
 
+    <!-- Dashboard View Pager-->
+    <string name="pager_activities">Record Activities</string>
+    <string name="pager_observations">Post Observations</string>
+    <string name="pager_upload">Upload to cloud</string>
+    <string name="pager_tick">View Tick Guide</string>
+
     <!-- Home screen -->
     <string name="welcome_description">Record Activities and post observations for Ticks</string>
     <string name="welcome_text">Welcome to InvesTICKations</string>

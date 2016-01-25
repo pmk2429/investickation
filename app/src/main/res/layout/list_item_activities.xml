@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen_X_large"
         android:layout_marginBottom="@dimen/view_dimen_small"
-        android:layout_marginTop="@dimen/cardMarginVertical"
+        android:layout_marginTop="@dimen/view_dimen_small"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
         app:cardPreventCornerOverlap="false">
