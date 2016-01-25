@@ -36,6 +36,7 @@ import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.network.auth.AuthPreferences;
@@ -123,7 +124,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     @Override
@@ -162,6 +163,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         });
 
         btn_PostObservation.setOnClickListener(this);
+
 
         return v;
     }
@@ -223,14 +225,14 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
                     Log.i(TAG, "local: " + newObservationObj.toString());
 
-//                    long resultCode = dbController.save(newObservationObj);
-//
-//                    if (resultCode != -1) {
-//                        // if saved to DB successfully, open ObservationsList
-//                        mInterface.postObservationData(newObservationObj);
-//                    } else {
-//                        Toast.makeText(mContext, "Fail to store Observation", Toast.LENGTH_LONG).show();
-//                    }
+                    long resultCode = dbController.save(newObservationObj);
+
+                    if (resultCode != -1) {
+                        // if saved to DB successfully, open ObservationsList
+                        mInterface.postObservationData(ObservationMasterActivity.FLAG_ACTIVITY_RUNNING);
+                    } else {
+                        Toast.makeText(mContext, "Fail to store Observation", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -496,6 +498,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_add);
         BusProvider.bus().register(this);
+
+
     }
 
     @Override
@@ -585,7 +589,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
         Log.i(TAG, "5) image uploaded successfully");
         // pass the Observation response object to the ObservationActivity.
-        mInterface.postObservationData(onLoaded.getResponse());
+        mInterface.postObservationData(ObservationMasterActivity.FLAG_ACTIVITY_RUNNING);
     }
 
 
@@ -601,11 +605,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     public static interface IAddObservationCallBack {
         /**
-         * Callback method to post the new {@link Observation} on the SQLite DB after Response is obtained from server.
+         * Callback method to open {@link ObservationList} after {@link Observation} is posted on server or SQLite DB.
          *
          * @param newObservation
          */
-        void postObservationData(Observation newObservation);
+        void postObservationData(long statusFlag);
     }
 
 }

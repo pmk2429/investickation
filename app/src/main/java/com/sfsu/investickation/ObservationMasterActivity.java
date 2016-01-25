@@ -23,10 +23,14 @@ public class ObservationMasterActivity extends MainBaseActivity
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
     public static final String KEY_BACK_TO_ACTIVITY_DETAILS = "back_to_activity_details";
+    // flag to display status messages depending on how the Observation related Fragments was called
+    public static final long FLAG_ACTIVITY_RUNNING = 0x1010;
+    public static final long FLAG_ACTIVITY_CREATED = 0x1011;
+    public static final long FLAG_ACTIVITIES_OBSERVATIONS = 0x1012;
+    // tag
     private final String TAG = "~!@#$ObsMasterAct";
-
     private FragmentManager fragmentManager;
-
+    // flag to perform fragment transaction depending on the caller and callee
     private boolean FLAG_CALLED_FROM_DASHBOARD;
     private boolean FLAG_CALLED_FROM_ACTIVITY_RUNNING;
     private boolean FLAG_CALLED_FROM_ACTIVITY_DETAILS;
@@ -89,7 +93,7 @@ public class ObservationMasterActivity extends MainBaseActivity
         */
     private void performAddFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.add(R.id.observation_fragment_container, fragment);
         transaction.commit();
     }
@@ -101,7 +105,7 @@ public class ObservationMasterActivity extends MainBaseActivity
      */
     private void performReplaceFragmentTransaction(Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.observation_fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -173,11 +177,11 @@ public class ObservationMasterActivity extends MainBaseActivity
     }
 
     @Override
-    public void postObservationData(Observation newObservation) {
+    public void postObservationData(long statusFlag) {
         // dont add to backstack
-        ObservationList observationListFragment = new ObservationList();
+        ObservationList observationListFragment = ObservationList.newInstance(statusFlag);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.enter_from_right);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.observation_fragment_container, observationListFragment);
         transaction.commit();
     }

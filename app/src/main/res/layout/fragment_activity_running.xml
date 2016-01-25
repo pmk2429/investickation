@@ -85,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_dimen"
         android:layout_below="@id/textView_actRun_status"
-        android:layout_marginTop="@dimen/view_dimen_large"
+        android:layout_marginTop="@dimen/view_dimen_small"
         android:background="@color/divider"/>
 
     <!--<TextView-->
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/view_divider"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/view_dimen_X_large"
+        android:layout_marginTop="@dimen/view_dimen_medium"
         android:elevation="@dimen/cardview_elevation"
         android:padding="@dimen/view_dimen_large">
 

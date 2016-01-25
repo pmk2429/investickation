@@ -84,23 +84,28 @@ public class Profile extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        // get the Account object from Database
-        if (dbController != null) {
-            mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
-        }
-        // set the values in the EditText
-        if (mUser != null) {
-            et_fullName.setText(mUser.getFull_name());
-            String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
-            et_address.setText(address);
-            et_email.setText(mUser.getEmail());
-            et_password.setText(mUser.getPassword());
-        } else {
-            et_fullName.setText("Full Name");
-            String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
-            et_address.setText("Address");
-            et_email.setText("Email");
-            et_password.setText("Password");
+        try {
+            // get the Account object from Database
+            if (dbController != null) {
+                mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
+            }
+            // set the values in the EditText
+            if (mUser != null) {
+                et_fullName.setText(mUser.getFull_name());
+                String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
+                et_address.setText(address);
+                et_email.setText(mUser.getEmail());
+                et_password.setText(mUser.getPassword());
+            } else {
+                et_fullName.setText("Full Name");
+                et_address.setText("Address");
+                et_email.setText("Email");
+                et_password.setText("Password");
+            }
+        } catch (NullPointerException ne) {
+
+        } catch (Exception e) {
+
         }
 
         final FloatingActionButton fabUserImage = (FloatingActionButton) rootView.findViewById(R.id.fab_userProfileImage);

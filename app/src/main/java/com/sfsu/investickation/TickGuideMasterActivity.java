@@ -40,11 +40,13 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
             if (getIntent().getIntExtra(KEY_TICK_MAP, 0) == 1) {
                 TickMap tickMap = new TickMap();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
                 transaction.add(R.id.guide_fragment_container, tickMap);
                 transaction.commit();
             } else {
                 TickGuideList guideIndexFragment = new TickGuideList();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
                 transaction.add(R.id.guide_fragment_container, guideIndexFragment);
                 transaction.commit();
             }
@@ -82,7 +84,9 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
     public void onTickListItemClickListener(Tick mTick) {
         TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, mTick);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

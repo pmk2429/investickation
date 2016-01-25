@@ -103,19 +103,25 @@ public class TickGuideDetail extends Fragment {
         String title = getResources().getString(R.string.tickDetails_toolbar_title);
         collapsingToolbar.setTitle(title);
 
-        if (args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL) != null) {
-            mTick = args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL);
+        try {
+            if (args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL) != null) {
+                mTick = args.getParcelable(TickGuideMasterActivity.KEY_TICK_DETAIL);
+            }
+
+
+            txtView_tickName.setText(mTick.getTickName());
+            txtView_tickSpecies.setText(mTick.getSpecies());
+            txtView_knownFor.setText(mTick.getKnown_for());
+            txtView_tickFormalName.setText(mTick.getScientific_name());
+            txtView_description.setText(mTick.getDescription());
+            txtView_tickLocation.setText(mTick.getFound_near_habitat());
+
+            Picasso.with(mContext).load(mTick.getImageUrl()).into(imageView_tickImage);
+        } catch (NullPointerException ne) {
+
+        } catch (Exception e) {
+
         }
-
-
-        txtView_tickName.setText(mTick.getTickName());
-        txtView_tickSpecies.setText(mTick.getSpecies());
-        txtView_knownFor.setText(mTick.getKnown_for());
-        txtView_tickFormalName.setText(mTick.getScientific_name());
-        txtView_description.setText(mTick.getDescription());
-        txtView_tickLocation.setText(mTick.getFound_near_habitat());
-
-        Picasso.with(mContext).load(mTick.getImageUrl()).into(imageView_tickImage);
 
         return rootView;
     }

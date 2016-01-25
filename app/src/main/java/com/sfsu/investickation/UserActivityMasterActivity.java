@@ -114,7 +114,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      */
     private void performReplaceFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.activity_fragment_container, mFragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -127,7 +127,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
      */
     private void performAddFragmentTransaction(Fragment mFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.add(R.id.activity_fragment_container, mFragment);
         transaction.commit();
     }
@@ -202,6 +202,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             // passes the Newly created object to the ActivityRunning fragment.
             ActivityRunning mActivityRunning = ActivityRunning.newInstance(activityBundle);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
             // dont add to backstack
             transaction.replace(R.id.activity_fragment_container, mActivityRunning);
             transaction.commit();
@@ -213,6 +214,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         ActivityList mActivityList = new ActivityList();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // dont add to backstack
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.activity_fragment_container, mActivityList);
         transaction.commit();
     }
@@ -261,6 +263,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void displayActivityList() {
         ActivityList activityListFragment = new ActivityList();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.activity_fragment_container, activityListFragment);
         transaction.commit();
     }

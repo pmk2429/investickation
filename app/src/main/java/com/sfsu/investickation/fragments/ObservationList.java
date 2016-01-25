@@ -30,6 +30,7 @@ import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.ObservationsDao;
 import com.sfsu.dialogs.UploadAlertDialog;
 import com.sfsu.entities.Observation;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.network.bus.BusProvider;
@@ -52,6 +53,9 @@ import butterknife.ButterKnife;
  * displays an icon representing cloud or database.
  * </p>
  * <p>
+ * The list will also be displayed when the User will add observation in the middle of the Activity Running. This will set the
+ * flag and will display a status message that Activity is Running
+ * </p>
  * <p>
  * Also displays the observations made for a specific {@link com.sfsu.entities.Activities}. Using the <tt>activityId</tt>, the
  * network call is made for list of observations corresponding to a specific activity.
@@ -62,6 +66,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         UploadAlertDialog.IUploadDataCallback {
 
     private static final String KEY_ACTIVITY_ID = "activity_id";
+    private static final String KEY_STATUS_FLAG = "observation_caller_flag";
     private final String TAG = "~!@#ObsList";
     @Bind(R.id.recyclerview_remote_observations)
     RecyclerView recyclerView_observations;
@@ -83,7 +88,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private ObservationsListAdapter mObservationsListAdapter;
     private DatabaseDataController dbController;
     private String activityId;
-    private boolean FLAG_GET_ACTIVITY_OBSERVATIONS;
+    private boolean FLAG_GET_ACTIVITY_OBSERVATIONS, FLAG_ACTIVITY_RUNNING;
     private int fabMargin;
     private Animation animation;
     private UploadAlertDialog mUploadAlertDialog;
@@ -93,7 +98,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     }
 
     /**
-     * Helper method to create instance of an {@link ObservationList} fragment initialzed with <tt>activityId</tt>
+     * Creates instance of an {@link ObservationList} fragment initialzed with <tt>activityId</tt>
      *
      * @param key
      * @param activityId
@@ -107,6 +112,32 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         return mObservationList;
     }
 
+    /**
+     * Sets the status flag depending on the callee and creates {@link ObservationList} instance
+     *
+     * @param statusFlag
+     * @return
+     */
+    public static ObservationList newInstance(long statusFlag) {
+        ObservationList mObservationList = new ObservationList();
+        Bundle args = new Bundle();
+        args.putLong(KEY_STATUS_FLAG, statusFlag);
+        mObservationList.setArguments(args);
+        return mObservationList;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mInterface = (IRemoteObservationCallBacks) activity;
+            mContext = activity;
+        } catch (Exception e) {
+            throw new ClassCastException(activity.toString() + " must implement IObservationCallBacks");
+        }
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,8 +146,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_remote_observations, container, false);
 
@@ -139,25 +169,29 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         if (args != null && args.containsKey(KEY_ACTIVITY_ID)) {
             activityId = args.getString(KEY_ACTIVITY_ID);
             FLAG_GET_ACTIVITY_OBSERVATIONS = true;
+        } else if (args != null && args.containsKey(KEY_STATUS_FLAG)) {
+            long statusFlag = args.getLong(KEY_STATUS_FLAG);
+            FLAG_ACTIVITY_RUNNING = statusFlag == ObservationMasterActivity.FLAG_ACTIVITY_RUNNING ? true : false;
         } else {
             activityId = null;
             FLAG_GET_ACTIVITY_OBSERVATIONS = false;
+            FLAG_ACTIVITY_RUNNING = false;
         }
 
 
-        // get all Observations depending on network connection available.
+        // get all Observations depending on network connection.
         if (AppUtils.isConnectedOnline(mContext)) {
             // call to network depending on the type of call to be made.
             if (activityId != null) {
+                // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
                 // Observations specific to Activity
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
             } else {
-                // get all the observations
+                // get all the observations made by User
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
             }
         } else {
             // network not available.
-
             // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
             if (FLAG_GET_ACTIVITY_OBSERVATIONS) {
                 localObservationList = (List<Observation>) dbController.getAll(activityId);
@@ -180,6 +214,11 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
             }
         }
 
+        // doesn't matter if the Network is online or offline, display the message saying Activity is running
+        if (FLAG_ACTIVITY_RUNNING) {
+
+        }
+
         recyclerView_observations.setHasFixedSize(true);
 
         if (mContext != null) {
@@ -200,29 +239,18 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         return rootView;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        try {
-            mInterface = (IRemoteObservationCallBacks) activity;
-            mContext = activity;
-        } catch (Exception e) {
-            throw new ClassCastException(activity.toString() + " must implement IObservationCallBacks");
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        BusProvider.bus().unregister(this);
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_list);
         BusProvider.bus().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.bus().unregister(this);
     }
 
     @Override
