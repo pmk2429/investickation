@@ -3,26 +3,32 @@ package com.sfsu.investickation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.sfsu.investickation.fragments.SplashScreen;
+
 public class SplashScreenActivity extends AppCompatActivity {
+
+    private static final String TAG = "~!@#$SplashScreen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        SplashScreen splashScreenFragment = new SplashScreen();
+        getSupportFragmentManager().beginTransaction().add(R.id.splashscreen_fragment_container, splashScreenFragment).commit();
 
         Thread splashTimer = new Thread() {
             public void run() {
                 try {
-                    sleep(2000);
+                    sleep(3000);
                 } catch (InterruptedException e) {
-                    Log.d("Exception", "Exception" + e);
+                    Log.i(TAG, "run: ");
                 } finally {
-                    startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                    Intent dashboardIntent = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    dashboardIntent.putExtra(HomeActivity.KEY_SIGNIN_SUCCESS, 1);
+                    startActivity(dashboardIntent);
                 }
                 finish();
             }

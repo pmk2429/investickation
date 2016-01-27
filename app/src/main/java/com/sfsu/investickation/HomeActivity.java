@@ -52,15 +52,23 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
             } else {
                 // depending on whether the Session is set for current user or not.
                 if (mSessionManager.isLoggedIn()) {
-                    userLoggedIn();
+                    displaySplashScreen();
+                    //userLoggedIn();
                 } else {
                     // use case when the session expires for current user.
                     Home mHomeFragment = new Home();
                     getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, mHomeFragment).commit();
-
                 }
             }
         }
+    }
+
+    /**
+     * Method to open {@link SplashScreenActivity} when the user is logged in and opens the application.
+     */
+    private void displaySplashScreen() {
+        startActivity(new Intent(HomeActivity.this, SplashScreenActivity.class));
+        finish();
     }
 
     @Override
