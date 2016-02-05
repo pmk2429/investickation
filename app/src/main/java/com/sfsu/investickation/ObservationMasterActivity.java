@@ -193,4 +193,9 @@ public class ObservationMasterActivity extends MainBaseActivity
         transaction.replace(R.id.observation_fragment_container, observationListFragment);
         transaction.commit();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

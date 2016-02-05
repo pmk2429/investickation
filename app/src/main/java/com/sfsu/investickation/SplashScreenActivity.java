@@ -28,6 +28,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 } finally {
                     Intent dashboardIntent = new Intent(SplashScreenActivity.this, MainActivity.class);
                     dashboardIntent.putExtra(HomeActivity.KEY_SIGNIN_SUCCESS, 1);
+                    overridePendingTransition(R.anim.zoom_in, R.anim.zoom_out);
                     startActivity(dashboardIntent);
                 }
                 finish();

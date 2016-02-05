@@ -11,7 +11,6 @@ import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ActivityApiService;
-import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -19,9 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * <p>
@@ -126,12 +127,10 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             // makes the Calls to network.
             activitiesCall.enqueue(new Callback<Activities>() {
                 @Override
-                public void onResponse(Response<Activities> response) {
+                public void onResponse(Call<Activities> call, Response<Activities> response) {
                     if (response.isSuccess()) {
-                        Log.i(TAG, "response is success");
                         massUploadResponseList.add(response.body());
                     } else {
-                        Log.i(TAG, "response is failure");
                         int statusCode = response.code();
                         ResponseBody errorBody = response.errorBody();
                         try {
@@ -142,12 +141,10 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                             mBus.post(ActivityEvent.FAILED);
                         }
                     }
-                    Log.i(TAG, "reached-1");
                 }
 
                 @Override
-                public void onFailure(Throwable t) {
-                    Log.i(TAG, "failure");
+                public void onFailure(Call<Activities> call, Throwable t) {
                     if (t != null && t.getMessage() != null) {
                         mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                     } else {
@@ -155,7 +152,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     }
                 }
             });
-            Log.i(TAG, "reached-2");
         }
         Log.i(TAG, "reached-3");
         if (massUploadResponseList != null) {
@@ -177,7 +173,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         activitiesCall.enqueue(new Callback<Activities>() {
             @Override
-            public void onResponse(Response<Activities> response) {
+            public void onResponse(Call<Activities> call, Response<Activities> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnLoaded(response.body()));
                 } else {
@@ -193,7 +189,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Activities> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -212,7 +208,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         deleteActivitiesCall.enqueue(new Callback<ResponseCount>() {
             @Override
-            public void onResponse(Response<ResponseCount> response) {
+            public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnLoadedCount(response.body()));
                 } else {
@@ -228,7 +224,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseCount> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -246,7 +242,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     public void getAllActivitiesCalls(Call<List<Activities>> listActivitiesCall) {
         listActivitiesCall.enqueue(new Callback<List<Activities>>() {
             @Override
-            public void onResponse(Response<List<Activities>> response) {
+            public void onResponse(Call<List<Activities>> call, Response<List<Activities>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnListLoaded(response.body()));
                 } else {
@@ -262,7 +258,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<Activities>> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -281,7 +277,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         Log.i(TAG, "act - ok");
         countCall.enqueue(new Callback<ResponseCount>() {
             @Override
-            public void onResponse(Response<ResponseCount> response) {
+            public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ActivityEvent.OnLoadedCount(response.body()));
                 } else {
@@ -297,7 +293,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseCount> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -315,7 +311,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     public void getAllLocations(Call<List<EntityLocation>> locationsCall) {
         locationsCall.enqueue(new Callback<List<EntityLocation>>() {
             @Override
-            public void onResponse(Response<List<EntityLocation>> response) {
+            public void onResponse(Call<List<EntityLocation>> call, Response<List<EntityLocation>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new LocationEvent.OnLoaded(response.body()));
                 } else {
@@ -331,7 +327,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<EntityLocation>> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new LocationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

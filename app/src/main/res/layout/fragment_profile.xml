@@ -23,7 +23,6 @@
                 android:layout_height="@dimen/cardview_large"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
-                android:background="@drawable/header"
                 android:fitsSystemWindows="true"
                 android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_user"/>

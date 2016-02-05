@@ -5,7 +5,7 @@ import com.sfsu.entities.Observation;
 
 /**
  * Event handler for uploading Tick related Observation Images to the server.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class FileUploadEvent extends BaseNetworkEvent {

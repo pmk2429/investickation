@@ -7,21 +7,20 @@ import com.sfsu.entities.Observation;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
-import com.sfsu.network.rest.service.ObservationApiService;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
+import com.sfsu.network.rest.service.FileUploadService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * Created by Pavitra on 1/1/2016.
@@ -29,12 +28,12 @@ import retrofit.Retrofit;
 public class FileUploadHandler extends ApiRequestHandler {
 
     private final String TAG = "~!@#FileUploadReqHdlr";
-    private ObservationApiService mApiService;
+    private FileUploadService mApiService;
     private ErrorResponse mErrorResponse;
 
     public FileUploadHandler(Bus bus, Context mContext) {
         super(bus, mContext);
-        mApiService = RetrofitApiClient.createServiceForUpload(ObservationApiService.class, ACCESS_TOKEN);
+        mApiService = RetrofitApiClient.createService(FileUploadService.class, ACCESS_TOKEN);
     }
 
     @Subscribe
@@ -47,24 +46,18 @@ public class FileUploadHandler extends ApiRequestHandler {
             case UPLOAD_TICK_IMAGE:
 
                 // build a map of RequestBody.
+                Map<String, RequestBody> requestBodyMap = new HashMap<>();
 
-                Map<String, RequestBody> requestBodyMap = new LinkedHashMap<>();
-                RequestBody id = RequestBody.create(MediaType.parse("text/plain"), onLoadingInitialized.observationId);
-                requestBodyMap.put("id", id);
-
-                String fileName = "file\"; filename=\"" + onLoadingInitialized.getRequest().getImage_name();
-
-                requestBodyMap.put(fileName, onLoadingInitialized.getRequest().getRequestBody());
+                // add file name param and RequestBody to Map
+                requestBodyMap.put(onLoadingInitialized.getRequest().getImage_name(), onLoadingInitialized.getRequest()
+                        .getRequestBody());
 
                 // finally make a call to ApiService
-                imageUploadCall = mApiService.upload(onLoadingInitialized.getRequest().getRequestBody(), onLoadingInitialized
-                        .observationId);
-
-                //imageUploadCall = mApiService.uploadTick(requestBodyMap);
+                imageUploadCall = mApiService.uploadImage(requestBodyMap, onLoadingInitialized.observationId);
 
                 imageUploadCall.enqueue(new Callback<Observation>() {
                     @Override
-                    public void onResponse(Response<Observation> response) {
+                    public void onResponse(Call<Observation> call, Response<Observation> response) {
                         if (response.isSuccess()) {
                             Log.i(TAG, "4a) Response success");
                             mBus.post(new FileUploadEvent.OnLoaded(response.body()));
@@ -82,7 +75,7 @@ public class FileUploadHandler extends ApiRequestHandler {
                     }
 
                     @Override
-                    public void onFailure(Throwable t) {
+                    public void onFailure(Call<Observation> call, Throwable t) {
                         Log.i(TAG, "4c) FAILURE");
                         if (t != null && t.getMessage() != null) {
                             Log.i(TAG, "4ci) message not null");

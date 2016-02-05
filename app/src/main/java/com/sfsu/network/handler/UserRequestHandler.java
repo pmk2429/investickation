@@ -10,15 +10,16 @@ import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.LoginService;
 import com.sfsu.network.rest.service.UserApiService;
 import com.sfsu.session.LoginResponse;
-import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * <p>
@@ -77,10 +78,9 @@ public class UserRequestHandler extends ApiRequestHandler {
      * @param userCall
      */
     private void makeCRUDCall(Call<Account> userCall) {
-        // makes the Calls to network.
         userCall.enqueue(new Callback<Account>() {
             @Override
-            public void onResponse(Response<Account> response) {
+            public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccess()) {
                     mBus.post(new UserEvent.OnLoaded(response.body()));
                 } else {
@@ -96,7 +96,8 @@ public class UserRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Account> call, Throwable t) {
+
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new UserEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -118,7 +119,7 @@ public class UserRequestHandler extends ApiRequestHandler {
         Call<LoginResponse> userLoginCall = loginApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
         userLoginCall.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Response<LoginResponse> response) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccess()) {
                     mBus.post(new LoginEvent.OnLoaded(response.body()));
                 } else {
@@ -134,7 +135,7 @@ public class UserRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new LoginEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

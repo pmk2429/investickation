@@ -4,9 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.sfsu.image.ImageManager;
-import com.squareup.okhttp.RequestBody;
 
 import java.io.File;
+
+import okhttp3.RequestBody;
 
 /**
  * <p>

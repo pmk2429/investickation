@@ -8,16 +8,17 @@ import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.TickApiService;
-import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * <p>
@@ -85,7 +86,7 @@ public class TickRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         tickCall.enqueue(new Callback<Tick>() {
             @Override
-            public void onResponse(Response<Tick> response) {
+            public void onResponse(Call<Tick> call, Response<Tick> response) {
                 if (response.isSuccess()) {
                     mBus.post(new TickEvent.OnLoaded(response.body()));
                 } else {
@@ -101,7 +102,7 @@ public class TickRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Tick> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new TickEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -120,7 +121,7 @@ public class TickRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listTickCall.enqueue(new Callback<List<Tick>>() {
             @Override
-            public void onResponse(Response<List<Tick>> response) {
+            public void onResponse(Call<List<Tick>> call, Response<List<Tick>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new TickEvent.OnListLoaded(response.body()));
                 } else {
@@ -136,7 +137,7 @@ public class TickRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<Tick>> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new TickEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

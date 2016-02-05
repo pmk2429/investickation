@@ -193,6 +193,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_title_no_upload">Nothing to upload</string>
     <string name="alertDialog_title_upload_observations">Upload Observations?</string>
     <string name="alertDialog_upload_message">Do you want to upload the data on server?</string>
+    <!-- Add Tick Image-->
+    <string name="alertDialog_tickImage_title">Add Tick Picture</string>
+    <string name="alertDialog_tickImage_message">How do you want to take Tick picture?</string>
+    <string name="alertDialog_tickImage_camera">Camera</string>
+    <string name="alertDialog_tickImage_gallery">Gallery</string>
 
     <!-- Dashboard-->
     <string name="dash_stepInfo">Easy to use steps:</string>

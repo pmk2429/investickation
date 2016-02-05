@@ -1,6 +1,7 @@
 package com.sfsu.entities;
 
-import com.squareup.okhttp.RequestBody;
+
+import okhttp3.RequestBody;
 
 /**
  * Holding class for Bitmaps and Images. Defines RequestBody, Description and Name of the Image.
@@ -11,12 +12,10 @@ public class ImageData {
 
     private RequestBody mRequestBody;
     private String image_name;
-    private String description;
 
-    public ImageData(RequestBody mRequestBody, String image_name, String description) {
+    public ImageData(RequestBody mRequestBody, String image_name) {
         this.mRequestBody = mRequestBody;
         this.image_name = image_name;
-        this.description = description;
     }
 
     public RequestBody getRequestBody() {
@@ -33,13 +32,5 @@ public class ImageData {
 
     public void setImage_name(String image_name) {
         this.image_name = image_name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

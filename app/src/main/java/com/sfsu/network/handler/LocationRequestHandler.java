@@ -12,9 +12,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
+import retrofit2.Call;
 
 /**
  * <p>
@@ -24,7 +22,7 @@ import retrofit.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class LocationRequestHandler extends ApiRequestHandler {
@@ -54,67 +52,7 @@ public class LocationRequestHandler extends ApiRequestHandler {
         Call<Integer> deleteLocation = null;
         Call<List<EntityLocation>> listLocationCall = null;
 
-        // separate the Method logic
-        switch (onLoadingInitialized.apiRequestMethod) {
-            case GET:
-                locationCall = mApiService.get(onLoadingInitialized.getResourceId());
-                makeCRUDCall(locationCall);
-                break;
-            case GET_ALL:
-                listLocationCall = mApiService.getAll();
-                getAllLocationsCall(listLocationCall);
-                break;
-            case ADD:
-                locationCall = mApiService.add(onLoadingInitialized.getRequest());
-                makeCRUDCall(locationCall);
-                break;
-            case DELETE:
-                deleteLocation = mApiService.delete(onLoadingInitialized.getResourceId());
-                makeCRUDCall(locationCall);
-                break;
-        }
-
-
     }
 
-    /**
-     * Makes CRUD type network call to server using Retrofit Api service and posts the response on the event bus.
-     *
-     * @param locationCall
-     */
-    public void makeCRUDCall(Call<EntityLocation> locationCall) {
-        // makes the Calls to network.
-        locationCall.enqueue(new Callback<EntityLocation>() {
-            @Override
-            public void onResponse(Response<EntityLocation> response) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-    }
-
-    /**
-     * Makes a network call for getting List using Retrofit Api interface and posts the response on event bus.
-     *
-     * @param listLocationCall
-     */
-    public void getAllLocationsCall(Call<List<EntityLocation>> listLocationCall) {
-        // makes the Calls to network.
-        listLocationCall.enqueue(new Callback<List<EntityLocation>>() {
-            @Override
-            public void onResponse(Response<List<EntityLocation>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-    }
 
 }

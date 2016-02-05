@@ -4,11 +4,11 @@ package com.sfsu.network.rest.service;
 import com.sfsu.entities.Account;
 import com.sfsu.network.api.ApiResources;
 
-import retrofit.Call;
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Account} related operations to the REST API endpoint.
@@ -22,7 +22,6 @@ public interface UserApiService {
      *
      * @return
      */
-//    @GET("accounts/{id}")
     @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> get(@Path("id") String userId);
 
@@ -32,7 +31,6 @@ public interface UserApiService {
      *
      * @return
      */
-//    @POST("accounts")
     @POST(ApiResources.AccountBase)
     public Call<Account> add(@Body Account user);
 
@@ -44,7 +42,6 @@ public interface UserApiService {
      * @param user
      * @return
      */
-//    @GET("accounts/{id}")
     @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> update(@Path("id") String userId, @Body Account user);
 
@@ -54,7 +51,6 @@ public interface UserApiService {
      *
      * @return
      */
-//    @GET("accounts/{id}")
     @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> delete(@Path("id") String userId);
 

@@ -6,8 +6,8 @@
                 tools:context="com.sfsu.investickation.fragments.SplashScreen">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginStart="@dimen/view_dimen_large"

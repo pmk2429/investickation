@@ -10,7 +10,6 @@ import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
 import com.sfsu.network.rest.service.ObservationApiService;
-import com.squareup.okhttp.ResponseBody;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -18,9 +17,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * <p>
@@ -112,7 +113,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         Log.i(TAG, "OK");
         countCall.enqueue(new Callback<ResponseCount>() {
             @Override
-            public void onResponse(Response<ResponseCount> response) {
+            public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
                 Log.i(TAG, "response");
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoadedCount(response.body()));
@@ -129,7 +130,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseCount> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -156,7 +157,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             // makes the Calls to network.
             observationCall.enqueue(new Callback<Observation>() {
                 @Override
-                public void onResponse(Response<Observation> response) {
+                public void onResponse(Call<Observation> call, Response<Observation> response) {
                     if (response.isSuccess()) {
                         Log.i(TAG, "response is success");
                         massUploadResponseList.add(response.body());
@@ -176,7 +177,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 }
 
                 @Override
-                public void onFailure(Throwable t) {
+                public void onFailure(Call<Observation> call, Throwable t) {
                     Log.i(TAG, "failure");
                     if (t != null && t.getMessage() != null) {
                         mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
@@ -206,7 +207,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         observationCall.enqueue(new Callback<Observation>() {
             @Override
-            public void onResponse(Response<Observation> response) {
+            public void onResponse(Call<Observation> call, Response<Observation> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {
@@ -222,7 +223,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<Observation> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -242,7 +243,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         deleteObservationCall.enqueue(new Callback<ResponseCount>() {
             @Override
-            public void onResponse(Response<ResponseCount> response) {
+            public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoadedCount(response.body()));
                 } else {
@@ -258,7 +259,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseCount> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -277,7 +278,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         // makes the Calls to network.
         listObservationCall.enqueue(new Callback<List<Observation>>() {
             @Override
-            public void onResponse(Response<List<Observation>> response) {
+            public void onResponse(Call<List<Observation>> call, Response<List<Observation>> response) {
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
                 } else {
@@ -293,7 +294,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<Observation>> call, Throwable t) {
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -314,7 +315,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         Log.i(TAG, "2) all right");
         observationCall.enqueue(new Callback<List<Observation>>() {
             @Override
-            public void onResponse(Response<List<Observation>> response) {
+            public void onResponse(Call<List<Observation>> call, Response<List<Observation>> response) {
                 if (response.isSuccess()) {
                     Log.i(TAG, "3a) response success");
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
@@ -332,7 +333,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<List<Observation>> call, Throwable t) {
                 Log.i(TAG, "3c) failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
@@ -353,7 +354,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         Log.i(TAG, "ok 2");
         observationResponseCall.enqueue(new Callback<ObservationResponse>() {
             @Override
-            public void onResponse(Response<ObservationResponse> response) {
+            public void onResponse(Call<ObservationResponse> call, Response<ObservationResponse> response) {
                 if (response.isSuccess()) {
                     Log.i(TAG, "ok success");
                     mBus.post(new ObservationEvent.OnObservationWrapperLoaded(response.body()));
@@ -371,7 +372,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ObservationResponse> call, Throwable t) {
                 Log.i(TAG, "ok failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
