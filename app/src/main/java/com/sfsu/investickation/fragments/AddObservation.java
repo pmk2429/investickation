@@ -1,10 +1,12 @@
 package com.sfsu.investickation.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -56,6 +58,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +75,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     protected static final int GALLERY_PICTURE = 24;
     private static final String JPEG_FILE_PREFIX = "TICK_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
+    private static final int GALLERY_PERMISSION = 0x4545;
     private final String TAG = "~!@#$AddObservation";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
@@ -86,6 +90,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     EditText et_tickName;
     @Bind(R.id.editText_addObs_description)
     EditText et_description;
+    private boolean FLAG_PERMISSION_GRANTED;
     // Others
     private String selectedImagePath, geoLocation;
     private Observation newObservationObj;
@@ -294,6 +299,87 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 //                    }
 //                });
 //    }
+
+
+    /**
+     * Checks for runtime permission
+     */
+    private void askForPermission() {
+        int hasCameraPermission = 0;
+        int hasReadPermission = 0;
+        int hasWritePermission = 0;
+        int hasInternetPermission = 0;
+        int hasWiFiPermission = 0;
+        int hasNetworkPermission = 0;
+        Log.i(TAG, "askForPermission: reached");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            Log.i(TAG, "working well");
+            hasCameraPermission = mContext.checkSelfPermission(Manifest.permission.CAMERA);
+            hasReadPermission = mContext.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+            hasWritePermission = mContext.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            hasInternetPermission = mContext.checkSelfPermission(Manifest.permission.INTERNET);
+            hasWiFiPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE);
+            hasNetworkPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE);
+
+            List<String> permissions = new ArrayList<>();
+            if (hasCameraPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.CAMERA);
+            }
+
+            if (hasReadPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+
+            if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+
+            if (hasInternetPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.INTERNET);
+            }
+
+            if (hasWiFiPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
+            }
+
+            if (hasNetworkPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+            }
+
+
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]), GALLERY_PERMISSION);
+            }
+        } else {
+            Log.i(TAG, "askForPermission: not working");
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionsResult: reached");
+        switch (requestCode) {
+            case GALLERY_PERMISSION: {
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d("Permissions", "Permission Granted: " + permissions[i]);
+                        FLAG_PERMISSION_GRANTED = true;
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d("Permissions", "Permission Denied: " + permissions[i]);
+                    }
+                }
+                if (FLAG_PERMISSION_GRANTED)
+                    startDialogForChoosingImage();
+            }
+            break;
+            default: {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
+    }
+
 
     /**
      * This method is used to popup a dialog box for allowing user to select
