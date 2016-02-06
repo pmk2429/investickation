@@ -47,8 +47,8 @@ public class AuthPreferences {
      * @return
      */
     public String getAccessToken() {
-        return tokenSharedPreferences != null ? tokenSharedPreferences.getString(KEY_ACCESS_TOKEN, "invalid-auth-token")
-                : "invalid-auth-token";
+        return tokenSharedPreferences != null ? tokenSharedPreferences.getString(KEY_ACCESS_TOKEN, "")
+                : "";
     }
 
     /**
@@ -57,7 +57,7 @@ public class AuthPreferences {
      * @return
      */
     public String getUser_id() {
-        return tokenSharedPreferences != null ? tokenSharedPreferences.getString(KEY_USER_ID, "no-user-id") : "no-user-id";
+        return tokenSharedPreferences != null ? tokenSharedPreferences.getString(KEY_USER_ID, "") : "";
     }
 
     /**

@@ -1,9 +1,11 @@
 package com.sfsu.investickation.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +39,7 @@ import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +52,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
      * The number of pages (wizard steps) to show in this demo.
      */
     private static final int NUM_PAGES = 4;
+    private static final int NETWORK_BASED_PERMISSIONS = 12;
     public final String TAG = "~!@#Dashboard";
     private IDashboardCallback mListener;
     private CardView btn_action;
@@ -82,6 +87,82 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
+
+        askForPermission();
+    }
+
+    /**
+     * Checks for runtime permission
+     */
+    private void askForPermission() {
+        int hasInternetPermission = 0;
+        int hasAccessLocationPermission = 0;
+        int hasFineLocationPermission = 0;
+        int hasWiFiPermission = 0;
+        int hasNetworkPermission = 0;
+        Log.i(TAG, "askForPermission: reached");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            Log.i(TAG, "working well");
+            hasAccessLocationPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            hasFineLocationPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+            hasWiFiPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE);
+            hasInternetPermission = mContext.checkSelfPermission(Manifest.permission.INTERNET);
+            hasNetworkPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE);
+
+            List<String> permissions = new ArrayList<>();
+            if (hasAccessLocationPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+
+            if (hasFineLocationPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            }
+
+            if (hasWiFiPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
+            }
+
+            if (hasInternetPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.INTERNET);
+            }
+
+            if (hasInternetPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+            }
+
+            if (hasNetworkPermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+            }
+
+
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]), NETWORK_BASED_PERMISSIONS);
+            }
+        } else {
+            Log.i(TAG, "askForPermission: not working");
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionsResult: reached");
+        switch (requestCode) {
+            case NETWORK_BASED_PERMISSIONS: {
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d("Permissions", "Permission Granted: " + permissions[i]);
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d("Permissions", "Permission Denied: " + permissions[i]);
+                    }
+                }
+            }
+            break;
+            default: {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
     }
 
     @Override

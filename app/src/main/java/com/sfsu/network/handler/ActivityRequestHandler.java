@@ -77,8 +77,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUCall(activitiesCall);
                 break;
             case GET_ALL:
-                listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
-                getAllActivitiesCalls(listActivitiesCall);
+                Log.i(TAG, "get all called");
+                if (!USER_ID.equals("")) {
+                    listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
+                    getAllActivitiesCalls(listActivitiesCall);
+                }
                 break;
             case ADD:
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
@@ -97,11 +100,12 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 getCount(countCall);
                 break;
             case GET_RECENT_ACTIVITIES:
-                listActivitiesCall = mApiService.getRecentActivities(USER_ID, recentActivitiesFilter);
-                getAllActivitiesCalls(listActivitiesCall);
+                if (!USER_ID.equals("")) {
+                    listActivitiesCall = mApiService.getRecentActivities(USER_ID, recentActivitiesFilter);
+                    getAllActivitiesCalls(listActivitiesCall);
+                }
                 break;
             case TOTAL_ACTIVITIES_COUNT:
-                Log.i(TAG, "act - yeah");
                 countCall = mApiService.count(countWhereClause);
                 getCount(countCall);
         }

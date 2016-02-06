@@ -75,7 +75,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     protected static final int GALLERY_PICTURE = 24;
     private static final String JPEG_FILE_PREFIX = "TICK_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
-    private static final int GALLERY_PERMISSION = 0x4545;
+    private static final int GALLERY_PERMISSION = 25;
     private final String TAG = "~!@#$AddObservation";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
@@ -105,7 +105,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     //    private DatabaseDataController dbController;
     private ImageController mImageController;
     private List<Tick> tickList;
-    private boolean isTotalTicksNumber, isTickNameValid, isTickSpeciesValid;
+    private boolean isTotalTicksNumber, isTickNameValid;
     private TextValidator mTextValidator;
     private AuthPreferences mAuthPreferences;
     private DatabaseDataController dbController;
@@ -135,6 +135,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        askForPermission();
     }
 
     @Override
@@ -170,7 +171,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         addTickImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startDialogForChoosingImage();
+                if (FLAG_PERMISSION_GRANTED)
+                    startDialogForChoosingImage();
             }
         });
 
@@ -192,6 +194,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_addObs_postObservation:
+                Log.i(TAG, "onClick: ");
                 postObservation();
                 break;
         }
@@ -201,8 +204,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * Helper method to post Observation on server or store in local storage
      */
     private void postObservation() {
+        Log.i(TAG, "inside post observation");
         try {
-            if (isTickNameValid && isTickSpeciesValid && isTotalTicksNumber) {
+            if (isTickNameValid && isTotalTicksNumber) {
                 String tickName = et_tickName.getText().toString();
                 //String tickSpecies = et_tickSpecies.getText().toString();
                 int numOfTicks = Integer.parseInt(et_numOfTicks.getText().toString());
@@ -222,10 +226,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 newObservationObj.setLongitude(longitude);
 
 
+                Log.i(TAG, "making call");
+
                 // depending on network connection, save the Observation on storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
                     Log.i(TAG, "cloud:" + newObservationObj.toString());
-                    //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
                 } else {
                     // create Unique ID for the Running activity of length 32.
                     String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
@@ -308,18 +314,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         int hasCameraPermission = 0;
         int hasReadPermission = 0;
         int hasWritePermission = 0;
-        int hasInternetPermission = 0;
-        int hasWiFiPermission = 0;
-        int hasNetworkPermission = 0;
         Log.i(TAG, "askForPermission: reached");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             Log.i(TAG, "working well");
             hasCameraPermission = mContext.checkSelfPermission(Manifest.permission.CAMERA);
             hasReadPermission = mContext.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             hasWritePermission = mContext.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            hasInternetPermission = mContext.checkSelfPermission(Manifest.permission.INTERNET);
-            hasWiFiPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE);
-            hasNetworkPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE);
 
             List<String> permissions = new ArrayList<>();
             if (hasCameraPermission != PackageManager.PERMISSION_GRANTED) {
@@ -333,19 +333,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             if (hasWritePermission != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
-
-            if (hasInternetPermission != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.INTERNET);
-            }
-
-            if (hasWiFiPermission != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
-            }
-
-            if (hasNetworkPermission != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
-            }
-
 
             if (!permissions.isEmpty()) {
                 requestPermissions(permissions.toArray(new String[permissions.size()]), GALLERY_PERMISSION);
@@ -370,8 +357,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                         Log.d("Permissions", "Permission Denied: " + permissions[i]);
                     }
                 }
-                if (FLAG_PERMISSION_GRANTED)
-                    startDialogForChoosingImage();
             }
             break;
             default: {
@@ -644,7 +629,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     @Subscribe
     public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
+        Log.i(TAG, "observation posted");
         Observation observationResponse = onLoaded.getResponse();
+        Log.i(TAG, observationResponse.toString());
 
         File imageFile = new File(selectedImagePath);
 
@@ -654,6 +641,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         ImageData mImageData = new ImageData(requestBody, fileParam);
 
+        Log.i(TAG, "making image call");
         // once done, post the File to the Bus for posting it on server.
         BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));

@@ -41,7 +41,10 @@ public class Observation implements Parcelable, Entity {
     private int num_of_ticks;
     private String description;
     private long timestamp, updated_at;
-    private double latitude, longitude;
+    @SerializedName("lati")
+    private double latitude;
+    @SerializedName("longi")
+    private double longitude;
     // references
     private String user_id;
     private String activity_id;

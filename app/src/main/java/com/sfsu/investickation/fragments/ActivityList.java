@@ -23,7 +23,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ActivitiesListAdapter;
@@ -123,6 +122,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         BusProvider.bus().register(this);
 
         if (AppUtils.isConnectedOnline(mContext)) {
+            Log.i(TAG, "fetching all activities");
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
         } else {
@@ -206,7 +206,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     @Subscribe
     public void onActivitiesLoadedFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

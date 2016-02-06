@@ -81,6 +81,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 getAllObservationsCall(listObservationCall);
                 break;
             case ADD:
+                Log.i(TAG, "in call");
                 observationCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUCall(observationCall);
                 break;
@@ -204,13 +205,16 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param observationCall
      */
     public void makeCRUCall(Call<Observation> observationCall) {
+        Log.i(TAG, "makeCRUCall: reached");
         // makes the Calls to network.
         observationCall.enqueue(new Callback<Observation>() {
             @Override
             public void onResponse(Call<Observation> call, Response<Observation> response) {
                 if (response.isSuccess()) {
+                    Log.i(TAG, "makeCRUCall: response");
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {
+                    Log.i(TAG, "makeCRUCall: failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {

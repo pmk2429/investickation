@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Retrofit Service Generator class which initializes the calling Service interface passed as an input param. Depending on the
  * createService method called, this class will return the Service with or without token.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/28/2015.
  */
 public class RetrofitApiClient {
@@ -33,6 +33,7 @@ public class RetrofitApiClient {
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     //    private static final Context mContext = InvestickationApp.getInstance();
     private static Context mContext;
+    // caching
     private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
@@ -50,6 +51,7 @@ public class RetrofitApiClient {
             }
         }
     };
+    // size
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
     // Retrofit
     private static Retrofit.Builder builder = new Retrofit.Builder()
@@ -99,7 +101,7 @@ public class RetrofitApiClient {
      */
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
         // IMP: always clear the interceptors.
-        if (authToken != null && !authToken.equals("invalid-auth-token")) {
+        if (authToken != null && !authToken.equals("")) {
             httpClient.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Interceptor.Chain chain) throws IOException {

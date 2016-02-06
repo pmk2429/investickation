@@ -61,8 +61,8 @@ public interface ObservationApiService {
      *
      * @return
      */
-//    @POST("observations")
-    @POST(ApiResources.ObservationBase)
+    //    @POST(ApiResources.ObservationBase)
+    @POST(ApiResources.ObservationBase + "/" + "add_new")
     public Call<Observation> add(@Body Observation observation);
 
 
