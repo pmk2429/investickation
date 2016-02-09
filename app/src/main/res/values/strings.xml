@@ -287,5 +287,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="perm_pref_file_name">PERMISSIONS_PREFERENCES</string>
 
 </resources>
