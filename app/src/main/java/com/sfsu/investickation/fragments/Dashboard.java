@@ -37,6 +37,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.PermissionUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
      * The number of pages (wizard steps) to show in this demo.
      */
     private static final int NUM_PAGES = 4;
-    private static final int NETWORK_BASED_PERMISSIONS = 12;
+    private static final int NETWORK_LOCATION_BASED_PERMISSIONS = 24;
     public final String TAG = "~!@#Dashboard";
     private IDashboardCallback mListener;
     private CardView btn_action;
@@ -67,6 +68,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private RecentActivitiesAdapter mActivitiesAdapter;
     private ListView mListViewActivities;
     private DatabaseDataController dbTickController;
+    private PermissionUtils mPermissionUtils;
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -87,13 +89,13 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
-
-        
+        mPermissionUtils = new PermissionUtils(mContext);
+        // ask for runtime permission
         askForPermission();
     }
 
     /**
-     * Checks for runtime permission
+     * Prompts for all the network and location related permissions
      */
     private void askForPermission() {
         int hasInternetPermission = 0;
@@ -101,9 +103,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         int hasFineLocationPermission = 0;
         int hasWiFiPermission = 0;
         int hasNetworkPermission = 0;
-        Log.i(TAG, "askForPermission: reached");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Log.i(TAG, "working well");
             hasAccessLocationPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
             hasFineLocationPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
             hasWiFiPermission = mContext.checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE);
@@ -127,17 +127,13 @@ public class Dashboard extends Fragment implements View.OnClickListener {
                 permissions.add(Manifest.permission.INTERNET);
             }
 
-            if (hasInternetPermission != PackageManager.PERMISSION_GRANTED) {
-                permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
-            }
-
             if (hasNetworkPermission != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
             }
 
 
             if (!permissions.isEmpty()) {
-                requestPermissions(permissions.toArray(new String[permissions.size()]), NETWORK_BASED_PERMISSIONS);
+                requestPermissions(permissions.toArray(new String[permissions.size()]), NETWORK_LOCATION_BASED_PERMISSIONS);
             }
         } else {
             Log.i(TAG, "askForPermission: not working");
@@ -148,12 +144,17 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionsResult: reached");
+        List<Integer> permissionsApprovalList = new ArrayList<>();
         switch (requestCode) {
-            case NETWORK_BASED_PERMISSIONS: {
+            case NETWORK_LOCATION_BASED_PERMISSIONS: {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        Log.d("Permissions", "Permission Granted: " + permissions[i]);
+                        // TODO: temp method - change it
+                        mPermissionUtils.setPermission(PermissionUtils.COARSE_LOCATION);
+                        mPermissionUtils.setPermission(PermissionUtils.FINE_LOCATION);
+                        mPermissionUtils.setPermission(PermissionUtils.INTERNET);
+                        mPermissionUtils.setPermission(PermissionUtils.WIFI);
+                        mPermissionUtils.setPermission(PermissionUtils.NETWORK);
                     } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                         Log.d("Permissions", "Permission Denied: " + permissions[i]);
                     }
@@ -164,6 +165,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
         }
+
     }
 
     @Override

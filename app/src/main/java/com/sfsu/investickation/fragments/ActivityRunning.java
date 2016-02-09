@@ -123,7 +123,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private BroadcastReceiver alarmBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "alarm ticked");
             PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "WAKING CLOCK");
             //Acquire the lock
@@ -163,7 +162,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     }
 
     private void collectLocationData(Intent intent) {
-        Log.i(TAG, "collecting data");
         try {
             Location mLocation = intent.getParcelableExtra(LocationService.KEY_LOCATION_CHANGED);
             if (mLocation != null) {
@@ -243,10 +241,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activity_running, container, false);
-
         // bind the views
         ButterKnife.bind(this, rootView);
-
 
         alertDialogMaster = new AlertDialogMaster(mContext, this);
         mPeriodicAlarm = new PeriodicAlarm(mContext);
@@ -284,20 +280,24 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      * Persists the Data for the running activity
      */
     private void persistCurrentActivity() {
-        editor = activityPref.edit();
-        String activityJson = gson.toJson(ongoingActivityObj);
-        editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
-        if (mLatLngSet != null && mLatLngSet.size() > 0) {
-            Set<String> latLngString = new HashSet<>();
-            Iterator<LatLng> iterator = mLatLngSet.iterator();
-            while (iterator.hasNext()) {
-                LatLng temp = iterator.next();
-                String value = Double.toString(temp.latitude) + "," + Double.toString(temp.longitude);
-                latLngString.add(value);
+        try {
+            editor = activityPref.edit();
+            String activityJson = gson.toJson(ongoingActivityObj);
+            editor.putString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, activityJson);
+            if (mLatLngSet != null && mLatLngSet.size() > 0) {
+                Set<String> latLngString = new HashSet<>();
+                Iterator<LatLng> iterator = mLatLngSet.iterator();
+                while (iterator.hasNext()) {
+                    LatLng temp = iterator.next();
+                    String value = Double.toString(temp.latitude) + "," + Double.toString(temp.longitude);
+                    latLngString.add(value);
+                }
+                editor.putStringSet(KEY_LAT_LNG, latLngString);
             }
-            editor.putStringSet(KEY_LAT_LNG, latLngString);
+            editor.apply();
+        } catch (Exception e) {
+
         }
-        editor.apply();
     }
 
 
@@ -316,7 +316,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                     REMINDER_INTERVAL = activityBundle.getLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL);
                 }
             } else {
-                Log.i(TAG, "getting data from SharedPref");
                 // get data from SharedPref which was persisted before
                 String activityJson = activityPref.getString(UserActivityMasterActivity.EDITOR_ONGOING_ACTIVITY, null);
                 ongoingActivityObj = gson.fromJson(activityJson, Activities.class);
@@ -349,8 +348,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 populateView();
                 FLAG_RUNNING = ongoingActivityObj.getState() == Activities.STATE.RUNNING;
             }
-
-            Log.i(TAG, "resume:" + ongoingActivityObj.toString());
 
             // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
             if (FLAG_RUNNING) {
@@ -390,7 +387,8 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         // when the newActivityObject is retrieved from the Intent, create a StringBuilder and set the text to TextView
         StringBuilder textViewData = new StringBuilder();
         if (AppUtils.isConnectedOnline(mContext)) {
-            textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
+            if (!ongoingActivityObj.getLocation_area().equals("") && !ongoingActivityObj.getLocation_area().equals(null))
+                textViewData.append(ongoingActivityObj.getActivityName() + " @ " + ongoingActivityObj.getLocation_area());
         } else {
             textViewData.append(ongoingActivityObj.getActivityName());
         }
@@ -414,6 +412,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
 
+        // in case of out of memory scenario
         persistCurrentActivity();
 
         super.onSaveInstanceState(outState);
@@ -424,6 +423,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onPause() {
         super.onPause();
 
+        // in case user opens {@link AddObservation} fragment or closes the screen
         persistCurrentActivity();
 
         // unregister the Bus.

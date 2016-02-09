@@ -48,6 +48,7 @@ import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.events.ObservationEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
+import com.sfsu.utils.PermissionUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
@@ -75,7 +76,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     protected static final int GALLERY_PICTURE = 24;
     private static final String JPEG_FILE_PREFIX = "TICK_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
-    private static final int GALLERY_PERMISSION = 25;
+    private static final int GALLERY_CAMERA_PERMISSION = 24;
     private final String TAG = "~!@#$AddObservation";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
@@ -110,6 +111,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private AuthPreferences mAuthPreferences;
     private DatabaseDataController dbController;
     private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
+    private PermissionUtils mPermissionUtils;
 
 
     public AddObservation() {
@@ -135,7 +137,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        askForPermission();
+        mPermissionUtils = new PermissionUtils(mContext);
     }
 
     @Override
@@ -168,13 +170,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
-        addTickImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (FLAG_PERMISSION_GRANTED)
-                    startDialogForChoosingImage();
-            }
-        });
+
+        addTickImage.setOnClickListener(this);
 
         btn_PostObservation.setOnClickListener(this);
 
@@ -194,9 +191,26 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_addObs_postObservation:
-                Log.i(TAG, "onClick: ");
                 postObservation();
                 break;
+            case R.id.fab_addObs_addTickImage:
+                handleImageDialog();
+                break;
+        }
+    }
+
+    /**
+     * Handles the custom image dialog to either prompt user for permission or to display custom dialog for choosing image
+     */
+    private void handleImageDialog() {
+        boolean isCameraApproved = mPermissionUtils.isCameraPermissionApproved();
+        boolean isWriteStorageApproved = mPermissionUtils.isWritePermissionApproved();
+        boolean isReadStorageApproved = mPermissionUtils.isReadPermissionApproved();
+
+        if (isCameraApproved && isWriteStorageApproved && isReadStorageApproved) {
+            startDialogForChoosingImage();
+        } else {
+            askForPermission();
         }
     }
 
@@ -335,7 +349,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             }
 
             if (!permissions.isEmpty()) {
-                requestPermissions(permissions.toArray(new String[permissions.size()]), GALLERY_PERMISSION);
+                requestPermissions(permissions.toArray(new String[permissions.size()]), GALLERY_CAMERA_PERMISSION);
             }
         } else {
             Log.i(TAG, "askForPermission: not working");
@@ -348,15 +362,17 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.i(TAG, "onRequestPermissionsResult: reached");
         switch (requestCode) {
-            case GALLERY_PERMISSION: {
+            case GALLERY_CAMERA_PERMISSION: {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        Log.d("Permissions", "Permission Granted: " + permissions[i]);
-                        FLAG_PERMISSION_GRANTED = true;
+                        mPermissionUtils.setPermission(PermissionUtils.CAMERA);
+                        mPermissionUtils.setPermission(PermissionUtils.READ);
+                        mPermissionUtils.setPermission(PermissionUtils.WRITE);
                     } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                         Log.d("Permissions", "Permission Denied: " + permissions[i]);
                     }
                 }
+                startDialogForChoosingImage();
             }
             break;
             default: {
