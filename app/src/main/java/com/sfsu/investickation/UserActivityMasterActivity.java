@@ -31,8 +31,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         ActivityDetail.IActivityDetailsCallBacks,
         ActivityNew.IActivityNewCallBack,
         ActivityRunning.IActivityRunningCallBacks,
-        ActivityMap.IActivityMapCallBack,
-        PostActivitiesList.IPostActivitiesListCallback {
+        ActivityMap.IActivityMapCallBack {
 
     public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
@@ -257,14 +256,5 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             performReplaceFragmentTransaction(mActivityMap);
         } catch (Exception e) {
         }
-    }
-
-    @Override
-    public void displayActivityList() {
-        ActivityList activityListFragment = new ActivityList();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-        transaction.replace(R.id.activity_fragment_container, activityListFragment);
-        transaction.commit();
     }
 }

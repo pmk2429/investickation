@@ -107,9 +107,9 @@ public class ActivityEvent extends BaseNetworkEvent {
      * Event Handler for loading List of Activities all together from the Server.
      * <b>Has to be separate to properly unregister the event from ActivityList</b>
      */
-    public static class OnMassUploadListLoaded extends OnDone<Activities> {
-        public OnMassUploadListLoaded(List<Activities> activitiesList) {
-            super(activitiesList);
+    public static class OnMassUploadListLoaded extends OnDone<Boolean> {
+        public OnMassUploadListLoaded(Boolean check) {
+            super(check);
         }
     }
 

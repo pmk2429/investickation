@@ -87,7 +87,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         mPermissionUtils = new PermissionUtils(mContext);
         // ask for runtime permission
@@ -248,6 +247,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
     }
 
     /**

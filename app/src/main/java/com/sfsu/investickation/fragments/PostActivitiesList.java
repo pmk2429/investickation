@@ -1,5 +1,6 @@
 package com.sfsu.investickation.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,15 +17,15 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 /**
- * Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityList} fragment
+ * Intermediate Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityList} fragment
  */
 public class PostActivitiesList extends Fragment {
 
     private static final String TAG = "~!@#$PostActList";
-    private IPostActivitiesListCallback mInterface;
     private Context mContext;
     private List<Activities> localActivitiesList;
     private DatabaseDataController dbController;
+    private ProgressDialog mProgressDialog;
 
     public PostActivitiesList() {
         // Required empty public constructor
@@ -33,7 +34,6 @@ public class PostActivitiesList extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
     }
 
     @Override
@@ -41,11 +41,18 @@ public class PostActivitiesList extends Fragment {
         super.onResume();
         BusProvider.bus().register(this);
 
+        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
+
+        mProgressDialog = new ProgressDialog(mContext);
+
         localActivitiesList = (List<Activities>) dbController.getAll();
 
         // make a call and upload Activities
         if (localActivitiesList != null) {
             BusProvider.bus().post(new ActivityEvent.OnListLoadingInitialized(localActivitiesList, ApiRequestHandler.ADD));
+//            mProgressDialog.setIndeterminate(true);
+//            mProgressDialog.setMessage("Uploading Activities...");
+//            mProgressDialog.show();
         }
     }
 
@@ -59,18 +66,11 @@ public class PostActivitiesList extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        if (context instanceof IPostActivitiesListCallback) {
-            mInterface = (IPostActivitiesListCallback) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement IPostActivitiesListCallback");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mInterface = null;
     }
 
     /**
@@ -80,44 +80,32 @@ public class PostActivitiesList extends Fragment {
      */
     @Subscribe
     public void onActivitiesListStoreSuccess(ActivityEvent.OnMassUploadListLoaded onMassUploadListLoaded) {
-        Log.i(TAG, "yayy it worked");
-        int check = deleteUploadedActivities();
-        if (check != -1) {
-            Log.i(TAG, "local act deleted");
-            mInterface.displayActivityList();
+        if (dbController == null)
+            dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
+
+        if (deleteUploadedActivities()) {
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
     @Subscribe
     public void onActivitiesListStoreFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 
     /**
      * Once all the Activities are uploaded, delete them from database
      */
-    private int deleteUploadedActivities() {
-        Log.i(TAG, "deleting activities");
+    private boolean deleteUploadedActivities() {
+        boolean check = false;
         try {
             for (int i = 0; i < localActivitiesList.size(); i++) {
                 Activities mActivity = localActivitiesList.get(i);
-                boolean check = dbController.delete(mActivity.getId());
-                Log.i(TAG, "->" + check);
+                check = dbController.delete(mActivity.getId());
             }
-            return 1;
         } catch (Exception e) {
-            return -1;
         }
-    }
-
-    /**
-     * Callback interface to handle event of successful upload of List of Activities and re open ActivityList fragment
-     */
-    public interface IPostActivitiesListCallback {
-
-        /**
-         * Callback method to open the ActivityList fragment when all the Activities are posted on server
-         */
-        void displayActivityList();
+        return check;
     }
 }

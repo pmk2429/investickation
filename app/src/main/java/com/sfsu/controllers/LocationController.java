@@ -6,7 +6,6 @@ import android.content.IntentSender;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -121,7 +120,6 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     private void buildGoogleApiClient() {
         try {
-            Log.i(TAG, "building google api");
             mGoogleApiClient = new GoogleApiClient.Builder(mContext)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -197,7 +195,6 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      * @param location
      */
     private void handleNewLocation(Location location) {
-        Log.i(TAG, "location handled");
         try {
             double currentLatitude = location.getLatitude();
             double currentLongitude = location.getLongitude();
@@ -213,7 +210,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             // handle the Geo Location.
             setLocationArea(currentLatitude, currentLongitude);
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.i(TAG, "handleNewLocation: ");
         }
     }
 
@@ -227,7 +224,6 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      */
     @Override
     public void onLocationChanged(Location location) {
-        Log.i(TAG, "onLocationChanged:");
         handleNewLocation(location);
     }
 
@@ -295,7 +291,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             // finally pass it to the callback interface.
             mInterface.setLocationArea(sb.toString());
         } catch (IOException e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.i(TAG, "setLocationArea: " + e.getCause());
         }
 
     }

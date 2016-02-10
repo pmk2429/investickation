@@ -144,6 +144,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mProgressDialog = new ProgressDialog(mContext);
     }
 
     @Override
@@ -265,7 +266,6 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_list);
         BusProvider.bus().register(this);
-        mProgressDialog = new ProgressDialog(mContext);
     }
 
     @Override

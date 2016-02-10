@@ -21,7 +21,6 @@ import java.util.List;
 public class PostObservationList extends Fragment {
 
     private static final String TAG = "~!@#$PostObsList";
-    private IPostObservationsListCallback mInterface;
     private Context mContext;
     private List<Observation> localObservationList;
     private DatabaseDataController dbController;
@@ -59,18 +58,12 @@ public class PostObservationList extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        if (context instanceof IPostObservationsListCallback) {
-            mInterface = (IPostObservationsListCallback) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement IPostActivitiesListCallback");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mInterface = null;
     }
 
     /**
@@ -80,9 +73,11 @@ public class PostObservationList extends Fragment {
      */
     @Subscribe
     public void onObservationsListStoreSuccess(ObservationEvent.OnListLoaded onListLoaded) {
-        int check = deleteUploadedObservations();
-        if (check != -1) {
-            mInterface.displayObservationsList();
+        if (dbController == null)
+            dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
+
+        if (deleteUploadedObservations()) {
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
@@ -94,27 +89,16 @@ public class PostObservationList extends Fragment {
     /**
      * Once all the Activities are uploaded, delete them from database
      */
-    private int deleteUploadedObservations() {
+    private boolean deleteUploadedObservations() {
+        boolean check = false;
         try {
             for (int i = 0; i < localObservationList.size(); i++) {
                 Observation mObservation = localObservationList.get(i);
-                boolean check = dbController.delete(mObservation.getId());
-                Log.i(TAG, "->" + check);
+                check = dbController.delete(mObservation.getId());
             }
-            return 1;
         } catch (Exception e) {
-            return -1;
         }
+        return check;
     }
 
-    /**
-     * Callback interface to handle event of successful upload of List of Activities and re open ActivityList fragment
-     */
-    public interface IPostObservationsListCallback {
-
-        /**
-         * Callback method to open the ActivityList fragment when all the Activities are posted on server
-         */
-        void displayObservationsList();
-    }
 }

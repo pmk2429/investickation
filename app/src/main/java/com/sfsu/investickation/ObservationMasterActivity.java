@@ -17,8 +17,7 @@ import com.sfsu.investickation.fragments.PostObservationList;
 public class ObservationMasterActivity extends MainBaseActivity
         implements ObservationList.IRemoteObservationCallBacks,
         AddObservation.IAddObservationCallBack,
-        ObservationMap.IObservationMapCallBack,
-        PostObservationList.IPostObservationsListCallback {
+        ObservationMap.IObservationMapCallBack {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
@@ -160,9 +159,7 @@ public class ObservationMasterActivity extends MainBaseActivity
     @Override
     public void onUploadListOfObservations() {
         PostObservationList postObservationListFragment = new PostObservationList();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.observation_fragment_container, postObservationListFragment);
-        transaction.commit();
+        performReplaceFragmentTransaction(postObservationListFragment);
     }
 
 
@@ -182,14 +179,6 @@ public class ObservationMasterActivity extends MainBaseActivity
         ObservationList observationListFragment = ObservationList.newInstance(statusFlag);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-        transaction.replace(R.id.observation_fragment_container, observationListFragment);
-        transaction.commit();
-    }
-
-    @Override
-    public void displayObservationsList() {
-        ObservationList observationListFragment = new ObservationList();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.observation_fragment_container, observationListFragment);
         transaction.commit();
     }

@@ -7,7 +7,7 @@ import android.util.Log;
 
 /**
  * DatabaseHelper class to create and update the database table.
- * <p>
+ * <p/>
  * Created by Pavitra on 5/27/2015.
  */
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
@@ -15,7 +15,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     // specify the name and version of DB.
     protected static final String DB_NAME = "Investickations.db";
     protected static final String TAG = "~!@#$DBOpenHelper";
-    protected static final int DB_VERSION = 3;
+    protected static final int DB_VERSION = 4;
 
     // the default constructor
     public DatabaseOpenHelper(Context context) {

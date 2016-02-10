@@ -64,7 +64,6 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
             // build GoogleApiClient
             markerObservationMap = new HashMap<>();
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
         }
     }
 
@@ -124,7 +123,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
                 }
                 mGoogleMap.setOnMyLocationChangeListener(myLocationChangeListener);
             } else {
-                Log.d(TAG, "MapView is NULL");
+                Log.i(TAG, "MapView is NULL");
             }
         }
     }
@@ -276,15 +275,10 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
         try {
             // when the user clicks the Marker, get the Observation and pass it on to Callback
             //mInterface.onMarkerClickListener(marker);
-
             Observation mObservation = markerObservationMap.get(marker);
-            Log.i(TAG, mObservation.toString());
-
             mInterface.onMarkerClickObservationListener(mObservation);
         } catch (NullPointerException e) {
-            Log.i(TAG, e.getMessage());
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
         }
 
         return false;

@@ -110,7 +110,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param countCall
      */
     public void getCount(Call<ResponseCount> countCall) {
-        Log.i(TAG, "OK");
         countCall.enqueue(new Callback<ResponseCount>() {
             @Override
             public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
@@ -339,7 +338,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param observationResponseCall
      */
     public void getObservationWrapperResponse(Call<ObservationResponse> observationResponseCall) {
-        Log.i(TAG, "ok 2");
         observationResponseCall.enqueue(new Callback<ObservationResponse>() {
             @Override
             public void onResponse(Call<ObservationResponse> call, Response<ObservationResponse> response) {

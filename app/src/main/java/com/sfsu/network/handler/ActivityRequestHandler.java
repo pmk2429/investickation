@@ -15,7 +15,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -118,25 +117,27 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeListActivityEvent(ActivityEvent.OnListLoadingInitialized onListLoadingInitialized) {
+        Log.i(TAG, "mass upload");
         List<Activities> activitiesList = onListLoadingInitialized.getRequest();
-        massUploadResponseList = new ArrayList<>();
 
         Call<Activities> activitiesCall = null;
         // for each Activities in the list, make a call and push data on the server
         for (int i = 0; i < activitiesList.size(); i++) {
-            activitiesCall = mApiService.add(onListLoadingInitialized.getRequest().get(i));
+            Log.i(TAG, "" + i);
+            activitiesCall = mApiService.add(activitiesList.get(i));
             // makes the Calls to network.
             activitiesCall.enqueue(new Callback<Activities>() {
                 @Override
                 public void onResponse(Call<Activities> call, Response<Activities> response) {
                     if (response.isSuccess()) {
-                        massUploadResponseList.add(response.body());
+                        Log.i(TAG, "response success");
+                        mBus.post(new ActivityEvent.OnMassUploadListLoaded(true));
                     } else {
+                        Log.i(TAG, "response failure");
                         int statusCode = response.code();
                         ResponseBody errorBody = response.errorBody();
                         try {
                             mErrorResponse = mGson.fromJson(errorBody.string(), ErrorResponse.class);
-                            Log.i(TAG, mErrorResponse.getApiError().getMessage());
                             mBus.post(new ActivityEvent.OnLoadingError(mErrorResponse.getApiError().getMessage(), statusCode));
                         } catch (IOException e) {
                             mBus.post(ActivityEvent.FAILED);
@@ -146,6 +147,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
                 @Override
                 public void onFailure(Call<Activities> call, Throwable t) {
+                    Log.i(TAG, "failure");
                     if (t != null && t.getMessage() != null) {
                         mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                     } else {
@@ -153,11 +155,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                     }
                 }
             });
-        }
-        if (massUploadResponseList != null) {
-            // finally post response list
-            mBus.post(new ActivityEvent.OnMassUploadListLoaded(massUploadResponseList));
-
         }
     }
 

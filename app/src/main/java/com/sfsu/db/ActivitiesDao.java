@@ -60,17 +60,23 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public boolean update(String id, Entity entityItem) {
-        Activities mActivity = (Activities) entityItem;
-        ContentValues contentValues = getContentValues(mActivity);
-        // update the record.
-        boolean check = db.update(
-                EntityTable.ActivitiesTable.TABLENAME,
-                contentValues,
-                EntityTable.ActivitiesTable.COLUMN_ID + "=?",
-                new String[]{id}) > 0;
+        boolean update = false;
+        try {
+            Activities mActivity = (Activities) entityItem;
+            ContentValues contentValues = getContentValues(mActivity);
+            // update the record.
+            update = db.update(
+                    EntityTable.ActivitiesTable.TABLENAME,
+                    contentValues,
+                    EntityTable.ActivitiesTable.COLUMN_ID + "=?",
+                    new String[]{id}) > 0;
 
-        db.close();
-        return check;
+        } catch (Exception e) {
+
+        } finally {
+            db.close();
+        }
+        return update;
     }
 
     public boolean update(Entity entity, String imageUrl) {
@@ -105,17 +111,16 @@ public class ActivitiesDao implements EntityDao {
 
     @Override
     public boolean delete(String id) {
-        boolean check = false;
+        int deleted = 0;
         try {
-            String table = EntityTable.ActivitiesTable.TABLENAME;
-            String whereClause = EntityTable.ActivitiesTable.COLUMN_ID + "=?";
-            check = db.delete(table, whereClause, new String[]{id}) > 0;
+            deleted = db.delete(EntityTable.ActivitiesTable.TABLENAME,
+                    EntityTable.ActivitiesTable.COLUMN_ID + " = ?",
+                    new String[]{id});
         } catch (Exception e) {
-
         } finally {
             db.close();
         }
-        return check;
+        return deleted > 0;
     }
 
     @Override
@@ -137,7 +142,7 @@ public class ActivitiesDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            db.close();
+
         }
         return mActivity;
     }
@@ -182,7 +187,6 @@ public class ActivitiesDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            db.close();
         }
         return mActivity;
     }
@@ -207,7 +211,6 @@ public class ActivitiesDao implements EntityDao {
         } catch (Exception e) {
 
         } finally {
-            db.close();
         }
         return activitiesList;
     }

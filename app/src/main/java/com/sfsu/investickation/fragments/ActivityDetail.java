@@ -377,7 +377,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
      */
     @Subscribe
     public void onActivityDeleteFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

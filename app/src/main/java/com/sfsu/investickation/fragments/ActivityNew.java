@@ -262,14 +262,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                 // save the Activity on local database
                 long resultCode = dbController.save(newActivityObj);
 
-                mProgressDialog = new ProgressDialog(mContext);
-                mProgressDialog.setIndeterminate(true);
-                mProgressDialog.setMessage("Creating Activity...");
-                mProgressDialog.show();
-
                 // finally when the result Code is not -1, open Activity running Fragment.
                 if (resultCode != -1) {
-
                     activityBundle = new Bundle();
                     activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
 
@@ -434,7 +428,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     private void startAlarmForReminder() {
         if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
-            Log.d(TAG, "interval: " + REMINDER_INTERVAL);
             new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }
 

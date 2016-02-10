@@ -119,12 +119,14 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public void onResume() {
+        Log.i(TAG, "onResume ActivityList");
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_activity_list);
         BusProvider.bus().register(this);
         mProgressDialog = new ProgressDialog(mContext);
 
         if (AppUtils.isConnectedOnline(mContext)) {
+            Log.i(TAG, "inside Fetching activities");
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
             mProgressDialog.setIndeterminate(true);
@@ -191,6 +193,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
         // create a standard Activities list
         mActivitiesList = responseActivitiesList;
+
 
         if (mActivitiesList.size() > 0 && mActivitiesList != null) {
             displayActivityList();

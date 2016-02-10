@@ -263,7 +263,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             mapView.onCreate(mapViewSavedInstanceState);
 
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+
         }
         return rootView;
     }
@@ -355,7 +355,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
             // perform check for RUNNING state of Activity and if true, register receiver for getting location updates.
             if (FLAG_RUNNING) {
-                Log.i(TAG, "resume flag running");
                 locationIntent = new Intent(mContext, LocationService.class);
                 // start the service to capture Location updates.
                 mContext.startService(locationIntent);
@@ -633,7 +632,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                     LatLng temp = latLngs.next();
                     Log.i(TAG, temp.latitude + " : " + temp.longitude);
                 }
-
                 mLatLngArray = mLatLngSet.toArray(new LatLng[mLatLngSet.size()]);
             }
 
@@ -659,6 +657,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 mProgressDialog.show();
             } else {
                 // update the Activity in the Database
+                boolean updated = dbController.update(ongoingActivityObj.getId(), ongoingActivityObj);
                 mListener.onActivityStopButtonClicked();
             }
 

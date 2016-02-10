@@ -59,16 +59,17 @@ public class ObservationsDao implements EntityDao {
      */
     @Override
     public boolean delete(String id) {
-
+        int deleted = 0;
         try {
-            return db.delete(EntityTable.ObservationsTable.TABLENAME,
+            deleted = db.delete(EntityTable.ObservationsTable.TABLENAME,
                     EntityTable.ObservationsTable.COLUMN_ID + "=?",
-                    new String[]{id + ""}) > 0;
+                    new String[]{id});
         } catch (Exception e) {
-            return false;
+
         } finally {
             db.close();
         }
+        return deleted > 0;
     }
 
     /**
@@ -96,8 +97,6 @@ public class ObservationsDao implements EntityDao {
             }
         } catch (Exception e) {
 
-        } finally {
-            db.close();
         }
         // the final ObservationItem will contain the Composite Object composed of Location and Tick objects.
         return observationItem;
@@ -129,8 +128,6 @@ public class ObservationsDao implements EntityDao {
                 } while (c.moveToNext());
             }
         } catch (Exception e) {
-        } finally {
-            db.close();
         }
         return observationsList;
     }
@@ -162,8 +159,6 @@ public class ObservationsDao implements EntityDao {
                 } while (c.moveToNext());
             }
         } catch (Exception e) {
-        } finally {
-            db.close();
         }
         return observationsList;
     }
@@ -194,8 +189,6 @@ public class ObservationsDao implements EntityDao {
             return db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
         } catch (Exception e) {
             return -1;
-        } finally {
-            db.close();
         }
     }
 
