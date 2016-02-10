@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Observation;
@@ -139,6 +140,8 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public List<Observation> getAll(String activityId) {
+        Log.i(TAG, "getAll: ");
+        Log.i(TAG, activityId);
         List<Observation> observationsList = new ArrayList<Observation>();
         try {
             // Query the Database to get all the records.

@@ -293,9 +293,13 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
                 mListener.onViewAllObservationsClicked(mActivity.getId());
                 break;
             case R.id.icon_actDet_openMap:
-                openObservationsOnMap();
-                ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
-                mListener.onOpenActivitiesMapClicked(mObservationArrayList);
+                try {
+                    openObservationsOnMap();
+                    ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
+                    mListener.onOpenActivitiesMapClicked(mObservationArrayList);
+                } catch (Exception e) {
+
+                }
                 break;
         }
     }
@@ -332,7 +336,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     private void deleteActivity() {
         if (mActivity.isOnCloud()) {
             AlertDialog.Builder deleteActivityDialog = new AlertDialog.Builder(mContext);
-            String deleteTitle = "Delete " + mActivity.getActivityName() + "?";
+            String deleteTitle = "Delete '" + mActivity.getActivityName() + "' Activity?";
             deleteActivityDialog.setTitle(deleteTitle);
             deleteActivityDialog.setMessage(R.string.alertDialog_delete_activity_warning);
             deleteActivityDialog.setIcon(R.mipmap.ic_delete_black_24dp);
@@ -353,6 +357,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             deleteActivityDialog.show();
         } else {
             dbController.delete(mActivity.getId());
+            // open ActivityList again
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }

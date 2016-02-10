@@ -75,8 +75,10 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
                         Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
                     } else {
                         if (imgFile.exists()) {
+                            Log.i("~!@#$", "image file exists");
                             Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                             holder.imageView_tickImage.setImageBitmap(tickBitmap);
+//                            Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
                         }
                     }
                 } else {

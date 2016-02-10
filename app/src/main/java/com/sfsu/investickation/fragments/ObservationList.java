@@ -170,6 +170,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         }
         if (args != null && args.containsKey(KEY_ACTIVITY_ID)) {
             activityId = args.getString(KEY_ACTIVITY_ID);
+            Log.i(TAG, activityId);
             FLAG_GET_ACTIVITY_OBSERVATIONS = true;
         } else if (args != null && args.containsKey(KEY_STATUS_FLAG)) {
             long statusFlag = args.getLong(KEY_STATUS_FLAG);
@@ -181,40 +182,55 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         }
 
 
-        // get all Observations depending on network connection.
-        if (AppUtils.isConnectedOnline(mContext)) {
-            // call to network depending on the type of call to be made.
-            if (activityId != null) {
+        // call to network depending on the type of call to be made.
+        if (activityId != null) {
+            // get all Observations depending on network connection.
+            if (AppUtils.isConnectedOnline(mContext)) {
                 // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
                 // Observations specific to Activity
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
                 displayProgressDialog("Fetching Observations...");
             } else {
+                // network not available.
+                // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
+                Log.i(TAG, "get all observations of Act");
+                localObservationList = (List<Observation>) dbController.getAll(activityId);
+
+            }
+        } else {
+            // get all the observations
+            if (AppUtils.isConnectedOnline(mContext)) {
                 // get all the observations made by User
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
                 displayProgressDialog("Fetching Observations...");
-            }
-        } else {
-            // network not available.
-            // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
-            if (FLAG_GET_ACTIVITY_OBSERVATIONS) {
-                localObservationList = (List<Observation>) dbController.getAll(activityId);
             } else {
                 // get all the observations. When the User clicks MyObservations in Nav Drawer or from Dashboard
                 localObservationList = (List<Observation>) dbController.getAll();
             }
 
-            mObservationList = localObservationList;
+            if (!AppUtils.isConnectedOnline(mContext)) {
 
-            if (mObservationList.size() > 0 && mObservationList != null) {
-                displayObservationList();
-            } else if (mObservationList.size() == 0) {
-                // display text message
-                txtView_observationList_info.setVisibility(View.VISIBLE);
-                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
-                recyclerView_observations.setVisibility(View.GONE);
-            } else {
-                Log.i(TAG, "activity list size < 0");
+                if (mObservationList != null) {
+                    mObservationList.clear();
+                }
+                // for local observations only
+                if (localObservationList != null) {
+                    Log.i(TAG, "->" + localObservationList.size());
+                    // make observation list
+                    mObservationList = localObservationList;
+
+                }
+
+                if (mObservationList.size() > 0 && mObservationList != null) {
+                    displayObservationList();
+                } else if (mObservationList.size() == 0) {
+                    // display text message
+                    txtView_observationList_info.setVisibility(View.VISIBLE);
+                    mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
+                    recyclerView_observations.setVisibility(View.GONE);
+                } else {
+                    Log.i(TAG, "activity list size < 0");
+                }
             }
         }
 

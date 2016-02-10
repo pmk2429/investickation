@@ -5,12 +5,13 @@
               android:orientation="vertical"
               android:paddingLeft="@dimen/view_dimen_small"
               android:paddingRight="@dimen/view_dimen_small"
-              android:paddingTop="@dimen/view_dimen_large">
+              android:paddingTop="@dimen/view_dimen_small">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardview_observation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/view_dimen_small">
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -184,9 +184,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // initialize the LocationController
-        mLocationController = new LocationController(mContext, this);
-        mLocationController.connectGoogleApi();
     }
 
     @Override
@@ -586,6 +583,12 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         getActivity().setTitle(R.string.title_fragment_observation_add);
         BusProvider.bus().register(this);
         mProgressDialog = new ProgressDialog(mContext);
+        // setup google Map using the GoogleMapController.
+        // initialize the LocationController
+        if (AppUtils.isConnectedOnline(mContext)) {
+            mLocationController = new LocationController(mContext, this);
+            mLocationController.connectGoogleApi();
+        }
     }
 
     @Override

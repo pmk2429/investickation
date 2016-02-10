@@ -5,12 +5,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -143,24 +141,23 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         BusProvider.bus().register(this);
         mProgressDialog = new ProgressDialog(mContext);
 
-        locationController = new LocationController(mContext, this);
-        mGoogleMapController = new GoogleMapController(mContext);
-        // Database controller.
-
         // setup google Map using the GoogleMapController.
         if (AppUtils.isConnectedOnline(mContext)) {
+            locationController = new LocationController(mContext, this);
+            mGoogleMapController = new GoogleMapController(mContext);
             mGoogleMapController.setupGoogleMap(mapView);
+            locationController.connectGoogleApi();
         }
 
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                Log.i(TAG, "running ");
-
-                locationController.connectGoogleApi();
-            }
-        });
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                Log.i(TAG, "running ");
+//
+//
+//            }
+//        });
     }
 
     @Override

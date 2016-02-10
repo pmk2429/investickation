@@ -240,6 +240,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onViewAllObservationsClicked(String activityId) {
         try {
             // open ObservationList Fragment.
+            Log.i(TAG, "onViewAllObservationsClicked: ");
             Intent observationListIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
             observationListIntent.putExtra(KEY_VIEW_OBSERVATIONS, 1);
             observationListIntent.putExtra(KEY_ACTIVITY_ID, activityId);

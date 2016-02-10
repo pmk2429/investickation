@@ -36,6 +36,7 @@ import com.sfsu.investickation.R;
 import com.sfsu.investickation.RecyclerItemClickListener;
 import com.sfsu.investickation.SettingsActivity;
 import com.sfsu.investickation.TickGuideMasterActivity;
+import com.sfsu.investickation.TutorialActivity;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.investickation.UserProfileActivity;
 import com.sfsu.network.bus.BusProvider;
@@ -180,18 +181,25 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                     mCurrentSelectedPosition = 3;
                     break;
 
+                case R.id.nav_tutorial:
+                    intent = new Intent(mContext, TutorialActivity.class);
+                    mContext.startActivity(intent);
+                    ((Activity) mContext).finish();
+                    mCurrentSelectedPosition = 4;
+                    break;
+
                 case R.id.nav_settings:
                     intent = new Intent(mContext, SettingsActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 4;
+                    mCurrentSelectedPosition = 5;
                     break;
 
                 case R.id.nav_profile:
                     intent = new Intent(mContext, UserProfileActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 5;
+                    mCurrentSelectedPosition = 6;
                     break;
 
 
@@ -201,7 +209,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
                     startActivity(intent);
                     ((Activity) mContext).finish();
-                    mCurrentSelectedPosition = 6;
+                    mCurrentSelectedPosition = 7;
                     break;
             }
         } catch (Exception e) {

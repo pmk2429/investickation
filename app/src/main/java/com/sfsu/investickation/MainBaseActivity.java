@@ -109,9 +109,8 @@ public class MainBaseActivity extends AppCompatActivity {
                     mCurrentSelectedPosition = 3;
                     break;
 
-                case R.id.nav_tickMap:
-                    intent = new Intent(this, TickGuideMasterActivity.class);
-                    intent.putExtra(TickGuideMasterActivity.KEY_TICK_MAP, 1);
+                case R.id.nav_tutorial:
+                    intent = new Intent(this, TutorialActivity.class);
                     startActivity(intent);
                     finish();
                     mCurrentSelectedPosition = 4;

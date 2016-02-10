@@ -203,7 +203,6 @@ public class ObservationDetail extends Fragment {
 
     @Subscribe
     public void onObservationLoadSuccess(ObservationEvent.OnObservationWrapperLoaded onObservationWrapperLoaded) {
-        Log.i(TAG, "observation wrapper loaded");
         mObservationResponse = onObservationWrapperLoaded.getResponse();
 
         Activities mActivity = mObservationResponse.getActivity();
@@ -214,7 +213,7 @@ public class ObservationDetail extends Fragment {
         if (mActivity != null) {
             activityName = mActivity.getActivityName() == null || mActivity.getActivityName() == "" ? "No Activity" :
                     mActivity.getActivityName();
-            locationArea = mActivity.getLocation_area() == null || mActivity.getLocation_area() == "" ? "No Activity" :
+            locationArea = mActivity.getLocation_area() == null || mActivity.getLocation_area() == "" ? "No Location" :
                     mActivity.getLocation_area();
             activityNameFinal = activityName + " at " + locationArea;
         } else {
@@ -252,7 +251,7 @@ public class ObservationDetail extends Fragment {
         if (mObservation.isOnCloud()) {
 
             AlertDialog.Builder deleteObservationDialog = new AlertDialog.Builder(mContext);
-            String deleteTitle = "Delete " + mObservation.getTickName() + "?";
+            String deleteTitle = "Delete '" + mObservation.getTickName() + "' Observation ?";
             deleteObservationDialog.setTitle(deleteTitle);
             deleteObservationDialog.setMessage(R.string.alertDialog_delete_observation_warning);
             deleteObservationDialog.setIcon(R.mipmap.ic_delete_black_24dp);
@@ -271,8 +270,27 @@ public class ObservationDetail extends Fragment {
                 }
             });
             deleteObservationDialog.show();
-        } else {
-            dbController.delete(mObservation.getId());
+        } else if (!mObservation.isOnCloud()) {
+            AlertDialog.Builder deleteObservationDialog = new AlertDialog.Builder(mContext);
+            String deleteTitle = "Delete '" + mObservation.getTickName() + "' Observation ?";
+            deleteObservationDialog.setTitle(deleteTitle);
+            deleteObservationDialog.setMessage(R.string.alertDialog_delete_observation_warning);
+            deleteObservationDialog.setIcon(R.mipmap.ic_delete_black_24dp);
+
+            deleteObservationDialog.setPositiveButton(R.string.alertDialog_YES, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dbController.delete(mObservation.getId());
+                }
+            });
+
+            deleteObservationDialog.setNegativeButton(R.string.alertDialog_NO, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            deleteObservationDialog.show();
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }
