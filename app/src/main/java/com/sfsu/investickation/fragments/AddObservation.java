@@ -3,6 +3,7 @@ package com.sfsu.investickation.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -112,6 +113,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private DatabaseDataController dbController;
     private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
     private PermissionUtils mPermissionUtils;
+    private ProgressDialog mProgressDialog;
 
 
     public AddObservation() {
@@ -218,7 +220,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * Helper method to post Observation on server or store in local storage
      */
     private void postObservation() {
-        Log.i(TAG, "inside post observation");
         try {
             if (isTickNameValid && isTotalTicksNumber) {
                 String tickName = et_tickName.getText().toString();
@@ -239,13 +240,10 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 newObservationObj.setLatitude(latitude);
                 newObservationObj.setLongitude(longitude);
 
-
-                Log.i(TAG, "making call");
-
                 // depending on network connection, save the Observation on storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
-                    Log.i(TAG, "cloud:" + newObservationObj.toString());
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
+                    displayProgressDialog("Making Observation...");
                 } else {
                     // create Unique ID for the Running activity of length 32.
                     String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
@@ -254,8 +252,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                     newObservationObj.setId(observationUUID);
 
                     newObservationObj.setImageUrl(selectedImagePath);
-
-                    Log.i(TAG, "local: " + newObservationObj.toString());
 
                     long resultCode = dbController.save(newObservationObj);
 
@@ -268,7 +264,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
                 }
             }
         } catch (Exception e) {
-            Log.i(TAG, "error: " + e.getMessage());
         }
 
     }
@@ -328,9 +323,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         int hasCameraPermission = 0;
         int hasReadPermission = 0;
         int hasWritePermission = 0;
-        Log.i(TAG, "askForPermission: reached");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            Log.i(TAG, "working well");
             hasCameraPermission = mContext.checkSelfPermission(Manifest.permission.CAMERA);
             hasReadPermission = mContext.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             hasWritePermission = mContext.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -454,11 +447,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     private void handleCameraPicture() {
         if (selectedImagePath != null) {
-            Log.i(TAG, "handleCameraPicture: all well");
             setPic();
             galleryAddPic();
-            Log.i("~!@#$PhotoIntent", selectedImagePath);
-            Log.i(TAG, "all done");
             selectedImagePath = null;
         } else {
             Log.i(TAG, "handleCameraPicture: selectedPath null");
@@ -485,7 +475,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
             if (storageDir != null) {
                 if (!storageDir.mkdirs()) {
                     if (!storageDir.exists()) {
-                        Log.d("~!@#$MainAct", "failed to create directory");
                         return null;
                     }
                 }
@@ -527,9 +516,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * Previews the captured image into ImageView
      */
     private void setPic() {
-        Log.i(TAG, "setting pic");
-
-		/* There isn't enough memory to open up more than a couple camera photos */
+        /* There isn't enough memory to open up more than a couple camera photos */
         /* So pre-scale the target bitmap into which the file is decoded */
 
 		/* Get the size of the ImageView */
@@ -566,7 +553,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * Finally saves the image to the gallery in external storage
      */
     private void galleryAddPic() {
-        Log.i(TAG, "saving pic to gallery");
         Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
         File f = new File(selectedImagePath);
         Uri contentUri = Uri.fromFile(f);
@@ -638,6 +624,24 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
 
     /**
+     * Displays progress dialog
+     */
+    private void displayProgressDialog(String message) {
+        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    /**
+     * Dismisses progress dialog
+     */
+    private void dismissProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+    }
+
+    /**
      * Subscribes to the event of successful observation creation. Once the Observation is created successfully, the Account
      * captured image of tick inside the Observation is posted on server.
      *
@@ -645,22 +649,21 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     @Subscribe
     public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "observation posted");
+        dismissProgressDialog();
         Observation observationResponse = onLoaded.getResponse();
-        Log.i(TAG, observationResponse.toString());
-
+        // create File from the path
         File imageFile = new File(selectedImagePath);
-
+        // create RequestBody to send the image to server
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-
+        // create dynamic file name for the image
         String fileParam = "file\"; filename=\"" + imageFile.getName();
-
+        // finally create ImageData object that contains RequestBody and Image name
         ImageData mImageData = new ImageData(requestBody, fileParam);
-
-        Log.i(TAG, "making image call");
         // once done, post the File to the Bus for posting it on server.
         BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));
+        // show progress dialog
+        displayProgressDialog("Uploading Image...");
     }
 
     /**
@@ -670,8 +673,8 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     @Subscribe
     public void onObservationDataPostFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, "E: observation failure");
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        dismissProgressDialog();
+        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -683,7 +686,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      */
     @Subscribe
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "5) image uploaded successfully");
+        dismissProgressDialog();
         // pass the Observation response object to the ObservationActivity.
         mInterface.postObservationData(ObservationMasterActivity.FLAG_ACTIVITY_RUNNING);
     }
@@ -691,7 +694,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
     @Subscribe
     public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, "5a) image upload failure");
+        dismissProgressDialog();
         Log.i(TAG, onLoadingError.getErrorMessage());
     }
 

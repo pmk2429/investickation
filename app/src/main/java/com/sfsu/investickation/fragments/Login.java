@@ -1,6 +1,7 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,6 +59,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     private SessionManager mSessionManager;
     private boolean isEmailValid, isPasswordValid;
     private AuthPreferences mAuthPreferences;
+    private ProgressDialog mProgressDialog;
 
     public Login() {
         // Required empty public constructor
@@ -134,6 +136,10 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     public void login(final String email, final String password) {
         // verify and validate email and password input fields
         BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
+        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Logging in...");
+        mProgressDialog.show();
     }
 
     @Override
@@ -168,6 +174,8 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
      */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
@@ -187,6 +195,8 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
     @Subscribe
     public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 

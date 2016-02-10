@@ -1,6 +1,7 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +23,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ObservationsListAdapter;
@@ -92,6 +92,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private int fabMargin;
     private Animation animation;
     private UploadAlertDialog mUploadAlertDialog;
+    private ProgressDialog mProgressDialog;
 
     public ObservationList() {
         // Required empty public constructor
@@ -186,9 +187,11 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
                 // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
                 // Observations specific to Activity
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
+                displayProgressDialog("Fetching Observations...");
             } else {
                 // get all the observations made by User
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+                displayProgressDialog("Fetching Observations...");
             }
         } else {
             // network not available.
@@ -239,6 +242,24 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         return rootView;
     }
 
+    /**
+     * Displays progress dialog
+     */
+    private void displayProgressDialog(String message) {
+        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    /**
+     * Dismisses progress dialog
+     */
+    private void dismissProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+    }
+
 
     @Override
     public void onResume() {
@@ -266,6 +287,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
      */
     @Subscribe
     public void onObservationsLoadSuccess(ObservationEvent.OnListLoaded onLoaded) {
+        dismissProgressDialog();
         // list of Observations from server
         responseObservationList = onLoaded.getResponseList();
         localObservationList = (List<Observation>) dbController.getAll();
@@ -307,7 +329,8 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
      */
     @Subscribe
     public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        dismissProgressDialog();
+//        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

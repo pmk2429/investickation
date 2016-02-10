@@ -1,6 +1,7 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -107,6 +108,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     private Intent locationIntent;
     private AlertDialogMaster alertDialogMaster;
     private PeriodicAlarm mPeriodicAlarm;
+    private ProgressDialog mProgressDialog;
     /**
      * BroadcastReceiver to receive the updates when Location is changed.
      */
@@ -141,6 +143,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             mWakeLock.release();
         }
     };
+
 
     public ActivityRunning() {
         // Required empty public constructor
@@ -645,21 +648,22 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
             // set image_url and update the Activity.
             ongoingActivityObj.setImage_url(imageUrl);
 
-            Log.i(TAG, ongoingActivityObj.toString());
-
             // depending on whether the Network is available or not, perform onClick operation
             if (AppUtils.isConnectedOnline(mContext)) {
                 // Update the Activities object on the Server
                 BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(ongoingActivityObj, ongoingActivityObj.getId(),
                         ApiRequestHandler.UPDATE));
+                mProgressDialog = new ProgressDialog(mContext);
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Updating Activity...");
+                mProgressDialog.show();
             } else {
                 // update the Activity in the Database
-                dbController.update(ongoingActivityObj.getId(), ongoingActivityObj);
                 mListener.onActivityStopButtonClicked();
             }
 
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
+
         }
     }
 
@@ -670,14 +674,17 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
      */
     @Subscribe
     public void onActivityUpdateSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "activity updated");
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
         Log.i(TAG, onLoaded.getResponse().toString());
         mListener.onActivityStopButtonClicked();
     }
 
     @Subscribe
     public void onActivityUpdateFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 

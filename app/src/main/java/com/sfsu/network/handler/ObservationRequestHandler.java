@@ -69,6 +69,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         final String observationWrapperFilter = "{\"include\":[\"activity\", \"tick\"]}";
         final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
         final String locationIncludeFilter = "{\"include\":\"location\"}";
+        final String orderFilter = "{\"order\": \"timestamp DESC\"}";
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {
@@ -77,11 +78,10 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 makeCRUCall(observationCall);
                 break;
             case GET_ALL:
-                listObservationCall = mApiService.getAll(USER_ID);
+                listObservationCall = mApiService.getAll(USER_ID, orderFilter);
                 getAllObservationsCall(listObservationCall);
                 break;
             case ADD:
-                Log.i(TAG, "in call");
                 observationCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUCall(observationCall);
                 break;
@@ -90,7 +90,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 makeDeleteCall(deleteObservation);
                 break;
             case ACT_OBSERVATIONS:
-                Log.i(TAG, "1) going good");
                 listObservationCall = mApiService.observationsOfActivity(onLoadingInitialized.activityId, locationIncludeFilter);
                 get_Activity_Observations(listObservationCall);
                 break;
@@ -115,7 +114,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         countCall.enqueue(new Callback<ResponseCount>() {
             @Override
             public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
-                Log.i(TAG, "response");
                 if (response.isSuccess()) {
                     mBus.post(new ObservationEvent.OnLoadedCount(response.body()));
                 } else {
@@ -160,10 +158,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                 @Override
                 public void onResponse(Call<Observation> call, Response<Observation> response) {
                     if (response.isSuccess()) {
-                        Log.i(TAG, "response is success");
                         massUploadResponseList.add(response.body());
                     } else {
-                        Log.i(TAG, "response is failure");
                         int statusCode = response.code();
                         ResponseBody errorBody = response.errorBody();
                         try {
@@ -174,12 +170,10 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                             mBus.post(ObservationEvent.FAILED);
                         }
                     }
-                    Log.i(TAG, "reached-1");
                 }
 
                 @Override
                 public void onFailure(Call<Observation> call, Throwable t) {
-                    Log.i(TAG, "failure");
                     if (t != null && t.getMessage() != null) {
                         mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                     } else {
@@ -187,11 +181,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
                     }
                 }
             });
-            Log.i(TAG, "reached-2");
         }
-        Log.i(TAG, "reached-3");
         if (massUploadResponseList != null) {
-            Log.i(TAG, "responseList not empty");
             // finally post response list
             mBus.post(new ObservationEvent.OnListLoaded(massUploadResponseList));
 
@@ -205,16 +196,13 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param observationCall
      */
     public void makeCRUCall(Call<Observation> observationCall) {
-        Log.i(TAG, "makeCRUCall: reached");
         // makes the Calls to network.
         observationCall.enqueue(new Callback<Observation>() {
             @Override
             public void onResponse(Call<Observation> call, Response<Observation> response) {
                 if (response.isSuccess()) {
-                    Log.i(TAG, "makeCRUCall: response");
                     mBus.post(new ObservationEvent.OnLoaded(response.body()));
                 } else {
-                    Log.i(TAG, "makeCRUCall: failure");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -316,15 +304,12 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * @param locationsCall
      */
     public void get_Activity_Observations(Call<List<Observation>> observationCall) {
-        Log.i(TAG, "2) all right");
         observationCall.enqueue(new Callback<List<Observation>>() {
             @Override
             public void onResponse(Call<List<Observation>> call, Response<List<Observation>> response) {
                 if (response.isSuccess()) {
-                    Log.i(TAG, "3a) response success");
                     mBus.post(new ObservationEvent.OnListLoaded(response.body()));
                 } else {
-                    Log.i(TAG, "3b) response error");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -338,7 +323,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Call<List<Observation>> call, Throwable t) {
-                Log.i(TAG, "3c) failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -360,10 +344,8 @@ public class ObservationRequestHandler extends ApiRequestHandler {
             @Override
             public void onResponse(Call<ObservationResponse> call, Response<ObservationResponse> response) {
                 if (response.isSuccess()) {
-                    Log.i(TAG, "ok success");
                     mBus.post(new ObservationEvent.OnObservationWrapperLoaded(response.body()));
                 } else {
-                    Log.i(TAG, "ok success error");
                     int statusCode = response.code();
                     ResponseBody errorBody = response.errorBody();
                     try {
@@ -377,7 +359,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Call<ObservationResponse> call, Throwable t) {
-                Log.i(TAG, "ok failure");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new ObservationEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

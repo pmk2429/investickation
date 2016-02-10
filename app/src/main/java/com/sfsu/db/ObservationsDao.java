@@ -3,6 +3,7 @@ package com.sfsu.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Observation;
@@ -58,6 +59,7 @@ public class ObservationsDao implements EntityDao {
      */
     @Override
     public boolean delete(String id) {
+
         try {
             return db.delete(EntityTable.ObservationsTable.TABLENAME,
                     EntityTable.ObservationsTable.COLUMN_ID + "=?",
@@ -227,22 +229,24 @@ public class ObservationsDao implements EntityDao {
     // build the Observation Object using Cursor.
     public Observation buildFromCursor(Cursor c) {
         Observation observationItem = null;
-        if (c != null) {
-            observationItem = new Observation();
-            observationItem.setId(c.getString(0));
-            observationItem.setTickName(c.getString(1));
-            observationItem.setNum_ticks(c.getInt(2));
-            observationItem.setDescription(c.getString(3));
-            observationItem.setTimestamp(c.getLong(4));
-            observationItem.setImageUrl(c.getString(5));
-            observationItem.setLatitude(c.getDouble(6));
-            observationItem.setLongitude(c.getDouble(7));
-            observationItem.setIsVerified(c.getInt(8) > 0);
-            observationItem.setTick_id(c.getString(9));
-            observationItem.setActivity_id(c.getString(10));
-            observationItem.setUser_id(c.getString(11));
+        try {
+            if (c != null) {
+                observationItem = new Observation();
+                observationItem.setId(c.getString(0));
+                observationItem.setTickName(c.getString(1));
+                observationItem.setNum_ticks(c.getInt(2));
+                observationItem.setDescription(c.getString(3));
+                observationItem.setTimestamp(c.getLong(4));
+                observationItem.setImageUrl(c.getString(5));
+                observationItem.setLatitude(c.getDouble(6));
+                observationItem.setLongitude(c.getDouble(7));
+                observationItem.setIsVerified(c.getInt(8) > 0);
+                observationItem.setTick_id(c.getString(9));
+                observationItem.setActivity_id(c.getString(10));
+                observationItem.setUser_id(c.getString(11));
+            }
+        } catch (SQLiteException e) {
         }
-
         return observationItem;
     }
 

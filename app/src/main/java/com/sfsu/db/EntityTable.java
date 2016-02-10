@@ -137,7 +137,6 @@ public class EntityTable {
                 sb.append(COLUMN_TIMESTAMP + " long not null, ");
                 sb.append(COLUMN_LATITUDE + " real not null, ");
                 sb.append(COLUMN_LONGITUDE + " real not null, ");
-                sb.append(COLUMN_LONGITUDE + " real not null, ");
                 sb.append(COLUMN_VERIFIED + " boolean, ");
                 sb.append(COLUMN_FK_TICK_ID + " text, ");
                 sb.append(COLUMN_FK_ACTIVITY_ID + " text not null, ");

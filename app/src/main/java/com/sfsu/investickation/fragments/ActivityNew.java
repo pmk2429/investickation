@@ -2,6 +2,7 @@ package com.sfsu.investickation.fragments;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -19,7 +20,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.GoogleMap;
@@ -83,6 +83,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private boolean isGrownAnim = false;
     private DatabaseDataController dbController;
     private Bundle activityBundle;
+    private ProgressDialog mProgressDialog;
 
     public ActivityNew() {
         // Required empty public constructor
@@ -249,6 +250,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // once the play button is clicked, make a network call and create new Activities on the server
             if (AppUtils.isConnectedOnline(mContext)) {
                 BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
+                mProgressDialog = new ProgressDialog(mContext);
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Creating Activity...");
+                mProgressDialog.show();
             } else {
                 // create Unique ID for the Running activity of length 32.
                 String activityUUID = RandomStringUtils.randomAlphanumeric(Activities.ID_LENGTH);
@@ -257,6 +262,11 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
                 // save the Activity on local database
                 long resultCode = dbController.save(newActivityObj);
+
+                mProgressDialog = new ProgressDialog(mContext);
+                mProgressDialog.setIndeterminate(true);
+                mProgressDialog.setMessage("Creating Activity...");
+                mProgressDialog.show();
 
                 // finally when the result Code is not -1, open Activity running Fragment.
                 if (resultCode != -1) {
@@ -270,6 +280,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
                         activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.FALSE);
 
                     // click the play button
+                    if (mProgressDialog.isShowing())
+                        mProgressDialog.dismiss();
                     mInterface.onPlayButtonClick(activityBundle);
                 }
             }
@@ -350,9 +362,10 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     @Subscribe
     public void onCreateActivitiesSuccess(ActivityEvent.OnLoaded onLoaded) {
-        Activities createdActivity = onLoaded.getResponse();
-        Log.i(TAG, createdActivity.toString());
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
 
+        Activities createdActivity = onLoaded.getResponse();
         createdActivity.setState(Activities.STATE.RUNNING);
 
         activityBundle = new Bundle();
@@ -377,7 +390,9 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
      */
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
-        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 

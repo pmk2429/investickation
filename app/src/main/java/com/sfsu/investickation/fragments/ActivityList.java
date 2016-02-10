@@ -1,6 +1,7 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -86,6 +87,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private Animation animation;
     private UploadAlertDialog mUploadAlertDialog;
     private List<Activities> uploadActivities;
+    private ProgressDialog mProgressDialog;
 
     public ActivityList() {
         // Required empty public constructor
@@ -125,6 +127,10 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
             Log.i(TAG, "fetching all activities");
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
+            mProgressDialog = new ProgressDialog(mContext);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage("Fetching Activities...");
+            mProgressDialog.show();
         } else {
             // get List of Activities from Database
             localActivitiesList = (List<Activities>) dbController.getAll();
@@ -164,6 +170,8 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     @Subscribe
     public void onActivitiesLoadedSuccess(ActivityEvent.OnListLoaded onLoaded) {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
         // get all Response Activities from server
         responseActivitiesList = onLoaded.getResponseList();
         localActivitiesList = (List<Activities>) dbController.getAll();
@@ -195,8 +203,6 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         } else {
             Log.i(TAG, "activity list size < 0");
         }
-
-
     }
 
     /**
@@ -206,6 +212,8 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     @Subscribe
     public void onActivitiesLoadedFailure(ActivityEvent.OnLoadingError onLoadingError) {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
         //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 

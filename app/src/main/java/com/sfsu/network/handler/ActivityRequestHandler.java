@@ -77,7 +77,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUCall(activitiesCall);
                 break;
             case GET_ALL:
-                Log.i(TAG, "get all called");
                 if (!USER_ID.equals("")) {
                     listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
                     getAllActivitiesCalls(listActivitiesCall);
@@ -125,9 +124,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         Call<Activities> activitiesCall = null;
         // for each Activities in the list, make a call and push data on the server
         for (int i = 0; i < activitiesList.size(); i++) {
-            Log.i(TAG, "inside forloop");
             activitiesCall = mApiService.add(onListLoadingInitialized.getRequest().get(i));
-            Log.i(TAG, "making activitiesCall");
             // makes the Calls to network.
             activitiesCall.enqueue(new Callback<Activities>() {
                 @Override
@@ -157,9 +154,7 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 }
             });
         }
-        Log.i(TAG, "reached-3");
         if (massUploadResponseList != null) {
-            Log.i(TAG, "responseList not empty");
             // finally post response list
             mBus.post(new ActivityEvent.OnMassUploadListLoaded(massUploadResponseList));
 
@@ -278,7 +273,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * @param countCall
      */
     public void getCount(Call<ResponseCount> countCall) {
-        Log.i(TAG, "act - ok");
         countCall.enqueue(new Callback<ResponseCount>() {
             @Override
             public void onResponse(Call<ResponseCount> call, Response<ResponseCount> response) {
