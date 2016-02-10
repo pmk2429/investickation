@@ -4,6 +4,7 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -113,9 +114,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
         // Get the MapView from the XML layout and inflate it
         mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
-        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
-        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
-        mapView.onCreate(mapViewSavedInstanceState);
 
         // setOnclickListener for the TextView.
         txtView_setReminder.setOnClickListener(new View.OnClickListener() {
@@ -130,21 +128,11 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         final FloatingActionButton addProject = (FloatingActionButton) rootView.findViewById(R.id.fab_activity_start);
         addProject.setOnClickListener(this);
 
+        // in times of changing the Orientation of Screen, we have to get the MapView from savedInstanceState
+        final Bundle mapViewSavedInstanceState = savedInstanceState != null ? savedInstanceState.getBundle("mapViewSaveState") : null;
+        mapView.onCreate(mapViewSavedInstanceState);
+
         return rootView;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        locationController = new LocationController(mContext, this);
-        mGoogleMapController = new GoogleMapController(mContext);
-        // Database controller.
-
-        locationController.connectGoogleApi();
-
-        // setup google Map using the GoogleMapController.
-        mGoogleMapController.setupGoogleMap(mapView);
     }
 
     @Override
@@ -153,6 +141,25 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
         super.onResume();
 
         BusProvider.bus().register(this);
+
+        locationController = new LocationController(mContext, this);
+        mGoogleMapController = new GoogleMapController(mContext);
+        // Database controller.
+
+        // setup google Map using the GoogleMapController.
+        if (AppUtils.isConnectedOnline(mContext)) {
+            mGoogleMapController.setupGoogleMap(mapView);
+        }
+
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "running ");
+
+                locationController.connectGoogleApi();
+            }
+        });
     }
 
     @Override

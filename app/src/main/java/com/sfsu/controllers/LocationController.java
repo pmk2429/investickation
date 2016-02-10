@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -149,6 +150,7 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
      * Connect to the GoogleApiClient to start receiving Location updates
      */
     public void connectGoogleApi() {
+        Log.i(TAG, "connectGoogleApi: ");
         if (mGoogleApiClient != null)
             mGoogleApiClient.connect();
     }

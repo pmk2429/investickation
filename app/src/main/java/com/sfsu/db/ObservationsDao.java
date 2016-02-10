@@ -14,7 +14,7 @@ import java.util.List;
  * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
  * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
  * Database and then build up the Observation object.
- * <p>
+ * <p/>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
@@ -25,13 +25,13 @@ public class ObservationsDao implements EntityDao {
     private String[] observationEntryArray = new String[]{
             EntityTable.ObservationsTable.COLUMN_ID,
             EntityTable.ObservationsTable.COLUMN_NAME,
-            EntityTable.ObservationsTable.COLUMN_SPECIES,
             EntityTable.ObservationsTable.COLUMN_NUMOFTICKS,
+            EntityTable.ObservationsTable.COLUMN_DESCRIPTION,
             EntityTable.ObservationsTable.COLUMN_TIMESTAMP,
             EntityTable.ObservationsTable.COLUMN_IMAGE_URL,
-            EntityTable.ObservationsTable.COLUMN_DESCRIPTION,
             EntityTable.ObservationsTable.COLUMN_LATITUDE,
             EntityTable.ObservationsTable.COLUMN_LONGITUDE,
+            EntityTable.ObservationsTable.COLUMN_VERIFIED,
             EntityTable.ObservationsTable.COLUMN_FK_TICK_ID,
             EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID,
             EntityTable.ObservationsTable.COLUMN_FK_USER_ID
@@ -178,13 +178,13 @@ public class ObservationsDao implements EntityDao {
             ContentValues contentValues = new ContentValues();
             contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
-            contentValues.put(EntityTable.ObservationsTable.COLUMN_SPECIES, observations.getSpecies());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_DESCRIPTION, observations.getDescription());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
-            contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
-            contentValues.put(EntityTable.ObservationsTable.COLUMN_DESCRIPTION, observations.getDescription());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_VERIFIED, observations.isVerified());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
@@ -209,13 +209,13 @@ public class ObservationsDao implements EntityDao {
         ContentValues contentValues = new ContentValues();
         contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_SPECIES, observations.getSpecies());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_DESCRIPTION, observations.getDescription());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
+        contentValues.put(EntityTable.ObservationsTable.COLUMN_VERIFIED, observations.isVerified());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
         contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
@@ -231,13 +231,13 @@ public class ObservationsDao implements EntityDao {
             observationItem = new Observation();
             observationItem.setId(c.getString(0));
             observationItem.setTickName(c.getString(1));
-            observationItem.setSpecies(c.getString(2));
-            observationItem.setNum_ticks(c.getInt(3));
+            observationItem.setNum_ticks(c.getInt(2));
+            observationItem.setDescription(c.getString(3));
             observationItem.setTimestamp(c.getLong(4));
             observationItem.setImageUrl(c.getString(5));
-            observationItem.setDescription(c.getString(6));
-            observationItem.setLatitude(c.getDouble(7));
-            observationItem.setLongitude(c.getDouble(8));
+            observationItem.setLatitude(c.getDouble(6));
+            observationItem.setLongitude(c.getDouble(7));
+            observationItem.setIsVerified(c.getInt(8) > 0);
             observationItem.setTick_id(c.getString(9));
             observationItem.setActivity_id(c.getString(10));
             observationItem.setUser_id(c.getString(11));

@@ -1,18 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                tools:context=".ObservationMainActivity">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:fab="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/colorWhite"
+                                                 android:orientation="vertical"
+                                                 tools:context=".ObservationMainActivity">
 
     <ScrollView
-        android:id="@+id/scrollViewMain"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
-
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,11 +21,10 @@
                 android:id="@+id/imageView_addObs_tickImage"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cardview_medium"
-                android:layout_below="@id/toolbar_top_base"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_tick"/>
 
 
@@ -187,22 +184,28 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
-            <!-- Add Observation Button -->
-            <Button
-                android:id="@+id/button_addObs_postObservation"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_addObs_description"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="@dimen/view_dimen_large"
-                android:background="@color/colorPrimary"
-                android:drawableEnd="@mipmap/ic_send_white_24dp"
-                android:paddingEnd="@dimen/view_dimen_large"
-                android:paddingStart="@dimen/view_dimen_large"
-                android:text="@string/button_postObservation"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/font_small"/>
 
         </RelativeLayout>
     </ScrollView>
-</RelativeLayout>
+
+
+    <!-- Add Observation Button -->
+    <Button
+        android:id="@+id/button_addObs_postObservation"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_dimen"
+        android:layout_below="@id/editText_addObs_description"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/view_dimen_large"
+        android:layout_marginLeft="@dimen/view_dimen_large"
+        android:layout_marginRight="@dimen/view_dimen_large"
+        android:background="@color/colorPrimary"
+        android:drawableEnd="@mipmap/ic_send_white_24dp"
+        android:paddingEnd="@dimen/view_dimen_large"
+        android:paddingStart="@dimen/view_dimen_large"
+        android:text="@string/button_postObservation"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_small"/>
+
+</android.support.design.widget.CoordinatorLayout>

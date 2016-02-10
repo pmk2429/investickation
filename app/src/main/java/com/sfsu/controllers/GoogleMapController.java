@@ -25,10 +25,10 @@ import java.util.Map;
 /**
  * Controller to perform all the Google Maps related operations including setting up GoogleMaps in MapView, setting the
  * InfoWindow on the location etc.
- * <p>
+ * <p/>
  * A GoogleMaps Controller to setup and initialize all the Google Map related operations and processes. LocationController
  * provides methods to setup Google Maps, display and render, verify the API KEY registered in the Google Dev Console and so on.
- * <p>
+ * <p/>
  * Created by Pavitra on 11/16/2015.
  */
 public class GoogleMapController implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
@@ -107,11 +107,10 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
             if (mGoogleMap != null) {
 
                 // enabled all the settings
-                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mGoogleMap.setMyLocationEnabled(true);
                 mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
                 mGoogleMap.getUiSettings().setCompassEnabled(true);
-
+                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
                 mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
                 mGoogleMap.getUiSettings().setScrollGesturesEnabled(true);
                 mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
@@ -270,19 +269,6 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
         this.myLocationChangeListener = null;
     }
 
-
-    /**
-     * Returns the current {@link LatLng} based on the current Location.
-     *
-     * @return
-     */
-    public LatLng getMyCurrentLocation() {
-        if (mCurrentLatLng == null) {
-            return new LatLng(1.2, 3.4);
-        } else {
-            return mCurrentLatLng;
-        }
-    }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
