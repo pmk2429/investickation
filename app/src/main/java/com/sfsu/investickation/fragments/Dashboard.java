@@ -89,8 +89,9 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         mPermissionUtils = new PermissionUtils(mContext);
-        // ask for runtime permission
-        askForPermission();
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
+
+
     }
 
     /**
@@ -200,6 +201,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+        askForPermission();
+
         return v;
     }
 
@@ -247,7 +250,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
     }
 
     /**

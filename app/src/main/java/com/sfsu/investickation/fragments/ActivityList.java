@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.adapters.ActivitiesListAdapter;
@@ -400,10 +401,14 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
      */
     private void uploadActivities() {
 
-        if (localActivitiesList != null) {
-            mUploadAlertDialog.showUploadAlertDialog(localActivitiesList.size());
+        if (AppUtils.isConnectedOnline(mContext)) {
+            if (localActivitiesList != null) {
+                mUploadAlertDialog.showUploadAlertDialog(localActivitiesList.size());
+            } else {
+                mUploadAlertDialog.showUploadAlertDialog(-1);
+            }
         } else {
-            mUploadAlertDialog.showUploadAlertDialog(-1);
+            Toast.makeText(mContext, "No connection", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -86,22 +86,28 @@ public class Profile extends Fragment {
 
         try {
             // get the Account object from Database
-            if (dbController != null) {
-                mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
-            }
+//            if (dbController != null) {
+//                mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
+//            }
+
             // set the values in the EditText
-            if (mUser != null) {
-                et_fullName.setText(mUser.getFull_name());
-                String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
-                et_address.setText(address);
-                et_email.setText(mUser.getEmail());
-                et_password.setText(mUser.getPassword());
-            } else {
-                et_fullName.setText("Full Name");
-                et_address.setText("Address");
-                et_email.setText("Email");
-                et_password.setText("Password");
-            }
+//            if (mUser != null) {
+//                et_fullName.setText(mUser.getFull_name());
+//                String address = mUser.getAddress() + " " + mUser.getCity() + " " + mUser.getState() + " " + mUser.getZipCode();
+//                et_address.setText(address);
+//                et_email.setText(mUser.getEmail());
+//                et_password.setText(mUser.getPassword());
+//            } else {
+//                et_fullName.setText("Full Name");
+//                et_address.setText("Address");
+//                et_email.setText("Email");
+//                et_password.setText("Password");
+//            }
+
+            et_fullName.setText("Pavitra Kansara");
+            et_address.setText("150 Font Blvd, San Francisco, CA, 94132");
+            et_email.setText("pmk@mail.sfsu.edu");
+            et_password.setText("12345");
         } catch (NullPointerException ne) {
 
         } catch (Exception e) {
@@ -135,8 +141,8 @@ public class Profile extends Fragment {
      */
     private void startDialogForChoosingImage() {
         AlertDialog.Builder chooseImageAlertDialog = new AlertDialog.Builder(getActivity());
-        chooseImageAlertDialog.setTitle("Add Tick picture");
-        chooseImageAlertDialog.setMessage("How do you want to select Tick picture?");
+        chooseImageAlertDialog.setTitle("Add User image?");
+        chooseImageAlertDialog.setMessage("How do you want to select your picture?");
 
         // Choose from Gallery.
         chooseImageAlertDialog.setPositiveButton("Gallery",
