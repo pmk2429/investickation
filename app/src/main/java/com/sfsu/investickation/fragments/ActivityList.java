@@ -122,12 +122,11 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_activity_list);
         BusProvider.bus().register(this);
+        mProgressDialog = new ProgressDialog(mContext);
 
         if (AppUtils.isConnectedOnline(mContext)) {
-            Log.i(TAG, "fetching all activities");
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-            mProgressDialog = new ProgressDialog(mContext);
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Fetching Activities...");
             mProgressDialog.show();

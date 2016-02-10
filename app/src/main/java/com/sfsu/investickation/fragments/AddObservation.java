@@ -585,6 +585,7 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_observation_add);
         BusProvider.bus().register(this);
+        mProgressDialog = new ProgressDialog(mContext);
     }
 
     @Override
@@ -627,7 +628,6 @@ public class AddObservation extends Fragment implements LocationController.ILoca
      * Displays progress dialog
      */
     private void displayProgressDialog(String message) {
-        mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage(message);
         mProgressDialog.show();

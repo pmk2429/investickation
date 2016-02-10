@@ -140,8 +140,8 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     public void onResume() {
         mapView.onResume();
         super.onResume();
-
         BusProvider.bus().register(this);
+        mProgressDialog = new ProgressDialog(mContext);
 
         locationController = new LocationController(mContext, this);
         mGoogleMapController = new GoogleMapController(mContext);
@@ -250,7 +250,6 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
             // once the play button is clicked, make a network call and create new Activities on the server
             if (AppUtils.isConnectedOnline(mContext)) {
                 BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
-                mProgressDialog = new ProgressDialog(mContext);
                 mProgressDialog.setIndeterminate(true);
                 mProgressDialog.setMessage("Creating Activity...");
                 mProgressDialog.show();

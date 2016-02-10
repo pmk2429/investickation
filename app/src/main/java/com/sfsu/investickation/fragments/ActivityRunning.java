@@ -309,6 +309,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
         mapView.onResume();
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_activity_running);
+        mProgressDialog = new ProgressDialog(mContext);
 
         try {
             // retrieve the data from Arguments if the Fragment is opened for first time, or from the SharedPreferences.
@@ -653,7 +654,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
                 // Update the Activities object on the Server
                 BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(ongoingActivityObj, ongoingActivityObj.getId(),
                         ApiRequestHandler.UPDATE));
-                mProgressDialog = new ProgressDialog(mContext);
                 mProgressDialog.setIndeterminate(true);
                 mProgressDialog.setMessage("Updating Activity...");
                 mProgressDialog.show();
