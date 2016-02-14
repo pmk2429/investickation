@@ -192,6 +192,7 @@ public class ObservationDetail extends Fragment {
 
             if (mObservation.isVerified()) {
                 icon_verified.setImageResource(R.mipmap.ic_verified_black_24dp);
+                textView_tickSpecies.setText(mObservation.getSpecies());
             }
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());

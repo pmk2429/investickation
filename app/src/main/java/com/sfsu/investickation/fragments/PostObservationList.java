@@ -83,8 +83,12 @@ public class PostObservationList extends Fragment {
         if (dbController == null)
             dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
 
-        for (int i = 0; i < localObservationList.size(); i++) {
-            uploadImage(localObservationList.get(i));
+//        for (int i = 0; i < localObservationList.size(); i++) {
+//            uploadImage(localObservationList.get(i));
+//        }
+        // finally delete the Observation from local storage
+        if (deleteUploadedObservations()) {
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
@@ -115,10 +119,7 @@ public class PostObservationList extends Fragment {
      */
     @Subscribe
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
-        // finally delete the Observation from local storage
-        if (deleteUploadedObservations()) {
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
+
     }
 
 

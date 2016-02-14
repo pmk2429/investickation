@@ -23,7 +23,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * <p>
  * The application onCreate will initialize
  * </p>
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class InvestickationApp extends Application {
@@ -31,7 +31,7 @@ public class InvestickationApp extends Application {
 
     // single object of application
     private static InvestickationApp mInstance;
-
+    // define request handlers
     private static ApiRequestHandler mApiRequestHandler;
     private static UserRequestHandler mUserRequestHandler;
     private static ActivityRequestHandler mActivityRequestHandler;
@@ -97,7 +97,7 @@ public class InvestickationApp extends Application {
         JodaTimeAndroid.init(this);
     }
 
-
+    // init database resources
     private void initDatabaseResources() {
 
     }

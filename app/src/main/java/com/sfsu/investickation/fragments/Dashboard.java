@@ -69,6 +69,7 @@ public class Dashboard extends Fragment implements View.OnClickListener {
     private ListView mListViewActivities;
     private DatabaseDataController dbTickController;
     private PermissionUtils mPermissionUtils;
+    private boolean FLAG_PERMISSION;
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
@@ -89,9 +90,11 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         mPermissionUtils = new PermissionUtils(mContext);
-        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
-
-
+        if (mPermissionUtils.isCoarseLocationPermissionApproved() && mPermissionUtils.isFineLocationPermissionApproved())
+            BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
+        else {
+            askForPermission();
+        }
     }
 
     /**
@@ -138,8 +141,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         } else {
             Log.i(TAG, "askForPermission: not working");
         }
-
-
     }
 
     @Override
@@ -165,6 +166,8 @@ public class Dashboard extends Fragment implements View.OnClickListener {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
         }
+        BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
+
 
     }
 
@@ -192,7 +195,9 @@ public class Dashboard extends Fragment implements View.OnClickListener {
 
 
         txtView_activitiesCount = (TextView) v.findViewById(R.id.textView_dashboard_activityCount);
+        txtView_activitiesCount.setText("4");
         txtView_observationCount = (TextView) v.findViewById(R.id.textView_dashboard_observationCount);
+        txtView_observationCount.setText("8");
         // enable Location at the start
         //enableLocation();
 
@@ -200,8 +205,6 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         mPager = (ViewPager) v.findViewById(R.id.viewPager_dashboard_info);
         mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
-        askForPermission();
 
         return v;
     }
