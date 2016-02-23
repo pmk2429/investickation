@@ -3,7 +3,7 @@ package com.sfsu.network.events;
 import com.sfsu.session.LoginResponse;
 
 /**
- * LoginEvent when the user enters email and password and clicks on Login button.
+ * LoginEvent when the user enters email and password and clicks on LoginFragment button.
  * <p/>
  * Created by Pavitra on 11/27/2015.
  */

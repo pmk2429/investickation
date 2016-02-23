@@ -53,7 +53,7 @@ public class InvestickationApp extends Application {
     }
 
     /*
-    1) Register the Otto EventBus,
+    1) RegisterFragment the Otto EventBus,
     2) Initialize the ApiRequestHandler and Entity specific RequestHandlers
     3) Initialize the InvestickationApp instance to enforce singleton pattern.
      */

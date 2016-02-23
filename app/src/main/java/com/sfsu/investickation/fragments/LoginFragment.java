@@ -32,7 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Allows user to Login to InvesTICKations app. The details entered by the user will be validated and compared to the
+ * Allows user to LoginFragment to InvesTICKations app. The details entered by the user will be validated and compared to the
  * corresponding entry in the local DB. If the match is found then user will be logged in and a network request will be made to
  * the REST API via {@link com.sfsu.controllers.RetrofitController} to get the <b>request token</b>.
  * <p>
@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
  * validate Account for successive operations.
  * </p>
  */
-public class Login extends Fragment implements View.OnClickListener, ITextValidate {
+public class LoginFragment extends Fragment implements View.OnClickListener, ITextValidate {
 
     private final String TAG = "~!@#LOGIN";
     // Button
@@ -61,7 +61,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     private AuthPreferences mAuthPreferences;
     private ProgressDialog mProgressDialog;
 
-    public Login() {
+    public LoginFragment() {
         // Required empty public constructor
     }
 
@@ -81,9 +81,9 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
 
         ButterKnife.bind(this, rootView);
 
-        et_email.addTextChangedListener(new TextValidator(mContext, Login.this, et_email));
+        et_email.addTextChangedListener(new TextValidator(mContext, LoginFragment.this, et_email));
 
-        et_password.addTextChangedListener(new TextValidator(mContext, Login.this, et_password));
+        et_password.addTextChangedListener(new TextValidator(mContext, LoginFragment.this, et_password));
 
         // preference manager for access token and user_id.
         mAuthPreferences = new AuthPreferences(mContext);
@@ -168,7 +168,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     }
 
     /**
-     * Subscribes to the Login event if the Response returned from the api is {@link LoginResponse}
+     * Subscribes to the LoginFragment event if the Response returned from the api is {@link LoginResponse}
      *
      * @param onLoaded
      */
@@ -180,7 +180,7 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
 
-        // if the Auth preferences is successfully set in SharedPreferences, then set the Login flag.
+        // if the Auth preferences is successfully set in SharedPreferences, then set the LoginFragment flag.
         if (isCredentialsSet) {
             mSessionManager.setLogin(true);
             InvestickationApp.getInstance().initResources();
@@ -201,12 +201,12 @@ public class Login extends Fragment implements View.OnClickListener, ITextValida
     }
 
     /**
-     * Callback interface to handle onclick Listeners of {@link Login} Fragment.
+     * Callback interface to handle onclick Listeners of {@link LoginFragment} Fragment.
      */
     public interface ILoginCallBack {
 
         /**
-         * Callback method to handle the onclick of Login button in {@link Login} Fragment.
+         * Callback method to handle the onclick of LoginFragment button in {@link LoginFragment} Fragment.
          * <p>When the user successfully logs in from the server, a Account session is created and the credentials are stored in
          * the SharedPreferences for further future usage.</p>
          */

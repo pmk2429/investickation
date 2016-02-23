@@ -151,7 +151,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
      */
     public void setUpPolylineOnMap(ArrayList<Observation> mObservationsList) {
         try {
-            // build LatLngs array from ObservationList
+            // build LatLngs array from ObservationListFragment
             LatLng[] mLatLngs = getLatLngArray(mObservationsList);
             moveCameraToPosition(mLatLngs[0]);
 

@@ -26,7 +26,7 @@ public class ApiRequestHandler {
     public static final int ACT_OBSERVATIONS = 0x3EE;
     public static final int ACT_LOCATIONS = 0x3EF;
 
-    // Login Api service method codes
+    // LoginFragment Api service method codes
     public static final int LOGIN = 0x3F0;
     // Account Api service method codes.
     public static final int TOTAL_ACTIVITIES_COUNT = 0x3F1;

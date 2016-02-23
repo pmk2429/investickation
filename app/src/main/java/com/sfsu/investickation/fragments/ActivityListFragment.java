@@ -61,9 +61,9 @@ import butterknife.ButterKnife;
  * as well as total observations made in each Activity.
  * </p>
  */
-public class ActivityList extends Fragment implements SearchView.OnQueryTextListener, UploadAlertDialog.IUploadDataCallback {
+public class ActivityListFragment extends Fragment implements SearchView.OnQueryTextListener, UploadAlertDialog.IUploadDataCallback {
 
-    public final String TAG = "~!@#ActivityList";
+    public final String TAG = "~!@#ActivityListFragment";
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
 
@@ -90,7 +90,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
     private List<Activities> uploadActivities;
     private ProgressDialog mProgressDialog;
 
-    public ActivityList() {
+    public ActivityListFragment() {
         // Required empty public constructor
     }
 
@@ -120,7 +120,7 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public void onResume() {
-        Log.i(TAG, "onResume ActivityList");
+        Log.i(TAG, "onResume ActivityListFragment");
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_activity_list);
         BusProvider.bus().register(this);
@@ -425,16 +425,16 @@ public class ActivityList extends Fragment implements SearchView.OnQueryTextList
 
 
     /**
-     * Callback interface to handle callback methods for the ActivityList fragment.
+     * Callback interface to handle callback methods for the ActivityListFragment fragment.
      */
     public interface IActivityCallBacks {
         /**
-         * Callback method to handle the Item click event of activities list in {@link ActivityList} Fragment.
+         * Callback method to handle the Item click event of activities list in {@link ActivityListFragment} Fragment.
          */
         public void onActivitiesListItemClickListener(Activities mActivity);
 
         /**
-         * Callback method to handle the click event of the Add Button in {@link ActivityList} Fragment.
+         * Callback method to handle the click event of the Add Button in {@link ActivityListFragment} Fragment.
          */
         public void onActivityAddListener();
 

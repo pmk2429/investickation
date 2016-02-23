@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * The <b>Service</b> interface to manage http network calls for Login/Logout of Account Session.
+ * The <b>Service</b> interface to manage http network calls for LoginFragment/LogoutFragment of Account Session.
  */
 public interface LoginService {
 

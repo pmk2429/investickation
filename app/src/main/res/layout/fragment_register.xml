@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@color/colorSecondary"
-                tools:context="com.sfsu.investickation.fragments.Register">
+                tools:context=".fragments.RegisterFragment">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

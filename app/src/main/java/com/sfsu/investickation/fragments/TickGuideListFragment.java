@@ -54,7 +54,7 @@ import java.util.List;
  * opens the application. Then after it stores the Tick list in the Local DB for further references.
  * </p>
  */
-public class TickGuideList extends Fragment implements SearchView.OnQueryTextListener {
+public class TickGuideListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String TAG = "~!@#$TickGuideList";
     private IGuideIndexCallBacks mInterface;
@@ -68,7 +68,7 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
     private RecyclerView recyclerView_tickList;
     private DatabaseDataController dbTickController;
 
-    public TickGuideList() {
+    public TickGuideListFragment() {
         // Required empty public constructor
     }
 
@@ -351,12 +351,12 @@ public class TickGuideList extends Fragment implements SearchView.OnQueryTextLis
 
 
     /**
-     * Callback Interface to handle onClick Listeners in {@link TickGuideList} Fragment.
+     * Callback Interface to handle onClick Listeners in {@link TickGuideListFragment} Fragment.
      */
     public interface IGuideIndexCallBacks {
 
         /**
-         * Callback method to provide an interface to listen to data sent or button clicked in {@link TickGuideList} Fragment
+         * Callback method to provide an interface to listen to data sent or button clicked in {@link TickGuideListFragment} Fragment
          *
          * @param tick
          */

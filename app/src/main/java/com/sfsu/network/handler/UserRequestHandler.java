@@ -108,7 +108,7 @@ public class UserRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Subscribes to the Account Login event and then posts the {@link com.sfsu.session.LoginResponse} back to the Bus.
+     * Subscribes to the Account LoginFragment event and then posts the {@link com.sfsu.session.LoginResponse} back to the Bus.
      *
      * @param onLoadingInitialized
      */

@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
  * Displays the details of a specific {@link Activities}. Allows {@link Account} to see all the observations
  * that belongs to this specific activity.
  */
-public class ActivityDetail extends Fragment implements View.OnClickListener {
+public class ActivityDetailFragment extends Fragment implements View.OnClickListener {
 
     private static String KEY_ARGS = "activity_object";
     public final String TAG = "~!@#ActivityDet";
@@ -80,19 +80,19 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     private DatabaseDataController dbController;
     private List<Observation> mObservationList;
 
-    public ActivityDetail() {
+    public ActivityDetailFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Method to create {@link ActivityDetail} instance.
+     * Method to create {@link ActivityDetailFragment} instance.
      *
      * @param key
      * @param mActivity
      * @return
      */
-    public static ActivityDetail newInstance(Activities mActivity) {
-        ActivityDetail fragment = new ActivityDetail();
+    public static ActivityDetailFragment newInstance(Activities mActivity) {
+        ActivityDetailFragment fragment = new ActivityDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(KEY_ARGS, mActivity);
         fragment.setArguments(args);
@@ -187,7 +187,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Helper method to populate View in ActivityDetail.
+     * Helper method to populate View in ActivityDetailFragment.
      */
     private void populateView() {
 
@@ -357,7 +357,7 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
             deleteActivityDialog.show();
         } else {
             dbController.delete(mActivity.getId());
-            // open ActivityList again
+            // open ActivityListFragment again
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }
@@ -386,17 +386,17 @@ public class ActivityDetail extends Fragment implements View.OnClickListener {
     }
 
     /**
-     * Interface callback for handling onClick Listeners in {@link ActivityDetail} Fragment.
+     * Interface callback for handling onClick Listeners in {@link ActivityDetailFragment} Fragment.
      */
     public interface IActivityDetailsCallBacks {
         /**
          * Callback method to handle the click event when user clicks <tt>View Observation</tt> button in {@link
-         * ActivityDetail} fragment.
+         * ActivityDetailFragment} fragment.
          */
         public void onViewAllObservationsClicked(String activityId);
 
         /**
-         * Callback method to handle the onclick event of the button in {@link ActivityDetail} fragment to open up the {@link
+         * Callback method to handle the onclick event of the button in {@link ActivityDetailFragment} fragment to open up the {@link
          * ObservationMap} fragment.
          */
         public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList);

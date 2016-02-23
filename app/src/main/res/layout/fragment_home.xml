@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.sfsu.investickation.fragments.Home">
+             tools:context=".fragments.HomeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:textSize="@dimen/font_small"/>
 
 
-        <!-- Login Button-->
+        <!-- LoginFragment Button-->
         <TextView
             android:id="@+id/textView_home_login"
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
             android:textSize="@dimen/font_medium"/>
 
 
-        <!-- Register Button -->
+        <!-- RegisterFragment Button -->
         <TextView
             android:id="@+id/textView_home_signUp"
             style="@style/RaisedButtonStyle"

@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ActivityMap extends Fragment implements GoogleMapController.IMarkerClickCallBack {
+public class ActivityMapFragment extends Fragment implements GoogleMapController.IMarkerClickCallBack {
 
-    private static final String TAG = "`!@#$ActivityMap";
+    private static final String TAG = "`!@#$ActivityMapFragment";
     private static String KEY_OBSERVATIONS_LIST = "activity_id";
     //
     @Bind(R.id.mapView_activitiesMap_main)
@@ -52,18 +52,18 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     private ArrayList<Observation> mObservationList;
     private LinearLayout infowindow_linearLayout;
 
-    public ActivityMap() {
+    public ActivityMapFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Factory method to create new {@link ActivityMap} instance.
+     * Factory method to create new {@link ActivityMapFragment} instance.
      *
      * @param activityId
      * @return
      */
-    public static ActivityMap newInstance(ArrayList<Observation> mObservationList) {
-        ActivityMap fragment = new ActivityMap();
+    public static ActivityMapFragment newInstance(ArrayList<Observation> mObservationList) {
+        ActivityMapFragment fragment = new ActivityMapFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(KEY_OBSERVATIONS_LIST, mObservationList);
         fragment.setArguments(args);
@@ -249,7 +249,7 @@ public class ActivityMap extends Fragment implements GoogleMapController.IMarker
     }
 
     /**
-     * Callback interface to handle the onClick of the button in {@link ActivityMap} Fragment.
+     * Callback interface to handle the onClick of the button in {@link ActivityMapFragment} Fragment.
      */
     public interface IActivityMapCallBack {
 

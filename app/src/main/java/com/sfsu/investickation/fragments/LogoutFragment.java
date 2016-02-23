@@ -14,7 +14,7 @@ import com.sfsu.session.SessionManager;
  * <p/>
  * Created by Pavitra on 12/24/2015.
  */
-public class Logout extends Fragment {
+public class LogoutFragment extends Fragment {
 
     private Context mContext;
     private AuthPreferences mAuthPreferences;
@@ -54,7 +54,7 @@ public class Logout extends Fragment {
      */
     public interface ILogoutCallBack {
         /**
-         * Callback method to logout the Account and display {@link Login} Fragment.
+         * Callback method to logout the Account and display {@link LoginFragment} Fragment.
          */
         public void userLoggedOut();
     }

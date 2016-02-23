@@ -70,7 +70,7 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class AddObservation extends Fragment implements LocationController.ILocationCallBacks,
+public class AddObservationFragment extends Fragment implements LocationController.ILocationCallBacks,
         TextValidator.ITextValidate, View.OnClickListener {
 
     protected static final int CAMERA_PICTURE = 12;
@@ -116,23 +116,23 @@ public class AddObservation extends Fragment implements LocationController.ILoca
     private ProgressDialog mProgressDialog;
 
 
-    public AddObservation() {
+    public AddObservationFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Returns the instance of {@link AddObservation} Fragment built using key and {@link Observation}.
+     * Returns the instance of {@link AddObservationFragment} Fragment built using key and {@link Observation}.
      *
      * @param key
      * @param value
      * @return
      */
-    public static AddObservation newInstance(String key, String value) {
-        AddObservation addObservation = new AddObservation();
+    public static AddObservationFragment newInstance(String key, String value) {
+        AddObservationFragment addObservationFragment = new AddObservationFragment();
         Bundle args = new Bundle();
         args.putString(key, value);
-        addObservation.setArguments(args);
-        return addObservation;
+        addObservationFragment.setArguments(args);
+        return addObservationFragment;
     }
 
     @Override
@@ -166,9 +166,9 @@ public class AddObservation extends Fragment implements LocationController.ILoca
         // get user_id.
         userId = mAuthPreferences.getUser_id();
 
-        et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickName));
-        //et_description.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_tickSpecies));
-        et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservation.this, et_numOfTicks));
+        et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickName));
+        //et_description.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickSpecies));
+        et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_numOfTicks));
 
         // initialize the Floating button.
         final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
@@ -703,11 +703,11 @@ public class AddObservation extends Fragment implements LocationController.ILoca
 
 
     /**
-     * Callback interface to handle the onClick Listeners in {@link AddObservation} Fragment.
+     * Callback interface to handle the onClick Listeners in {@link AddObservationFragment} Fragment.
      */
     public static interface IAddObservationCallBack {
         /**
-         * Callback method to open {@link ObservationList} after {@link Observation} is posted on server or SQLite DB.
+         * Callback method to open {@link ObservationListFragment} after {@link Observation} is posted on server or SQLite DB.
          *
          * @param newObservation
          */

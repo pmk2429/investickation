@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
-                tools:context="com.sfsu.investickation.fragments.ActivityNew">
+                tools:context=".fragments.ActivityNewFragment">
 
     <!-- MapView must be wrapped inside a Layout to display Maps.-->
     <LinearLayout

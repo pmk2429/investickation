@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.sfsu.investickation.fragments.Profile;
+import com.sfsu.investickation.fragments.ProfileFragment;
 
 
 /**
- * Container Activity for displaying {@link User} related data. Holds references to {@link Profile} Fragment.
+ * Container Activity for displaying {@link User} related data. Holds references to {@link ProfileFragment} Fragment.
  */
 public class UserProfileActivity extends MainBaseActivity {
 
@@ -29,8 +29,8 @@ public class UserProfileActivity extends MainBaseActivity {
                 return;
             }
 
-            Profile mProfile = new Profile();
-            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfile).commit();
+            ProfileFragment mProfileFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfileFragment).commit();
         }
     }
 
@@ -57,7 +57,7 @@ public class UserProfileActivity extends MainBaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
+        // automatically handle clicks on the HomeFragment/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 

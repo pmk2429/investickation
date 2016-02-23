@@ -46,13 +46,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * ActivityNew Fragment provides Account the capability to add new Activity. The ActivityNew fragment passes the newly created
- * Activities object to the ActivityRunning fragment.
+ * ActivityNewFragment Fragment provides Account the capability to add new Activity. The ActivityNewFragment fragment passes the newly created
+ * Activities object to the ActivityRunningFragment fragment.
  */
-public class ActivityNew extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks,
+public class ActivityNewFragment extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks,
         AlertDialogMaster.IReminderCallback {
 
-    public final String TAG = "~!@#$ActivityNew";
+    public final String TAG = "~!@#$ActivityNewFragment";
 
     @Bind(R.id.editText_actNew_ActivityName)
     EditText et_activityName;
@@ -83,7 +83,7 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
     private Bundle activityBundle;
     private ProgressDialog mProgressDialog;
 
-    public ActivityNew() {
+    public ActivityNewFragment() {
         // Required empty public constructor
     }
 
@@ -432,11 +432,11 @@ public class ActivityNew extends Fragment implements View.OnClickListener, Locat
 
 
     /**
-     * Interface Callback to define the callback methods for ActivityNew fragment
+     * Interface Callback to define the callback methods for ActivityNewFragment fragment
      */
     public interface IActivityNewCallBack {
         /**
-         * Callback method when Account clicks on the Play Button defined in the {@link ActivityNew} Fragment. On clicking the
+         * Callback method when Account clicks on the Play Button defined in the {@link ActivityNewFragment} Fragment. On clicking the
          * play button, the {@link Activities} is created on the server and using the created ActivityId, observations are made.
          *
          * @param newActivityDetails

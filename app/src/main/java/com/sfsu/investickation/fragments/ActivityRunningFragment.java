@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.MapView;
@@ -59,19 +58,19 @@ import butterknife.ButterKnife;
  * or receive location updates. This fragment the action callback to start new <tt>Observation</tt>.
  * Once the Add Observation button is clicked, the user will be redirected to add Observation for the current ongoing activity.
  * <p>
- * The object passed by the UserActivityMasterActivity from ActivityNew fragment will be in RUNNING state. Hence, in Running
+ * The object passed by the UserActivityMasterActivity from ActivityNewFragment fragment will be in RUNNING state. Hence, in Running
  * state, the Activity performs various operations such as getting Location updates, getting the updates from the
  * BroadcastReceiver, recording the observations etc.
  * </p>
  * <p>
  * All these operations will be carried out when the Activity is in RUNNING state ONLY.
  * </p>
- * <p>Once the user clicks on <tt>'Add Observation'</tt> button, the {@link AddObservation} Fragment is opened and
+ * <p>Once the user clicks on <tt>'Add Observation'</tt> button, the {@link AddObservationFragment} Fragment is opened and
  * the control is redirected to new Fragment inside {@link com.sfsu.investickation.ObservationMasterActivity}. When this happens,
  * the current ongoing activity is stored in SharedPreferences and retrieved when the user returns back to the same Fragment.</p>
  * Observation,
  */
-public class ActivityRunning extends Fragment implements LocationController.ILocationCallBacks, View.OnClickListener,
+public class ActivityRunningFragment extends Fragment implements LocationController.ILocationCallBacks, View.OnClickListener,
         AlertDialogMaster.IReminderCallback, IReminderChangeCallBack {
 
     public static final String TAG = "~!@#$ActivityRunning";
@@ -145,23 +144,23 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     };
 
 
-    public ActivityRunning() {
+    public ActivityRunningFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Returns the instance of {@link ActivityRunning} fragment with bundle.
+     * Returns the instance of {@link ActivityRunningFragment} fragment with bundle.
      *
      * @param key
      * @param mActivity
      * @return
      */
-    public static ActivityRunning newInstance(Bundle activityBundle) {
-        ActivityRunning mActivityRunning = new ActivityRunning();
+    public static ActivityRunningFragment newInstance(Bundle activityBundle) {
+        ActivityRunningFragment mActivityRunningFragment = new ActivityRunningFragment();
         if (activityBundle != null) {
-            mActivityRunning.setArguments(activityBundle);
+            mActivityRunningFragment.setArguments(activityBundle);
         }
-        return mActivityRunning;
+        return mActivityRunningFragment;
     }
 
     private void collectLocationData(Intent intent) {
@@ -426,7 +425,7 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onPause() {
         super.onPause();
 
-        // in case user opens {@link AddObservation} fragment or closes the screen
+        // in case user opens {@link AddObservationFragment} fragment or closes the screen
         persistCurrentActivity();
 
         // unregister the Bus.
@@ -675,7 +674,6 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
     public void onActivityUpdateSuccess(ActivityEvent.OnLoaded onLoaded) {
         if (mProgressDialog.isShowing())
             mProgressDialog.dismiss();
-        Log.i(TAG, onLoaded.getResponse().toString());
         mListener.onActivityStopButtonClicked();
     }
 
@@ -688,22 +686,22 @@ public class ActivityRunning extends Fragment implements LocationController.ILoc
 
 
     /**
-     * Callback Interface for handling onClick Listeners in <tt>ActivityRunning</tt> Fragment.
+     * Callback Interface for handling onClick Listeners in <tt>ActivityRunningFragment</tt> Fragment.
      */
     public interface IActivityRunningCallBacks {
         /**
-         * Callback method when the user clicks on the Stop button in {@link ActivityRunning} Fragment. OnClick of this button
+         * Callback method when the user clicks on the Stop button in {@link ActivityRunningFragment} Fragment. OnClick of this button
          * will remove the SharedPreferences file which contains the Activities Object.
          * <p>The state of {@link Activities} is changed from <tt>RUNNING</tt> to <tt>CREATED</tt> and as a result the the
          * LocationController is stopped</p>
          *
-         * @param currentActivityObj Current Ongoing Activity Object passed from the ActivityNew
+         * @param currentActivityObj Current Ongoing Activity Object passed from the ActivityNewFragment
          */
         public void onActivityStopButtonClicked();
 
 
         /**
-         * Callback method to handle the new AddObservation button click in <tt>ActivityNew</tt> Fragment. This method takes
+         * Callback method to handle the new AddObservationFragment button click in <tt>ActivityNewFragment</tt> Fragment. This method takes
          * in the unique UUID of the Activity currently ongoing to determing that the Observation is under a specific activity.
          *
          * @param activityId

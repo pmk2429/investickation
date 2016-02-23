@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Displays the detailed information about each Tick in the InvesTICKations project.
  */
-public class TickGuideDetail extends Fragment {
+public class TickGuideDetailFragment extends Fragment {
 
     private final String TAG = "~!@#TickDetail";
     @Bind(R.id.textView_tickDet_knownFor)
@@ -46,19 +46,19 @@ public class TickGuideDetail extends Fragment {
     private Tick mTick;
     private Context mContext;
 
-    public TickGuideDetail() {
+    public TickGuideDetailFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Method to create {@link TickGuideDetail} instance.
+     * Method to create {@link TickGuideDetailFragment} instance.
      *
      * @param key
      * @param tickObj
      * @return
      */
-    public static TickGuideDetail newInstance(String key, Tick tickObj) {
-        TickGuideDetail tickGuideDetailFragment = new TickGuideDetail();
+    public static TickGuideDetailFragment newInstance(String key, Tick tickObj) {
+        TickGuideDetailFragment tickGuideDetailFragment = new TickGuideDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(key, tickObj);
         tickGuideDetailFragment.setArguments(args);

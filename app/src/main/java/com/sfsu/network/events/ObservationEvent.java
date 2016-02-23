@@ -107,7 +107,7 @@ public class ObservationEvent extends BaseNetworkEvent {
 
     /**
      * Event Handler for loading List of Activities all together from the Server.
-     * <b>Has to be separate to properly unregister the event from ActivityList</b>
+     * <b>Has to be separate to properly unregister the event from ActivityListFragment</b>
      */
     public static class OnListLoaded extends OnDone<Observation> {
         public OnListLoaded(List<Observation> observationList) {

@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 /**
  * Created by Pavitra on 11/21/2015.
  */
-public class WelcomeScreen extends Fragment {
+public class WelcomeScreenFragment extends Fragment {
     final static String LAYOUT_ID = "layoutId";
 
-    public static WelcomeScreen newInstance(int layoutId) {
-        WelcomeScreen pane = new WelcomeScreen();
+    public static WelcomeScreenFragment newInstance(int layoutId) {
+        WelcomeScreenFragment pane = new WelcomeScreenFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(LAYOUT_ID, layoutId);
         pane.setArguments(bundle);

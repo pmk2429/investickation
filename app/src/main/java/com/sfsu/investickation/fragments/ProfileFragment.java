@@ -40,11 +40,11 @@ import butterknife.ButterKnife;
 /**
  * Displays the {@link Account} data. Allows users to edit the data.
  */
-public class Profile extends Fragment {
+public class ProfileFragment extends Fragment {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
-    private final String TAG = "~!@#Profile";
+    private final String TAG = "~!@#ProfileFragment";
     Bitmap bitmap;
     String selectedImagePath;
     @Bind(R.id.editText_profile_fullName)
@@ -62,7 +62,7 @@ public class Profile extends Fragment {
     private Context mContext;
     private Account mUser;
 
-    public Profile() {
+    public ProfileFragment() {
         // Required empty public constructor
     }
 

@@ -45,9 +45,9 @@ import butterknife.ButterKnife;
  * The main reason for storing the Account on local DB is to avoid making unwanted network calls when the user wants to log back
  * in.
  */
-public class Register extends Fragment implements View.OnClickListener, ITextValidate {
+public class RegisterFragment extends Fragment implements View.OnClickListener, ITextValidate {
 
-    private final String TAG = "~!@#Register";
+    private final String TAG = "~!@#RegisterFragment";
     // EditTexts
     @Bind(R.id.editText_register_fullName)
     EditText et_fullName;
@@ -77,7 +77,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
     private boolean isPrivacyAgreementRead;
 
-    public Register() {
+    public RegisterFragment() {
         // IMP - Don't delete
     }
 
@@ -97,13 +97,13 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // bind the widgets
         ButterKnife.bind(this, v);
 
-        et_fullName.addTextChangedListener(new TextValidator(mContext, Register.this, et_fullName));
-        et_email.addTextChangedListener(new TextValidator(mContext, Register.this, et_email));
-        et_password.addTextChangedListener(new TextValidator(mContext, Register.this, et_password));
-        et_address.addTextChangedListener(new TextValidator(mContext, Register.this, et_address));
-        et_zipcode.addTextChangedListener(new TextValidator(mContext, Register.this, et_zipcode));
-        et_city.addTextChangedListener(new TextValidator(mContext, Register.this, et_city));
-        et_state.addTextChangedListener(new TextValidator(mContext, Register.this, et_state));
+        et_fullName.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_fullName));
+        et_email.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_email));
+        et_password.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_password));
+        et_address.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_address));
+        et_zipcode.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_zipcode));
+        et_city.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_city));
+        et_state.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_state));
 
         checkbox_privacyAgreement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +112,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
             }
         });
 
-        // when the user opens the Register fragment for the first time, fade out the color of Register Button.
+        // when the user opens the RegisterFragment fragment for the first time, fade out the color of RegisterFragment Button.
         btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
         btnRegisterUser.setEnabled(false);
 
@@ -166,7 +166,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
             mContext = activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement IRegisterCallbacks to communicate with Register");
+                    + " must implement IRegisterCallbacks to communicate with RegisterFragment");
         }
     }
 
@@ -270,7 +270,7 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
         // on successful storage of user, perform further operations.
         if (resultCode != -1) {
             // once the user has successfully registered, make another call to API for the email and password to get the access
-            // token and follow the same procedure as for the Login.
+            // token and follow the same procedure as for the LoginFragment.
             mListener.onRegisterButtonClick(mUserObj);
         }
     }
@@ -286,12 +286,12 @@ public class Register extends Fragment implements View.OnClickListener, ITextVal
     }
 
     /**
-     * Callback Interface to implement onclick Listener in {@link Register} Fragment.
+     * Callback Interface to implement onclick Listener in {@link RegisterFragment} Fragment.
      */
     public interface IRegisterCallBacks {
         /**
-         * Callback listener when the user clicks on the Register button in {@link Register} fragment. This method
-         * will handle the calls for Registration and delegates the control to Login fragment to make another call to the
+         * Callback listener when the user clicks on the RegisterFragment button in {@link RegisterFragment} fragment. This method
+         * will handle the calls for Registration and delegates the control to LoginFragment fragment to make another call to the
          * server in order to get Access Token and Account id.
          *
          * @param userResponse

@@ -15,13 +15,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Holds the {@link Login} and {@link Register} Fragments. Home fragment will be displayed when the user will open the app or
- * logs in for the first time after Navigating through {@link WelcomeScreen}. In addition, when the Account logs out of the
+ * Holds the {@link LoginFragment} and {@link RegisterFragment} Fragments. HomeFragment fragment will be displayed when the user will open the app or
+ * logs in for the first time after Navigating through {@link WelcomeScreenFragment}. In addition, when the Account logs out of the
  * Application, the same Fragment will be opened.
  */
-public class Home extends Fragment {
+public class HomeFragment extends Fragment {
 
-    public final String TAG = "~!@#$Home";
+    public final String TAG = "~!@#$HomeFragment";
     // TextView
     @Bind(R.id.textView_home_login)
     TextView txtView_login;
@@ -31,7 +31,7 @@ public class Home extends Fragment {
     private IHomeCallbacks mInterface;
     private Context mContext;
 
-    public Home() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -80,16 +80,16 @@ public class Home extends Fragment {
     }
 
     /**
-     * Callback Interface to handle the onClick listeners for {@link Home} Fragment.
+     * Callback Interface to handle the onClick listeners for {@link HomeFragment} Fragment.
      */
     public interface IHomeCallbacks {
         /**
-         * Callback method when the user clicks on the <tt>Login</tt> button in {@Home} Fragment
+         * Callback method when the user clicks on the <tt>LoginFragment</tt> button in {@Home} Fragment
          */
         public void onLoginClicked();
 
         /**
-         * Callback method when the user clicks on the <tt>Register</tt> button in {@Home} Fragment
+         * Callback method when the user clicks on the <tt>RegisterFragment</tt> button in {@Home} Fragment
          */
         public void onSignUpClicked();
     }

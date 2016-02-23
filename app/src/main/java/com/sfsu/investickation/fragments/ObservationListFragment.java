@@ -62,7 +62,7 @@ import butterknife.ButterKnife;
  * </p>
  */
 
-public class ObservationList extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener,
+public class ObservationListFragment extends Fragment implements View.OnClickListener, SearchView.OnQueryTextListener,
         UploadAlertDialog.IUploadDataCallback {
 
     private static final String KEY_ACTIVITY_ID = "activity_id";
@@ -94,37 +94,37 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
     private UploadAlertDialog mUploadAlertDialog;
     private ProgressDialog mProgressDialog;
 
-    public ObservationList() {
+    public ObservationListFragment() {
         // Required empty public constructor
     }
 
     /**
-     * Creates instance of an {@link ObservationList} fragment initialzed with <tt>activityId</tt>
+     * Creates instance of an {@link ObservationListFragment} fragment initialzed with <tt>activityId</tt>
      *
      * @param key
      * @param activityId
      * @return
      */
-    public static ObservationList newInstance(String activityId) {
-        ObservationList mObservationList = new ObservationList();
+    public static ObservationListFragment newInstance(String activityId) {
+        ObservationListFragment mObservationListFragment = new ObservationListFragment();
         Bundle args = new Bundle();
         args.putString(KEY_ACTIVITY_ID, activityId);
-        mObservationList.setArguments(args);
-        return mObservationList;
+        mObservationListFragment.setArguments(args);
+        return mObservationListFragment;
     }
 
     /**
-     * Sets the status flag depending on the callee and creates {@link ObservationList} instance
+     * Sets the status flag depending on the callee and creates {@link ObservationListFragment} instance
      *
      * @param statusFlag
      * @return
      */
-    public static ObservationList newInstance(long statusFlag) {
-        ObservationList mObservationList = new ObservationList();
+    public static ObservationListFragment newInstance(long statusFlag) {
+        ObservationListFragment mObservationListFragment = new ObservationListFragment();
         Bundle args = new Bundle();
         args.putLong(KEY_STATUS_FLAG, statusFlag);
-        mObservationList.setArguments(args);
-        return mObservationList;
+        mObservationListFragment.setArguments(args);
+        return mObservationListFragment;
     }
 
     @Override
@@ -186,13 +186,13 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
         if (activityId != null) {
             // get all Observations depending on network connection.
             if (AppUtils.isConnectedOnline(mContext)) {
-                // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
+                // if the user has clicked ViewObservations in ActivityDetailFragment fragment, then show only the Activity's Observations
                 // Observations specific to Activity
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
                 displayProgressDialog("Fetching Observations...");
             } else {
                 // network not available.
-                // if the user has clicked ViewObservations in ActivityDetail fragment, then show only the Activity's Observations
+                // if the user has clicked ViewObservations in ActivityDetailFragment fragment, then show only the Activity's Observations
                 Log.i(TAG, "get all observations of Act");
                 localObservationList = (List<Observation>) dbController.getAll(activityId);
 
@@ -204,7 +204,7 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
                 displayProgressDialog("Fetching Observations...");
             } else {
-                // get all the observations. When the User clicks MyObservations in Nav Drawer or from Dashboard
+                // get all the observations. When the User clicks MyObservations in Nav Drawer or from DashboardFragment
                 localObservationList = (List<Observation>) dbController.getAll();
             }
 
@@ -479,17 +479,17 @@ public class ObservationList extends Fragment implements View.OnClickListener, S
 
 
     /**
-     * Callback Interface to handle onClick Listeners in {@link ObservationList} Fragment.
+     * Callback Interface to handle onClick Listeners in {@link ObservationListFragment} Fragment.
      */
     public interface IRemoteObservationCallBacks {
 
         /**
-         * Callback method to handle onClick Listener when user clicks on '+' button in {@link ObservationList} Fragment.
+         * Callback method to handle onClick Listener when user clicks on '+' button in {@link ObservationListFragment} Fragment.
          */
         public void onObservationAddListener();
 
         /**
-         * Callback method to handle the on item click Listener of the Observations List in {@link ObservationList}
+         * Callback method to handle the on item click Listener of the Observations List in {@link ObservationListFragment}
          * Fragment
          *
          * @param observation

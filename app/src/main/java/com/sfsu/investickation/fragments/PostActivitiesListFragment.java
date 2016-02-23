@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.ActivitiesDao;
@@ -17,9 +16,9 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 /**
- * Intermediate Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityList} fragment
+ * Intermediate Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityListFragment} fragment
  */
-public class PostActivitiesList extends Fragment {
+public class PostActivitiesListFragment extends Fragment {
 
     private static final String TAG = "~!@#$PostActList";
     private Context mContext;
@@ -27,7 +26,7 @@ public class PostActivitiesList extends Fragment {
     private DatabaseDataController dbController;
     private ProgressDialog mProgressDialog;
 
-    public PostActivitiesList() {
+    public PostActivitiesListFragment() {
         // Required empty public constructor
     }
 

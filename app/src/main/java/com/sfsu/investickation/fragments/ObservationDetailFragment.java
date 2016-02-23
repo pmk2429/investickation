@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ObservationDetail extends Fragment {
+public class ObservationDetailFragment extends Fragment {
 
     private static final String KEY_OBSERVATION = "observation_object_detail";
     private final String TAG = "~!@#ObservationDetail";
@@ -83,20 +83,20 @@ public class ObservationDetail extends Fragment {
     private String description;
     private ObservationResponse mObservationResponse;
 
-    public ObservationDetail() {
+    public ObservationDetailFragment() {
         // Required empty public constructor
     }
 
 
     /**
-     * Returns the instance of {@link ObservationDetail} Fragment.
+     * Returns the instance of {@link ObservationDetailFragment} Fragment.
      *
      * @param key
      * @param mObservation
      * @return
      */
-    public static ObservationDetail newInstance(Observation mObservation) {
-        ObservationDetail mObservationDetail = new ObservationDetail();
+    public static ObservationDetailFragment newInstance(Observation mObservation) {
+        ObservationDetailFragment mObservationDetail = new ObservationDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(KEY_OBSERVATION, mObservation);
         mObservationDetail.setArguments(args);

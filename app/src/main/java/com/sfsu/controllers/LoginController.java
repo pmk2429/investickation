@@ -15,7 +15,7 @@ public class LoginController {
 
     /**
      * <p>
-     * Verifies the Login details and delegates the call to Retrofit. This Controller provides an extra level of modularity to
+     * Verifies the LoginFragment details and delegates the call to Retrofit. This Controller provides an extra level of modularity to
      * avoid Retrofit calls getting dropped when the Configuration changes occurs in Fragment/Activity Lifecycle making
      * Retrofit object corrupt.
      * </p>

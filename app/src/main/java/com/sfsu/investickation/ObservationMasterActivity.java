@@ -7,16 +7,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.sfsu.entities.Observation;
-import com.sfsu.investickation.fragments.AddObservation;
-import com.sfsu.investickation.fragments.ObservationDetail;
-import com.sfsu.investickation.fragments.ObservationList;
+import com.sfsu.investickation.fragments.AddObservationFragment;
+import com.sfsu.investickation.fragments.ObservationDetailFragment;
+import com.sfsu.investickation.fragments.ObservationListFragment;
 import com.sfsu.investickation.fragments.ObservationMap;
-import com.sfsu.investickation.fragments.PostObservationList;
+import com.sfsu.investickation.fragments.PostObservationListFragment;
 
 
 public class ObservationMasterActivity extends MainBaseActivity
-        implements ObservationList.IRemoteObservationCallBacks,
-        AddObservation.IAddObservationCallBack,
+        implements ObservationListFragment.IRemoteObservationCallBacks,
+        AddObservationFragment.IAddObservationCallBack,
         ObservationMap.IObservationMapCallBack {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
@@ -49,39 +49,39 @@ public class ObservationMasterActivity extends MainBaseActivity
             if (savedInstanceState != null) {
                 return;
             }
-            // if Intent is called by clicking on the PostObservation button in Dashboard
+            // if Intent is called by clicking on the PostObservation button in DashboardFragment
             if (getIntent().getIntExtra(MainActivity.KEY_ADD_OBSERVATION, 0) == 1) {
                 // set the dashboard flag
                 FLAG_CALLED_FROM_DASHBOARD = true;
-                AddObservation mAddObservation = new AddObservation();
-                performAddFragmentTransaction(mAddObservation);
+                AddObservationFragment mAddObservationFragment = new AddObservationFragment();
+                performAddFragmentTransaction(mAddObservationFragment);
             }
-            // if the Intent is called from ActivityRunning fragment to by clicking on AddObservation button
+            // if the Intent is called from ActivityRunningFragment fragment to by clicking on AddObservationFragment button
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY_RUNNING = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 // if the intent is called from the UserActivityMasterActivity
-                AddObservation mAddObservation = AddObservation.newInstance(UserActivityMasterActivity
+                AddObservationFragment mAddObservationFragment = AddObservationFragment.newInstance(UserActivityMasterActivity
                         .KEY_ACTIVITY_ID, activityId);
-                performAddFragmentTransaction(mAddObservation);
+                performAddFragmentTransaction(mAddObservationFragment);
             }
-            // if the Intent is called from Dashboard by clicking on View Observations button.
+            // if the Intent is called from DashboardFragment by clicking on View Observations button.
             else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 FLAG_CALLED_FROM_DASHBOARD = true;
-                ObservationList observationList = new ObservationList();
-                performAddFragmentTransaction(observationList);
+                ObservationListFragment observationListFragment = new ObservationListFragment();
+                performAddFragmentTransaction(observationListFragment);
             }
-            // if the Intent is called from ActivityDetail by clicking on ViewObservations button.
+            // if the Intent is called from ActivityDetailFragment by clicking on ViewObservations button.
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY_DETAILS = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
-                ObservationList mObservationList = ObservationList.newInstance(activityId);
-                performAddFragmentTransaction(mObservationList);
+                ObservationListFragment mObservationListFragment = ObservationListFragment.newInstance(activityId);
+                performAddFragmentTransaction(mObservationListFragment);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
-                ObservationList mObservationList = new ObservationList();
-                performAddFragmentTransaction(mObservationList);
+                ObservationListFragment mObservationListFragment = new ObservationListFragment();
+                performAddFragmentTransaction(mObservationListFragment);
             }
         }
     }
@@ -145,20 +145,20 @@ public class ObservationMasterActivity extends MainBaseActivity
     @Override
     public void onObservationAddListener() {
         FLAG_CALLED_FROM_OBSERVATION = true;
-        AddObservation addObservationFragment = new AddObservation();
+        AddObservationFragment addObservationFragment = new AddObservationFragment();
         performReplaceFragmentTransaction(addObservationFragment);
     }
 
 
     @Override
     public void onObservationListItemClickListener(Observation observation) {
-        ObservationDetail observationDetailFragment = ObservationDetail.newInstance(observation);
+        ObservationDetailFragment observationDetailFragment = ObservationDetailFragment.newInstance(observation);
         performReplaceFragmentTransaction(observationDetailFragment);
     }
 
     @Override
     public void onUploadListOfObservations() {
-        PostObservationList postObservationListFragment = new PostObservationList();
+        PostObservationListFragment postObservationListFragment = new PostObservationListFragment();
         performReplaceFragmentTransaction(postObservationListFragment);
     }
 
@@ -176,7 +176,7 @@ public class ObservationMasterActivity extends MainBaseActivity
     @Override
     public void postObservationData(long statusFlag) {
         // dont add to backstack
-        ObservationList observationListFragment = ObservationList.newInstance(statusFlag);
+        ObservationListFragment observationListFragment = ObservationListFragment.newInstance(statusFlag);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.observation_fragment_container, observationListFragment);

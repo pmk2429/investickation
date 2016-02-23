@@ -7,15 +7,17 @@ import android.util.Log;
 
 import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.fragments.DashboardFragment;
+import com.sfsu.investickation.fragments.LoginFragment;
 
 /**
  * <p>
- * Manages the {@link Account} session in the application. When the use logs in the application, the Login
+ * Manages the {@link Account} session in the application. When the use logs in the application, the LoginFragment
  * Credentials are stored in {@link com.sfsu.network.auth.AuthPreferences} while whether the flag are stored this class.
  * </p>
  * <p>The SessionManager will store the boolean value depending on whether the Account is logged in or not. When the Account
  * opens the application, the HomeActivity will check for the boolean value in SessionManager and will redirect the user to
- * the {@link com.sfsu.investickation.fragments.Dashboard} or {@link com.sfsu.investickation.fragments.Login} screen
+ * the {@link DashboardFragment} or {@link LoginFragment} screen
  * respectively
  * </p>
  * <p/>
@@ -50,7 +52,7 @@ public class SessionManager {
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
         // commit changes
         editor.apply();
-        Log.d(TAG, "Account Login session modified!");
+        Log.d(TAG, "Account LoginFragment session modified!");
     }
 
     /**

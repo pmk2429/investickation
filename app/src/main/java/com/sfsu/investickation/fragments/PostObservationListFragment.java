@@ -22,16 +22,16 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
- * Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityList} fragment
+ * Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityListFragment} fragment
  */
-public class PostObservationList extends Fragment {
+public class PostObservationListFragment extends Fragment {
 
     private static final String TAG = "~!@#$PostObsList";
     private Context mContext;
     private List<Observation> localObservationList;
     private DatabaseDataController dbController;
 
-    public PostObservationList() {
+    public PostObservationListFragment() {
         // Required empty public constructor
     }
 
@@ -83,10 +83,6 @@ public class PostObservationList extends Fragment {
         if (dbController == null)
             dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
 
-//        for (int i = 0; i < localObservationList.size(); i++) {
-//            uploadImage(localObservationList.get(i));
-//        }
-        // finally delete the Observation from local storage
         if (deleteUploadedObservations()) {
             getActivity().getSupportFragmentManager().popBackStack();
         }

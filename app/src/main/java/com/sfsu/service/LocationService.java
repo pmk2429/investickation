@@ -16,11 +16,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.sfsu.investickation.fragments.ActivityRunningFragment;
 
 /**
  * Service to get the periodic EntityLocation updates while the Account performed Activity is still Running. This service runs in tandem
- * with the {@link com.sfsu.investickation.fragments.ActivityRunning} fragment. In other words, when the <tt>ActivityRunning</tt>
- * is created the {@link LocationService } starts and when the <tt>ActivityRunning</tt> is paused/stopped, the
+ * with the {@link ActivityRunningFragment} fragment. In other words, when the <tt>ActivityRunningFragment</tt>
+ * is created the {@link LocationService } starts and when the <tt>ActivityRunningFragment</tt> is paused/stopped, the
  * {@link LocationService } is stopped too.
  * <p/>
  * The LocationService service creates a EntityLocation object and sends it over to the currently running activity which will

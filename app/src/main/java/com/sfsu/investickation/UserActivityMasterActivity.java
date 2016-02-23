@@ -10,12 +10,12 @@ import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
-import com.sfsu.investickation.fragments.ActivityDetail;
-import com.sfsu.investickation.fragments.ActivityList;
-import com.sfsu.investickation.fragments.ActivityMap;
-import com.sfsu.investickation.fragments.ActivityNew;
-import com.sfsu.investickation.fragments.ActivityRunning;
-import com.sfsu.investickation.fragments.PostActivitiesList;
+import com.sfsu.investickation.fragments.ActivityDetailFragment;
+import com.sfsu.investickation.fragments.ActivityListFragment;
+import com.sfsu.investickation.fragments.ActivityMapFragment;
+import com.sfsu.investickation.fragments.ActivityNewFragment;
+import com.sfsu.investickation.fragments.ActivityRunningFragment;
+import com.sfsu.investickation.fragments.PostActivitiesListFragment;
 import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
@@ -27,11 +27,11 @@ import java.util.ArrayList;
  * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
-public class UserActivityMasterActivity extends MainBaseActivity implements ActivityList.IActivityCallBacks,
-        ActivityDetail.IActivityDetailsCallBacks,
-        ActivityNew.IActivityNewCallBack,
-        ActivityRunning.IActivityRunningCallBacks,
-        ActivityMap.IActivityMapCallBack {
+public class UserActivityMasterActivity extends MainBaseActivity implements ActivityListFragment.IActivityCallBacks,
+        ActivityDetailFragment.IActivityDetailsCallBacks,
+        ActivityNewFragment.IActivityNewCallBack,
+        ActivityRunningFragment.IActivityRunningCallBacks,
+        ActivityMapFragment.IActivityMapCallBack {
 
     public static final String KEY_ACTIVITY_ADD_OBS = "add_new_observation_from_activity";
     public static final String KEY_ACTIVITY_ID = "ongoing_activity_id";
@@ -50,7 +50,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private final String TAG = "~!@#$UserActivity";
     private FragmentManager fragmentManager;
     // for performing better navigation on back press.
-    private ActivityRunning mActivityRunning;
+    private ActivityRunningFragment mActivityRunningFragment;
 
 
     @Override
@@ -68,35 +68,35 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
                 if (savedInstanceState != null) {
                     return;
                 } else {
-                    // if user clicks on Start Activity in Dashboard
+                    // if user clicks on Start Activity in DashboardFragment
                     if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
-                        ActivityNew activityNewFragment = new ActivityNew();
+                        ActivityNewFragment activityNewFragment = new ActivityNewFragment();
                         performAddFragmentTransaction(activityNewFragment);
                     }
-                    // if user clicks on ActivityList in Dashboard
+                    // if user clicks on ActivityListFragment in DashboardFragment
                     else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
-                        ActivityList activityListFragment = new ActivityList();
+                        ActivityListFragment activityListFragment = new ActivityListFragment();
                         performAddFragmentTransaction(activityListFragment);
                     }
-                    // if user navigates back to ActivityRunning fragment.
+                    // if user navigates back to ActivityRunningFragment fragment.
                     else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
-                        mActivityRunning = new ActivityRunning();
-                        performReplaceFragmentTransaction(mActivityRunning);
+                        mActivityRunningFragment = new ActivityRunningFragment();
+                        performReplaceFragmentTransaction(mActivityRunningFragment);
                     }
-                    // if user navigates back to ActivityDetail fragment.
+                    // if user navigates back to ActivityDetailFragment fragment.
                     else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
-                        ActivityDetail mActivityDetail = new ActivityDetail();
-                        performAddFragmentTransaction(mActivityDetail);
+                        ActivityDetailFragment mActivityDetailFragment = new ActivityDetailFragment();
+                        performAddFragmentTransaction(mActivityDetailFragment);
                     }
-                    // if user opens Activity by clicking on the ListView item from Dashboard.
+                    // if user opens Activity by clicking on the ListView item from DashboardFragment.
                     else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 24) {
                         Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
-                        ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivities);
+                        ActivityDetailFragment mActivityDetailFragment = ActivityDetailFragment.newInstance(mActivities);
                         performAddFragmentTransaction(mActivityDetailFragment);
                     }
                     // open List of Activities by default.
                     else {
-                        ActivityList activityListFragment = new ActivityList();
+                        ActivityListFragment activityListFragment = new ActivityListFragment();
                         performAddFragmentTransaction(activityListFragment);
                     }
                 }
@@ -149,8 +149,8 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
         int count = fragmentManager.getBackStackEntryCount();
         Fragment mFragment = fragmentManager.findFragmentById(R.id.activity_fragment_container);
 
-        if (mFragment instanceof ActivityRunning) {
-            // disable back press for ActivityRunning fragment
+        if (mFragment instanceof ActivityRunningFragment) {
+            // disable back press for ActivityRunningFragment fragment
         } else {
             if (count == 0) {
                 Intent homeIntent = new Intent(UserActivityMasterActivity.this, MainActivity.class);
@@ -176,21 +176,21 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
-        ActivityDetail mActivityDetailFragment = ActivityDetail.newInstance(mActivity);
+        ActivityDetailFragment mActivityDetailFragment = ActivityDetailFragment.newInstance(mActivity);
         performReplaceFragmentTransaction(mActivityDetailFragment);
     }
 
 
     @Override
     public void onActivityAddListener() {
-        // if user clicked the Add Button, replace with ActivityNew Fragment
-        ActivityNew addActivityFragment = new ActivityNew();
+        // if user clicked the Add Button, replace with ActivityNewFragment Fragment
+        ActivityNewFragment addActivityFragment = new ActivityNewFragment();
         performReplaceFragmentTransaction(addActivityFragment);
     }
 
     @Override
     public void onUploadListOfActivities() {
-        PostActivitiesList postActivitiesListFragment = new PostActivitiesList();
+        PostActivitiesListFragment postActivitiesListFragment = new PostActivitiesListFragment();
         performReplaceFragmentTransaction(postActivitiesListFragment);
     }
 
@@ -198,23 +198,23 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onPlayButtonClick(Bundle activityBundle) {
 
         if (activityBundle != null) {
-            // passes the Newly created object to the ActivityRunning fragment.
-            ActivityRunning mActivityRunning = ActivityRunning.newInstance(activityBundle);
+            // passes the Newly created object to the ActivityRunningFragment fragment.
+            ActivityRunningFragment mActivityRunningFragment = ActivityRunningFragment.newInstance(activityBundle);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
             // dont add to backstack
-            transaction.replace(R.id.activity_fragment_container, mActivityRunning);
+            transaction.replace(R.id.activity_fragment_container, mActivityRunningFragment);
             transaction.commit();
         }
     }
 
     @Override
     public void onActivityStopButtonClicked() {
-        ActivityList mActivityList = new ActivityList();
+        ActivityListFragment mActivityListFragment = new ActivityListFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // dont add to backstack
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-        transaction.replace(R.id.activity_fragment_container, mActivityList);
+        transaction.replace(R.id.activity_fragment_container, mActivityListFragment);
         transaction.commit();
     }
 
@@ -224,7 +224,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onAddNewObservationClicked(String activityId) {
         try {
-            // create and intent and open the AddObservation fragment to add Observation.
+            // create and intent and open the AddObservationFragment fragment to add Observation.
             Intent addObservationIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
             // put the extras in addObservationIntent to perform fragment Transaction efficiently.
             addObservationIntent.putExtra(KEY_ACTIVITY_ADD_OBS, 1);
@@ -239,7 +239,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onViewAllObservationsClicked(String activityId) {
         try {
-            // open ObservationList Fragment.
+            // open ObservationListFragment Fragment.
             Log.i(TAG, "onViewAllObservationsClicked: ");
             Intent observationListIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
             observationListIntent.putExtra(KEY_VIEW_OBSERVATIONS, 1);
@@ -253,8 +253,8 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     public void onOpenActivitiesMapClicked(ArrayList<Observation> mObservationList) {
         try {
-            ActivityMap mActivityMap = ActivityMap.newInstance(mObservationList);
-            performReplaceFragmentTransaction(mActivityMap);
+            ActivityMapFragment mActivityMapFragment = ActivityMapFragment.newInstance(mObservationList);
+            performReplaceFragmentTransaction(mActivityMapFragment);
         } catch (Exception e) {
         }
     }

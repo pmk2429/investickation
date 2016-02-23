@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.nineoldandroids.view.ViewHelper;
-import com.sfsu.investickation.fragments.WelcomeScreen;
+import com.sfsu.investickation.fragments.WelcomeScreenFragment;
 
 public class WelcomeScreenActivity extends AppCompatActivity {
 
@@ -169,19 +169,19 @@ public class WelcomeScreenActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            WelcomeScreen welcomeScreenFragment = null;
+            WelcomeScreenFragment welcomeScreenFragment = null;
             switch (position) {
                 case 0:
-                    welcomeScreenFragment = WelcomeScreen.newInstance(R.layout.fragment_screen1);
+                    welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen1);
                     break;
                 case 1:
-                    welcomeScreenFragment = WelcomeScreen.newInstance(R.layout.fragment_screen2);
+                    welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen2);
                     break;
                 case 2:
-                    welcomeScreenFragment = WelcomeScreen.newInstance(R.layout.fragment_screen3);
+                    welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen3);
                     break;
                 case 3:
-                    welcomeScreenFragment = WelcomeScreen.newInstance(R.layout.fragment_screen4);
+                    welcomeScreenFragment = WelcomeScreenFragment.newInstance(R.layout.fragment_screen4);
                     break;
             }
 

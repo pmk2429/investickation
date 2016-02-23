@@ -7,15 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.sfsu.entities.Entity;
 import com.sfsu.entities.Tick;
-import com.sfsu.investickation.fragments.TickGuideDetail;
-import com.sfsu.investickation.fragments.TickGuideList;
+import com.sfsu.investickation.fragments.TickGuideDetailFragment;
+import com.sfsu.investickation.fragments.TickGuideListFragment;
 import com.sfsu.investickation.fragments.TickMap;
 import com.sfsu.network.bus.BusProvider;
 
 import java.util.ArrayList;
 
 
-public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideList.IGuideIndexCallBacks, TickMap.ITickMapCallBack {
+public class TickGuideMasterActivity extends AppCompatActivity implements TickGuideListFragment.IGuideIndexCallBacks, TickMap.ITickMapCallBack {
 
     public final static String KEY_TICK_DETAIL = "tick_object_detail";
     public final static String KEY_TICK_MAP = "tick_map";
@@ -44,7 +44,7 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
                 transaction.add(R.id.guide_fragment_container, tickMap);
                 transaction.commit();
             } else {
-                TickGuideList guideIndexFragment = new TickGuideList();
+                TickGuideListFragment guideIndexFragment = new TickGuideListFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
                 transaction.add(R.id.guide_fragment_container, guideIndexFragment);
@@ -82,7 +82,7 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
 
     @Override
     public void onTickListItemClickListener(Tick mTick) {
-        TickGuideDetail guideDetailFragment = TickGuideDetail.newInstance(KEY_TICK_DETAIL, mTick);
+        TickGuideDetailFragment guideDetailFragment = TickGuideDetailFragment.newInstance(KEY_TICK_DETAIL, mTick);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.guide_fragment_container, guideDetailFragment);

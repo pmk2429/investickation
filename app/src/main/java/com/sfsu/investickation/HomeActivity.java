@@ -7,24 +7,24 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sfsu.entities.Account;
-import com.sfsu.investickation.fragments.Home;
-import com.sfsu.investickation.fragments.Login;
-import com.sfsu.investickation.fragments.Logout;
-import com.sfsu.investickation.fragments.Register;
+import com.sfsu.investickation.fragments.HomeFragment;
+import com.sfsu.investickation.fragments.LoginFragment;
+import com.sfsu.investickation.fragments.LogoutFragment;
+import com.sfsu.investickation.fragments.RegisterFragment;
 import com.sfsu.session.SessionManager;
 
 /**
  * <p>
- * Container Activity for {@link Login} and {@link Register} Fragments. Opens when the user is done
+ * Container Activity for {@link LoginFragment} and {@link RegisterFragment} Fragments. Opens when the user is done
  * navigating the WelcomeScreenActivity for the first time. Also, when the Account logs out, then s/he will be redirected to this
- * Activity to allow the Account to Login again.
+ * Activity to allow the Account to LoginFragment again.
  * </p>
  * <p>
- * The Home activity will take care of all user Account related Sessions. If the Account is logged in then s/he will be
- * redirected to the {@link MainActivity} else the Account will be asked to Login or Register.</p>
+ * The HomeFragment activity will take care of all user Account related Sessions. If the Account is logged in then s/he will be
+ * redirected to the {@link MainActivity} else the Account will be asked to LoginFragment or RegisterFragment.</p>
  */
-public class HomeActivity extends AppCompatActivity implements Login.ILoginCallBack, Register.IRegisterCallBacks, Home
-        .IHomeCallbacks, Logout.ILogoutCallBack {
+public class HomeActivity extends AppCompatActivity implements LoginFragment.ILoginCallBack, RegisterFragment.IRegisterCallBacks, HomeFragment
+        .IHomeCallbacks, LogoutFragment.ILogoutCallBack {
 
     public static final String KEY_SIGNIN_SUCCESS = "signin_success";
     private final String TAG = "~!@#$HomeAct";
@@ -45,9 +45,9 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
                 return;
             }
 
-            // if the user clicked logout, then open Logout fragment
+            // if the user clicked logout, then open LogoutFragment fragment
             if (getIntent().getIntExtra(MainBaseActivity.KEY_LOGOUT, 0) == 1) {
-                Logout mLogoutFragment = new Logout();
+                LogoutFragment mLogoutFragment = new LogoutFragment();
                 performFragmentTransaction(mLogoutFragment);
             } else {
                 // depending on whether the Session is set for current user or not.
@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
                     //userLoggedIn();
                 } else {
                     // use case when the session expires for current user.
-                    Home mHomeFragment = new Home();
+                    HomeFragment mHomeFragment = new HomeFragment();
                     getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, mHomeFragment).commit();
                 }
             }
@@ -98,23 +98,23 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
 
     @Override
     public void onLoginClicked() {
-        Login loginFragment = new Login();
+        LoginFragment loginFragment = new LoginFragment();
         performFragmentTransaction(loginFragment);
     }
 
     @Override
     public void onSignUpClicked() {
-        Register registerFragment = new Register();
+        RegisterFragment registerFragment = new RegisterFragment();
         performFragmentTransaction(registerFragment);
     }
 
 
     @Override
     public void onRegisterButtonClick(Account mUserObj) {
-        // pass this user obj to Login and make a call to Login
-        Login mLoginFragment = new Login();
+        // pass this user obj to LoginFragment and make a call to LoginFragment
+        LoginFragment mLoginFragment = new LoginFragment();
 
-        // verify the details and pass the control to Login fragment.
+        // verify the details and pass the control to LoginFragment fragment.
         if (mUserObj.getEmail() != null && mUserObj.getPassword() != null) {
             mLoginFragment.login(mUserObj.getEmail(), mUserObj.getPassword());
         }
@@ -131,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements Login.ILoginCallB
 
     @Override
     public void userLoggedOut() {
-        Home homeFragment = new Home();
+        HomeFragment homeFragment = new HomeFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.home_fragment_container, homeFragment);
         transaction.commit();

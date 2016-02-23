@@ -54,7 +54,7 @@ public class Activities implements Entity, Parcelable {
     }
 
     /**
-     * Constructor overloading for creating the Activities Model and sending the object to ActivityRunning fragment.
+     * Constructor overloading for creating the Activities Model and sending the object to ActivityRunningFragment fragment.
      *
      * @param name
      * @param num_people
