@@ -1,11 +1,11 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.response.ResponseCount;
+import com.sfsu.investickation.fragments.ActivityListFragment;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
@@ -54,8 +54,19 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Subscribes to the event when {@link Activities} is Loaded. Receives the Activity object and make network
      * calls to Retrofit depending on the type of request made.
+     * </p>
+     * <p>
+     * This method is called when any Bus event is posted from Activity based Fragments such as {@link com.sfsu.investickation.fragments.ActivityNewFragment}, {@link com.sfsu.investickation.fragments.ActivityListFragment}, {@link com.sfsu.investickation.fragments.ActivityDetailFragment} etc. The event posted using Bus is subscribed to this method after which calls are delegated to
+     * corresponding event type viz. Add Activity, Get all Activities, Get a specific Activity and so on.
+     * </p>
+     * <p>
+     * Also, this layer helps to separate the business logic from the network call. Each network call is made from a Fragment
+     * but the actual implementation is handled using EventBus and delegated using this Handler class
+     * and it is
+     * </p>
      *
      * @param onLoadingInitialized
      */
@@ -111,29 +122,33 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Subscribes to the event of initializing list of Activities to store on server
+     * <p>
+     * Subscribes to the event of initializing list of Activities to store on server.
+     * </p>
+     * <p>
+     * This method is called when an event is posted on Bus for uploading list of Activities from the server. The method call
+     * is made from from {@link ActivityListFragment#uploadActivities()}. When the user clicks on upload button in ActivityList
+     * fragment, an event is subscribed to {@link #onInitializeActivityEvent(ActivityEvent.OnLoadingInitialized)} and then after
+     * the call is delegated to this method.
+     * </p>
      *
      * @param onListLoadingInitialized
      */
     @Subscribe
     public void onInitializeListActivityEvent(ActivityEvent.OnListLoadingInitialized onListLoadingInitialized) {
-        Log.i(TAG, "mass upload");
         List<Activities> activitiesList = onListLoadingInitialized.getRequest();
 
         Call<Activities> activitiesCall = null;
         // for each Activities in the list, make a call and push data on the server
         for (int i = 0; i < activitiesList.size(); i++) {
-            Log.i(TAG, "" + i);
             activitiesCall = mApiService.add(activitiesList.get(i));
             // makes the Calls to network.
             activitiesCall.enqueue(new Callback<Activities>() {
                 @Override
                 public void onResponse(Call<Activities> call, Response<Activities> response) {
                     if (response.isSuccess()) {
-                        Log.i(TAG, "response success");
                         mBus.post(new ActivityEvent.OnMassUploadListLoaded(true));
                     } else {
-                        Log.i(TAG, "response failure");
                         int statusCode = response.code();
                         ResponseBody errorBody = response.errorBody();
                         try {
@@ -147,7 +162,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
                 @Override
                 public void onFailure(Call<Activities> call, Throwable t) {
-                    Log.i(TAG, "failure");
                     if (t != null && t.getMessage() != null) {
                         mBus.post(new ActivityEvent.OnLoadingError(t.getMessage(), -1));
                     } else {
@@ -160,8 +174,13 @@ public class ActivityRequestHandler extends ApiRequestHandler {
 
 
     /**
+     * <p>
      * Makes CREATE, READ, UPDATE type network call to server using Retrofit Api service and posts the response on the event
      * bus.
+     * </p>
+     * <p>
+     * When an event is posted in Bus regarding Activity Create, Read or Update the call is delegated to this method.
+     * </p>
      *
      * @param activitiesCall
      */
@@ -196,7 +215,12 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Makes Delete type network call to server using Retrofit Api service and posts the response on the event bus.
+     * </p>
+     * <p>
+     * When an event is posted in Bus for Activity Delete, the call is delegates to this method
+     * </p>
      *
      * @param activitiesCall
      */
@@ -231,7 +255,13 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Makes a network call for getting List using Retrofit Api interface and posts the response on event bus.
+     * </p>
+     * <p>
+     * When an event is posted in the Bus to retrieve a list of Activities from the server, then the call is delegated to this
+     * method
+     * </p>
      *
      * @param listActivitiesCall
      */
@@ -265,7 +295,13 @@ public class ActivityRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Calculates the count of {@link Activities}
+     * <p>
+     * Makes a network call to get the count of {@link Activities} posted by this User from the server
+     * </p>
+     * <p>
+     * When an event is posted for getting the count of Activities posted by this User from the server, the call is delegated
+     * to this method
+     * </p>
      *
      * @param countCall
      */

@@ -81,7 +81,7 @@ public class MainBaseActivity extends AppCompatActivity {
 
         try {
             switch (menuItem.getItemId()) {
-                case R.id.nav_home:
+                case R.id.nav_dashboard:
                     intent = new Intent(this, MainActivity.class);
                     startActivity(intent);
                     finish();

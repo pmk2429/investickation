@@ -39,6 +39,7 @@
 
     <!-- Navdrawer -->
     <string name="nav_home">Home</string>
+    <string name="nav_dashboard">Dashboard</string>
     <string name="nav_activities">Activities</string>
     <string name="nav_observations">Observations</string>
     <string name="nav_guide">Tick Guide</string>

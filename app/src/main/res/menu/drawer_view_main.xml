@@ -5,9 +5,9 @@
         android:id="@+id/menu_main"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_dashboard"
             android:icon="@mipmap/ic_home_black_24dp"
-            android:title="@string/nav_home"/>
+            android:title="@string/nav_dashboard"/>
         <item
             android:id="@+id/nav_activities"
             android:icon="@mipmap/ic_directions_walk_black_24dp"

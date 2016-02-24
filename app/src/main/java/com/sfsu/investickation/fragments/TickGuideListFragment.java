@@ -153,7 +153,7 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
 
         try {
             switch (menuItem.getItemId()) {
-                case R.id.nav_home:
+                case R.id.nav_dashboard:
                     intent = new Intent(mContext, MainActivity.class);
                     mContext.startActivity(intent);
                     ((Activity) mContext).finish();
