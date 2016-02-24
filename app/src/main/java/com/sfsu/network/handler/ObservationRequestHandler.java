@@ -31,7 +31,7 @@ import retrofit2.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class ObservationRequestHandler extends ApiRequestHandler {
@@ -52,8 +52,18 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Subscribes to the event when {@link Observation} is Loaded. Receives the Observation object and make
      * network calls to Retrofit depending on the type of request made.
+     * </p>
+     * <p>
+     * This method is called when an event is posted from Observation based fragments for CRUD type of Observation calls. These
+     * events are posted from {@link com.sfsu.investickation.fragments.AddObservationFragment}, {@link com.sfsu.investickation.fragments.ObservationListFragment}, {@link com.sfsu.investickation.fragments.ObservationDetailFragment} etc. Depending on each event,
+     * the call is delegated to the corresponding method.
+     * </p>
+     * <p>
+     * This method helps to avoid writing complex logic in Fragments and separate Business logic from the network calls.
+     * </p>
      *
      * @param onLoadingInitialized
      */
@@ -105,7 +115,17 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     }
 
     /**
-     * Returns the count for each request made
+     * <p>
+     * Returns the count of Observations made by this user from the server.
+     * </p>
+     * <p>
+     * When an event is posted on Bus for getting counts of Observation from the server, a call is delegated to this method.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param countCall
      */
@@ -139,7 +159,19 @@ public class ObservationRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Subscribes to the event of loading list of Observations to store on server
+     * </p>
+     * <p>
+     * When an event is posted on Bus for uploading a list of Observations stored locally to server, a call is delegated to
+     * this method. Each Observation is uploaded in serial manner from the list of Observations. This method makes sure that
+     * for each Observation being uploaded, the corresponding image is uploaded to the server as well in the consecutive call.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param onListLoadingInitialized
      */
@@ -190,7 +222,18 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
 
     /**
+     * <p>
      * Makes CREATE, READ, UPDATE type network call to server using Retrofit Api service and posts the response on the event bus.
+     * </p>
+     * <p>
+     * When an event is posted for the Observation Create, Update or Read then the call is delegated to this method. This logic
+     * provides a modular approach for implementing the CRUD operations for Observation model on server.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param observationCall
      */
@@ -226,7 +269,17 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
 
     /**
+     * <p>
      * Makes DELETE type network call to server using Retrofit Api service and posts the response on the event bus.
+     * </p>
+     * <p>
+     * When an event is posted in Bus for deleting the Observation then the call is delegated to this method.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param observationCall
      */
@@ -262,6 +315,14 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
     /**
      * Returns list of {@link Observation} for current User.
+     * <p>
+     * When an event is posted in Bus for fetching all the Observations from the server, the call is delegated to this method.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param listObservationCall
      */
@@ -297,8 +358,19 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
 
     /**
+     * <p>
      * Returns a list of {@link Observation} for specific {@link com.sfsu.entities.Activities} which includes Locations for
      * each Observations as well
+     * </p>
+     * <p>
+     * When an event is posted to retrieve list of {@link com.sfsu.entities.EntityLocation} for a specific Activity, then a call
+     * is delegated to this method
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param locationsCall
      */
@@ -333,7 +405,18 @@ public class ObservationRequestHandler extends ApiRequestHandler {
 
 
     /**
+     * <p>
      * Returns a custom ObservationResponse containing the Observation, Activity and Tick
+     * </p>
+     * <p>
+     * When an event is posted to get the {@link ObservationResponse} (which is Observation and its {@link com.sfsu.entities
+     * .EntityLocation}) from the server, then the call is delegated to this method
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param observationResponseCall
      */

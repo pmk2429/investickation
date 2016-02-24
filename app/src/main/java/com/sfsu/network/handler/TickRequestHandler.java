@@ -28,8 +28,8 @@ import retrofit2.Response;
  * </p>
  * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
  * the Response to the {@link Bus}.
- * <p/>
- * <p/>
+ * <p>
+ * <p>
  * Created by Pavitra on 11/28/2015.
  */
 public class TickRequestHandler extends ApiRequestHandler {
@@ -78,7 +78,18 @@ public class TickRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Makes CRUD type network call to server using Retrofit Api service and posts the response on the event bus.
+     * </p>
+     * <p>
+     * When an event is posted for making a network call related to Tick Create, Read or Update then a call is delegated to
+     * this method.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param tickCall
      */
@@ -113,7 +124,17 @@ public class TickRequestHandler extends ApiRequestHandler {
     }
 
     /**
+     * <p>
      * Makes a network call for getting List using Retrofit Api interface and posts the response on event bus.
+     * </p>
+     * <p>
+     * When an event is posted to fetch all the Ticks from the server, then a call is delegated to this method.
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param listTickCall
      */

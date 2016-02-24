@@ -63,7 +63,7 @@ import butterknife.ButterKnife;
  */
 public class ActivityListFragment extends Fragment implements SearchView.OnQueryTextListener, UploadAlertDialog.IUploadDataCallback {
 
-    public final String TAG = "~!@#ActivityListFragment";
+    public final String TAG = "~!@#ActivityList";
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
 
@@ -120,14 +120,12 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public void onResume() {
-        Log.i(TAG, "onResume ActivityListFragment");
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_activity_list);
         BusProvider.bus().register(this);
         mProgressDialog = new ProgressDialog(mContext);
 
         if (AppUtils.isConnectedOnline(mContext)) {
-            Log.i(TAG, "inside Fetching activities");
             // must be cached for frequent accesses.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
             mProgressDialog.setIndeterminate(true);

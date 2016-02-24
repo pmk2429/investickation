@@ -131,6 +131,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * fragment, an event is subscribed to {@link #onInitializeActivityEvent(ActivityEvent.OnLoadingInitialized)} and then after
      * the call is delegated to this method.
      * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param onListLoadingInitialized
      */
@@ -181,6 +186,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * <p>
      * When an event is posted in Bus regarding Activity Create, Read or Update the call is delegated to this method.
      * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param activitiesCall
      */
@@ -220,6 +230,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * </p>
      * <p>
      * When an event is posted in Bus for Activity Delete, the call is delegates to this method
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
      * </p>
      *
      * @param activitiesCall
@@ -262,6 +277,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * When an event is posted in the Bus to retrieve a list of Activities from the server, then the call is delegated to this
      * method
      * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
+     * </p>
      *
      * @param listActivitiesCall
      */
@@ -301,6 +321,11 @@ public class ActivityRequestHandler extends ApiRequestHandler {
      * <p>
      * When an event is posted for getting the count of Activities posted by this User from the server, the call is delegated
      * to this method
+     * </p>
+     * <p>
+     * When the response is received from the server, the response is posted back on the event Bus which is later subscribed to
+     * fetch the response from the Event Bus. This way the whole logic for making network calls to getting ans passing the data
+     * is made simpler and readable.
      * </p>
      *
      * @param countCall
