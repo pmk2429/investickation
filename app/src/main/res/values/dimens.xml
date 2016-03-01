@@ -51,7 +51,7 @@
     <dimen name="font_X2_large">28sp</dimen>
     <dimen name="font_X3_large">36sp</dimen>
 
-    <!-- Dimen for Thumbnail MapView and Images Cardview -->
+    <!-- Dimen for Thumbnail MapView and Images CardView -->
     <dimen name="cardview_elevation">8dp</dimen>
     <dimen name="cardview_X_small">140dp</dimen>
     <dimen name="cardview_small">160dp</dimen>

@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private IDashboardCallback mListener;
     private CardView btn_action;
     private RelativeLayout relativeLayoutDashboard;
+    private LinearLayout linearLayoutRecentActivities;
     private DrawerLayout mDrawerLayout;
     private TextView txtView_activitiesCount, txtView_observationCount;
     private Toolbar toolbarMain;
@@ -198,6 +200,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         txtView_activitiesCount.setText("4");
         txtView_observationCount = (TextView) v.findViewById(R.id.textView_dashboard_observationCount);
         txtView_observationCount.setText("8");
+
+        linearLayoutRecentActivities = (LinearLayout) v.findViewById(R.id.linearLayout_dashboard_recentActivitiesl);
+        // make the linear layout invisible - DEFAULT
+        linearLayoutRecentActivities.setVisibility(View.GONE);
         // enable Location at the start
         //enableLocation();
 
@@ -264,21 +270,32 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     public void onActivitiesLoadSuccess(ActivityEvent.OnListLoaded onLoaded) {
         mActivitiesList = onLoaded.getResponseList();
 
-        mActivitiesAdapter = new RecentActivitiesAdapter(mContext, mActivitiesList);
+        if (mActivitiesList != null) {
+            if (mActivitiesList.size() > 0) {
+                // display the recent activities
+                linearLayoutRecentActivities.setVisibility(View.VISIBLE);
 
-        mListViewActivities.setAdapter(mActivitiesAdapter);
-        mActivitiesAdapter.setNotifyOnChange(true);
-        mActivitiesAdapter.notifyDataSetChanged();
+                mActivitiesAdapter = new RecentActivitiesAdapter(mContext, mActivitiesList);
 
-        // get the selected Activity and open ActivityDetailFragment page.
-        mListViewActivities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Activities mActivity = (Activities) mListViewActivities.getItemAtPosition(position);
-                mListener.onActivityItemClicked(mActivity);
+                mListViewActivities.setAdapter(mActivitiesAdapter);
+                mActivitiesAdapter.setNotifyOnChange(true);
+                mActivitiesAdapter.notifyDataSetChanged();
+
+                // get the selected Activity and open ActivityDetailFragment page.
+                mListViewActivities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Activities mActivity = (Activities) mListViewActivities.getItemAtPosition(position);
+                        mListener.onActivityItemClicked(mActivity);
+                    }
+                });
+            } else {
+                // in case if User has not created any Activity on Server
+                linearLayoutRecentActivities.setVisibility(View.GONE);
             }
-        });
 
+
+        }
         //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.TOTAL_OBSERVATIONS_COUNT));
     }
 
