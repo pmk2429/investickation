@@ -7,7 +7,7 @@
                                    android:elevation="4dp"
                                    android:fitsSystemWindows="true"
                                    android:paddingTop="@dimen/view_dimen_large"
-                                   app:layout_collapseMode="pin"
-                                   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                                   app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                                   android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                                   app:="@style/ThemeOverlay.AppCompat.Light"
+                                   app:layout_collapseMode="pin">
 </android.support.v7.widget.Toolbar>

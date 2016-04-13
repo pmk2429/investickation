@@ -1,14 +1,11 @@
 package com.sfsu.network.rest.apiclient;
 
-import android.content.Context;
-
+import com.sfsu.application.InvestickationApp;
 import com.sfsu.network.api.ApiResources;
 import com.sfsu.utils.AppUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import okhttp3.Cache;
 import okhttp3.Interceptor;
@@ -29,16 +26,13 @@ public class RetrofitApiClient {
 
     private static final String AUTHORIZATION = "Authorization";
     private static final String TAG = "~!@#$RetrApiClient";
-    // main client
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     //    private static final Context mContext = InvestickationApp.getInstance();
-    private static Context mContext;
     // caching
     private static final Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Response originalResponse = chain.proceed(chain.request());
-            if (AppUtils.isConnectedOnline(mContext)) {
+            if (AppUtils.isConnectedOnline(InvestickationApp.getInstance())) {
                 int maxAge = 60; // read from cache for 1 minute
                 return originalResponse.newBuilder()
                         .header("Cache-Control", "public, max-age=" + maxAge)
@@ -51,31 +45,15 @@ public class RetrofitApiClient {
             }
         }
     };
+    // main client
+    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
     // size
     private static long SIZE_OF_CACHE = 10 * 1024 * 1024; // 10 MB
     // Retrofit
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(ApiResources.BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create());
-
-    /**
-     * Method to initialize the RetrofitApiClient.
-     *
-     * @param context
-     * @param baseAPIUrl
-     */
-    public static void init(final Context context, String baseAPIUrl) {
-        mContext = context;
-
-        // Create Cache
-        Cache cache = null;
-        cache = new Cache(new File(mContext.getCacheDir(), "http"), SIZE_OF_CACHE);
-
-        // Add Cache-Control Interceptor
-
-        // Create Executor
-        Executor executor = Executors.newCachedThreadPool();
-    }
+    private static Cache cache;
 
     /**
      * Generates the Retrofit Service interface for the type of Service class passed as an input param.
@@ -112,10 +90,19 @@ public class RetrofitApiClient {
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
-
                     return chain.proceed(request);
                 }
             });
+            // add Cache to network interceptor
+            httpClient.networkInterceptors().add(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+            // Add Cache-Control Interceptor
+            //setup cache
+            File httpCacheDirectory = new File(InvestickationApp.getInstance().getCacheDir(), "invest_responses");
+            int cacheSize = 10 * 1024 * 1024; // 10 MB
+            cache = new Cache(httpCacheDirectory, cacheSize);
+
+            // set Cache to the OkHttpClient
+            httpClient.cache(cache);
         }
 
         // build the Retrofit instance with the Token Authorization OkHttpClient.
@@ -125,15 +112,6 @@ public class RetrofitApiClient {
         return retrofit.create(serviceClass);
     }
 
-
-    /**
-     * Helper method to cache the Response sent by the server.
-     */
-    private static void createCacheForOkHTTP() {
-        Cache cache = null;
-        cache = new Cache(getDirectory(), 1024 * 1024 * 10);
-//        okHttpClient.setCache(cache);
-    }
 
     //returns the file to store cached details
     private static File getDirectory() {
