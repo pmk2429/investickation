@@ -29,7 +29,6 @@
                 android:id="@+id/image_tickGuideDetail"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cardview_X3_large"
-                android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
                 android:fitsSystemWindows="true"
                 android:scaleType="fitXY"

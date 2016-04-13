@@ -169,8 +169,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             }
         }
         BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
-
-
     }
 
     @Override

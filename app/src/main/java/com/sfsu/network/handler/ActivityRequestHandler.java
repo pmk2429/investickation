@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
@@ -87,10 +88,9 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUCall(activitiesCall);
                 break;
             case GET_ALL:
-                if (!USER_ID.equals("")) {
-                    listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
-                    getAllActivitiesCalls(listActivitiesCall);
-                }
+                Log.i(TAG, "onInitializeActivityEvent: userID " + USER_ID);
+                listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
+                getAllActivitiesCalls(listActivitiesCall);
                 break;
             case ADD:
                 activitiesCall = mApiService.add(onLoadingInitialized.getRequest());
@@ -109,10 +109,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 getCount(countCall);
                 break;
             case GET_RECENT_ACTIVITIES:
-                if (!USER_ID.equals("")) {
-                    listActivitiesCall = mApiService.getRecentActivities(USER_ID, recentActivitiesFilter);
-                    getAllActivitiesCalls(listActivitiesCall);
-                }
+                listActivitiesCall = mApiService.getRecentActivities(USER_ID, recentActivitiesFilter);
+                getAllActivitiesCalls(listActivitiesCall);
                 break;
             case TOTAL_ACTIVITIES_COUNT:
                 countCall = mApiService.count(countWhereClause);

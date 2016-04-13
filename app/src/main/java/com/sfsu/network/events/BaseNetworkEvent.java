@@ -6,13 +6,12 @@ import java.util.List;
  * The base events class that provides Generic definition of events performed/ carried out/ controller/ occurred in the entire
  * Application. This class provides the base type of Events which contains all the base characteristics exhibited by all types
  * of implementing events.
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class BaseNetworkEvent {
     public static final String UNHANDLED_MSG = "Unexpected Error";
     public static final int UNHANDLED_CODE = -1;
-
 
     /**
      * Event to initialize the Network request call.

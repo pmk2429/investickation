@@ -115,6 +115,15 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
         mLinearLayoutManager = new LinearLayoutManager(mContext);
 
+        // Add new Activity button.
+        fab_addActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mInterface.onActivityAddListener();
+            }
+        });
+
+
         return rootView;
     }
 
@@ -231,6 +240,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         mActivitiesListAdapter.notifyDataSetChanged();
 
         if (recyclerView_activity != null) {
+
             recyclerView_activity.setAdapter(mActivitiesListAdapter);
 
             // touch listener when the user clicks on the Activity in the List.
@@ -247,35 +257,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
                         }
                     }));
-
-            // Add new Activity button.
-            fab_addActivity.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mInterface.onActivityAddListener();
-                }
-            });
-
-
-//            // lazy loading of recycler view.
-//            recyclerView_activity.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//                @Override
-//                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                    if (dy > 0) //check for scroll down
-//                    {
-//                        visibleItemCount = mLinearLayoutManager.getChildCount();
-//                        totalItemCount = mLinearLayoutManager.getItemCount();
-//                        pastVisibleItems = mLinearLayoutManager.findFirstVisibleItemPosition();
-//
-//                        if (loading) {
-//                            if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-//                                loading = false;
-//                                Log.i("...", "Last Item Wow !");
-//                            }
-//                        }
-//                    }
-//                }
-//            });
 
             recyclerView_activity.addOnScrollListener(new MyRecyclerScroll() {
                 @Override
@@ -387,10 +368,13 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
     @Override
     public boolean onQueryTextChange(String query) {
-        final List<Activities> filteredActivitiesList = filter(mActivitiesList, query);
-        mActivitiesListAdapter.animateTo(filteredActivitiesList);
-        recyclerView_activity.scrollToPosition(0);
-        return true;
+        if (mActivitiesList != null && mActivitiesList.size() > 0) {
+            final List<Activities> filteredActivitiesList = filter(mActivitiesList, query);
+            mActivitiesListAdapter.animateTo(filteredActivitiesList);
+            recyclerView_activity.scrollToPosition(0);
+            return true;
+        }
+        return false;
     }
 
 

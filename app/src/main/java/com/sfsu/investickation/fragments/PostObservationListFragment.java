@@ -23,6 +23,7 @@ import okhttp3.RequestBody;
 
 /**
  * Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityListFragment} fragment
+ * <a href="https://en.wikipedia.org/wiki/Observer_pattern">Observable Pattern</a>
  */
 public class PostObservationListFragment extends Fragment {
 

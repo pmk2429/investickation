@@ -84,12 +84,12 @@ public class HomeFragment extends Fragment {
      */
     public interface IHomeCallbacks {
         /**
-         * Callback method when the user clicks on the <tt>LoginFragment</tt> button in {@Home} Fragment
+         * Callback method when the user clicks on the <tt>LoginFragment</tt> button in {@link HomeFragment}
          */
         public void onLoginClicked();
 
         /**
-         * Callback method when the user clicks on the <tt>RegisterFragment</tt> button in {@Home} Fragment
+         * Callback method when the user clicks on the <tt>RegisterFragment</tt> button in {@link HomeFragment}
          */
         public void onSignUpClicked();
     }

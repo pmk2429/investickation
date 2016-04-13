@@ -44,7 +44,7 @@ public class RetrofitApiClient {
                         .header("Cache-Control", "public, max-age=" + maxAge)
                         .build();
             } else {
-                int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
+                int maxStale = 60 * 60 * 24 * 28; // 4-weeks stale data
                 return originalResponse.newBuilder()
                         .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                         .build();
@@ -70,7 +70,6 @@ public class RetrofitApiClient {
         // Create Cache
         Cache cache = null;
         cache = new Cache(new File(mContext.getCacheDir(), "http"), SIZE_OF_CACHE);
-
 
         // Add Cache-Control Interceptor
 
