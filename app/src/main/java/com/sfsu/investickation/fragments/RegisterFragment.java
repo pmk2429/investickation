@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -228,8 +227,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                     BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, ApiRequestHandler.ADD));
                     mProgressDialog = new ProgressDialog(mContext);
                     mProgressDialog.setIndeterminate(true);
-                    mProgressDialog.setTitle("Registration");
-                    mProgressDialog.setMessage("Please wait while we register you...");
+                    mProgressDialog.setTitle(getString(R.string.progressDialog_register_title));
+                    mProgressDialog.setMessage(getString(R.string.progressDialog_register_message));
                     mProgressDialog.show();
                 } else {
                     Toast.makeText(mContext, "Internet connection not available", Toast.LENGTH_LONG).show();
@@ -313,7 +312,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
      */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
-        Log.i(TAG, "onUserLoginSuccess: yeah OK");
         if (mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }

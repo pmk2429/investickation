@@ -115,7 +115,6 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeUserLoginEvent(LoginEvent.OnLoadingInitialized onLoadingInitialized) {
-        Log.i(TAG, "onInitializeUserLoginEvent: reached");
         LoginService loginApiService = RetrofitApiClient.createService(LoginService.class);
         // make login call using LoginServiceApi
         Call<LoginResponse> userLoginCall = loginApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
@@ -123,7 +122,6 @@ public class UserRequestHandler extends ApiRequestHandler {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccess()) {
-                    Log.i(TAG, "onResponse: success");
                     mBus.post(new LoginEvent.OnLoaded(response.body()));
                 } else {
                     int statusCode = response.code();

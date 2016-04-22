@@ -1,6 +1,11 @@
 package com.sfsu.helper;
 
+import com.sfsu.application.InvestickationApp;
+import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.TickDao;
 import com.sfsu.entities.Tick;
+
+import java.util.List;
 
 /**
  * <p>Helper class for {@link Tick} related operations. This class handles all the Tick related DB operations such as getting list
@@ -11,4 +16,13 @@ import com.sfsu.entities.Tick;
  */
 public class TickHelper {
 
+    private static List<Tick> allTicks;
+
+    public static List<Tick> getAllTicks() {
+        DatabaseDataController dbController = new DatabaseDataController(InvestickationApp.getInstance(),
+                TickDao.getInstance());
+
+        allTicks = (List<Tick>) dbController.getAll();
+        return allTicks;
+    }
 }

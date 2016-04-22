@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class TickDialogAdapter extends ArrayAdapter<Tick> {
             TextView textViewTicName = (TextView) convertView.findViewById(R.id.textView_alertTick_tickName);
             TextView textViewTicSpecies = (TextView) convertView.findViewById(R.id.textView_alertTick_tickSpecies);
 
-            // TODO: set image in ImageView using Picasso
+            Picasso.with(mContext).load(tickObj.getImageUrl()).into(imageViewTick);
             textViewTicName.setText(tickObj.getTickName());
             textViewTicSpecies.setText(tickObj.getSpecies());
         }

@@ -63,4 +63,14 @@ public class TickEvent extends BaseNetworkEvent {
             super(errorMessage, code);
         }
     }
+
+    /**
+     * Event Handler to pass the user selected Tick from Dialog box to the registered Fragment.
+     */
+    public static class OnTickSelected extends OnDone<Tick> {
+
+        public OnTickSelected(Tick selectedTick) {
+            super(selectedTick);
+        }
+    }
 }

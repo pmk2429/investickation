@@ -23,13 +23,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.maps.model.LatLng;
+import com.sfsu.adapters.TickDialogAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.ImageController;
 import com.sfsu.controllers.LocationController;
@@ -38,6 +41,7 @@ import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
+import com.sfsu.helper.TickHelper;
 import com.sfsu.image.AlbumStorageDirFactory;
 import com.sfsu.image.BaseAlbumDirFactory;
 import com.sfsu.investickation.ObservationMasterActivity;
@@ -47,6 +51,7 @@ import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.FileUploadEvent;
 import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.utils.PermissionUtils;
@@ -85,6 +90,8 @@ public class AddObservationFragment extends Fragment implements LocationControll
     // Button
     @Bind(R.id.button_addObs_postObservation)
     Button btn_PostObservation;
+    @Bind(R.id.button_addObs_chooseFromGuide)
+    Button btn_chooseFromGuide;
     // EditTexts
     @Bind(R.id.editText_addObs_numOfTicks)
     EditText et_numOfTicks;
@@ -92,6 +99,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
     EditText et_tickName;
     @Bind(R.id.editText_addObs_description)
     EditText et_description;
+    // flags
     private boolean FLAG_PERMISSION_GRANTED;
     // Others
     private String selectedImagePath, geoLocation;
@@ -145,9 +153,8 @@ public class AddObservationFragment extends Fragment implements LocationControll
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_add_observation, container, false);
-
-        ButterKnife.bind(this, v);
+        View rootView = inflater.inflate(R.layout.fragment_add_observation, container, false);
+        ButterKnife.bind(this, rootView);
 
         if (getArguments() != null) {
             args = getArguments();
@@ -155,7 +162,6 @@ public class AddObservationFragment extends Fragment implements LocationControll
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         mAuthPreferences = new AuthPreferences(mContext);
         mAlbumStorageDirFactory = new BaseAlbumDirFactory();
-
 
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
@@ -165,20 +171,23 @@ public class AddObservationFragment extends Fragment implements LocationControll
 
         // get user_id.
         userId = mAuthPreferences.getUser_id();
-
         et_tickName.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickName));
         //et_description.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_numOfTicks));
-
         // initialize the Floating button.
-        final FloatingActionButton addTickImage = (FloatingActionButton) v.findViewById(R.id.fab_addObs_addTickImage);
+        final FloatingActionButton addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_addObs_addTickImage);
 
         addTickImage.setOnClickListener(this);
-
         btn_PostObservation.setOnClickListener(this);
+        // required to pass the LayoutInflater
+        btn_chooseFromGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChooseTickDialog(inflater);
+            }
+        });
 
-
-        return v;
+        return rootView;
     }
 
     @Override
@@ -261,6 +270,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
                 }
             }
         } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -272,46 +282,60 @@ public class AddObservationFragment extends Fragment implements LocationControll
      * @param inflater
      */
 
-//    private void openChooseTickDialog(LayoutInflater inflater) {
-//        final AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
-//        View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
-//
-//        // identify the ListView
-//        ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
-//
-//        tickList = TickHelper.getAllTicks();
-//
-//        // Build an ArrayAdapter
-//        final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
-//        listViewTicks.setAdapter(dialogAdapter);
-//
-//        // make the divider invisible
-//        listViewTicks.setDivider(null);
-//        listViewTicks.setDividerHeight(0);
-//
-//        dialogAdapter.setNotifyOnChange(true);
-//        dialogAdapter.notifyDataSetChanged();
-//
-//        // set the characteristics of AlertDialog.
-//        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
-//        alertDialogChooseTick.setView(customView);
-//
-//        // create a dialog to get the reference to when dismissing the Dialog.
-//        final AlertDialog dialog = alertDialogChooseTick.create();
-//        dialog.show();
-//
-//        // when the user simply presses the news item, then the DetailedNewsActivity will get started.
-//        listViewTicks.setOnItemClickListener(
-//                new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                        // set Texts in EditTexts.
-//                        setTickData(tickList.get(position));
-//                        dialog.dismiss();
-//                    }
-//                });
-//    }
+    private void openChooseTickDialog(LayoutInflater inflater) {
+        final AlertDialog.Builder alertDialogChooseTick = new AlertDialog.Builder(mContext, R.style.AppCompatAlertDialogStyle);
+        View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
 
+        // identify the ListView
+        final ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
+
+        tickList = TickHelper.getAllTicks();
+
+        // Build an ArrayAdapter
+        final TickDialogAdapter dialogAdapter = new TickDialogAdapter(mContext, R.layout.alertdialog_choosetick_item, tickList);
+        listViewTicks.setAdapter(dialogAdapter);
+
+        // make the divider invisible
+        listViewTicks.setDivider(null);
+        listViewTicks.setDividerHeight(0);
+
+        dialogAdapter.setNotifyOnChange(true);
+        dialogAdapter.notifyDataSetChanged();
+
+        // set the characteristics of AlertDialog.
+        alertDialogChooseTick.setTitle(getActivity().getResources().getString(R.string.alert_chooseTick));
+        alertDialogChooseTick.setView(customView);
+
+        // create a dialog to get the reference to when dismissing the Dialog.
+        final AlertDialog dialog = alertDialogChooseTick.create();
+        dialog.show();
+
+        // when the user simply presses the news item, then the DetailedNewsActivity will get started.
+        listViewTicks.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        // pass the Tick name and Species using EventBus
+                        Tick tickSelected = tickList.get(position);
+                        Log.i(TAG, "onItemClick: " + tickSelected.toString());
+                        BusProvider.bus().post(new TickEvent.OnTickSelected(tickSelected));
+                        dialog.dismiss();
+                    }
+                });
+    }
+
+    /**
+     * Subscribes to the event of success in selecting Tick from Dialog
+     *
+     * @param onTickSelected
+     */
+    @Subscribe
+    public void onTickItemSelectedFromDialogSuccess(TickEvent.OnTickSelected onTickSelected) {
+        if (onTickSelected != null) {
+            et_tickName.setText(onTickSelected.getResponse().getTickName());
+            et_numOfTicks.requestFocus();
+        }
+    }
 
     /**
      * Checks for runtime permission

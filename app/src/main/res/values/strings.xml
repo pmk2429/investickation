@@ -283,6 +283,11 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="welcome_description">Record Activities and post observations for Ticks</string>
     <string name="welcome_text">Welcome to InvesTICKations</string>
 
+    <!--Progress Dialogs-->
+    <string name="progressDialog_register_title">Registration</string>
+    <string name="progressDialog_register_message">Please wait while we register you...</string>
+    <string name="progressDialog_login_title">Login</string>
+    <string name="progressDialog_login_message">Logging in...</string>
 
     <!-- ImageManager -->
     <string name="album_name">InvesTICKations</string>

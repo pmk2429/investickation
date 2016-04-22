@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -137,7 +136,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
         BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
         mProgressDialog = new ProgressDialog(mContext);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Logging in...");
+        mProgressDialog.setTitle(getString(R.string.progressDialog_login_title));
+        mProgressDialog.setMessage(getString(R.string.progressDialog_login_message));
         mProgressDialog.show();
     }
 
@@ -186,7 +186,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
             InvestickationApp.getInstance().initResources();
         }
 
-        //FIXME: Not required. Will be done when user is registered
+        //TODO: Not required. Will be done when user is registered
         //getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
 
         // once the token is set successfully, open the dashboard.
