@@ -1,7 +1,10 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,10 +12,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +39,7 @@ import com.sfsu.dialogs.AlertDialogMaster;
 import com.sfsu.dialogs.AlertDialogMaster.IReminderChangeCallBack;
 import com.sfsu.entities.Account;
 import com.sfsu.entities.Activities;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
 import com.sfsu.map.StaticMap;
@@ -136,7 +143,10 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
             }
 
             // open alert dialog
-            openAlarmDialog();
+            //openAlarmDialog();
+
+            // set notification
+            setNotification();
 
             //Release the lock
             mWakeLock.release();
@@ -218,6 +228,34 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
         alarmReminderDialog.show();
     }
 
+    /**
+     * Helper to set Notification when the alarm goes off
+     */
+    private void setNotification() {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
+        mBuilder.setSmallIcon(R.mipmap.ic_bug_report_white_36dp);
+        mBuilder.setContentTitle("Found a Tick?");
+        mBuilder.setContentText("Click here to make an Observation of encountered Tick!");
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mBuilder.setSound(uri);
+
+        Intent resultIntent = new Intent(mContext, ObservationMasterActivity.class);
+        // put the extras in addObservationIntent to perform fragment Transaction efficiently.
+        resultIntent.putExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 1);
+        resultIntent.putExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID, ongoingActivityObj.getId());
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
+        stackBuilder.addParentStack(ObservationMasterActivity.class);
+
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(resultPendingIntent);
+
+
+        NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        // notificationID allows you to update the notification later on.
+        mNotificationManager.notify(12345, mBuilder.build());
+    }
 
     @Override
     public void onAttach(Activity activity) {

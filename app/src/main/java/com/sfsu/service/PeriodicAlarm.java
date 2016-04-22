@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 /**
  * Created by Pavitra on 1/15/2016.
@@ -20,7 +19,6 @@ public class PeriodicAlarm {
     }
 
     public void setAlarm(long interval) {
-        Log.i(TAG, "alarm starting");
         Intent alarmIntent = new Intent(BROADCAST_ACTION);
         alarmIntent.putExtra(ONE_TIME, Boolean.FALSE);
         PendingIntent mPendingIntent = PendingIntent.getBroadcast(mContext, 0, alarmIntent, 0);
@@ -30,7 +28,6 @@ public class PeriodicAlarm {
     }
 
     public void cancelAlarm() {
-        Log.i(TAG, "alarm stopping");
         Intent intent = new Intent(BROADCAST_ACTION);
         PendingIntent mSenderPendingIntent = PendingIntent.getBroadcast(mContext, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);

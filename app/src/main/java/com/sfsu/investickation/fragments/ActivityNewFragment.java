@@ -148,16 +148,6 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
             mGoogleMapController.setupGoogleMap(mapView);
             locationController.connectGoogleApi();
         }
-
-
-//        AsyncTask.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                Log.i(TAG, "running ");
-//
-//
-//            }
-//        });
     }
 
     @Override
