@@ -3,9 +3,9 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,6 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
-import com.sfsu.service.DownloadTickService;
 import com.sfsu.session.LoginResponse;
 import com.sfsu.session.SessionManager;
 import com.sfsu.validation.TextValidator;
@@ -119,7 +118,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
         final String password = et_password.getText().toString().trim();
 
         if (isEmailValid && isPasswordValid) {
-            login(email, password);
+            // FIXME: possible bug in additional Context dependency injection
+            login(email, password, mContext);
         } else {
             // Prompt user to enter credentials
             Toast.makeText(mContext, "Please enter valid credentials!", Toast.LENGTH_LONG).show();
@@ -132,7 +132,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
      * @param email
      * @param password
      */
-    public void login(final String email, final String password) {
+    public void login(final String email, final String password, Context mContext) {
         // verify and validate email and password input fields
         BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
         mProgressDialog = new ProgressDialog(mContext);
@@ -173,8 +173,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
      */
     @Subscribe
     public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
-        if (mProgressDialog.isShowing())
+        if (mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
+        }
         // Save the Access Token in Shared Preferences
         LoginResponse mLoginResponse = onLoaded.getResponse();
         boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
@@ -185,8 +186,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
             InvestickationApp.getInstance().initResources();
         }
 
-        // once the User is logged in, make a request to download all Ticks from the server and store it in DB
-        getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
+        //FIXME: Not required. Will be done when user is registered
+        //getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
 
         // once the token is set successfully, open the dashboard.
         mListener.userLoggedIn();

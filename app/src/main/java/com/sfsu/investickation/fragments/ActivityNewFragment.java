@@ -402,9 +402,6 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
 
             if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
                 reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
-//                Spannable spanText = Spannable.Factory.getInstance().newSpannable(textString);
-//                spanText.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, mContext.getColor(R.color
-//                        .colorPrimary))), 14, 19, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 txtView_setReminder.setText(reminderText);
 
                 // start the Alarm Reminder.
@@ -427,7 +424,6 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
         if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
             new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
         }
-
     }
 
 

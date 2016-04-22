@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sfsu.entities.Account;
 import com.sfsu.investickation.fragments.HomeFragment;
 import com.sfsu.investickation.fragments.LoginFragment;
 import com.sfsu.investickation.fragments.LogoutFragment;
@@ -110,14 +109,11 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
 
 
     @Override
-    public void onRegisterButtonClick(Account mUserObj) {
-        // pass this user obj to LoginFragment and make a call to LoginFragment
-        LoginFragment mLoginFragment = new LoginFragment();
-
-        // verify the details and pass the control to LoginFragment fragment.
-        if (mUserObj.getEmail() != null && mUserObj.getPassword() != null) {
-            mLoginFragment.login(mUserObj.getEmail(), mUserObj.getPassword());
-        }
+    public void onUserRegistrationDone() {
+        Intent dashboardIntent = new Intent(HomeActivity.this, MainActivity.class);
+        dashboardIntent.putExtra(KEY_SIGNIN_SUCCESS, 1);
+        startActivity(dashboardIntent);
+        finish();
     }
 
     @Override

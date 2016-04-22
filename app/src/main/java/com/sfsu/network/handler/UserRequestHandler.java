@@ -1,6 +1,7 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sfsu.entities.Account;
 import com.sfsu.network.error.ErrorResponse;
@@ -64,6 +65,7 @@ public class UserRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(userCall);
                 break;
             case ADD:
+                Log.i(TAG, "onInitializeUserEvent: reached");
                 userCall = mApiService.add(onLoadingInitialized.getRequest());
                 makeCRUDCall(userCall);
                 break;
@@ -97,7 +99,6 @@ public class UserRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Call<Account> call, Throwable t) {
-
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new UserEvent.OnLoadingError(t.getMessage(), -1));
                 } else {
@@ -114,6 +115,7 @@ public class UserRequestHandler extends ApiRequestHandler {
      */
     @Subscribe
     public void onInitializeUserLoginEvent(LoginEvent.OnLoadingInitialized onLoadingInitialized) {
+        Log.i(TAG, "onInitializeUserLoginEvent: reached");
         LoginService loginApiService = RetrofitApiClient.createService(LoginService.class);
         // make login call using LoginServiceApi
         Call<LoginResponse> userLoginCall = loginApiService.login(onLoadingInitialized.email, onLoadingInitialized.password);
@@ -121,6 +123,7 @@ public class UserRequestHandler extends ApiRequestHandler {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccess()) {
+                    Log.i(TAG, "onResponse: success");
                     mBus.post(new LoginEvent.OnLoaded(response.body()));
                 } else {
                     int statusCode = response.code();
@@ -136,6 +139,7 @@ public class UserRequestHandler extends ApiRequestHandler {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.i(TAG, "onFailure: complete fail");
                 if (t != null && t.getMessage() != null) {
                     mBus.post(new LoginEvent.OnLoadingError(t.getMessage(), -1));
                 } else {

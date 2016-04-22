@@ -1,12 +1,14 @@
 package com.sfsu.investickation.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +18,19 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.sfsu.application.InvestickationApp;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
 import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.service.DownloadTickService;
+import com.sfsu.session.LoginResponse;
+import com.sfsu.session.SessionManager;
 import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
@@ -73,9 +80,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private Context mContext;
     private DatabaseDataController dbController;
     private AuthPreferences mAuthPreferences;
+    private SessionManager mSessionManager;
     private Account mUserObj;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
     private boolean isPrivacyAgreementRead;
+    private ProgressDialog mProgressDialog;
 
     public RegisterFragment() {
         // IMP - Don't delete
@@ -115,6 +124,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         // when the user opens the RegisterFragment fragment for the first time, fade out the color of RegisterFragment Button.
         btnRegisterUser.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
         btnRegisterUser.setEnabled(false);
+
+        // preference manager for access token and user_id.
+        mAuthPreferences = new AuthPreferences(mContext);
+        mSessionManager = new SessionManager(mContext);
 
         isPrivacyAgreementRead = false;
         // implement the onClick method
@@ -159,13 +172,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     // This makes sure that the container activity has implemented the callback interface. If not, it throws an exception.
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (IRegisterCallBacks) activity;
-            mContext = activity;
+            if (context instanceof IRegisterCallBacks) {
+                mListener = (IRegisterCallBacks) context;
+                mContext = context;
+            }
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement IRegisterCallbacks to communicate with RegisterFragment");
         }
     }
@@ -211,6 +226,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 if (AppUtils.isConnectedOnline(mContext)) {
                     // once the user object is created, pass it to Bus to send it over to api via retrofit
                     BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUserObj, ApiRequestHandler.ADD));
+                    mProgressDialog = new ProgressDialog(mContext);
+                    mProgressDialog.setIndeterminate(true);
+                    mProgressDialog.setTitle("Registration");
+                    mProgressDialog.setMessage("Please wait while we register you...");
+                    mProgressDialog.show();
                 } else {
                     Toast.makeText(mContext, "Internet connection not available", Toast.LENGTH_LONG).show();
                 }
@@ -271,7 +291,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         if (resultCode != -1) {
             // once the user has successfully registered, make another call to API for the email and password to get the access
             // token and follow the same procedure as for the LoginFragment.
-            mListener.onRegisterButtonClick(mUserObj);
+            //mListener.onRegisterButtonClick(mUserObj);
+            BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(mUserObj.getEmail(), mUserObj.getPassword()));
         }
     }
 
@@ -286,6 +307,42 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     /**
+     * Subscribes to the LoginFragment event if the Response returned from the api is {@link LoginResponse}
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onUserLoginSuccess(LoginEvent.OnLoaded onLoaded) {
+        Log.i(TAG, "onUserLoginSuccess: yeah OK");
+        if (mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+        // Save the Access Token in Shared Preferences
+        LoginResponse mLoginResponse = onLoaded.getResponse();
+        boolean isCredentialsSet = mAuthPreferences.setCredentials(mLoginResponse.getAccessToken(), mLoginResponse.getUser_id());
+
+        // if the Auth preferences is successfully set in SharedPreferences, then set the LoginFragment flag.
+        if (isCredentialsSet) {
+            mSessionManager.setLogin(true);
+            InvestickationApp.getInstance().initResources();
+        }
+
+        // once the User is logged in, make a request to download all Ticks from the server and store it in DB
+        getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
+
+        // once the token is set successfully, open the dashboard.
+        mListener.onUserRegistrationDone();
+    }
+
+    @Subscribe
+    public void onLoginError(LoginEvent.OnLoadingError onLoadingError) {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+
+    /**
      * Callback Interface to implement onclick Listener in {@link RegisterFragment} Fragment.
      */
     public interface IRegisterCallBacks {
@@ -296,7 +353,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
          *
          * @param userResponse
          */
-        public void onRegisterButtonClick(Account mUserObj);
+        void onUserRegistrationDone();
 
     }
 
