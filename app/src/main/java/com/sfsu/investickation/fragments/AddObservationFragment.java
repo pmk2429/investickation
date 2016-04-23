@@ -368,8 +368,6 @@ public class AddObservationFragment extends Fragment implements LocationControll
         } else {
             Log.i(TAG, "askForPermission: not working");
         }
-
-
     }
 
     @Override

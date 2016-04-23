@@ -116,7 +116,7 @@ public class TickGuideDetailFragment extends Fragment {
             txtView_description.setText(mTick.getDescription());
             txtView_tickLocation.setText(mTick.getFound_near_habitat());
 
-            Picasso.with(mContext).load(mTick.getImageUrl()).into(imageView_tickImage);
+            //Picasso.with(mContext).load(mTick.getImageUrl()).into(imageView_tickImage);
         } catch (NullPointerException ne) {
 
         } catch (Exception e) {

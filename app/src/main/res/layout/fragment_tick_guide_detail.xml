@@ -25,14 +25,77 @@
             app:expandedTitleMarginStart="@dimen/widget_dimen"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/image_tickGuideDetail"
+            <!--<ImageView-->
+            <!--android:id="@+id/image_tickGuideDetail"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/cardview_X3_large"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--android:scaleType="fitXY"-->
+            <!--app:layout_collapseMode="parallax"/>-->
+
+            <TableLayout
+                android:id="@+id/tableLayout_tickDet_imageMain"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_X3_large"
-                android:adjustViewBounds="true"
-                android:fitsSystemWindows="true"
-                android:scaleType="fitXY"
-                app:layout_collapseMode="parallax"/>
+                android:layout_height="wrap_content"
+                android:background="@color/windowBackgroundColor"
+                android:padding="@dimen/view_dimen_small"
+                android:stretchColumns="0,1"
+                app:layout_collapseMode="parallax">
+
+                <TableRow
+                    android:id="@+id/tableRow_tickDet_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/cardview_small">
+
+                    <ImageView
+                        android:id="@+id/imageView_tickDet_image_1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/cardview_small"
+                        android:layout_column="0"
+                        android:layout_gravity="start"
+                        android:layout_marginEnd="@dimen/view_dimen_X_small"
+                        android:layout_weight="1">
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/imageView_tickDet_image_2"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/cardview_small"
+                        android:layout_column="1"
+                        android:layout_marginEnd="@dimen/view_dimen_X_small"
+                        android:layout_weight="1">
+                    </ImageView>
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow_tickDet_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/cardview_small">
+
+                    <ImageView
+                        android:id="@+id/imageView_tickDet_image_3"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/cardview_small"
+                        android:layout_column="0"
+                        android:layout_marginEnd="@dimen/view_dimen_X_small"
+                        android:layout_weight="1">
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/imageView_tickDet_image_4"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/cardview_small"
+                        android:layout_column="1"
+                        android:layout_marginStart="@dimen/view_dimen_X_small"
+                        android:layout_weight="1">
+                    </ImageView>
+
+                </TableRow>
+
+            </TableLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarTickDetail"
