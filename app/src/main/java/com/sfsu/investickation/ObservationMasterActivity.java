@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.fragments.AddObservationFragment;
+import com.sfsu.investickation.fragments.EditObservationFragment;
 import com.sfsu.investickation.fragments.ObservationDetailFragment;
 import com.sfsu.investickation.fragments.ObservationListFragment;
 import com.sfsu.investickation.fragments.ObservationMap;
@@ -17,7 +18,7 @@ import com.sfsu.investickation.fragments.PostObservationListFragment;
 public class ObservationMasterActivity extends MainBaseActivity
         implements ObservationListFragment.IRemoteObservationCallBacks,
         AddObservationFragment.IAddObservationCallBack,
-        ObservationMap.IObservationMapCallBack {
+        ObservationMap.IObservationMapCallBack, ObservationDetailFragment.IObservationDetailCallbacks {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
@@ -54,7 +55,7 @@ public class ObservationMasterActivity extends MainBaseActivity
                 // set the dashboard flag
                 FLAG_CALLED_FROM_DASHBOARD = true;
                 AddObservationFragment mAddObservationFragment = new AddObservationFragment();
-                performAddFragmentTransaction(mAddObservationFragment);
+                performAddFragmentTransaction(mAddObservationFragment, false);
             }
             // if the Intent is called from ActivityRunningFragment fragment to by clicking on AddObservationFragment button
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_ACTIVITY_ADD_OBS, 0) == 1) {
@@ -63,25 +64,25 @@ public class ObservationMasterActivity extends MainBaseActivity
                 // if the intent is called from the UserActivityMasterActivity
                 AddObservationFragment mAddObservationFragment = AddObservationFragment.newInstance(UserActivityMasterActivity
                         .KEY_ACTIVITY_ID, activityId);
-                performAddFragmentTransaction(mAddObservationFragment);
+                performAddFragmentTransaction(mAddObservationFragment, false);
             }
             // if the Intent is called from DashboardFragment by clicking on View Observations button.
             else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_OBSERVATION_LIST, 0) == 2) {
                 FLAG_CALLED_FROM_DASHBOARD = true;
                 ObservationListFragment observationListFragment = new ObservationListFragment();
-                performAddFragmentTransaction(observationListFragment);
+                performAddFragmentTransaction(observationListFragment, false);
             }
             // if the Intent is called from ActivityDetailFragment by clicking on ViewObservations button.
             else if (getIntent().getIntExtra(UserActivityMasterActivity.KEY_VIEW_OBSERVATIONS, 0) == 1) {
                 FLAG_CALLED_FROM_ACTIVITY_DETAILS = true;
                 String activityId = getIntent().getStringExtra(UserActivityMasterActivity.KEY_ACTIVITY_ID);
                 ObservationListFragment mObservationListFragment = ObservationListFragment.newInstance(activityId);
-                performAddFragmentTransaction(mObservationListFragment);
+                performAddFragmentTransaction(mObservationListFragment, false);
             }
             // else if the Observations is clicked in the NavDrawer
             else {
                 ObservationListFragment mObservationListFragment = new ObservationListFragment();
-                performAddFragmentTransaction(mObservationListFragment);
+                performAddFragmentTransaction(mObservationListFragment, false);
             }
         }
     }
@@ -90,10 +91,12 @@ public class ObservationMasterActivity extends MainBaseActivity
         * Helper method to perform Fragment Transitions in switching Fragments.
         * @param fragment
         */
-    private void performAddFragmentTransaction(Fragment fragment) {
+    private void performAddFragmentTransaction(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.add(R.id.observation_fragment_container, fragment);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -162,17 +165,6 @@ public class ObservationMasterActivity extends MainBaseActivity
         performReplaceFragmentTransaction(postObservationListFragment);
     }
 
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     @Override
     public void postObservationData(long statusFlag) {
         // dont add to backstack
@@ -186,5 +178,11 @@ public class ObservationMasterActivity extends MainBaseActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onEditObservationClick(Observation mObservation) {
+        EditObservationFragment mEditObservationFragment = EditObservationFragment.newInstance(mObservation);
+        performAddFragmentTransaction(mEditObservationFragment, true);
     }
 }

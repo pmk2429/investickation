@@ -82,6 +82,7 @@ public class ObservationDetailFragment extends Fragment {
     private DatabaseDataController dbController, dbActivitiesController, dbTicksController;
     private String description;
     private ObservationResponse mObservationResponse;
+    private IObservationDetailCallbacks mInterface;
 
     public ObservationDetailFragment() {
         // Required empty public constructor
@@ -107,25 +108,18 @@ public class ObservationDetailFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mContext = context;
+            if (context instanceof IObservationDetailCallbacks) {
+                mInterface = (IObservationDetailCallbacks) context;
+                mContext = context;
+            }
         } catch (Exception e) {
 
         }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(R.string.title_fragment_observation_detail);
-        BusProvider.bus().register(this);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            args = getArguments();
-        }
         setHasOptionsMenu(true);
     }
 
@@ -133,16 +127,25 @@ public class ObservationDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_observation_detail, container, false);
-
         ButterKnife.bind(this, rootView);
 
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         dbActivitiesController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
 
-        try {
+        return rootView;
+    }
 
-            if (args.getParcelable(KEY_OBSERVATION) != null) {
-                mObservation = args.getParcelable(KEY_OBSERVATION);
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        try {
+            // retrieve Observation from the Bundle
+            if (getArguments() != null) {
+                args = getArguments();
+                if (args.getParcelable(KEY_OBSERVATION) != null) {
+                    mObservation = args.getParcelable(KEY_OBSERVATION);
+                }
             }
 
             // set all the values in respective Views
@@ -197,9 +200,13 @@ public class ObservationDetailFragment extends Fragment {
         } catch (Exception e) {
             Log.i(TAG, e.getMessage());
         }
+    }
 
-
-        return rootView;
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.title_fragment_observation_detail);
+        BusProvider.bus().register(this);
     }
 
     @Subscribe
@@ -227,8 +234,7 @@ public class ObservationDetailFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_activity_detail, menu);
-        final MenuItem item = menu.findItem(R.id.action_delete);
+        inflater.inflate(R.menu.menu_observation_detail, menu);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -239,10 +245,15 @@ public class ObservationDetailFragment extends Fragment {
             case R.id.action_delete:
                 deleteObservation();
                 return true;
+            case R.id.action_edit:
+                if (mObservation != null) {
+                    mInterface.onEditObservationClick(mObservation);
+                    return true;
+                }
         }
-
         return false;
     }
+
 
     /**
      * Helper method to delete the current {@link Observation} from the server/database.
@@ -322,5 +333,17 @@ public class ObservationDetailFragment extends Fragment {
     @Subscribe
     public void onObservationDeleteFailure(ObservationEvent.OnLoadingError onLoadingError) {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Listener Callback interface to handle onClicks in {@link ObservationDetailFragment}
+     */
+    public interface IObservationDetailCallbacks {
+        /**
+         * Callback method to handle the onClick to edit the Observation
+         *
+         * @param mObservation
+         */
+        void onEditObservationClick(Observation mObservation);
     }
 }

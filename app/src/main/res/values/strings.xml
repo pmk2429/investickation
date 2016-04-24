@@ -130,6 +130,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="button_login">Already have an account? Log in</string>
     <string name="button_textLogin">LOG IN</string>
     <string name="button_postObservation">Post Observation</string>
+    <string name="button_updateObservation">Update Observation</string>
     <string name="button_addObservation">Add Observation</string>
 
     <!-- Google plus login-->

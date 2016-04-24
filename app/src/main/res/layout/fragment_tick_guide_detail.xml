@@ -44,6 +44,7 @@
                 android:stretchColumns="0,1"
                 app:layout_collapseMode="parallax">
 
+                <!--Row 1-->
                 <TableRow
                     android:id="@+id/tableRow_tickDet_1"
                     android:layout_width="match_parent"
@@ -70,6 +71,7 @@
 
                 </TableRow>
 
+                <!--Row 2-->
                 <TableRow
                     android:id="@+id/tableRow_tickDet_2"
                     android:layout_width="match_parent"

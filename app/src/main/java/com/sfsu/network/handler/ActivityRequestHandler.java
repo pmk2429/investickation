@@ -1,7 +1,6 @@
 package com.sfsu.network.handler;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
@@ -88,7 +87,6 @@ public class ActivityRequestHandler extends ApiRequestHandler {
                 makeCRUCall(activitiesCall);
                 break;
             case GET_ALL:
-                Log.i(TAG, "onInitializeActivityEvent: userID " + USER_ID);
                 listActivitiesCall = mApiService.getAll(USER_ID, orderFilter);
                 getAllActivitiesCalls(listActivitiesCall);
                 break;

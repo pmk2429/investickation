@@ -1,100 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorWhite"
-                android:orientation="vertical"
-                tools:context=".ObservationMainActivity">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/colorWhite"
+                                                 android:orientation="vertical"
+                                                 tools:context=".ObservationMasterActivity">
 
-
-    <!--  tick image -->
-    <ImageView
-        android:id="@+id/imageView_editObs_tickImage"
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_default"
-        android:layout_below="@id/toolbar_top_base"
-        android:layout_gravity="center_horizontal"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@mipmap/placeholder_tick"/>
+        android:layout_height="match_parent">
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_editObs_selectTickImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/imageView_editObs_tickImage"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="-40dp"
-        android:layout_marginRight="@dimen/view_dimen_small"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_icon="@drawable/ic_photo_camera_white_36dp"/>
+        <!--Reusable layout for Edit-->
+        <include
+            android:id="@+id/layout_edit_observation"
+            layout="@layout/layout_observation_add_edit"/>
 
-    <!--  Tick row -->
-    <ImageView
-        android:id="@+id/icon_tick"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/imageView_editObs_tickImage"
-        android:layout_marginLeft="@dimen/view_dimen_large"
-        android:layout_marginTop="@dimen/view_dimen_X_large"
-        android:padding="8dp"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_bug_report_black_36dp"/>
+    </ScrollView>
 
-    <EditText
-        android:id="@+id/editText_editObs_tickName"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/imageView_editObs_tickImage"
-        android:layout_marginEnd="@dimen/view_dimen_large"
-        android:layout_marginTop="@dimen/view_dimen_X_large"
-        android:layout_toEndOf="@id/icon_tick"
-        android:hint="Tick Name"
-        android:paddingBottom="16sp"
-        android:paddingTop="16dp"
-        android:textSize="@dimen/font_small"/>
 
-    <!--  Species row -->
-    <ImageView
-        android:id="@+id/icon_species"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/icon_tick"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:padding="8dp"
-        android:scaleType="fitCenter"
-        android:src="@mipmap/ic_species_gray_36"/>
-
-    <EditText
-        android:id="@+id/editText_editObs_tickSpecies"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@id/editText_editObs_tickName"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@id/icon_species"
-        android:hint="Species"
-        android:paddingBottom="16sp"
-        android:paddingTop="16dp"
-        android:textSize="@dimen/font_small"/>
-
-    <!-- Edit Observation Button -->
+    <!-- Update Observation Button -->
     <Button
-        android:id="@+id/button_editObservation"
+        android:id="@+id/button_addObs_postObservation"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/widget_dimen"
+        android:layout_below="@id/editText_addObs_description"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/view_dimen_large"
+        android:layout_marginLeft="@dimen/view_dimen_large"
+        android:layout_marginRight="@dimen/view_dimen_large"
         android:background="@color/colorPrimary"
-        android:text="Update Observation"
-        android:textColor="@color/colorWhite"/>
-</RelativeLayout>
+        android:drawableEnd="@mipmap/ic_send_white_24dp"
+        android:paddingEnd="@dimen/view_dimen_large"
+        android:paddingStart="@dimen/view_dimen_large"
+        android:text="@string/button_updateObservation"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/font_small"/>
+
+</android.support.design.widget.CoordinatorLayout>

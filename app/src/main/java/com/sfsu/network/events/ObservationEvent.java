@@ -7,6 +7,9 @@ import com.sfsu.entities.response.ResponseCount;
 import java.util.List;
 
 /**
+ * Handles all the {@link Observation} type of events such as loading list, creating new Observation, Deleting observation etc.
+ * The ObservationEvent is used to post on EventBus regarding any events related to Observation
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
 public class ObservationEvent extends BaseNetworkEvent {
@@ -132,15 +135,6 @@ public class ObservationEvent extends BaseNetworkEvent {
     }
 
     /**
-     * Event handler for loading list of ObservationResponse from the server
-     */
-    public static class OnObservationResponseListLoaded extends OnDone<ObservationResponse> {
-        public OnObservationResponseListLoaded(List<ObservationResponse> observationResponseList) {
-            super(observationResponseList);
-        }
-    }
-
-    /**
      * Event Handler When loading of Observation Events throws errors.
      */
     public static class OnLoadingError extends OnFailed {
@@ -148,4 +142,5 @@ public class ObservationEvent extends BaseNetworkEvent {
             super(errorMessage, code);
         }
     }
+
 }
