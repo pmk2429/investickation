@@ -1,5 +1,9 @@
 # InvesTICKations
-InvesTICKations is a Citizen Science project led by Prof. Andrea Swei at SFSU Biology Department whose goal is to capture real time data related to Ticks’ activity (times and places of tick bites, tick types etc.) during usual human activities such as hiking or walking, and to allow scientists to analyze and visualize all the user gathered data. 
+
+![alt text](https://github.com/pmk2429/investickation/tree/devp/app/src/main/res/drawable-xhdpi/logo-main.png "InvesTICKations
+logo")
+
+InvesTICKations is a Citizen Science project led by Prof. Andrea Swei at SFSU Biology Department whose goal is to capture real time data related to Ticks’ activity (times and places of tick bites, tick types etc.) during usual human activities such as hiking or walking, and to allow scientists to analyze and visualize all the user gathered data.
 
 [Ticks](https://en.wikipedia.org/wiki/Tick) are external parasites living by feeding on the blood of mammals, birds, as well as reptiles and amphibian.
 
@@ -28,3 +32,4 @@ InvesTICKations Android application allows users to capture tick encounters in r
 - [SlidingUpPanel](https://github.com/umano/AndroidSlidingUpPanel)
 
 > The project has been supported in part by [SFSU Center for Computing for Life Sciences](http://cs.sfsu.edu/ccls/).
+![alt text](https://github.com/pmk2429/investickation/tree/devp/app/src/main/res/drawable-xhdpi/SFSU.png "SFSU logo")
