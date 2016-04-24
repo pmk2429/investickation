@@ -166,6 +166,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
         } else {
+            //FIXME ActivityId will be empty
             activityId = "";
         }
 
