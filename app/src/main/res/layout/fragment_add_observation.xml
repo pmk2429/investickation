@@ -23,7 +23,7 @@
         android:id="@+id/button_addObs_postObservation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/editText_addObs_description"
+        android:layout_below="@id/layout_add_observation"
         android:layout_centerHorizontal="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/view_dimen_large"
