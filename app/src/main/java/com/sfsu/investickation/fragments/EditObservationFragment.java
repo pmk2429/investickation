@@ -1,9 +1,21 @@
 package com.sfsu.investickation.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +24,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.entities.Observation;
+import com.sfsu.image.AlbumStorageDirFactory;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.utils.PermissionUtils;
 import com.sfsu.validation.TextValidator;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +50,7 @@ import butterknife.ButterKnife;
  * The Observation can be stored locally or on cloud and depending on its storage
  */
 
-// TODO: this Fragment contains the boilerplate from AddObservationFragment so change it before publishing
+// TODO: this Fragment contains the code dupe from AddObservationFragment. Change it before publishing
 
 public class EditObservationFragment extends Fragment implements View.OnClickListener {
 
@@ -58,6 +80,11 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     private IEditObservationCallbacks mInterface;
     private Observation mObservation;
     private Context mContext;
+    private DatabaseDataController dbController;
+    private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
+    private PermissionUtils mPermissionUtils;
+    private ProgressDialog mProgressDialog;
+    private String selectedImagePath;
 
     public EditObservationFragment() {
         // Required empty public constructor
@@ -91,9 +118,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         //et_description.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, EditObservationFragment.this, et_numOfTicks));
         // initialize the Floating button.
-        final FloatingActionButton addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_addObs_addTickImage);
-
-        addTickImage.setOnClickListener(this);
+        final FloatingActionButton fab_addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_addObs_addTickImage);
 
         btn_chooseFromGuide.setText(getString(R.string.text_edit_referTickGuide));
 
@@ -105,13 +130,8 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
             et_numOfTicks.setText(mObservation.getNum_of_ticks());
         }
 
-
-        btn_UpdateObservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateObservation();
-            }
-        });
+        fab_addTickImage.setOnClickListener(this);
+        btn_UpdateObservation.setOnClickListener(this);
 
         return rootView;
     }
@@ -134,7 +154,6 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         if (!mObservation.getDescription().equals(et_description.getText().toString())) {
             mObservation.setDescription(et_description.getText().toString());
         }
-        
 
     }
 
@@ -170,7 +189,199 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_editObs_updateObservation:
+                updateObservation();
+                break;
+            case R.id.fab_addObs_addTickImage:
+                startDialogForChoosingImage();
+                break;
+        }
 
+    }
+
+    /**
+     * This method is used to popup a dialog box for allowing user to select
+     * the Tick image from Camera or Gallery.
+     */
+    private void startDialogForChoosingImage() {
+        AlertDialog.Builder chooseImageAlertDialog = new AlertDialog.Builder(mContext);
+        chooseImageAlertDialog.setTitle(R.string.alertDialog_tickImage_title);
+        chooseImageAlertDialog.setMessage(R.string.alertDialog_tickImage_message);
+
+        // Choose from Gallery.
+        chooseImageAlertDialog.setPositiveButton(R.string.alertDialog_tickImage_gallery,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent pictureActionIntent = null;
+                        // Select the Intent depending on Camera
+                        pictureActionIntent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        // finally call intent for Result.
+                        pictureActionIntent.setType("image/*");
+                        startActivityForResult(pictureActionIntent, GALLERY_PICTURE);
+                    }
+                });
+
+        // Choose from Camera.
+        chooseImageAlertDialog.setNegativeButton(R.string.alertDialog_tickImage_camera,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File f = null;
+                        try {
+                            f = setUpPhotoFile();
+                            selectedImagePath = f.getAbsolutePath();
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            f = null;
+                            selectedImagePath = null;
+                        }
+                        startActivityForResult(takePictureIntent, CAMERA_PICTURE);
+                    }
+                });
+        chooseImageAlertDialog.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // if the Image was selected from the Camera
+        if (requestCode == CAMERA_PICTURE) {
+            handleCameraPicture();
+        }
+        // if the image is chosen from Gallery
+        else if (requestCode == GALLERY_PICTURE) {
+            try {
+                if (data != null) {
+                    InputStream inputStream = mContext.getContentResolver().openInputStream(data.getData());
+                    Drawable testExternalStorage = BitmapDrawable.createFromStream(inputStream, "tick");
+                    imageView_tickAddObservation.setImageDrawable(testExternalStorage);
+
+                    selectedImagePath = data.getData().getPath();
+                }
+            } catch (Exception e) {
+                Log.i(TAG, "->G :" + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Handles the captured camera image
+     */
+    private void handleCameraPicture() {
+        if (selectedImagePath != null) {
+            setPic();
+            galleryAddPic();
+            selectedImagePath = null;
+        } else {
+            Log.i(TAG, "handleCameraPicture: selectedPath null");
+        }
+    }
+
+
+    /**
+     * Returns the Photo album for this application
+     */
+    private String getAlbumName() {
+        return getString(R.string.album_name);
+    }
+
+    /**
+     * Returns the album directory for the application in external storage
+     *
+     * @return
+     */
+    private File getAlbumDir() {
+        File storageDir = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            storageDir = mAlbumStorageDirFactory.getAlbumStorageDir(getAlbumName());
+            if (storageDir != null) {
+                if (!storageDir.mkdirs()) {
+                    if (!storageDir.exists()) {
+                        return null;
+                    }
+                }
+            }
+        } else {
+            Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
+        }
+        return storageDir;
+    }
+
+
+    /**
+     * Method to create the temp file by specifying the name using prefix, suffix and timestamp
+     *
+     * @return
+     * @throws IOException
+     */
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("MMddyyyy_HHmmss", Locale.US).format(new Date());
+        String imageFileName = JPEG_FILE_PREFIX + timeStamp;
+        File albumF = getAlbumDir();
+        return File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+    }
+
+    /**
+     * Intermediate method to create File for the captured Image
+     *
+     * @return
+     * @throws IOException
+     */
+    private File setUpPhotoFile() throws IOException {
+        File f = createImageFile();
+        selectedImagePath = f.getAbsolutePath();
+        return f;
+    }
+
+    /**
+     * Previews the captured image into ImageView
+     */
+    private void setPic() {
+        /* There isn't enough memory to open up more than a couple camera photos */
+        /* So pre-scale the target bitmap into which the file is decoded */
+
+		/* Get the size of the ImageView */
+        int targetW = imageView_tickAddObservation.getWidth();
+        int targetH = imageView_tickAddObservation.getHeight();
+
+		/* Get the size of the image */
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(selectedImagePath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+		/* Figure out which way needs to be reduced less */
+        int scaleFactor = 1;
+        if ((targetW > 0) || (targetH > 0)) {
+            scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+        }
+
+		/* Set bitmap options to scale the image decode target */
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+
+		/* Decode the JPEG file into a Bitmap */
+        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, bmOptions);
+
+		/* Associate the Bitmap to the ImageView */
+        imageView_tickAddObservation.setImageBitmap(bitmap);
+
+    }
+
+    /**
+     * Finally saves the image to the gallery in external storage
+     */
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        File f = new File(selectedImagePath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        mContext.sendBroadcast(mediaScanIntent);
     }
 
 
