@@ -29,7 +29,6 @@ public interface ActivityApiService {
      *
      * @return
      */
-//    @GET("activities/{id}")
     @GET(ApiResources.ActivitiesBase + "/" + ApiResources.ID)
     public Call<Activities> get(@Path("id") String activityId);
 
@@ -38,18 +37,8 @@ public interface ActivityApiService {
      *
      * @return
      */
-//    @GET("accounts/{id}/activities")
     @GET(ApiResources.AccountBase + "/" + ApiResources.ID + "/" + ApiResources.ActivitiesBase)
     public Call<List<Activities>> getAll(@Path("id") String user_id, @Query("filter") String orderFilter);
-
-
-    /**
-     * Returns the list of all the {@link Activities} from the server sorted by the order specified.
-     *
-     * @return
-     */
-//    @GET("accounts/{id}/activities")
-//    public Call<List<Activities>> getAll(@Path("id") String user_id, @Query("sort") String sortOrder);
 
 
     /**

@@ -75,6 +75,9 @@ import butterknife.ButterKnife;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+/**
+ * Most important Fragment in the application
+ */
 public class AddObservationFragment extends Fragment implements LocationController.ILocationCallBacks,
         TextValidator.ITextValidate, View.OnClickListener {
 
@@ -219,6 +222,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         if (isCameraApproved && isWriteStorageApproved && isReadStorageApproved) {
             startDialogForChoosingImage();
         } else {
+            // will be called only first time the user chooses to select Image
             askForPermission();
         }
     }
@@ -247,19 +251,16 @@ public class AddObservationFragment extends Fragment implements LocationControll
                 newObservationObj.setLatitude(latitude);
                 newObservationObj.setLongitude(longitude);
 
-                // depending on network connection, save the Observation on storage or server
+                // depending on network connection, save the Observation in local storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
-                    displayProgressDialog("Making Observation...");
+                    displayProgressDialog("Posting Observation...");
                 } else {
                     // create Unique ID for the Running activity of length 32.
                     String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
-
                     // set the remaining params.
                     newObservationObj.setId(observationUUID);
-
                     newObservationObj.setImageUrl(selectedImagePath);
-
                     long resultCode = dbController.save(newObservationObj);
 
                     if (resultCode != -1) {
@@ -318,7 +319,6 @@ public class AddObservationFragment extends Fragment implements LocationControll
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         // pass the Tick name and Species using EventBus
                         Tick tickSelected = tickList.get(position);
-                        Log.i(TAG, "onItemClick: " + tickSelected.toString());
                         BusProvider.bus().post(new TickEvent.OnTickSelected(tickSelected));
                         dialog.dismiss();
                     }
@@ -700,7 +700,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
     @Subscribe
     public void onObservationDataPostFailure(ObservationEvent.OnLoadingError onLoadingError) {
         dismissProgressDialog();
-        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -721,7 +721,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
     @Subscribe
     public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
         dismissProgressDialog();
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 

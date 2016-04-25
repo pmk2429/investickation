@@ -7,8 +7,6 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +36,9 @@ import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.service.PeriodicAlarm;
 import com.sfsu.utils.AppUtils;
+import com.sfsu.validation.TextValidator;
+import com.sfsu.validation.TextValidator.ITextValidate;
+import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -49,8 +50,11 @@ import butterknife.ButterKnife;
  * ActivityNewFragment Fragment provides Account the capability to add new Activity. The ActivityNewFragment fragment passes the newly created
  * Activities object to the ActivityRunningFragment fragment.
  */
-public class ActivityNewFragment extends Fragment implements View.OnClickListener, LocationController.ILocationCallBacks,
-        AlertDialogMaster.IReminderCallback {
+public class ActivityNewFragment extends Fragment implements
+        View.OnClickListener,
+        LocationController.ILocationCallBacks,
+        AlertDialogMaster.IReminderCallback,
+        ITextValidate {
 
     public final String TAG = "~!@#$ActivityNewFragment";
 
@@ -62,7 +66,7 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
     EditText et_totalPets;
     @Bind(R.id.textView_actNew_reminder)
     TextView txtView_setReminder;
-
+    // Views and Attribs
     private EditText et_manualInput;
     private Button btnHalfHour, btnHour;
     private GoogleMap googleMap;
@@ -74,6 +78,7 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
     private String reminderText;
     private long REMINDER_INTERVAL;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
+    private boolean isTotalPetsValid, isTotalPeopleValid, isActivityNameValid;
     private LocationController locationController;
     private GoogleMapController mGoogleMapController;
     private LocationController.ILocationCallBacks mLocationListener;
@@ -107,9 +112,9 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
         // reference for setting up the Activities Object.
         newActivityObj = new Activities();
 
-        et_activityName.addTextChangedListener(new TextValidator(et_activityName));
-        et_totalPeople.addTextChangedListener(new TextValidator(et_totalPeople));
-        et_totalPets.addTextChangedListener(new TextValidator(et_totalPets));
+        et_activityName.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_activityName));
+        et_totalPeople.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_totalPeople));
+        et_totalPets.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_totalPets));
 
         // Get the MapView from the XML layout and inflate it
         mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
@@ -216,7 +221,7 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
         /*
         Validate all the input Strings and once the validation passes, create the activity object and pass it to parent Activity
          */
-        if (validateString() && validateNumber(1) && validateNumber(2)) {
+        if (isActivityNameValid && isTotalPeopleValid && isTotalPetsValid) {
             String activityName = et_activityName.getText().toString();
             int totalPeople = Integer.parseInt(et_totalPeople.getText().toString());
             int totalPets = Integer.parseInt(et_totalPets.getText().toString());
@@ -268,42 +273,6 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
         } else {
             return;
         }
-    }
-
-    // validate the input String be it first name, last name, address etc
-    private boolean validateString() {
-        if (et_activityName.getText().toString().trim().isEmpty()) {
-            et_activityName.setError(getString(R.string.error_invalid_string));
-            et_activityName.requestFocus();
-            return false;
-        } else {
-            et_activityName.setError(null);
-        }
-        return true;
-    }
-
-    // validate the input String for valid Numeric value
-    private boolean validateNumber(int checkCode) {
-        if (checkCode == 1) {
-            String numOfPeople = et_totalPeople.getText().toString().trim();
-            if (numOfPeople.isEmpty() || !AppUtils.isNumeric(numOfPeople)) {
-                et_totalPeople.setError(getString(R.string.error_NAN));
-                et_totalPeople.requestFocus();
-                return false;
-            } else {
-                et_totalPeople.setError(null);
-            }
-        } else if (checkCode == 2) {
-            String totalPets = et_totalPets.getText().toString().trim();
-            if (totalPets.isEmpty() || !AppUtils.isNumeric(totalPets)) {
-                et_totalPets.setError(getString(R.string.error_NAN));
-                et_totalPets.requestFocus();
-                return false;
-            } else {
-                et_totalPets.setError(null);
-            }
-        }
-        return true;
     }
 
     @Override
@@ -416,6 +385,22 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    @Override
+    public void validate(View mView, String text) {
+        EditText mEditText = (EditText) mView;
+        switch (mView.getId()) {
+            case R.id.editText_actNew_ActivityName:
+                isActivityNameValid = ValidationUtil.validateString(mEditText, text);
+                break;
+            case R.id.editText_actNew_totalPets:
+                isTotalPetsValid = ValidationUtil.validateNumber(mEditText, text);
+                break;
+            case R.id.editText_actNew_numOfPeople:
+                isTotalPeopleValid = ValidationUtil.validateNumber(mEditText, text);
+                break;
+        }
+    }
+
 
     /**
      * Interface Callback to define the callback methods for ActivityNewFragment fragment
@@ -428,43 +413,6 @@ public class ActivityNewFragment extends Fragment implements View.OnClickListene
          * @param newActivityDetails
          */
         public void onPlayButtonClick(Bundle activityBundle);
-    }
-
-    /**
-     * TextValidator class to validate the input Text from the user.
-     */
-    private class TextValidator implements TextWatcher {
-
-        private View view;
-
-        public TextValidator(View view) {
-            this.view = view;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            switch (view.getId()) {
-                case R.id.editText_actNew_ActivityName:
-                    validateString();
-                    break;
-                case R.id.editText_actNew_numOfPeople:
-                    validateNumber(1);
-                    break;
-                case R.id.editText_actNew_totalPets:
-                    validateNumber(2);
-                    break;
-            }
-        }
     }
 
 }

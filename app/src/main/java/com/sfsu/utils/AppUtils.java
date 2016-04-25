@@ -9,6 +9,8 @@ import android.text.TextUtils;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -98,6 +100,18 @@ public class AppUtils {
     }
 
     /**
+     * Returns an Array of US States
+     */
+    public static ArrayList<String> getStates() {
+        String[] states = new String[]{"AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
+                "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MH", "MI", "MN", "MO", "MS",
+                "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "PW",
+                "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"};
+
+        return new ArrayList<>(Arrays.asList(states));
+    }
+
+    /**
      * Returns whether the location is enabled or not
      *
      * @return
@@ -124,4 +138,5 @@ public class AppUtils {
             return !TextUtils.isEmpty(locationProviders);
         }
     }
+
 }

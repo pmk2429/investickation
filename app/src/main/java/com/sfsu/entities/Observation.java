@@ -59,7 +59,6 @@ public class Observation implements Parcelable, Entity {
     public Observation() {
     }
 
-
     /**
      * Constructor overloading to create the Observation object for sending it over to Server via Retrofit.
      *
@@ -97,6 +96,52 @@ public class Observation implements Parcelable, Entity {
         activity_id = in.readString();
         tick_id = in.readString();
         location = in.readParcelable(EntityLocation.class.getClassLoader());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if ((o == null) || (o.getClass() != this.getClass())) {
+            return false;
+        }
+
+        Observation obs = (Observation) o;
+        return (this.id == obs.id)
+                && (this.tickName == obs.tickName)
+                && (this.species == obs.species)
+                && (this.imageUrl == obs.imageUrl)
+                && (this.geo_location == obs.geo_location)
+                && (this.num_of_ticks == obs.num_of_ticks)
+                && (this.description == obs.description)
+                && (this.timestamp == obs.timestamp)
+                && (this.latitude == obs.latitude)
+                && (this.longitude == obs.longitude)
+                && (this.user_id == obs.user_id)
+                && (this.activity_id == obs.activity_id)
+                && (this.tick_id == obs.tick_id)
+                && (this.location == obs.location);
+
+    }
+
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (tickName != null ? species.hashCode() : 0);
+        result = 31 * result + (species != null ? species.hashCode() : 0);
+        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
+        result = 31 * result + (geo_location != null ? geo_location.hashCode() : 0);
+        result = 31 * result + num_of_ticks;
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (int) timestamp;
+        result = 31 * result + (int) latitude;
+        result = 31 * result + (int) longitude;
+        result = 31 * result + (user_id != null ? user_id.hashCode() : 0);
+        result = 31 * result + (activity_id != null ? activity_id.hashCode() : 0);
+        result = 31 * result + (tick_id != null ? tick_id.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
+
     }
 
     public EntityLocation getLocation() {

@@ -12,9 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.sfsu.application.InvestickationApp;
@@ -51,7 +54,7 @@ import butterknife.ButterKnife;
  * The main reason for storing the Account on local DB is to avoid making unwanted network calls when the user wants to log back
  * in.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener, ITextValidate {
+public class RegisterFragment extends Fragment implements View.OnClickListener, ITextValidate, AdapterView.OnItemSelectedListener {
 
     private final String TAG = "~!@#RegisterFragment";
     // EditTexts
@@ -67,8 +70,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     EditText et_address;
     @Bind(R.id.editText_register_city)
     EditText et_city;
-    @Bind(R.id.editText_register_state)
-    EditText et_state;
+    @Bind(R.id.spinner_register_state)
+    Spinner spinner_state;
     //Button
     @Bind(R.id.button_registerUser)
     Button btnRegisterUser;
@@ -83,6 +86,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private Account mUserObj;
     private boolean isFullNameValid, isEmailValid, isPasswordValid, isAddressValid, isZipcodeValid, isCityValid, isStateValid;
     private boolean isPrivacyAgreementRead;
+    private String stateSelected;
     private ProgressDialog mProgressDialog;
 
     public RegisterFragment() {
@@ -98,12 +102,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_register, container, false);
-
-        // bind the widgets
         ButterKnife.bind(this, v);
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, R.layout.spinner_item, AppUtils.getStates());
+        // attaching data adapter to spinner
+        spinner_state.setAdapter(dataAdapter);
 
         et_fullName.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_fullName));
         et_email.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_email));
@@ -111,7 +117,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         et_address.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_address));
         et_zipcode.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_zipcode));
         et_city.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_city));
-        et_state.addTextChangedListener(new TextValidator(mContext, RegisterFragment.this, et_state));
 
         checkbox_privacyAgreement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +136,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         isPrivacyAgreementRead = false;
         // implement the onClick method
         btnRegisterUser.setOnClickListener(this);
+        spinner_state.setOnItemSelectedListener(this);
+
         return v;
     }
 
@@ -205,7 +212,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == btnRegisterUser.getId()) {
-
             // verify all the users input data.
             if (isFullNameValid && isEmailValid && isPasswordValid && isAddressValid && isPrivacyAgreementRead) {
 
@@ -216,10 +222,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 int zipcode = Integer.valueOf(et_zipcode.getText().toString());
                 String address = et_address.getText().toString();
                 String city = et_city.getText().toString();
-                String state = et_state.getText().toString();
+                stateSelected = stateSelected != null ? stateSelected : "";
 
                 // make a new Account object.
-                mUserObj = Account.createUser(fullName, address, city, state, zipcode, email, password);
+                mUserObj = Account.createUser(fullName, address, city, stateSelected, zipcode, email, password);
 
 
                 if (AppUtils.isConnectedOnline(mContext)) {
@@ -255,9 +261,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.editText_register_city:
                 isCityValid = ValidationUtil.validateString(mEditText, text);
-                break;
-            case R.id.editText_register_state:
-                isStateValid = ValidationUtil.validateString(mEditText, text);
                 break;
             case R.id.editText_register_zip:
                 isZipcodeValid = ValidationUtil.validateNumber(mEditText, text);
@@ -337,6 +340,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         if (mProgressDialog.isShowing())
             mProgressDialog.dismiss();
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        stateSelected = parent.getItemAtPosition(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 
 

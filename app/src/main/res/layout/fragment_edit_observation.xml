@@ -21,7 +21,7 @@
 
     <!-- Update Observation Button -->
     <Button
-        android:id="@+id/button_addObs_postObservation"
+        android:id="@+id/button_editObs_updateObservation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/layout_edit_observation"
