@@ -22,16 +22,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.image.AlbumStorageDirFactory;
+import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.FileUploadEvent;
+import com.sfsu.network.events.ObservationEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.utils.PermissionUtils;
 import com.sfsu.validation.TextValidator;
+import com.sfsu.validation.ValidationUtil;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +53,8 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * Edit the {@link com.sfsu.entities.Observation} posted by User.
@@ -52,7 +65,7 @@ import butterknife.ButterKnife;
 
 // TODO: this Fragment contains the code dupe from AddObservationFragment. Change it before publishing
 
-public class EditObservationFragment extends Fragment implements View.OnClickListener {
+public class EditObservationFragment extends Fragment implements View.OnClickListener, TextValidator.ITextValidate {
 
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
@@ -85,6 +98,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     private PermissionUtils mPermissionUtils;
     private ProgressDialog mProgressDialog;
     private String selectedImagePath;
+    private boolean isTotalTicksNumber, isTickNameValid;
 
     public EditObservationFragment() {
         // Required empty public constructor
@@ -145,14 +159,41 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
      * </p>
      */
     private void updateObservation() {
-        if (!mObservation.getTickName().equals(et_tickName.getText().toString())) {
-            mObservation.setTickName(et_tickName.getText().toString());
-        }
-        if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString())) {
-            mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
-        }
-        if (!mObservation.getDescription().equals(et_description.getText().toString())) {
-            mObservation.setDescription(et_description.getText().toString());
+
+        try {
+            if (isTickNameValid && isTotalTicksNumber) {
+                if (!mObservation.getTickName().equals(et_tickName.getText().toString())) {
+                    mObservation.setTickName(et_tickName.getText().toString());
+                }
+                if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString())) {
+                    mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
+                }
+                if (!mObservation.getDescription().equals(et_description.getText().toString())) {
+                    mObservation.setDescription(et_description.getText().toString());
+                }
+
+
+                // depending on network connection, save the Observation in local storage or server
+                if (AppUtils.isConnectedOnline(mContext)) {
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, ApiRequestHandler.ADD));
+                    displayProgressDialog("Posting Observation...");
+                } else {
+                    // create Unique ID for the Running activity of length 32.
+                    String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
+                    // set the remaining params.
+                    mObservation.setImageUrl(selectedImagePath);
+                    long resultCode = dbController.save(mObservation);
+
+                    if (resultCode != -1) {
+                        // if saved to DB successfully, open ObservationsList
+                        mInterface.updateObservation();
+                    } else {
+                        Toast.makeText(mContext, "Fail to update Observation", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
 
     }
@@ -198,6 +239,23 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
                 break;
         }
 
+    }
+
+    /**
+     * Displays progress dialog
+     */
+    private void displayProgressDialog(String message) {
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    /**
+     * Dismisses progress dialog
+     */
+    private void dismissProgressDialog() {
+        if (mProgressDialog.isShowing())
+            mProgressDialog.dismiss();
     }
 
     /**
@@ -384,9 +442,83 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         mContext.sendBroadcast(mediaScanIntent);
     }
 
+    @Override
+    public void validate(View mView, String text) {
+        EditText mEditText = (EditText) mView;
+        switch (mView.getId()) {
+            case R.id.editText_addObs_tickName:
+                isTickNameValid = ValidationUtil.validateString(mEditText, text);
+                break;
+//            case R.id.editText_addObs_tickSpecies:
+//                isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
+//                break;
+            case R.id.editText_addObs_numOfTicks:
+                isTotalTicksNumber = ValidationUtil.validateNumber(mEditText, text);
+                break;
+        }
+    }
+
+
+    /**
+     * Subscribes to the event of successful observation creation. Once the Observation is created successfully, the Account
+     * captured image of tick inside the Observation is posted on server.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
+        dismissProgressDialog();
+        Observation observationResponse = onLoaded.getResponse();
+        // create File from the path
+        File imageFile = new File(selectedImagePath);
+        // create RequestBody to send the image to server
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+        // create dynamic file name for the image
+        String fileParam = "file\"; filename=\"" + imageFile.getName();
+        // finally create ImageData object that contains RequestBody and Image name
+        ImageData mImageData = new ImageData(requestBody, fileParam);
+        // once done, post the File to the Bus for posting it on server.
+        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
+                ApiRequestHandler.UPLOAD_TICK_IMAGE));
+        // show progress dialog
+        displayProgressDialog("Uploading Image...");
+    }
+
+    /**
+     * Subscribes to the event of Failure in posting the Observation data on the server.
+     *
+     * @param onLoadingError
+     */
+    @Subscribe
+    public void onObservationDataPostFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        dismissProgressDialog();
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
+
+
+    /**
+     * Subscribes to event of successful Observation Image upload to the server. The <tt>OnLoaded</tt> will return the {@link
+     * Observation} as a response after successful network post request.
+     *
+     * @param onLoaded
+     */
+    @Subscribe
+    public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
+        dismissProgressDialog();
+        // pass the Observation response object to the ObservationActivity.
+        mInterface.updateObservation();
+    }
+
+
+    @Subscribe
+    public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
+        dismissProgressDialog();
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
+    }
 
     public interface IEditObservationCallbacks {
 
+        void updateObservation();
     }
 
 }
