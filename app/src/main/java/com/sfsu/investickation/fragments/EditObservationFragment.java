@@ -7,12 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -26,10 +24,9 @@ import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.controllers.ImageController;
 import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
-import com.sfsu.image.AlbumStorageDirFactory;
-import com.sfsu.investickation.ObservationMasterActivity;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.FileUploadEvent;
@@ -47,9 +44,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,8 +64,6 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     protected static final int CAMERA_PICTURE = 12;
     protected static final int GALLERY_PICTURE = 24;
     private static final String KEY_EDIT_OBSERVATION = "edit_observation";
-    private static final String JPEG_FILE_PREFIX = "TICK_";
-    private static final String JPEG_FILE_SUFFIX = ".jpg";
     private static final int GALLERY_CAMERA_PERMISSION = 24;
     private final String LOGTAG = "~!@#EditObsFrag:";
     private final String TAG = "~!@#$AddObservation";
@@ -94,11 +86,14 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     private Observation mObservation;
     private Context mContext;
     private DatabaseDataController dbController;
-    private AlbumStorageDirFactory mAlbumStorageDirFactory = null;
     private PermissionUtils mPermissionUtils;
     private ProgressDialog mProgressDialog;
+    /* selectedImagePath for Camera will be retrieved from the file
+    and from data stream for image chosen from Gallery
+     */
     private String selectedImagePath;
     private boolean isTotalTicksNumber, isTickNameValid;
+    private ImageController mImageController;
 
     public EditObservationFragment() {
         // Required empty public constructor
@@ -235,7 +230,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
                 updateObservation();
                 break;
             case R.id.fab_addObs_addTickImage:
-                startDialogForChoosingImage();
+                openDialogForChoosingImage();
                 break;
         }
 
@@ -262,7 +257,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
      * This method is used to popup a dialog box for allowing user to select
      * the Tick image from Camera or Gallery.
      */
-    private void startDialogForChoosingImage() {
+    private void openDialogForChoosingImage() {
         AlertDialog.Builder chooseImageAlertDialog = new AlertDialog.Builder(mContext);
         chooseImageAlertDialog.setTitle(R.string.alertDialog_tickImage_title);
         chooseImageAlertDialog.setMessage(R.string.alertDialog_tickImage_message);
@@ -288,7 +283,8 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         File f = null;
                         try {
-                            f = setUpPhotoFile();
+                            f = mImageController.setUpPhotoFile();
+                            // IMP : here the image path is retrieved from File created using ImageController
                             selectedImagePath = f.getAbsolutePath();
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                         } catch (IOException e) {
@@ -316,7 +312,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
                     InputStream inputStream = mContext.getContentResolver().openInputStream(data.getData());
                     Drawable testExternalStorage = BitmapDrawable.createFromStream(inputStream, "tick");
                     imageView_tickAddObservation.setImageDrawable(testExternalStorage);
-
+                    // set the image path from InputStream
                     selectedImagePath = data.getData().getPath();
                 }
             } catch (Exception e) {
@@ -331,7 +327,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     private void handleCameraPicture() {
         if (selectedImagePath != null) {
             setPic();
-            galleryAddPic();
+            mImageController.galleryAddPic(selectedImagePath);
             selectedImagePath = null;
         } else {
             Log.i(TAG, "handleCameraPicture: selectedPath null");
@@ -340,107 +336,15 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
 
 
     /**
-     * Returns the Photo album for this application
-     */
-    private String getAlbumName() {
-        return getString(R.string.album_name);
-    }
-
-    /**
-     * Returns the album directory for the application in external storage
-     *
-     * @return
-     */
-    private File getAlbumDir() {
-        File storageDir = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-            storageDir = mAlbumStorageDirFactory.getAlbumStorageDir(getAlbumName());
-            if (storageDir != null) {
-                if (!storageDir.mkdirs()) {
-                    if (!storageDir.exists()) {
-                        return null;
-                    }
-                }
-            }
-        } else {
-            Log.v(getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
-        }
-        return storageDir;
-    }
-
-
-    /**
-     * Method to create the temp file by specifying the name using prefix, suffix and timestamp
-     *
-     * @return
-     * @throws IOException
-     */
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("MMddyyyy_HHmmss", Locale.US).format(new Date());
-        String imageFileName = JPEG_FILE_PREFIX + timeStamp;
-        File albumF = getAlbumDir();
-        return File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
-    }
-
-    /**
-     * Intermediate method to create File for the captured Image
-     *
-     * @return
-     * @throws IOException
-     */
-    private File setUpPhotoFile() throws IOException {
-        File f = createImageFile();
-        selectedImagePath = f.getAbsolutePath();
-        return f;
-    }
-
-    /**
      * Previews the captured image into ImageView
      */
     private void setPic() {
-        /* There isn't enough memory to open up more than a couple camera photos */
-        /* So pre-scale the target bitmap into which the file is decoded */
-
-		/* Get the size of the ImageView */
-        int targetW = imageView_tickAddObservation.getWidth();
-        int targetH = imageView_tickAddObservation.getHeight();
-
-		/* Get the size of the image */
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(selectedImagePath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-		/* Figure out which way needs to be reduced less */
-        int scaleFactor = 1;
-        if ((targetW > 0) || (targetH > 0)) {
-            scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-        }
-
-		/* Set bitmap options to scale the image decode target */
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-
-		/* Decode the JPEG file into a Bitmap */
-        Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, bmOptions);
-
-		/* Associate the Bitmap to the ImageView */
+        Bitmap bitmap = mImageController.getBitmapForImageView(imageView_tickAddObservation, selectedImagePath);
+        /* Associate the Bitmap to the ImageView */
         imageView_tickAddObservation.setImageBitmap(bitmap);
 
     }
 
-    /**
-     * Finally saves the image to the gallery in external storage
-     */
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
-        File f = new File(selectedImagePath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        mContext.sendBroadcast(mediaScanIntent);
-    }
 
     @Override
     public void validate(View mView, String text) {

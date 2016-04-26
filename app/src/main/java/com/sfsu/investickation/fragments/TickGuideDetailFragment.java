@@ -9,13 +9,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sfsu.entities.Tick;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.TickGuideMasterActivity;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,9 +36,6 @@ public class TickGuideDetailFragment extends Fragment {
     TextView txtView_tickSpecies;
     @Bind(R.id.textView_tickDet_tickDetails)
     TextView txtView_description;
-
-    @Bind(R.id.image_tickGuideDetail)
-    ImageView imageView_tickImage;
 
     private Bundle args;
     private Tick mTick;
