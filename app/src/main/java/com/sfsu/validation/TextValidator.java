@@ -51,6 +51,8 @@ public class TextValidator implements TextWatcher {
         mInterface.validate(mView, text);
     }
 
+
+
     /**
      * Callback interface to Validate the EditText for input String.
      */

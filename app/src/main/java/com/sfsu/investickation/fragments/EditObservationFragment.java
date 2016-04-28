@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,7 +128,9 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         //et_description.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, EditObservationFragment.this, et_numOfTicks));
         // initialize the Floating button.
+
         final FloatingActionButton fab_addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_addObs_addTickImage);
+        fab_addTickImage.setOnClickListener(this);
 
         btn_chooseFromGuide.setText(getString(R.string.text_edit_referTickGuide));
 
@@ -139,10 +142,25 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
             et_numOfTicks.setText(mObservation.getNum_of_ticks());
         }
 
-        fab_addTickImage.setOnClickListener(this);
+        // initially the color of the button will be Greyish to disable user updating observation
+        setStateOfUpdateButton(false);
         btn_UpdateObservation.setOnClickListener(this);
 
         return rootView;
+    }
+
+    /**
+     * Sets the state of Update button depending on initial load, user edits and change of data
+     *
+     * @param isEditable
+     */
+    private void setStateOfUpdateButton(boolean isChanged) {
+        if (isChanged) {
+            btn_UpdateObservation.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+        } else {
+            btn_UpdateObservation.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
+        }
+        btn_UpdateObservation.setEnabled(isChanged);
     }
 
     /**
@@ -157,21 +175,21 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
 
         try {
             if (isTickNameValid && isTotalTicksNumber) {
-                if (!mObservation.getTickName().equals(et_tickName.getText().toString())) {
+                if (!mObservation.getTickName().equals(et_tickName.getText().toString().trim())) {
                     mObservation.setTickName(et_tickName.getText().toString());
                 }
-                if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString())) {
+                if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString().trim())) {
                     mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
                 }
-                if (!mObservation.getDescription().equals(et_description.getText().toString())) {
+                if (!mObservation.getDescription().equals(et_description.getText().toString().trim())) {
                     mObservation.setDescription(et_description.getText().toString());
                 }
 
 
                 // depending on network connection, save the Observation in local storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
-                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, ApiRequestHandler.ADD));
-                    displayProgressDialog("Posting Observation...");
+                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, ApiRequestHandler.UPDATE));
+                    displayProgressDialog(mContext.getString(R.string.progressDialog_posting_observation));
                 } else {
                     // create Unique ID for the Running activity of length 32.
                     String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
@@ -190,7 +208,6 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         } catch (Exception e) {
             Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
 
@@ -342,7 +359,6 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         Bitmap bitmap = mImageController.getBitmapForImageView(imageView_tickAddObservation, selectedImagePath);
         /* Associate the Bitmap to the ImageView */
         imageView_tickAddObservation.setImageBitmap(bitmap);
-
     }
 
 
@@ -353,9 +369,6 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
             case R.id.editText_addObs_tickName:
                 isTickNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
-//            case R.id.editText_addObs_tickSpecies:
-//                isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
-//                break;
             case R.id.editText_addObs_numOfTicks:
                 isTotalTicksNumber = ValidationUtil.validateNumber(mEditText, text);
                 break;
@@ -364,13 +377,13 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
 
 
     /**
-     * Subscribes to the event of successful observation creation. Once the Observation is created successfully, the Account
-     * captured image of tick inside the Observation is posted on server.
+     * Subscribes to the event of successful observation update. Once the Observation is updated successfully, the image is
+     * posted on the server on the updated Observation
      *
      * @param onLoaded
      */
     @Subscribe
-    public void onObservationDataPostSuccess(ObservationEvent.OnLoaded onLoaded) {
+    public void onObservationUpdateSuccess(ObservationEvent.OnLoaded onLoaded) {
         dismissProgressDialog();
         Observation observationResponse = onLoaded.getResponse();
         // create File from the path
@@ -385,7 +398,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));
         // show progress dialog
-        displayProgressDialog("Uploading Image...");
+        displayProgressDialog(mContext.getString(R.string.progressDialog_uploading_image));
     }
 
     /**
@@ -420,8 +433,14 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Callback interface to handle the onClicks in the {@link EditObservationFragment}
+     */
     public interface IEditObservationCallbacks {
 
+        /**
+         *
+         */
         void updateObservation();
     }
 

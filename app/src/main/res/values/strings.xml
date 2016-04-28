@@ -290,6 +290,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="progressDialog_register_message">Please wait while we register you...</string>
     <string name="progressDialog_login_title">Login</string>
     <string name="progressDialog_login_message">Logging in...</string>
+    <string name="progressDialog_uploading_image">Uploading Image...</string>
+    <string name="progressDialog_posting_observation">Posting Observation...</string>
 
     <!-- ImageManager -->
     <string name="album_name">InvesTICKations</string>
