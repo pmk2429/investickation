@@ -143,7 +143,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         }
 
         // initially the color of the button will be Greyish to disable user updating observation
-        setStateOfUpdateButton(false);
+        //setStateOfUpdateButton(false);
         btn_UpdateObservation.setOnClickListener(this);
 
         return rootView;
@@ -172,36 +172,45 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
      * </p>
      */
     private void updateObservation() {
-
+        boolean isNameChanged = false, isTotalTicksChanged = false, isDescriptionChanged = false, isImageChanged = false;
         try {
             if (isTickNameValid && isTotalTicksNumber) {
                 if (!mObservation.getTickName().equals(et_tickName.getText().toString().trim())) {
                     mObservation.setTickName(et_tickName.getText().toString());
+                    isNameChanged = true;
                 }
                 if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString().trim())) {
                     mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
+                    isTotalTicksChanged = true;
                 }
                 if (!mObservation.getDescription().equals(et_description.getText().toString().trim())) {
                     mObservation.setDescription(et_description.getText().toString());
+                    isDescriptionChanged = true;
                 }
+                if (!selectedImagePath.equals(mObservation.getImageUrl()))
+                    isImageChanged = true;
 
-
-                // depending on network connection, save the Observation in local storage or server
-                if (AppUtils.isConnectedOnline(mContext)) {
-                    BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, ApiRequestHandler.UPDATE));
-                    displayProgressDialog(mContext.getString(R.string.progressDialog_posting_observation));
-                } else {
-                    // create Unique ID for the Running activity of length 32.
-                    String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
-                    // set the remaining params.
-                    mObservation.setImageUrl(selectedImagePath);
-                    long resultCode = dbController.save(mObservation);
-
-                    if (resultCode != -1) {
-                        // if saved to DB successfully, open ObservationsList
-                        mInterface.updateObservation();
+                // FIXME: change this behavior to state pattern where if state of Object changes, then make following actions
+                // call to network or DB only if the state changes
+                if (isNameChanged || isDescriptionChanged || isTotalTicksChanged || isImageChanged) {
+                    // depending on network connection, save the Observation in local storage or server
+                    if (AppUtils.isConnectedOnline(mContext)) {
+                        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, mObservation.getId(),
+                                ApiRequestHandler.UPDATE));
+                        displayProgressDialog(mContext.getString(R.string.progressDialog_posting_observation));
                     } else {
-                        Toast.makeText(mContext, "Fail to update Observation", Toast.LENGTH_LONG).show();
+                        // create Unique ID for the Running activity of length 32.
+                        String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
+                        // set the remaining params.
+                        mObservation.setImageUrl(selectedImagePath);
+                        long resultCode = dbController.save(mObservation);
+
+                        if (resultCode != -1) {
+                            // if saved to DB successfully, open ObservationsList
+                            mInterface.displayObservationDetails(mObservation);
+                        } else {
+                            Toast.makeText(mContext, "Fail to update Observation", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             }
@@ -385,7 +394,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     @Subscribe
     public void onObservationUpdateSuccess(ObservationEvent.OnLoaded onLoaded) {
         dismissProgressDialog();
-        Observation observationResponse = onLoaded.getResponse();
+        Observation updatedObservation = onLoaded.getResponse();
         // create File from the path
         File imageFile = new File(selectedImagePath);
         // create RequestBody to send the image to server
@@ -395,7 +404,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         // finally create ImageData object that contains RequestBody and Image name
         ImageData mImageData = new ImageData(requestBody, fileParam);
         // once done, post the File to the Bus for posting it on server.
-        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
+        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, updatedObservation.getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));
         // show progress dialog
         displayProgressDialog(mContext.getString(R.string.progressDialog_uploading_image));
@@ -423,7 +432,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
         dismissProgressDialog();
         // pass the Observation response object to the ObservationActivity.
-        mInterface.updateObservation();
+        mInterface.displayObservationDetails(onLoaded.getResponse());
     }
 
 
@@ -439,9 +448,9 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     public interface IEditObservationCallbacks {
 
         /**
-         *
+         * @param mObservation
          */
-        void updateObservation();
+        void displayObservationDetails(Observation mObservation);
     }
 
 }

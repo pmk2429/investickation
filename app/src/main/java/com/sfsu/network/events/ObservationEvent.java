@@ -36,7 +36,7 @@ public class ObservationEvent extends BaseNetworkEvent {
         }
 
         /**
-         * Constructor overlaoding for HTTP GET, DELETE calls.
+         * Constructor overloading for HTTP GET, DELETE calls.
          *
          * @param observationId
          * @param apiRequestMethod
@@ -47,7 +47,7 @@ public class ObservationEvent extends BaseNetworkEvent {
         }
 
         /**
-         * Constructor overlaoding for HTTP GET, DELETE calls.
+         * Constructor overloading for HTTP GET, DELETE calls.
          *
          * @param observationId
          * @param apiRequestMethod

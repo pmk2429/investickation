@@ -18,7 +18,9 @@ import com.sfsu.investickation.fragments.PostObservationListFragment;
 public class ObservationMasterActivity extends MainBaseActivity
         implements ObservationListFragment.IRemoteObservationCallBacks,
         AddObservationFragment.IAddObservationCallBack,
-        ObservationMap.IObservationMapCallBack, ObservationDetailFragment.IObservationDetailCallbacks {
+        ObservationMap.IObservationMapCallBack,
+        ObservationDetailFragment.IObservationDetailCallbacks,
+        EditObservationFragment.IEditObservationCallbacks {
 
     public static final String KEY_OBSERVATION_DETAIL = "observation_detail";
     public static final String KEY_BACK_TO_ACTIVITY_RUNNING = "back_to_activity_running";
@@ -184,5 +186,11 @@ public class ObservationMasterActivity extends MainBaseActivity
     public void onEditObservationClick(Observation mObservation) {
         EditObservationFragment mEditObservationFragment = EditObservationFragment.newInstance(mObservation);
         performAddFragmentTransaction(mEditObservationFragment, true);
+    }
+
+    @Override
+    public void displayObservationDetails(Observation mObservation) {
+        ObservationDetailFragment observationDetailFragment = ObservationDetailFragment.newInstance(mObservation);
+        performReplaceFragmentTransaction(observationDetailFragment);
     }
 }

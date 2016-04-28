@@ -22,6 +22,7 @@ public class TextValidator implements TextWatcher {
     private View mView;
     private Context mContext;
     private ITextValidate mInterface;
+    private boolean isTextChanged;
 
     /**
      * Constructor overloading for getting the EditText to validate.
@@ -34,6 +35,18 @@ public class TextValidator implements TextWatcher {
         this.mContext = mContext;
     }
 
+    /**
+     * Constructor overloading for getting the EditText to validate.
+     *
+     * @param mView
+     */
+    public TextValidator(Context mContext, Fragment fragment, View mView, boolean isTextChanged) {
+        this.mInterface = (ITextValidate) fragment;
+        this.mView = mView;
+        this.mContext = mContext;
+        this.isTextChanged = isTextChanged;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -41,7 +54,9 @@ public class TextValidator implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (isTextChanged) {
 
+        }
     }
 
     @Override
@@ -50,7 +65,6 @@ public class TextValidator implements TextWatcher {
         String text = mEditText.getText().toString();
         mInterface.validate(mView, text);
     }
-
 
 
     /**
