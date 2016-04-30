@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Cancellable Intro text -->
+            <!-- Cancellable Intro text
             <RelativeLayout
                 android:id="@+id/relativeLayout_dashboard_introText"
                 android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                     android:layout_height="match_parent"/>
 
             </RelativeLayout>
+            -->
 
             <!-- Layout for Observation card, Activity card and Observation button, Activity button-->
             <RelativeLayout

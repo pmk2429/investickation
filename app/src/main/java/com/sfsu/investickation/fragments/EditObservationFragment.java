@@ -349,20 +349,16 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
             if (isTickNameValid && isTotalTicksNumber) {
                 if (!mObservation.getTickName().equals(et_tickName.getText().toString())) {
                     mObservation.setTickName(et_tickName.getText().toString());
-                    Log.i(TAG, "1");
                 }
                 if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString())) {
                     mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
-                    Log.i(TAG, "2");
                 }
                 if (!mObservation.getDescription().equals(et_description.getText().toString())) {
                     mObservation.setDescription(et_description.getText().toString());
-                    Log.i(TAG, "3");
                 }
 
                 // need to check the selectedImagePath for the image
                 if (selectedImagePath != null) {
-                    Log.i(TAG, "4");
                     if (mObservation.isOnCloud())
                         mObservation.setImageUrl(null);
                     else

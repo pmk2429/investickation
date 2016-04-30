@@ -72,16 +72,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private DatabaseDataController dbTickController;
     private PermissionUtils mPermissionUtils;
     private boolean FLAG_PERMISSION;
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally to access previous
-     * and next wizard steps.
-     */
-    private ViewPager mPager;
-
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private PagerAdapter mPagerAdapter;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -205,10 +195,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         // enable Location at the start
         //enableLocation();
 
-        // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) v.findViewById(R.id.viewPager_dashboard_info);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
+//        // Instantiate a ViewPager and a PagerAdapter.
+//        mPager = (ViewPager) v.findViewById(R.id.viewPager_dashboard_info);
+//        mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager());
+//        mPager.setAdapter(mPagerAdapter);
 
         return v;
     }
