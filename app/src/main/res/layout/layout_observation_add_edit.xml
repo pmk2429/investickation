@@ -16,6 +16,13 @@
         android:scaleType="fitXY"
         android:src="@mipmap/placeholder_tick"/>
 
+    <!--Line separator to distinguish images in white background-->
+    <View
+        android:id="@+id/view_divider_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separator_dimen"
+        android:layout_below="@id/imageView_addObs_tickImage"
+        android:background="@color/divider"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_addObs_addTickImage"
@@ -123,7 +130,7 @@
         android:singleLine="true"
         android:textSize="@dimen/font_small"/>
 
-    <!--  Species row -->
+    <!--  Description row -->
     <ImageView
         android:id="@+id/icon_observation_note"
         android:layout_width="@dimen/widget_dimen"

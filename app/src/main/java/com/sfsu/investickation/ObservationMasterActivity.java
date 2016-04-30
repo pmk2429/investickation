@@ -107,11 +107,12 @@ public class ObservationMasterActivity extends MainBaseActivity
      *
      * @param fragment
      */
-    private void performReplaceFragmentTransaction(Fragment fragment) {
+    private void performReplaceFragmentTransaction(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         transaction.replace(R.id.observation_fragment_container, fragment);
-        transaction.addToBackStack(null);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -151,30 +152,26 @@ public class ObservationMasterActivity extends MainBaseActivity
     public void onObservationAddListener() {
         FLAG_CALLED_FROM_OBSERVATION = true;
         AddObservationFragment addObservationFragment = new AddObservationFragment();
-        performReplaceFragmentTransaction(addObservationFragment);
+        performReplaceFragmentTransaction(addObservationFragment, true);
     }
 
 
     @Override
     public void onObservationListItemClickListener(Observation observation) {
         ObservationDetailFragment observationDetailFragment = ObservationDetailFragment.newInstance(observation);
-        performReplaceFragmentTransaction(observationDetailFragment);
+        performReplaceFragmentTransaction(observationDetailFragment, true);
     }
 
     @Override
     public void onUploadListOfObservations() {
-        PostObservationListFragment postObservationListFragment = new PostObservationListFragment();
-        performReplaceFragmentTransaction(postObservationListFragment);
+        performReplaceFragmentTransaction(new PostObservationListFragment(), true);
     }
 
     @Override
     public void postObservationData(long statusFlag) {
         // dont add to backstack
         ObservationListFragment observationListFragment = ObservationListFragment.newInstance(statusFlag);
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-        transaction.replace(R.id.observation_fragment_container, observationListFragment);
-        transaction.commit();
+        performReplaceFragmentTransaction(observationListFragment, false);
     }
 
     @Override
@@ -185,12 +182,12 @@ public class ObservationMasterActivity extends MainBaseActivity
     @Override
     public void onEditObservationClick(Observation mObservation) {
         EditObservationFragment mEditObservationFragment = EditObservationFragment.newInstance(mObservation);
-        performAddFragmentTransaction(mEditObservationFragment, true);
+        performReplaceFragmentTransaction(mEditObservationFragment, true);
     }
 
     @Override
     public void displayObservationDetails(Observation mObservation) {
         ObservationDetailFragment observationDetailFragment = ObservationDetailFragment.newInstance(mObservation);
-        performReplaceFragmentTransaction(observationDetailFragment);
+        performReplaceFragmentTransaction(observationDetailFragment, true);
     }
 }

@@ -40,7 +40,7 @@ import com.sfsu.validation.ValidationUtil;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,8 +66,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     protected static final int GALLERY_PICTURE = 24;
     private static final String KEY_EDIT_OBSERVATION = "edit_observation";
     private static final int GALLERY_CAMERA_PERMISSION = 24;
-    private final String LOGTAG = "~!@#EditObsFrag:";
-    private final String TAG = "~!@#$AddObservation";
+    private final String TAG = "~!@#EditObs";
     // ImageView
     @Bind(R.id.imageView_addObs_tickImage)
     ImageView imageView_tickAddObservation;
@@ -111,15 +110,13 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(R.string.title_fragment_observation_edit);
         if (getArguments() != null) {
             mObservation = getArguments().getParcelable(KEY_EDIT_OBSERVATION);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_edit_observation, container, false);
         ButterKnife.bind(this, rootView);
@@ -139,7 +136,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
             Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_tickAddObservation);
             et_tickName.setText(mObservation.getTickName());
             et_description.setText(mObservation.getDescription());
-            et_numOfTicks.setText(mObservation.getNum_of_ticks());
+            et_numOfTicks.setText(String.valueOf(mObservation.getNum_of_ticks()));
         }
 
         // initially the color of the button will be Greyish to disable user updating observation
@@ -163,62 +160,6 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         btn_UpdateObservation.setEnabled(isChanged);
     }
 
-    /**
-     * In order to edit the Observation, we are allowing user to change only <tt>image</tt>, <tt>name</tt>, <tt>description</tt>,
-     * <tt>num_of_ticks</tt> and <tt>species</tt>.
-     * <p>
-     * So a check is done to know if the original Observation data and the new edited Observation data are same or not.
-     * If they differ, then only update is called and data is updated.
-     * </p>
-     */
-    private void updateObservation() {
-        boolean isNameChanged = false, isTotalTicksChanged = false, isDescriptionChanged = false, isImageChanged = false;
-        try {
-            if (isTickNameValid && isTotalTicksNumber) {
-                if (!mObservation.getTickName().equals(et_tickName.getText().toString().trim())) {
-                    mObservation.setTickName(et_tickName.getText().toString());
-                    isNameChanged = true;
-                }
-                if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString().trim())) {
-                    mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
-                    isTotalTicksChanged = true;
-                }
-                if (!mObservation.getDescription().equals(et_description.getText().toString().trim())) {
-                    mObservation.setDescription(et_description.getText().toString());
-                    isDescriptionChanged = true;
-                }
-                if (!selectedImagePath.equals(mObservation.getImageUrl()))
-                    isImageChanged = true;
-
-                // FIXME: change this behavior to state pattern where if state of Object changes, then make following actions
-                // call to network or DB only if the state changes
-                if (isNameChanged || isDescriptionChanged || isTotalTicksChanged || isImageChanged) {
-                    // depending on network connection, save the Observation in local storage or server
-                    if (AppUtils.isConnectedOnline(mContext)) {
-                        BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, mObservation.getId(),
-                                ApiRequestHandler.UPDATE));
-                        displayProgressDialog(mContext.getString(R.string.progressDialog_posting_observation));
-                    } else {
-                        // create Unique ID for the Running activity of length 32.
-                        String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);
-                        // set the remaining params.
-                        mObservation.setImageUrl(selectedImagePath);
-                        long resultCode = dbController.save(mObservation);
-
-                        if (resultCode != -1) {
-                            // if saved to DB successfully, open ObservationsList
-                            mInterface.displayObservationDetails(mObservation);
-                        } else {
-                            Toast.makeText(mContext, "Fail to update Observation", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -235,6 +176,8 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle(R.string.title_fragment_observation_edit);
+        mProgressDialog = new ProgressDialog(mContext);
         BusProvider.bus().register(this);
     }
 
@@ -384,10 +327,90 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         }
     }
 
+    /**
+     * In order to edit the Observation, we are allowing user to change only <tt>image</tt>, <tt>name</tt>, <tt>description</tt>,
+     * <tt>num_of_ticks</tt> and <tt>species</tt>.
+     * <p>
+     * Update Observation checks for the following cases:
+     * <ul>
+     * <li>Observation state is changed</li>
+     * <li>Observation content is validated</li>
+     * <li>Observation is Stored on Cloud</li>
+     * <ul><li>Update Observation only on Cloud ONLY else display Toast</li></ul>
+     * <li>Observation is stored locally</li>
+     * <ul><li>Update the Observation stored locally ONLY</li></ul>
+     * </ul>
+     * </p>
+     * This ensure that no matter what the state of Observation is, update that Observation at the same place where it is stored.
+     */
+    private void updateObservation() {
+        Observation originalObservation = SerializationUtils.clone(mObservation);
+        try {
+            if (isTickNameValid && isTotalTicksNumber) {
+                if (!mObservation.getTickName().equals(et_tickName.getText().toString())) {
+                    mObservation.setTickName(et_tickName.getText().toString());
+                    Log.i(TAG, "1");
+                }
+                if (mObservation.getNum_of_ticks() != Integer.parseInt(et_numOfTicks.getText().toString())) {
+                    mObservation.setNum_of_ticks(Integer.parseInt(et_numOfTicks.getText().toString()));
+                    Log.i(TAG, "2");
+                }
+                if (!mObservation.getDescription().equals(et_description.getText().toString())) {
+                    mObservation.setDescription(et_description.getText().toString());
+                    Log.i(TAG, "3");
+                }
+
+                // need to check the selectedImagePath for the image
+                if (selectedImagePath != null) {
+                    Log.i(TAG, "4");
+                    if (mObservation.isOnCloud())
+                        mObservation.setImageUrl(null);
+                    else
+                        mObservation.setImageUrl(selectedImagePath);
+                }
+
+                // compare the originalObservation with this Observation and make
+                if (mObservation.equals(originalObservation)) {
+                    Toast.makeText(mContext, "Nothing to update", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Observation is on Cloud
+                    if (mObservation.isOnCloud()) {
+                        // here the Observation is on Cloud to update it if network is available
+                        if (AppUtils.isConnectedOnline(mContext)) {
+                            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation, mObservation.getId(),
+                                    ApiRequestHandler.UPDATE));
+                            displayProgressDialog(mContext.getString(R.string.progressDialog_updating_observation));
+                        } else {
+                            // display Toast that the Observation cant be updated now and wait until getting back in network
+                            Toast.makeText(mContext, "No network available, cannot update the Observation now", Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                    // observation is stored locally so update the Observation locally ONLY
+                    else {
+                        // get the resultCode after updating the Observation
+                        boolean resultCode = dbController.update(mObservation.getId(), mObservation);
+
+                        if (resultCode) {
+                            // if saved to DB successfully, open ObservationDetail
+                            mInterface.displayObservationDetails(mObservation);
+                        } else {
+                            Toast.makeText(mContext, "Fail to update Observation", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            }
+
+
+        } catch (Exception e) {
+            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 
     /**
      * Subscribes to the event of successful observation update. Once the Observation is updated successfully, the image is
-     * posted on the server on the updated Observation
+     * posted on the server on the updated Observation.
+     * Only if the image is changed, we are making another synchronous call to change the image
      *
      * @param onLoaded
      */
@@ -395,19 +418,23 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     public void onObservationUpdateSuccess(ObservationEvent.OnLoaded onLoaded) {
         dismissProgressDialog();
         Observation updatedObservation = onLoaded.getResponse();
-        // create File from the path
-        File imageFile = new File(selectedImagePath);
-        // create RequestBody to send the image to server
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        // create dynamic file name for the image
-        String fileParam = "file\"; filename=\"" + imageFile.getName();
-        // finally create ImageData object that contains RequestBody and Image name
-        ImageData mImageData = new ImageData(requestBody, fileParam);
-        // once done, post the File to the Bus for posting it on server.
-        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, updatedObservation.getId(),
-                ApiRequestHandler.UPLOAD_TICK_IMAGE));
-        // show progress dialog
-        displayProgressDialog(mContext.getString(R.string.progressDialog_uploading_image));
+        if (selectedImagePath != null) {
+            // create File from the path
+            File imageFile = new File(selectedImagePath);
+            // create RequestBody to send the image to server
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+            // create dynamic file name for the image
+            String fileParam = "file\"; filename=\"" + imageFile.getName();
+            // finally create ImageData object that contains RequestBody and Image name
+            ImageData mImageData = new ImageData(requestBody, fileParam);
+            // once done, post the File to the Bus for posting it on server.
+            BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, updatedObservation.getId(),
+                    ApiRequestHandler.UPLOAD_TICK_IMAGE));
+            // show progress dialog
+            displayProgressDialog(mContext.getString(R.string.progressDialog_uploading_image));
+        } else {
+            mInterface.displayObservationDetails(updatedObservation);
+        }
     }
 
     /**

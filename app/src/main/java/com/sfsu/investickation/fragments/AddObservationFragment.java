@@ -249,7 +249,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
                 // depending on network connection, save the Observation in local storage or server
                 if (AppUtils.isConnectedOnline(mContext)) {
                     BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(newObservationObj, ApiRequestHandler.ADD));
-                    displayProgressDialog("Posting Observation...");
+                    displayProgressDialog(mContext.getString(R.string.progressDialog_posting_observation));
                 } else {
                     // create Unique ID for the Running activity of length 32.
                     String observationUUID = RandomStringUtils.randomAlphanumeric(Observation.ID_LENGTH);

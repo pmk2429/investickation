@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * <p>
  * <tt>Observation</tt> defines tick related data created by the {@link Account}. The {@link Observation} specifies the process of
@@ -16,7 +19,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Pavitra on 5/19/2015.
  */
 
-public class Observation implements Parcelable, Entity {
+public class Observation implements Parcelable, Entity, Serializable {
 
 
     public final static transient int ID_LENGTH = 23;
@@ -100,48 +103,28 @@ public class Observation implements Parcelable, Entity {
 
     @Override
     public boolean equals(Object o) {
-        if ((o == null) || (o.getClass() != this.getClass())) {
-            return false;
-        }
-
-        Observation obs = (Observation) o;
-        return (this.id == obs.id)
-                && (this.tickName == obs.tickName)
-                && (this.species == obs.species)
-                && (this.imageUrl == obs.imageUrl)
-                && (this.geo_location == obs.geo_location)
-                && (this.num_of_ticks == obs.num_of_ticks)
-                && (this.description == obs.description)
-                && (this.timestamp == obs.timestamp)
-                && (this.latitude == obs.latitude)
-                && (this.longitude == obs.longitude)
-                && (this.user_id == obs.user_id)
-                && (this.activity_id == obs.activity_id)
-                && (this.tick_id == obs.tick_id)
-                && (this.location == obs.location);
-
+        if (this == o) return true;
+        if (!(o instanceof Observation)) return false;
+        Observation that = (Observation) o;
+        return getNum_of_ticks() == that.getNum_of_ticks() &&
+                getTimestamp() == that.getTimestamp() &&
+                getUpdated_at() == that.getUpdated_at() &&
+                Double.compare(that.getLatitude(), getLatitude()) == 0 &&
+                Double.compare(that.getLongitude(), getLongitude()) == 0 &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getTickName(), that.getTickName()) &&
+                Objects.equals(getSpecies(), that.getSpecies()) &&
+                Objects.equals(getImageUrl(), that.getImageUrl()) &&
+                Objects.equals(getGeo_location(), that.getGeo_location()) &&
+                Objects.equals(getDescription(), that.getDescription()) &&
+                Objects.equals(getUser_id(), that.getUser_id()) &&
+                Objects.equals(getActivity_id(), that.getActivity_id()) &&
+                Objects.equals(getTick_id(), that.getTick_id());
     }
-
 
     @Override
     public int hashCode() {
-        int result = 0;
-        result = 31 * result + (id != null ? id.hashCode() : 0);
-        result = 31 * result + (tickName != null ? species.hashCode() : 0);
-        result = 31 * result + (species != null ? species.hashCode() : 0);
-        result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
-        result = 31 * result + (geo_location != null ? geo_location.hashCode() : 0);
-        result = 31 * result + num_of_ticks;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (int) timestamp;
-        result = 31 * result + (int) latitude;
-        result = 31 * result + (int) longitude;
-        result = 31 * result + (user_id != null ? user_id.hashCode() : 0);
-        result = 31 * result + (activity_id != null ? activity_id.hashCode() : 0);
-        result = 31 * result + (tick_id != null ? tick_id.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        return result;
-
+        return Objects.hash(getId(), getTickName(), getSpecies(), getImageUrl(), getGeo_location(), getNum_of_ticks(), getDescription(), getTimestamp(), getUpdated_at(), getLatitude(), getLongitude(), getUser_id(), getActivity_id(), getTick_id());
     }
 
     public EntityLocation getLocation() {
