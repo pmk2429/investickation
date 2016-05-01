@@ -125,7 +125,7 @@
                 android:layout_marginBottom="@dimen/view_dimen_large"
                 android:layout_marginEnd="@dimen/view_dimen_small"
                 android:layout_marginStart="@dimen/view_dimen_small"
-                android:layout_marginTop="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
                 card_view:cardPreventCornerOverlap="false">
 
                 <RelativeLayout
