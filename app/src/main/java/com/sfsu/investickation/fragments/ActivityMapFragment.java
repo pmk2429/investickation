@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
+import com.sfsu.investickation.customview.MySlidingPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
@@ -26,24 +28,26 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * Displays User's trajectory on Google Maps. In addition, all the locations where the Observations are made, are displayed as
+ * Markers on the maps. Upon clicking the marker, a sliding panel is opened which displays the Observation details
+ */
 public class ActivityMapFragment extends Fragment implements GoogleMapController.IMarkerClickCallBack {
 
-    private static final String TAG = "`!@#$ActivityMapFragment";
+    private static final String TAG = "`!@#$ActMapFrag";
     private static String KEY_OBSERVATIONS_LIST = "activity_id";
-    //
     @Bind(R.id.mapView_activitiesMap_main)
     MapView mMapView;
-    //
     @Bind(R.id.slidingLayout_infoWindow)
-    SlidingUpPanelLayout mSlidingUpPanelLayout;
-    // TextView
+    MySlidingPanelLayout mSlidingUpPanelLayout;
     @Bind(R.id.textView_infoWindow_obsName)
     TextView txtView_obsName;
     @Bind(R.id.textView_infoWindow_location)
     TextView txtView_geoLocation;
-    //ImageView
     @Bind(R.id.imageView_infoWindow_tickImage)
     ImageView imageView_obsImage;
+    @Bind(R.id.relativeLayout_contentView)
+    RelativeLayout mRelativeLayout_contentView;
     // properties
     private GoogleMapController mGoogleMapController;
     private Context mContext;
@@ -73,20 +77,18 @@ public class ActivityMapFragment extends Fragment implements GoogleMapController
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            if (getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST) != null) {
+                mObservationList = getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST);
+            }
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activities_map, container, false);
-
         ButterKnife.bind(this, rootView);
-
-        if (getArguments() != null) {
-            if (getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST) != null) {
-                mObservationList = getArguments().getParcelableArrayList(KEY_OBSERVATIONS_LIST);
-            }
-        }
 
         mGoogleMapController = new GoogleMapController(mContext, this);
 
@@ -97,51 +99,13 @@ public class ActivityMapFragment extends Fragment implements GoogleMapController
         // setup google Map using the GoogleMapController.
         mGoogleMapController.setupGoogleMap(mMapView);
 
-
         if (mObservationList != null) {
             mGoogleMapController.setUpPolylineOnMap(mObservationList);
         }
 
-//        mGoogleMapController.showMarker(mObservationList);
-
-
-//        // inflate the View from infowindow_panel.xml layout
-//        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-//        View info_rootView = layoutInflater.inflate(R.layout.infowindow_panel, null, false);
-//        infowindow_linearLayout = (LinearLayout) info_rootView.findViewById(R.id.hidden_panel);
-//        txtView_tickTitle = (TextView) info_rootView.findViewById(R.id.textView_observationTitle);
-
         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-
-        mSlidingUpPanelLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-                Log.i(TAG, "onPanelCollapsed");
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-                Log.i(TAG, "onPanelExpanded");
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-                Log.i(TAG, "onPanelAnchored");
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-                Log.i(TAG, "onPanelHidden");
-            }
-        });
-
+        
         return rootView;
-
     }
 
 
@@ -219,7 +183,6 @@ public class ActivityMapFragment extends Fragment implements GoogleMapController
 
     @Override
     public void onMarkerClickObservationListener(Observation mObservation) {
-
         try {
             if (mObservation != null) {
                 Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_obsImage);

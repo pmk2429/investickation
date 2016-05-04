@@ -4,16 +4,16 @@
                 android:layout_height="match_parent"
                 tools:context="com.sfsu.investickation.fragments.ObservationMap">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+    <!--SlidingPanelLayout that opens up from bottom when the Marker is clicked-->
+    <com.sfsu.investickation.customview.MySlidingPanelLayout
         android:id="@+id/slidingLayout_infoWindow"
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="100dp"
-        sothree:umanoParallaxOffset="100dp"
-        sothree:umanoShadowHeight="4dp">
+        sothree:umanoOverlay="false"
+        sothree:umanoPanelHeight="@dimen/cardview_X_small"
+        sothree:umanoParallaxOffset="100dp">
 
         <!-- MAIN CONTENT -->
         <FrameLayout
@@ -31,50 +31,75 @@
 
         <!-- SLIDING LAYOUT -->
         <RelativeLayout
-            android:id="@+id/linearLayout_contentView"
+            android:id="@+id/relativeLayout_contentView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
+            android:background="@color/colorWhite"
             android:clickable="true"
             android:focusable="false">
 
+            <!--Observation Image-->
             <ImageView
                 android:id="@+id/imageView_infoWindow_tickImage"
-                android:layout_width="@dimen/widget_dimen_X1_large"
-                android:layout_height="@dimen/widget_dimen_X1_large"
+                android:layout_width="@dimen/cardview_small"
+                android:layout_height="@dimen/cardview_X_small"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="@dimen/view_dimen_small"
                 android:adjustViewBounds="true"
-                android:scaleType="center"
+                android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_tick"/>
 
+            <!--Observation name-->
             <TextView
                 android:id="@+id/textView_infoWindow_obsName"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_marginStart="@dimen/view_dimen_large"
-                android:layout_marginTop="@dimen/view_dimen_large"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
                 android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
-                android:gravity="center"
                 android:text="@string/infoWindow_obsName"
-                android:textColor="@color/colorSecondary"
-                android:textSize="@dimen/font_medium"/>
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/font_large"/>
 
+            <ImageView
+                android:id="@+id/icon_slidingPanel_location"
+                android:layout_width="@dimen/view_dimen_large"
+                android:layout_height="@dimen/view_dimen_large"
+                android:layout_below="@id/textView_infoWindow_obsName"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
+                android:src="@mipmap/ic_location_on_grey_400_24dp"/>
+
+            <!--Observation Location-->
             <TextView
                 android:id="@+id/textView_infoWindow_location"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/textView_infoWindow_obsName"
-                android:layout_marginStart="@dimen/view_dimen_large"
-                android:layout_marginTop="@dimen/view_dimen_large"
-                android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/icon_slidingPanel_location"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_toEndOf="@id/icon_slidingPanel_location"
                 android:text="@string/infoWindow_location"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/font_small"/>
 
+            <!--Observation Location-->
+            <TextView
+                android:id="@+id/textView_infoWindow_activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/icon_slidingPanel_location"
+                android:layout_marginEnd="@dimen/view_dimen_small"
+                android:layout_marginStart="@dimen/view_dimen_small"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
+                android:text="Found while Hiking activity"
+                android:textColor="@color/colorSecondary"
+                android:textSize="@dimen/font_small"/>
+
+
         </RelativeLayout>
 
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+    </com.sfsu.investickation.customview.MySlidingPanelLayout>
 </RelativeLayout>

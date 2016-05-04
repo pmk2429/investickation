@@ -281,7 +281,7 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
         } catch (Exception e) {
         }
 
-        return false;
+        return true;
     }
 
     @Override
