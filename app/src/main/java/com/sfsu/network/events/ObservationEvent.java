@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Handles all the {@link Observation} type of events such as loading list, creating new Observation, Deleting observation etc.
  * The ObservationEvent is used to post on EventBus regarding any events related to Observation
- * <p>
+ * <p/>
  * Created by Pavitra on 11/27/2015.
  */
 public class ObservationEvent extends BaseNetworkEvent {

@@ -3,7 +3,9 @@ package com.sfsu.investickation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.ObservationsDao;
@@ -16,24 +18,22 @@ import com.sfsu.network.handler.ApiRequestHandler;
 import com.squareup.otto.Subscribe;
 
 import java.io.File;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
- * TODO
- * Fragment to post List of Observations asynchronously when the User clicks on the upload button in {@link ObservationListFragment}
- * fragment
+ * Fragment to post Observation stored offline on remote server. Runs asynchronously when user clicks on the upload button in
+ * {@link ObservationDetailFragment}. Uses RxJava to post the Observation data and image in synchronous fashion
  */
-public class PostObservationListFragment extends Fragment {
+public class PostObservationFragment extends Fragment {
 
-    private static final String TAG = "~!@#$PostObsList";
+    private static final String TAG = "~!@#$PostObs";
     private Context mContext;
-    private List<Observation> localObservationList;
+    private Observation mOfflineObservation;
     private DatabaseDataController dbController;
 
-    public PostObservationListFragment() {
+    public PostObservationFragment() {
         // Required empty public constructor
     }
 
@@ -48,11 +48,11 @@ public class PostObservationListFragment extends Fragment {
         super.onResume();
         BusProvider.bus().register(this);
 
-        localObservationList = (List<Observation>) dbController.getAll();
+        mOfflineObservation = (Observation) dbController.getAll();
 
         // make a call and upload Activities
-        if (localObservationList != null) {
-            BusProvider.bus().post(new ObservationEvent.OnListLoadingInitialized(localObservationList, ApiRequestHandler.ADD));
+        if (mOfflineObservation != null) {
+            BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mOfflineObservation, ApiRequestHandler.ADD));
         }
     }
 
@@ -72,26 +72,19 @@ public class PostObservationListFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
     }
 
     /**
-     * Subscribes to the event of success in posting Activities to the server. Once the list is uploaded, upload Images for
-     * each tick
+     * Subscribes to the event of success in posting locally stored Observation to the server. Once the Observation data is
+     * uploaded, a synchronous call is made to server to store the image for the same Observation by updating the Observation
      *
      * @param onMassUploadListLoaded
      */
     @Subscribe
-    public void onObservationsListStoreSuccess(ObservationEvent.OnListLoaded onListLoaded) {
-        if (dbController == null)
-            dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
+    public void onPostOfflineObservationSuccess(ObservationEvent.OnLoaded onLoaded) {
 
-        if (deleteUploadedObservations()) {
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
-    }
-
-    private void uploadImage(Observation mObservation) {
-        File imageFile = new File(mObservation.getImageUrl());
+        File imageFile = new File(onLoaded.getResponse().getImageUrl());
         // create RequestBody to send the image to server
         RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
         // create dynamic file name for the image
@@ -99,13 +92,18 @@ public class PostObservationListFragment extends Fragment {
         // finally create ImageData object that contains RequestBody and Image name
         ImageData mImageData = new ImageData(requestBody, fileParam);
         // once done, post the File to the Bus for posting it on server.
-        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, mObservation.getId(),
+        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, onLoaded.getResponse().getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));
     }
 
+    /**
+     * Subscribes to the event of failure in posting Observation on the server
+     *
+     * @param onLoadingError
+     */
     @Subscribe
-    public void onObservationsListStoreFailure(ObservationEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
+    public void onPostOfflineObservationFailure(ObservationEvent.OnLoadingError onLoadingError) {
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
 
@@ -117,26 +115,35 @@ public class PostObservationListFragment extends Fragment {
      */
     @Subscribe
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
+        if (dbController == null)
+            dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
 
+        if (deleteLocallyStoredObservation(mOfflineObservation)) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
     }
 
 
+    /**
+     * Subscribes to the event of failure in updating the Observation and uploading Image on the server
+     *
+     * @param onLoadingError
+     */
     @Subscribe
     public void onObservationImageUploadFailure(FileUploadEvent.OnLoadingError onLoadingError) {
-        Log.i(TAG, onLoadingError.getErrorMessage());
+        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**
      * Once all the Activities are uploaded, delete them from database
      */
-    private boolean deleteUploadedObservations() {
+    private boolean deleteLocallyStoredObservation(Observation mOfflineObservation) {
         boolean check = false;
         try {
-            for (int i = 0; i < localObservationList.size(); i++) {
-                Observation mObservation = localObservationList.get(i);
-                check = dbController.delete(mObservation.getId());
-            }
+            check = dbController.delete(mOfflineObservation.getId());
         } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, "deleteLocallyStoredObservation: " + e.getLocalizedMessage());
         }
         return check;
     }

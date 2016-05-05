@@ -1,6 +1,7 @@
 package com.sfsu.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.sfsu.investickation.R;
@@ -16,6 +17,9 @@ import com.squareup.otto.Bus;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
+
 /**
  * <p>
  * Contains all the application level components which are needed to be initialized during the run time of app. In addition,
@@ -28,6 +32,9 @@ import net.danlew.android.joda.JodaTimeAndroid;
  * <p/>
  * Created by Pavitra on 11/27/2015.
  */
+@ReportsCrashes(
+        formUri = "http://www.backendofyourchoice.com/reportpath"
+)
 public class InvestickationApp extends Application {
     public static final String TAG = "~!@#$" + InvestickationApp.class.getSimpleName();
 
@@ -41,6 +48,7 @@ public class InvestickationApp extends Application {
     private static LocationRequestHandler mLocationRequestHandler;
     private static TickRequestHandler mTickRequestHandler;
     private static FileUploadHandler mFileUploadHandler;
+
 
     // single creation of Event Bus.
     private Bus mBus = BusProvider.bus();
@@ -70,6 +78,14 @@ public class InvestickationApp extends Application {
 
         // init SharedPreferences Settings
         PreferenceManager.setDefaultValues(this, R.xml.pref_user_settings, false);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        // The following line triggers the initialization of ACRA
+        ACRA.init(this);
     }
 
     /**

@@ -412,15 +412,13 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_upload:
-                uploadObservations();
-                return true;
         }
 
         return false;
 
     }
 
+    // TODO: work on this with RxAndroid to post synchronous data in streams
     private void uploadObservations() {
         if (localObservationList != null) {
             mUploadAlertDialog.showObservationUploadAlertDialog(localObservationList.size());

@@ -16,7 +16,8 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 /**
- * Intermediate Fragment to post List of Activities when the User clicks on the upload button in {@link ActivityListFragment} fragment
+ * Intermediate Fragment to post List of Activities asynchronously when the User clicks on the upload button in
+ * {@link ActivityListFragment}
  */
 public class PostActivitiesListFragment extends Fragment {
 
