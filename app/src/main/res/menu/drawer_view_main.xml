@@ -20,10 +20,6 @@
             android:id="@+id/nav_tickGuide"
             android:icon="@mipmap/ic_bug_report_black_24dp"
             android:title="@string/nav_guide"/>
-        <!--<item-->
-        <!--android:id="@+id/nav_tickMap"-->
-        <!--android:icon="@mipmap/ic_map_black_24dp"-->
-        <!--android:title="@string/nav_map"/>-->
         <item
             android:id="@+id/nav_tutorial"
             android:icon="@mipmap/ic_help_black_24dp"

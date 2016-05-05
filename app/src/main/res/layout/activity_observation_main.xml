@@ -29,23 +29,19 @@
 
     </RelativeLayout>
 
-    <!-- Navigation Drawer: Drawer section use to inflate the List in the  -->
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/drawer_recyclerView"-->
-    <!--android:layout_width="304dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_gravity="start"-->
-    <!--android:background="@color/colorWhite"-->
-    <!--android:scrollbars="vertical"/>-->
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:theme="@style/NavigationViewStyle"
-        app:menu="@menu/drawer_view_main"/>
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorWhite"
+        app:menu="@menu/drawer_view_main"
+        app:theme="@style/NavigationViewStyle"/>
 
 </android.support.v4.widget.DrawerLayout>

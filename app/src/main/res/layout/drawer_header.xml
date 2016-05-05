@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_default"
+                android:layout_height="@dimen/cardview_X_small"
                 android:background="@color/colorSecondary">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen_large"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:orientation="vertical">
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:padding="@dimen/view_dimen_large">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/drawerHeader_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_dimen_large"
             android:text="Pavitra Kansara"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/font_X_small"
+            android:textColor="@color/lightText"
+            android:textSize="@dimen/font_medium"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/email"
+            android:id="@+id/drawerHeader_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_dimen_large"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/view_dimen_X_small"
             android:text="pmk@mail.sfsu.edu"
-            android:textColor="#ffffff"
+            android:textColor="@color/lightText"
             android:textSize="@dimen/font_X_small"
             android:textStyle="normal"/>
     </LinearLayout>
@@ -37,8 +38,10 @@
         android:id="@+id/circleView"
         android:layout_width="@dimen/dimen_material_large"
         android:layout_height="@dimen/dimen_material_large"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginStart="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_X1_large"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_bug_report_primary_36dp"/>
 
 </RelativeLayout>

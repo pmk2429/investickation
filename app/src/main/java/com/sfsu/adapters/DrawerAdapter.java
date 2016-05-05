@@ -40,13 +40,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     private static Context context;
     private List<String> rows;
 
-    private int ICONS[];
-    //protected static final int NAVDRAWER_ITEM_SIGN_IN = 6;
-    //protected static final int NAVDRAWER_ITEM_REGISTER = 6;
 
     public DrawerAdapter(List<String> rows, int ICONS[], Context passedContext) {
         this.rows = rows;
-        this.ICONS = ICONS;
         context = passedContext;
     }
 
@@ -103,8 +99,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
             return new ViewHolder(view, viewType, context);
         } else if (viewType == ROW_TYPE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false);
-            //View itemView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-            //      .inflate(R.layout.drawer_row, parent, false);
             return new ViewHolder(view, viewType, context);
         }
         return null;
@@ -115,7 +109,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         if (holder.viewType == ROW_TYPE) {
             String rowText = rows.get(position - 1);
             holder.textView.setText(rowText);
-            holder.imageView.setImageResource(ICONS[position - 1]);
         }
     }
 
@@ -157,7 +150,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         @Override
         public void onClick(View v) {
             DrawerAdapter.goToNavDrawerItem(getPosition());
-            //DrawerAdapter.demoMethod();
         }
     }
 }
