@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="KEY_PREF_ACTIVITIES_COUNT">recentActivitiesCount</string>
+    <string name="KEY_PREF_RECEIVE_NOTIFICATIONS">receiveNotifications</string>
+    <string name="KEY_PREF_ENABLE_LOCATION">enableLocation</string>
+</resources>

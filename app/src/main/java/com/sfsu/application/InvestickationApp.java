@@ -1,7 +1,9 @@
 package com.sfsu.application;
 
 import android.app.Application;
+import android.preference.PreferenceManager;
 
+import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.handler.ActivityRequestHandler;
 import com.sfsu.network.handler.ApiRequestHandler;
@@ -66,6 +68,8 @@ public class InvestickationApp extends Application {
 
         initDatabaseResources();
 
+        // init SharedPreferences Settings
+        PreferenceManager.setDefaultValues(this, R.xml.pref_user_settings, false);
     }
 
     /**

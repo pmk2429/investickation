@@ -26,6 +26,7 @@
     <string name="title_fragment_tick_list">Ticks</string>
     <string name="title_fragment_tick_detail">Tick Details</string>
     <string name="title_fragment_profile">My Profile</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Navigation Drawer String array -->
     <string-array name="navdrawer">
@@ -266,14 +267,28 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!-- Preferences -->
     <string name="auth_pref_file_name">com.sfsu.investickations.AUTH_FILE</string>
     <string name="session_pref_file_name">com.sfsu.investickations.SESSION_FILE</string>
-    <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Cloud storage-->
     <string name="text_local">Local</string>
     <string name="text_cloud">Cloud</string>
 
     <!-- Settings Preferences -->
-
+    <string name="settingsPref_category_title_appFunctions">App functions</string>
+    <string name="settingsPref_editText_title_recentActivities">Show total recent Activities</string>
+    <string name="settingsPref_category_title_notifications">Notifications</string>
+    <string name="settingsPref_checkbox_title_notifications">Receive Notifications</string>
+    <string name="settingsPref_checkbox_summary_notifications">Want to receive Notifications?</string>
+    <string name="settingsPref_category_title_about">About</string>
+    <string name="settingsPref_pref_title_about">Location Service</string>
+    <string name="settingsPref_prefScreen_title_about">Location Service</string>
+    <string name="settingsPref_category_title_legal">Legal</string>
+    <string name="settingsPref_pref_title_privacy">Privacy Policy for InvesTICKations</string>
+    <string name="settingsPref_prefScreen_title_privacy">Privacy Policy</string>
+    <string name="settingsPref_pref_title_termsUse">Terms of Use</string>
+    <string name="settingsPref_prefScreen_title_termsUse">Terms Of Use</string>
+    <string name="settingsPref_category_title_feedback">Feedback</string>
+    <string name="settingsPref_pref_title_feedback">Send your feedback</string>
+    <string name="settingsPref_prefScreen_title_feedback">Provide your feedback</string>
 
     <!-- DashboardFragment View Pager-->
     <string name="pager_activities">Record Activities</string>

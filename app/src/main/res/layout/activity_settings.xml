@@ -24,11 +24,13 @@
             android:id="@+id/settings_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_top_base">
+            android:layout_below="@id/toolbar_top_base"
+            android:paddingTop="@dimen/view_dimen_large">
 
         </FrameLayout>
     </RelativeLayout>
 
+    <!--Navigation drawer-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -36,8 +38,8 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:theme="@style/NavigationViewStyle"
-        app:menu="@menu/drawer_view_main"/>
+        app:menu="@menu/drawer_view_main"
+        app:theme="@style/NavigationViewStyle"/>
 
 
 </android.support.v4.widget.DrawerLayout>

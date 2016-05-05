@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- My Account -->
+
+    <!-- Activities Count -->
     <PreferenceCategory
-        android:title="My Account">
-
-        <Preference
-            android:key="full_name"
-            android:summary="john"
-            android:title="Username"/>
+        android:title="@string/settingsPref_category_title_appFunctions">
 
         <EditTextPreference
-            android:key="email"
-            android:summary="pmk.2429@gmail.com"
-            android:title="Email"/>
-
-        <EditTextPreference
-            android:key="recentActivitiesCount"
-            android:summary="5"
-            android:title="Show total recent Activities"/>
+            android:inputType="number"
+            android:key="@string/KEY_PREF_ACTIVITIES_COUNT"
+            android:summary="2"
+            android:title="@string/settingsPref_editText_title_recentActivities"/>
 
     </PreferenceCategory>
 
@@ -27,48 +19,40 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="receiveNotifications"
-            android:summary="Want to receive Notifications ?"
-            android:title="Receive Notifications"/>
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="vibrateMode"
-            android:summary="Vibrate phone while receiving Notifications?"
-            android:title="Vibrate Phone"/>
-
+            android:key="@string/KEY_PREF_RECEIVE_NOTIFICATIONS"
+            android:summary="@string/settingsPref_checkbox_summary_notifications"
+            android:title="@string/settingsPref_checkbox_title_notifications"/>
     </PreferenceCategory>
 
-    <!-- Location -->
-    <PreferenceCategory
-        android:title="Locations">
+    <!--&lt;!&ndash; Location &ndash;&gt;-->
+    <!--<PreferenceCategory-->
+    <!--android:title="Locations">-->
 
-        <PreferenceScreen
-            android:key="about_location"
-            android:persistent="false"
-            android:title="Location Service">
+    <!--<PreferenceScreen-->
+    <!--android:key="about_location"-->
+    <!--android:persistent="false"-->
+    <!--android:title="Location Service">-->
 
-            <Preference
-                android:key="location_service"
-                android:summary="ATnT"
-                android:title="Location Service"/>
+    <!--<Preference-->
+    <!--android:key="location_service"-->
+    <!--android:summary="ATnT"-->
+    <!--android:title="Location Service"/>-->
 
-        </PreferenceScreen>
-    </PreferenceCategory>
+    <!--</PreferenceScreen>-->
+    <!--</PreferenceCategory>-->
 
     <!-- About-->
     <PreferenceCategory
-        android:title="About">
+        android:title="@string/settingsPref_category_title_about">
 
         <PreferenceScreen
-            android:key="about_location"
+            android:key="@string/KEY_PREF_ENABLE_LOCATION"
             android:persistent="false"
-            android:title="Location Service">
+            android:title="@string/settingsPref_prefScreen_title_about">
 
             <Preference
-                android:key="location_service"
                 android:summary="ATnT"
-                android:title="Location Service"/>
+                android:title="@string/settingsPref_pref_title_about"/>
 
         </PreferenceScreen>
     </PreferenceCategory>
@@ -76,18 +60,18 @@
 
     <!-- Legal-->
     <PreferenceCategory
-        android:title="Legal">
+        android:title="@string/settingsPref_category_title_legal">
 
         <!-- Privacy Policy -->
         <PreferenceScreen
             android:key="privacy_policy"
             android:persistent="false"
-            android:title="Privacy Policy">
+            android:title="@string/settingsPref_prefScreen_title_privacy">
 
             <Preference
                 android:key="privacy_policy_content"
                 android:summary="Copyright @ InvesTICKations"
-                android:title="Privacy Policy for InvesTICKations"/>
+                android:title="@string/settingsPref_pref_title_privacy"/>
 
         </PreferenceScreen>
 
@@ -95,29 +79,29 @@
         <PreferenceScreen
             android:key="terms_of_use"
             android:persistent="false"
-            android:title="Terms of Use">
+            android:title="@string/settingsPref_pref_title_termsUse">
 
             <Preference
                 android:key="terms_of_use_content"
                 android:summary="Terms of Use InvesTICKations"
-                android:title="Terms of Use"/>
+                android:title="@string/settingsPref_prefScreen_title_termsUse"/>
 
         </PreferenceScreen>
     </PreferenceCategory>
 
     <!-- Feedback -->
     <PreferenceCategory
-        android:title="About">
+        android:title="@string/settingsPref_category_title_feedback">
 
         <PreferenceScreen
-            android:key="about_location"
+            android:key="feedback_provide"
             android:persistent="false"
-            android:title="Location Service">
+            android:title="@string/settingsPref_prefScreen_title_feedback">
 
             <Preference
-                android:key="location_service"
-                android:summary="ATnT"
-                android:title="Location Service"/>
+                android:key="feedback_writeOff"
+                android:summary="Write your feedback"
+                android:title="@string/settingsPref_pref_title_feedback"/>
 
         </PreferenceScreen>
     </PreferenceCategory>

@@ -104,7 +104,7 @@ public class ActivityMapFragment extends Fragment implements GoogleMapController
         }
 
         mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-        
+
         return rootView;
     }
 

@@ -5,20 +5,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -62,9 +60,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private LinearLayout linearLayoutRecentActivities;
     private DrawerLayout mDrawerLayout;
     private TextView txtView_activitiesCount, txtView_observationCount;
-    private Toolbar toolbarMain;
-    private int mCurrentSelectedPosition;
-    private NavigationView mNavigationView;
     private Context mContext;
     private List<Activities> mActivitiesList;
     private RecentActivitiesAdapter mActivitiesAdapter;
@@ -72,6 +67,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private DatabaseDataController dbTickController;
     private PermissionUtils mPermissionUtils;
     private boolean FLAG_PERMISSION;
+    private SharedPreferences settingsPref;
+    private int activitiesCount = 2;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -83,10 +80,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         mPermissionUtils = new PermissionUtils(mContext);
         if (mPermissionUtils.isCoarseLocationPermissionApproved() && mPermissionUtils.isFineLocationPermissionApproved())
+            // TODO: pass activitiesCount as filter to get count on Activities.
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
         else {
             askForPermission();
         }
+
+        //
+        settingsPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        activitiesCount = Integer.parseInt(settingsPref.getString(mContext.getString(R.string.KEY_PREF_ACTIVITIES_COUNT), "2"));
     }
 
     /**
@@ -142,7 +144,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             case NETWORK_LOCATION_BASED_PERMISSIONS: {
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                        // TODO: temp method - change it
                         mPermissionUtils.setPermission(PermissionUtils.COARSE_LOCATION);
                         mPermissionUtils.setPermission(PermissionUtils.FINE_LOCATION);
                         mPermissionUtils.setPermission(PermissionUtils.INTERNET);
@@ -184,6 +185,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         relativeLayoutDashboard.setOnClickListener(this);
 
 
+        // TODO: get counts
         txtView_activitiesCount = (TextView) v.findViewById(R.id.textView_dashboard_activityCount);
         txtView_activitiesCount.setText("4");
         txtView_observationCount = (TextView) v.findViewById(R.id.textView_dashboard_observationCount);
@@ -281,10 +283,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
                 // in case if User has not created any Activity on Server
                 linearLayoutRecentActivities.setVisibility(View.GONE);
             }
-
-
         }
-        //BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.TOTAL_OBSERVATIONS_COUNT));
     }
 
     @Override
@@ -300,7 +299,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
@@ -386,6 +384,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     }
 
     /**
+     * FIXME: NOT USED
      * Pager adapter that represents 4 {@link ScreenSlidePageFragment} objects, in sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
