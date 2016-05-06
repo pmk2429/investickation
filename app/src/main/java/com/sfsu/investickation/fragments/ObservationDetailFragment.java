@@ -4,7 +4,6 @@ package com.sfsu.investickation.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -21,8 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.controllers.ImageController;
 import com.sfsu.db.ActivitiesDao;
 import com.sfsu.db.ObservationsDao;
+import com.sfsu.dialogs.UploadAlertDialog;
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Observation;
 import com.sfsu.entities.response.ObservationResponse;
@@ -34,47 +35,35 @@ import com.sfsu.utils.AppUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ObservationDetailFragment extends Fragment {
+// TODO add EventBus to this class to subscribe to event after AlertDialog is clicked
+public class ObservationDetailFragment extends Fragment implements UploadAlertDialog.IUploadDataCallback {
 
     private static final String KEY_OBSERVATION = "observation_object_detail";
     private final String TAG = "~!@#ObservationDetail";
-
     @Bind(R.id.textView_obsDet_activityName)
     TextView textView_activityName;
-
     @Bind(R.id.textView_obsDet_description)
     TextView textView_description;
-
     @Bind(R.id.textView_obsDet_geoLocation)
     TextView textView_geoLocation;
-
     @Bind(R.id.textView_obsDet_latLng)
     TextView textView_latLng;
-
     @Bind(R.id.textView_obsDet_tickName)
     TextView textView_tickName;
-
     @Bind(R.id.textView_obsDet_species)
     TextView textView_tickSpecies;
-
     @Bind(R.id.textView_obsDet_timestamp)
     TextView textView_timestamp;
-
     @Bind(R.id.imageView_obsDet_tickImage)
     ImageView imageView_tickImage;
-
     @Bind(R.id.icon_obsDet_verified)
     ImageView icon_verified;
-
-
     private Bundle args;
     private Observation mObservation;
     private Context mContext;
@@ -83,11 +72,12 @@ public class ObservationDetailFragment extends Fragment {
     private String description;
     private ObservationResponse mObservationResponse;
     private IObservationDetailCallbacks mInterface;
+    private MenuItem uploadMenuItem;
+    private UploadAlertDialog mUploadAlertDialog;
 
     public ObservationDetailFragment() {
         // Required empty public constructor
     }
-
 
     /**
      * Returns the instance of {@link ObservationDetailFragment} Fragment.
@@ -131,6 +121,7 @@ public class ObservationDetailFragment extends Fragment {
 
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         dbActivitiesController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
+        mUploadAlertDialog = new UploadAlertDialog(mContext, this);
 
         return rootView;
     }
@@ -138,7 +129,6 @@ public class ObservationDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
         try {
             // retrieve Observation from the Bundle
             if (getArguments() != null) {
@@ -171,25 +161,25 @@ public class ObservationDetailFragment extends Fragment {
             textView_timestamp.setText(charSequence);
 
 
+            // set observation image
+            if (mObservation.getImageUrl().startsWith("http")) {
+                Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_tickImage);
+            } else {
+                Bitmap bitmap = new ImageController(mContext).getBitmapForImageView(imageView_tickImage, mObservation.getImageUrl());
+                imageView_tickImage.setImageBitmap(bitmap);
+            }
+
+            Log.i(TAG, "URL-" + mObservation.getImageUrl());
+
             // depending on the availability of network , make a network call and get the data or get data from DB
             if (AppUtils.isConnectedOnline(mContext)) {
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(),
                         ApiRequestHandler.GET_OBSERVATION_WRAPPER));
             } else {
                 mActivity = (Activities) dbActivitiesController.get(mObservation.getActivity_id());
-                String activityName = mActivity.getActivityName() + " at " + mActivity.getLocation_area();
-                textView_activityName.setText(activityName);
-            }
-
-            // set observation image
-            if (mObservation.getImageUrl().startsWith("http")) {
-                Picasso.with(mContext).load(mObservation.getImageUrl()).into(imageView_tickImage);
-            } else {
-                // imageFile
-                File imgFile = new File(mObservation.getImageUrl());
-                if (imgFile.exists()) {
-                    Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                    imageView_tickImage.setImageBitmap(tickBitmap);
+                if (mActivity != null) {
+                    String activityName = mActivity.getActivityName() + " at " + mActivity.getLocation_area();
+                    textView_activityName.setText(activityName);
                 }
             }
 
@@ -219,6 +209,7 @@ public class ObservationDetailFragment extends Fragment {
         String activityNameFinal = "";
 
         if (mActivity != null) {
+            Log.i(TAG, "activity not null");
             activityName = mActivity.getActivityName() == null || mActivity.getActivityName() == "" ? "No Activity" :
                     mActivity.getActivityName();
             locationArea = mActivity.getLocation_area() == null || mActivity.getLocation_area() == "" ? "No Location" :
@@ -235,8 +226,18 @@ public class ObservationDetailFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_observation_detail, menu);
-
+        uploadMenuItem = menu.findItem(R.id.action_upload);
+        validateUploadMenuItem();
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    /**
+     * Show Upload button only if the Observation is stored locally
+     */
+    private void validateUploadMenuItem() {
+        if (mObservation.isOnCloud()) {
+            uploadMenuItem.setVisible(false);
+        }
     }
 
     @Override
@@ -244,14 +245,28 @@ public class ObservationDetailFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_delete:
                 deleteObservation();
-                return true;
+                break;
             case R.id.action_edit:
                 if (mObservation != null) {
                     mInterface.onEditObservationClick(mObservation);
                     return true;
                 }
+                break;
+            case R.id.action_upload:
+                if (uploadMenuItem.isVisible()) {
+                    uploadObservation();
+                }
+
         }
         return false;
+    }
+
+    private void uploadObservation() {
+        if (mObservation.isOnCloud()) {
+            // do nothing
+        } else {
+            mUploadAlertDialog.showObservationUploadAlertDialog();
+        }
     }
 
 
@@ -335,6 +350,16 @@ public class ObservationDetailFragment extends Fragment {
         Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onUploadClick(long resultCode) {
+        if (resultCode == UploadAlertDialog.RESULT_OK) {
+            mInterface.onUploadObservationStoredLocally(mObservation);
+        } else if (resultCode == UploadAlertDialog.RESULT_INVALID) {
+
+        } else if (resultCode == UploadAlertDialog.RESULT_NO_DATA) {
+        }
+    }
+
     /**
      * Listener Callback interface to handle onClicks in {@link ObservationDetailFragment}
      */
@@ -345,5 +370,10 @@ public class ObservationDetailFragment extends Fragment {
          * @param mObservation
          */
         void onEditObservationClick(Observation mObservation);
+
+        /**
+         * Callback to upload list of Observation depending on user's choice
+         */
+        public void onUploadObservationStoredLocally(Observation mObservation);
     }
 }

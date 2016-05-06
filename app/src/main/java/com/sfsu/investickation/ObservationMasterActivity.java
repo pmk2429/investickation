@@ -12,6 +12,7 @@ import com.sfsu.investickation.fragments.EditObservationFragment;
 import com.sfsu.investickation.fragments.ObservationDetailFragment;
 import com.sfsu.investickation.fragments.ObservationListFragment;
 import com.sfsu.investickation.fragments.ObservationMap;
+import com.sfsu.investickation.fragments.PostObservationFragment;
 import com.sfsu.investickation.fragments.PostObservationListFragment;
 
 
@@ -183,6 +184,11 @@ public class ObservationMasterActivity extends MainBaseActivity
     public void onEditObservationClick(Observation mObservation) {
         EditObservationFragment mEditObservationFragment = EditObservationFragment.newInstance(mObservation);
         performReplaceFragmentTransaction(mEditObservationFragment, true);
+    }
+
+    @Override
+    public void onUploadObservationStoredLocally(Observation mObservation) {
+        performReplaceFragmentTransaction(PostObservationFragment.createNewInstance(mObservation), true);
     }
 
     @Override

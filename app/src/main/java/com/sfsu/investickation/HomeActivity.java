@@ -3,6 +3,7 @@ package com.sfsu.investickation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -28,12 +29,14 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
     public static final String KEY_SIGNIN_SUCCESS = "signin_success";
     private final String TAG = "~!@#$HomeAct";
     private SessionManager mSessionManager;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        fragmentManager = getSupportFragmentManager();
         mSessionManager = new SessionManager(this);
 
         // if Fragment container is present
@@ -47,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
             // if the user clicked logout, then open LogoutFragment fragment
             if (getIntent().getIntExtra(MainBaseActivity.KEY_LOGOUT, 0) == 1) {
                 LogoutFragment mLogoutFragment = new LogoutFragment();
-                performFragmentTransaction(mLogoutFragment);
+                performReplaceFragmentTransaction(mLogoutFragment, false, false);
             } else {
                 // depending on whether the Session is set for current user or not.
                 if (mSessionManager.isLoggedIn()) {
@@ -56,7 +59,7 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
                 } else {
                     // use case when the session expires for current user.
                     HomeFragment mHomeFragment = new HomeFragment();
-                    getSupportFragmentManager().beginTransaction().add(R.id.home_fragment_container, mHomeFragment).commit();
+                    performAddFragmentTransaction(mHomeFragment, false);
                 }
             }
         }
@@ -81,16 +84,22 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
         super.onBackPressed();
     }
 
-    /**
-     * Helper method to perform Fragment Transaction.
-     *
-     * @param fragment
-     */
+    private void performAddFragmentTransaction(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.home_fragment_container, fragment);
+        //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-    private void performFragmentTransaction(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    private void performReplaceFragmentTransaction(Fragment fragment, boolean addToBackStack, boolean animate) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.home_fragment_container, fragment);
-        transaction.addToBackStack(null);
+        if (animate)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -98,13 +107,13 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
     @Override
     public void onLoginClicked() {
         LoginFragment loginFragment = new LoginFragment();
-        performFragmentTransaction(loginFragment);
+        performAddFragmentTransaction(loginFragment, true);
     }
 
     @Override
     public void onSignUpClicked() {
         RegisterFragment registerFragment = new RegisterFragment();
-        performFragmentTransaction(registerFragment);
+        performAddFragmentTransaction(registerFragment, true);
     }
 
 
@@ -127,9 +136,11 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
 
     @Override
     public void userLoggedOut() {
-        HomeFragment homeFragment = new HomeFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.home_fragment_container, homeFragment);
-        transaction.commit();
+//        HomeFragment homeFragment = new HomeFragment();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.home_fragment_container, homeFragment);
+//        transaction.commit();
+
+        performReplaceFragmentTransaction(new HomeFragment(), false, false);
     }
 }

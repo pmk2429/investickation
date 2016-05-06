@@ -15,7 +15,7 @@
     <string name="title_fragment_activity_running">Ongoing Activity</string>
     <string name="title_fragment_activity_list">My Activities</string>
     <string name="title_fragment_activity_map">Activity Map</string>
-    <string name="title_fragment_observation_detail">Observation Details</string>
+    <string name="title_fragment_observation_detail">Observation Det</string>
     <string name="title_fragment_observation_add">Add Observation</string>
     <string name="title_fragment_observation_edit">Edit Observation</string>
     <string name="title_fragment_observation_list">My Observations</string>
@@ -196,7 +196,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_later">Later</string>
     <string name="alertDialog_title_upload_activities">Upload Activities?</string>
     <string name="alertDialog_title_no_upload">Nothing to upload</string>
-    <string name="alertDialog_title_upload_observations">Upload Observations?</string>
+    <string name="alertDialog_title_upload_observations">Upload Observation?</string>
     <string name="alertDialog_upload_message">Do you want to upload the data on server?</string>
     <!-- Add Tick Image-->
     <string name="alertDialog_tickImage_title">Add Tick Picture</string>

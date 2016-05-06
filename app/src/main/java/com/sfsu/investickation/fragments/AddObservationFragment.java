@@ -8,12 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -422,11 +424,11 @@ public class AddObservationFragment extends Fragment implements LocationControll
                         try {
                             f = mImageController.setUpPhotoFile();
                             selectedImagePath = f.getAbsolutePath();
+                            Log.i(TAG, "spc:" + selectedImagePath);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                         } catch (IOException e) {
                             e.printStackTrace();
                             f = null;
-                            selectedImagePath = null;
                         }
                         startActivityForResult(takePictureIntent, CAMERA_PICTURE);
                     }
@@ -449,13 +451,40 @@ public class AddObservationFragment extends Fragment implements LocationControll
                     Drawable testExternalStorage = BitmapDrawable.createFromStream(inputStream, "tick");
                     imageView_tickAddObservation.setImageDrawable(testExternalStorage);
 
-                    // set the image path for the image chosen from Gallery
                     selectedImagePath = data.getData().getPath();
+                    Log.i(TAG, "spg:" + selectedImagePath);
+                    String docs = "/document//sdcard/";
+                    selectedImagePath = selectedImagePath.substring(docs.length(), selectedImagePath.length());
+                    Log.i(TAG, "spg:" + selectedImagePath);
+                    selectedImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + selectedImagePath;
+                    Log.i(TAG, "spg:" + selectedImagePath);
+
+                    File imgFile = new File(selectedImagePath);
+                    if (imgFile.exists())
+                        Log.i(TAG, "temp solution");
+
                 }
             } catch (Exception e) {
                 Log.i(TAG, "->G :" + e.getMessage());
             }
         }
+    }
+
+    public String getImagePath(Uri uri) {
+        Cursor cursor = mContext.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = mContext.getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
     }
 
     /**

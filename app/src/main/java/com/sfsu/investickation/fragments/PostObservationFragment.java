@@ -8,7 +8,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
-import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.network.bus.BusProvider;
@@ -29,6 +28,7 @@ import okhttp3.RequestBody;
 public class PostObservationFragment extends Fragment {
 
     private static final String TAG = "~!@#$PostObs";
+    private static final String KEY_OFFLINE_OBSERVATION = "key_offline_observation";
     private Context mContext;
     private Observation mOfflineObservation;
     private DatabaseDataController dbController;
@@ -37,18 +37,28 @@ public class PostObservationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static PostObservationFragment createNewInstance(Observation mOfflineObservation) {
+        PostObservationFragment mPostObservationFragment = new PostObservationFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_OFFLINE_OBSERVATION, mOfflineObservation);
+        mPostObservationFragment.setArguments(args);
+        return mPostObservationFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(KEY_OFFLINE_OBSERVATION) != null) {
+                mOfflineObservation = getArguments().getParcelable(KEY_OFFLINE_OBSERVATION);
+            }
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         BusProvider.bus().register(this);
-
-        mOfflineObservation = (Observation) dbController.getAll();
 
         // make a call and upload Activities
         if (mOfflineObservation != null) {
@@ -66,13 +76,11 @@ public class PostObservationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
     /**
@@ -115,9 +123,6 @@ public class PostObservationFragment extends Fragment {
      */
     @Subscribe
     public void onObservationImageUploadSuccess(FileUploadEvent.OnLoaded onLoaded) {
-        if (dbController == null)
-            dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
-
         if (deleteLocallyStoredObservation(mOfflineObservation)) {
             getActivity().getSupportFragmentManager().popBackStack();
         }

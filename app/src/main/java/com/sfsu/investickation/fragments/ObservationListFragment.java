@@ -421,9 +421,9 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     // TODO: work on this with RxAndroid to post synchronous data in streams
     private void uploadObservations() {
         if (localObservationList != null) {
-            mUploadAlertDialog.showObservationUploadAlertDialog(localObservationList.size());
+            mUploadAlertDialog.showObservationListUploadAlertDialog(localObservationList.size());
         } else {
-            mUploadAlertDialog.showObservationUploadAlertDialog(-1);
+            mUploadAlertDialog.showObservationListUploadAlertDialog(-1);
         }
     }
 

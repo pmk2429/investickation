@@ -78,7 +78,7 @@ public class UploadAlertDialog {
      * @param count
      * @return
      */
-    public void showObservationUploadAlertDialog(int count) {
+    public void showObservationListUploadAlertDialog(int count) {
         AlertDialog.Builder alarmReminderDialog = new AlertDialog.Builder(mContext);
         StringBuilder sb = new StringBuilder();
         if (count > 0) {
@@ -114,6 +114,37 @@ public class UploadAlertDialog {
                 }
             });
         }
+        alarmReminderDialog.show();
+
+    }
+
+    /**
+     * Builds an Alert dialog for the total number of Activities, Observations in the local SQL database storage
+     *
+     * @param count
+     * @return
+     */
+    public void showObservationUploadAlertDialog() {
+        AlertDialog.Builder alarmReminderDialog = new AlertDialog.Builder(mContext);
+        StringBuilder sb = new StringBuilder();
+        alarmReminderDialog.setTitle(R.string.alertDialog_title_upload_observations);
+        sb.append("Are you sure you want to upload the Observation?");
+        alarmReminderDialog.setMessage(sb.toString());
+        alarmReminderDialog.setIcon(R.mipmap.ic_cloud_upload_black_24dp);
+
+        alarmReminderDialog.setPositiveButton(R.string.alertDialog_upload, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mInterface.onUploadClick(RESULT_OK);
+            }
+        });
+
+        alarmReminderDialog.setNegativeButton(R.string.alertDialog_later, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mInterface.onUploadClick(RESULT_INVALID);
+            }
+        });
         alarmReminderDialog.show();
 
     }
