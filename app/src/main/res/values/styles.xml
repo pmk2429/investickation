@@ -10,6 +10,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorSecondary</item>
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+        <item name="android:itemTextAppearance">@style/itemTextStyle.AppTheme</item>
     </style>
 
     <!-- Main theme for the Application. Material style for the Fragments and Activities screens-->
@@ -20,6 +21,7 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:itemTextAppearance">@style/itemTextStyle.AppTheme</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light"/>
@@ -60,6 +62,12 @@
         <!-- menu item height-->
         <item name="android:listPreferredItemHeightSmall">@dimen/view_dimen_X3_large</item>
         <!--background-->
+        <item name="android:background">@color/colorSecondary</item>
+    </style>
+
+    <!--Popup menu style-->
+    <style name="itemTextStyle.AppTheme" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:background">@color/colorSecondary</item>
     </style>
 

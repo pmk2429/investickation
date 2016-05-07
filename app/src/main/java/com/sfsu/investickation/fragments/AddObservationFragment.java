@@ -20,6 +20,8 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -146,6 +148,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         super.onCreate(savedInstanceState);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         mPermissionUtils = new PermissionUtils(mContext);
+        //setHasOptionsMenu(true);
     }
 
     @Override
@@ -452,12 +455,11 @@ public class AddObservationFragment extends Fragment implements LocationControll
                     imageView_tickAddObservation.setImageDrawable(testExternalStorage);
 
                     selectedImagePath = data.getData().getPath();
-                    Log.i(TAG, "spg:" + selectedImagePath);
-                    String docs = "/document//sdcard/";
-                    selectedImagePath = selectedImagePath.substring(docs.length(), selectedImagePath.length());
-                    Log.i(TAG, "spg:" + selectedImagePath);
-                    selectedImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + selectedImagePath;
-                    Log.i(TAG, "spg:" + selectedImagePath);
+                    if (selectedImagePath.contains("document")) {
+                        String docs = "/document//sdcard/";
+                        selectedImagePath = selectedImagePath.substring(docs.length(), selectedImagePath.length());
+                        selectedImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + selectedImagePath;
+                    }
 
                     File imgFile = new File(selectedImagePath);
                     if (imgFile.exists())
@@ -542,6 +544,12 @@ public class AddObservationFragment extends Fragment implements LocationControll
             mLocationController = new LocationController(mContext, this);
             mLocationController.connectGoogleApi();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_observation_add, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

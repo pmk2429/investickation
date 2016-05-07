@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView_addObs_tickImage"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_medium"
+        android:layout_height="@dimen/cardview_X1_large"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:fitsSystemWindows="true"

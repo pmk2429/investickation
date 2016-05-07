@@ -11,30 +11,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--Reusbale layout for Add Observation-->
-        <include
-            android:id="@+id/layout_add_observation"
-            layout="@layout/layout_observation_add_edit"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--Reusbale layout for Add Observation-->
+            <include
+                android:id="@+id/layout_add_observation"
+                layout="@layout/layout_observation_add_edit"/>
+
+
+            <!-- Add Observation Button -->
+            <Button
+                android:id="@+id/button_addObs_postObservation"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_marginBottom="@dimen/view_dimen_large"
+                android:layout_marginLeft="@dimen/view_dimen_large"
+                android:layout_marginRight="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:background="@color/colorPrimary"
+                android:drawableEnd="@mipmap/ic_send_white_24dp"
+                android:gravity="center"
+                android:paddingEnd="@dimen/view_dimen_large"
+                android:paddingStart="@dimen/view_dimen_large"
+                android:text="@string/button_postObservation"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/font_small"/>
+
+        </LinearLayout>
     </ScrollView>
 
-
-    <!-- Add Observation Button -->
-    <Button
-        android:id="@+id/button_addObs_postObservation"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/layout_add_observation"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/view_dimen_large"
-        android:layout_marginLeft="@dimen/view_dimen_large"
-        android:layout_marginRight="@dimen/view_dimen_large"
-        android:background="@color/colorPrimary"
-        android:drawableEnd="@mipmap/ic_send_white_24dp"
-        android:paddingEnd="@dimen/view_dimen_large"
-        android:paddingStart="@dimen/view_dimen_large"
-        android:text="@string/button_postObservation"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/font_small"/>
 
 </android.support.design.widget.CoordinatorLayout>

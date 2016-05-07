@@ -308,6 +308,7 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dbController.delete(mObservation.getId());
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             });
 
@@ -318,7 +319,6 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
                 }
             });
             deleteObservationDialog.show();
-            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
