@@ -140,7 +140,6 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public List<Observation> getAll(String activityId) {
-        Log.i(TAG, "getAll: ");
         Log.i(TAG, activityId);
         List<Observation> observationsList = new ArrayList<Observation>();
         try {

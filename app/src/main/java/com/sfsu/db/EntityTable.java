@@ -139,7 +139,7 @@ public class EntityTable {
                 sb.append(COLUMN_LONGITUDE + " real not null, ");
                 sb.append(COLUMN_VERIFIED + " boolean, ");
                 sb.append(COLUMN_FK_TICK_ID + " text, ");
-                sb.append(COLUMN_FK_ACTIVITY_ID + " text not null, ");
+                sb.append(COLUMN_FK_ACTIVITY_ID + " text, ");
                 sb.append(COLUMN_FK_USER_ID + " text not null, ");
 
                 sb.append("FOREIGN KEY (" + COLUMN_FK_TICK_ID + ") REFERENCES " + TicksTable.TABLENAME +

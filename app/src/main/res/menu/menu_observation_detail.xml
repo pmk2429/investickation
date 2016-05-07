@@ -16,7 +16,7 @@
         android:id="@+id/action_more"
         android:icon="@mipmap/ic_more_vert_white_24dp"
         android:orderInCategory="200"
-        android:title="More"
+        android:title="@string/action_more"
         app:showAsAction="always">
         <menu>
             <item

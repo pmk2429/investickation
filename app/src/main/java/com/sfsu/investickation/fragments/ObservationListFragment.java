@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -193,7 +194,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
             } else {
                 // network not available.
                 // if the user has clicked ViewObservations in ActivityDetailFragment fragment, then show only the Activity's Observations
-                Log.i(TAG, "get all observations of Act");
                 localObservationList = (List<Observation>) dbController.getAll(activityId);
 
             }
@@ -215,7 +215,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
                 }
                 // for local observations only
                 if (localObservationList != null) {
-                    Log.i(TAG, "->" + localObservationList.size());
                     // make observation list
                     mObservationList = localObservationList;
 
@@ -229,7 +228,8 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
                     mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
                     recyclerView_observations.setVisibility(View.GONE);
                 } else {
-                    Log.i(TAG, "activity list size < 0");
+                    if (BuildConfig.DEBUG)
+                        Log.i(TAG, "activity list size < 0");
                 }
             }
         }
@@ -245,7 +245,8 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
             recyclerView_observations.setLayoutManager(mLinearLayoutManager);
         } else {
-            Log.d(TAG, " No Layout manager supplied");
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, " No Layout manager supplied");
         }
 
         // onclick of Add Observation FAB.
@@ -346,7 +347,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     @Subscribe
     public void onObservationsLoadFailure(ObservationEvent.OnLoadingError onLoadingError) {
         dismissProgressDialog();
-//        Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -366,7 +366,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         recyclerView_observations.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_observations, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
                 mInterface.onObservationListItemClickListener(mObservationList.get(position));
             }
 
@@ -403,7 +402,8 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         if (searchView != null) {
             searchView.setOnQueryTextListener(this);
         } else {
-            Log.i(TAG, "search is null");
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, "search is null");
         }
 
     }
@@ -415,7 +415,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         }
 
         return false;
-
     }
 
     // TODO: work on this with RxAndroid to post synchronous data in streams

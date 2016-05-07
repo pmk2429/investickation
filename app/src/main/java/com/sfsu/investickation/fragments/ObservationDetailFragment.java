@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.appcompat.BuildConfig;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -169,8 +170,6 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
                 imageView_tickImage.setImageBitmap(bitmap);
             }
 
-            Log.i(TAG, "URL-" + mObservation.getImageUrl());
-
             // depending on the availability of network , make a network call and get the data or get data from DB
             if (AppUtils.isConnectedOnline(mContext)) {
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mObservation.getId(),
@@ -184,11 +183,12 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
             }
 
             if (mObservation.isVerified()) {
-                icon_verified.setImageResource(R.mipmap.ic_verified_black_24dp);
+                icon_verified.setImageResource(R.mipmap.ic_verified_gray_24dp);
                 textView_tickSpecies.setText(mObservation.getSpecies());
             }
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, e.getMessage());
         }
     }
 
@@ -262,9 +262,12 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
     }
 
     private void uploadObservation() {
+        Log.i(TAG, "uploadObservation: ");
         if (mObservation.isOnCloud()) {
             // do nothing
+            Log.i(TAG, "uploadObservation: onCloud?>");
         } else {
+            Log.i(TAG, "uploadObservation: local");
             mUploadAlertDialog.showObservationUploadAlertDialog();
         }
     }
@@ -352,11 +355,15 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
 
     @Override
     public void onUploadClick(long resultCode) {
+        Log.i(TAG, "onUploadClick: ");
         if (resultCode == UploadAlertDialog.RESULT_OK) {
+            Log.i(TAG, "OK:" + mObservation.toString());
             mInterface.onUploadObservationStoredLocally(mObservation);
         } else if (resultCode == UploadAlertDialog.RESULT_INVALID) {
+            Log.i(TAG, "onUploadClick: invalid");
 
         } else if (resultCode == UploadAlertDialog.RESULT_NO_DATA) {
+            Log.i(TAG, "onUploadClick: no data");
         }
     }
 

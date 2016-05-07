@@ -15,7 +15,7 @@
     <string name="title_fragment_activity_running">Ongoing Activity</string>
     <string name="title_fragment_activity_list">My Activities</string>
     <string name="title_fragment_activity_map">Activity Map</string>
-    <string name="title_fragment_observation_detail">Observation Det</string>
+    <string name="title_fragment_observation_detail">Observation Details</string>
     <string name="title_fragment_observation_add">Add Observation</string>
     <string name="title_fragment_observation_edit">Edit Observation</string>
     <string name="title_fragment_observation_list">My Observations</string>
@@ -151,6 +151,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="action_delete">Delete</string>
     <string name="action_filter">Filter</string>
     <string name="action_post">Post</string>
+    <string name="action_more">More</string>
     <string name="title_activity_demo">DemoActivity</string>
 
     <!-- Helper Strings-->

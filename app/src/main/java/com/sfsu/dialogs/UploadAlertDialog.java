@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.sfsu.investickation.R;
 
@@ -125,6 +126,7 @@ public class UploadAlertDialog {
      * @return
      */
     public void showObservationUploadAlertDialog() {
+        Log.i("reached", "showObservationUploadAlertDialog: ");
         AlertDialog.Builder alarmReminderDialog = new AlertDialog.Builder(mContext);
         StringBuilder sb = new StringBuilder();
         alarmReminderDialog.setTitle(R.string.alertDialog_title_upload_observations);
@@ -135,6 +137,7 @@ public class UploadAlertDialog {
         alarmReminderDialog.setPositiveButton(R.string.alertDialog_upload, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Log.i("uploadDialog", "onClick: ");
                 mInterface.onUploadClick(RESULT_OK);
             }
         });
@@ -149,6 +152,9 @@ public class UploadAlertDialog {
 
     }
 
+    /**
+     * Passes the resultant code the calling Fragment
+     */
     public interface IUploadDataCallback {
         void onUploadClick(long resultCode);
     }

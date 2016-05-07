@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sfsu.controllers.DatabaseDataController;
+import com.sfsu.db.ObservationsDao;
 import com.sfsu.entities.ImageData;
 import com.sfsu.entities.Observation;
 import com.sfsu.network.bus.BusProvider;
@@ -48,6 +49,7 @@ public class PostObservationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: reached");
         if (getArguments() != null) {
             if (getArguments().getParcelable(KEY_OFFLINE_OBSERVATION) != null) {
                 mOfflineObservation = getArguments().getParcelable(KEY_OFFLINE_OBSERVATION);
@@ -59,7 +61,7 @@ public class PostObservationFragment extends Fragment {
     public void onResume() {
         super.onResume();
         BusProvider.bus().register(this);
-
+        dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         // make a call and upload Activities
         if (mOfflineObservation != null) {
             BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized(mOfflineObservation, ApiRequestHandler.ADD));
@@ -92,16 +94,24 @@ public class PostObservationFragment extends Fragment {
     @Subscribe
     public void onPostOfflineObservationSuccess(ObservationEvent.OnLoaded onLoaded) {
 
-        File imageFile = new File(onLoaded.getResponse().getImageUrl());
-        // create RequestBody to send the image to server
-        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
-        // create dynamic file name for the image
-        String fileParam = "file\"; filename=\"" + imageFile.getName();
-        // finally create ImageData object that contains RequestBody and Image name
-        ImageData mImageData = new ImageData(requestBody, fileParam);
-        // once done, post the File to the Bus for posting it on server.
-        BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, onLoaded.getResponse().getId(),
-                ApiRequestHandler.UPLOAD_TICK_IMAGE));
+        try {
+            File imageFile = new File(mOfflineObservation.getImageUrl());
+            // create RequestBody to send the image to server
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), imageFile);
+            // create dynamic file name for the image
+            String fileParam = "file\"; filename=\"" + imageFile.getName();
+            // finally create ImageData object that contains RequestBody and Image name
+            ImageData mImageData = new ImageData(requestBody, fileParam);
+            // once done, post the File to the Bus for posting it on server.
+            BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, onLoaded.getResponse().getId(),
+                    ApiRequestHandler.UPLOAD_TICK_IMAGE));
+        } catch (NullPointerException npe) {
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, "onPostOfflineObservationSuccess: " + npe.getLocalizedMessage());
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, "onPostOfflineObservationSuccess: " + e.getLocalizedMessage());
+        }
     }
 
     /**

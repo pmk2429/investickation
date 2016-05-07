@@ -169,8 +169,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         if (args != null && args.containsKey(UserActivityMasterActivity.KEY_ACTIVITY_ID)) {
             activityId = args.getString(UserActivityMasterActivity.KEY_ACTIVITY_ID);
         } else {
-            //FIXME ActivityId will be empty
-            activityId = "";
+            activityId = null;
         }
 
         // get user_id.
@@ -373,7 +372,6 @@ public class AddObservationFragment extends Fragment implements LocationControll
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionsResult: reached");
         switch (requestCode) {
             case GALLERY_CAMERA_PERMISSION: {
                 for (int i = 0; i < permissions.length; i++) {
@@ -554,6 +552,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
 
     @Override
     public void setCurrentLocation(Location mLocation) {
+        Log.i(TAG, "setCurrentLocation: " + mLocation.getLatitude() + " : " + mLocation.getLongitude());
     }
 
     @Override
@@ -566,8 +565,6 @@ public class AddObservationFragment extends Fragment implements LocationControll
     public void setLocationArea(String locationArea) {
         if (locationArea != null || !locationArea.equals("")) {
             this.geoLocation = locationArea;
-        } else {
-            this.geoLocation = "";
         }
     }
 
@@ -627,7 +624,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         BusProvider.bus().post(new FileUploadEvent.OnLoadingInitialized(mImageData, observationResponse.getId(),
                 ApiRequestHandler.UPLOAD_TICK_IMAGE));
         // show progress dialog
-        displayProgressDialog("Uploading Image...");
+        displayProgressDialog(mContext.getString(R.string.progressDialog_posting_observation));
     }
 
     /**

@@ -79,6 +79,7 @@ public class FileUploadHandler extends ApiRequestHandler {
                         Log.i(TAG, "4c) FAILURE");
                         if (t != null && t.getMessage() != null) {
                             Log.i(TAG, "4ci) message not null");
+                            Log.i(TAG, t.getMessage());
                             mBus.post(new FileUploadEvent.OnLoadingError(t.getMessage(), -1));
                         } else {
                             Log.i(TAG, "4cii) message null");

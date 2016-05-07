@@ -2,7 +2,7 @@ package com.sfsu.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,14 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.sfsu.controllers.ImageController;
 import com.sfsu.entities.Observation;
 import com.sfsu.investickation.R;
 import com.sfsu.utils.AppUtils;
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -33,6 +32,7 @@ import java.util.List;
  */
 public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsListAdapter.ObservationViewHolder> {
 
+    private static final String TAG = "~!@#$ObsListAdptr";
     List<Observation> observationList;
     private Context mContext;
 
@@ -66,35 +66,23 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
                     holder.icon_storageStatus.setImageResource(R.mipmap.ic_sd_storage_black_24dp);
                 }
 
-                // imageFile
-                File imgFile = new File(mObservation.getImageUrl());
-
-                // depending on the image url, display ticks
-                if (AppUtils.isConnectedOnline(mContext)) {
-                    if (mObservation.getImageUrl().startsWith("http")) {
-                        Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
-                    } else {
-                        if (imgFile.exists()) {
-                            Log.i("~!@#$", "image file exists");
-                            Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                            holder.imageView_tickImage.setImageBitmap(tickBitmap);
-//                            Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
-                        }
-                    }
+                // FIXME: load image into ImageView
+                if (mObservation.getImageUrl().startsWith("http")) {
+                    Picasso.with(mContext).load(mObservation.getImageUrl()).into(holder.imageView_tickImage);
                 } else {
-                    if (imgFile.exists()) {
-                        Bitmap tickBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        holder.imageView_tickImage.setImageBitmap(tickBitmap);
-                    }
+                    Bitmap bitmap = new ImageController(mContext).getBitmapForImageView(holder.imageView_tickImage, mObservation.getImageUrl());
+                    holder.imageView_tickImage.setImageBitmap(bitmap);
                 }
 
+
                 if (mObservation.isVerified()) {
-                    holder.icon_verified.setImageResource(R.mipmap.ic_verified_black_24dp);
+                    holder.icon_verified.setImageResource(R.mipmap.ic_verified_gray_24dp);
                 }
 
             }
         } catch (Exception e) {
-            Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            if (BuildConfig.DEBUG)
+                Log.i(TAG, "onBindViewHolder: " + e.getCause());
         }
     }
 

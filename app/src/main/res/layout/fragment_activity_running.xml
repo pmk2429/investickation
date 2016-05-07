@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorWhite"
                 android:orientation="vertical"
-                tools:context=".UserActMainActivity">
+                tools:context=".UserActivityMasterActivity">
 
 
     <!-- Required: Layout to hold MapView-->
@@ -69,7 +69,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/view_dimen_medium"
         android:background="@drawable/rounder_corner_status"
-        android:drawableEnd="@drawable/ic_alert_circle"
+        android:drawableEnd="@mipmap/ic_alert_circle"
         android:drawablePadding="@dimen/view_dimen_small"
         android:paddingEnd="@dimen/view_dimen_small"
         android:paddingStart="@dimen/view_dimen_small"
