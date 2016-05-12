@@ -8,6 +8,7 @@
     <string name="title_activity_observation_main">My Observations</string>
     <string name="title_activity_home">InvesTICKations</string>
     <string name="title_settings">Settings</string>
+    <string name="title_activity_tutorial">Tutorial</string>
 
     <!-- Fragment Titles-->
     <string name="title_fragment_activity_detail">Activity Details</string>

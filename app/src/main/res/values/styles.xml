@@ -71,4 +71,9 @@
         <item name="android:background">@color/colorSecondary</item>
     </style>
 
+    <!--Theme for Tutorial-->
+    <style name="TutorialTheme" parent="AppTheme.Base">
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
 </resources>

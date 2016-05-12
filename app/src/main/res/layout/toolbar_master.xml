@@ -5,6 +5,5 @@
                                    android:background="@color/colorPrimary"
                                    android:elevation="4dp"
                                    android:fitsSystemWindows="true"
-                                   android:paddingTop="@dimen/view_dimen_large"
                                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 </android.support.v7.widget.Toolbar>

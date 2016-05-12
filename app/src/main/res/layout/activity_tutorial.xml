@@ -29,6 +29,7 @@
         </FrameLayout>
     </RelativeLayout>
 
+    <!--NavDrawer-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,10 +38,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:theme="@style/NavigationViewStyle"
         app:headerLayout="@layout/drawer_header"
         app:itemIconTint="@color/colorPrimary"
         app:itemTextColor="@color/colorWhite"
-        app:menu="@menu/drawer_view_main"
-        app:theme="@style/NavigationViewStyle"/>
+        app:menu="@menu/drawer_view_main"/>
 
 </android.support.v4.widget.DrawerLayout>
