@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
 
 import com.sfsu.entities.Entity;
@@ -16,7 +17,7 @@ import java.util.List;
  * ObservationsDao for providing abstraction layer over DB. Since the Observation entity is a composite object the entire logic
  * for building up the composite object is handled by the DAO layer. The DAO layer is used for getting the data from the
  * Database and then build up the Observation object.
- * <p/>
+ * <p>
  * Created by Pavitra on 6/3/2015.
  */
 public class ObservationsDao implements EntityDao {
@@ -40,9 +41,17 @@ public class ObservationsDao implements EntityDao {
     };
 
 
+    /**
+     * REQUIRED
+     */
     private ObservationsDao() {
     }
 
+    /**
+     * Static instance creation of ObservationsDao for singleton design pattern
+     *
+     * @return
+     */
     public static ObservationsDao getInstance() {
         return mInstance;
     }
@@ -63,12 +72,13 @@ public class ObservationsDao implements EntityDao {
         int deleted = 0;
         try {
             deleted = db.delete(EntityTable.ObservationsTable.TABLENAME,
-                    EntityTable.ObservationsTable.COLUMN_ID + "=?",
-                    new String[]{id});
+                    EntityTable.ObservationsTable.COLUMN_ID + "=?", new String[]{id});
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO delete: ", se);
         } catch (Exception e) {
-
-        } finally {
-            db.close();
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO delete: ", e);
         }
         return deleted > 0;
     }
@@ -80,7 +90,6 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public Entity get(String id) {
-
         Observation observationItem = null;
         try {
             Cursor c = db.query(true, EntityTable.ObservationsTable.TABLENAME,
@@ -96,8 +105,12 @@ public class ObservationsDao implements EntityDao {
                     c.close();
                 }
             }
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO get: ", se);
         } catch (Exception e) {
-
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO get: ", e);
         }
         // the final ObservationItem will contain the Composite Object composed of Location and Tick objects.
         return observationItem;
@@ -128,7 +141,13 @@ public class ObservationsDao implements EntityDao {
                     }
                 } while (c.moveToNext());
             }
+
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO delete: ", se);
         } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO delete: ", e);
         }
         return observationsList;
     }
@@ -160,7 +179,12 @@ public class ObservationsDao implements EntityDao {
                     }
                 } while (c.moveToNext());
             }
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO getAll: ", se);
         } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO getAll: ", e);
         }
         return observationsList;
     }
@@ -172,6 +196,7 @@ public class ObservationsDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
+        long isSaved = 0;
         try {
             Observation observations = (Observation) entity;
             ContentValues contentValues = new ContentValues();
@@ -188,10 +213,15 @@ public class ObservationsDao implements EntityDao {
             contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
             contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
             // insert entry into Table.
-            return db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
+            isSaved = db.insert(EntityTable.ObservationsTable.TABLENAME, null, contentValues);
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO save: ", se);
         } catch (Exception e) {
-            return -1;
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO save: ", e);
         }
+        return isSaved;
     }
 
     /**
@@ -204,25 +234,40 @@ public class ObservationsDao implements EntityDao {
     public boolean update(String id, Entity entity) {
         Observation observations = (Observation) entity;
         ContentValues contentValues = new ContentValues();
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_DESCRIPTION, observations.getDescription());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_VERIFIED, observations.isVerified());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
-        contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
-        // update the entry.
-        return db.update(EntityTable.ObservationsTable.TABLENAME, contentValues, EntityTable.ObservationsTable.COLUMN_ID + "=?", new
-                String[]{observations.getId() + ""}) > 0;
+        boolean isUpdated = false;
+        try {
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_ID, observations.getId());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_NAME, observations.getTickName());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_NUMOFTICKS, observations.getNum_ticks());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_DESCRIPTION, observations.getDescription());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_IMAGE_URL, observations.getImageUrl());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_TIMESTAMP, observations.getTimestamp());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_LATITUDE, observations.getLatitude());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_LONGITUDE, observations.getLongitude());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_VERIFIED, observations.isVerified());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_TICK_ID, observations.getTick_id());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_USER_ID, observations.getUser_id());
+            contentValues.put(EntityTable.ObservationsTable.COLUMN_FK_ACTIVITY_ID, observations.getActivity_id());
+            // update the entry.
+            isUpdated = db.update(EntityTable.ObservationsTable.TABLENAME, contentValues, EntityTable.ObservationsTable
+                    .COLUMN_ID + "=?", new String[]{observations.getId() + ""}) > 0;
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO update: ", se);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO update: ", e);
+        }
+        return isUpdated;
     }
 
-    // build the Observation Object using Cursor.
-    public Observation buildFromCursor(Cursor c) {
+    /**
+     * Builds Observation from the Cursor
+     *
+     * @param c
+     * @return
+     */
+    private Observation buildFromCursor(Cursor c) {
         Observation observationItem = null;
         try {
             if (c != null) {
@@ -240,7 +285,12 @@ public class ObservationsDao implements EntityDao {
                 observationItem.setActivity_id(c.getString(10));
                 observationItem.setUser_id(c.getString(11));
             }
-        } catch (SQLiteException e) {
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO buildFromCursor: ", se);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ObsDAO buildFromCursor: ", e);
         }
         return observationItem;
     }

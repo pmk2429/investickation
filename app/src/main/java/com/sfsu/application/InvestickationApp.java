@@ -18,7 +18,9 @@ import com.squareup.otto.Bus;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.acra.ACRA;
+import org.acra.ReportField;
 import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender;
 
 /**
  * <p>
@@ -29,12 +31,30 @@ import org.acra.annotation.ReportsCrashes;
  * <p>
  * The application onCreate will initialize
  * </p>
- * <p/>
+ * <p>
  * Created by Pavitra on 11/27/2015.
  */
+
+/**
+ * Sends Crash report to the Cloudant server configured to generate reports.
+ */
 @ReportsCrashes(
-        formUri = "http://www.backendofyourchoice.com/reportpath"
+        formUri = "https://tick2429.cloudant.com/acra-investmain/_design/acra-storage/_update/report",
+        reportType = HttpSender.Type.JSON,
+        httpMethod = HttpSender.Method.POST,
+        formUriBasicAuthLogin = "nguelyingplairropedsheye",
+        formUriBasicAuthPassword = "55cb103d3c92483379c1c2fbca2665f5ea7246d1",
+        customReportContent = {
+                ReportField.APP_VERSION_CODE,
+                ReportField.APP_VERSION_NAME,
+                ReportField.ANDROID_VERSION,
+                ReportField.PACKAGE_NAME,
+                ReportField.REPORT_ID,
+                ReportField.BUILD,
+                ReportField.STACK_TRACE
+        }
 )
+
 public class InvestickationApp extends Application {
     public static final String TAG = "~!@#$" + InvestickationApp.class.getSimpleName();
 
@@ -70,6 +90,9 @@ public class InvestickationApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // The following line triggers the initialization of ACRA
+        ACRA.init(this);
+        // initialize this instance
         mInstance = this;
 
         initResources();

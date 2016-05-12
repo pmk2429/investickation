@@ -297,6 +297,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         localActivitiesList = null;
         responseActivitiesList = null;
         mActivitiesList = null;
+        dbController.closeConnection();
     }
 
     @Override

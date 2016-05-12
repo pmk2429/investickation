@@ -168,6 +168,12 @@ public class ActivityNewFragment extends Fragment implements
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        dbController.closeConnection();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
     }

@@ -199,6 +199,14 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
         BusProvider.bus().register(this);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        dbController.closeConnection();
+        dbActivitiesController.closeConnection();
+        dbTicksController.closeConnection();
+    }
+
     @Subscribe
     public void onObservationLoadSuccess(ObservationEvent.OnObservationWrapperLoaded onObservationWrapperLoaded) {
         mObservationResponse = onObservationWrapperLoaded.getResponse();

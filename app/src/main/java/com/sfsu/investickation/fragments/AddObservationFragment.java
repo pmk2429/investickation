@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -545,6 +546,12 @@ public class AddObservationFragment extends Fragment implements LocationControll
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        dbController.closeConnection();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_observation_add, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -552,7 +559,8 @@ public class AddObservationFragment extends Fragment implements LocationControll
 
     @Override
     public void setCurrentLocation(Location mLocation) {
-        Log.i(TAG, "setCurrentLocation: " + mLocation.getLatitude() + " : " + mLocation.getLongitude());
+        if (BuildConfig.DEBUG)
+            Log.i(TAG, "setCurrentLocation: " + mLocation.getLatitude() + " : " + mLocation.getLongitude());
     }
 
     @Override

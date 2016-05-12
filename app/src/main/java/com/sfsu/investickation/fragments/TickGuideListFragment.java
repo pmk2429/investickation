@@ -234,6 +234,12 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        dbTickController.closeConnection();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_tick_list, menu);
         final MenuItem item = menu.findItem(R.id.action_search);

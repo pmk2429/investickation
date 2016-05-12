@@ -392,6 +392,11 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         fab_addObservation.startAnimation(animation);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        dbController.closeConnection();
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

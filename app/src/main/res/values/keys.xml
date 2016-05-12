@@ -3,4 +3,7 @@
     <string name="KEY_PREF_ACTIVITIES_COUNT">recentActivitiesCount</string>
     <string name="KEY_PREF_RECEIVE_NOTIFICATIONS">receiveNotifications</string>
     <string name="KEY_PREF_ENABLE_LOCATION">enableLocation</string>
+    <!--ACRA keys-->
+    <string name="KEY_ACRA_AUTH_LOGIN">nguelyingplairropedsheye</string>
+    <string name="KEY_ACRA_AUTH_PASSWORD">55cb103d3c92483379c1c2fbca2665f5ea7246d1</string>
 </resources>

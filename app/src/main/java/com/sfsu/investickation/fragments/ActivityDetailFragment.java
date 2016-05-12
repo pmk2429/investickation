@@ -181,6 +181,12 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        dbController.closeConnection();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;

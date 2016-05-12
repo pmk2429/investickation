@@ -3,6 +3,8 @@ package com.sfsu.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.appcompat.BuildConfig;
+import android.util.Log;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.entities.Entity;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * DAO layer for Activities. Contains all the CRUD operations for Activity.
  * Created by Pavitra on 1/9/2016.
  */
 public class ActivitiesDao implements EntityDao {
@@ -31,9 +34,17 @@ public class ActivitiesDao implements EntityDao {
             EntityTable.ActivitiesTable.COLUMN_FK_USER_ID};
 
 
+    /**
+     * REQUIRED
+     */
     private ActivitiesDao() {
     }
 
+    /**
+     * Static instance creation for singleton design pattern
+     *
+     * @return
+     */
     public static ActivitiesDao getInstance() {
         return mInstance;
     }
@@ -52,9 +63,9 @@ public class ActivitiesDao implements EntityDao {
             // save the entity
             return db.insert(EntityTable.ActivitiesTable.TABLENAME, null, contentValues);
         } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ActivitiesDAO save: ", e);
             return -1;
-        } finally {
-            db.close();
         }
     }
 
@@ -72,9 +83,8 @@ public class ActivitiesDao implements EntityDao {
                     new String[]{id}) > 0;
 
         } catch (Exception e) {
-
-        } finally {
-            db.close();
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ActivitiesDAO update: ", e);
         }
         return update;
     }
@@ -117,8 +127,8 @@ public class ActivitiesDao implements EntityDao {
                     EntityTable.ActivitiesTable.COLUMN_ID + " = ?",
                     new String[]{id});
         } catch (Exception e) {
-        } finally {
-            db.close();
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ActivitiesDAO delete: ", e);
         }
         return deleted > 0;
     }
@@ -140,13 +150,18 @@ public class ActivitiesDao implements EntityDao {
                 }
             }
         } catch (Exception e) {
-
-        } finally {
-
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ActivitiesDAO get: ", e);
         }
         return mActivity;
     }
 
+    /**
+     * Builds Activity from the cursor
+     *
+     * @param c
+     * @return
+     */
     private Activities buildFromCursor(Cursor c) {
         Activities mActivity = null;
         try {
@@ -185,8 +200,8 @@ public class ActivitiesDao implements EntityDao {
                 }
             }
         } catch (Exception e) {
-
-        } finally {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ActivitiesDAO getByName: ", e);
         }
         return mActivity;
     }
@@ -209,8 +224,8 @@ public class ActivitiesDao implements EntityDao {
                 } while (c.moveToNext());
             }
         } catch (Exception e) {
-
-        } finally {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "ActivitiesDAO getAll: ", e);
         }
         return activitiesList;
     }

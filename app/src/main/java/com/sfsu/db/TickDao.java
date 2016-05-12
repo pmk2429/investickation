@@ -3,6 +3,8 @@ package com.sfsu.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
 
 import com.sfsu.entities.Entity;
@@ -18,7 +20,7 @@ import java.util.List;
 public class TickDao implements EntityDao {
     // Singleton pattern
     private static final TickDao mInstance = new TickDao();
-    private final String LOGTAG = "~!@#$TickDao: ";
+    private static final String TAG = "~!@#$TickDao";
     private SQLiteDatabase db;
     private String[] tickEntryArray = new String[]{
             EntityTable.TicksTable.COLUMN_ID,
@@ -32,9 +34,17 @@ public class TickDao implements EntityDao {
             EntityTable.TicksTable.COLUMN_CREATED_AT,
             EntityTable.TicksTable.COLUMN_UPDATED_AT};
 
+    /**
+     * Required
+     */
     private TickDao() {
     }
 
+    /**
+     * Returns static singleton instance of TickDao
+     *
+     * @return
+     */
     public static TickDao getInstance() {
         return mInstance;
     }
@@ -51,16 +61,22 @@ public class TickDao implements EntityDao {
      * @return
      */
     public long save(Entity entity) {
-
+        long isSaved = 0;
         try {
-            Log.d(LOGTAG, "TICK : INSERT reached");
             Tick tick = (Tick) entity;
             ContentValues contentValues = getContentValues(tick);
             // save the entity
-            return db.insert(EntityTable.TicksTable.TABLENAME, null, contentValues);
+            isSaved = db.insert(EntityTable.TicksTable.TABLENAME, null, contentValues);
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "save: ", se);
+            isSaved = -1;
         } catch (Exception e) {
-            return -1;
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "save: ", e);
+            isSaved = -1;
         }
+        return isSaved;
     }
 
     /**
@@ -70,21 +86,32 @@ public class TickDao implements EntityDao {
      * @return
      */
     public long save(List<Tick> tickList) {
-        Log.d(LOGTAG, "TICK : insert List");
+        long isSaved = 0;
         try {
             for (int i = 0; i < tickList.size(); i++) {
                 Tick tick = tickList.get(i);
                 ContentValues contentValues = getContentValues(tick);
                 db.insert(EntityTable.TicksTable.TABLENAME, null, contentValues);
             }
-            return tickList.size();
+            isSaved = tickList.size();
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "saveList: ", se);
+            isSaved = -1;
         } catch (Exception e) {
-            // save the entity
-            return -1;
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "saveList: ", e);
+            isSaved = -1;
         }
-
+        return isSaved;
     }
 
+    /**
+     * Returns ContentValue object for the current TickDao
+     *
+     * @param tick
+     * @return
+     */
     private ContentValues getContentValues(Tick tick) {
         ContentValues contentValues = new ContentValues();
         try {
@@ -100,7 +127,13 @@ public class TickDao implements EntityDao {
             contentValues.put(EntityTable.TicksTable.COLUMN_UPDATED_AT, tick.getUpdated_at());
 
             return contentValues;
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "getContentValues: ", se);
+            return null;
         } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "getContentValues: ", e);
             return null;
         }
     }
@@ -113,18 +146,25 @@ public class TickDao implements EntityDao {
      */
     @Override
     public boolean update(String id, Entity entity) {
-
+        boolean isUpdated = false;
         try {
-            Log.d(LOGTAG, "Tick : UPDATE reached");
             Tick tick = (Tick) entity;
             ContentValues contentValues = getContentValues(tick);
             // update the record.
-            return db.update(EntityTable.TicksTable.TABLENAME, contentValues, EntityTable.TicksTable.COLUMN_ID + "=?",
-                    new String[]{tick.getId() + ""}) > 0;
+            isUpdated = db.update(
+                    EntityTable.TicksTable.TABLENAME,
+                    contentValues,
+                    EntityTable.TicksTable.COLUMN_ID + "=?",
+                    new String[]{tick.getId() + ""})
+                    > 0;
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "update: ", se);
         } catch (Exception e) {
-            return false;
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "update: ", e);
         }
-
+        return isUpdated;
     }
 
     /**
@@ -135,20 +175,30 @@ public class TickDao implements EntityDao {
      */
     public Tick buildFromCursor(Cursor c) {
         Tick tickItem = null;
-        if (c != null) {
-            tickItem = new Tick();
-            tickItem.setId(c.getString(0));
-            tickItem.setTickName(c.getString(1));
-            tickItem.setScientific_name(c.getString(2));
-            tickItem.setSpecies(c.getString(3));
-            tickItem.setKnown_for(c.getString(4));
-            tickItem.setDescription(c.getString(5));
-            tickItem.setFound_near_habitat(c.getString(6));
-            tickItem.setImageUrl(c.getString(7));
-            tickItem.setCreated_at(c.getLong(8));
-            tickItem.setUpdated_at(c.getLong(9));
+        try {
+            if (c != null) {
+                tickItem = new Tick();
+                tickItem.setId(c.getString(0));
+                tickItem.setTickName(c.getString(1));
+                tickItem.setScientific_name(c.getString(2));
+                tickItem.setSpecies(c.getString(3));
+                tickItem.setKnown_for(c.getString(4));
+                tickItem.setDescription(c.getString(5));
+                tickItem.setFound_near_habitat(c.getString(6));
+                tickItem.setImageUrl(c.getString(7));
+                tickItem.setCreated_at(c.getLong(8));
+                tickItem.setUpdated_at(c.getLong(9));
+            }
+            return tickItem;
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "buildFromCursor: ", se);
+            return null;
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "buildFromCursor: ", e);
+            return null;
         }
-        return tickItem;
     }
 
     /**
@@ -159,7 +209,21 @@ public class TickDao implements EntityDao {
      */
     @Override
     public boolean delete(String id) {
-        return db.delete(EntityTable.TicksTable.TABLENAME, EntityTable.TicksTable.COLUMN_ID + "=?", new String[]{id + ""}) > 0;
+        boolean isDeleted = false;
+        try {
+            isDeleted = db.delete(
+                    EntityTable.TicksTable.TABLENAME,
+                    EntityTable.TicksTable.COLUMN_ID + "=?",
+                    new String[]{id + ""})
+                    > 0;
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "buildFromCursor: ", se);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "buildFromCursor: ", e);
+        }
+        return isDeleted;
     }
 
     /**
@@ -170,22 +234,25 @@ public class TickDao implements EntityDao {
      */
     @Override
     public Tick get(String id) {
-
         Tick tickItem = null;
+        Cursor c = null;
         try {
-            Cursor c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?",
+            c = db.query(true, EntityTable.TicksTable.TABLENAME, tickEntryArray, EntityTable.TicksTable.COLUMN_ID + "=?",
                     new String[]{id + ""}, null, null, null, null);
 
             if (c != null && c.moveToFirst()) {
                 tickItem = buildFromCursor(c);
-                if (!c.isClosed()) {
-                    c.close();
-                }
             }
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "get: ", se);
         } catch (Exception e) {
-
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "get: ", e);
         } finally {
-            db.close();
+            if (!c.isClosed()) {
+                c.close();
+            }
         }
         return tickItem;
     }
@@ -199,8 +266,9 @@ public class TickDao implements EntityDao {
     @Override
     public Tick getByName(String name) {
         Tick tickItem = null;
+        Cursor c = null;
         try {
-            Cursor c = db.query(true,
+            c = db.query(true,
                     EntityTable.TicksTable.TABLENAME,
                     tickEntryArray,
                     EntityTable.TicksTable.COLUMN_TICK_NAME + "=?", new String[]{name + ""},
@@ -208,14 +276,17 @@ public class TickDao implements EntityDao {
 
             if (c != null && c.moveToFirst()) {
                 tickItem = buildFromCursor(c);
-                if (!c.isClosed()) {
-                    c.close();
-                }
             }
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "getByName: ", se);
         } catch (Exception e) {
-
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "getByName: ", e);
         } finally {
-            db.close();
+            if (!c.isClosed()) {
+                c.close();
+            }
         }
         return tickItem;
     }
@@ -228,18 +299,33 @@ public class TickDao implements EntityDao {
      */
     public List<Tick> getAll() {
         List<Tick> ticksList = new ArrayList<Tick>();
-
-        // Query the Database to get all the records.
-        Cursor c = db.query(EntityTable.TicksTable.TABLENAME, tickEntryArray, null, null, null, null, null);
-
-        if (c != null && c.moveToFirst()) {
-            // loop until the end of Cursor and add each entry to Ticks ArrayList.
-            do {
-                Tick tickItem = buildFromCursor(c);
-                if (tickItem != null) {
-                    ticksList.add(tickItem);
-                }
-            } while (c.moveToNext());
+        Cursor c = null;
+        try {
+            // Query the Database to get all the records.
+            c = db.query(
+                    EntityTable.TicksTable.TABLENAME,
+                    tickEntryArray,
+                    null, null, null, null, null);
+            // get all Ticks from Cursor
+            if (c != null && c.moveToFirst()) {
+                // loop until the end of Cursor and add each entry to Ticks ArrayList.
+                do {
+                    Tick tickItem = buildFromCursor(c);
+                    if (tickItem != null) {
+                        ticksList.add(tickItem);
+                    }
+                } while (c.moveToNext());
+            }
+        } catch (SQLiteException se) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "getAll: ", se);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "getAll: ", e);
+        } finally {
+            if (!c.isClosed()) {
+                c.close();
+            }
         }
         return ticksList;
     }
@@ -248,6 +334,5 @@ public class TickDao implements EntityDao {
     public List<? extends Entity> getAll(String id) {
         return null;
     }
-
 
 }

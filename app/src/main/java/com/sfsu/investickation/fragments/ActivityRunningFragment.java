@@ -651,6 +651,7 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
     @Override
     public void onStop() {
         super.onStop();
+        dbController.closeConnection();
     }
 
     /**
