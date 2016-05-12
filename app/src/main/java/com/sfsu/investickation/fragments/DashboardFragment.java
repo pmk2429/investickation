@@ -47,11 +47,9 @@ import java.util.List;
  * .Observation}. Also, provides a starting point for the user to post an Observation or to start an Activity.
  */
 public class DashboardFragment extends Fragment implements View.OnClickListener {
-
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 4;
     private static final int NETWORK_LOCATION_BASED_PERMISSIONS = 24;
     public final String TAG = "~!@#DashboardFragment";
     private IDashboardCallback mListener;
@@ -399,7 +397,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return 4;
         }
     }
 

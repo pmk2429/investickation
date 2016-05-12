@@ -7,8 +7,8 @@
     <string name="title_activity_user_activity_main">My Activities</string>
     <string name="title_activity_observation_main">My Observations</string>
     <string name="title_activity_home">InvesTICKations</string>
-    <string name="title_settings">Settings</string>
     <string name="title_activity_tutorial">Tutorial</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Fragment Titles-->
     <string name="title_fragment_activity_detail">Activity Details</string>
@@ -27,7 +27,6 @@
     <string name="title_fragment_tick_list">Ticks</string>
     <string name="title_fragment_tick_detail">Tick Details</string>
     <string name="title_fragment_profile">My Profile</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Navigation Drawer String array -->
     <string-array name="navdrawer">
@@ -305,12 +304,12 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
 
     <!--Progress Dialogs-->
     <string name="progressDialog_register_title">Registration</string>
-    <string name="progressDialog_register_message">Please wait while we register you...</string>
+    <string name="progressDialog_register_message">Please wait while we register you&#8230;</string>
     <string name="progressDialog_login_title">Login</string>
-    <string name="progressDialog_login_message">Logging in...</string>
-    <string name="progressDialog_uploading_image">Uploading Image...</string>
-    <string name="progressDialog_posting_observation">Posting Observation...</string>
-    <string name="progressDialog_updating_observation">Updating Observation...</string>
+    <string name="progressDialog_login_message">Logging in&#8230;</string>
+    <string name="progressDialog_uploading_image">Uploading Image&#8230;</string>
+    <string name="progressDialog_posting_observation">Posting Observation&#8230;</string>
+    <string name="progressDialog_updating_observation">Updating Observation&#8230;</string>
 
     <!-- ImageManager -->
     <string name="album_name">InvesTICKations</string>
@@ -319,7 +318,19 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="perm_pref_file_name">PERMISSIONS_PREFERENCES</string>
 
-    <!--States-->
-
+    <!--Tutorial -->
+    <string name="tutorial_howToUseInfo">How to use InvesTICKations</string>
+    <string name="tutorial_createActivity"><b>Step 1:</b> Create an Activity</string>
+    <string name="tutorial_activityDetails">Activity represents your routine task such as Hiking, Biking, Dog Walking. Create an Activity to provide efficient time component about what kind of task you were performing while you posted Tick encounter.</string>
+    <string name="tutorial_activityRunning"><b>Step 2:</b> Make an Observation while Activity is running</string>
+    <string name="tutorial_activityRunningDetails">Running Activities will be used to capture your location and build a trajectory of your path travelled during your Activity.</string>
+    <string name="tutorial_whatIsObservation">Observation is Tick encounter. Whenever you find a Tick, post an
+        Observation</string>
+    <string name="tutorial_referTickGuide"><b>Step 3:</b> Refer to Tick Guide for better recognizing Ticks</string>
+    <string name="tutorial_referTickGuideDetails">Tick Guide provides a comprehending list of Ticks for understanding and
+    easily recognizing Ticks</string>
+    <string name="tutorial_stopActivity"><b>Step 4:</b> Stop Activity</string>
+    <string name="tutorial_stopActivityDetails">Stopping Activity finally will make changes to the central data server on
+    cloud</string>
 
 </resources>

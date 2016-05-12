@@ -12,6 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/view_dimen_large"
             android:background="@color/colorSecondaryDark"
             android:orientation="vertical">
 
@@ -21,7 +22,7 @@
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_marginStart="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="How to use InvesTICKations?"
+                android:text="@string/tutorial_howToUseInfo"
                 android:textSize="@dimen/font_X_large"/>
 
             <!--Add Activity-->
@@ -31,70 +32,75 @@
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_marginStart="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="Create an Activity"
+                android:text="@string/tutorial_createActivity"
                 android:textSize="@dimen/font_medium"/>
+
+            <!--What is Activity-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/tutorial_activityDetails"
+                android:textSize="@dimen/font_X_small"
+                />
 
             <ImageView
                 android:layout_width="@dimen/cardview_small"
-                android:layout_height="@dimen/cardview_X1_large"
+                android:layout_height="@dimen/cardview_X2_large"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/view_dimen_large"
                 android:scaleType="fitXY"
                 android:src="@drawable/new_activity"/>
 
-            <!--Add Activity-->
+            <!--Activity Running-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_marginStart="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="Make Observations while Activity is Running"
+                android:text="@string/tutorial_activityRunning"
                 android:textSize="@dimen/font_medium"/>
 
+            <!--Running Activity Details-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/tutorial_activityRunningDetails"
+                android:textSize="@dimen/font_X_small"/>
+
+            <!--Running Activity-->
             <ImageView
                 android:layout_width="@dimen/cardview_small"
-                android:layout_height="@dimen/cardview_X1_large"
+                android:layout_height="@dimen/cardview_X2_large"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/view_dimen_large"
                 android:scaleType="fitXY"
                 android:src="@drawable/running_activity"/>
 
-            <!--Add Reminder-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_marginStart="@dimen/view_dimen_large"
-                android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="Add Reminder"
-                android:textSize="@dimen/font_medium"/>
-
-            <ImageView
-                android:layout_width="@dimen/cardview_small"
-                android:layout_height="@dimen/cardview_X1_large"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/view_dimen_large"
-                android:scaleType="fitXY"
-                android:src="@drawable/add_reminder"/>
-
             <!--Add Observation-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_marginStart="@dimen/view_dimen_large"
-                android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="Found Tick? Make Observation"
-                android:textSize="@dimen/font_medium"/>
-
             <ImageView
                 android:layout_width="@dimen/cardview_small"
-                android:layout_height="@dimen/cardview_X1_large"
+                android:layout_height="@dimen/cardview_X2_large"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/view_dimen_large"
                 android:scaleType="fitXY"
                 android:src="@drawable/add_observation"/>
+
+            <!--What is Observation-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/tutorial_whatIsObservation"
+                android:textSize="@dimen/font_X_small"/>
 
             <!--View Tick Guide for learning more about Ticks-->
             <TextView
@@ -103,16 +109,47 @@
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_marginStart="@dimen/view_dimen_large"
                 android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="Learn more about Ticks from Tick Guide"
+                android:text="@string/tutorial_referTickGuide"
                 android:textSize="@dimen/font_medium"/>
+
+            <!--Tick Guide Details-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/tutorial_referTickGuideDetails"
+                android:textSize="@dimen/font_X_small"/>
 
             <ImageView
                 android:layout_width="@dimen/cardview_small"
-                android:layout_height="@dimen/cardview_X1_large"
+                android:layout_height="@dimen/cardview_X2_large"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/view_dimen_large"
                 android:scaleType="fitXY"
                 android:src="@drawable/tick_guide"/>
+
+            <!--Stop Activity-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:text="@string/tutorial_stopActivity"
+                android:textSize="@dimen/font_medium"/>
+
+            <!--Stop Activity Details-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/view_dimen_large"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_small"
+                android:text="@string/tutorial_stopActivityDetails"
+                android:textSize="@dimen/font_X_small"/>
 
         </LinearLayout>
 
