@@ -160,7 +160,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
         // by default the TextView is invisible
         txtView_activityListInfo.setVisibility(View.GONE);
-
         recyclerView_activity.setHasFixedSize(true);
 
         if (mContext != null) {
@@ -224,7 +223,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     public void onActivitiesLoadedFailure(ActivityEvent.OnLoadingError onLoadingError) {
         if (mProgressDialog.isShowing())
             mProgressDialog.dismiss();
-        //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
     /**

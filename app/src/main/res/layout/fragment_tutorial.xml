@@ -16,15 +16,6 @@
             android:background="@color/colorSecondaryDark"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_marginStart="@dimen/view_dimen_large"
-                android:layout_marginTop="@dimen/view_dimen_large"
-                android:text="@string/tutorial_howToUseInfo"
-                android:textSize="@dimen/font_X_large"/>
-
             <!--Add Activity-->
             <TextView
                 android:layout_width="wrap_content"

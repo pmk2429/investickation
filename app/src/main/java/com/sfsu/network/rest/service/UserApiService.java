@@ -2,6 +2,7 @@ package com.sfsu.network.rest.service;
 
 
 import com.sfsu.entities.Account;
+import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.network.api.ApiResources;
 
 import retrofit2.Call;
@@ -9,6 +10,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import rx.Observable;
 
 /**
  * The <b>Service</b> interface to manage http network calls for {@link Account} related operations to the REST API endpoint.
@@ -54,15 +57,21 @@ public interface UserApiService {
     @GET(ApiResources.AccountBase + "/" + ApiResources.ID)
     public Call<Account> delete(@Path("id") String userId);
 
+    /**
+     * Get total Activities recorded from the server
+     *
+     * @return
+     */
+    @GET(ApiResources.ActivitiesBase + "/" + ApiResources.Count)
+    public Observable<ResponseCount> activitiesCount(@Query("where") String userId);
 
-    @GET("")
-    public int totalActivities();
-
-    @GET("")
-    public int totalObservations();
-
-    @GET("")
-    public int totalLocations();
+    /**
+     * Get total Activities recorded from the server
+     *
+     * @return
+     */
+    @GET(ApiResources.ObservationBase + "/" + ApiResources.Count)
+    public Observable<ResponseCount> observationsCount(@Query("where") String userId);
 
 
 }

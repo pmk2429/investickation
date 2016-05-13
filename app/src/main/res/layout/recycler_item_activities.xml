@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:baselineAligned="false"
+              android:layout_height="wrap_content"
               android:paddingLeft="@dimen/view_dimen_small"
               android:paddingRight="@dimen/view_dimen_small">
 
@@ -47,19 +46,6 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:src="@mipmap/placeholder_activity"/>
-
-            <!--<ImageView-->
-            <!--android:id="@+id/icon_actList_storage"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_below="@id/imageView_actList_staticMap"-->
-            <!--android:layout_gravity="bottom"-->
-            <!--android:layout_marginEnd="@dimen/view_dimen_large"-->
-            <!--android:layout_marginStart="@dimen/view_dimen_small"-->
-            <!--android:layout_marginTop="@dimen/view_dimen_small"-->
-            <!--android:src="@mipmap/ic_sd_storage_black_24dp"/>-->
-
 
             <TextView
                 android:id="@+id/textView_actList_storageStatus"
@@ -150,7 +136,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/font_small"/>
             </LinearLayout>
-
 
         </RelativeLayout>
 

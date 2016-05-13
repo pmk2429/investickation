@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
+import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
 import com.sfsu.utils.PermissionUtils;
 import com.squareup.otto.Subscribe;
@@ -77,14 +79,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
         mPermissionUtils = new PermissionUtils(mContext);
-        if (mPermissionUtils.isCoarseLocationPermissionApproved() && mPermissionUtils.isFineLocationPermissionApproved())
-            // TODO: pass activitiesCount as filter to get count on Activities.
-            BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_RECENT_ACTIVITIES));
-        else {
+        if (mPermissionUtils.isCoarseLocationPermissionApproved() && mPermissionUtils.isFineLocationPermissionApproved()) {
+            // fire event to get the total count of Activities and Observations made by the user
+            BusProvider.bus().post(new UserEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ACT_OBS_COUNT));
+        } else {
             askForPermission();
         }
 
-        //
         settingsPref = PreferenceManager.getDefaultSharedPreferences(mContext);
         activitiesCount = Integer.parseInt(settingsPref.getString(mContext.getString(R.string.KEY_PREF_ACTIVITIES_COUNT), "2"));
     }
@@ -92,6 +93,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     /**
      * Prompts for all the network and location related permissions
      */
+
     private void askForPermission() {
         int hasInternetPermission = 0;
         int hasAccessLocationPermission = 0;
@@ -183,11 +185,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         relativeLayoutDashboard.setOnClickListener(this);
 
 
-        // TODO: get counts
         txtView_activitiesCount = (TextView) v.findViewById(R.id.textView_dashboard_activityCount);
-        txtView_activitiesCount.setText("4");
         txtView_observationCount = (TextView) v.findViewById(R.id.textView_dashboard_observationCount);
-        txtView_observationCount.setText("8");
 
         linearLayoutRecentActivities = (LinearLayout) v.findViewById(R.id.linearLayout_dashboard_recentActivitiesl);
         // make the linear layout invisible - DEFAULT
@@ -347,6 +346,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    @Subscribe
+    public void onActivitiesAndObservationsCountsLoadedSuccess(UserEvent.OnCountsLoaded onCountsLoaded) {
+        txtView_activitiesCount.setText(String.valueOf(onCountsLoaded.getResponse().activitiesCount));
+        txtView_observationCount.setText(String.valueOf(onCountsLoaded.getResponse().observationsCount));
+    }
+
+    @Subscribe
+    public void onActivitiesAndObservationsCountsLoadedFailure(UserEvent.OnLoadingError onLoadingError) {
+        if (BuildConfig.DEBUG)
+            Log.i(TAG, onLoadingError.getErrorMessage());
+    }
+
     /**
      * Callback Interface to get the callbacks from the DashboardFragment fragment.
      */
@@ -400,5 +411,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             return 4;
         }
     }
+
 
 }

@@ -14,4 +14,6 @@ public class ApiResources {
     public static final String ActivitiesBase = "activities";
     public static final String EntityLocationBase = "locations";
     public static final String TickBase = "ticks";
+    // count
+    public static final String Count = "count";
 }

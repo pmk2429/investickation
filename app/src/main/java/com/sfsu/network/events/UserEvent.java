@@ -1,6 +1,7 @@
 package com.sfsu.network.events;
 
 import com.sfsu.entities.Account;
+import com.sfsu.entities.response.CombinedCount;
 
 /**
  * Defines all the Account events performed under {@link Account} Entity such as CRUD, searching user etc.
@@ -50,6 +51,16 @@ public class UserEvent extends BaseNetworkEvent {
         public OnLoaded(Integer count) {
             super(new Account());
             this.count = count;
+        }
+    }
+
+    /**
+     * Event Handler to return count of Activities and Observations wrapped inside {@link CombinedCount}
+     */
+    public static class OnCountsLoaded extends OnDone<CombinedCount> {
+
+        public OnCountsLoaded(CombinedCount response) {
+            super(response);
         }
     }
 
