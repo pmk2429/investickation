@@ -6,6 +6,7 @@ import com.sfsu.entities.Activities;
 import com.sfsu.entities.EntityLocation;
 import com.sfsu.entities.response.ResponseCount;
 import com.sfsu.investickation.fragments.ActivityListFragment;
+import com.sfsu.network.api.ResourceFilter;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.LocationEvent;
@@ -77,8 +78,8 @@ public class ActivityRequestHandler extends ApiRequestHandler {
         Call<List<Activities>> listActivitiesCall = null;
         Call<ResponseCount> countCall = null;
         final String recentActivitiesFilter = "{\"order\": \"timestamp DESC\", \"limit\": 2}";
-        final String orderFilter = "{\"order\": \"timestamp DESC\"}";
-        final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
+        final String orderFilter = new ResourceFilter.Order(true).toString();
+        final String countWhereClause = new ResourceFilter.Where("user_id", USER_ID).toString();
 
         // separate the Method logic
         switch (onLoadingInitialized.apiRequestMethod) {

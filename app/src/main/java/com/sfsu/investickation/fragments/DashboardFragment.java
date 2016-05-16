@@ -68,6 +68,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private PermissionUtils mPermissionUtils;
     private boolean FLAG_PERMISSION;
     private SharedPreferences settingsPref;
+    // TODO: change this to get the count from Settings SharedPref
     private int activitiesCount = 2;
 
     public DashboardFragment() {

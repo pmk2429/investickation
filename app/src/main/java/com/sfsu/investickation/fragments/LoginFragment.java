@@ -3,8 +3,11 @@ package com.sfsu.investickation.fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +22,11 @@ import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
+import com.sfsu.receiver.TicksDownloadReceiver;
+import com.sfsu.service.DownloadTickIntentService;
 import com.sfsu.session.LoginResponse;
 import com.sfsu.session.SessionManager;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.validation.TextValidator;
 import com.sfsu.validation.TextValidator.ITextValidate;
 import com.sfsu.validation.ValidationUtil;
@@ -58,6 +64,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
     private boolean isEmailValid, isPasswordValid;
     private AuthPreferences mAuthPreferences;
     private ProgressDialog mProgressDialog;
+    private TicksDownloadReceiver mTicksDownloadReceiver;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -69,17 +76,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
         usersDao = new UsersDao();
         // initialize the DatabaseController for UsersDao related DB calls.
         dbController = new DatabaseDataController(mContext, usersDao);
+        mTicksDownloadReceiver = new TicksDownloadReceiver();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-
         ButterKnife.bind(this, rootView);
 
         et_email.addTextChangedListener(new TextValidator(mContext, LoginFragment.this, et_email));
-
         et_password.addTextChangedListener(new TextValidator(mContext, LoginFragment.this, et_password));
 
         // preference manager for access token and user_id.
@@ -158,12 +164,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
     public void onPause() {
         super.onPause();
         BusProvider.bus().unregister(this);
+        // Unregister the listener when the application is paused
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mTicksDownloadReceiver);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         BusProvider.bus().register(this);
+        // Register for the particular broadcast based on ACTION string
+        IntentFilter filter = new IntentFilter(DownloadTickIntentService.ACTION);
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mTicksDownloadReceiver, filter);
     }
 
     /**
@@ -186,10 +197,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
             InvestickationApp.getInstance().initResources();
         }
 
-        //TODO: Not required. Will be done when user is registered
-        //getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
+        /**
+         * Once the User is logged in, download all the Ticks in background using service and redirect the User to the
+         * Dashboard for using the application.
+         */
+        if (AppUtils.isConnectedOnline(mContext)) {
+            // call to download the Ticks from Server
+            getActivity().startService(new Intent(mContext, DownloadTickIntentService.class));
+        }
 
-        // once the token is set successfully, open the dashboard.
+        // Finally open the dashboard
         mListener.userLoggedIn();
     }
 

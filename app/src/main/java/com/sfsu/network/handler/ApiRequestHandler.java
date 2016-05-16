@@ -42,6 +42,8 @@ public class ApiRequestHandler {
     public static final int GET_RECENT_ACTIVITIES = 0x2F3;
     // get all counts
     public static final int GET_ACT_OBS_COUNT = 0x2F4;
+    // get all Ticks using Observable
+    public static final int GET_ALL_TICKS = 0x2F5;
 
     private final String TAG = "~!@#$ApiReqHdlr";
     protected String ACCESS_TOKEN;

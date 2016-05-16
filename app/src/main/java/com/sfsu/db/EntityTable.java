@@ -1,9 +1,12 @@
 package com.sfsu.db;
 
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
 
 /**
+ * Stores all the EntityTable
  * Created by Pavitra on 1/9/2016.
  */
 public class EntityTable {
@@ -28,7 +31,6 @@ public class EntityTable {
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
-                Log.i(TAG, "onCreate of UsersTable");
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
                 sb.append(COLUMN_ID + " text unique primary key, ");
@@ -42,8 +44,12 @@ public class EntityTable {
                 sb.append(COLUMN_CREATEDAT + " long not null); ");
                 // execute the statement
                 db.execSQL(sb.toString());
-            } catch (android.database.SQLException se) {
-                Log.i(TAG, se.getMessage());
+            } catch (SQLException se) {
+                if (BuildConfig.DEBUG)
+                    Log.e(TAG, "createTable", se);
+            } catch (Exception e) {
+                if (BuildConfig.DEBUG)
+                    Log.e(TAG, "createTable: ", e);
             }
         }
 
@@ -71,9 +77,14 @@ public class EntityTable {
         static final String COLUMN_UPDATED_AT = "updated_at";
         private static final String TAG = "~!@#$TicksTable";
 
+        /**
+         * Creates new Ticks Table if doesn't Exist
+         *
+         * @param db
+         * @param ifNotExists
+         */
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
-                Log.i(TAG, "onCreate of TicksTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
@@ -124,13 +135,11 @@ public class EntityTable {
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
-                Log.i(TAG, "onCreate of ObservationTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
                 sb.append(COLUMN_ID + " text unique primary key, ");
                 sb.append(COLUMN_NAME + " text not null, ");
-//                sb.append(COLUMN_SPECIES + " text not null, ");
                 sb.append(COLUMN_NUMOFTICKS + " integer not null, ");
                 sb.append(COLUMN_IMAGE_URL + " text not null, ");
                 sb.append(COLUMN_DESCRIPTION + " text, ");
@@ -145,9 +154,6 @@ public class EntityTable {
                 sb.append("FOREIGN KEY (" + COLUMN_FK_TICK_ID + ") REFERENCES " + TicksTable.TABLENAME +
                         " (" + TicksTable.COLUMN_ID + "), ");
 
-//                sb.append("FOREIGN KEY (" + COLUMN_FK_LOCATION_ID + ") REFERENCES " + LocationsTable.TABLENAME +
-//                        " (" + LocationsTable.COLUMN_ID + "), ");
-
                 sb.append("FOREIGN KEY (" + COLUMN_FK_ACTIVITY_ID + ") REFERENCES " + ActivitiesTable.TABLENAME +
                         " (" + ActivitiesTable.COLUMN_ID + "),");
 
@@ -155,7 +161,6 @@ public class EntityTable {
                         " (" + UsersTable.COLUMN_ID + ") ");
 
                 sb.append(" );");
-
 
                 db.execSQL(sb.toString());
             } catch (android.database.SQLException se) {
@@ -187,7 +192,6 @@ public class EntityTable {
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
-                Log.i(TAG, "onCreate of LocationsTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
@@ -246,7 +250,6 @@ public class EntityTable {
 
         static public void createTable(SQLiteDatabase db, boolean ifNotExists) {
             try {
-                Log.i(TAG, "onCreate of ActivitiesTable");
                 String constraint = ifNotExists ? "IF NOT EXISTS " : "";
                 StringBuilder sb = new StringBuilder();
                 sb.append("CREATE TABLE " + constraint + TABLENAME + " (");
@@ -265,7 +268,6 @@ public class EntityTable {
                         " (" + UsersTable.COLUMN_ID + ")");
 
                 sb.append(" );");
-
 
                 db.execSQL(sb.toString());
             } catch (android.database.SQLException se) {

@@ -105,16 +105,12 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_activity_list, container, false);
-
         ButterKnife.bind(this, rootView);
 
         animation = AnimationUtils.loadAnimation(mContext, R.anim.simple_grow);
-
         dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
         mUploadAlertDialog = new UploadAlertDialog(mContext, this);
-
         mLinearLayoutManager = new LinearLayoutManager(mContext);
-
         // Add new Activity button.
         fab_addActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +118,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                 mInterface.onActivityAddListener();
             }
         });
-
 
         return rootView;
     }

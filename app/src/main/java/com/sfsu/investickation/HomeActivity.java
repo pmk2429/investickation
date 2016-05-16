@@ -75,13 +75,12 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
+        int count = fragmentManager.getBackStackEntryCount();
         if (count == 0) {
             finish();
         } else if (count > 0) {
-            getSupportFragmentManager().popBackStack();
+            fragmentManager.popBackStackImmediate();
         }
-        super.onBackPressed();
     }
 
     private void performAddFragmentTransaction(Fragment fragment, boolean addToBackStack) {
@@ -107,13 +106,13 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
     @Override
     public void onLoginClicked() {
         LoginFragment loginFragment = new LoginFragment();
-        performAddFragmentTransaction(loginFragment, true);
+        performReplaceFragmentTransaction(loginFragment, true, false);
     }
 
     @Override
     public void onSignUpClicked() {
         RegisterFragment registerFragment = new RegisterFragment();
-        performAddFragmentTransaction(registerFragment, true);
+        performReplaceFragmentTransaction(registerFragment, true, false);
     }
 
 

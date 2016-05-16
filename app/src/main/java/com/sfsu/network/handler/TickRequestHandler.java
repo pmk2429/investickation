@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sfsu.entities.Tick;
+import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
@@ -18,6 +19,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Observable;
+import rx.Subscriber;
 
 
 /**
@@ -68,9 +71,12 @@ public class TickRequestHandler extends ApiRequestHandler {
                 makeCRUDCall(tickCall);
                 break;
             case GET_ALL:
-                Log.i(TAG, "onInitializeTickEvent: ");
                 listTickCall = mApiService.getAll();
                 getAllTicksCall(listTickCall);
+                break;
+            case GET_ALL_TICKS:
+                Log.i(TAG, "get all ticks");
+                getAllTicksUsingRx();
                 break;
         }
 
@@ -166,5 +172,36 @@ public class TickRequestHandler extends ApiRequestHandler {
                 }
             }
         });
+    }
+
+    /**
+     * Get all Ticks from server using RxJava and posts it back to the Otto event bus
+     */
+    public void getAllTicksUsingRx() {
+        Log.i(TAG, "get all ticks using Rx");
+        final TickApiService tickApiService = RetrofitApiClient.createService(TickApiService.class, ACCESS_TOKEN);
+        Observable<List<Tick>> listOfTicksObservable = tickApiService.getAllTicks();
+        listOfTicksObservable
+                .subscribe(new Subscriber<List<Tick>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, e.getMessage());
+                        BusProvider.bus().post(new TickEvent.OnLoadingError(e.getMessage(), -1));
+                    }
+
+                    @Override
+                    public void onNext(List<Tick> ticks) {
+                        if (ticks != null)
+                            Log.i(TAG, "onNext: " + ticks.size());
+                        else
+                            Log.i(TAG, "onNext: ticks null");
+                        BusProvider.bus().post(new TickEvent.OnListLoaded(ticks));
+                    }
+                });
     }
 }

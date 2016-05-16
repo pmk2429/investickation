@@ -5,9 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,8 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
-import com.sfsu.service.DownloadTickService;
+import com.sfsu.receiver.TicksDownloadReceiver;
+import com.sfsu.service.DownloadTickIntentService;
 import com.sfsu.session.LoginResponse;
 import com.sfsu.session.SessionManager;
 import com.sfsu.utils.AppUtils;
@@ -88,6 +91,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private boolean isPrivacyAgreementRead;
     private String stateSelected;
     private ProgressDialog mProgressDialog;
+    private TicksDownloadReceiver mTicksDownloadReceiver;
 
     public RegisterFragment() {
         // IMP - Don't delete
@@ -98,6 +102,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_register);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        mTicksDownloadReceiver = new TicksDownloadReceiver();
     }
 
     @Override
@@ -192,21 +197,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         BusProvider.bus().unregister(this);
+        // Unregister the listener when the application is paused
+        LocalBroadcastManager.getInstance(mContext).unregisterReceiver(mTicksDownloadReceiver);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         BusProvider.bus().register(this);
+        // Register for the particular broadcast based on ACTION string
+        IntentFilter filter = new IntentFilter(DownloadTickIntentService.ACTION);
+        LocalBroadcastManager.getInstance(mContext).registerReceiver(mTicksDownloadReceiver, filter);
     }
 
     @Override
@@ -226,7 +230,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
                 // make a new Account object.
                 mUserObj = Account.createUser(fullName, address, city, stateSelected, zipcode, email, password);
-
 
                 if (AppUtils.isConnectedOnline(mContext)) {
                     // once the user object is created, pass it to Bus to send it over to api via retrofit
@@ -328,8 +331,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             InvestickationApp.getInstance().initResources();
         }
 
-        // once the User is logged in, make a request to download all Ticks from the server and store it in DB
-        getActivity().startService(new Intent(getActivity(), DownloadTickService.class));
+        /**
+         * Once the User is logged in, download all the Ticks in background using service and redirect the User to the
+         * Dashboard for using the application.
+         */
+        if (AppUtils.isConnectedOnline(mContext)) {
+            // call to download the Ticks from Server
+            getActivity().startService(new Intent(mContext, DownloadTickIntentService.class));
+        }
 
         // once the token is set successfully, open the dashboard.
         mListener.onUserRegistrationDone();
@@ -351,6 +360,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onNothingSelected(AdapterView<?> parent) {
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     /**
      * Callback Interface to implement onclick Listener in {@link RegisterFragment} Fragment.

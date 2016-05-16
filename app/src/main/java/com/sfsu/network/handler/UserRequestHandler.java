@@ -185,7 +185,7 @@ public class UserRequestHandler extends ApiRequestHandler {
                             mBus.post(new UserEvent.OnCountsLoaded(combinedCount));
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG)
-                                Log.e(TAG, "call: ", e);
+                                Log.e(TAG, "getCountsAsync: ", e);
                             // TODO: make OnLoadingError to accept params returned from Observable
                             mBus.post(new UserEvent.OnLoadingError(e.getMessage(), -1));
                         }

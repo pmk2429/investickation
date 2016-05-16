@@ -143,8 +143,6 @@
                 android:textSize="@dimen/font_X_small"/>
 
         </LinearLayout>
-
     </ScrollView>
-
 </FrameLayout>
 

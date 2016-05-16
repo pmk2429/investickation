@@ -12,10 +12,10 @@ import com.sfsu.entities.Account;
  * The StaticMap uses Builder pattern to build a dynamic url for making a network request and getting a static google map
  * image with a specific polyline according to the points specified in the Path param.
  * </p>
- * <p/>
+ * <p>
  * https://developers.google.com/maps/documentation/static-maps/intro
  * http://maps.googleapis.com/maps/api/staticmap?sensor=false&maptype=roadmap&zoom=14&size=650x350&path=40.737102,-73.990318%7C40.749825,-73.987963%7C40.752946,-73.987384%7C40.755823,-73.986397
- * <p/>
+ * <p>
  * Created by Pavitra on 12/23/2015.
  */
 public class StaticMap {
@@ -42,6 +42,11 @@ public class StaticMap {
         private LatLng[] mlatLngs;
 
 
+        /**
+         * Initialize the Builder object with constants
+         *
+         * @return
+         */
         public UrlBuilder init() {
             mapUrlBuilder.append(STATIC_MAP_BASE_URL)
                     .append("sensor").append(EQUALS).append(SENSOR).append(AMPERSAND)
@@ -49,12 +54,25 @@ public class StaticMap {
             return this;
         }
 
+        /**
+         * Zoom level of the village
+         *
+         * @param zoom
+         * @return
+         */
         public UrlBuilder zoom(int zoom) {
             this.image_zoom = zoom;
             mapUrlBuilder.append(AMPERSAND).append("zoom").append(EQUALS).append(image_zoom);
             return this;
         }
 
+        /**
+         * Size of the static image
+         *
+         * @param height
+         * @param width
+         * @return
+         */
         public UrlBuilder size(int height, int width) {
             this.image_height = height;
             this.image_width = width;
@@ -65,6 +83,13 @@ public class StaticMap {
             return this;
         }
 
+        /**
+         * Plot all the lat longs along the user path to build trajectory on maps
+         *
+         * @param latitude
+         * @param longitude
+         * @return
+         */
         public UrlBuilder path(double latitude, double longitude) {
             this.point_lat = latitude;
             this.point_long = longitude;
@@ -77,6 +102,12 @@ public class StaticMap {
             return this;
         }
 
+        /**
+         * Takes an array of LatLng objects
+         *
+         * @param latLngs
+         * @return
+         */
         public UrlBuilder path(LatLng[] latLngs) {
             this.mlatLngs = latLngs;
             for (int i = 0; i < mlatLngs.length; i++) {
@@ -90,6 +121,11 @@ public class StaticMap {
             return this;
         }
 
+        /**
+         * Finally build the Url String to call to Google Maps server
+         *
+         * @return
+         */
         public String build() {
             return mapUrlBuilder.append(pathBuilder).toString();
         }
