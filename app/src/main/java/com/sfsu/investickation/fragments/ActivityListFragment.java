@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -63,16 +66,14 @@ import butterknife.ButterKnife;
  */
 public class ActivityListFragment extends Fragment implements SearchView.OnQueryTextListener, UploadAlertDialog.IUploadDataCallback {
 
+    public static final String KEY_LOCAL_ACTIVITIES = "local_activities";
     public final String TAG = "~!@#ActivityList";
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
-
     @Bind(R.id.fab_activity_add)
     FloatingActionButton fab_addActivity;
-
     @Bind(R.id.relativeLayout_actList_main)
     RelativeLayout mRelativeLayout;
-
     @Bind(R.id.textViewStatic_actList_listInfo)
     TextView txtView_activityListInfo;
     int count = 0;
@@ -130,7 +131,46 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         mProgressDialog = new ProgressDialog(mContext);
 
         if (AppUtils.isConnectedOnline(mContext)) {
-            // must be cached for frequent accesses.
+            // TODO: must be cached for frequent accesses.
+            // Run a separate thread to get data from DB and pass it ot handler which is accessed in the
+            // onActivitiesLoadedSuccess construct.
+            final Thread dbAccessThread = new Thread(new Runnable() {
+                private final Handler mLocalActivitiesHandler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        super.handleMessage(msg);
+                        // obtain all the Activities from the MessageQueue
+                        localActivitiesList = msg.getData().getParcelableArrayList(KEY_LOCAL_ACTIVITIES);
+                    }
+                };
+
+
+                /**
+                 * Creates a Message and sets the Bundle inside the message which carries the List of Activities returned from
+                 * the Database
+                 * @param localActivities
+                 */
+                void passActivitiesToHandler(ArrayList<Activities> localActivities) {
+                    Message msg = mLocalActivitiesHandler.obtainMessage();
+                    Bundle args = new Bundle();
+                    args.putParcelableArrayList(KEY_LOCAL_ACTIVITIES, localActivities);
+                    msg.setData(args);
+                    mLocalActivitiesHandler.sendMessage(msg);
+                }
+
+                @Override
+                public void run() {
+                    try {
+                        List<Activities> localActivities = (List<Activities>) dbController.getAll();
+                        passActivitiesToHandler(new ArrayList<Activities>(localActivities));
+                    } catch (RuntimeException e) {
+                        throw new RuntimeException();
+                    }
+                }
+            });
+            dbAccessThread.start();
+
+            // Async callback fetch all the Activities stored on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setMessage("Fetching Activities...");
@@ -173,39 +213,49 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
      */
     @Subscribe
     public void onActivitiesLoadedSuccess(ActivityEvent.OnListLoaded onLoaded) {
-        if (mProgressDialog.isShowing())
-            mProgressDialog.dismiss();
-        // get all Response Activities from server
-        responseActivitiesList = onLoaded.getResponseList();
-        localActivitiesList = (List<Activities>) dbController.getAll();
+        try {
+            if (mProgressDialog.isShowing())
+                mProgressDialog.dismiss();
+            // get all Response Activities from server
+            responseActivitiesList = onLoaded.getResponseList();
 
-        for (int i = 0; i < responseActivitiesList.size(); i++) {
-            responseActivitiesList.get(i).setIsOnCloud(true);
-        }
+            for (int i = 0; i < responseActivitiesList.size(); i++) {
+                responseActivitiesList.get(i).setIsOnCloud(true);
+            }
 
-        for (int i = 0; i < localActivitiesList.size(); i++) {
-            localActivitiesList.get(i).setIsOnCloud(false);
-        }
+            // list already fetched from the Database in new thread
+            for (int i = 0; i < localActivitiesList.size(); i++) {
+                localActivitiesList.get(i).setIsOnCloud(false);
+            }
 
-        responseActivitiesList.addAll(localActivitiesList);
+            // merge two lists to produce a super list of local as well as remotely stored Activities.
+            responseActivitiesList.addAll(localActivitiesList);
 
-        if (mActivitiesList != null) {
-            mActivitiesList.clear();
-        }
+            if (mActivitiesList != null) {
+                mActivitiesList.clear();
+            }
 
-        // create a standard Activities list
-        mActivitiesList = responseActivitiesList;
+            // create a standard Activities list
+            mActivitiesList = responseActivitiesList;
 
-
-        if (mActivitiesList.size() > 0 && mActivitiesList != null) {
-            displayActivityList();
-        } else if (mActivitiesList.size() == 0) {
-            // display text message
-            txtView_activityListInfo.setVisibility(View.VISIBLE);
-            recyclerView_activity.setVisibility(View.GONE);
-            mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
-        } else {
-            Log.i(TAG, "activity list size < 0");
+            // display List if everything is OK
+            if (mActivitiesList.size() > 0 && mActivitiesList != null) {
+                displayActivityList();
+            } else if (mActivitiesList.size() == 0) {
+                // display text message
+                txtView_activityListInfo.setVisibility(View.VISIBLE);
+                recyclerView_activity.setVisibility(View.GONE);
+                mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
+            } else {
+                if (BuildConfig.DEBUG)
+                    Log.i(TAG, "activity list size < 0");
+            }
+        } catch (NullPointerException npe) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "onActivitiesLoadedSuccess: ", npe);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "onActivitiesLoadedSuccess: ", e);
         }
     }
 
@@ -309,13 +359,15 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_activity_list, menu);
-        final MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-        } else {
-            Log.i(TAG, "search is null");
+        if (mActivitiesList != null && mActivitiesList.size() > 0) {
+            inflater.inflate(R.menu.menu_activity_list, menu);
+            final MenuItem item = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+            if (searchView != null) {
+                searchView.setOnQueryTextListener(this);
+            } else {
+                Log.i(TAG, "search is null");
+            }
         }
     }
 
@@ -343,11 +395,8 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
      * @return
      */
     private List<Activities> filter(List<Activities> activitiesList, String query) {
-
         query = query.toLowerCase();
-
         final List<Activities> filteredActivitiesList = new ArrayList<>();
-
         if (activitiesList != null && activitiesList.size() > 0) {
             for (Activities activity : activitiesList) {
                 // perform the search on Activity name

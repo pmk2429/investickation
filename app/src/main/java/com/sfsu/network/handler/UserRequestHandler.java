@@ -25,8 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
@@ -178,17 +178,22 @@ public class UserRequestHandler extends ApiRequestHandler {
                     }
                 }).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<CombinedCount>() {
+                .subscribe(new Subscriber<CombinedCount>() {
                     @Override
-                    public void call(CombinedCount combinedCount) {
-                        try {
-                            mBus.post(new UserEvent.OnCountsLoaded(combinedCount));
-                        } catch (Exception e) {
-                            if (BuildConfig.DEBUG)
-                                Log.e(TAG, "getCountsAsync: ", e);
-                            // TODO: make OnLoadingError to accept params returned from Observable
-                            mBus.post(new UserEvent.OnLoadingError(e.getMessage(), -1));
-                        }
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (BuildConfig.DEBUG)
+                            Log.e(TAG, "getCountsAsync: ", e);
+                        mBus.post(new UserEvent.OnLoadingError(e.getMessage(), -1));
+                    }
+
+                    @Override
+                    public void onNext(CombinedCount combinedCount) {
+                        mBus.post(new UserEvent.OnCountsLoaded(combinedCount));
                     }
                 });
     }

@@ -19,6 +19,8 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 /**
+ * Downloads all the Ticks stored on the server in background and stores in the local SQLite database
+ *
  * Created by Pavitra on 5/14/2016.
  */
 public class DownloadTickIntentService extends IntentService {

@@ -3,19 +3,14 @@ package com.sfsu.investickation.fragments;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -38,6 +33,7 @@ import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
 import com.sfsu.network.events.UserEvent;
 import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.AppUtils;
 import com.sfsu.utils.PermissionUtils;
 import com.squareup.otto.Subscribe;
 
@@ -82,7 +78,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         mPermissionUtils = new PermissionUtils(mContext);
         if (mPermissionUtils.isCoarseLocationPermissionApproved() && mPermissionUtils.isFineLocationPermissionApproved()) {
             // fire event to get the total count of Activities and Observations made by the user
-            BusProvider.bus().post(new UserEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ACT_OBS_COUNT));
+            if (AppUtils.isConnectedOnline(mContext))
+                BusProvider.bus().post(new UserEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ACT_OBS_COUNT));
         } else {
             askForPermission();
         }
@@ -203,47 +200,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         return v;
     }
 
-    /**
-     * Helper method to enable GPS at the start of the DashboardFragment.
-     */
-    private void enableLocation() {
-        LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        boolean gps_enabled = false;
-        boolean network_enabled = false;
-
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch (Exception ex) {
-        }
-
-        try {
-            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch (Exception ex) {
-        }
-
-        if (!gps_enabled && !network_enabled) {
-            // notify user
-            AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-            dialog.setMessage(mContext.getResources().getString(R.string.gps_network_not_enabled));
-            dialog.setPositiveButton(mContext.getResources().getString(R.string.open_location_settings),
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            mContext.startActivity(myIntent);
-                        }
-                    });
-            dialog.setNegativeButton(mContext.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-
-                }
-            });
-            dialog.show();
-        }
-    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -309,11 +265,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     public void onPause() {
         super.onPause();
         BusProvider.bus().unregister(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override

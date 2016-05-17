@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -71,16 +73,12 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     private final String TAG = "~!@#ObsList";
     @Bind(R.id.recyclerview_remote_observations)
     RecyclerView recyclerView_observations;
-
     @Bind(R.id.relativeLayout_obsList_main)
     RelativeLayout mRelativeLayout;
-
     @Bind(R.id.textViewStatic_obsList_listInfo)
     TextView txtView_observationList_info;
-
     @Bind(R.id.fab_observation_add)
     FloatingActionButton fab_addObservation;
-
     private IRemoteObservationCallBacks mInterface;
     private Context mContext;
     private List<Observation> mObservationList, responseObservationList, localObservationList;
@@ -88,6 +86,37 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     private Bundle args;
     private ObservationsListAdapter mObservationsListAdapter;
     private DatabaseDataController dbController;
+
+
+    // start a thread to get all the Observations stored locally and post it using Handler
+    private final Thread dbAccessThread = new Thread(new Runnable() {
+        private static final String KEY_LOCAL_OBSERVATIONS = "local_observations";
+        final Handler mDbAccessHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                localObservationList = msg.getData().getParcelableArrayList(KEY_LOCAL_OBSERVATIONS);
+            }
+        };
+
+        private void passLocalObservationsToHandler(ArrayList<Observation> localObservations) {
+            Message msg = mDbAccessHandler.obtainMessage();
+            Bundle args = new Bundle();
+            args.putParcelableArrayList(KEY_LOCAL_OBSERVATIONS, localObservations);
+            msg.setData(args);
+            mDbAccessHandler.sendMessage(msg);
+        }
+
+        @Override
+        public void run() {
+            try {
+                List<Observation> localObservations = (List<Observation>) dbController.getAll();
+                passLocalObservationsToHandler(new ArrayList<Observation>(localObservations));
+            } catch (RuntimeException re) {
+                throw new RuntimeException();
+            }
+        }
+    });
     private String activityId;
     private boolean FLAG_GET_ACTIVITY_OBSERVATIONS, FLAG_ACTIVITY_RUNNING;
     private int fabMargin;
@@ -140,7 +169,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         }
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,18 +180,12 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_remote_observations, container, false);
-
         ButterKnife.bind(this, rootView);
-
         animation = AnimationUtils.loadAnimation(mContext, R.anim.simple_grow);
-
         txtView_observationList_info.setVisibility(View.GONE);
-
-        setHasOptionsMenu(true);
 
         dbController = new DatabaseDataController(mContext, ObservationsDao.getInstance());
         mUploadAlertDialog = new UploadAlertDialog(mContext, this);
-
 
         // get the ActivityId from the Bundle.
         if (getArguments() != null) {
@@ -171,7 +193,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         }
         if (args != null && args.containsKey(KEY_ACTIVITY_ID)) {
             activityId = args.getString(KEY_ACTIVITY_ID);
-            Log.i(TAG, activityId);
             FLAG_GET_ACTIVITY_OBSERVATIONS = true;
         } else if (args != null && args.containsKey(KEY_STATUS_FLAG)) {
             long statusFlag = args.getLong(KEY_STATUS_FLAG);
@@ -182,25 +203,59 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
             FLAG_ACTIVITY_RUNNING = false;
         }
 
+        // onclick of Add Observation FAB.
+        fab_addObservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mInterface.onObservationAddListener();
+            }
+        });
+
+        recyclerView_observations.setHasFixedSize(true);
+
+        if (mContext != null) {
+            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            recyclerView_observations.setLayoutManager(mLinearLayoutManager);
+        } else {
+            if (BuildConfig.DEBUG)
+                Log.d(TAG, " No Layout manager supplied");
+        }
+
+        return rootView;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         // call to network depending on the type of call to be made.
+        // only in case of the Observations that are stored locally and Network being available, create a background thread to
+        // get all the Observations from the local SQLite storage
+        // Get all the Observations for a specific Activity - Local and Online
         if (activityId != null) {
             // get all Observations depending on network connection.
             if (AppUtils.isConnectedOnline(mContext)) {
                 // if the user has clicked ViewObservations in ActivityDetailFragment fragment, then show only the Activity's Observations
                 // Observations specific to Activity
+                dbAccessThread.start();
+                // get all Observations from Network
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", activityId, ApiRequestHandler.ACT_OBSERVATIONS));
                 displayProgressDialog("Fetching Observations...");
             } else {
                 // network not available.
                 // if the user has clicked ViewObservations in ActivityDetailFragment fragment, then show only the Activity's Observations
                 localObservationList = (List<Observation>) dbController.getAll(activityId);
-
             }
-        } else {
+        }
+        // Get all the Observations - Local and Online
+        else {
             // get all the observations
             if (AppUtils.isConnectedOnline(mContext)) {
-                // get all the observations made by User
+                // start a background thread to get all the Observations stored in the Local Database
+                dbAccessThread.start();
+
+                // get all the observations stored on the server in separate thread
                 BusProvider.bus().post(new ObservationEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
                 displayProgressDialog("Fetching Observations...");
             } else {
@@ -208,8 +263,10 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
                 localObservationList = (List<Observation>) dbController.getAll();
             }
 
+            /**
+             * If network is not available, then our list of Observations will be the Observations that will be stored locally
+             */
             if (!AppUtils.isConnectedOnline(mContext)) {
-
                 if (mObservationList != null) {
                     mObservationList.clear();
                 }
@@ -217,9 +274,10 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
                 if (localObservationList != null) {
                     // make observation list
                     mObservationList = localObservationList;
-
                 }
 
+
+                // if the List is build appropriately, display it in the RecyclerView
                 if (mObservationList.size() > 0 && mObservationList != null) {
                     displayObservationList();
                 } else if (mObservationList.size() == 0) {
@@ -238,26 +296,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         if (FLAG_ACTIVITY_RUNNING) {
 
         }
-
-        recyclerView_observations.setHasFixedSize(true);
-
-        if (mContext != null) {
-            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-            recyclerView_observations.setLayoutManager(mLinearLayoutManager);
-        } else {
-            if (BuildConfig.DEBUG)
-                Log.d(TAG, " No Layout manager supplied");
-        }
-
-        // onclick of Add Observation FAB.
-        fab_addObservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mInterface.onObservationAddListener();
-            }
-        });
-
-        return rootView;
     }
 
     /**
@@ -281,6 +319,7 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
+        setHasOptionsMenu(true);
         getActivity().setTitle(R.string.title_fragment_observation_list);
         BusProvider.bus().register(this);
     }
@@ -307,12 +346,12 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         dismissProgressDialog();
         // list of Observations from server
         responseObservationList = onLoaded.getResponseList();
-        localObservationList = (List<Observation>) dbController.getAll();
 
         for (int i = 0; i < responseObservationList.size(); i++) {
             responseObservationList.get(i).setIsOnCloud(true);
         }
 
+        // the  localObservationList is being retrieved from the SQLite storage in separate background thread.
         for (int i = 0; i < localObservationList.size(); i++) {
             localObservationList.get(i).setIsOnCloud(false);
         }
@@ -358,7 +397,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         //pass the mObservationList to the Adapter
         mObservationsListAdapter = new ObservationsListAdapter(mObservationList, mContext);
         mObservationsListAdapter.notifyDataSetChanged();
-
         recyclerView_observations.setAdapter(mObservationsListAdapter);
 
 
@@ -375,6 +413,7 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
             }
         }));
 
+        // fades the FAB on scroll of the RecyclerView
         recyclerView_observations.addOnScrollListener(new MyRecyclerScroll() {
             @Override
             public void show() {
@@ -400,25 +439,24 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.menu_observation_list, menu);
-        final MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-        } else {
-            if (BuildConfig.DEBUG)
-                Log.i(TAG, "search is null");
+        if (mObservationList != null && mObservationList.size() > 0) {
+            inflater.inflate(R.menu.menu_observation_list, menu);
+            final MenuItem item = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+            if (searchView != null) {
+                searchView.setOnQueryTextListener(this);
+            } else {
+                if (BuildConfig.DEBUG)
+                    Log.i(TAG, "search is null");
+            }
         }
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
         }
-
         return false;
     }
 
@@ -442,10 +480,13 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
      */
     @Override
     public boolean onQueryTextChange(String query) {
-        final List<Observation> filteredModelList = filter(mObservationList, query);
-        mObservationsListAdapter.animateTo(filteredModelList);
-        recyclerView_observations.scrollToPosition(0);
-        return true;
+        if (mObservationList != null && mObservationList.size() > 0) {
+            final List<Observation> filteredModelList = filter(mObservationList, query);
+            mObservationsListAdapter.animateTo(filteredModelList);
+            recyclerView_observations.scrollToPosition(0);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -457,7 +498,6 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
      */
     private List<Observation> filter(List<Observation> observationList, String query) {
         query = query.toLowerCase();
-
         final List<Observation> filteredObservationList = new ArrayList<>();
         for (Observation observation : observationList) {
             // perform the search on TickName since it will be visible to user.

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sfsu.entities.Tick;
-import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.error.ErrorResponse;
 import com.sfsu.network.events.TickEvent;
 import com.sfsu.network.rest.apiclient.RetrofitApiClient;
@@ -21,7 +20,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
-
 
 /**
  * <p>
@@ -191,7 +189,7 @@ public class TickRequestHandler extends ApiRequestHandler {
                     @Override
                     public void onError(Throwable e) {
                         Log.i(TAG, e.getMessage());
-                        BusProvider.bus().post(new TickEvent.OnLoadingError(e.getMessage(), -1));
+                        mBus.post(new TickEvent.OnLoadingError(e.getMessage(), -1));
                     }
 
                     @Override
@@ -200,7 +198,7 @@ public class TickRequestHandler extends ApiRequestHandler {
                             Log.i(TAG, "onNext: " + ticks.size());
                         else
                             Log.i(TAG, "onNext: ticks null");
-                        BusProvider.bus().post(new TickEvent.OnListLoaded(ticks));
+                        mBus.post(new TickEvent.OnListLoaded(ticks));
                     }
                 });
     }
