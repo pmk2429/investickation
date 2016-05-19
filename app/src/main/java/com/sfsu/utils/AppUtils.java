@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
+import com.sfsu.application.InvestickationApp;
+import com.sfsu.investickation.R;
 import com.sfsu.network.api.ApiResources;
 
 import java.io.IOException;
@@ -37,6 +43,9 @@ import java.util.Locale;
  */
 public class AppUtils {
 
+    public static final int COLOR_PRIMARY = ContextCompat.getColor(InvestickationApp.getInstance(), R.color.colorPrimary);
+    public static final int COLOR_SECONDARY = ContextCompat.getColor(InvestickationApp.getInstance(), R.color.colorSecondary);
+    private static boolean isServerReachable;
     private Context myContext;
 
     // Constructor
@@ -118,29 +127,60 @@ public class AppUtils {
     }
 
     /**
+     * TODO: not required.
      * Returns the result of ping to server for successful availability and connection establishment
      */
-    public static boolean isServerReachable(Context myContext) {
-        ConnectivityManager cm = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnected()) {
-            try {
-                URL url = new URL(ApiResources.SERVER_API_URL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setConnectTimeout(10 * 1000);          // 10 s.
-                httpURLConnection.connect();
-                if (httpURLConnection.getResponseCode() == 200) {        // 200 = "OK" code (http connection is fine).
-                    return true;
-                } else {
-                    return false;
+    public static boolean isResourceServerReachable() {
+        final String KEY_IS_SERVER_REACHABLE = "is_server_reachable";
+        // create a separate runnable
+        Thread myThread = new Thread(new Runnable() {
+            private final Handler myHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    isServerReachable = msg.getData().getBoolean(KEY_IS_SERVER_REACHABLE);
                 }
-            } catch (MalformedURLException e1) {
-                return false;
-            } catch (IOException e) {
-                return false;
+            };
+
+            /**
+             * handles message passing and handling of the data passed from Thread.
+             * @param check
+             */
+            private void handleMessage(boolean check) {
+                Message msg = myHandler.obtainMessage();
+                Bundle args = new Bundle();
+                args.putBoolean(KEY_IS_SERVER_REACHABLE, check);
+                msg.setData(args);
+                myHandler.sendMessage(msg);
             }
-        }
-        return false;
+
+            @Override
+            public void run() {
+                URL url = null;
+                try {
+                    url = new URL(ApiResources.SERVER_API_URL);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    int code = connection.getResponseCode();
+                    if (code == 200) {
+                        handleMessage(true);
+                    } else {
+                        handleMessage(false);
+                    }
+                } catch (MalformedURLException me) {
+                    me.printStackTrace();
+                    handleMessage(false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    handleMessage(false);
+                    e.printStackTrace();
+                }
+            }
+        });
+        myThread.start();
+
+        // return
+        return isServerReachable;
     }
 
     /**

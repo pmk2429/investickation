@@ -7,7 +7,7 @@ public class ApiResources {
 
     public static final String BASE_API_URL = "http://52.25.160.49:3000/api/";
     // use this URL for establishing connection and pinging the server
-    public static final String SERVER_API_URL = "http://52.25.160.49:3000/explorer/";
+    public static final String SERVER_API_URL = "http://investickations.org:3000/explorer/";
 
     public static final String ID = "{id}";
 

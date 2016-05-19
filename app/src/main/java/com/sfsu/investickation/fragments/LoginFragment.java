@@ -24,7 +24,6 @@ import com.sfsu.exceptions.ServerUnavailableException;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
-import com.sfsu.network.error.ErrorMessage;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.receiver.TicksDownloadReceiver;
 import com.sfsu.service.DownloadTickIntentService;
@@ -47,19 +46,21 @@ import butterknife.ButterKnife;
  * This <b>request token</b> will be stored in Account's session via a {@link SessionManager} to authenticate and
  * validate Account for successive operations.
  * </p>
+ * <p>
+ * Once the User is logged in successfully, all the {@link com.sfsu.entities.Tick} are downloaded from the server and stored in
+ * the local database for future references. This is to make sure that User always have access to the Ticks while in offline
+ * mode and so it gives more flexibility and usability to the user while accessing the app offline.
+ * </p>
  */
 public class LoginFragment extends Fragment implements View.OnClickListener, ITextValidate {
 
     private final String TAG = "~!@#LOGIN";
-    // Button
     @Bind(R.id.button_login_login)
     Button btnLogin;
-    // EditText
     @Bind(R.id.editText_login_email)
     EditText et_email;
     @Bind(R.id.editText_login_password)
     EditText et_password;
-    // properties
     private ILoginCallBack mListener;
     private DatabaseDataController dbController;
     private Context mContext;
@@ -148,17 +149,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
      * @param password
      */
     public void login(final String email, final String password, Context mContext) throws ServerUnavailableException {
-        if (AppUtils.isServerReachable(mContext)) {
-            // verify and validate email and password input fields
-            BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
-            mProgressDialog = new ProgressDialog(mContext);
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setTitle(getString(R.string.progressDialog_login_title));
-            mProgressDialog.setMessage(getString(R.string.progressDialog_login_message));
-            mProgressDialog.show();
-        } else {
-            throw new ServerUnavailableException(ErrorMessage.ERROR_SERVER_UNAVAILABLE);
-        }
+        // verify and validate email and password input fields
+        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
+        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setTitle(getString(R.string.progressDialog_login_title));
+        mProgressDialog.setMessage(getString(R.string.progressDialog_login_message));
+        mProgressDialog.show();
+
     }
 
     @Override

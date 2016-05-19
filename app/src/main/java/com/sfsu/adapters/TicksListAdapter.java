@@ -122,6 +122,23 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
         notifyItemInserted(position);
     }
 
+    /**
+     * Clears all the items from the Adapter
+     */
+    public void clear() {
+        tickList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Adds all the items passed as param to the Adapter
+     * @param list
+     */
+    public void addAll(List<Tick> list) {
+        tickList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     public static class TickViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;

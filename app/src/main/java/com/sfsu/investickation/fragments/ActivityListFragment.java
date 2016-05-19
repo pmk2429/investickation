@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,6 +69,8 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
     public static final String KEY_LOCAL_ACTIVITIES = "local_activities";
     public final String TAG = "~!@#ActivityList";
+    @Bind(R.id.swipeLayout_activityList_main)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
     @Bind(R.id.fab_activity_add)
@@ -119,6 +122,22 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                 mInterface.onActivityAddListener();
             }
         });
+
+        // Setup refresh listener which triggers new data loading
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                //fetchTimelineAsync(0);
+            }
+        });
+        // Configure the refreshing colors
+        mSwipeRefreshLayout.setColorSchemeResources(AppUtils.COLOR_PRIMARY,
+                AppUtils.COLOR_SECONDARY,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_dark);
 
         return rootView;
     }

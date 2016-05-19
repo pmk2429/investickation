@@ -93,6 +93,16 @@
                 android:text="@string/tutorial_whatIsObservation"
                 android:textSize="@dimen/font_X_small"/>
 
+            <!--Step 3: to add Observation-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_marginStart="@dimen/view_dimen_large"
+                android:layout_marginTop="@dimen/view_dimen_large"
+                android:text="@string/tutorial_postObservation"
+                android:textSize="@dimen/font_medium"/>
+
             <!--View Tick Guide for learning more about Ticks-->
             <TextView
                 android:layout_width="wrap_content"

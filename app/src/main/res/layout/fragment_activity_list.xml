@@ -8,12 +8,21 @@
     android:background="@color/lightText"
     android:orientation="vertical">
 
+    <!--Refreshes the Observations stored on server-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout_activityList_main"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <!--Recycler View to display lit of activities-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_activity_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/textViewStatic_actList_listInfo"

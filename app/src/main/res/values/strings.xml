@@ -321,16 +321,16 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <!--Tutorial -->
     <string name="tutorial_howToUseInfo">How to use InvesTICKations</string>
     <string name="tutorial_createActivity"><b>Step 1:</b> Create an Activity</string>
-    <string name="tutorial_activityDetails">Activity represents your routine task such as Hiking, Biking, Dog Walking. Create an Activity to provide efficient time component about what kind of task you were performing while you posted Tick encounter.</string>
-    <string name="tutorial_activityRunning"><b>Step 2:</b> Make an Observation while Activity is running</string>
-    <string name="tutorial_activityRunningDetails">Running Activities will be used to capture your location and build a trajectory of your path travelled during your Activity.</string>
+    <string name="tutorial_activityDetails">From the home screen click on <u>Start Activity</u>. An <u>Activity</u> is a routine
+        task such as hiking, biking, or dog walking. Create an Activity when you start your task so we can determine habitat type your rate of tick encounters.</string>
+    <string name="tutorial_activityRunning"><b>Step 2:</b> Make an <u>Observation</u> while <u>Activity</u> is running</string>
+    <string name="tutorial_activityRunningDetails">When you encounter a tick, click on <u>Add Observation</u> to input the exact location and timing of your enter. You can do this at any time and will also be reminded to check yourself automatically.</string>
     <string name="tutorial_whatIsObservation">Observation is Tick encounter. Whenever you find a Tick, post an
         Observation</string>
-    <string name="tutorial_referTickGuide"><b>Step 3:</b> Refer to Tick Guide for better recognizing Ticks</string>
-    <string name="tutorial_referTickGuideDetails">Tick Guide provides a comprehending list of Ticks for understanding and
-    easily recognizing Ticks</string>
-    <string name="tutorial_stopActivity"><b>Step 4:</b> Stop Activity</string>
-    <string name="tutorial_stopActivityDetails">Stopping Activity finally will make changes to the central data server on
-    cloud</string>
+    <string name="tutorial_postObservation"><b>Step 3:</b> You can also post a tick observation when not engaged in an activity. To do this click on <u>Add Observation</u> from the main menu.</string>
+    <string name="tutorial_referTickGuide"><b>Step 4:</b>Refer to Tick Guide for help in identifying ticks</string>
+    <string name="tutorial_referTickGuideDetails">The Tick Guide provides photos and descriptions of the most commonly encountered ticks. If you cannot identify the tick, enter <i>unknown</i>.</string>
+    <string name="tutorial_stopActivity"><b>Step 5:</b> Stop Activity</string>
+    <string name="tutorial_stopActivityDetails">When your Activity if complete, stop your Activity. This will conclude your activity and send your tick observation data to a our central servers for analysis</string>
 
 </resources>

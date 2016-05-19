@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,6 +49,9 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * <p>
  * Displays list of {@link Tick} present in the InvesTICKations application. Fetches the list from server when the user first
@@ -57,6 +61,10 @@ import java.util.List;
 public class TickGuideListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String TAG = "~!@#$TickGuideList";
+    @Bind(R.id.swipeLayout_tickGuideList_main)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.recyclerview_tickGuide)
+    RecyclerView recyclerView_tickList;
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
     private List<Tick> mTickList, responseTickList, localTickList;
@@ -65,7 +73,7 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
     private NavigationView mNavigationView;
     private int mCurrentSelectedPosition;
     private TicksListAdapter ticksListAdapter;
-    private RecyclerView recyclerView_tickList;
+
     private DatabaseDataController dbTickController;
 
     public TickGuideListFragment() {
@@ -80,15 +88,12 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tick_guide_list, container, false);
-
+        ButterKnife.bind(this, v);
         setActionBarAndNavDrawer(v);
-
         dbTickController = new DatabaseDataController(mContext, TickDao.getInstance());
 
-        recyclerView_tickList = (RecyclerView) v.findViewById(R.id.recyclerview_tickGuide);
         recyclerView_tickList.setHasFixedSize(true);
 
         if (mContext != null) {
@@ -97,10 +102,22 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
             Log.d(TAG, "Failed to load layout manager");
         }
 
-        // get all the Ticks
-        //localTickList = (List<Tick>) dbTickController.getAll();
-        // set the TicksList
-        //displayTickList();
+        // Setup refresh listener which triggers new data loading
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                //fetchTimelineAsync(0);
+            }
+        });
+        // Configure the refreshing colors
+        mSwipeRefreshLayout.setColorSchemeResources(AppUtils.COLOR_PRIMARY,
+                AppUtils.COLOR_SECONDARY,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_dark);
+
 
         return v;
     }

@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,6 +72,8 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     private static final String KEY_ACTIVITY_ID = "activity_id";
     private static final String KEY_STATUS_FLAG = "observation_caller_flag";
     private final String TAG = "~!@#ObsList";
+    @Bind(R.id.swipeLayout_observationList_main)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.recyclerview_remote_observations)
     RecyclerView recyclerView_observations;
     @Bind(R.id.relativeLayout_obsList_main)
@@ -220,6 +223,22 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
             if (BuildConfig.DEBUG)
                 Log.d(TAG, " No Layout manager supplied");
         }
+
+        // Setup refresh listener which triggers new data loading
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                //fetchTimelineAsync(0);
+            }
+        });
+        // Configure the refreshing colors
+        mSwipeRefreshLayout.setColorSchemeResources(AppUtils.COLOR_PRIMARY,
+                AppUtils.COLOR_SECONDARY,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_green_dark);
 
         return rootView;
     }
