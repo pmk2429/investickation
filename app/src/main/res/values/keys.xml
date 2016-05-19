@@ -6,4 +6,6 @@
     <!--ACRA keys-->
     <string name="KEY_ACRA_AUTH_LOGIN">nguelyingplairropedsheye</string>
     <string name="KEY_ACRA_AUTH_PASSWORD">55cb103d3c92483379c1c2fbca2665f5ea7246d1</string>
+    <!--Google Maps API-->
+    <string name="KEY_GOOGLE_MAPS_V2_API">AIzaSyDJO1Yy1yQDG0uZdHmdsITr6CMv2wJnBmY</string>
 </resources>

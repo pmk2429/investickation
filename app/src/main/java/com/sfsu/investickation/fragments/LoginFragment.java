@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.appcompat.BuildConfig;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +20,11 @@ import android.widget.Toast;
 import com.sfsu.application.InvestickationApp;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.UsersDao;
+import com.sfsu.exceptions.ServerUnavailableException;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.error.ErrorMessage;
 import com.sfsu.network.events.LoginEvent;
 import com.sfsu.receiver.TicksDownloadReceiver;
 import com.sfsu.service.DownloadTickIntentService;
@@ -124,7 +128,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
 
         if (isEmailValid && isPasswordValid) {
             // FIXME: possible bug in additional Context dependency injection
-            login(email, password, mContext);
+            try {
+                login(email, password, mContext);
+            } catch (ServerUnavailableException e) {
+                if (BuildConfig.DEBUG)
+                    Log.e(TAG, "onClick: ", e);
+                Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         } else {
             // Prompt user to enter credentials
             Toast.makeText(mContext, "Please enter valid credentials!", Toast.LENGTH_LONG).show();
@@ -137,14 +147,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
      * @param email
      * @param password
      */
-    public void login(final String email, final String password, Context mContext) {
-        // verify and validate email and password input fields
-        BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
-        mProgressDialog = new ProgressDialog(mContext);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setTitle(getString(R.string.progressDialog_login_title));
-        mProgressDialog.setMessage(getString(R.string.progressDialog_login_message));
-        mProgressDialog.show();
+    public void login(final String email, final String password, Context mContext) throws ServerUnavailableException {
+        if (AppUtils.isServerReachable(mContext)) {
+            // verify and validate email and password input fields
+            BusProvider.bus().post(new LoginEvent.OnLoadingInitialized(email, password));
+            mProgressDialog = new ProgressDialog(mContext);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setTitle(getString(R.string.progressDialog_login_title));
+            mProgressDialog.setMessage(getString(R.string.progressDialog_login_message));
+            mProgressDialog.show();
+        } else {
+            throw new ServerUnavailableException(ErrorMessage.ERROR_SERVER_UNAVAILABLE);
+        }
     }
 
     @Override

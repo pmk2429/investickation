@@ -1,6 +1,7 @@
 package com.sfsu.network.error;
 
 /**
+ * Wrapper for the Error status and message sent from the server
  * Created by Pavitra on 12/27/2015.
  */
 public class ApiError {

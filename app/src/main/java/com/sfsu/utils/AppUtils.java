@@ -7,6 +7,12 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import com.sfsu.network.api.ApiResources;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -109,6 +115,32 @@ public class AppUtils {
                 "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VI", "VT", "WA", "WI", "WV", "WY"};
 
         return new ArrayList<>(Arrays.asList(states));
+    }
+
+    /**
+     * Returns the result of ping to server for successful availability and connection establishment
+     */
+    public static boolean isServerReachable(Context myContext) {
+        ConnectivityManager cm = (ConnectivityManager) myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
+            try {
+                URL url = new URL(ApiResources.SERVER_API_URL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setConnectTimeout(10 * 1000);          // 10 s.
+                httpURLConnection.connect();
+                if (httpURLConnection.getResponseCode() == 200) {        // 200 = "OK" code (http connection is fine).
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (MalformedURLException e1) {
+                return false;
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        return false;
     }
 
     /**
