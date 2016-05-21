@@ -50,6 +50,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
             if (tickList != null) {
                 Tick mTick = tickList.get(position);
                 holder.txtTickName.setText(mTick.getTickName());
+                holder.txtTickSpecies.setText(mTick.getSpecies());
                 Picasso.with(mContext).load(mTick.getImageUrl()).into(holder.imageViewTick);
                 holder.txtTickDetail.setText(R.string.tick_click_here_for_details);
             }
@@ -132,6 +133,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
 
     /**
      * Adds all the items passed as param to the Adapter
+     *
      * @param list
      */
     public void addAll(List<Tick> list) {
@@ -143,6 +145,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
 
         CardView cv;
         private TextView txtTickName;
+        private TextView txtTickSpecies;
         private TextView txtTickDetail;
         private ImageView imageViewTick;
 
@@ -150,9 +153,10 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
         public TickViewHolder(View itemView) {
             super(itemView);
             cv = (CardView) itemView.findViewById(R.id.cardview_ticks);
-            txtTickName = (TextView) itemView.findViewById(R.id.textView_recyclerItem_tickName);
-            txtTickDetail = (TextView) itemView.findViewById(R.id.textView_tickDetail);
-            imageViewTick = (ImageView) itemView.findViewById(R.id.image_tickGuideMain);
+            txtTickName = (TextView) itemView.findViewById(R.id.textView_tickRecyclerItem_tickName);
+            txtTickSpecies = (TextView) itemView.findViewById(R.id.textView_tickRecyclerItem_species);
+            txtTickDetail = (TextView) itemView.findViewById(R.id.textView_tickRecyclerItem_tickDetail);
+            imageViewTick = (ImageView) itemView.findViewById(R.id.imageView_tickRecyclerItem_image);
         }
     }
 

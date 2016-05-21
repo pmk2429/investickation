@@ -172,6 +172,24 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
         notifyItemInserted(position);
     }
 
+    /**
+     * Clears all the items from the Adapter
+     */
+    public void clear() {
+        activityList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Adds all the items passed as param to the Adapter
+     *
+     * @param list
+     */
+    public void addAll(List<Activities> list) {
+        activityList.addAll(list);
+        notifyDataSetChanged();
+    }
+
 
     /**
      * ViewHolder pattern for holding {@link Activities} objects.

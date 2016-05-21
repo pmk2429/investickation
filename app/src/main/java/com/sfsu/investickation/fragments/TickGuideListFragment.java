@@ -107,10 +107,10 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
             @Override
             public void onRefresh() {
                 // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                //fetchTimelineAsync(0);
+                syncTicksListWithServerAsync();
             }
+
+
         });
         // Configure the refreshing colors
         mSwipeRefreshLayout.setColorSchemeResources(AppUtils.COLOR_PRIMARY,
@@ -118,8 +118,14 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_dark);
 
-
         return v;
+    }
+
+    /**
+     * Fetches the updated list of Ticks from the server and updates the current RecyclerView
+     */
+    private void syncTicksListWithServerAsync() {
+
     }
 
 
@@ -347,6 +353,7 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
      * Helper method to display list of {@link Tick} in the RecyclerView
      */
     private void displayTickList() {
+        // the List is built using the Ticks downloaded from server and saved in local Database.
         if (AppUtils.isConnectedOnline(mContext)) {
             mTickList = responseTickList;
         } else {

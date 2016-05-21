@@ -127,10 +127,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                //fetchTimelineAsync(0);
+                fetchActivitiesFromServerAndDatabaseAsync();
             }
         });
         // Configure the refreshing colors
@@ -149,6 +146,26 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         BusProvider.bus().register(this);
         mProgressDialog = new ProgressDialog(mContext);
 
+        // get all the Activities
+        fetchActivitiesFromServerAndDatabaseAsync();
+
+
+        // by default the TextView is invisible
+        txtView_activityListInfo.setVisibility(View.GONE);
+        recyclerView_activity.setHasFixedSize(true);
+
+        if (mContext != null) {
+            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView_activity.setLayoutManager(mLinearLayoutManager);
+        } else {
+            Log.d(TAG, " No layout manager supplied");
+        }
+    }
+
+    /**
+     * Function fetches Activities from Server and Local Storage asynchronously
+     */
+    private void fetchActivitiesFromServerAndDatabaseAsync() {
         if (AppUtils.isConnectedOnline(mContext)) {
             // TODO: must be cached for frequent accesses.
             // Run a separate thread to get data from DB and pass it ot handler which is accessed in the
@@ -162,7 +179,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                         localActivitiesList = msg.getData().getParcelableArrayList(KEY_LOCAL_ACTIVITIES);
                     }
                 };
-
 
                 /**
                  * Creates a Message and sets the Bundle inside the message which carries the List of Activities returned from
@@ -209,18 +225,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
             } else {
                 Log.i(TAG, "activity list size < 0");
             }
-        }
-
-
-        // by default the TextView is invisible
-        txtView_activityListInfo.setVisibility(View.GONE);
-        recyclerView_activity.setHasFixedSize(true);
-
-        if (mContext != null) {
-            mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView_activity.setLayoutManager(mLinearLayoutManager);
-        } else {
-            Log.d(TAG, " No layout manager supplied");
         }
     }
 

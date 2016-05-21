@@ -228,10 +228,7 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-                //fetchTimelineAsync(0);
+                syncObservationWithServerAsync();
             }
         });
         // Configure the refreshing colors
@@ -241,6 +238,13 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
                 android.R.color.holo_green_dark);
 
         return rootView;
+    }
+
+    /**
+     * Syncs the current Observations with server
+     */
+    private void syncObservationWithServerAsync() {
+
     }
 
 

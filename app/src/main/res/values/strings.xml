@@ -231,7 +231,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="actNew_startActivityDisclaimer">Clicking play button will start an Activity</string>
 
     <!-- Tick adapter -->
-    <string name="tick_click_here_for_details">Click here for more details</string>
+    <string name="tick_click_here_for_details">View details</string>
 
     <!-- Tick Details-->
     <string name="tickDetails_toolbar_title">Tick Details</string>

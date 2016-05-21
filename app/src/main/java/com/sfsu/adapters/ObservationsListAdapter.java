@@ -153,6 +153,24 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
         notifyItemInserted(position);
     }
 
+    /**
+     * Clears all the items from the Adapter
+     */
+    public void clear() {
+        observationList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Adds all the items passed as param to the Adapter
+     *
+     * @param list
+     */
+    public void addAll(List<Observation> list) {
+        observationList.addAll(list);
+        notifyDataSetChanged();
+    }
+
 
     public static class ObservationViewHolder extends RecyclerView.ViewHolder {
 
