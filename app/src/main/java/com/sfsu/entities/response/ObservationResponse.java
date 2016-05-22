@@ -9,7 +9,8 @@ import com.sfsu.entities.Observation;
 import com.sfsu.entities.Tick;
 
 /**
- * Wrapper model class for the {@link Observation} response
+ * Wrapper for the {@link Observation} response. Contains {@link Tick}, {@link Activities} and {@link EntityLocation} attached
+ * to each Observation.
  */
 public class ObservationResponse implements Parcelable {
     public static final Creator<ObservationResponse> CREATOR = new Creator<ObservationResponse>() {

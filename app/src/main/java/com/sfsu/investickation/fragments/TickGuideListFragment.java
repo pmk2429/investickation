@@ -112,9 +112,11 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
 
 
         });
+
+
         // Configure the refreshing colors
-        mSwipeRefreshLayout.setColorSchemeResources(AppUtils.COLOR_PRIMARY,
-                AppUtils.COLOR_SECONDARY,
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_dark);
 

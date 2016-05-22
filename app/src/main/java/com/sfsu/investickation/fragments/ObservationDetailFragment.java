@@ -207,6 +207,19 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
         dbTicksController.closeConnection();
     }
 
+    /**
+     * <p>
+     * Subscribes to the event of success in loading the ObservationWrapper (Observation and its parent Activity) from the
+     * server.
+     * </p>
+     * <p>
+     * In case of the Activity is missing or if the Observation was posted solely without registering for an Activity, then
+     * the Observation details will not specify any parent Activity. Under such circumstances, the Observation details will
+     * display "No Activity Recorded"
+     * </p>
+     *
+     * @param onObservationWrapperLoaded ObservationWrapper that contains {@link Observation} and {@link Activities}.
+     */
     @Subscribe
     public void onObservationLoadSuccess(ObservationEvent.OnObservationWrapperLoaded onObservationWrapperLoaded) {
         mObservationResponse = onObservationWrapperLoaded.getResponse();
@@ -217,11 +230,8 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
         String activityNameFinal = "";
 
         if (mActivity != null) {
-            Log.i(TAG, "activity not null");
-            activityName = mActivity.getActivityName() == null || mActivity.getActivityName() == "" ? "No Activity" :
-                    mActivity.getActivityName();
-            locationArea = mActivity.getLocation_area() == null || mActivity.getLocation_area() == "" ? "No Location" :
-                    mActivity.getLocation_area();
+            activityName = mActivity.getActivityName() == null ? "No Activity" : mActivity.getActivityName();
+            locationArea = mActivity.getLocation_area() == null ? "No Location" : mActivity.getLocation_area();
             activityNameFinal = activityName + " at " + locationArea;
         } else {
             activityNameFinal = "No activity";
@@ -270,12 +280,9 @@ public class ObservationDetailFragment extends Fragment implements UploadAlertDi
     }
 
     private void uploadObservation() {
-        Log.i(TAG, "uploadObservation: ");
         if (mObservation.isOnCloud()) {
             // do nothing
-            Log.i(TAG, "uploadObservation: onCloud?>");
         } else {
-            Log.i(TAG, "uploadObservation: local");
             mUploadAlertDialog.showObservationUploadAlertDialog();
         }
     }

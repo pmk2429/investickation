@@ -127,15 +127,14 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchActivitiesFromServerAndDatabaseAsync();
+                fetchActivitiesFromServerAndDatabaseAsync(true);
             }
         });
         // Configure the refreshing colors
-        mSwipeRefreshLayout.setColorSchemeResources(AppUtils.COLOR_PRIMARY,
-                AppUtils.COLOR_SECONDARY,
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_dark);
-
         return rootView;
     }
 
@@ -147,7 +146,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         mProgressDialog = new ProgressDialog(mContext);
 
         // get all the Activities
-        fetchActivitiesFromServerAndDatabaseAsync();
+        fetchActivitiesFromServerAndDatabaseAsync(false);
 
 
         // by default the TextView is invisible
@@ -165,9 +164,8 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     /**
      * Function fetches Activities from Server and Local Storage asynchronously
      */
-    private void fetchActivitiesFromServerAndDatabaseAsync() {
+    private void fetchActivitiesFromServerAndDatabaseAsync(boolean isSwipeRefresh) {
         if (AppUtils.isConnectedOnline(mContext)) {
-            // TODO: must be cached for frequent accesses.
             // Run a separate thread to get data from DB and pass it ot handler which is accessed in the
             // onActivitiesLoadedSuccess construct.
             final Thread dbAccessThread = new Thread(new Runnable() {
@@ -207,12 +205,20 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
             // Async callback fetch all the Activities stored on the server
             BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized("", ApiRequestHandler.GET_ALL));
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setMessage("Fetching Activities...");
-            mProgressDialog.show();
+            // depending on SwipeRefreshLayout, display the progressDialog
+            if (!mSwipeRefreshLayout.isRefreshing())
+                displayProgressDialog(getString(R.string.progressDialog_fetching_activities));
+
         } else {
+            if (mSwipeRefreshLayout.isRefreshing())
+                mSwipeRefreshLayout.setRefreshing(false);
             // get List of Activities from Database
             localActivitiesList = (List<Activities>) dbController.getAll();
+            // important to clear all the Activities before assigning it to new list
+            if (mActivitiesList != null) {
+                mActivitiesList.clear();
+            }
+            // assign the locally received Activities from local data storage
             mActivitiesList = localActivitiesList;
 
             if (mActivitiesList.size() > 0 && mActivitiesList != null) {
@@ -222,9 +228,18 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                 txtView_activityListInfo.setVisibility(View.VISIBLE);
                 recyclerView_activity.setVisibility(View.GONE);
                 mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
-            } else {
-                Log.i(TAG, "activity list size < 0");
             }
+        }
+    }
+
+    /**
+     * Displays Progress Dialog
+     */
+    private void displayProgressDialog(String message) {
+        if (mProgressDialog != null) {
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setMessage(message);
+            mProgressDialog.show();
         }
     }
 
@@ -237,8 +252,12 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     @Subscribe
     public void onActivitiesLoadedSuccess(ActivityEvent.OnListLoaded onLoaded) {
         try {
-            if (mProgressDialog.isShowing())
+            if (mProgressDialog != null && mProgressDialog.isShowing())
                 mProgressDialog.dismiss();
+
+            if (mSwipeRefreshLayout != null && mSwipeRefreshLayout.isRefreshing())
+                mSwipeRefreshLayout.setRefreshing(false);
+
             // get all Response Activities from server
             responseActivitiesList = onLoaded.getResponseList();
 
@@ -254,6 +273,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
             // merge two lists to produce a super list of local as well as remotely stored Activities.
             responseActivitiesList.addAll(localActivitiesList);
 
+            // important to clear all the Activities before assigning it to new list
             if (mActivitiesList != null) {
                 mActivitiesList.clear();
             }
@@ -269,9 +289,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                 txtView_activityListInfo.setVisibility(View.VISIBLE);
                 recyclerView_activity.setVisibility(View.GONE);
                 mRelativeLayout.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightText));
-            } else {
-                if (BuildConfig.DEBUG)
-                    Log.i(TAG, "activity list size < 0");
             }
         } catch (NullPointerException npe) {
             if (BuildConfig.DEBUG)
@@ -304,7 +321,6 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         // set the List of Activities to Adapter.
         mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
         mActivitiesListAdapter.notifyDataSetChanged();
-
         if (recyclerView_activity != null) {
 
             recyclerView_activity.setAdapter(mActivitiesListAdapter);

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -62,17 +63,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private final String TAG = "~!@#RegisterFragment";
     // EditTexts
     @Bind(R.id.editText_register_fullName)
-    EditText et_fullName;
+    TextInputEditText et_fullName;
     @Bind(R.id.editText_register_email)
-    EditText et_email;
+    TextInputEditText et_email;
     @Bind(R.id.editText_register_password)
-    EditText et_password;
+    TextInputEditText et_password;
     @Bind(R.id.editText_register_zip)
-    EditText et_zipcode;
+    TextInputEditText et_zipcode;
     @Bind(R.id.editText_register_address)
-    EditText et_address;
+    TextInputEditText et_address;
     @Bind(R.id.editText_register_city)
-    EditText et_city;
+    TextInputEditText et_city;
     @Bind(R.id.spinner_register_state)
     Spinner spinner_state;
     //Button
@@ -273,7 +274,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
 
     /**
-     * Subscribes to event of successful creation of {@link Account} on server.
+     * Subscribes to event of successful creation of {@link Account} on server. After User is successfully registered on the
+     * server, the details are stored locally in the SQLite Database for future references.
      *
      * @param onLoaded
      */

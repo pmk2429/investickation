@@ -79,7 +79,7 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         BusProvider.bus().register(this);
     }
 
-
+    //FIXME
     @Override
     public void onTickListItemClickListener(Tick mTick) {
         TickGuideDetailFragment guideDetailFragment = TickGuideDetailFragment.newInstance(KEY_TICK_DETAIL, mTick);

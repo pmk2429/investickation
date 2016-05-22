@@ -43,8 +43,6 @@ import java.util.Locale;
  */
 public class AppUtils {
 
-    public static final int COLOR_PRIMARY = ContextCompat.getColor(InvestickationApp.getInstance(), R.color.colorPrimary);
-    public static final int COLOR_SECONDARY = ContextCompat.getColor(InvestickationApp.getInstance(), R.color.colorSecondary);
     private static boolean isServerReachable;
     private Context myContext;
 

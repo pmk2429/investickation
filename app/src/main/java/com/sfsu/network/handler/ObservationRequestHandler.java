@@ -76,7 +76,6 @@ public class ObservationRequestHandler extends ApiRequestHandler {
         Call<List<ObservationResponse>> listObservationResponseCall = null;
         Call<ObservationResponse> observationResponseCall = null;
 
-        // FIXME: make a Filter object to handle all the filters
         final String observationWrapperFilter = "{\"include\":[\"activity\", \"tick\"]}";
         final String countWhereClause = "{\"user_id\":\"" + USER_ID + "\"}";
         final String locationIncludeFilter = "{\"include\":\"location\"}";

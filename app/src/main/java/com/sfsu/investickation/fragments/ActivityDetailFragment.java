@@ -196,7 +196,6 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
      * Helper method to populate View in ActivityDetailFragment.
      */
     private void populateView() {
-
         try {
             // once the object is collected, display it in the respective controls.
             String activityName = mActivity.getActivityName() + " @ " + mActivity.getLocation_area();
@@ -204,21 +203,14 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
 
             String observationCount = mActivity.getNum_of_ticks() + " Obs.";
             txtView_observationCount.setText(observationCount);
-
             String[] dateAndTime = AppUtils.getDateAndTimeSeparate(mActivity.getTimestamp());
-
             txtView_date.setText(dateAndTime[0]);
-
             txtView_time.setText(dateAndTime[1]);
-
             String people = mActivity.getNum_of_people() + " people";
             txtView_totalPeople.setText(people);
-
             String pets = mActivity.getNum_of_pets() + " pets";
             txtView_totalPets.setText(pets);
-
             String image_url = mActivity.getImage_url();
-
             // imageFile
             File imgFile = new File(mActivity.getImage_url());
 

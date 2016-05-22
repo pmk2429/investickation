@@ -1,11 +1,10 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 android:background="@color/colorWhite"
+                                                 android:background="@color/ultraLightText"
                                                  android:orientation="vertical"
-                                                 tools:context=".PersonalInfoActivity">
+                                                 tools:context=".UserProfileActivity">
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,24 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--  user image -->
-            <ImageView
-                android:id="@+id/imageView_profile_userImage"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_large"
-                android:layout_gravity="center_horizontal"
-                android:adjustViewBounds="true"
-                android:fitsSystemWindows="true"
-                android:scaleType="fitXY"
-                android:src="@mipmap/placeholder_user"/>
-
             <!--  Account row -->
             <ImageView
                 android:id="@+id/icon_user"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/imageView_profile_userImage"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:padding="@dimen/view_dimen_medium"
@@ -44,7 +31,6 @@
                 android:id="@+id/editText_profile_fullName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_below="@id/imageView_profile_userImage"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_toEndOf="@id/icon_user"
@@ -86,41 +72,13 @@
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
 
-            <!--  Password row -->
-            <ImageView
-                android:id="@+id/icon_password"
-                android:layout_width="@dimen/widget_dimen"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/icon_email"
-                android:layout_marginStart="@dimen/view_dimen_small"
-                android:padding="@dimen/view_dimen_medium"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_password_black_24dp"/>
-
-            <EditText
-                android:id="@+id/editText_profile_password"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_email"
-                android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_toEndOf="@id/icon_password"
-                android:ellipsize="end"
-                android:inputType="textPassword"
-                android:lines="1"
-                android:paddingBottom="@dimen/view_dimen_large"
-                android:paddingTop="@dimen/view_dimen_large"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/font_small"/>
-
             <!--  Address row -->
             <ImageView
                 android:id="@+id/icon_address"
                 android:layout_width="@dimen/widget_dimen"
                 android:layout_height="@dimen/widget_dimen"
                 android:layout_alignParentStart="true"
-                android:layout_below="@id/icon_password"
+                android:layout_below="@id/icon_email"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
@@ -130,7 +88,7 @@
                 android:id="@+id/editText_profile_address"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_password"
+                android:layout_below="@id/editText_profile_email"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_address"
                 android:ellipsize="end"
@@ -139,35 +97,6 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
-
-            <!--&lt;!&ndash;  Phone row &ndash;&gt;-->
-            <!--<ImageView-->
-            <!--android:id="@+id/icon_city"-->
-            <!--android:layout_width="@dimen/widget_dimen"-->
-            <!--android:layout_height="@dimen/widget_dimen"-->
-            <!--android:layout_alignParentStart="true"-->
-            <!--android:layout_below="@id/icon_address"-->
-            <!--android:layout_marginStart="@dimen/view_dimen_small"-->
-            <!--android:padding="@dimen/view_dimen_medium"-->
-            <!--android:scaleType="fitCenter"-->
-            <!--android:src="@mipmap/ic_phone_black_36dp"/>-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/editText_phone"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/widget_dimen"-->
-            <!--android:layout_below="@id/editText_profile_address"-->
-            <!--android:layout_marginEnd="@dimen/view_dimen_large"-->
-            <!--android:layout_toEndOf="@id/icon_city"-->
-            <!--android:ellipsize="end"-->
-            <!--android:hint="@string/profile_address"-->
-            <!--android:inputType="phone"-->
-            <!--android:lines="1"-->
-            <!--android:scrollHorizontally="true"-->
-            <!--android:singleLine="true"-->
-            <!--android:textSize="@dimen/font_small"/>-->
-
-
         </RelativeLayout>
 
     </ScrollView>
@@ -175,7 +104,7 @@
 
     <!-- Save Button -->
     <Button
-        android:id="@+id/button_Register"
+        android:id="@+id/button_profile_save"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="bottom"
@@ -184,18 +113,8 @@
         android:layout_marginRight="@dimen/view_dimen_large"
         android:background="@color/colorPrimary"
         android:text="@string/profile_save"
-        android:textColor="@color/colorWhite"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_userProfileImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        android:src="@mipmap/ic_photo_camera_white_36dp"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@+id/imageView_profile_userImage"
-        app:layout_anchorGravity="bottom|right|end"/>
+        android:textColor="@color/colorWhite"
+        android:visibility="invisible"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
