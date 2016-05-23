@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * <tt>UserActivityMasterActivity</tt> is the parent activity and the holding container for all the Activity related fragments.
  * This activity provides the DB access calls, network calls, initializing the controllers, passing the data to the Fragments
  * and so on. All the Activity related operations are carried out in UserActivityMasterActivity.
- * <p>
+ * <p/>
  * This Activity implements the ConnectionCallbacks for its child Fragments which provides listener methods to these Fragments.
  */
 public class UserActivityMasterActivity extends MainBaseActivity implements ActivityListFragment.IActivityCallBacks,
@@ -39,13 +39,10 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public static final String EDITOR_ONGOING_ACTIVITY = "editor_ongoing_activity";
     public static final String EDITOR_ACTIVITY_DETAILS = "editor_activity_details";
     public static final String PREF_ACTIVITY_DATA = "pref_ongoing_activity";
-    //
     public static final String KEY_VIEW_OBSERVATIONS = "view_all_activity_observations";
-
     public static final String KEY_NEW_ACTIVITY_OBJECT = "new_activity_object";
     public static final String KEY_REMINDER_SET = "tick_reminder_set";
     public static final String KEY_REMINDER_INTERVAL = "reminder_interval";
-
     // count to maintain the Stack in the UserActivityMasterActivity for all the Fragments.
     private final String TAG = "~!@#$UserActivity";
     private FragmentManager fragmentManager;
@@ -257,5 +254,11 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
             performReplaceFragmentTransaction(mActivityMapFragment);
         } catch (Exception e) {
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        fragmentManager.putFragment(outState, "savedFragment", mActivityRunningFragment);
     }
 }

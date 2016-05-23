@@ -317,7 +317,8 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
     }
 
     /**
-     * Persists the Data for the running activity
+     * Persists the Data for the running activity. In addition with the LatLngs, the current activity state is stored and
+     * persisted in times of crash or out of memory error
      */
     private void persistCurrentActivity() {
         try {
@@ -447,15 +448,14 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        // store the information on map.
+        super.onSaveInstanceState(outState);
+        // store the information for map and current running activity
         final Bundle mapViewSaveState = new Bundle(outState);
         mapView.onSaveInstanceState(mapViewSaveState);
         outState.putBundle("mapViewSaveState", mapViewSaveState);
 
         // in case of out of memory scenario
         persistCurrentActivity();
-
-        super.onSaveInstanceState(outState);
     }
 
 

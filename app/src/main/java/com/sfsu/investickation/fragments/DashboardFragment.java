@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -27,6 +28,7 @@ import com.sfsu.adapters.RecentActivitiesAdapter;
 import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.db.TickDao;
 import com.sfsu.entities.Activities;
+import com.sfsu.entities.response.CombinedCount;
 import com.sfsu.investickation.R;
 import com.sfsu.network.bus.BusProvider;
 import com.sfsu.network.events.ActivityEvent;
@@ -77,6 +79,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private SharedPreferences settingsPref;
     // TODO: change this to get the count from Settings SharedPref
     private int activitiesCount = 2;
+    private CombinedCount mCombinedCount;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -229,9 +232,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        //This MUST be done before saving any of your own or your base class's variables
-        final Bundle mapViewSaveState = new Bundle(outState);
         super.onSaveInstanceState(outState);
+        outState.putInt("activitiesCount", mCombinedCount.activitiesCount);
+        outState.putInt("observationCount", mCombinedCount.observationsCount);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            txtView_activitiesCount.setText(String.valueOf(savedInstanceState.getInt("activitiesCount")));
+            txtView_observationCount.setText(String.valueOf(savedInstanceState.getInt("observationCount")));
+        }
     }
 
     @Override
@@ -285,10 +297,16 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
         }
     }
 
+    /**
+     * Subscribes to the event of success in loading Activities Count and Observation count made by the User on server.
+     *
+     * @param onCountsLoaded {@link com.sfsu.entities.response.CombinedCount} of Activities and Observations
+     */
     @Subscribe
     public void onActivitiesAndObservationsCountsLoadedSuccess(UserEvent.OnCountsLoaded onCountsLoaded) {
-        txtView_activitiesCount.setText(String.valueOf(onCountsLoaded.getResponse().activitiesCount));
-        txtView_observationCount.setText(String.valueOf(onCountsLoaded.getResponse().observationsCount));
+        mCombinedCount = onCountsLoaded.getResponse();
+        txtView_activitiesCount.setText(String.valueOf(mCombinedCount.activitiesCount));
+        txtView_observationCount.setText(String.valueOf(mCombinedCount.observationsCount));
     }
 
     @Subscribe

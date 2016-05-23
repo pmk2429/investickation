@@ -3,8 +3,8 @@ package com.sfsu.investickation;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.widget.ImageButton;
 
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.fragments.DashboardFragment;
@@ -18,30 +18,33 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
     public static final String KEY_ADD_OBSERVATION = "add_new_observation_from_dashboard";
     public static final String KEY_VIEW_ACTIVITY_LIST = "view_activityList_from_dashboard";
     public static final String KEY_VIEW_OBSERVATION_LIST = "view_observationList_from_dashboard";
+    private static final String KEY_SAVED_FRAGMENT = "saved_fragment";
     private final String TAG = "~!@#$MainActivity";
-    ImageButton btnActivityAdd;
+    private DashboardFragment mDashboardFragment;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mFragmentManager = getSupportFragmentManager();
         // if Fragment container is present,
         if (findViewById(R.id.mainActivity_fragmentContainer) != null) {
-
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
-                return;
+                mDashboardFragment = (DashboardFragment) mFragmentManager.getFragment(savedInstanceState, KEY_SAVED_FRAGMENT);
+                mFragmentManager.beginTransaction().add(R.id.mainActivity_fragmentContainer, mDashboardFragment).commit();
             }
 
             // if Intent is called by clicking on the PostObservation button in DashboardFragment
             if (getIntent().getIntExtra(HomeActivity.KEY_SIGNIN_SUCCESS, 0) == 1) {
-                DashboardFragment DashboardFragment = new DashboardFragment();
-                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, DashboardFragment).commit();
+                mDashboardFragment = new DashboardFragment();
+                mFragmentManager.beginTransaction().add(R.id.mainActivity_fragmentContainer, mDashboardFragment).commit();
             } else {
-                DashboardFragment DashboardFragment = new DashboardFragment();
-                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, DashboardFragment).commit();
+                mDashboardFragment = new DashboardFragment();
+                mFragmentManager.beginTransaction().add(R.id.mainActivity_fragmentContainer, mDashboardFragment).commit();
             }
         }
     }
@@ -111,5 +114,13 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
         startActivity(activityIntent);
         finish();
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        mFragmentManager.putFragment(outState, KEY_SAVED_FRAGMENT, mDashboardFragment);
+    }
+
 }
 
