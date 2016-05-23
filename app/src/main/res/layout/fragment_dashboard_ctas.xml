@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fab="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -16,22 +17,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Cancellable Intro text
-            <RelativeLayout
-                android:id="@+id/relativeLayout_dashboard_introText"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/cardview_large"
-                android:background="@color/colorPrimaryDark">
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewPager_dashboard_info"
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </RelativeLayout>
-            -->
-
             <!-- Layout for Observation card, Activity card and Observation button, Activity button-->
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,74 +26,75 @@
                 android:paddingRight="@dimen/view_dimen_large"
                 android:paddingTop="@dimen/view_dimen_X_large">
 
-                <!-- Start Activity Button-->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/btn_activity_start"
+                <LinearLayout
+                    android:id="@+id/linearLayout_dashboard_fabContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="@dimen/view_dimen_small"
-                    android:layout_toStartOf="@id/separator_vertical_observation_1"
-                    android:elevation="@dimen/view_dimen_small"
-                    android:padding="@dimen/view_dimen_large">
+                    android:background="@drawable/dashboard_card_border"
+                    android:orientation="horizontal">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
-                        android:paddingBottom="@dimen/view_dimen_small"
-                        android:paddingLeft="@dimen/view_dimen_large"
-                        android:paddingRight="@dimen/view_dimen_large"
-                        android:paddingTop="@dimen/view_dimen_small">
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite">
 
-                        <TextView
+                        <com.getbase.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fab_dashboard_startActivity"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:gravity="center_horizontal"
-                            android:text="@string/dash_startActivity"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            fab:fab_colorNormal="@color/colorPrimary"
+                            fab:fab_colorPressed="@color/colorPrimaryDark"
+                            fab:fab_icon="@mipmap/ic_directions_walk_white_36dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewStatic_dashboard_startActivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/widget_dimen_large"
+                            android:layout_below="@id/fab_dashboard_startActivity"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/view_dimen_small"
+                            android:layout_marginBottom="@dimen/view_dimen_small"
+                            android:text="Start Activity"
+                            android:textColor="@color/colorSecondary"
                             android:textSize="@dimen/font_small"/>
 
                     </RelativeLayout>
 
-                </android.support.v7.widget.CardView>
-
-                <!--Button Observation Post-->
-                <android.support.v7.widget.CardView
-                    android:id="@+id/btn_observation_post"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="@dimen/view_dimen_small"
-                    android:layout_toEndOf="@id/separator_vertical_observation_1"
-                    android:elevation="@dimen/view_dimen_small"
-                    android:padding="@dimen/view_dimen_large">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
-                        android:paddingBottom="@dimen/view_dimen_small"
-                        android:paddingLeft="@dimen/view_dimen_large"
-                        android:paddingRight="@dimen/view_dimen_large"
-                        android:paddingTop="8dp">
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/view_dimen_small"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite">
 
-                        <TextView
+                        <com.getbase.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fab_dashboard_addObservation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:gravity="center_horizontal"
-                            android:text="@string/dash_postObservation"
-                            android:textAlignment="center"
-                            android:textColor="@color/colorWhite"
+                            fab:fab_colorNormal="@color/colorPrimary"
+                            fab:fab_colorPressed="@color/colorPrimaryDark"
+                            fab:fab_icon="@mipmap/ic_bug_report_white_36dp"/>
+
+                        <TextView
+                            android:id="@+id/textViewStatic_dashboard_addObservation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/widget_dimen_large"
+                            android:layout_below="@id/fab_dashboard_addObservation"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/view_dimen_small"
+                            android:layout_marginBottom="@dimen/view_dimen_small"
+                            android:text="Post Observation"
+                            android:textColor="@color/colorSecondary"
                             android:textSize="@dimen/font_small"/>
 
                     </RelativeLayout>
 
-                </android.support.v7.widget.CardView>
-
+                </LinearLayout>
 
                 <!-- Layout for Activity-->
                 <LinearLayout
@@ -116,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/cardview_default"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@id/btn_activity_start"
+                    android:layout_below="@id/linearLayout_dashboard_fabContainer"
                     android:layout_marginEnd="@dimen/view_dimen_small"
                     android:layout_marginTop="@dimen/view_dimen_X_large"
                     android:layout_toStartOf="@id/separator_vertical_observation_1"
@@ -185,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/cardview_default"
                     android:layout_alignParentEnd="true"
-                    android:layout_below="@id/btn_activity_start"
+                    android:layout_below="@id/linearLayout_dashboard_fabContainer"
                     android:layout_marginStart="@dimen/view_dimen_small"
                     android:layout_marginTop="@dimen/view_dimen_X_large"
                     android:layout_toEndOf="@id/separator_vertical_observation_1"

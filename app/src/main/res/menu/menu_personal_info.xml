@@ -8,4 +8,19 @@
         android:icon="@mipmap/ic_mode_edit_white_24dp"
         android:title="@string/action_edit"
         app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item
+        android:id="@+id/action_save"
+        android:icon="@mipmap/ic_check_white_24dp"
+        android:orderInCategory="200"
+        android:title="@string/action_save"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item
+        android:id="@+id/action_cancel"
+        android:icon="@mipmap/ic_clear_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/action_cancel"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
 </menu>

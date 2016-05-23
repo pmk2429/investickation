@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.appcompat.BuildConfig;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -292,39 +294,30 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
                 break;
             case R.id.icon_actDet_openMap:
                 try {
-                    openObservationsOnMap();
                     ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
                     mListener.onOpenActivitiesMapClicked(mObservationArrayList);
                 } catch (Exception e) {
-
+                    if (BuildConfig.DEBUG)
+                        Log.e(TAG, "onClick: ", e);
                 }
                 break;
         }
     }
 
-    private void openObservationsOnMap() {
-
-
-    }
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_activity_detail, menu);
         final MenuItem item = menu.findItem(R.id.action_delete);
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.action_delete:
                 deleteActivity();
                 return true;
         }
-
         return false;
     }
 
@@ -349,13 +342,13 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
             deleteActivityDialog.setNegativeButton(R.string.alertDialog_NO, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    // do nothing
                 }
             });
             deleteActivityDialog.show();
         } else {
             dbController.delete(mActivity.getId());
-            // open ActivityListFragment again
+            // open ActivityListFragment after deleting the Observation
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }
@@ -369,6 +362,7 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
     public void onActivityDeleteSuccess(ActivityEvent.OnLoadedCount onLoaded) {
         if (onLoaded.getResponse().getCount() == 1) {
             Toast.makeText(mContext, "Activity deleted", Toast.LENGTH_LONG).show();
+            // open ActivityListFragment after the current Activity is successfully deleted.
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }

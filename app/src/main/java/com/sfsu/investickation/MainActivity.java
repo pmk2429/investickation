@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.widget.ImageButton;
 
 import com.sfsu.entities.Activities;
@@ -38,15 +37,11 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
 
             // if Intent is called by clicking on the PostObservation button in DashboardFragment
             if (getIntent().getIntExtra(HomeActivity.KEY_SIGNIN_SUCCESS, 0) == 1) {
-                DashboardFragment dashboardFragment = new DashboardFragment();
-                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
+                DashboardFragment DashboardFragment = new DashboardFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, DashboardFragment).commit();
             } else {
-                DashboardFragment dashboardFragment = new DashboardFragment();
-                // if activity was started with special instructions from an Intent, then pass Intent's extras
-                // to fragments as arguments
-                dashboardFragment.setArguments(getIntent().getExtras());
-                // add the Fragment to 'mainActivity_fragmentContainer' FrameLayout
-                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, dashboardFragment).commit();
+                DashboardFragment DashboardFragment = new DashboardFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.mainActivity_fragmentContainer, DashboardFragment).commit();
             }
         }
     }
@@ -110,7 +105,6 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
 
     @Override
     public void onActivityItemClicked(Activities mActivity) {
-        Log.i(TAG, "reached in MainAct");
         Intent activityIntent = new Intent(MainActivity.this, UserActivityMasterActivity.class);
         activityIntent.putExtra(KEY_OPEN_SELECTED_ACTIVITY, 24);
         activityIntent.putExtra(KEY_VIEW_ACTIVITY, mActivity);

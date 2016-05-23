@@ -6,6 +6,7 @@
 /build
 /captures
 /app/src/main/AndroidManifest.xml
+/com/sfsu/investickation/fragments/Dashboard2Fragment.java
 /gradlew
 /gradlew.bat
 /settings.gradle

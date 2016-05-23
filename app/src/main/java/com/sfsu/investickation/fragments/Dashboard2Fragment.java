@@ -43,10 +43,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * The dashboard of the application. Displays total number of {@link Activities} and {@link com.sfsu.entities
- * .Observation}. Also, provides a starting point for the user to post an Observation or to start an Activity.
+ * Duplicate of DashboardFragment
  */
-public class DashboardFragment extends Fragment implements View.OnClickListener {
+public class Dashboard2Fragment extends Fragment implements View.OnClickListener {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
@@ -78,7 +77,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     // TODO: change this to get the count from Settings SharedPref
     private int activitiesCount = 2;
 
-    public DashboardFragment() {
+    public Dashboard2Fragment() {
         // Required empty public constructor
     }
 

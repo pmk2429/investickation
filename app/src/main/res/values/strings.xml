@@ -152,6 +152,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="action_filter">Filter</string>
     <string name="action_post">Post</string>
     <string name="action_more">More</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
     <string name="title_activity_demo">DemoActivity</string>
 
     <!-- Helper Strings-->
@@ -191,7 +193,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="alertDialog_current_reminder">Current Reminder</string>
     <string name="alertDialog_set_reminder">Set Reminder</string>
     <!-- Delete-->
-    <string name="alertDialog_delete_activity_warning">Are you sure you want to delete this Activity?</string>
+    <string name="alertDialog_delete_activity_warning">Are you sure you want to delete this Activity? Deleting Activity
+        results in Deleting all the Observations made during the Activity.</string>
     <string name="alertDialog_delete_observation_warning">Are you sure you want to delete this Observation?</string>
     <!-- Upload -->
     <string name="alertDialog_upload">Upload</string>

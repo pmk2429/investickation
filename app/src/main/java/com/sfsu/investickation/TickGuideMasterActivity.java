@@ -2,6 +2,8 @@ package com.sfsu.investickation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,12 +24,15 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
     private final String TAG = "~!@#$TickGuideMstrAct";
     private ArrayList<Tick> tickList;
     private ArrayList<Entity> entityList;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guidmaster);
+
+        mFragmentManager = getSupportFragmentManager();
 
         // if Fragment container is present,
         if (findViewById(R.id.guide_fragment_container) != null) {
@@ -39,18 +44,30 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
 
             if (getIntent().getIntExtra(KEY_TICK_MAP, 0) == 1) {
                 TickMap tickMap = new TickMap();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
-                transaction.add(R.id.guide_fragment_container, tickMap);
-                transaction.commit();
+                performAddFragmentTransaction(tickMap, false);
             } else {
-                TickGuideListFragment guideIndexFragment = new TickGuideListFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right);
-                transaction.add(R.id.guide_fragment_container, guideIndexFragment);
-                transaction.commit();
+                TickGuideListFragment mTikTickGuideListFragment = new TickGuideListFragment();
+                performAddFragmentTransaction(mTikTickGuideListFragment, false);
             }
         }
+    }
+
+    private void performAddFragmentTransaction(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.add(R.id.guide_fragment_container, fragment);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void performReplaceFragmentTransaction(Fragment fragment, boolean addToBackStack, boolean animate) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        transaction.replace(R.id.guide_fragment_container, fragment);
+        if (animate)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        if (addToBackStack)
+            transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -64,7 +81,6 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         } else if (count > 0) {
             getSupportFragmentManager().popBackStack();
         }
-
     }
 
     @Override
@@ -79,15 +95,10 @@ public class TickGuideMasterActivity extends AppCompatActivity implements TickGu
         BusProvider.bus().register(this);
     }
 
-    //FIXME
     @Override
     public void onTickListItemClickListener(Tick mTick) {
         TickGuideDetailFragment guideDetailFragment = TickGuideDetailFragment.newInstance(KEY_TICK_DETAIL, mTick);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-        transaction.replace(R.id.guide_fragment_container, guideDetailFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        performReplaceFragmentTransaction(guideDetailFragment, true, true);
     }
 
 }
