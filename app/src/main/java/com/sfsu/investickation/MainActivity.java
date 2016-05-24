@@ -35,7 +35,6 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
             // over lapping fragments
             if (savedInstanceState != null) {
                 mDashboardFragment = (DashboardFragment) mFragmentManager.getFragment(savedInstanceState, KEY_SAVED_FRAGMENT);
-                mFragmentManager.beginTransaction().add(R.id.mainActivity_fragmentContainer, mDashboardFragment).commit();
             }
 
             // if Intent is called by clicking on the PostObservation button in DashboardFragment

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sfsu.investickation.fragments.TickMap">
+    tools:context=".fragments.TickMapFragment">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView_tickmap_main"

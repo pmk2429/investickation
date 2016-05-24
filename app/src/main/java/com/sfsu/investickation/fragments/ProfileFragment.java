@@ -3,6 +3,7 @@ package com.sfsu.investickation.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
@@ -134,7 +135,7 @@ public class ProfileFragment extends Fragment {
      * Save the Edits made by the user - call Server and update the local DB details
      */
     private void saveProfileEdits() {
-        
+
     }
 
     /**
@@ -161,5 +162,20 @@ public class ProfileFragment extends Fragment {
 
     private void editUserInformation() {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("savedUser", mUser);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mUser = savedInstanceState.getParcelable("savedUser");
+        }
     }
 }

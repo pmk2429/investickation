@@ -321,28 +321,28 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     public interface IDashboardCallback {
 
         /**
-         * Callback method when the <tt>'START ACTIVITY'</tt> button is clicked in {@link Dashboard2Fragment}.
+         * Callback method when the <tt>'START ACTIVITY'</tt> button is clicked in {@link DashboardFragment}.
          */
         public void onActivityButtonClicked();
 
         /**
-         * Callback method when the <tt>'POST OBSERVATION'</tt> button is clicked in {@link Dashboard2Fragment}. Depending on User's
+         * Callback method when the <tt>'POST OBSERVATION'</tt> button is clicked in {@link DashboardFragment}. Depending on User's
          * choice, start an {@link ActivityNewFragment} fragment or directly {@link AddObservationFragment} fragment.
          */
         public void onObservationButtonClicked();
 
         /**
-         * Callback method when the <tt>'VIEW ACTIVITIES'</tt> button is clicked in {@link Dashboard2Fragment}.
+         * Callback method when the <tt>'VIEW ACTIVITIES'</tt> button is clicked in {@link DashboardFragment}.
          */
         public void onViewActivitiesClicked();
 
         /**
-         * Callback method when the <tt>'VIEW OBSERVATIONS'</tt> button is clicked in {@link Dashboard2Fragment}.
+         * Callback method when the <tt>'VIEW OBSERVATIONS'</tt> button is clicked in {@link DashboardFragment}.
          */
         public void onViewObservationsClicked();
 
         /**
-         * Callback method when the user clicks item in Activities ListView in {@link Dashboard2Fragment}.
+         * Callback method when the user clicks item in Activities ListView in {@link DashboardFragment}.
          *
          * @param mActivity
          */

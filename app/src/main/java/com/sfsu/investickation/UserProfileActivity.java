@@ -14,6 +14,7 @@ import com.sfsu.investickation.fragments.ProfileFragment;
 public class UserProfileActivity extends MainBaseActivity {
 
     private final String TAG = "~!@#UsrProAct";
+    private ProfileFragment mProfileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,10 @@ public class UserProfileActivity extends MainBaseActivity {
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
-                return;
+                mProfileFragment = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, "profileFragment");
             }
 
-            ProfileFragment mProfileFragment = new ProfileFragment();
+            mProfileFragment = new ProfileFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfileFragment).commit();
         }
     }
@@ -54,16 +55,13 @@ public class UserProfileActivity extends MainBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the HomeFragment/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, "profileFragment", mProfileFragment);
     }
 }

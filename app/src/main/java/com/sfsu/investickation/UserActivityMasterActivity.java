@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.appcompat.BuildConfig;
 import android.util.Log;
 
 import com.sfsu.entities.Activities;
@@ -48,59 +49,72 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     private FragmentManager fragmentManager;
     // for performing better navigation on back press.
     private ActivityRunningFragment mActivityRunningFragment;
+    private ActivityDetailFragment mActivityDetailFragment;
+    private ActivityNewFragment mActivityNewFragment;
+    private ActivityListFragment mActivityListFragment;
 
-
+    //TODO: Test this code
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
-
         try {
             fragmentManager = getSupportFragmentManager();
 
             // if Fragment container is present
             if (findViewById(R.id.activity_fragment_container) != null) {
 
-                // if we are restored from the previous state, just return
+                // if we are restored from the previous state, restore the Fragments
                 if (savedInstanceState != null) {
-                    return;
-                } else {
-                    // if user clicks on Start Activity in DashboardFragment
-                    if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
-                        Log.i(TAG, "onCreate: onActivityAdd click");
-                        ActivityNewFragment activityNewFragment = new ActivityNewFragment();
-                        performAddFragmentTransaction(activityNewFragment);
-                    }
-                    // if user clicks on ActivityListFragment in DashboardFragment
-                    else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
-                        ActivityListFragment activityListFragment = new ActivityListFragment();
-                        performAddFragmentTransaction(activityListFragment);
-                    }
-                    // if user navigates back to ActivityRunningFragment fragment.
-                    else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
+                    mActivityRunningFragment = (ActivityRunningFragment) fragmentManager.getFragment(savedInstanceState, "activityRunning");
+                    mActivityDetailFragment = (ActivityDetailFragment) fragmentManager.getFragment(savedInstanceState,
+                            "activityDetail");
+                    mActivityNewFragment = (ActivityNewFragment) fragmentManager.getFragment(savedInstanceState, "activityNew");
+                    mActivityListFragment = (ActivityListFragment) fragmentManager.getFragment(savedInstanceState, "activityList");
+                }
+
+
+                // if user clicks on Start Activity in DashboardFragment
+                if (getIntent().getIntExtra(MainActivity.KEY_ADD_ACTIVITY, 0) == 1) {
+                    if (mActivityNewFragment == null)
+                        mActivityNewFragment = new ActivityNewFragment();
+                    performAddFragmentTransaction(mActivityNewFragment);
+                }
+                // if user clicks on ActivityListFragment in DashboardFragment
+                else if (getIntent().getIntExtra(MainActivity.KEY_VIEW_ACTIVITY_LIST, 0) == 2) {
+                    if (mActivityListFragment == null)
+                        mActivityListFragment = new ActivityListFragment();
+                    performAddFragmentTransaction(mActivityListFragment);
+                }
+                // if user navigates back to ActivityRunningFragment fragment.
+                else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_RUNNING, 0) == 11) {
+                    if (mActivityRunningFragment == null)
                         mActivityRunningFragment = new ActivityRunningFragment();
-                        performReplaceFragmentTransaction(mActivityRunningFragment);
-                    }
-                    // if user navigates back to ActivityDetailFragment fragment.
-                    else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
-                        ActivityDetailFragment mActivityDetailFragment = new ActivityDetailFragment();
-                        performAddFragmentTransaction(mActivityDetailFragment);
-                    }
-                    // if user opens Activity by clicking on the ListView item from DashboardFragment.
-                    else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 24) {
-                        Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
-                        ActivityDetailFragment mActivityDetailFragment = ActivityDetailFragment.newInstance(mActivities);
-                        performAddFragmentTransaction(mActivityDetailFragment);
-                    }
-                    // open List of Activities by default.
-                    else {
-                        ActivityListFragment activityListFragment = new ActivityListFragment();
-                        performAddFragmentTransaction(activityListFragment);
-                    }
+                    performReplaceFragmentTransaction(mActivityRunningFragment);
+                }
+                // if user navigates back to ActivityDetailFragment fragment.
+                else if (getIntent().getIntExtra(ObservationMasterActivity.KEY_BACK_TO_ACTIVITY_DETAILS, 0) == 11) {
+                    if (mActivityDetailFragment == null)
+                        mActivityDetailFragment = new ActivityDetailFragment();
+                    performAddFragmentTransaction(mActivityDetailFragment);
+                }
+                // if user opens Activity by clicking on the ListView item from DashboardFragment.
+                else if (getIntent().getIntExtra(MainActivity.KEY_OPEN_SELECTED_ACTIVITY, 0) == 24) {
+                    Activities mActivities = getIntent().getParcelableExtra(MainActivity.KEY_VIEW_ACTIVITY);
+                    if (mActivityDetailFragment == null)
+                        mActivityDetailFragment = ActivityDetailFragment.newInstance(mActivities);
+                    performAddFragmentTransaction(mActivityDetailFragment);
+                }
+                // open List of Activities by default.
+                else {
+                    if (mActivityListFragment == null)
+                        mActivityListFragment = new ActivityListFragment();
+                    performAddFragmentTransaction(mActivityListFragment);
                 }
             }
         } catch (Exception e) {
-            Log.i(TAG, e.getMessage());
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, e.getMessage(), e);
         }
     }
 
@@ -174,15 +188,15 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     @Override
     public void onActivitiesListItemClickListener(Activities mActivity) {
-        ActivityDetailFragment mActivityDetailFragment = ActivityDetailFragment.newInstance(mActivity);
+        mActivityDetailFragment = ActivityDetailFragment.newInstance(mActivity);
         performReplaceFragmentTransaction(mActivityDetailFragment);
     }
 
     @Override
     public void onActivityAddListener() {
         // if user clicked the Add Button, replace with ActivityNewFragment Fragment
-        ActivityNewFragment addActivityFragment = new ActivityNewFragment();
-        performReplaceFragmentTransaction(addActivityFragment);
+        mActivityNewFragment = new ActivityNewFragment();
+        performReplaceFragmentTransaction(mActivityNewFragment);
     }
 
     @Override
@@ -196,7 +210,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
         if (activityBundle != null) {
             // passes the Newly created object to the ActivityRunningFragment fragment.
-            ActivityRunningFragment mActivityRunningFragment = ActivityRunningFragment.newInstance(activityBundle);
+            mActivityRunningFragment = ActivityRunningFragment.newInstance(activityBundle);
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
             // dont add to backstack
@@ -207,7 +221,7 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
 
     @Override
     public void onActivityStopButtonClicked() {
-        ActivityListFragment mActivityListFragment = new ActivityListFragment();
+        mActivityListFragment = new ActivityListFragment();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // dont add to backstack
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
@@ -237,7 +251,6 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     public void onViewAllObservationsClicked(String activityId) {
         try {
             // open ObservationListFragment Fragment.
-            Log.i(TAG, "onViewAllObservationsClicked: ");
             Intent observationListIntent = new Intent(UserActivityMasterActivity.this, ObservationMasterActivity.class);
             observationListIntent.putExtra(KEY_VIEW_OBSERVATIONS, 1);
             observationListIntent.putExtra(KEY_ACTIVITY_ID, activityId);
@@ -259,6 +272,9 @@ public class UserActivityMasterActivity extends MainBaseActivity implements Acti
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        fragmentManager.putFragment(outState, "savedFragment", mActivityRunningFragment);
+        fragmentManager.putFragment(outState, "activityRunning", mActivityRunningFragment);
+        fragmentManager.putFragment(outState, "activityDetail", mActivityDetailFragment);
+        fragmentManager.putFragment(outState, "activityNew", mActivityNewFragment);
+        fragmentManager.putFragment(outState, "activityList", mActivityListFragment);
     }
 }
