@@ -144,8 +144,8 @@
             android:layout_width="@dimen/widget_dimen_X2_large"
             android:layout_height="@dimen/widget_dimen"
             android:layout_below="@id/textViewStatic_totalPets"
-            android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_marginEnd="@dimen/view_dimen_small"
+            android:layout_marginStart="@dimen/view_dimen_small"
             android:layout_toEndOf="@+id/icon_actNew_pets"
             android:hint="@string/hint_totalPets"
             android:inputType="number"
@@ -199,7 +199,7 @@
         android:layout_marginEnd="@dimen/view_dimen_small"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_icon="@drawable/ic_play_arrow_white_36dp"/>
+        fab:fab_icon="@mipmap/ic_play_arrow_white_24dp"/>
 
     <TextView
         android:id="@+id/textViewStatic_startActDisc"

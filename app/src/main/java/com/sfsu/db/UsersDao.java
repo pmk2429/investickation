@@ -88,7 +88,6 @@ public class UsersDao implements EntityDao {
         contentValues.put(EntityTable.UsersTable.COLUMN_STATE, user.getState());
         contentValues.put(EntityTable.UsersTable.COLUMN_ZIPCODE, user.getZipCode());
         contentValues.put(EntityTable.UsersTable.COLUMN_CREATEDAT, user.getCreated_at());
-        Log.d(TAG, "UPDATE reached");
         // the db.update() method will return INT for number of rows updated. and so return db.update()>0 will check
         // for whether its true or false.
         return db.update(EntityTable.UsersTable.TABLENAME, contentValues, EntityTable.UsersTable.COLUMN_ID + "=?", new String[]{user.getId() + ""}) > 0;

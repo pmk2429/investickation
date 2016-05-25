@@ -1,8 +1,11 @@
 package com.sfsu.investickation.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.appcompat.BuildConfig;
@@ -23,6 +26,10 @@ import com.sfsu.entities.Account;
 import com.sfsu.investickation.R;
 import com.sfsu.network.auth.AuthPreferences;
 import com.sfsu.network.bus.BusProvider;
+import com.sfsu.network.events.UserEvent;
+import com.sfsu.network.handler.ApiRequestHandler;
+import com.sfsu.utils.Preconditions;
+import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,13 +46,20 @@ public class ProfileFragment extends Fragment {
     EditText et_email;
     @Bind(R.id.editText_profile_address)
     EditText et_address;
+    @Bind(R.id.editText_profile_city)
+    EditText et_city;
+    @Bind(R.id.editText_profile_state)
+    EditText et_state;
+    @Bind(R.id.editText_profile_zip)
+    EditText et_zip;
     @Bind(R.id.button_profile_save)
     Button btn_Save;
     private AuthPreferences mAuthPreferences;
     private DatabaseDataController dbController;
     private Context mContext;
     private Account mUser;
-    private MenuItem cancelMenuItem, saveMenuItem, editMenuItem;
+    private MenuItem cancelMenuItem, editMenuItem;
+    private ProgressDialog mProgressDialog;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -65,17 +79,9 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, rootView);
-        Log.i(TAG, "onCreateView: reached");
-        try {
-            mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
-            Log.i(TAG, "onCreateView: " + mUser.toString());
-            et_fullName.setText(mUser.getFull_name());
-            et_address.setText(mUser.getAddress());
-            et_email.setText(mUser.getEmail());
-        } catch (NullPointerException ne) {
-            if (BuildConfig.DEBUG)
-                Log.e(TAG, "onCreateView ", ne);
-        }
+
+        mUser = (Account) dbController.get(mAuthPreferences.getUser_id());
+        populateViews();
 
         return rootView;
     }
@@ -101,17 +107,16 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         getActivity().setTitle(R.string.title_fragment_profile);
         BusProvider.bus().register(this);
+        mProgressDialog = new ProgressDialog(mContext);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_personal_info, menu);
         cancelMenuItem = menu.findItem(R.id.action_cancel);
-        saveMenuItem = menu.findItem(R.id.action_save);
         editMenuItem = menu.findItem(R.id.action_edit);
         // initially set to hidden
         cancelMenuItem.setVisible(false);
-        saveMenuItem.setVisible(false);
 
     }
 
@@ -123,9 +128,6 @@ public class ProfileFragment extends Fragment {
                 break;
             case R.id.action_cancel:
                 clearEditMode();
-                break;
-            case R.id.action_save:
-                saveProfileEdits();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -145,7 +147,6 @@ public class ProfileFragment extends Fragment {
         btn_Save.setVisibility(View.INVISIBLE);
         // change the menu items
         cancelMenuItem.setVisible(false);
-        saveMenuItem.setVisible(false);
         editMenuItem.setVisible(true);
     }
 
@@ -156,12 +157,61 @@ public class ProfileFragment extends Fragment {
         btn_Save.setVisibility(View.VISIBLE);
         // change the menu items
         cancelMenuItem.setVisible(true);
-        saveMenuItem.setVisible(true);
         editMenuItem.setVisible(false);
     }
 
+    /**
+     * Update User details on server and once the update is successful, update in the local DB
+     */
     private void editUserInformation() {
+        BusProvider.bus().post(new UserEvent.OnLoadingInitialized(mUser, mUser.getId(), ApiRequestHandler.UPDATE));
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage(getString(R.string.progressDialog_updating_user_details));
+        mProgressDialog.show();
+    }
 
+    @Subscribe
+    public void onUserDetailsUpdatedSuccess(UserEvent.OnLoaded onLoaded) {
+        mProgressDialog = Preconditions.checkNotNull(mProgressDialog);
+        mProgressDialog.dismiss();
+
+        // retrieve the user and update the same user in the database
+        mUser = onLoaded.getResponse();
+
+        Thread updateUserThread = new Thread(new Runnable() {
+            private final Handler myHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+
+                }
+            };
+
+            private void passMessageToHandler() {
+
+            }
+
+            @Override
+            public void run() {
+
+            }
+        });
+
+        populateViews();
+    }
+
+    private void populateViews() {
+        try {
+            et_fullName.setText(mUser.getFull_name());
+            et_address.setText(mUser.getAddress());
+            et_email.setText(mUser.getEmail());
+            et_city.setText(mUser.getCity());
+            et_state.setText(mUser.getState());
+            et_zip.setText(mUser.getZipCode());
+        } catch (NullPointerException ne) {
+            if (BuildConfig.DEBUG)
+                Log.e(TAG, "populateViews ", ne);
+        }
     }
 
     @Override

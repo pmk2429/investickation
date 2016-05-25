@@ -81,6 +81,10 @@ public class UserRequestHandler extends ApiRequestHandler {
             case GET_ACT_OBS_COUNT:
                 getCountsAsync();
                 break;
+            case UPDATE:
+                userCall = mApiService.update(onLoadingInitialized.getResourceId(), onLoadingInitialized.getRequest());
+                makeCRUDCall(userCall);
+                break;
         }
     }
 

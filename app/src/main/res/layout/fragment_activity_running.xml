@@ -138,7 +138,7 @@
         android:layout_marginBottom="@dimen/view_dimen_large"
         fab:fab_colorNormal="@color/colorPrimary"
         fab:fab_colorPressed="@color/colorPrimaryDark"
-        fab:fab_icon="@drawable/ic_stop_white_36dp"/>
+        fab:fab_icon="@mipmap/ic_stop_white_24dp"/>
 
     <TextView
         android:id="@+id/textViewStatic_actRun_stopActivity"

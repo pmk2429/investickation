@@ -124,7 +124,7 @@ public class WelcomeScreenActivity extends AppCompatActivity {
 
         for (int i = 0; i < TOTAL_PAGES - 1; i++) {
             ImageView circle = new ImageView(this);
-            circle.setImageResource(R.drawable.ic_photo_camera_white_36dp);
+            circle.setImageResource(R.mipmap.ic_photo_camera_white_36dp);
             circle.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             circle.setAdjustViewBounds(true);
             circle.setPadding(padding, 0, padding, 0);

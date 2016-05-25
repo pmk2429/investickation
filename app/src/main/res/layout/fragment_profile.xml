@@ -2,7 +2,7 @@
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
-                                                 android:background="@color/ultraLightText"
+                                                 android:background="@color/colorWhite"
                                                  android:orientation="vertical"
                                                  tools:context=".UserProfileActivity">
 
@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/relativeLayout_profile_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -25,7 +26,7 @@
                 android:layout_marginTop="@dimen/view_dimen_large"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_person_black_24dp"/>
+                android:src="@mipmap/ic_person_grey_400_24dp"/>
 
             <EditText
                 android:id="@+id/editText_profile_fullName"
@@ -53,7 +54,7 @@
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_email_black_36dp"/>
+                android:src="@mipmap/ic_email_grey_400_24dp"/>
 
             <EditText
                 android:id="@+id/editText_profile_email"
@@ -82,7 +83,7 @@
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:padding="@dimen/view_dimen_medium"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_location_on_black_36dp"/>
+                android:src="@mipmap/ic_location_on_grey_400_24dp"/>
 
             <EditText
                 android:id="@+id/editText_profile_address"
@@ -97,7 +98,56 @@
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textSize="@dimen/font_small"/>
+
+            <EditText
+                android:id="@+id/editText_profile_city"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_profile_address"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_toEndOf="@id/icon_address"
+                android:ellipsize="end"
+                android:hint="@string/profile_city"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="@dimen/font_small"/>
+
+            <EditText
+                android:id="@+id/editText_profile_state"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_profile_city"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_toEndOf="@id/icon_address"
+                android:ellipsize="end"
+                android:hint="@string/profile_state"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="@dimen/font_small"/>
+
+            <EditText
+                android:id="@+id/editText_profile_zip"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/widget_dimen"
+                android:layout_below="@id/editText_profile_city"
+                android:layout_marginEnd="@dimen/view_dimen_large"
+                android:layout_toEndOf="@id/editText_profile_state"
+                android:ellipsize="end"
+                android:hint="@string/profile_zip"
+                android:lines="1"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textSize="@dimen/font_small"/>
         </RelativeLayout>
+
+        <View
+            android:id="@+id/view_separator_profile"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorSecondary"
+            android:layout_margin="@dimen/view_dimen_large"/>
 
     </ScrollView>
 
@@ -112,9 +162,11 @@
         android:layout_marginLeft="@dimen/view_dimen_large"
         android:layout_marginRight="@dimen/view_dimen_large"
         android:background="@color/colorPrimary"
+        android:drawableEnd="@mipmap/ic_check_white_24dp"
+        android:padding="@dimen/view_dimen_large"
         android:text="@string/profile_save"
         android:textColor="@color/colorWhite"
-        android:visibility="invisible"/>
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>

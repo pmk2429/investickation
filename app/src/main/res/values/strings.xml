@@ -72,7 +72,10 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="profile_name">Full name</string>
     <string name="profile_email">Email</string>
     <string name="profile_address">Address</string>
-    <string name="profile_save">Save</string>
+    <string name="profile_city">City</string>
+    <string name="profile_state">State</string>
+    <string name="profile_zip">Zip Code</string>
+    <string name="profile_save">Update</string>
 
     <!--LoginFragment-->
     <string name="login">Login</string>
@@ -314,6 +317,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="progressDialog_posting_observation">Posting Observation&#8230;</string>
     <string name="progressDialog_fetching_activities">Fetching Activities&#8230;</string>
     <string name="progressDialog_updating_observation">Updating Observation&#8230;</string>
+    <string name="progressDialog_updating_user_details">Updating Your Details&#8230;</string>
 
     <!-- ImageManager -->
     <string name="album_name">InvesTICKations</string>
