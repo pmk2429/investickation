@@ -159,6 +159,7 @@
 
     <!--Line separator-->
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_dimen"
         android:layout_below="@id/layout_bars"
@@ -170,23 +171,23 @@
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignStart="@+id/icon_actNew_activity"
-        android:layout_alignTop="@+id/textView_actNew_reminder"
+        android:layout_below="@id/view"
         android:padding="@dimen/view_dimen_medium"
         android:scaleType="fitCenter"
+        android:layout_marginTop="@dimen/view_dimen_small"
         android:src="@mipmap/ic_add_alarm_black_36dp"/>
 
     <TextView
         android:id="@+id/textView_actNew_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/layout_bars"
-        android:layout_marginEnd="@dimen/view_dimen_large"
-        android:layout_marginTop="@dimen/view_dimen_small"
-        android:layout_toEndOf="@id/icon_actNew_reminder"
-        android:padding="@dimen/view_dimen_medium"
-        android:text="@string/actNew_setReminder"
+        android:layout_below="@+id/view"
+        android:layout_marginTop="@dimen/view_dimen_large"
+        android:layout_toEndOf="@+id/icon_actNew_reminder"
+        android:paddingBottom="@dimen/view_dimen_medium"
+        android:text="@string/actNew_defaultReminder"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/font_medium"/>
+        android:textSize="@dimen/font_X_small"/>
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton

@@ -231,6 +231,8 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
     <string name="actNew_totalPets">Total Pets</string>
     <string name="actNew_totalPeople">Total People</string>
     <string name="actNew_setReminder">Set Reminder</string>
+    <string name="actNew_defaultReminder">A reminder will be set for 30 mins. <br/>You can change reminder settings in
+        ActivityRunning</string>
     <string name="hint_totalPeople"># of people</string>
     <string name="hint_totalPets"># of Pets</string>
     <string name="hint_activityName">Enter Activity Name. Eg: Hiking</string>

@@ -26,7 +26,6 @@ import com.sfsu.controllers.DatabaseDataController;
 import com.sfsu.controllers.GoogleMapController;
 import com.sfsu.controllers.LocationController;
 import com.sfsu.db.ActivitiesDao;
-import com.sfsu.dialogs.AlertDialogMaster;
 import com.sfsu.entities.Activities;
 import com.sfsu.investickation.R;
 import com.sfsu.investickation.UserActivityMasterActivity;
@@ -53,11 +52,10 @@ import butterknife.ButterKnife;
 public class ActivityNewFragment extends Fragment implements
         View.OnClickListener,
         LocationController.ILocationCallBacks,
-        AlertDialogMaster.IReminderCallback,
         ITextValidate {
 
     public final String TAG = "~!@#$ActivityNewFragment";
-
+    private final long REMINDER_INTERVAL = 30;
     @Bind(R.id.editText_actNew_ActivityName)
     EditText et_activityName;
     @Bind(R.id.editText_actNew_numOfPeople)
@@ -76,7 +74,6 @@ public class ActivityNewFragment extends Fragment implements
     private IActivityNewCallBack mInterface;
     private Activities newActivityObj;
     private String reminderText;
-    private long REMINDER_INTERVAL;
     private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
     private boolean isTotalPetsValid, isTotalPeopleValid, isActivityNameValid;
     private LocationController locationController;
@@ -118,14 +115,6 @@ public class ActivityNewFragment extends Fragment implements
 
         // Get the MapView from the XML layout and inflate it
         mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
-
-        // setOnclickListener for the TextView.
-        txtView_setReminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setupReminderDialog();
-            }
-        });
 
 
         // start the activity
@@ -264,15 +253,14 @@ public class ActivityNewFragment extends Fragment implements
                 if (resultCode != -1) {
                     activityBundle = new Bundle();
                     activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
-
-                    if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123)
-                        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
-                    else
-                        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.FALSE);
+                    activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
 
                     // click the play button
                     if (mProgressDialog.isShowing())
                         mProgressDialog.dismiss();
+
+                    startAlarmForReminder();
+
                     mInterface.onPlayButtonClick(activityBundle);
                 }
             }
@@ -325,14 +313,12 @@ public class ActivityNewFragment extends Fragment implements
 
         activityBundle = new Bundle();
         activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, createdActivity);
+        // set reminder values
+        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+        activityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, REMINDER_INTERVAL);
 
-        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
-            activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
-            activityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, REMINDER_INTERVAL);
-        } else {
-            activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.FALSE);
-            activityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, 0);
-        }
+        // start reminder
+        startAlarmForReminder();
 
         // click the play button
         mInterface.onPlayButtonClick(activityBundle);
@@ -350,45 +336,11 @@ public class ActivityNewFragment extends Fragment implements
         //Toast.makeText(mContext, onLoadingError.getErrorMessage(), Toast.LENGTH_LONG).show();
     }
 
-
-    /**
-     * Helper method to setup Reminder Alert dialog
-     */
-    private void setupReminderDialog() {
-        AlertDialogMaster alertDialogMaster = new AlertDialogMaster(mContext, this);
-        alertDialogMaster.setupNewReminderDialog();
-    }
-
-
-    @Override
-    public void setReminderValue(long reminderValue) {
-        try {
-            REMINDER_INTERVAL = reminderValue;
-
-            if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
-                reminderText = "Reminder set for " + REMINDER_INTERVAL + " minutes";
-                txtView_setReminder.setText(reminderText);
-
-                // start the Alarm Reminder.
-                startAlarmForReminder();
-            } else {
-                reminderText = "Reminder not set";
-                txtView_setReminder.setText(reminderText);
-            }
-
-        } catch (NullPointerException ne) {
-
-        }
-    }
-
-
     /**
      * Helper method to set the reminder depending on User's choice
      */
     private void startAlarmForReminder() {
-        if (REMINDER_INTERVAL != 0 && REMINDER_INTERVAL != -123) {
-            new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
-        }
+        new PeriodicAlarm(mContext).setAlarm(REMINDER_INTERVAL);
     }
 
     @Override
