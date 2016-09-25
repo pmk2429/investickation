@@ -49,9 +49,6 @@ import butterknife.ButterKnife;
  * .Observation}. Also, provides a starting point for the user to post an Observation or to start an Activity.
  */
 public class DashboardFragment extends Fragment implements View.OnClickListener {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
     private static final int NETWORK_LOCATION_BASED_PERMISSIONS = 24;
     public final String TAG = "~!@#DashboardFragment";
     @Bind(R.id.fab_dashboard_addObservation)
@@ -77,8 +74,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private PermissionUtils mPermissionUtils;
     private boolean FLAG_PERMISSION;
     private SharedPreferences settingsPref;
-    // TODO: change this to get the count from Settings SharedPref
-    private int activitiesCount = 2;
+    private int activitiesCount;
     private CombinedCount mCombinedCount;
 
     public DashboardFragment() {
@@ -208,7 +204,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             if (mActivitiesList.size() > 0) {
                 // display the recent activities
                 linearLayoutRecentActivities.setVisibility(View.VISIBLE);
-
                 mActivitiesAdapter = new RecentActivitiesAdapter(mContext, mActivitiesList);
 
                 mListViewActivities.setAdapter(mActivitiesAdapter);
