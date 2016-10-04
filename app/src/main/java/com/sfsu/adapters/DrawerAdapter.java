@@ -37,13 +37,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     // Header and Row section ID
     private static final int HEADER_TYPE = 0;
     private static final int ROW_TYPE = 1;
-    private static Context context;
-    private List<String> rows;
+    private static Context mContext;
+    private List<String> mRows;
 
 
-    public DrawerAdapter(List<String> rows, int ICONS[], Context passedContext) {
-        this.rows = rows;
-        context = passedContext;
+    public DrawerAdapter(List<String> mRows, int ICONS[], Context passedContext) {
+        this.mRows = mRows;
+        mContext = passedContext;
     }
 
     public DrawerAdapter() {
@@ -55,39 +55,39 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         Intent intent;
         switch (item) {
             case NAVDRAWER_ITEM_MAIN:
-                intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
+                intent = new Intent(mContext, MainActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).finish();
                 break;
 
             case NAVDRAWER_ITEM_ACTIVITIES:
-                intent = new Intent(context, UserActivityMasterActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
+                intent = new Intent(mContext, UserActivityMasterActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).finish();
                 break;
 
             case NAVDRAWER_ITEM_OBSERVATIONS:
-                intent = new Intent(context, ObservationMasterActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
+                intent = new Intent(mContext, ObservationMasterActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).finish();
                 break;
 
             case NAVDRAWER_ITEM_GUIDE:
-                intent = new Intent(context, TickGuideMasterActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
+                intent = new Intent(mContext, TickGuideMasterActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).finish();
                 break;
 
             case NAVDRAWER_ITEM_SETTINGS:
-                intent = new Intent(context, UserProfileActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
+                intent = new Intent(mContext, UserProfileActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).finish();
                 break;
 
             case NAVDRAWER_ITEM_REGISTER:
-                intent = new Intent(context, HomeActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
+                intent = new Intent(mContext, HomeActivity.class);
+                mContext.startActivity(intent);
+                ((Activity) mContext).finish();
                 break;
         }
     }
@@ -96,10 +96,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HEADER_TYPE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_header, parent, false);
-            return new ViewHolder(view, viewType, context);
+            return new ViewHolder(view, viewType, mContext);
         } else if (viewType == ROW_TYPE) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false);
-            return new ViewHolder(view, viewType, context);
+            return new ViewHolder(view, viewType, mContext);
         }
         return null;
     }
@@ -107,14 +107,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (holder.viewType == ROW_TYPE) {
-            String rowText = rows.get(position - 1);
+            String rowText = mRows.get(position - 1);
             holder.textView.setText(rowText);
         }
     }
 
     @Override
     public int getItemCount() {
-        return rows.size() + 1;
+        return mRows.size() + 1;
     }
 
     @Override

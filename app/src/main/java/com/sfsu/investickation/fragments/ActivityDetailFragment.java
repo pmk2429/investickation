@@ -73,7 +73,7 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
     ImageView icon_openMap;
     private IActivityDetailsCallBacks mListener;
     private Context mContext;
-    private Bundle args;
+    private Bundle mArgs;
     private Activities mActivity;
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
@@ -115,7 +115,7 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
 
 
         if (getArguments() != null) {
-            args = getArguments();
+            mArgs = getArguments();
         }
         gson = new Gson();
         activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
@@ -160,11 +160,11 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
 
         BusProvider.bus().register(this);
 
-        // depending on the args, populate view based on the Activity restored.
-        if (args != null) {
-            // if args not null, retrieve the Activities object.
-            if (args.getParcelable(KEY_ARGS) != null) {
-                mActivity = args.getParcelable(KEY_ARGS);
+        // depending on the mArgs, populate view based on the Activity restored.
+        if (mArgs != null) {
+            // if mArgs not null, retrieve the Activities object.
+            if (mArgs.getParcelable(KEY_ARGS) != null) {
+                mActivity = mArgs.getParcelable(KEY_ARGS);
             }
         } else {
             // get data from SharedPref

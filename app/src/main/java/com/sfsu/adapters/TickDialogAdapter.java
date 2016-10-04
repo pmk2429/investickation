@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class TickDialogAdapter extends ArrayAdapter<Tick> {
 
-    List<Tick> tickList;
+    List<Tick> mTickList;
     Context mContext;
     int mResource;
 
     public TickDialogAdapter(Context context, int resource, List<Tick> objects) {
         super(context, resource, objects);
-        this.tickList = objects;
+        this.mTickList = objects;
         this.mContext = context;
         this.mResource = resource;
     }
@@ -38,7 +38,7 @@ public class TickDialogAdapter extends ArrayAdapter<Tick> {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(mResource, parent, false);
         }
-        Tick tickObj = tickList.get(position);
+        Tick tickObj = mTickList.get(position);
         if (tickObj != null) {
             ImageView imageViewTick = (ImageView) convertView.findViewById(R.id.imageView_alertTick_tickImage);
             TextView textViewTicName = (TextView) convertView.findViewById(R.id.textView_alertTick_tickName);

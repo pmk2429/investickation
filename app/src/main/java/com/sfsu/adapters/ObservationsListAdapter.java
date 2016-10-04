@@ -33,11 +33,11 @@ import java.util.List;
 public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsListAdapter.ObservationViewHolder> {
 
     private static final String TAG = "~!@#$ObsListAdptr";
-    List<Observation> observationList;
+    List<Observation> mObservationList;
     private Context mContext;
 
-    public ObservationsListAdapter(List<Observation> observationList, Context mContext) {
-        this.observationList = observationList;
+    public ObservationsListAdapter(List<Observation> mObservationList, Context mContext) {
+        this.mObservationList = mObservationList;
         this.mContext = mContext;
     }
 
@@ -52,7 +52,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     public void onBindViewHolder(ObservationsListAdapter.ObservationViewHolder holder, int position) {
         try {
             if (holder != null) {
-                Observation mObservation = observationList.get(position);
+                Observation mObservation = mObservationList.get(position);
                 holder.txtView_observationName.setText(mObservation.getTickName());
                 holder.txtView_location.setText(mObservation.getGeoLocation());
                 String[] dateAndTime = AppUtils.getDateAndTimeSeparate(mObservation.getTimestamp());
@@ -93,7 +93,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
 
     @Override
     public int getItemCount() {
-        return observationList.size();
+        return mObservationList.size();
     }
 
     @Override
@@ -109,8 +109,8 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     }
 
     private void applyAndAnimateRemovals(List<Observation> newObservations) {
-        for (int i = observationList.size() - 1; i >= 0; i--) {
-            final Observation observation = observationList.get(i);
+        for (int i = mObservationList.size() - 1; i >= 0; i--) {
+            final Observation observation = mObservationList.get(i);
             if (!newObservations.contains(observation)) {
                 removeItem(i);
             }
@@ -120,7 +120,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     private void applyAndAnimateAdditions(List<Observation> newObservations) {
         for (int i = 0, count = newObservations.size(); i < count; i++) {
             final Observation observation = newObservations.get(i);
-            if (!observationList.contains(observation)) {
+            if (!mObservationList.contains(observation)) {
                 addItem(i, observation);
             }
         }
@@ -129,7 +129,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     private void applyAndAnimateMovedItems(List<Observation> newObservations) {
         for (int toPosition = newObservations.size() - 1; toPosition >= 0; toPosition--) {
             final Observation observation = newObservations.get(toPosition);
-            final int fromPosition = observationList.indexOf(observation);
+            final int fromPosition = mObservationList.indexOf(observation);
             if (fromPosition >= 0 && fromPosition != toPosition) {
                 moveItem(fromPosition, toPosition);
             }
@@ -137,19 +137,19 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
     }
 
     private void moveItem(int fromPosition, int toPosition) {
-        final Observation observation = observationList.remove(fromPosition);
-        observationList.add(toPosition, observation);
+        final Observation observation = mObservationList.remove(fromPosition);
+        mObservationList.add(toPosition, observation);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     public Observation removeItem(int position) {
-        final Observation observation = observationList.remove(position);
+        final Observation observation = mObservationList.remove(position);
         notifyItemRemoved(position);
         return observation;
     }
 
     public void addItem(int position, Observation observation) {
-        observationList.add(position, observation);
+        mObservationList.add(position, observation);
         notifyItemInserted(position);
     }
 
@@ -157,7 +157,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
      * Clears all the items from the Adapter
      */
     public void clear() {
-        observationList.clear();
+        mObservationList.clear();
         notifyDataSetChanged();
     }
 
@@ -167,7 +167,7 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
      * @param list
      */
     public void addAll(List<Observation> list) {
-        observationList.addAll(list);
+        mObservationList.addAll(list);
         notifyDataSetChanged();
     }
 

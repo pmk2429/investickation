@@ -24,9 +24,9 @@ public class TickGuideMasterActivity extends AppCompatActivity implements
     public final static String KEY_TICK_MAP = "tick_map";
     private final String TAG = "~!@#$TickGuideMstrAct";
     private FragmentManager mFragmentManager;
-    private TickGuideDetailFragment mTickGuideDetailFragment;
-    private TickGuideListFragment mTickGuideListFragment;
-    private TickMapFragment mTickMapFragment;
+    private TickGuideDetailFragment tickGuideDetailFragment;
+    private TickGuideListFragment tickGuideListFragment;
+    private TickMapFragment tickMapFragment;
 
 
     @Override
@@ -41,20 +41,20 @@ public class TickGuideMasterActivity extends AppCompatActivity implements
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
-                mTickGuideDetailFragment = (TickGuideDetailFragment) mFragmentManager.getFragment(savedInstanceState, "tickGuideDetail");
-                mTickGuideListFragment = (TickGuideListFragment) mFragmentManager.getFragment(savedInstanceState,
+                tickGuideDetailFragment = (TickGuideDetailFragment) mFragmentManager.getFragment(savedInstanceState, "tickGuideDetail");
+                tickGuideListFragment = (TickGuideListFragment) mFragmentManager.getFragment(savedInstanceState,
                         "tickGuideList");
-                mTickMapFragment = (TickMapFragment) mFragmentManager.getFragment(savedInstanceState, "tickMap");
+                tickMapFragment = (TickMapFragment) mFragmentManager.getFragment(savedInstanceState, "tickMap");
             }
 
             if (getIntent().getIntExtra(KEY_TICK_MAP, 0) == 1) {
-                if (mTickMapFragment == null)
-                    mTickMapFragment = new TickMapFragment();
-                performAddFragmentTransaction(mTickMapFragment, false);
+                if (tickMapFragment == null)
+                    tickMapFragment = new TickMapFragment();
+                performAddFragmentTransaction(tickMapFragment, false);
             } else {
-                if (mTickGuideListFragment == null)
-                    mTickGuideListFragment = new TickGuideListFragment();
-                performAddFragmentTransaction(mTickGuideListFragment, false);
+                if (tickGuideListFragment == null)
+                    tickGuideListFragment = new TickGuideListFragment();
+                performAddFragmentTransaction(tickGuideListFragment, false);
             }
         }
     }
@@ -92,15 +92,15 @@ public class TickGuideMasterActivity extends AppCompatActivity implements
 
     @Override
     public void onTickListItemClickListener(Tick mTick) {
-        mTickGuideDetailFragment = TickGuideDetailFragment.newInstance(KEY_TICK_DETAIL, mTick);
-        performReplaceFragmentTransaction(mTickGuideDetailFragment, true, true);
+        tickGuideDetailFragment = TickGuideDetailFragment.newInstance(KEY_TICK_DETAIL, mTick);
+        performReplaceFragmentTransaction(tickGuideDetailFragment, true, true);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        mFragmentManager.putFragment(outState, "tickGuideDetail", mTickGuideDetailFragment);
-        mFragmentManager.putFragment(outState, "tickGuideList", mTickGuideListFragment);
-        mFragmentManager.putFragment(outState, "tickMap", mTickMapFragment);
+        mFragmentManager.putFragment(outState, "tickGuideDetail", tickGuideDetailFragment);
+        mFragmentManager.putFragment(outState, "tickGuideList", tickGuideListFragment);
+        mFragmentManager.putFragment(outState, "tickMap", tickMapFragment);
     }
 }

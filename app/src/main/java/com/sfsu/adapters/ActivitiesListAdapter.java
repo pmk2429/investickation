@@ -32,11 +32,11 @@ import java.util.List;
  */
 public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAdapter.ActivityViewHolder> {
 
-    private List<Activities> activityList;
+    private List<Activities> mActivityList;
     private Context mContext;
 
-    public ActivitiesListAdapter(List<Activities> activityList, Context mContext) {
-        this.activityList = new ArrayList<>(activityList);
+    public ActivitiesListAdapter(List<Activities> mActivityList, Context mContext) {
+        this.mActivityList = new ArrayList<>(mActivityList);
         this.mContext = mContext;
     }
 
@@ -52,7 +52,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
         try {
             if (holder != null) {
 
-                Activities mActivity = activityList.get(position);
+                Activities mActivity = mActivityList.get(position);
                 // render all the data in the View.
                 // Activity name and location
                 StringBuilder actNameStringBuilder = new StringBuilder();
@@ -116,7 +116,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     // returns the size of item data MUST return the size of the Data
     @Override
     public int getItemCount() {
-        return activityList.size();
+        return mActivityList.size();
     }
 
 
@@ -127,8 +127,8 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
     private void applyAndAnimateRemovals(List<Activities> newActivities) {
-        for (int i = activityList.size() - 1; i >= 0; i--) {
-            final Activities activity = activityList.get(i);
+        for (int i = mActivityList.size() - 1; i >= 0; i--) {
+            final Activities activity = mActivityList.get(i);
             if (!newActivities.contains(activity)) {
                 removeItem(i);
             }
@@ -138,7 +138,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     private void applyAndAnimateAdditions(List<Activities> newActivities) {
         for (int i = 0, count = newActivities.size(); i < count; i++) {
             final Activities activity = newActivities.get(i);
-            if (!activityList.contains(activity)) {
+            if (!mActivityList.contains(activity)) {
                 addItem(i, activity);
             }
         }
@@ -148,7 +148,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     private void applyAndAnimateMovedItems(List<Activities> newActivities) {
         for (int toPosition = newActivities.size() - 1; toPosition >= 0; toPosition--) {
             final Activities activity = newActivities.get(toPosition);
-            final int fromPosition = activityList.indexOf(activity);
+            final int fromPosition = mActivityList.indexOf(activity);
             if (fromPosition >= 0 && fromPosition != toPosition) {
                 moveItem(fromPosition, toPosition);
             }
@@ -156,19 +156,19 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
     }
 
     private void moveItem(int fromPosition, int toPosition) {
-        final Activities activity = activityList.remove(fromPosition);
-        activityList.add(toPosition, activity);
+        final Activities activity = mActivityList.remove(fromPosition);
+        mActivityList.add(toPosition, activity);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     public Activities removeItem(int position) {
-        final Activities activity = activityList.remove(position);
+        final Activities activity = mActivityList.remove(position);
         notifyItemRemoved(position);
         return activity;
     }
 
     public void addItem(int position, Activities activity) {
-        activityList.add(position, activity);
+        mActivityList.add(position, activity);
         notifyItemInserted(position);
     }
 
@@ -176,7 +176,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
      * Clears all the items from the Adapter
      */
     public void clear() {
-        activityList.clear();
+        mActivityList.clear();
         notifyDataSetChanged();
     }
 
@@ -186,7 +186,7 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
      * @param list
      */
     public void addAll(List<Activities> list) {
-        activityList.addAll(list);
+        mActivityList.addAll(list);
         notifyDataSetChanged();
     }
 

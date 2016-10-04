@@ -64,7 +64,7 @@ public class ActivityNewFragment extends Fragment implements
     EditText et_totalPets;
     @Bind(R.id.textView_actNew_reminder)
     TextView txtView_setReminder;
-    // Views and Attribs
+    // Views and Attributes
     private EditText et_manualInput;
     private Button btnHalfHour, btnHour;
     private GoogleMap googleMap;
@@ -327,7 +327,7 @@ public class ActivityNewFragment extends Fragment implements
     /**
      * Subscribes to the event of failure in creating {@link Activities} on the server.
      *
-     * @param onLoaded
+     * @param onLoadingError
      */
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
@@ -368,7 +368,7 @@ public class ActivityNewFragment extends Fragment implements
          * Callback method when Account clicks on the Play Button defined in the {@link ActivityNewFragment} Fragment. On clicking the
          * play button, the {@link Activities} is created on the server and using the created ActivityId, observations are made.
          *
-         * @param newActivityDetails
+         * @param activityBundle
          */
         public void onPlayButtonClick(Bundle activityBundle);
     }

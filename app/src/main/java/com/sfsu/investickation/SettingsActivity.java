@@ -17,7 +17,7 @@ public class SettingsActivity extends MainBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // FIXME : toolbar hidden
+        // FIXME : mToolbar hidden
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_top_base);
         if (toolbar != null) {
             setSupportActionBar(toolbar);

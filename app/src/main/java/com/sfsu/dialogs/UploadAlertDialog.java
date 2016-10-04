@@ -16,7 +16,6 @@ public class UploadAlertDialog {
     public static final long RESULT_INVALID = 0x2222;
     public static final long RESULT_NO_DATA = 0x3333;
     private Context mContext;
-    private long result;
     private IUploadDataCallback mInterface;
 
     public UploadAlertDialog(Context mContext, Fragment fragment) {
@@ -70,7 +69,6 @@ public class UploadAlertDialog {
             });
         }
         alarmReminderDialog.show();
-
     }
 
     /**
@@ -122,8 +120,6 @@ public class UploadAlertDialog {
     /**
      * Builds an Alert dialog for the total number of Activities, Observations in the local SQL database storage
      *
-     * @param count
-     * @return
      */
     public void showObservationUploadAlertDialog() {
         Log.i("reached", "showObservationUploadAlertDialog: ");

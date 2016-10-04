@@ -16,13 +16,13 @@ import java.util.List;
  */
 public class TickHelper {
 
-    private static List<Tick> allTicks;
+    private static List<Tick> mAllTicks;
 
     public static List<Tick> getAllTicks() {
         DatabaseDataController dbController = new DatabaseDataController(InvestickationApp.getInstance(),
                 TickDao.getInstance());
 
-        allTicks = (List<Tick>) dbController.getAll();
-        return allTicks;
+        mAllTicks = (List<Tick>) dbController.getAll();
+        return mAllTicks;
     }
 }

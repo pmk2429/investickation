@@ -83,8 +83,8 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     int pastVisibleItems, visibleItemCount, totalItemCount;
     private IActivityCallBacks mInterface;
     private Context mContext;
-    private List<Activities> responseActivitiesList, mActivitiesList, localActivitiesList;
-    private ActivitiesListAdapter mActivitiesListAdapter;
+    private List<Activities> mResponseActivitiesList, mActivitiesList, mLocalActivitiesList;
+    private ActivitiesListAdapter activitiesListAdapter;
     private boolean loading = true;
     private LinearLayoutManager mLinearLayoutManager;
     private DatabaseDataController dbController;
@@ -174,7 +174,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                     public void handleMessage(Message msg) {
                         super.handleMessage(msg);
                         // obtain all the Activities from the MessageQueue
-                        localActivitiesList = msg.getData().getParcelableArrayList(KEY_LOCAL_ACTIVITIES);
+                        mLocalActivitiesList = msg.getData().getParcelableArrayList(KEY_LOCAL_ACTIVITIES);
                     }
                 };
 
@@ -213,13 +213,13 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
             if (mSwipeRefreshLayout.isRefreshing())
                 mSwipeRefreshLayout.setRefreshing(false);
             // get List of Activities from Database
-            localActivitiesList = (List<Activities>) dbController.getAll();
+            mLocalActivitiesList = (List<Activities>) dbController.getAll();
             // important to clear all the Activities before assigning it to new list
             if (mActivitiesList != null) {
                 mActivitiesList.clear();
             }
             // assign the locally received Activities from local data storage
-            mActivitiesList = localActivitiesList;
+            mActivitiesList = mLocalActivitiesList;
 
             if (mActivitiesList.size() > 0 && mActivitiesList != null) {
                 displayActivityList();
@@ -259,19 +259,19 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
                 mSwipeRefreshLayout.setRefreshing(false);
 
             // get all Response Activities from server
-            responseActivitiesList = onLoaded.getResponseList();
+            mResponseActivitiesList = onLoaded.getResponseList();
 
-            for (int i = 0; i < responseActivitiesList.size(); i++) {
-                responseActivitiesList.get(i).setIsOnCloud(true);
+            for (int i = 0; i < mResponseActivitiesList.size(); i++) {
+                mResponseActivitiesList.get(i).setIsOnCloud(true);
             }
 
             // list already fetched from the Database in new thread
-            for (int i = 0; i < localActivitiesList.size(); i++) {
-                localActivitiesList.get(i).setIsOnCloud(false);
+            for (int i = 0; i < mLocalActivitiesList.size(); i++) {
+                mLocalActivitiesList.get(i).setIsOnCloud(false);
             }
 
             // merge two lists to produce a super list of local as well as remotely stored Activities.
-            responseActivitiesList.addAll(localActivitiesList);
+            mResponseActivitiesList.addAll(mLocalActivitiesList);
 
             // important to clear all the Activities before assigning it to new list
             if (mActivitiesList != null) {
@@ -279,7 +279,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
             }
 
             // create a standard Activities list
-            mActivitiesList = responseActivitiesList;
+            mActivitiesList = mResponseActivitiesList;
 
             // display List if everything is OK
             if (mActivitiesList.size() > 0 && mActivitiesList != null) {
@@ -319,11 +319,11 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
         fabMargin = getResources().getDimensionPixelSize(R.dimen.fab_margin);
 
         // set the List of Activities to Adapter.
-        mActivitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
-        mActivitiesListAdapter.notifyDataSetChanged();
+        activitiesListAdapter = new ActivitiesListAdapter(mActivitiesList, mContext);
+        activitiesListAdapter.notifyDataSetChanged();
         if (recyclerView_activity != null) {
 
-            recyclerView_activity.setAdapter(mActivitiesListAdapter);
+            recyclerView_activity.setAdapter(activitiesListAdapter);
 
             // touch listener when the user clicks on the Activity in the List.
             recyclerView_activity.addOnItemTouchListener(new RecyclerItemClickListener(mContext, recyclerView_activity,
@@ -376,8 +376,8 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     public void onStop() {
         super.onStop();
         BusProvider.bus().unregister(this);
-        localActivitiesList = null;
-        responseActivitiesList = null;
+        mLocalActivitiesList = null;
+        mResponseActivitiesList = null;
         mActivitiesList = null;
         dbController.closeConnection();
     }
@@ -386,7 +386,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     public void onDestroy() {
         super.onDestroy();
         mContext = null;
-        mActivitiesListAdapter = null;
+        activitiesListAdapter = null;
     }
 
     @Override
@@ -452,7 +452,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     public boolean onQueryTextChange(String query) {
         if (mActivitiesList != null && mActivitiesList.size() > 0) {
             final List<Activities> filteredActivitiesList = filter(mActivitiesList, query);
-            mActivitiesListAdapter.animateTo(filteredActivitiesList);
+            activitiesListAdapter.animateTo(filteredActivitiesList);
             recyclerView_activity.scrollToPosition(0);
             return true;
         }
@@ -466,8 +466,8 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     private void uploadActivities() {
 
         if (AppUtils.isConnectedOnline(mContext)) {
-            if (localActivitiesList != null) {
-                mUploadAlertDialog.showUploadAlertDialog(localActivitiesList.size());
+            if (mLocalActivitiesList != null) {
+                mUploadAlertDialog.showUploadAlertDialog(mLocalActivitiesList.size());
             } else {
                 mUploadAlertDialog.showUploadAlertDialog(-1);
             }

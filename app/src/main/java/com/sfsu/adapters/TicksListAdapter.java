@@ -28,11 +28,11 @@ import java.util.List;
  */
 public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.TickViewHolder> {
 
-    private List<Tick> tickList;
+    private List<Tick> mTickList;
     private Context mContext;
 
-    public TicksListAdapter(List<Tick> tickList, Context mContext) {
-        this.tickList = new ArrayList<>(tickList);
+    public TicksListAdapter(List<Tick> mTickList, Context mContext) {
+        this.mTickList = new ArrayList<>(mTickList);
         this.mContext = mContext;
     }
 
@@ -47,8 +47,8 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     @Override
     public void onBindViewHolder(TicksListAdapter.TickViewHolder holder, int position) {
         if (holder != null) {
-            if (tickList != null) {
-                Tick mTick = tickList.get(position);
+            if (mTickList != null) {
+                Tick mTick = mTickList.get(position);
                 holder.txtTickName.setText(mTick.getTickName());
                 holder.txtTickSpecies.setText(mTick.getSpecies());
                 Picasso.with(mContext).load(mTick.getImageUrl()).into(holder.imageViewTick);
@@ -64,7 +64,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
 
     @Override
     public int getItemCount() {
-        return tickList.size();
+        return mTickList.size();
     }
 
     /**
@@ -79,8 +79,8 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     }
 
     private void applyAndAnimateRemovals(List<Tick> newTicks) {
-        for (int i = tickList.size() - 1; i >= 0; i--) {
-            final Tick tick = tickList.get(i);
+        for (int i = mTickList.size() - 1; i >= 0; i--) {
+            final Tick tick = mTickList.get(i);
             if (!newTicks.contains(tick)) {
                 removeItem(i);
             }
@@ -90,7 +90,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     private void applyAndAnimateAdditions(List<Tick> newTicks) {
         for (int i = 0, count = newTicks.size(); i < count; i++) {
             final Tick tick = newTicks.get(i);
-            if (!tickList.contains(tick)) {
+            if (!mTickList.contains(tick)) {
                 addItem(i, tick);
             }
         }
@@ -99,7 +99,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     private void applyAndAnimateMovedItems(List<Tick> newTicks) {
         for (int toPosition = newTicks.size() - 1; toPosition >= 0; toPosition--) {
             final Tick tick = newTicks.get(toPosition);
-            final int fromPosition = tickList.indexOf(tick);
+            final int fromPosition = mTickList.indexOf(tick);
             if (fromPosition >= 0 && fromPosition != toPosition) {
                 moveItem(fromPosition, toPosition);
             }
@@ -107,19 +107,19 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
     }
 
     private void moveItem(int fromPosition, int toPosition) {
-        final Tick tick = tickList.remove(fromPosition);
-        tickList.add(toPosition, tick);
+        final Tick tick = mTickList.remove(fromPosition);
+        mTickList.add(toPosition, tick);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     public Tick removeItem(int position) {
-        final Tick tick = tickList.remove(position);
+        final Tick tick = mTickList.remove(position);
         notifyItemRemoved(position);
         return tick;
     }
 
     public void addItem(int position, Tick tick) {
-        tickList.add(position, tick);
+        mTickList.add(position, tick);
         notifyItemInserted(position);
     }
 
@@ -127,7 +127,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
      * Clears all the items from the Adapter
      */
     public void clear() {
-        tickList.clear();
+        mTickList.clear();
         notifyDataSetChanged();
     }
 
@@ -137,7 +137,7 @@ public class TicksListAdapter extends RecyclerView.Adapter<TicksListAdapter.Tick
      * @param list
      */
     public void addAll(List<Tick> list) {
-        tickList.addAll(list);
+        mTickList.addAll(list);
         notifyDataSetChanged();
     }
 
