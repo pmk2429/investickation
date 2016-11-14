@@ -10,13 +10,13 @@
 
     <!-- Required: Layout to hold MapView-->
     <LinearLayout
-        android:id="@+id/linearLayout_mapViewHolder"
+        android:id="@+id/container_mapview_holder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_large"
         android:orientation="vertical">
 
         <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView_activityRunning"
+            android:id="@+id/mapview_activity_running"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:enabled="true"/>
@@ -25,10 +25,10 @@
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_actRun_reminder"
+        android:id="@+id/fab_act_running_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/linearLayout_mapViewHolder"
+        android:layout_alignBottom="@id/container_mapview_holder"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="-40dp"
         android:layout_marginEnd="@dimen/view_dimen_large"
@@ -38,10 +38,10 @@
 
 
     <TextView
-        android:id="@+id/textViewStatic_activity"
+        android:id="@+id/textview_static_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout_mapViewHolder"
+        android:layout_below="@id/container_mapview_holder"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/view_dimen_X2_large"
         android:text="@string/activityRunning_activityInfo"
@@ -50,10 +50,10 @@
         android:textSize="@dimen/font_small"/>
 
     <TextView
-        android:id="@+id/textView_actRun_activityName"
+        android:id="@+id/textview_activity_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewStatic_activity"
+        android:layout_below="@id/textview_static_activity"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/view_dimen_medium"
         android:text="Hiking @ Golden Gate bridge"
@@ -62,10 +62,10 @@
         android:textSize="@dimen/font_large"/>
 
     <TextView
-        android:id="@+id/textView_actRun_status"
+        android:id="@+id/textview_act_runing_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView_actRun_activityName"
+        android:layout_below="@id/textview_activity_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/view_dimen_medium"
         android:background="@drawable/rounder_corner_status"
@@ -84,24 +84,12 @@
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_dimen"
-        android:layout_below="@id/textView_actRun_status"
+        android:layout_below="@id/textview_act_runing_status"
         android:layout_marginTop="@dimen/view_dimen_small"
         android:background="@color/divider"/>
 
-    <!--<TextView-->
-    <!--android:id="@+id/textViewStatic_actRun_addObs"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@id/view_divider"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:layout_marginTop="@dimen/view_dimen_large"-->
-    <!--android:text="@string/text_add_observation_disclaimer"-->
-    <!--android:textColor="@color/secondaryText"-->
-    <!--android:textSize="@dimen/font_X_small"/>-->
-
-
     <android.support.v7.widget.CardView
-        android:id="@+id/cardView_activityRunning_addObservation"
+        android:id="@+id/cardview_activity_running_add_observation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_divider"
@@ -130,7 +118,7 @@
     </android.support.v7.widget.CardView>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_actRun_activityStop"
+        android:id="@+id/fab_act_run_activity_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -141,10 +129,10 @@
         fab:fab_icon="@mipmap/ic_stop_white_24dp"/>
 
     <TextView
-        android:id="@+id/textViewStatic_actRun_stopActivity"
+        android:id="@+id/textview_static_act_run_stop_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/fab_actRun_activityStop"
+        android:layout_above="@id/fab_act_run_activity_stop"
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/view_dimen_small"
         android:text="@string/text_stop_activity"

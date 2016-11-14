@@ -36,17 +36,17 @@ public class ActivityMapFragment extends Fragment implements GoogleMapController
 
     private static final String TAG = "`!@#$ActMapFrag";
     private static String KEY_OBSERVATIONS_LIST = "activity_id";
-    @Bind(R.id.mapView_activitiesMap_main)
+    @Bind(R.id.map_view_activities_map)
     MapView mMapView;
-    @Bind(R.id.slidingLayout_infoWindow)
+    @Bind(R.id.sliding_layout_info_window)
     MySlidingPanelLayout mSlidingUpPanelLayout;
-    @Bind(R.id.textView_infoWindow_obsName)
+    @Bind(R.id.textview_info_window_observation_name)
     TextView txtView_obsName;
-    @Bind(R.id.textView_infoWindow_location)
+    @Bind(R.id.textview_info_window_location)
     TextView txtView_geoLocation;
-    @Bind(R.id.imageView_infoWindow_tickImage)
+    @Bind(R.id.imageview_info_window_tick_image)
     ImageView imageView_obsImage;
-    @Bind(R.id.relativeLayout_contentView)
+    @Bind(R.id.container_content_view_activities)
     RelativeLayout mRelativeLayout_contentView;
     // properties
     private GoogleMapController mGoogleMapController;

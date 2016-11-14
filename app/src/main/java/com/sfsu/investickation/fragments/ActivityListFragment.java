@@ -69,7 +69,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
 
     public static final String KEY_LOCAL_ACTIVITIES = "local_activities";
     public final String TAG = "~!@#ActivityList";
-    @Bind(R.id.swipeLayout_activityList_main)
+    @Bind(R.id.swipelayout_activity_list_main)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.recyclerview_activity_list)
     RecyclerView recyclerView_activity;
@@ -77,7 +77,7 @@ public class ActivityListFragment extends Fragment implements SearchView.OnQuery
     FloatingActionButton fab_addActivity;
     @Bind(R.id.relativeLayout_actList_main)
     RelativeLayout mRelativeLayout;
-    @Bind(R.id.textViewStatic_actList_listInfo)
+    @Bind(R.id.textview_static_activity_list_info)
     TextView txtView_activityListInfo;
     int count = 0;
     int pastVisibleItems, visibleItemCount, totalItemCount;

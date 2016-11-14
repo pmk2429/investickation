@@ -40,9 +40,9 @@ public class TickDialogAdapter extends ArrayAdapter<Tick> {
         }
         Tick tickObj = mTickList.get(position);
         if (tickObj != null) {
-            ImageView imageViewTick = (ImageView) convertView.findViewById(R.id.imageView_alertTick_tickImage);
-            TextView textViewTicName = (TextView) convertView.findViewById(R.id.textView_alertTick_tickName);
-            TextView textViewTicSpecies = (TextView) convertView.findViewById(R.id.textView_alertTick_tickSpecies);
+            ImageView imageViewTick = (ImageView) convertView.findViewById(R.id.image_view_alert_tick_image);
+            TextView textViewTicName = (TextView) convertView.findViewById(R.id.textview_alert_tick_name);
+            TextView textViewTicSpecies = (TextView) convertView.findViewById(R.id.textview_alert_tick_species);
 
             Picasso.with(mContext).load(tickObj.getImageUrl()).into(imageViewTick);
             textViewTicName.setText(tickObj.getTickName());

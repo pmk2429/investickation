@@ -57,9 +57,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
     private final String TAG = "~!@#LOGIN";
     @Bind(R.id.button_login_login)
     Button btnLogin;
-    @Bind(R.id.editText_login_email)
+    @Bind(R.id.edittext_email)
     EditText et_email;
-    @Bind(R.id.editText_login_password)
+    @Bind(R.id.edittext_password)
     EditText et_password;
     private ILoginCallBack mListener;
     private DatabaseDataController dbController;
@@ -163,10 +163,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, ITe
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
-            case R.id.editText_login_email:
+            case R.id.edittext_email:
                 isEmailValid = ValidationUtil.validateEmail(mEditText, text);
                 break;
-            case R.id.editText_login_password:
+            case R.id.edittext_password:
                 isPasswordValid = ValidationUtil.validateString(mEditText, text);
                 break;
         }

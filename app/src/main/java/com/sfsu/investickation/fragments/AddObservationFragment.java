@@ -86,19 +86,19 @@ public class AddObservationFragment extends Fragment implements LocationControll
     private static final int GALLERY_CAMERA_PERMISSION = 24;
     private final String TAG = "~!@#$AddObservation";
     // ImageView
-    @Bind(R.id.imageView_addObs_tickImage)
+    @Bind(R.id.imageview_tick_image)
     ImageView imageView_tickAddObservation;
     // Button
-    @Bind(R.id.button_addObs_postObservation)
+    @Bind(R.id.button_post_observation)
     Button btn_PostObservation;
-    @Bind(R.id.button_addObs_chooseFromGuide)
+    @Bind(R.id.button_choose_from_guide)
     Button btn_chooseFromGuide;
     // EditTexts
-    @Bind(R.id.editText_addObs_numOfTicks)
+    @Bind(R.id.edittext_num_of_ticks)
     EditText et_numOfTicks;
-    @Bind(R.id.editText_addObs_tickName)
+    @Bind(R.id.edittext_tick_name)
     EditText et_tickName;
-    @Bind(R.id.editText_addObs_description)
+    @Bind(R.id.edittext_description)
     EditText et_description;
     // flags
     private boolean FLAG_PERMISSION_GRANTED;
@@ -179,7 +179,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         //et_description.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_tickSpecies));
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, AddObservationFragment.this, et_numOfTicks));
         // initialize the Floating button.
-        final FloatingActionButton addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_addObs_addTickImage);
+        final FloatingActionButton addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_add_tick_image);
 
         addTickImage.setOnClickListener(this);
         btn_PostObservation.setOnClickListener(this);
@@ -202,10 +202,10 @@ public class AddObservationFragment extends Fragment implements LocationControll
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_addObs_postObservation:
+            case R.id.button_post_observation:
                 postObservation();
                 break;
-            case R.id.fab_addObs_addTickImage:
+            case R.id.fab_add_tick_image:
                 handleImageDialog();
                 break;
         }
@@ -289,7 +289,7 @@ public class AddObservationFragment extends Fragment implements LocationControll
         View customView = inflater.inflate(R.layout.alertdialog_choosetick_list, null);
 
         // identify the ListView
-        final ListView listViewTicks = (ListView) customView.findViewById(R.id.listView_chooseTick);
+        final ListView listViewTicks = (ListView) customView.findViewById(R.id.listview_choose_tick);
 
         tickList = TickHelper.getAllTicks();
 
@@ -580,13 +580,13 @@ public class AddObservationFragment extends Fragment implements LocationControll
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
-            case R.id.editText_addObs_tickName:
+            case R.id.edittext_tick_name:
                 isTickNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
 //            case R.id.editText_addObs_tickSpecies:
 //                isTickSpeciesValid = ValidationUtil.validateString(mEditText, text);
 //                break;
-            case R.id.editText_addObs_numOfTicks:
+            case R.id.edittext_num_of_ticks:
                 isTotalTicksNumber = ValidationUtil.validateNumber(mEditText, text);
                 break;
         }

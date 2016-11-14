@@ -56,13 +56,13 @@ public class ActivityNewFragment extends Fragment implements
 
     public final String TAG = "~!@#$ActivityNewFragment";
     private final long REMINDER_INTERVAL = 30;
-    @Bind(R.id.editText_actNew_ActivityName)
+    @Bind(R.id.edittext_activity_new_name)
     EditText et_activityName;
-    @Bind(R.id.editText_actNew_numOfPeople)
+    @Bind(R.id.edittext_activity_new_num_of_people)
     EditText et_totalPeople;
-    @Bind(R.id.editText_actNew_totalPets)
+    @Bind(R.id.edittext_act_new_total_pets)
     EditText et_totalPets;
-    @Bind(R.id.textView_actNew_reminder)
+    @Bind(R.id.textview_act_new_reminder)
     TextView txtView_setReminder;
     // Views and Attributes
     private EditText et_manualInput;
@@ -114,7 +114,7 @@ public class ActivityNewFragment extends Fragment implements
         et_totalPets.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_totalPets));
 
         // Get the MapView from the XML layout and inflate it
-        mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
+        mapView = (MapView) rootView.findViewById(R.id.mapview_activity_map);
 
 
         // start the activity
@@ -166,7 +166,6 @@ public class ActivityNewFragment extends Fragment implements
     public void onDestroyView() {
         super.onDestroyView();
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -347,13 +346,13 @@ public class ActivityNewFragment extends Fragment implements
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
-            case R.id.editText_actNew_ActivityName:
+            case R.id.edittext_activity_new_name:
                 isActivityNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
-            case R.id.editText_actNew_totalPets:
+            case R.id.edittext_act_new_total_pets:
                 isTotalPetsValid = ValidationUtil.validateNumber(mEditText, text);
                 break;
-            case R.id.editText_actNew_numOfPeople:
+            case R.id.edittext_activity_new_num_of_people:
                 isTotalPeopleValid = ValidationUtil.validateNumber(mEditText, text);
                 break;
         }

@@ -103,7 +103,8 @@ public class ObservationMasterActivity extends MainBaseActivity implements
             }
             // else if the Observations is clicked in the NavDrawer
             else {
-                if (mObservationListFragment == null) mObservationListFragment = new ObservationListFragment();
+                if (mObservationListFragment == null)
+                    mObservationListFragment = new ObservationListFragment();
                 performAddFragmentTransaction(mObservationListFragment, false);
             }
         }

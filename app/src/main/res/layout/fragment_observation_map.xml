@@ -5,13 +5,13 @@
                 tools:context="com.sfsu.investickation.fragments.ObservationMap">
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView_observationMap_main"
+        android:id="@+id/mapview_observation"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:enabled="true"/>
 
     <Button
-        android:id="@+id/button_obsMap_viewList"
+        android:id="@+id/button_view_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

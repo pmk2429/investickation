@@ -7,7 +7,7 @@
                 tools:context=".fragments.ObservationDetailFragment">
 
     <ScrollView
-        android:id="@+id/scrollViewMain"
+        android:id="@+id/scroll_view_activity_details_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="1">
@@ -210,7 +210,7 @@
 
                     <!-- Activity -->
                     <TextView
-                        android:id="@+id/textViewStatic_activity"
+                        android:id="@+id/textview_static_activity"
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/textViewStatic_latLng"
@@ -224,10 +224,10 @@
                         android:id="@+id/textView_obsDet_activityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/textViewStatic_activity"
+                        android:layout_alignBottom="@id/textview_static_activity"
                         android:layout_below="@id/textView_obsDet_latLng"
                         android:layout_marginTop="@dimen/view_dimen_small"
-                        android:layout_toEndOf="@id/textViewStatic_activity"
+                        android:layout_toEndOf="@id/textview_static_activity"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@string/text_activityName"

@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/view_dimen_large">
 
     <TextView
-        android:id="@+id/textViewStatic_alertDialog_reminderStatus"
+        android:id="@+id/textview_static_alert_dialog_reminder_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -17,10 +17,10 @@
         android:textSize="@dimen/font_large"/>
 
     <TextView
-        android:id="@+id/textView_alertDialog_reminderStatus"
+        android:id="@+id/textview_alert_dialog_reminder_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewStatic_alertDialog_reminderStatus"
+        android:layout_below="@id/textview_static_alert_dialog_reminder_status"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/view_dimen_large"
         android:background="@color/colorSecondary"
@@ -33,7 +33,7 @@
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/textView_alertDialog_reminderStatus"
+        android:layout_below="@id/textview_alert_dialog_reminder_status"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginStart="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_large"
@@ -56,7 +56,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/textViewStatic_alertDialog_changeReminder"
+                android:id="@+id/textview_static_alert_dialog_change_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -65,10 +65,10 @@
                 android:textColor="@color/colorSecondary"/>
 
             <EditText
-                android:id="@+id/editText_alertDialog_changeReminder"
+                android:id="@+id/edittext_alert_dialog_change_reminder"
                 android:layout_width="@dimen/widget_dimen_X1_large"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/textViewStatic_alertDialog_changeReminder"
+                android:layout_below="@id/textview_static_alert_dialog_change_reminder"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/view_dimen_small"
                 android:hint="@string/alertDialog_inputManual_hint"
@@ -95,7 +95,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/textView_alertDialog_stopReminder"
+                android:id="@+id/textview_alert_dialog_stop_reminder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

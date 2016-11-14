@@ -62,7 +62,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     private final String TAG = "~!@#RegisterFragment";
     // EditTexts
-    @Bind(R.id.editText_register_fullName)
+    @Bind(R.id.edittext_register_full_name)
     TextInputEditText et_fullName;
     @Bind(R.id.editText_register_email)
     TextInputEditText et_email;
@@ -72,15 +72,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     TextInputEditText et_zipcode;
     @Bind(R.id.editText_register_address)
     TextInputEditText et_address;
-    @Bind(R.id.editText_register_city)
+    @Bind(R.id.edittext_register_city)
     TextInputEditText et_city;
     @Bind(R.id.spinner_register_state)
     Spinner spinner_state;
     //Button
-    @Bind(R.id.button_registerUser)
+    @Bind(R.id.button_register_user)
     Button btnRegisterUser;
     // Checkbox
-    @Bind(R.id.checkbox_privacyAgreement)
+    @Bind(R.id.checkbox_privacy_agreement)
     CheckBox checkbox_privacyAgreement;
     private IRegisterCallBacks mListener;
     private Context mContext;
@@ -251,7 +251,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
-            case R.id.editText_register_fullName:
+            case R.id.edittext_register_full_name:
                 isFullNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
             case R.id.editText_register_email:
@@ -263,7 +263,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             case R.id.editText_register_address:
                 isAddressValid = ValidationUtil.validateString(mEditText, text);
                 break;
-            case R.id.editText_register_city:
+            case R.id.edittext_register_city:
                 isCityValid = ValidationUtil.validateString(mEditText, text);
                 break;
             case R.id.editText_register_zip:

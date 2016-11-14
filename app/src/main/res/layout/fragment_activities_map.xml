@@ -6,7 +6,7 @@
 
     <!--SlidingPanelLayout that opens up from bottom when the Marker is clicked-->
     <com.sfsu.investickation.customview.MySlidingPanelLayout
-        android:id="@+id/slidingLayout_infoWindow"
+        android:id="@+id/sliding_layout_info_window"
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
             android:orientation="vertical">
 
             <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView_activitiesMap_main"
+                android:id="@+id/map_view_activities_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:enabled="true"/>
@@ -31,7 +31,7 @@
 
         <!-- SLIDING LAYOUT -->
         <RelativeLayout
-            android:id="@+id/relativeLayout_contentView"
+            android:id="@+id/container_content_view_activities"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorWhite"
@@ -40,7 +40,7 @@
 
             <!--Observation Image-->
             <ImageView
-                android:id="@+id/imageView_infoWindow_tickImage"
+                android:id="@+id/imageview_info_window_tick_image"
                 android:layout_width="@dimen/cardview_small"
                 android:layout_height="@dimen/cardview_X_small"
                 android:layout_alignParentStart="true"
@@ -52,48 +52,48 @@
 
             <!--Observation name-->
             <TextView
-                android:id="@+id/textView_infoWindow_obsName"
+                android:id="@+id/textview_info_window_observation_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
+                android:layout_toEndOf="@id/imageview_info_window_tick_image"
                 android:text="@string/infoWindow_obsName"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/font_large"/>
 
             <ImageView
-                android:id="@+id/icon_slidingPanel_location"
+                android:id="@+id/icon_sliding_panel_location"
                 android:layout_width="@dimen/view_dimen_large"
                 android:layout_height="@dimen/view_dimen_large"
-                android:layout_below="@id/textView_infoWindow_obsName"
+                android:layout_below="@id/textview_info_window_observation_name"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
+                android:layout_toEndOf="@id/imageview_info_window_tick_image"
                 android:src="@mipmap/ic_location_on_grey_400_24dp"/>
 
             <!--Observation Location-->
             <TextView
-                android:id="@+id/textView_infoWindow_location"
+                android:id="@+id/textview_info_window_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/icon_slidingPanel_location"
+                android:layout_alignBottom="@+id/icon_sliding_panel_location"
                 android:layout_marginStart="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/icon_slidingPanel_location"
+                android:layout_toEndOf="@id/icon_sliding_panel_location"
                 android:text="@string/infoWindow_location"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/font_small"/>
 
             <!--Observation Location-->
             <TextView
-                android:id="@+id/textView_infoWindow_activity"
+                android:id="@+id/textview_info_window_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/icon_slidingPanel_location"
+                android:layout_below="@id/icon_sliding_panel_location"
                 android:layout_marginEnd="@dimen/view_dimen_small"
                 android:layout_marginStart="@dimen/view_dimen_small"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/imageView_infoWindow_tickImage"
+                android:layout_toEndOf="@id/imageview_info_window_tick_image"
                 android:text="Found while Hiking activity"
                 android:textColor="@color/colorSecondary"
                 android:textSize="@dimen/font_small"/>

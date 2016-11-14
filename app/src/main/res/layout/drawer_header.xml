@@ -13,7 +13,7 @@
         android:padding="@dimen/view_dimen_large">
 
         <TextView
-            android:id="@+id/drawerHeader_name"
+            android:id="@+id/drawer_header_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_dimen_large"
@@ -23,7 +23,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/drawerHeader_email"
+            android:id="@+id/drawer_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/view_dimen_large"
@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleView"
+        android:id="@+id/drawer_header_profile_image"
         android:layout_width="@dimen/dimen_material_large"
         android:layout_height="@dimen/dimen_material_large"
         android:layout_alignParentEnd="true"

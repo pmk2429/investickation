@@ -16,7 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_guideDetail"
+            android:id="@+id/collapsing_toolbar_guide_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
@@ -38,7 +38,7 @@
                     android:layout_height="@dimen/cardview_X_large"/>
 
                 <com.viewpagerindicator.CirclePageIndicator
-                    android:id="@+id/circlePagerIndicator_tickDet_images"
+                    android:id="@+id/circlepager_indicator_images"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/viewPager_tickDet_Images"
@@ -124,7 +124,7 @@
             <!--</TableLayout>-->
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbarTickDetail"
+                android:id="@+id/toolbar_tick_details"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -149,7 +149,7 @@
             android:paddingTop="@dimen/view_dimen_X_large">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_tickGuide_detail_heading"
+                android:id="@+id/cardview_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/view_dimen_small"
@@ -166,7 +166,7 @@
                     android:paddingBottom="@dimen/view_dimen_large">
 
                     <TextView
-                        android:id="@+id/textView_tickDet_tickName"
+                        android:id="@+id/textview_tick_name"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/widget_dimen"
                         android:gravity="top|start"
@@ -180,10 +180,10 @@
 
 
                     <TextView
-                        android:id="@+id/textView_tickDet_tickDetails"
+                        android:id="@+id/textview_tick_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_tickDet_tickName"
+                        android:layout_below="@id/textview_tick_name"
                         android:gravity="top|start"
                         android:paddingEnd="@dimen/view_dimen_large"
                         android:paddingStart="@dimen/view_dimen_large"
@@ -197,7 +197,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_tickGuide_detail_description"
+                android:id="@+id/cardview_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/view_dimen_large"
@@ -214,7 +214,7 @@
                     android:paddingBottom="@dimen/view_dimen_large">
 
                     <TextView
-                        android:id="@+id/textViewStatic_tickInfo"
+                        android:id="@+id/textview_static_tick_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/view_dimen_small"
@@ -227,10 +227,10 @@
                         android:textSize="@dimen/font_large"/>
 
                     <View
-                        android:id="@+id/separator_tickDetail"
+                        android:id="@+id/horizontal_separator"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_below="@id/textViewStatic_tickInfo"
+                        android:layout_below="@id/textview_static_tick_info"
                         android:layout_marginLeft="@dimen/view_dimen_large"
                         android:layout_marginRight="@dimen/view_dimen_large"
                         android:layout_marginTop="@dimen/view_dimen_medium"
@@ -238,11 +238,11 @@
 
                     <!-- Species-->
                     <TextView
-                        android:id="@+id/textViewStatic_tickSpecies"
+                        android:id="@+id/textview_static_tick_species"
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_below="@id/separator_tickDetail"
+                        android:layout_below="@id/horizontal_separator"
                         android:layout_marginStart="@dimen/view_dimen_large"
                         android:layout_marginTop="@dimen/view_dimen_small"
                         android:gravity="start"
@@ -251,15 +251,15 @@
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_tickDet_tickSpecies"
+                        android:id="@+id/textview_tick_species"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/textViewStatic_tickSpecies"
-                        android:layout_below="@id/separator_tickDetail"
+                        android:layout_alignBottom="@id/textview_static_tick_species"
+                        android:layout_below="@id/horizontal_separator"
                         android:layout_marginEnd="@dimen/view_dimen_large"
                         android:layout_marginStart="@dimen/view_dimen_small"
                         android:layout_marginTop="@dimen/view_dimen_small"
-                        android:layout_toEndOf="@id/textViewStatic_tickSpecies"
+                        android:layout_toEndOf="@id/textview_static_tick_species"
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="1"
@@ -270,10 +270,10 @@
 
                     <!-- Formal Name -->
                     <TextView
-                        android:id="@+id/textViewStatic_tickFormalName"
+                        android:id="@+id/textview_static_tick_formal_name"
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_tickDet_tickSpecies"
+                        android:layout_below="@id/textview_tick_species"
                         android:layout_marginStart="@dimen/view_dimen_large"
                         android:layout_marginTop="@dimen/view_dimen_small"
                         android:gravity="start"
@@ -282,14 +282,14 @@
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_tickDet_tickFormalName"
+                        android:id="@+id/textview_tick_formal_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_tickDet_tickSpecies"
+                        android:layout_below="@id/textview_tick_species"
                         android:layout_marginEnd="@dimen/view_dimen_large"
                         android:layout_marginStart="@dimen/view_dimen_small"
                         android:layout_marginTop="@dimen/view_dimen_small"
-                        android:layout_toEndOf="@id/textViewStatic_tickFormalName"
+                        android:layout_toEndOf="@id/textview_static_tick_formal_name"
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="1"
@@ -300,10 +300,10 @@
 
                     <!-- Known For -->
                     <TextView
-                        android:id="@+id/textViewStatic_tickDet_knownFor"
+                        android:id="@+id/textview_static_known_for"
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textViewStatic_tickFormalName"
+                        android:layout_below="@id/textview_static_tick_formal_name"
                         android:layout_marginStart="@dimen/view_dimen_large"
                         android:layout_marginTop="@dimen/view_dimen_small"
                         android:gravity="start"
@@ -312,14 +312,14 @@
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_tickDet_knownFor"
+                        android:id="@+id/textview_known_for"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textViewStatic_tickFormalName"
+                        android:layout_below="@id/textview_static_tick_formal_name"
                         android:layout_marginEnd="@dimen/view_dimen_large"
                         android:layout_marginStart="@dimen/view_dimen_small"
                         android:layout_marginTop="@dimen/view_dimen_small"
-                        android:layout_toEndOf="@id/textViewStatic_tickDet_knownFor"
+                        android:layout_toEndOf="@id/textview_static_known_for"
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="1"
@@ -330,10 +330,10 @@
 
                     <!-- Location Name -->
                     <TextView
-                        android:id="@+id/textViewStatic_tickDet_Location"
+                        android:id="@+id/textview_static_location"
                         android:layout_width="@dimen/widget_dimen_X3_large"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textViewStatic_tickDet_knownFor"
+                        android:layout_below="@id/textview_static_known_for"
                         android:layout_marginStart="@dimen/view_dimen_large"
                         android:layout_marginTop="@dimen/view_dimen_small"
                         android:gravity="start"
@@ -342,14 +342,14 @@
                         android:textSize="@dimen/font_small"/>
 
                     <TextView
-                        android:id="@+id/textView_tickDet_tickLocation"
+                        android:id="@+id/textview_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/textView_tickDet_knownFor"
+                        android:layout_below="@id/textview_known_for"
                         android:layout_marginEnd="@dimen/view_dimen_large"
                         android:layout_marginStart="@dimen/view_dimen_small"
                         android:layout_marginTop="@dimen/view_dimen_small"
-                        android:layout_toEndOf="@id/textViewStatic_tickDet_Location"
+                        android:layout_toEndOf="@id/textview_static_location"
                         android:ellipsize="end"
                         android:gravity="start"
                         android:maxLines="1"
@@ -389,7 +389,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_tickDet_tickInfo"
+        android:id="@+id/button_tick_infor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/fab_margin"

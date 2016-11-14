@@ -8,14 +8,14 @@
 
 
     <ImageView
-        android:id="@+id/imageView_login_logo"
+        android:id="@+id/logo_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_large"/>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView_login_logo"
+        android:layout_below="@id/logo_login"
         android:layout_marginBottom="@dimen/view_dimen_large"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginStart="@dimen/view_dimen_large"
@@ -45,7 +45,7 @@
                 app:hintTextAppearance="@style/TextInputLayout">
 
                 <EditText
-                    android:id="@+id/editText_login_email"
+                    android:id="@+id/edittext_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/textEmail"
@@ -60,7 +60,7 @@
                 app:hintTextAppearance="@style/TextInputLayout">
 
                 <EditText
-                    android:id="@+id/editText_login_password"
+                    android:id="@+id/edittext_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/textPassword"

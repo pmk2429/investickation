@@ -207,14 +207,14 @@ public class ActivitiesListAdapter extends RecyclerView.Adapter<ActivitiesListAd
 
         public ActivityViewHolder(View itemView) {
             super(itemView);
-            cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_actList_details);
-            imageView_staticMap = (ImageView) itemView.findViewById(R.id.imageView_actList_staticMap);
+            cardViewActivity = (CardView) itemView.findViewById(R.id.cardview_details_container);
+            imageView_staticMap = (ImageView) itemView.findViewById(R.id.imageview_static_map);
             //icon_storage = (ImageView) itemView.findViewById(R.id.icon_actList_storage);
-            txtView_activityName = (TextView) itemView.findViewById(R.id.textView_actList_name);
-            txtView_storage = (TextView) itemView.findViewById(R.id.textView_actList_storageStatus);
-            txtView_pets = (TextView) itemView.findViewById(R.id.textView_actList_totalPets);
-            txtView_observations = (TextView) itemView.findViewById(R.id.textView_actList_totalObservations);
-            txtView_people = (TextView) itemView.findViewById(R.id.textView_actList_totalPeople);
+            txtView_activityName = (TextView) itemView.findViewById(R.id.textview_activity_name);
+            txtView_storage = (TextView) itemView.findViewById(R.id.textview_storage_status);
+            txtView_pets = (TextView) itemView.findViewById(R.id.textview_total_pets);
+            txtView_observations = (TextView) itemView.findViewById(R.id.textview_total_observations);
+            txtView_people = (TextView) itemView.findViewById(R.id.textview_total_people);
         }
     }
 

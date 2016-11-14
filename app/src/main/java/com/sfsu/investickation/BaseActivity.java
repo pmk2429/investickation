@@ -40,12 +40,13 @@ public class BaseActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_top_base);
-        drawer_recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerView);
+        drawer_recyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
 
         // set the toolbar_master injected using ButterKnife library.
         setSupportActionBar(mToolbar);
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                mToolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
@@ -65,7 +66,8 @@ public class BaseActivity extends AppCompatActivity {
         drawer_recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // main implementation of the touch event
-        drawer_recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getParent(), drawer_recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        drawer_recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getParent(),
+                drawer_recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
             }

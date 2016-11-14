@@ -181,14 +181,14 @@ public class ObservationsListAdapter extends RecyclerView.Adapter<ObservationsLi
         public ObservationViewHolder(View itemView) {
             super(itemView);
 
-            cv = (CardView) itemView.findViewById(R.id.cardview_observation);
-            imageView_tickImage = (ImageView) itemView.findViewById(R.id.imageView_obsList_tickImage);
-            icon_storageStatus = (ImageView) itemView.findViewById(R.id.icon_obsList_storage);
-            icon_verified = (ImageView) itemView.findViewById(R.id.icon_obsList_verified);
-            txtView_observationName = (TextView) itemView.findViewById(R.id.textView_obsList_observationName);
-            txtView_location = (TextView) itemView.findViewById(R.id.textView_obsList_location);
-            txtView_date = (TextView) itemView.findViewById(R.id.textView_obsList_date);
-            txtView_time = (TextView) itemView.findViewById(R.id.textView_obsList_time);
+            cv = (CardView) itemView.findViewById(R.id.cardview_observation_container);
+            imageView_tickImage = (ImageView) itemView.findViewById(R.id.imageview_tick_image);
+            icon_storageStatus = (ImageView) itemView.findViewById(R.id.icon_observation_storage_status);
+            icon_verified = (ImageView) itemView.findViewById(R.id.icon_observation_verified);
+            txtView_observationName = (TextView) itemView.findViewById(R.id.textview_observation_name);
+            txtView_location = (TextView) itemView.findViewById(R.id.textview_observation_location);
+            txtView_date = (TextView) itemView.findViewById(R.id.textview_observation_date);
+            txtView_time = (TextView) itemView.findViewById(R.id.textview_observation_time);
         }
     }
 }

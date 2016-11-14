@@ -7,21 +7,21 @@
 
     <!--  Scrolling Tool bar -->
     <include
-        android:id="@+id/toolbar_guideList"
+        android:id="@+id/toolbar_tick_guide_list"
         layout="@layout/toolbar_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <!--Refreshes the Ticks stored on server-->
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeLayout_tickGuideList_main"
+        android:id="@+id/swipelayout_tick_guide_list"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <!-- Recycler View to display the list of Ticks section -->
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_tickGuide"
+            android:id="@+id/recyclerview_tick_guide"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"

@@ -24,8 +24,10 @@ public class SettingsActivity extends MainBaseActivity {
         }
 
         // Display the fragment as the main content for Account Settings
-        getFragmentManager().beginTransaction().replace(R.id.settings_fragment_container, new SettingsFragment()).commit();
-        // getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.settings_fragment_container,
+                new SettingsFragment()).commit();
+        // getFragmentManager().beginTransaction().replace(android.R.id.content,
+        //  new SettingsFragment()).commit();
 
     }
 
@@ -49,17 +51,18 @@ public class SettingsActivity extends MainBaseActivity {
 
         private static final String TAG = "~!@#$SettingsFrag";
         // Strong reference
-        SharedPreferences.OnSharedPreferenceChangeListener mListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                if (key.equals(R.string.KEY_PREF_ACTIVITIES_COUNT)) {
-                    Preference pref = findPreference(key);
-                    pref.setSummary(prefs.getString(key, ""));
-                } else if (key.equals(R.string.KEY_PREF_RECEIVE_NOTIFICATIONS)) {
-                    Preference pref = findPreference(key);
-                    pref.setSummary(prefs.getString(key, ""));
-                }
-            }
-        };
+        SharedPreferences.OnSharedPreferenceChangeListener mListener =
+                new SharedPreferences.OnSharedPreferenceChangeListener() {
+                    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                        if (key.equals(R.string.KEY_PREF_ACTIVITIES_COUNT)) {
+                            Preference pref = findPreference(key);
+                            pref.setSummary(prefs.getString(key, ""));
+                        } else if (key.equals(R.string.KEY_PREF_RECEIVE_NOTIFICATIONS)) {
+                            Preference pref = findPreference(key);
+                            pref.setSummary(prefs.getString(key, ""));
+                        }
+                    }
+                };
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -80,5 +83,4 @@ public class SettingsActivity extends MainBaseActivity {
             getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(mListener);
         }
     }
-
 }
