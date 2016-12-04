@@ -25,9 +25,6 @@ public class BaseActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RecyclerView drawer_recyclerView;
 
-    //Context context;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

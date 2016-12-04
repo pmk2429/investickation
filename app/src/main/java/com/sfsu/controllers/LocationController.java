@@ -31,7 +31,8 @@ import java.util.Locale;
  * present.
  * Created by Pavitra on 11/14/2015.
  */
-public class LocationController implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class LocationController implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
     /*
@@ -70,11 +71,9 @@ public class LocationController implements GoogleApiClient.ConnectionCallbacks, 
             Log.i(TAG, "constructor");
             this.mContext = mContext;
             mInterface = (ILocationCallBacks) fragment;
-
             buildGoogleApiClient();
-
-
         } catch (Exception e) {
+
         }
     }
 
