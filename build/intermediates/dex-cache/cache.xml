@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-maps-8.4.0_f67cd04a72645104b4b920ec355541ffa1243372.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\okhttp\2.6.0\212387a39088ecd3daff8e3bfc3bdc4123e33c67\okhttp-2.6.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="212387a39088ecd3daff8e3bfc3bdc4123e33c67">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\okhttp-2.6.0_6dcd3365012771cbd28f52f0b0d804f2c2c06e70.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp\logging-interceptor\2.6.0\77dc6e1eedd47953b41ef936f20b9b693fe73f6f\logging-interceptor-2.6.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="77dc6e1eedd47953b41ef936f20b9b693fe73f6f">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\logging-interceptor-2.6.0_7ecd1538b486da1a5bd60fb60b9db42298b31d81.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.getbase\floatingactionbutton\1.10.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="078cad8ebaa25b1eb1790bd622b3a8ae27c9cc7a">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.getbase-floatingactionbutton-1.10.0_71d233d209113e592587653eb6d373fdcf618ba3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3.4\5fe28b9518e58819180a43a850fbc0dd24b7c050\commons-lang3-3.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="5fe28b9518e58819180a43a850fbc0dd24b7c050">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\commons-lang3-3.4_6813cd6b49e0d3e4312c5b2a4042d656dc3f66ba.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\libs\internal_impl-23.2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="607a3d0b8013b4ccbfeb0b7cb293351994e021fb">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\internal_impl-23.2.1_1c0c4a2e14483778423a5c35307b64f408f939af.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\adapter-rxjava\2.0.0-beta4\bd49baf667542c7d06f71e598bdee7fe57272013\adapter-rxjava-2.0.0-beta4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bd49baf667542c7d06f71e598bdee7fe57272013">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\adapter-rxjava-2.0.0-beta4_25b77859fe7e79a293af225350c77ecace07cd88.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="cb86970df0f0f25f766d320b279c7858c1ca0003">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-cardview-v7-23.2.1_ef0f48fa3eb8dda625ef91a360471603be1160a2.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e3885783ff8926ed9e2fdcd16816c2e1e73e7aee">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.2.1_294aa730b27d063a74b8b8f0fbe59dc740fddddc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.8\cf615176cd1177edf71d3c9605f8dc148fede6be\otto-1.3.8.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="cf615176cd1177edf71d3c9605f8dc148fede6be">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\otto-1.3.8_998455de58f80bee02c107af927d1437a81ad0e8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.2.1\support-annotations-23.2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ccb693bc0774fcb637246f7360de25b4af7df318">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\support-annotations-23.2.1_6cc887d605d95f38d0d09dfd403eca6fb1562f2e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_44807728bc783473b7e598606216dae2dbc8834c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\retrofit\2.0.0-beta4\739e00dea1f0ac04fdb9b6160d667e23cc50a791\retrofit-2.0.0-beta4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="739e00dea1f0ac04fdb9b6160d667e23cc50a791">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\retrofit-2.0.0-beta4_fd296e968bc408e2b5c64b4f8b34e05d9607a6d3.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.4\695b63d702f505b9b916e02272e3b6381bade7f\gson-2.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="0695b63d702f505b9b916e02272e3b6381bade7f">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\gson-2.4_08cefe87121ff0f18a02481f18d13b9cf68b1420.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e4d0cbb0b999604b349062f0214a0a228a7fd151">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.2.1_3f0d61e093f3ec2c2fbd06ef892d1596b2b20a3d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\butterknife-7.0.1_c6b94f8e28c0431781895afbca25f7c86e12997c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\de.hdodenhof\circleimageview\1.3.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ac6948cce36f694f3eb3d73a135e298dc4b3527a">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\de.hdodenhof-circleimageview-1.3.0_58a80bdd2585a0a0398f2111c43fbf5351905dff.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.0.1\b34c1f2d993044656e87f88970b6818e99e886ba\okhttp-3.0.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b34c1f2d993044656e87f88970b6818e99e886ba">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\okhttp-3.0.1_58804cc5fbc5e58a2bd4298aa7b7a36c3b1f2da9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\ch.acra\acra\4.8.5\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="553933c766d5b677a7640ce2616577bfade1071e">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\ch.acra-acra-4.8.5_705015086875090aa696ee51a7e81be5644faf2a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\io.reactivex\rxandroid\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="aa81bfe8c5cc88c2472ca936ae71f0c3dd1766df">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\io.reactivex-rxandroid-1.0.1_794cb81363b19bfab29a036d7cd1a5f4e078ba07.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.github.JakeWharton\ViewPagerIndicator\2.4.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="651548088a6b0082295d5b6e74fbd17ccc8c65b5">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.github.JakeWharton-ViewPagerIndicator-2.4.1_8abb84edba012c5a10b0192bea4d994f63026179.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3be474b1b21b31cf2fa93fe6bd641ae108d96452">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.2.1_7c6a83a539b35c8b3b92260a97efe3fc734e04fb.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.github.JakeWharton\ViewPagerIndicator\2.4.1\jars\libs\android-support-v4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="53307dc2bd2b69fd5533458ee11885f55807de4b">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\android-support-v4_8e56f7e178c58e84217b0cfdf71b724c2f8590cd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\library-2.4.0_db5a36fe283b8fe5efc716173526f3bb980b11e5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\okio-1.6.0_14d2a891577ed534aff6263f29ecd423f9ff9334.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\design\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="72961d8b453b46e277702f18de9d210bc019e36e">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-design-23.2.1_8c439ef5ac86178172ccd9462cf3b638a52710e7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_d7b8b294ecb6e4ce955d7fc8b9f197bb3221d97a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-location-8.4.0_16913406eb4e506d9a9cd72d17c3088393dc3308.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="673d77a5bbddd766037f088e775df525c46407f0">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.2.1_08dfe161e870999c16f837858c60d36164d85948.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\net.danlew\android.joda\2.9.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b7f8248eb6a3aa6970d11da5b51b0a84134bd25f">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\net.danlew-android.joda-2.9.1_222684f4e3c3899068425ff347a6b682ca519983.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_f650d1c93f758d0f0edd168fd2a24734624d9ff4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\converter-gson\2.0.0-beta4\de5935a367ba5e343e9df786ac8fc0c7d52b5f0c\converter-gson-2.0.0-beta4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="de5935a367ba5e343e9df786ac8fc0c7d52b5f0c">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\converter-gson-2.0.0-beta4_1e51ee50a7d94928cb4324288b4c43906b77f27c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\joda-time\joda-time\2.9.1\e1908f47e7fd11b291dbc8368223db7b4d516b30\joda-time-2.9.1-no-tzdb.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e1908f47e7fd11b291dbc8368223db7b4d516b30">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\joda-time-2.9.1-no-tzdb_a472e1716b82c62b7fc3d815de9b0f0f9cb2a308.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3469cb457f10f74c28cbc05f069b6c894f6cbdd0">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.2.1_12f3dfbdff70f6ff4b38bb4e10a9dd3ca9c5671b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\.gradle\caches\modules-2\files-2.1\io.reactivex\rxjava\1.1.0\748f0546d5c3c27f1aef07270ffea0c45f0c42a4\rxjava-1.1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="748f0546d5c3c27f1aef07270ffea0c45f0c42a4">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\rxjava-1.1.0_73f68011c26eed50ee041ef27b297094fe3997dc.jar" />
+    </item>
+    <item
+        jar="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\exploded-aar\com.sothree.slidinguppanel\library\3.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="56a3c0844f23679eabae25d462ceb5260b01e424">
+        <dex dex="C:\Users\Pavitra\Documents\AndroidStudioProjects\Investickation2\app\build\intermediates\pre-dexed\debug\com.sothree.slidinguppanel-library-3.2.1_f3ba1aa6172783868137fde87a2e762158f2575f.jar" />
+    </item>
+
+</items>
