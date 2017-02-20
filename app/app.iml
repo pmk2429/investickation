@@ -151,9 +151,9 @@
     <orderEntry type="library" exported="" name="support-media-compat-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.1" level="project" />
-    <orderEntry type="library" exported="" name="logging-interceptor-2.6.0" level="project" />
-    <orderEntry type="library" exported="" name="retrofit-2.0.0-beta4" level="project" />
     <orderEntry type="library" exported="" name="gson-2.4" level="project" />
+    <orderEntry type="library" exported="" name="retrofit-2.0.0-beta4" level="project" />
+    <orderEntry type="library" exported="" name="logging-interceptor-2.6.0" level="project" />
     <orderEntry type="library" exported="" name="support-core-ui-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="adapter-rxjava-2.0.0-beta4" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-24.2.1" level="project" />
