@@ -38,13 +38,13 @@
 
             <!--Full name-->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_layout_fullName"
+                android:id="@+id/input_layout_full_ame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintTextAppearance="@style/TextInputLayout">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/editText_register_fullName"
+                    android:id="@+id/edittext_register_full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/fullName"
@@ -74,7 +74,7 @@
                 app:hintTextAppearance="@style/TextInputLayout">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/editText_register_city"
+                    android:id="@+id/edittext_register_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/text_city"
@@ -83,7 +83,7 @@
 
 
             <LinearLayout
-                android:id="@+id/relativeLayout_register_addressDetails"
+                android:id="@+id/container_register_address_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
@@ -157,7 +157,7 @@
 
 
             <CheckBox
-                android:id="@+id/checkbox_privacyAgreement"
+                android:id="@+id/checkbox_privacy_agreement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_dimen_small"
@@ -168,7 +168,7 @@
                 android:textSize="@dimen/font_small"/>
 
             <Button
-                android:id="@+id/button_registerUser"
+                android:id="@+id/button_register_user"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/view_dimen_small"

@@ -53,27 +53,27 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
 
     private static String KEY_ARGS = "activity_object";
     public final String TAG = "~!@#ActivityDet";
-    @Bind(R.id.textView_actDet_activityName)
+    @Bind(R.id.textview_activity_details_activity_name)
     TextView txtView_name;
-    @Bind(R.id.textView_actDet_observationCount)
+    @Bind(R.id.textview_activity_details_observation_count)
     TextView txtView_observationCount;
-    @Bind(R.id.textView_actDet_date)
+    @Bind(R.id.textview_activity_details_date)
     TextView txtView_date;
-    @Bind(R.id.textView_actDet_totalPeople)
+    @Bind(R.id.textview_activity_details_total_people)
     TextView txtView_totalPeople;
-    @Bind(R.id.textView_actDet_totalPets)
+    @Bind(R.id.textview_activity_details_total_pets)
     TextView txtView_totalPets;
-    @Bind(R.id.textView_actDet_time)
+    @Bind(R.id.textview_activity_details_time)
     TextView txtView_time;
-    @Bind(R.id.button_actDet_viewAllObservation)
+    @Bind(R.id.button_activity_details_view_all_observation)
     Button button_viewObservations;
-    @Bind(R.id.imageView_actDet_staticMap)
+    @Bind(R.id.imageview_activity_details_static_map)
     ImageView imageView_staticMap;
-    @Bind(R.id.icon_actDet_openMap)
+    @Bind(R.id.icon_activity_details_view_map)
     ImageView icon_openMap;
     private IActivityDetailsCallBacks mListener;
     private Context mContext;
-    private Bundle args;
+    private Bundle mArgs;
     private Activities mActivity;
     private SharedPreferences activityPref;
     private SharedPreferences.Editor editor;
@@ -115,7 +115,7 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
 
 
         if (getArguments() != null) {
-            args = getArguments();
+            mArgs = getArguments();
         }
         gson = new Gson();
         activityPref = mContext.getSharedPreferences(UserActivityMasterActivity.PREF_ACTIVITY_DATA, Context.MODE_PRIVATE);
@@ -160,11 +160,11 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
 
         BusProvider.bus().register(this);
 
-        // depending on the args, populate view based on the Activity restored.
-        if (args != null) {
-            // if args not null, retrieve the Activities object.
-            if (args.getParcelable(KEY_ARGS) != null) {
-                mActivity = args.getParcelable(KEY_ARGS);
+        // depending on the mArgs, populate view based on the Activity restored.
+        if (mArgs != null) {
+            // if mArgs not null, retrieve the Activities object.
+            if (mArgs.getParcelable(KEY_ARGS) != null) {
+                mActivity = mArgs.getParcelable(KEY_ARGS);
             }
         } else {
             // get data from SharedPref
@@ -289,10 +289,10 @@ public class ActivityDetailFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_actDet_viewAllObservation:
+            case R.id.button_activity_details_view_all_observation:
                 mListener.onViewAllObservationsClicked(mActivity.getId());
                 break;
-            case R.id.icon_actDet_openMap:
+            case R.id.icon_activity_details_view_map:
                 try {
                     ArrayList<Observation> mObservationArrayList = new ArrayList<Observation>(mObservationList);
                     mListener.onOpenActivitiesMapClicked(mObservationArrayList);

@@ -30,7 +30,7 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
 
         mFragmentManager = getSupportFragmentManager();
         // if Fragment container is present,
-        if (findViewById(R.id.mainActivity_fragmentContainer) != null) {
+        if (findViewById(R.id.main_activity_fragment_container) != null) {
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
@@ -40,10 +40,10 @@ public class MainActivity extends MainBaseActivity implements DashboardFragment.
             // if Intent is called by clicking on the PostObservation button in DashboardFragment
             if (getIntent().getIntExtra(HomeActivity.KEY_SIGNIN_SUCCESS, 0) == 1) {
                 mDashboardFragment = new DashboardFragment();
-                mFragmentManager.beginTransaction().add(R.id.mainActivity_fragmentContainer, mDashboardFragment).commit();
+                mFragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, mDashboardFragment).commit();
             } else {
                 mDashboardFragment = new DashboardFragment();
-                mFragmentManager.beginTransaction().add(R.id.mainActivity_fragmentContainer, mDashboardFragment).commit();
+                mFragmentManager.beginTransaction().add(R.id.main_activity_fragment_container, mDashboardFragment).commit();
             }
         }
     }

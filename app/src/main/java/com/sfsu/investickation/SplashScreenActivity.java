@@ -17,7 +17,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         SplashScreen splashScreenFragment = new SplashScreen();
-        getSupportFragmentManager().beginTransaction().add(R.id.splashscreen_fragment_container, splashScreenFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.splashscreen_fragment_container,
+                splashScreenFragment).commit();
 
         Thread splashTimer = new Thread() {
             public void run() {

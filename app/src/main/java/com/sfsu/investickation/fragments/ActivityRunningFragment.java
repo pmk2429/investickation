@@ -83,18 +83,18 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
     public static final String TAG = "~!@#$ActivityRunning";
     private static final String KEY_LAT_LNG = "lat_lng_json";
     // FAB
-    @Bind(R.id.fab_actRun_activityStop)
+    @Bind(R.id.fab_act_run_activity_stop)
     FloatingActionButton fab_stopActivity;
-    @Bind(R.id.fab_actRun_reminder)
+    @Bind(R.id.fab_act_running_reminder)
     FloatingActionButton fab_reminder;
     // Map
-    @Bind(R.id.mapView_activityRunning)
+    @Bind(R.id.mapview_activity_running)
     MapView mapView;
     // CardView
-    @Bind(R.id.cardView_activityRunning_addObservation)
+    @Bind(R.id.cardview_activity_running_add_observation)
     CardView btn_addObservation;
     // TextView
-    @Bind(R.id.textView_actRun_activityName)
+    @Bind(R.id.textview_activity_name)
     TextView txtView_activityName;
     // properties
     private LatLng[] mLatLngArray;
@@ -501,16 +501,16 @@ public class ActivityRunningFragment extends Fragment implements LocationControl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.cardView_activityRunning_addObservation:
+            case R.id.cardview_activity_running_add_observation:
                 mListener.onAddNewObservationClicked(ongoingActivityObj.getId());
                 break;
 
-            case R.id.fab_actRun_activityStop:
+            case R.id.fab_act_run_activity_stop:
                 clearResources();
                 updateRunningActivity();
                 break;
 
-            case R.id.fab_actRun_reminder:
+            case R.id.fab_act_running_reminder:
                 openReminderDialog();
                 break;
         }

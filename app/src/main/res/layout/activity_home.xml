@@ -30,7 +30,7 @@
 
     <!-- Navigation Drawer: Drawer section use to inflate the List in the  -->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawer_recyclerView"
+        android:id="@+id/drawer_recycler_view"
         android:layout_width="304dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"

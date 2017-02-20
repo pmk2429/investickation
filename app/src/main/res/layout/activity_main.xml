@@ -20,12 +20,11 @@
 
         <!-- container for all the fragments -->
         <FrameLayout
-            android:id="@+id/mainActivity_fragmentContainer"
+            android:id="@+id/main_activity_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar_top_base">
         </FrameLayout>
-
 
     </RelativeLayout>
 

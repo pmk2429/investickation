@@ -5,7 +5,7 @@
                 android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/imageView_alertTick_tickImage"
+        android:id="@+id/image_view_alert_tick_image"
         android:layout_width="@dimen/widget_dimen_large"
         android:layout_height="@dimen/widget_dimen_large"
         android:layout_alignParentLeft="true"
@@ -18,13 +18,13 @@
         />
 
     <TextView
-        android:id="@+id/textView_alertTick_tickName"
+        android:id="@+id/textview_alert_tick_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/imageView_alertTick_tickImage"
+        android:layout_alignTop="@id/image_view_alert_tick_image"
         android:layout_marginLeft="@dimen/view_dimen_large"
         android:layout_marginRight="@dimen/view_dimen_large"
-        android:layout_toEndOf="@id/imageView_alertTick_tickImage"
+        android:layout_toEndOf="@id/image_view_alert_tick_image"
         android:lines="1"
         android:singleLine="true"
         android:text="@string/tickName"
@@ -33,14 +33,14 @@
         />
 
     <TextView
-        android:id="@+id/textView_alertTick_tickSpecies"
+        android:id="@+id/textview_alert_tick_species"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView_alertTick_tickName"
+        android:layout_below="@id/textview_alert_tick_name"
         android:layout_marginLeft="@dimen/view_dimen_large"
         android:layout_marginRight="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_X_small"
-        android:layout_toEndOf="@id/imageView_alertTick_tickImage"
+        android:layout_toEndOf="@id/image_view_alert_tick_image"
         android:lines="1"
         android:singleLine="true"
         android:text="@string/tickSpecies"

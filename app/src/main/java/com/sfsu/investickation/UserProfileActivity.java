@@ -9,12 +9,12 @@ import com.sfsu.investickation.fragments.ProfileFragment;
 
 
 /**
- * Container Activity for displaying {@link User} related data. Holds references to {@link ProfileFragment} Fragment.
+ * Container Activity for displaying {@link com.sfsu.entities.Account} related data. Holds references to {@link ProfileFragment} Fragment.
  */
 public class UserProfileActivity extends MainBaseActivity {
 
     private final String TAG = "~!@#UsrProAct";
-    private ProfileFragment mProfileFragment;
+    private ProfileFragment profileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,11 @@ public class UserProfileActivity extends MainBaseActivity {
             // if we are being restored from previous state, then just RETURN or else we could have
             // over lapping fragments
             if (savedInstanceState != null) {
-                mProfileFragment = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, "profileFragment");
+                profileFragment = (ProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState, "profileFragment");
             }
 
-            mProfileFragment = new ProfileFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, mProfileFragment).commit();
+            profileFragment = new ProfileFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.profile_fragment_container, profileFragment).commit();
         }
     }
 
@@ -62,6 +62,6 @@ public class UserProfileActivity extends MainBaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "profileFragment", mProfileFragment);
+        getSupportFragmentManager().putFragment(outState, "profileFragment", profileFragment);
     }
 }

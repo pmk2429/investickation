@@ -56,8 +56,8 @@ public class AlertDialogMaster {
         alertDialog.setIcon(R.mipmap.ic_notifications_black_24dp);
 
         // set the onClickListener for each buttons defined in the custom layout.
-        et_setReminder_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_manualInput);
-        btnHalfHour = (Button) convertView.findViewById(R.id.button_alertDialog_30);
+        et_setReminder_manualInput = (EditText) convertView.findViewById(R.id.edittext_alert_dialog_manual_input);
+        btnHalfHour = (Button) convertView.findViewById(R.id.button_alert_dialog_thirty);
 
         btnHalfHour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +144,7 @@ public class AlertDialogMaster {
      */
     private void clearFocusView(View v) {
         switch (v.getId()) {
-            case R.id.button_alertDialog_30:
+            case R.id.button_alert_dialog_thirty:
                 btnHalfHour.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
                 break;
 
@@ -152,15 +152,15 @@ public class AlertDialogMaster {
 //                btnHour.setBackgroundColor(getActivity().getResources().getColor(R.color.colorPrimary));
 //                break;
 
-            case R.id.editText_alertDialog_manualInput:
+            case R.id.edittext_alert_dialog_manual_input:
                 et_setReminder_manualInput.clearFocus();
                 break;
 
-            case R.id.editText_alertDialog_changeReminder:
+            case R.id.edittext_alert_dialog_change_reminder:
                 et_changeReminder_manualInput.clearFocus();
                 break;
 
-            case R.id.textView_alertDialog_stopReminder:
+            case R.id.textview_alert_dialog_stop_reminder:
                 btnStopReminder.setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
                 break;
         }
@@ -173,7 +173,7 @@ public class AlertDialogMaster {
      */
     private void enableView(View v) {
         switch (v.getId()) {
-            case R.id.button_alertDialog_30:
+            case R.id.button_alert_dialog_thirty:
                 isHalfHourButtonClicked = true;
                 //isHourButtonClicked = false;
                 isManualInputSet = false;
@@ -191,7 +191,7 @@ public class AlertDialogMaster {
 //                clearFocusView(et_setReminder_manualInput);
 //                break;
 
-            case R.id.editText_alertDialog_manualInput:
+            case R.id.edittext_alert_dialog_manual_input:
                 isManualInputSet = true;
                 isHalfHourButtonClicked = false;
                 //isHourButtonClicked = false;
@@ -199,14 +199,14 @@ public class AlertDialogMaster {
                 clearFocusView(btnHalfHour);
                 break;
 
-            case R.id.editText_alertDialog_changeReminder:
+            case R.id.edittext_alert_dialog_change_reminder:
                 isRemindChangedSet = true;
                 isReminderStopClicked = false;
 
                 clearFocusView(btnStopReminder);
                 break;
 
-            case R.id.textView_alertDialog_stopReminder:
+            case R.id.textview_alert_dialog_stop_reminder:
                 isReminderStopClicked = true;
                 isRemindChangedSet = false;
                 toggleBackground(btnStopReminder);
@@ -229,9 +229,9 @@ public class AlertDialogMaster {
         alertDialog.setTitle(R.string.alertDialog_current_reminder);
         alertDialog.setIcon(R.mipmap.ic_notifications_active_black_24dp);
 
-        et_changeReminder_manualInput = (EditText) convertView.findViewById(R.id.editText_alertDialog_changeReminder);
-        txtView_reminderInterval = (TextView) convertView.findViewById(R.id.textView_alertDialog_reminderStatus);
-        btnStopReminder = (TextView) convertView.findViewById(R.id.textView_alertDialog_stopReminder);
+        et_changeReminder_manualInput = (EditText) convertView.findViewById(R.id.edittext_alert_dialog_change_reminder);
+        txtView_reminderInterval = (TextView) convertView.findViewById(R.id.textview_alert_dialog_reminder_status);
+        btnStopReminder = (TextView) convertView.findViewById(R.id.textview_alert_dialog_stop_reminder);
 
         String reminderText = reminderValue + " mins";
         txtView_reminderInterval.setText(reminderText);

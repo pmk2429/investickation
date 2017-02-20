@@ -40,19 +40,19 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends Fragment {
 
     private final String TAG = "~!@#ProfileFragment";
-    @Bind(R.id.editText_profile_fullName)
+    @Bind(R.id.edittext_full_name)
     EditText et_fullName;
-    @Bind(R.id.editText_profile_email)
+    @Bind(R.id.edittext_email)
     EditText et_email;
-    @Bind(R.id.editText_profile_address)
+    @Bind(R.id.edittext_address)
     EditText et_address;
-    @Bind(R.id.editText_profile_city)
+    @Bind(R.id.edittext_city)
     EditText et_city;
-    @Bind(R.id.editText_profile_state)
+    @Bind(R.id.edittext_state)
     EditText et_state;
-    @Bind(R.id.editText_profile_zip)
+    @Bind(R.id.edittext_zipcode)
     EditText et_zip;
-    @Bind(R.id.button_profile_save)
+    @Bind(R.id.button_save_user)
     Button btn_Save;
     private AuthPreferences mAuthPreferences;
     private DatabaseDataController dbController;

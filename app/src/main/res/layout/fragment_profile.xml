@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/relativeLayout_profile_content"
+            android:id="@+id/container_profile_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -29,7 +29,7 @@
                 android:src="@mipmap/ic_person_grey_400_24dp"/>
 
             <EditText
-                android:id="@+id/editText_profile_fullName"
+                android:id="@+id/edittext_full_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginEnd="16dp"
@@ -57,10 +57,10 @@
                 android:src="@mipmap/ic_email_grey_400_24dp"/>
 
             <EditText
-                android:id="@+id/editText_profile_email"
+                android:id="@+id/edittext_email"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_fullName"
+                android:layout_below="@id/edittext_full_name"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_email"
                 android:ellipsize="end"
@@ -86,10 +86,10 @@
                 android:src="@mipmap/ic_location_on_grey_400_24dp"/>
 
             <EditText
-                android:id="@+id/editText_profile_address"
+                android:id="@+id/edittext_address"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_email"
+                android:layout_below="@id/edittext_email"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_address"
                 android:ellipsize="end"
@@ -100,10 +100,10 @@
                 android:textSize="@dimen/font_small"/>
 
             <EditText
-                android:id="@+id/editText_profile_city"
+                android:id="@+id/edittext_city"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_address"
+                android:layout_below="@id/edittext_address"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_address"
                 android:ellipsize="end"
@@ -114,10 +114,10 @@
                 android:textSize="@dimen/font_small"/>
 
             <EditText
-                android:id="@+id/editText_profile_state"
+                android:id="@+id/edittext_state"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_city"
+                android:layout_below="@id/edittext_city"
                 android:layout_marginEnd="@dimen/view_dimen_large"
                 android:layout_toEndOf="@id/icon_address"
                 android:ellipsize="end"
@@ -128,12 +128,12 @@
                 android:textSize="@dimen/font_small"/>
 
             <EditText
-                android:id="@+id/editText_profile_zip"
+                android:id="@+id/edittext_zipcode"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/widget_dimen"
-                android:layout_below="@id/editText_profile_city"
+                android:layout_below="@id/edittext_city"
                 android:layout_marginEnd="@dimen/view_dimen_large"
-                android:layout_toEndOf="@id/editText_profile_state"
+                android:layout_toEndOf="@id/edittext_state"
                 android:ellipsize="end"
                 android:hint="@string/profile_zip"
                 android:lines="1"
@@ -154,7 +154,7 @@
 
     <!-- Save Button -->
     <Button
-        android:id="@+id/button_profile_save"
+        android:id="@+id/button_save_user"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_gravity="bottom"

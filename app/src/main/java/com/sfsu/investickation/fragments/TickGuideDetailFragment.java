@@ -30,21 +30,21 @@ import butterknife.ButterKnife;
 public class TickGuideDetailFragment extends Fragment {
 
     private final String TAG = "~!@#TickDetailFrag";
-    @Bind(R.id.textView_tickDet_knownFor)
+    @Bind(R.id.textview_known_for)
     TextView txtView_knownFor;
-    @Bind(R.id.textView_tickDet_tickFormalName)
+    @Bind(R.id.textview_tick_formal_name)
     TextView txtView_tickFormalName;
-    @Bind(R.id.textView_tickDet_tickLocation)
+    @Bind(R.id.textview_location)
     TextView txtView_tickLocation;
-    @Bind(R.id.textView_tickDet_tickName)
+    @Bind(R.id.textview_tick_name)
     TextView txtView_tickName;
-    @Bind(R.id.textView_tickDet_tickSpecies)
+    @Bind(R.id.textview_tick_species)
     TextView txtView_tickSpecies;
-    @Bind(R.id.textView_tickDet_tickDetails)
+    @Bind(R.id.textview_tick_details)
     TextView txtView_description;
     @Bind(R.id.viewPager_tickDet_Images)
     ViewPager mViewPager;
-    @Bind(R.id.circlePagerIndicator_tickDet_images)
+    @Bind(R.id.circlepager_indicator_images)
     CirclePageIndicator mCirclePageIndicator;
     private Bundle args;
     private Tick mTick;
@@ -98,10 +98,10 @@ public class TickGuideDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_tick_guide_detail, container, false);
         ButterKnife.bind(this, rootView);
 
-        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbarTickDetail);
+        final Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_tick_details);
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) rootView.findViewById(R.id
-                .collapsing_toolbar_guideDetail);
+                .collapsing_toolbar_guide_detail);
         String title = getResources().getString(R.string.tickDetails_toolbar_title);
         collapsingToolbar.setTitle(title);
 

@@ -19,9 +19,9 @@ import butterknife.ButterKnife;
 public class ObservationMap extends Fragment {
 
     private static final String TAG = "`!@#$ObservationMap";
-    @Bind(R.id.mapView_observationMap_main)
+    @Bind(R.id.mapview_observation)
     MapView mMapView;
-    @Bind(R.id.button_obsMap_viewList)
+    @Bind(R.id.button_view_list)
     Button btn_viewList;
     private GoogleMapController mGoogleMapController;
     private Context mContext;

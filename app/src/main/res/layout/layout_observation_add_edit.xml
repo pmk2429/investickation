@@ -7,7 +7,7 @@
 
     <!--  tick image -->
     <ImageView
-        android:id="@+id/imageView_addObs_tickImage"
+        android:id="@+id/imageview_tick_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_X1_large"
         android:layout_gravity="center_horizontal"
@@ -21,14 +21,14 @@
         android:id="@+id/view_divider_image"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_dimen"
-        android:layout_below="@id/imageView_addObs_tickImage"
+        android:layout_below="@id/imageview_tick_image"
         android:background="@color/divider"/>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_addObs_addTickImage"
+        android:id="@+id/fab_add_tick_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/imageView_addObs_tickImage"
+        android:layout_alignBottom="@id/imageview_tick_image"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom"
         android:layout_marginBottom="-40dp"
@@ -40,10 +40,10 @@
 
     <!--Choose from TickGuide-->
     <TextView
-        android:id="@+id/textViewStatic_chooseFromGuide"
+        android:id="@+id/textview_static_choose_from_guide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView_addObs_tickImage"
+        android:layout_below="@id/imageview_tick_image"
         android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/view_dimen_large"
         android:layout_marginTop="@dimen/view_dimen_medium"
@@ -52,11 +52,11 @@
         android:textSize="@dimen/font_small"/>
 
     <Button
-        android:id="@+id/button_addObs_chooseFromGuide"
+        android:id="@+id/button_choose_from_guide"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewStatic_chooseFromGuide"
+        android:layout_below="@id/textview_static_choose_from_guide"
         android:layout_centerInParent="true"
         android:layout_marginStart="@dimen/view_dimen_large"
         android:gravity="center"
@@ -70,7 +70,7 @@
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separator_dimen"
-        android:layout_below="@id/button_addObs_chooseFromGuide"
+        android:layout_below="@id/button_choose_from_guide"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_marginStart="@dimen/view_dimen_large"
         android:background="@color/divider"/>
@@ -89,7 +89,7 @@
         android:src="@mipmap/ic_bug_report_black_36dp"/>
 
     <EditText
-        android:id="@+id/editText_addObs_tickName"
+        android:id="@+id/edittext_tick_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
         android:layout_below="@id/view_divider"
@@ -105,7 +105,7 @@
 
     <!--  Species row -->
     <ImageView
-        android:id="@+id/icon_numOfTicks"
+        android:id="@+id/icon_num_of_ticks"
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentStart="true"
@@ -116,12 +116,12 @@
         android:src="@mipmap/ic_list_numbered_black_48dp"/>
 
     <EditText
-        android:id="@+id/editText_addObs_numOfTicks"
+        android:id="@+id/edittext_num_of_ticks"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/editText_addObs_tickName"
+        android:layout_below="@id/edittext_tick_name"
         android:layout_marginEnd="@dimen/view_dimen_large"
-        android:layout_toEndOf="@id/icon_numOfTicks"
+        android:layout_toEndOf="@id/icon_num_of_ticks"
         android:hint="@string/tickCount"
         android:inputType="number"
         android:lines="1"
@@ -136,17 +136,17 @@
         android:layout_width="@dimen/widget_dimen"
         android:layout_height="@dimen/widget_dimen"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/editText_addObs_numOfTicks"
+        android:layout_below="@id/edittext_num_of_ticks"
         android:layout_marginStart="@dimen/view_dimen_small"
         android:padding="@dimen/view_dimen_temp"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_speaker_notes_black_24dp"/>
 
     <EditText
-        android:id="@+id/editText_addObs_description"
+        android:id="@+id/edittext_description"
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/editText_addObs_numOfTicks"
+        android:layout_below="@id/edittext_num_of_ticks"
         android:layout_marginEnd="@dimen/view_dimen_large"
         android:layout_toEndOf="@id/icon_observation_note"
         android:hint="@string/tickDescription"

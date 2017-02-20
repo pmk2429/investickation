@@ -72,13 +72,13 @@ public class ObservationListFragment extends Fragment implements View.OnClickLis
     private static final String KEY_ACTIVITY_ID = "activity_id";
     private static final String KEY_STATUS_FLAG = "observation_caller_flag";
     private final String TAG = "~!@#ObsList";
-    @Bind(R.id.swipeLayout_observationList_main)
+    @Bind(R.id.swipe_layout_observation_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.recyclerview_remote_observations)
     RecyclerView recyclerView_observations;
     @Bind(R.id.relativeLayout_obsList_main)
     RelativeLayout mRelativeLayout;
-    @Bind(R.id.textViewStatic_obsList_listInfo)
+    @Bind(R.id.textview_static_list_info)
     TextView txtView_observationList_info;
     @Bind(R.id.fab_observation_add)
     FloatingActionButton fab_addObservation;

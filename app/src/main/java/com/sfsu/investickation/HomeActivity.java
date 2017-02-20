@@ -28,16 +28,15 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
 
     public static final String KEY_SIGNIN_SUCCESS = "signin_success";
     private final String TAG = "~!@#$HomeAct";
-    private SessionManager mSessionManager;
-    private FragmentManager fragmentManager;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        fragmentManager = getSupportFragmentManager();
-        mSessionManager = new SessionManager(this);
+        mFragmentManager = getSupportFragmentManager();
+        SessionManager mSessionManager = new SessionManager(this);
 
         // if Fragment container is present
         if (findViewById(R.id.home_fragment_container) != null) {
@@ -75,16 +74,16 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
 
     @Override
     public void onBackPressed() {
-        int count = fragmentManager.getBackStackEntryCount();
+        int count = mFragmentManager.getBackStackEntryCount();
         if (count == 0) {
             finish();
         } else if (count > 0) {
-            fragmentManager.popBackStackImmediate();
+            mFragmentManager.popBackStackImmediate();
         }
     }
 
     private void performAddFragmentTransaction(Fragment fragment, boolean addToBackStack) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.add(R.id.home_fragment_container, fragment);
         //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
         if (addToBackStack)
@@ -93,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements LoginFragment.ILo
     }
 
     private void performReplaceFragmentTransaction(Fragment fragment, boolean addToBackStack, boolean animate) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.home_fragment_container, fragment);
         if (animate)
             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);

@@ -6,7 +6,7 @@
     android:padding="@dimen/view_dimen_large">
 
     <Button
-        android:id="@+id/button_alertDialog_30"
+        android:id="@+id/button_alert_dialog_thirty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -38,13 +38,13 @@
         android:id="@+id/view_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/button_alertDialog_30"
+        android:layout_below="@id/button_alert_dialog_thirty"
         android:layout_marginTop="@dimen/view_dimen_large"
         android:background="@color/divider"
         />
 
     <TextView
-        android:id="@+id/textViewStatic_alertDialogInput"
+        android:id="@+id/textview_static_alert_dialog_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/view_divider"
@@ -55,10 +55,10 @@
         android:textColor="@color/secondaryText"/>
 
     <EditText
-        android:id="@+id/editText_alertDialog_manualInput"
+        android:id="@+id/edittext_alert_dialog_manual_input"
         android:layout_width="@dimen/widget_dimen_X1_large"
         android:layout_height="@dimen/widget_dimen"
-        android:layout_below="@id/textViewStatic_alertDialogInput"
+        android:layout_below="@id/textview_static_alert_dialog_input"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/view_dimen_large"
         android:hint="@string/alertDialog_inputManual_hint"

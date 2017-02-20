@@ -7,7 +7,7 @@
                 tools:context=".fragments.ActivityDetailFragment">
 
     <ScrollView
-        android:id="@+id/scrollViewMain"
+        android:id="@+id/scroll_view_activity_details_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,13 +16,13 @@
             android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/relativeLayout_activityDetailsHeading"
+                android:id="@+id/container_activity_detaile_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite">
 
                 <ImageView
-                    android:id="@+id/imageView_actDet_staticMap"
+                    android:id="@+id/imageview_activity_details_static_map"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/cardview_large"
                     android:layout_gravity="center_horizontal"
@@ -32,21 +32,21 @@
                     android:src="@mipmap/placeholder_maps"/>
 
                 <ImageView
-                    android:id="@+id/icon_actDet_openMap"
+                    android:id="@+id/icon_activity_details_view_map"
                     android:layout_width="@dimen/view_dimen_X2_large"
                     android:layout_height="@dimen/view_dimen_X2_large"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@id/imageView_actDet_staticMap"
+                    android:layout_alignTop="@id/imageview_activity_details_static_map"
                     android:layout_marginEnd="@dimen/view_dimen_small"
                     android:layout_marginTop="@dimen/view_dimen_small"
                     android:background="@color/lightText"
                     android:src="@mipmap/ic_map_black_24dp"/>
 
                 <TextView
-                    android:id="@+id/textView_actDet_observationCount"
+                    android:id="@+id/textview_activity_details_observation_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/imageView_actDet_staticMap"
+                    android:layout_alignBottom="@id/imageview_activity_details_static_map"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/view_dimen_large"
@@ -62,10 +62,10 @@
 
 
                 <TextView
-                    android:id="@+id/textView_actDet_activityName"
+                    android:id="@+id/textview_activity_details_activity_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/imageView_actDet_staticMap"
+                    android:layout_below="@id/imageview_activity_details_static_map"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/view_dimen_large"
                     android:text="Hiking @ Golden Gate Park"
@@ -74,10 +74,10 @@
                     android:textSize="@dimen/font_X_large"/>
 
                 <TextView
-                    android:id="@+id/textView_actDet_totalPeople"
+                    android:id="@+id/textview_activity_details_total_people"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_actDet_activityName"
+                    android:layout_below="@id/textview_activity_details_activity_name"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/view_dimen_small"
                     android:text="5 people"
@@ -86,10 +86,10 @@
                     android:textSize="@dimen/font_small"/>
 
                 <TextView
-                    android:id="@+id/textView_actDet_totalPets"
+                    android:id="@+id/textview_activity_details_total_pets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/textView_actDet_totalPeople"
+                    android:layout_below="@id/textview_activity_details_total_people"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="@dimen/view_dimen_large"
                     android:layout_marginTop="@dimen/view_dimen_small"
@@ -100,10 +100,10 @@
             </RelativeLayout>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cardview_actDet_details"
+                android:id="@+id/cardview_activity_details_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/relativeLayout_activityDetailsHeading"
+                android:layout_below="@id/container_activity_detaile_heading"
                 android:layout_marginBottom="@dimen/view_dimen_large"
                 android:layout_marginLeft="@dimen/view_dimen_small"
                 android:layout_marginRight="@dimen/view_dimen_small"
@@ -120,13 +120,13 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
-                        android:id="@+id/relativeLayout_activityDetailsDescription"
+                        android:id="@+id/container_activity_details_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite">
 
                         <TextView
-                            android:id="@+id/textViewStatic_activityDetail"
+                            android:id="@+id/textview_static_activity_details_additional_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/view_dimen_medium"
@@ -143,7 +143,7 @@
                             android:id="@+id/separator_observation_2"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separator_dimen"
-                            android:layout_below="@id/textViewStatic_activityDetail"
+                            android:layout_below="@id/textview_static_activity_details_additional_info"
                             android:layout_marginLeft="@dimen/view_dimen_large"
                             android:layout_marginRight="@dimen/view_dimen_large"
                             android:layout_marginTop="@dimen/view_dimen_small"
@@ -156,7 +156,7 @@
                             android:layout_marginTop="@dimen/view_dimen_large">
 
                             <ImageView
-                                android:id="@+id/icon_actDet_date"
+                                android:id="@+id/icon_activity_details_date"
                                 android:layout_width="@dimen/view_dimen_large"
                                 android:layout_height="@dimen/view_dimen_large"
                                 android:layout_alignParentStart="true"
@@ -164,12 +164,12 @@
                                 android:src="@mipmap/ic_today_black_24dp"/>
 
                             <TextView
-                                android:id="@+id/textView_actDet_date"
+                                android:id="@+id/textview_activity_details_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@id/icon_actDet_date"
+                                android:layout_alignBottom="@id/icon_activity_details_date"
                                 android:layout_marginStart="@dimen/view_dimen_large"
-                                android:layout_toEndOf="@id/icon_actDet_date"
+                                android:layout_toEndOf="@id/icon_activity_details_date"
                                 android:text="1/23/2016"
                                 android:textAlignment="center"
                                 android:textColor="@color/secondaryText"
@@ -177,23 +177,23 @@
 
 
                             <ImageView
-                                android:id="@+id/icon_actDet_time"
+                                android:id="@+id/icon_activity_details_time"
                                 android:layout_width="@dimen/view_dimen_large"
                                 android:layout_height="@dimen/view_dimen_large"
-                                android:layout_below="@id/icon_actDet_date"
+                                android:layout_below="@id/icon_activity_details_date"
                                 android:layout_marginStart="@dimen/view_dimen_large"
                                 android:layout_marginTop="@dimen/view_dimen_small"
                                 android:src="@mipmap/ic_access_time_black_24dp"/>
 
                             <TextView
-                                android:id="@+id/textView_actDet_time"
+                                android:id="@+id/textview_activity_details_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@id/icon_actDet_time"
-                                android:layout_below="@id/textView_actDet_date"
+                                android:layout_alignBottom="@id/icon_activity_details_time"
+                                android:layout_below="@id/textview_activity_details_date"
                                 android:layout_marginStart="@dimen/view_dimen_large"
                                 android:layout_marginTop="@dimen/view_dimen_small"
-                                android:layout_toEndOf="@id/icon_actDet_time"
+                                android:layout_toEndOf="@id/icon_activity_details_time"
                                 android:text="19:35:26"
                                 android:textAlignment="center"
                                 android:textColor="@color/secondaryText"
@@ -213,7 +213,7 @@
                         android:gravity="center">
 
                         <Button
-                            android:id="@+id/button_actDet_viewAllObservation"
+                            android:id="@+id/button_activity_details_view_all_observation"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/widget_dimen_medium"
                             android:layout_centerInParent="true"

@@ -23,9 +23,9 @@ public class HomeFragment extends Fragment {
 
     public final String TAG = "~!@#$HomeFragment";
     // TextView
-    @Bind(R.id.textView_home_login)
+    @Bind(R.id.textview_login)
     TextView txtView_login;
-    @Bind(R.id.textView_home_signUp)
+    @Bind(R.id.textview_signup)
     TextView txtView_signUp;
 
     private IHomeCallbacks mInterface;

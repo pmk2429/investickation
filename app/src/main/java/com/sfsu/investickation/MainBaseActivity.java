@@ -22,7 +22,6 @@ public class MainBaseActivity extends AppCompatActivity {
     private final String TAG = "~!@#$MainBaseAct";
     // InjectView is used to inject the UI controls using ButterKnife library.
     private DrawerLayout mDrawerLayout;
-    private Toolbar toolbarMain;
     private NavigationView mNavigationView;
     private int mCurrentSelectedPosition;
 
@@ -36,7 +35,7 @@ public class MainBaseActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toolbarMain = (Toolbar) findViewById(R.id.toolbar_top_base);
+        Toolbar toolbarMain = (Toolbar) findViewById(R.id.toolbar_top_base);
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
         if (toolbarMain != null) {

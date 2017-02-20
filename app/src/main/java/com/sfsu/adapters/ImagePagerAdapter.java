@@ -19,24 +19,24 @@ import java.util.List;
 public class ImagePagerAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<Integer> imageUrls;
+    private List<Integer> mImageUrls;
 
-    public ImagePagerAdapter(Context mContext, List<Integer> imageUrls) {
+    public ImagePagerAdapter(Context mContext, List<Integer> mImageUrls) {
         this.mContext = mContext;
-        this.imageUrls = imageUrls;
+        this.mImageUrls = mImageUrls;
     }
 
     @Override
     public int getCount() {
-        return imageUrls.size();
+        return mImageUrls.size();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.pagerimage_slider, container, false);
-        ImageView mImageView = (ImageView) view.findViewById(R.id.imageView_pager_tickImage_main);
-        mImageView.setImageResource(imageUrls.get(position));
+        ImageView mImageView = (ImageView) view.findViewById(R.id.imageview_pager_tick_image_main);
+        mImageView.setImageResource(mImageUrls.get(position));
         // IMP step
         container.addView(view, 0);
 

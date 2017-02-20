@@ -49,24 +49,21 @@ import butterknife.ButterKnife;
  * .Observation}. Also, provides a starting point for the user to post an Observation or to start an Activity.
  */
 public class DashboardFragment extends Fragment implements View.OnClickListener {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
     private static final int NETWORK_LOCATION_BASED_PERMISSIONS = 24;
     public final String TAG = "~!@#DashboardFragment";
     @Bind(R.id.fab_dashboard_addObservation)
     FloatingActionButton fab_addObservation;
     @Bind(R.id.fab_dashboard_startActivity)
     FloatingActionButton fab_startActivity;
-    @Bind(R.id.relativeLayout_dashboard_observationCount)
+    @Bind(R.id.container_observation_count)
     RelativeLayout relativeLayout_obsCount;
-    @Bind(R.id.relativeLayout_dashboard_activityCount)
+    @Bind(R.id.conatiner_activity_count)
     RelativeLayout relativeLayout_actCount;
-    @Bind(R.id.linearLayout_dashboard_recentActivitiesl)
+    @Bind(R.id.conatiner_dashboard_recent_activities)
     LinearLayout linearLayoutRecentActivities;
-    @Bind(R.id.textView_dashboard_activityCount)
+    @Bind(R.id.textview_activity_count)
     TextView txtView_activitiesCount;
-    @Bind(R.id.textView_dashboard_observationCount)
+    @Bind(R.id.textview_observation_count)
     TextView txtView_observationCount;
     ListView mListViewActivities;
     private Context mContext;
@@ -77,8 +74,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
     private PermissionUtils mPermissionUtils;
     private boolean FLAG_PERMISSION;
     private SharedPreferences settingsPref;
-    // TODO: change this to get the count from Settings SharedPref
-    private int activitiesCount = 2;
+    private int activitiesCount;
     private CombinedCount mCombinedCount;
 
     public DashboardFragment() {
@@ -208,7 +204,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             if (mActivitiesList.size() > 0) {
                 // display the recent activities
                 linearLayoutRecentActivities.setVisibility(View.VISIBLE);
-
                 mActivitiesAdapter = new RecentActivitiesAdapter(mContext, mActivitiesList);
 
                 mListViewActivities.setAdapter(mActivitiesAdapter);
@@ -290,9 +285,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener 
             mListener.onActivityButtonClicked();
         } else if (v.getId() == R.id.fab_dashboard_addObservation) {
             mListener.onObservationButtonClicked();
-        } else if (v.getId() == R.id.relativeLayout_dashboard_observationCount) {
+        } else if (v.getId() == R.id.container_observation_count) {
             mListener.onViewObservationsClicked();
-        } else if (v.getId() == R.id.relativeLayout_dashboard_activityCount) {
+        } else if (v.getId() == R.id.conatiner_activity_count) {
             mListener.onViewActivitiesClicked();
         }
     }

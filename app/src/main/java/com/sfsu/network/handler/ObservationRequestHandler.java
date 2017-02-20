@@ -25,12 +25,13 @@ import retrofit2.Response;
 
 /**
  * <p>
- * RequestHandler to handle network requests for {@link Observation}. It Subscribes to the Observation events published by
- * all Observation related operations through out the application and makes successive network calls depending on the type of
+ * RequestHandler to handle network requests for {@link Observation}. It Subscribes to the
+ * Observation events published by all Observation related operations through out the application
+ * and makes successive network calls depending on the type of
  * request made such as get, add, delete etc.
  * </p>
- * The successive request call receives the JSON response from the API via a {@link retrofit.Call} and then adds
- * the Response to the {@link Bus}.
+ * The successive request call receives the JSON response from the API via a
+ * {@link retrofit2.Call} and then adds the Response to the {@link Bus}.
  * <p>
  * Created by Pavitra on 11/28/2015.
  */
@@ -285,7 +286,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * is made simpler and readable.
      * </p>
      *
-     * @param observationCall
+     * @param deleteObservationCall
      */
     public void makeDeleteCall(Call<ResponseCount> deleteObservationCall) {
         // makes the Calls to network.
@@ -376,7 +377,7 @@ public class ObservationRequestHandler extends ApiRequestHandler {
      * is made simpler and readable.
      * </p>
      *
-     * @param locationsCall
+     * @param observationCall
      */
     public void get_Activity_Observations(Call<List<Observation>> observationCall) {
         observationCall.enqueue(new Callback<List<Observation>>() {

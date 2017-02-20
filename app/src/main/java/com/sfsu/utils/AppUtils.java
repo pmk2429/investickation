@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
-import com.sfsu.application.InvestickationApp;
-import com.sfsu.investickation.R;
 import com.sfsu.network.api.ApiResources;
 
 import java.io.IOException;

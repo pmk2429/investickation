@@ -17,19 +17,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Pavitra on 7/8/2015.
- */
 public class BaseActivity extends AppCompatActivity {
 
     private final String TAG = "~!@#$BaseActivity";
     // InjectView is used to inject the UI controls using ButterKnife library.
-    DrawerLayout drawerLayout;
-    Toolbar toolbar;
+    DrawerLayout mDrawerLayout;
+    Toolbar mToolbar;
     RecyclerView drawer_recyclerView;
-
-    //Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +35,16 @@ public class BaseActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_top_base);
-        drawer_recyclerView = (RecyclerView) findViewById(R.id.drawer_recyclerView);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_top_base);
+        drawer_recyclerView = (RecyclerView) findViewById(R.id.drawer_recycler_view);
 
         // set the toolbar_master injected using ButterKnife library.
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-        drawerLayout.setDrawerListener(drawerToggle);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                mToolbar, R.string.app_name, R.string.app_name);
+        mDrawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         int ICONS[] = {};
@@ -68,7 +63,8 @@ public class BaseActivity extends AppCompatActivity {
         drawer_recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // main implementation of the touch event
-        drawer_recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getParent(), drawer_recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        drawer_recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getParent(),
+                drawer_recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
             }

@@ -191,7 +191,6 @@ public class UserRequestHandler extends ApiRequestHandler {
                     @Override
                     public void onError(Throwable e) {
                         if (BuildConfig.DEBUG)
-                            Log.e(TAG, "getCountsAsync: ", e);
                         mBus.post(new UserEvent.OnLoadingError(e.getMessage(), -1));
                     }
 

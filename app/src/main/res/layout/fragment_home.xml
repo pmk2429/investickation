@@ -10,7 +10,7 @@
         android:background="@color/colorWhite">
 
         <ImageView
-            android:id="@+id/imageView_home_logo"
+            android:id="@+id/logo_home"
             android:layout_width="match_parent"
             android:layout_height="@dimen/widget_dimen_large"
             android:layout_alignParentTop="true"
@@ -21,7 +21,7 @@
             android:src="@drawable/logo_main"/>
 
         <TextView
-            android:id="@+id/textView_home_header"
+            android:id="@+id/textview_header"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/widget_dimen"
             android:layout_centerInParent="true"
@@ -31,10 +31,10 @@
             android:textSize="@dimen/font_X_large"/>
 
         <TextView
-            android:id="@+id/textView_home_content"
+            android:id="@+id/textview_intro_text"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/widget_dimen"
-            android:layout_below="@id/textView_home_header"
+            android:layout_below="@id/textview_header"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/view_dimen_large"
             android:layout_marginRight="@dimen/view_dimen_large"
@@ -47,7 +47,7 @@
 
         <!-- LoginFragment Button-->
         <TextView
-            android:id="@+id/textView_home_login"
+            android:id="@+id/textview_login"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/widget_dimen"
             android:layout_alignParentBottom="true"
@@ -63,12 +63,12 @@
 
         <!-- RegisterFragment Button -->
         <TextView
-            android:id="@+id/textView_home_signUp"
+            android:id="@+id/textview_signup"
             style="@style/RaisedButtonStyle"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/textView_home_login"
+            android:layout_above="@id/textview_login"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/view_dimen_large"
             android:clickable="true"

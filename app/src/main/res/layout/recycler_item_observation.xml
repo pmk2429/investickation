@@ -8,7 +8,7 @@
               android:paddingTop="@dimen/view_dimen_small">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview_observation"
+        android:id="@+id/cardview_observation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/view_dimen_small">
@@ -19,7 +19,7 @@
             android:padding="@dimen/view_dimen_small">
 
             <ImageView
-                android:id="@+id/imageView_obsList_tickImage"
+                android:id="@+id/imageview_tick_image"
                 android:layout_width="@dimen/widget_dimen_X_large"
                 android:layout_height="@dimen/widget_dimen_X_large"
                 android:layout_alignParentStart="true"
@@ -28,26 +28,26 @@
                 android:src="@mipmap/ic_bug_report_grey_400_36dp"/>
 
             <TextView
-                android:id="@+id/textView_obsList_observationName"
+                android:id="@+id/textview_observation_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/imageView_obsList_tickImage"
+                android:layout_toEndOf="@+id/imageview_tick_image"
                 android:text="@string/tickName"
                 android:textColor="@color/primaryText"
                 android:textSize="@dimen/font_large"/>
 
             <TextView
-                android:id="@+id/textView_obsList_location"
+                android:id="@+id/textview_observation_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView_obsList_observationName"
-                android:layout_toEndOf="@+id/imageView_obsList_tickImage"
+                android:layout_below="@+id/textview_observation_name"
+                android:layout_toEndOf="@+id/imageview_tick_image"
                 android:textColor="@color/secondaryText"
                 android:textSize="@dimen/font_X_small"/>
 
             <ImageView
-                android:id="@+id/icon_obsList_storage"
+                android:id="@+id/icon_observation_storage_status"
                 android:layout_width="@dimen/view_dimen_default"
                 android:layout_height="@dimen/view_dimen_default"
                 android:layout_alignParentEnd="true"
@@ -57,33 +57,33 @@
 
 
             <ImageView
-                android:id="@+id/icon_obsList_verified"
+                android:id="@+id/icon_observation_verified"
                 android:layout_width="@dimen/view_dimen_default"
                 android:layout_height="@dimen/view_dimen_default"
-                android:layout_alignEnd="@id/icon_obsList_storage"
+                android:layout_alignEnd="@id/icon_observation_storage_status"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@id/icon_obsList_storage"
+                android:layout_below="@id/icon_observation_storage_status"
                 android:layout_marginTop="@dimen/view_dimen_small"/>
 
             <ImageView
-                android:id="@+id/icon_obsList_date"
+                android:id="@+id/icon_observation_date"
                 android:layout_width="@dimen/view_dimen_large"
                 android:layout_height="@dimen/view_dimen_large"
-                android:layout_alignStart="@id/textView_obsList_location"
-                android:layout_below="@id/textView_obsList_location"
+                android:layout_alignStart="@id/textview_observation_location"
+                android:layout_below="@id/textview_observation_location"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/imageView_obsList_tickImage"
+                android:layout_toEndOf="@id/imageview_tick_image"
                 android:src="@mipmap/ic_today_black_24dp"/>
 
             <TextView
-                android:id="@+id/textView_obsList_date"
+                android:id="@+id/textview_observation_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/icon_obsList_date"
-                android:layout_below="@id/textView_obsList_location"
+                android:layout_alignBottom="@id/icon_observation_date"
+                android:layout_below="@id/textview_observation_location"
                 android:layout_marginEnd="@dimen/view_dimen_small"
                 android:layout_marginStart="@dimen/view_dimen_X_small"
-                android:layout_toEndOf="@id/icon_obsList_date"
+                android:layout_toEndOf="@id/icon_observation_date"
                 android:gravity="bottom"
                 android:padding="0dp"
                 android:textColor="@color/secondaryText"
@@ -91,24 +91,24 @@
 
 
             <ImageView
-                android:id="@+id/icon_obsList_time"
+                android:id="@+id/icon_observation_time"
                 android:layout_width="@dimen/view_dimen_large"
                 android:layout_height="@dimen/view_dimen_large"
-                android:layout_alignBottom="@id/icon_obsList_date"
-                android:layout_below="@id/textView_obsList_location"
+                android:layout_alignBottom="@id/icon_observation_date"
+                android:layout_below="@id/textview_observation_location"
                 android:layout_marginStart="@dimen/view_dimen_medium"
                 android:layout_marginTop="@dimen/view_dimen_small"
-                android:layout_toEndOf="@id/textView_obsList_date"
+                android:layout_toEndOf="@id/textview_observation_date"
                 android:src="@mipmap/ic_access_time_black_24dp"/>
 
             <TextView
-                android:id="@+id/textView_obsList_time"
+                android:id="@+id/textview_observation_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/icon_obsList_time"
-                android:layout_below="@id/textView_obsList_location"
+                android:layout_alignBottom="@id/icon_observation_time"
+                android:layout_below="@id/textview_observation_location"
                 android:layout_marginStart="@dimen/view_dimen_X_small"
-                android:layout_toEndOf="@id/icon_obsList_time"
+                android:layout_toEndOf="@id/icon_observation_time"
                 android:gravity="bottom"
                 android:padding="0dp"
                 android:textColor="@color/secondaryText"

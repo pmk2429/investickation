@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -46,8 +45,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * ActivityNewFragment Fragment provides Account the capability to add new Activity. The ActivityNewFragment fragment passes the newly created
- * Activities object to the ActivityRunningFragment fragment.
+ * ActivityNewFragment Fragment provides Account the capability to add new Activity. The ActivityNewFragment mMapFragment passes the newly created
+ * Activities object to the ActivityRunningFragment mMapFragment.
  */
 public class ActivityNewFragment extends Fragment implements
         View.OnClickListener,
@@ -56,33 +55,30 @@ public class ActivityNewFragment extends Fragment implements
 
     public final String TAG = "~!@#$ActivityNewFragment";
     private final long REMINDER_INTERVAL = 30;
-    @Bind(R.id.editText_actNew_ActivityName)
+    @Bind(R.id.edittext_activity_new_name)
     EditText et_activityName;
-    @Bind(R.id.editText_actNew_numOfPeople)
+    @Bind(R.id.edittext_activity_new_num_of_people)
     EditText et_totalPeople;
-    @Bind(R.id.editText_actNew_totalPets)
+    @Bind(R.id.edittext_act_new_total_pets)
     EditText et_totalPets;
-    @Bind(R.id.textView_actNew_reminder)
+    @Bind(R.id.textview_act_new_reminder)
     TextView txtView_setReminder;
-    // Views and Attribs
-    private EditText et_manualInput;
-    private Button btnHalfHour, btnHour;
+    // Views and Attributes
     private GoogleMap googleMap;
     private MapView mapView;
-    private SupportMapFragment fragment;
+    private SupportMapFragment mMapFragment;
     private Context mContext;
     private IActivityNewCallBack mInterface;
-    private Activities newActivityObj;
-    private String reminderText;
-    private boolean isHalfHourButtonClicked, isHourButtonClicked, isManualInputSet;
-    private boolean isTotalPetsValid, isTotalPeopleValid, isActivityNameValid;
-    private LocationController locationController;
+    private Activities mNewActivity;
+    private boolean isTotalPetsValid;
+    private boolean isTotalPeopleValid;
+    private boolean isActivityNameValid;
+    private LocationController mLocationController;
     private GoogleMapController mGoogleMapController;
     private LocationController.ILocationCallBacks mLocationListener;
-    private String locationArea;
-    private boolean isGrownAnim = false;
-    private DatabaseDataController dbController;
-    private Bundle activityBundle;
+    private String mLocationArea;
+    private DatabaseDataController mDbController;
+    private Bundle mActivityBundle;
     private ProgressDialog mProgressDialog;
 
     public ActivityNewFragment() {
@@ -94,27 +90,27 @@ public class ActivityNewFragment extends Fragment implements
         super.onCreate(savedInstanceState);
         getActivity().setTitle(R.string.title_fragment_activity_new);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        dbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
+        mDbController = new DatabaseDataController(mContext, ActivitiesDao.getInstance());
     }
 
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this mMapFragment
         View rootView = inflater.inflate(R.layout.fragment_activity_new, container, false);
 
         ButterKnife.bind(this, rootView);
 
         // reference for setting up the Activities Object.
-        newActivityObj = new Activities();
+        mNewActivity = new Activities();
 
         et_activityName.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_activityName));
         et_totalPeople.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_totalPeople));
         et_totalPets.addTextChangedListener(new TextValidator(mContext, ActivityNewFragment.this, et_totalPets));
 
         // Get the MapView from the XML layout and inflate it
-        mapView = (MapView) rootView.findViewById(R.id.mapView_activityMap);
+        mapView = (MapView) rootView.findViewById(R.id.mapview_activity_map);
 
 
         // start the activity
@@ -137,10 +133,10 @@ public class ActivityNewFragment extends Fragment implements
 
         // setup google Map using the GoogleMapController.
         if (AppUtils.isConnectedOnline(mContext)) {
-            locationController = new LocationController(mContext, this);
+            mLocationController = new LocationController(mContext, this);
             mGoogleMapController = new GoogleMapController(mContext);
             mGoogleMapController.setupGoogleMap(mapView);
-            locationController.connectGoogleApi();
+            mLocationController.connectGoogleApi();
         }
     }
 
@@ -159,14 +155,13 @@ public class ActivityNewFragment extends Fragment implements
     @Override
     public void onStop() {
         super.onStop();
-        dbController.closeConnection();
+        mDbController.closeConnection();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -205,7 +200,7 @@ public class ActivityNewFragment extends Fragment implements
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                isGrownAnim = true;
+
             }
 
             @Override
@@ -224,19 +219,19 @@ public class ActivityNewFragment extends Fragment implements
             String userId = new AuthPreferences(mContext).getUser_id();
 
             // create a new Activities Object (Model).
-            newActivityObj = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), userId);
+            mNewActivity = new Activities(activityName, totalPeople, totalPets, AppUtils.getCurrentTimeStamp(), userId);
 
             // set the state of Currently running activity to Running.
-            newActivityObj.setState(Activities.STATE.RUNNING);
+            mNewActivity.setState(Activities.STATE.RUNNING);
 
             // build on the same newActivity Object for geo location
-            locationArea = locationArea != null ? locationArea : "";
+            mLocationArea = mLocationArea != null ? mLocationArea : "";
 
-            newActivityObj.setLocation_area(locationArea);
+            mNewActivity.setLocation_area(mLocationArea);
 
             // once the play button is clicked, make a network call and create new Activities on the server
             if (AppUtils.isConnectedOnline(mContext)) {
-                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(newActivityObj, ApiRequestHandler.ADD));
+                BusProvider.bus().post(new ActivityEvent.OnLoadingInitialized(mNewActivity, ApiRequestHandler.ADD));
                 mProgressDialog.setIndeterminate(true);
                 mProgressDialog.setMessage("Creating Activity...");
                 mProgressDialog.show();
@@ -244,16 +239,16 @@ public class ActivityNewFragment extends Fragment implements
                 // create Unique ID for the Running activity of length 32.
                 String activityUUID = RandomStringUtils.randomAlphanumeric(Activities.ID_LENGTH);
 
-                newActivityObj.setId(activityUUID);
+                mNewActivity.setId(activityUUID);
 
                 // save the Activity on local database
-                long resultCode = dbController.save(newActivityObj);
+                long resultCode = mDbController.save(mNewActivity);
 
                 // finally when the result Code is not -1, open Activity running Fragment.
                 if (resultCode != -1) {
-                    activityBundle = new Bundle();
-                    activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, newActivityObj);
-                    activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+                    mActivityBundle = new Bundle();
+                    mActivityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, mNewActivity);
+                    mActivityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
 
                     // click the play button
                     if (mProgressDialog.isShowing())
@@ -261,7 +256,7 @@ public class ActivityNewFragment extends Fragment implements
 
                     startAlarmForReminder();
 
-                    mInterface.onPlayButtonClick(activityBundle);
+                    mInterface.onPlayButtonClick(mActivityBundle);
                 }
             }
         } else {
@@ -287,13 +282,12 @@ public class ActivityNewFragment extends Fragment implements
 
     }
 
-
     @Override
     public void setLocationArea(String locationArea) {
         if (locationArea != null || !locationArea.equals("")) {
-            this.locationArea = locationArea;
+            this.mLocationArea = locationArea;
         } else {
-            this.locationArea = "";
+            this.mLocationArea = "";
         }
     }
 
@@ -311,23 +305,23 @@ public class ActivityNewFragment extends Fragment implements
         Activities createdActivity = onLoaded.getResponse();
         createdActivity.setState(Activities.STATE.RUNNING);
 
-        activityBundle = new Bundle();
-        activityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, createdActivity);
+        mActivityBundle = new Bundle();
+        mActivityBundle.putParcelable(UserActivityMasterActivity.KEY_NEW_ACTIVITY_OBJECT, createdActivity);
         // set reminder values
-        activityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
-        activityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, REMINDER_INTERVAL);
+        mActivityBundle.putBoolean(UserActivityMasterActivity.KEY_REMINDER_SET, Boolean.TRUE);
+        mActivityBundle.putLong(UserActivityMasterActivity.KEY_REMINDER_INTERVAL, REMINDER_INTERVAL);
 
         // start reminder
         startAlarmForReminder();
 
         // click the play button
-        mInterface.onPlayButtonClick(activityBundle);
+        mInterface.onPlayButtonClick(mActivityBundle);
     }
 
     /**
      * Subscribes to the event of failure in creating {@link Activities} on the server.
      *
-     * @param onLoaded
+     * @param onLoadingError
      */
     @Subscribe
     public void onCreateActivitiesFailure(ActivityEvent.OnLoadingError onLoadingError) {
@@ -347,13 +341,13 @@ public class ActivityNewFragment extends Fragment implements
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
-            case R.id.editText_actNew_ActivityName:
+            case R.id.edittext_activity_new_name:
                 isActivityNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
-            case R.id.editText_actNew_totalPets:
+            case R.id.edittext_act_new_total_pets:
                 isTotalPetsValid = ValidationUtil.validateNumber(mEditText, text);
                 break;
-            case R.id.editText_actNew_numOfPeople:
+            case R.id.edittext_activity_new_num_of_people:
                 isTotalPeopleValid = ValidationUtil.validateNumber(mEditText, text);
                 break;
         }
@@ -361,14 +355,14 @@ public class ActivityNewFragment extends Fragment implements
 
 
     /**
-     * Interface Callback to define the callback methods for ActivityNewFragment fragment
+     * Interface Callback to define the callback methods for ActivityNewFragment mMapFragment
      */
     public interface IActivityNewCallBack {
         /**
          * Callback method when Account clicks on the Play Button defined in the {@link ActivityNewFragment} Fragment. On clicking the
          * play button, the {@link Activities} is created on the server and using the created ActivityId, observations are made.
          *
-         * @param newActivityDetails
+         * @param activityBundle
          */
         public void onPlayButtonClick(Bundle activityBundle);
     }

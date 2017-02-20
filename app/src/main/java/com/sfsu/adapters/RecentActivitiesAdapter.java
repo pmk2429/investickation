@@ -34,8 +34,8 @@ public class RecentActivitiesAdapter extends ArrayAdapter<Activities> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_activities, parent, false);
         }
-        TextView textView_activityName = (TextView) convertView.findViewById(R.id.textView_actListItem_actName);
-        TextView textView_activityDate = (TextView) convertView.findViewById(R.id.textView_actListItem_date);
+        TextView textView_activityName = (TextView) convertView.findViewById(R.id.textview_activity_name);
+        TextView textView_activityDate = (TextView) convertView.findViewById(R.id.textview_date);
 
         String activityDetails = mActivitiesList.get(position).getActivityName() + " @ " + mActivitiesList.get(position)
                 .getLocation_area();

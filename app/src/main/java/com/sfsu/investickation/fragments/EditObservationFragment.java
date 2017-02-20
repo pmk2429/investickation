@@ -68,19 +68,19 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     private static final int GALLERY_CAMERA_PERMISSION = 24;
     private final String TAG = "~!@#EditObs";
     // ImageView
-    @Bind(R.id.imageView_addObs_tickImage)
+    @Bind(R.id.imageview_tick_image)
     ImageView imageView_tickAddObservation;
     // Button
-    @Bind(R.id.button_editObs_updateObservation)
+    @Bind(R.id.button_update_observation)
     Button btn_UpdateObservation;
-    @Bind(R.id.button_addObs_chooseFromGuide)
+    @Bind(R.id.button_choose_from_guide)
     Button btn_chooseFromGuide;
     // EditTexts
-    @Bind(R.id.editText_addObs_numOfTicks)
+    @Bind(R.id.edittext_num_of_ticks)
     EditText et_numOfTicks;
-    @Bind(R.id.editText_addObs_tickName)
+    @Bind(R.id.edittext_tick_name)
     EditText et_tickName;
-    @Bind(R.id.editText_addObs_description)
+    @Bind(R.id.edittext_description)
     EditText et_description;
     private IEditObservationCallbacks mInterface;
     private Observation mObservation;
@@ -126,7 +126,7 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
         et_numOfTicks.addTextChangedListener(new TextValidator(mContext, EditObservationFragment.this, et_numOfTicks));
         // initialize the Floating button.
 
-        final FloatingActionButton fab_addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_addObs_addTickImage);
+        final FloatingActionButton fab_addTickImage = (FloatingActionButton) rootView.findViewById(R.id.fab_add_tick_image);
         fab_addTickImage.setOnClickListener(this);
 
         btn_chooseFromGuide.setText(getString(R.string.text_edit_referTickGuide));
@@ -195,10 +195,10 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.button_editObs_updateObservation:
+            case R.id.button_update_observation:
                 updateObservation();
                 break;
-            case R.id.fab_addObs_addTickImage:
+            case R.id.fab_add_tick_image:
                 openDialogForChoosingImage();
                 break;
         }
@@ -318,10 +318,10 @@ public class EditObservationFragment extends Fragment implements View.OnClickLis
     public void validate(View mView, String text) {
         EditText mEditText = (EditText) mView;
         switch (mView.getId()) {
-            case R.id.editText_addObs_tickName:
+            case R.id.edittext_tick_name:
                 isTickNameValid = ValidationUtil.validateString(mEditText, text);
                 break;
-            case R.id.editText_addObs_numOfTicks:
+            case R.id.edittext_num_of_ticks:
                 isTotalTicksNumber = ValidationUtil.validateNumber(mEditText, text);
                 break;
         }

@@ -61,9 +61,9 @@ import butterknife.ButterKnife;
 public class TickGuideListFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private final String TAG = "~!@#$TickGuideList";
-    @Bind(R.id.swipeLayout_tickGuideList_main)
+    @Bind(R.id.swipelayout_tick_guide_list)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.recyclerview_tickGuide)
+    @Bind(R.id.recyclerview_tick_guide)
     RecyclerView recyclerView_tickList;
     private IGuideIndexCallBacks mInterface;
     private Context mContext;
@@ -137,7 +137,7 @@ public class TickGuideListFragment extends Fragment implements SearchView.OnQuer
      * @param v
      */
     private void setActionBarAndNavDrawer(View v) {
-        toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_guideList);
+        toolbarMain = (Toolbar) v.findViewById(R.id.toolbar_tick_guide_list);
 
         if (toolbarMain != null) {
             ((TickGuideMasterActivity) getActivity()).setSupportActionBar(toolbarMain);
