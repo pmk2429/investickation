@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,7 +32,10 @@ import java.util.Map;
  * <p/>
  * Created by Pavitra on 11/16/2015.
  */
-public class GoogleMapController implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
+public class GoogleMapController implements
+        GoogleMap.OnMarkerClickListener
+        , GoogleMap.OnInfoWindowClickListener
+        , OnMapReadyCallback {
     Map<Marker, Observation> markerObservationMap;
     private Context mContext;
     private String TAG = "~!@#$GMapCtrl :";
@@ -102,30 +106,38 @@ public class GoogleMapController implements GoogleMap.OnMarkerClickListener, Goo
     public void setupGoogleMap(MapView mapView) {
         if (mapView != null) {
             // Gets to GoogleMap from the MapView and does initialization stuff
-            mGoogleMap = mapView.getMap();
-            if (mGoogleMap != null) {
-
-                // enabled all the settings
-                mGoogleMap.setMyLocationEnabled(true);
-                mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-                mGoogleMap.getUiSettings().setCompassEnabled(true);
-                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-                mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
-                mGoogleMap.getUiSettings().setScrollGesturesEnabled(true);
-                mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
-                mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
-
-                // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
-                try {
-                    MapsInitializer.initialize(mContext);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                mGoogleMap.setOnMyLocationChangeListener(myLocationChangeListener);
-            } else {
-                Log.i(TAG, "MapView is NULL");
-            }
+            mapView.getMapAsync(this);
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        if (mGoogleMap != null) {
+            // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
+            try {
+                initializeGoogleMap();
+                MapsInitializer.initialize(mContext);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mGoogleMap.setOnMyLocationChangeListener(myLocationChangeListener);
+        } else {
+            Log.i(TAG, "MapView is NULL");
+        }
+
+    }
+
+    public void initializeGoogleMap() {
+        // enabled all the settings
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.getUiSettings().setCompassEnabled(true);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mGoogleMap.getUiSettings().setRotateGesturesEnabled(true);
+        mGoogleMap.getUiSettings().setScrollGesturesEnabled(true);
+        mGoogleMap.getUiSettings().setTiltGesturesEnabled(true);
+        mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
     }
 
     /**
