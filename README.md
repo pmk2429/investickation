@@ -31,7 +31,7 @@ InvesTICKations Android application allows users to capture tick encounters in r
 - [SlidingUpPanel](https://github.com/umano/AndroidSlidingUpPanel)
 
 > The project has been supported in part by [SFSU Center for Computing for Life Sciences](http://cs.sfsu.edu/ccls/).
-![alt text](http://i.imgur.com/2wcBlEh.png "SFSU logo")
+![alt text]()
 
 
 # License
