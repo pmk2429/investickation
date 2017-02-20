@@ -1,13 +1,6 @@
-.gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
 .DS_Store
-/build
 /captures
-/app/src/main/AndroidManifest.xml
 /com/sfsu/investickation/fragments/Dashboard2Fragment.java
-/gradlew
-/gradlew.bat
-/settings.gradle
-Investickation2.iml
