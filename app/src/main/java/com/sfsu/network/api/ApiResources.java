@@ -5,9 +5,11 @@ package com.sfsu.network.api;
  */
 public class ApiResources {
 
-    public static final String BASE_API_URL = "http://35.165.211.177:3000/api/";
+    public static final String BASE_API_URL = "http://35.165.211.177:3001/api/";
     // use this URL for establishing connection and pinging the server
-    public static final String SERVER_API_URL = "http://investickations.org:3000/explorer/";
+    // temporarily
+    // public static final String SERVER_API_URL = "http://investickations.org:3001/explorer/";
+    public static final String SERVER_API_URL = "http://35.165.211.177:3001/explorer/";
 
     public static final String ID = "{id}";
 
